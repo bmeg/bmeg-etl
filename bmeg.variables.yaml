@@ -1,0 +1,4 @@
+gdc-cases.json:
+  type: multiline-json
+  tags: ["gdc-cases"]
+

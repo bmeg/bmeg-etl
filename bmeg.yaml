@@ -16,5 +16,6 @@ processes:
       /tmp/out: gdc-cases.json
 
 agents:
-  trigger: ["gdc-cases"]
-  action: split-cases
+  split-gdc-cases:
+    trigger: ["gdc-cases"]
+    action: split-cases

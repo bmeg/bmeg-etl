@@ -1,0 +1,14 @@
+gdc-extract:
+  image_name: biostream/gdc-extract
+  cmd: ["/opt/gdc-scan.py", "cases", "list"]
+  stdout: /tmp/out
+
+curl-extract:
+  repo: https://github.com/biostream/curl-extract
+  image_name: biostream/curl-extract
+  cmd: ["curl" "{{URL}}"]
+  stdout: /tmp/out
+
+ensembl-transform:
+  image_name: biostream/ensembl-transform
+  cmd: ["/opt/ensembl-transform.py" "{{GAF_GZ}}"]

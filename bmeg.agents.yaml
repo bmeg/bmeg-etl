@@ -1,0 +1,3 @@
+split-gdc-cases:
+  trigger: ["gdc-cases"]
+  action: split-cases
