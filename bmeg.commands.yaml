@@ -2,13 +2,23 @@ gdc-extract:
   image_name: biostream/gdc-extract
   cmd: ["/opt/gdc-scan.py", "cases", "list"]
   stdout: /tmp/out
+  outputs:
+    /tmp/out: OUT
 
 curl-extract:
   repo: https://github.com/biostream/curl-extract
   image_name: biostream/curl-extract
   cmd: ["curl" "{{URL}}"]
   stdout: /tmp/out
+  outputs:
+    /tmp/out: OUT
 
 ensembl-transform:
+  repo: https://github.com/biostream/ensembl-transform
   image_name: biostream/ensembl-transform
   cmd: ["/opt/ensembl-transform.py" "{{GAF_GZ}}"]
+  outputs:
+    Transcript.json: TRANSCRIPT
+    Gene.json: GENE
+    Exon.json: EXON
+    
