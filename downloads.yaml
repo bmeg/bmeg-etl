@@ -1,0 +1,73 @@
+
+- key: ensembl-extract
+  repo: https://github.com/biostream/curl-extract
+  command: curl-extract
+  inputs:
+    URL: ftp://ftp.ensembl.org/pub/release-90/gff3/homo_sapiens/Homo_sapiens.GRCh38.90.chr.gff3.gz
+    NAME: Homo_sapiens.GRCh38.90.chr.gff3.gz
+  outputs:
+    OUTPUT : $ENSEMBL_GTF_GZ
+
+- key: ctrp-extract
+  repo: https://github.com/biostream/curl-extract
+  command: curl-extract
+  inputs:
+    URL: ftp://caftpd.nci.nih.gov/pub/OCG-DCC/CTD2/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
+    NAME: CTRPv2.0_2015_ctd2_ExpandedDataset.zip
+  outputs:
+    OUTPUT : $CTRP_ZIP
+
+- key: ensembl-transform
+  command: ensembl-transform
+  inputs:
+    GAF_GZ:
+      class : File
+      url: $ENSEMBL_GTF_GZ
+   outputs:
+    - ENSEMBL_JSON : ensembl_streams
+
+- key: cancerrxgene-cellline-extract
+  repo: https://github.com/biostream/curl-extract
+  command: curl-extract
+  inputs:
+    URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/Cell_Lines_Details.xlsx
+    NAME: Cell_Lines_Details.xlsx
+  outputs:
+    OUTPUT : $CRX_CELL
+
+- key: cancerrxgene-dose-extract
+  repo: https://github.com/biostream/curl-extract
+  command: curl-extract
+  inputs:
+    URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/v17_fitted_dose_response.xlsx
+    NAME: v17_fitted_dose_response.xlsx
+  outputs:
+    OUTPUT : $CRX_DOSE
+
+- key: cancerrxgene-conversion-extract
+  repo: https://github.com/biostream/curl-extract
+  command: curl-extract
+  inputs:
+    URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/GDSC-CCLE-CTRP_conversion.xlsx
+    NAME: GDSC-CCLE-CTRP_conversion.xlsx
+  outputs:
+    OUTPUT : $CRX_CONVSERSION
+
+- key: cancerrxgene-compounds-extract
+  repo: https://github.com/biostream/curl-extract
+  command: curl-extract
+  inputs:
+    URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/Screened_Compounds.xlsx
+    NAME: Screened_Compounds.xlsx
+  outputs:
+    OUTPUT : $CRX_COMPOUNDS
+
+- key: cancerrxgene-rawdata-extract
+  repo: https://github.com/biostream/curl-extract
+  command: curl-extract
+  inputs:
+    URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/v17a_public_raw_data.xlsx
+    NAME: v17a_public_raw_data.xlsx
+  outputs:
+    OUTPUT : $CRX_RAWDATA
+
