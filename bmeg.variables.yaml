@@ -9,14 +9,17 @@ source/ensemble.gtf.gz:
 biostream/ensembl/ensembl.Transcript.json:
   type: biostream-file
   schema: https://github.com/biostream/ensembl-schema
-  tags: ["ensembl", "Transcript"]
+  message: Transcript
+  tags: ["ensembl"]
 
 biostream/ensembl/ensembl.Gene.json:
   type: biostream-file
   schema: https://github.com/biostream/ensembl-schema
-  tags: ["ensembl", "Gene"]
+  message: Gene
+  tags: ["ensembl"]
 
 biostream/ensembl/ensembl.Exon.json:
   type: biostream-file
   schema: https://github.com/biostream/ensembl-schema
-  tags: ["ensembl", "Exon"]
+  message: Exon
+  tags: ["ensembl"]

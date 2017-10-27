@@ -16,9 +16,10 @@ curl-extract:
 ensembl-transform:
   repo: https://github.com/biostream/ensembl-transform
   image_name: biostream/ensembl-transform
-  cmd: ["/opt/ensembl-transform.py", "{{GAF_GZ}}"]
+  cmd: ["/opt/ensembl-transform.py", "/opt/gaf.gz"]
+  inputs:
+    GAF_GZ: /opt/gaf.gz
   outputs:
     TRANSCRIPT: Transcript.json
     GENE: Gene.json
     EXON: Exon.json
-    
