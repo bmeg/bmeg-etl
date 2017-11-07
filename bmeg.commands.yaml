@@ -7,19 +7,21 @@ gdc-extract:
 
 curl-extract:
   repo: https://github.com/biostream/curl-extract
-  image_name: biostream/curl-extract
-  cmd: ["curl", "{{URL}}"]
-  stdout: /tmp/out
+  image_name: appropriate/curl
+  cmd: ["curl", "{{URL}}", "-o", "/tmp/out"]
   outputs:
     OUT: /tmp/out
 
 ensembl-transform:
   repo: https://github.com/biostream/ensembl-transform
-  image_name: biostream/ensembl-transform
-  cmd: ["/opt/ensembl-transform.py", "/opt/gaf.gz"]
+  image_name: spanglry/ensembl-transform
+  cmd: ["go", "run", "/command/run.go", "/in/gaf.gz"]
+  workdir: /out
   inputs:
-    GAF_GZ: /opt/gaf.gz
+    GAF_GZ: /in/gaf.gz
   outputs:
-    TRANSCRIPT: Transcript.json
-    GENE: Gene.json
-    EXON: Exon.json
+    TRANSCRIPT: /out/Transcript.json
+    GENE: /out/Gene.json
+    EXON: /out/Exon.json
+
+ccle-transform:
