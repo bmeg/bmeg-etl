@@ -25,3 +25,19 @@ ensembl-transform:
     EXON: /out/Exon.json
 
 ccle-transform:
+  image_name: spanglry/ccle-transform
+  cmd:
+    - "/command/convert-ccle.py"
+    - "--format"
+    - "json"
+    - "--drug"
+    - "/in/drug-data.csv"
+    - "--pubchem"
+    - "/in/ccle_pubchem.txt"
+    - "--multi"
+    - "/out/ccle"
+  workdir: /out
+  inputs:
+    DRUG_DATA: /in/drug-data.csv
+  outputs:
+    RESPONSES: /out/ccle.bmeg.ResponseCurve.json
