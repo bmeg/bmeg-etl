@@ -1,3 +1,6 @@
+##################
+### ENSEMBL
+
 - key: ensembl-extract
   command: curl-extract
   vars:
@@ -13,3 +16,54 @@
     TRANSCRIPT: biostream/ensembl/ensembl.Transcript.json
     GENE: biostream/ensembl/ensembl.Gene.json
     EXON: biostream/ensembl/ensembl.Exon.json
+
+############
+### CCLE
+
+
+
+#############
+### CTRP 
+
+- key: ctrp-extract
+  command: curl-extract
+  vars:
+    URL: ftp://caftpd.nci.nih.gov/pub/OCG-DCC/CTD2/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
+  outputs:
+    OUT: source/ctrp.zip
+
+- key: cancerrxgene-cellline-extract
+  command: curl-extract
+  vars:
+    URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/Cell_Lines_Details.xlsx
+  outputs:
+    OUT: source/crx/cell-lines.xlsx
+
+- key: cancerrxgene-dose-extract
+  command: curl-extract
+  vars:
+    URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/v17_fitted_dose_response.xlsx
+  outputs:
+    OUT: source/crx/dose-response.xlsx
+
+- key: cancerrxgene-conversion-extract
+  command: curl-extract
+  vars:
+    URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/GDSC-CCLE-CTRP_conversion.xlsx
+  outputs:
+    OUT: source/crx/conversion.xlsx
+
+- key: cancerrxgene-compounds-extract
+  command: curl-extract
+  vars:
+    URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/Screened_Compounds.xlsx
+  outputs:
+    OUT: source/crx/compounds.xlsx
+
+- key: cancerrxgene-rawdata-extract
+  command: curl-extract
+  vars:
+    URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/v17a_public_raw_data.xlsx
+  outputs:
+    OUT: source/crx/raw-data.xlsx
+
