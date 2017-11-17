@@ -27,6 +27,13 @@
   outputs:
     RESPONSES: biostream/ccle/ccle.ResponseCurve.json
 
+- key: ccle-expression-transform
+  command: github.com/biostream/ccle-transform/ccle-expression-transform.cwl
+    inputs:
+      GCT: source/CCLE_RNAseq_081117.rpkm.gct
+    outputs:
+      OUTPUT: biostream/ccle/ccle.GeneExpression.json
+	      
 - key: ccle-maf-transform
   command: github.com/biostream/variant-transform/maf-transform.cwl
   inputs:
