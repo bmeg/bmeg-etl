@@ -27,6 +27,15 @@
   outputs:
     RESPONSES: biostream/ccle/ccle.ResponseCurve.json
 
+- key: ccle-maf-transform
+  command: github.com/biostream/variant-transform/maf-transform.cwl
+  inputs:
+    MAF: source/ccle2maf_081117.txt
+  outputs:
+    VARIANT: biostream/ccle/Variant.json
+    VARIANT_ANNOTATION: biostream/ccle/VariantAnnotation.json
+    CALLSET: biostream/ccle/Callset.json
+
 #############
 ### CTRP 
 
