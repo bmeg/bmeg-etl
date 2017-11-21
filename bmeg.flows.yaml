@@ -1,4 +1,4 @@
-F:
+- key: F
   type: atomic
   image_name: docker-image-F
   cmd: ["diff", "/in/A", "/in/B", "-o", "/out/out"]
@@ -8,7 +8,7 @@ F:
   outputs:
     OUTPUT: /out/out
 
-G:
+- key: G
   type: atomic
   image_name: docker-image-G
   cmd: ["wc", "/in/yellow", "-o", "/out/out"]
@@ -18,10 +18,10 @@ G:
   outputs:
     CONCLUSION: /out/out
 
-demo:
+- key: demo
   type: composite
   vars:
-    - URL
+    - PROJECT
   inputs:
     - A
     - B
@@ -31,6 +31,8 @@ demo:
   steps:
     - key: diff-step
       command: F
+      vars:
+        URL: PROJECT
       inputs:
         PRIMARY: A
         SECONDARY: B
@@ -48,6 +50,7 @@ demo:
   command: demo
   vars:
     URL: http://yellow.com
+    PROJECT: [TCGA-BRCA, TCGA-LUAD]
   inputs:
     A: data/store/path
     B: other/store/path

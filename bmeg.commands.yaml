@@ -1,18 +1,20 @@
-gdc-extract:
+- key: gdc-extract
   image_name: biostream/gdc-extract
   cmd: ["/opt/gdc-scan.py", "cases", "list"]
   stdout: /tmp/out
   outputs:
     OUT: /tmp/out
 
-curl-extract:
+- key: curl-extract
   repo: https://github.com/biostream/curl-extract
   image_name: appropriate/curl
   cmd: ["curl", "{{URL}}", "-o", "/tmp/out"]
+  vars:
+    URL: http://google.com
   outputs:
     OUT: /tmp/out
 
-ensembl-transform:
+- key: ensembl-transform
   repo: https://github.com/biostream/ensembl-transform
   image_name: spanglry/ensembl-transform
   cmd: ["go", "run", "/command/run.go", "/in/gaf.gz"]
@@ -24,7 +26,7 @@ ensembl-transform:
     GENE: /out/Gene.json
     EXON: /out/Exon.json
 
-ccle-transform:
+- key: ccle-transform
   image_name: spanglry/ccle-transform
   cmd:
     - "/command/convert-ccle.py"
