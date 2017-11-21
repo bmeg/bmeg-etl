@@ -1,0 +1,56 @@
+F:
+  type: atomic
+  image_name: docker-image-F
+  cmd: ["diff", "/in/A", "/in/B", "-o", "/out/out"]
+  inputs:
+    PRIMARY: /in/A
+    SECONDARY: /in/B
+  outputs:
+    OUTPUT: /out/out
+
+G:
+  type: atomic
+  image_name: docker-image-G
+  cmd: ["wc", "/in/yellow", "-o", "/out/out"]
+  inputs:
+    YELLOW: /in/yellow
+    OUTER: /in/outer
+  outputs:
+    CONCLUSION: /out/out
+
+demo:
+  type: composite
+  vars:
+    - URL
+  inputs:
+    - A
+    - B
+    - C
+  outputs:
+    - Y
+  steps:
+    - key: diff-step
+      command: F
+      inputs:
+        PRIMARY: A
+        SECONDARY: B
+      outputs:
+        OUTPUT: X
+    - key: wc-step
+      command: G
+      inputs:
+        YELLOW: X
+        OUTER: C
+      outputs:
+        CONCLUSION: Y
+
+- key: demo-invoke
+  command: demo
+  vars:
+    URL: http://yellow.com
+  inputs:
+    A: data/store/path
+    B: other/store/path
+    C: yet/another
+  outputs:
+    Y: final/output/of/workflow

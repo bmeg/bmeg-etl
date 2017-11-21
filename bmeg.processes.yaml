@@ -1,62 +1,142 @@
-- key: gdc-extract
-  command: gdc-extract
-  inputs: []
-  outputs:
-    /tmp/out: gdc-cases.json
+##################
+### ENSEMBL
 
 - key: ensembl-extract
   command: curl-extract
-  inputs:
+  vars:
     URL: ftp://ftp.ensembl.org/pub/release-90/gff3/homo_sapiens/Homo_sapiens.GRCh38.90.chr.gff3.gz
   outputs:
-    /tmp/out: ENSEMBL_GTF_GZ
-
-- key: ctrp-extract
-  command: curl-extract
-  inputs:
-    URL: ftp://caftpd.nci.nih.gov/pub/OCG-DCC/CTD2/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
-  outputs:
-    /tmp/out: CTRP_ZIP
+    OUT: source/ensembl.gtf.gz
 
 - key: ensembl-transform
   command: ensembl-transform
   inputs:
-    GAF_GZ: ENSEMBL_GTF_GZ
+    GAF_GZ: source/ensembl.gtf.gz
   outputs:
-    ENSEMBL_JSON: ensembl_streams
+    TRANSCRIPT: biostream/ensembl/ensembl.Transcript.json
+    GENE: biostream/ensembl/ensembl.Gene.json
+    EXON: biostream/ensembl/ensembl.Exon.json
+
+############
+### CCLE
+
+- key: ccle-drug-transform
+  command: ccle-transform
+  inputs:
+    DRUG_DATA: source/CCLE_NP24.2009_Drug_data_2015.02.24.csv
+  outputs:
+    RESPONSES: biostream/ccle/ccle.ResponseCurve.json
+
+############
+### TCGA
+
+- key: gdc-DLBC-rna-download
+  command: github.com/biostream/gdc-extract/gdc-bulk-download.cwl
+  vars:
+    DATA_TYPE: fpkm
+    PROJECT_ID: TCGA-DLBC
+  outputs:
+    ARCHIVE: source/gdc/TCGA.DLBC.FPKM.tar.gz
+    FILEMAP: source/gdc/TCGA.DLBC.FPKM.tar.gz.map
+
+- key: gdc-DLBC-rna-transform
+  command: github.com/biostream/gdc-transform/gdc-expression-tar-transform.cwl
+  inputs:
+    TARBALL: source/gdc/TCGA.DLBC.FPKM.tar.gz
+    FILE_MAP: source/gdc/TCGA.DLBC.FPKM.tar.gz.map
+  outputs:
+    DATA: biostream/gdc/TCGA.DLBC.FPKM.json
+
+
+- key: gdc-DLBC-cna-download
+  command: github.com/biostream/gdc-extract/gdc-bulk-download.cwl
+  vars:
+    DATA_TYPE: cna
+    PROJECT_ID: TCGA-DLBC
+  outputs:
+    ARCHIVE: source/gdc/TCGA.DLBC.CNA.tar.gz
+    FILEMAP: source/gdc/TCGA.DLBC.CNA.tar.gz.map
+
+- key: gdc-DLBC-cna-transform
+  command: github.com/biostream/gdc-transform/gdc-expression-tar-transform.cwl
+  inputs:
+    TARBALL: source/gdc/TCGA.DLBC.CNA.tar.gz
+    FILE_MAP: source/gdc/TCGA.DLBC.CNA.tar.gz.map
+  outputs:
+    DATA: biostream/gdc/TCGA.DLBC.cna.json
+
+- key: gdc-DLBC-clinical-download
+  command: github.com/biostream/gdc-extract/gdc-bulk-download.cwl
+  vars:
+    DATA_TYPE: clinical
+    PROJECT_ID: TCGA-DLBC
+  outputs:
+    ARCHIVE: source/gdc/TCGA.DLBC.CLINICAL.tar.gz
+    FILEMAP: source/gdc/TCGA.DLBC.CLINICAL.tar.gz.map
+
+- key: gdc-DLBC-biosample-download
+  command: github.com/biostream/gdc-extract/gdc-bulk-download.cwl
+  vars:
+    DATA_TYPE: biospecimen
+    PROJECT_ID: TCGA-DLBC
+  outputs:
+    ARCHIVE: source/gdc/TCGA.DLBC.BIOSAMPLE.tar.gz
+    FILEMAP: source/gdc/TCGA.DLBC.BIOBAMPLE.tar.gz.map
+
+
+- key: gdc-DLBC-clinical-transform
+  command: github.com/biostream/gdc-transform/gdc-clinical-tar-transform.cwl
+  inputs:
+    TARBALL: source/gdc/TCGA.DLBC.CLINICAL.tar.gz
+  outputs:
+    INDIVIDUAL: biostream/gdc/TCGA.DLBC.Individual.json
+    CLINICAL_FOLLOWUP: biostream/gdc/TCGA.DLBC.ClinicalFollowup.json
+    DRUG_THERAPY: biostream/gdc/TCGA.DLBC.DrugTherapy.json
+    RADIATION_THERAPY: : biostream/gdc/TCGA.DLBC.RadiationTherapy.json
+  
+
+#############
+### CTRP 
+
+- key: ctrp-extract
+  command: curl-extract
+  vars:
+    URL: ftp://caftpd.nci.nih.gov/pub/OCG-DCC/CTD2/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
+  outputs:
+    OUT: source/ctrp.zip
 
 - key: cancerrxgene-cellline-extract
   command: curl-extract
-  inputs:
+  vars:
     URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/Cell_Lines_Details.xlsx
   outputs:
-    /tmp/out: CRX_CELL
+    OUT: source/crx/cell-lines.xlsx
 
 - key: cancerrxgene-dose-extract
   command: curl-extract
-  inputs:
+  vars:
     URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/v17_fitted_dose_response.xlsx
   outputs:
-    /tmp/out: CRX_DOSE
+    OUT: source/crx/dose-response.xlsx
 
 - key: cancerrxgene-conversion-extract
   command: curl-extract
-  inputs:
+  vars:
     URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/GDSC-CCLE-CTRP_conversion.xlsx
   outputs:
-    /tmp/out: CRX_CONVERSION
+    OUT: source/crx/conversion.xlsx
 
 - key: cancerrxgene-compounds-extract
   command: curl-extract
-  inputs:
+  vars:
     URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/Screened_Compounds.xlsx
   outputs:
-    /tmp/out: CRX_COMPOUNDS
+    OUT: source/crx/compounds.xlsx
 
 - key: cancerrxgene-rawdata-extract
   command: curl-extract
-  inputs:
+  vars:
     URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/v17a_public_raw_data.xlsx
   outputs:
-    /tmp/out: CRX_RAWDATA
+    OUT: source/crx/raw-data.xlsx
 

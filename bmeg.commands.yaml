@@ -2,13 +2,42 @@ gdc-extract:
   image_name: biostream/gdc-extract
   cmd: ["/opt/gdc-scan.py", "cases", "list"]
   stdout: /tmp/out
+  outputs:
+    OUT: /tmp/out
 
 curl-extract:
   repo: https://github.com/biostream/curl-extract
-  image_name: biostream/curl-extract
-  cmd: ["curl" "{{URL}}"]
-  stdout: /tmp/out
+  image_name: appropriate/curl
+  cmd: ["curl", "{{URL}}", "-o", "/tmp/out"]
+  outputs:
+    OUT: /tmp/out
 
 ensembl-transform:
-  image_name: biostream/ensembl-transform
-  cmd: ["/opt/ensembl-transform.py" "{{GAF_GZ}}"]
+  repo: https://github.com/biostream/ensembl-transform
+  image_name: spanglry/ensembl-transform
+  cmd: ["go", "run", "/command/run.go", "/in/gaf.gz"]
+  workdir: /out
+  inputs:
+    GAF_GZ: /in/gaf.gz
+  outputs:
+    TRANSCRIPT: /out/Transcript.json
+    GENE: /out/Gene.json
+    EXON: /out/Exon.json
+
+ccle-transform:
+  image_name: spanglry/ccle-transform
+  cmd:
+    - "/command/convert-ccle.py"
+    - "--format"
+    - "json"
+    - "--drug"
+    - "/in/drug-data.csv"
+    - "--pubchem"
+    - "/in/ccle_pubchem.txt"
+    - "--multi"
+    - "/out/ccle"
+  workdir: /out
+  inputs:
+    DRUG_DATA: /in/drug-data.csv
+  outputs:
+    RESPONSES: /out/ccle.bmeg.ResponseCurve.json
