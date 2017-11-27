@@ -27,6 +27,74 @@
   outputs:
     RESPONSES: biostream/ccle/ccle.ResponseCurve.json
 
+############
+### TCGA
+
+- key: gdc-DLBC-rna-download
+  command: github.com/biostream/gdc-extract/gdc-bulk-download.cwl
+  vars:
+    DATA_TYPE: fpkm
+    PROJECT_ID: TCGA-DLBC
+  outputs:
+    ARCHIVE: source/gdc/TCGA.DLBC.FPKM.tar.gz
+    FILEMAP: source/gdc/TCGA.DLBC.FPKM.tar.gz.map
+
+- key: gdc-DLBC-rna-transform
+  command: github.com/biostream/gdc-transform/gdc-expression-tar-transform.cwl
+  inputs:
+    TARBALL: source/gdc/TCGA.DLBC.FPKM.tar.gz
+    FILE_MAP: source/gdc/TCGA.DLBC.FPKM.tar.gz.map
+  outputs:
+    DATA: biostream/gdc/TCGA.DLBC.FPKM.json
+
+
+- key: gdc-DLBC-cna-download
+  command: github.com/biostream/gdc-extract/gdc-bulk-download.cwl
+  vars:
+    DATA_TYPE: cna
+    PROJECT_ID: TCGA-DLBC
+  outputs:
+    ARCHIVE: source/gdc/TCGA.DLBC.CNA.tar.gz
+    FILEMAP: source/gdc/TCGA.DLBC.CNA.tar.gz.map
+
+- key: gdc-DLBC-cna-transform
+  command: github.com/biostream/gdc-transform/gdc-expression-tar-transform.cwl
+  inputs:
+    TARBALL: source/gdc/TCGA.DLBC.CNA.tar.gz
+    FILE_MAP: source/gdc/TCGA.DLBC.CNA.tar.gz.map
+  outputs:
+    DATA: biostream/gdc/TCGA.DLBC.cna.json
+
+- key: gdc-DLBC-clinical-download
+  command: github.com/biostream/gdc-extract/gdc-bulk-download.cwl
+  vars:
+    DATA_TYPE: clinical
+    PROJECT_ID: TCGA-DLBC
+  outputs:
+    ARCHIVE: source/gdc/TCGA.DLBC.CLINICAL.tar.gz
+    FILEMAP: source/gdc/TCGA.DLBC.CLINICAL.tar.gz.map
+
+- key: gdc-DLBC-biosample-download
+  command: github.com/biostream/gdc-extract/gdc-bulk-download.cwl
+  vars:
+    DATA_TYPE: biospecimen
+    PROJECT_ID: TCGA-DLBC
+  outputs:
+    ARCHIVE: source/gdc/TCGA.DLBC.BIOSAMPLE.tar.gz
+    FILEMAP: source/gdc/TCGA.DLBC.BIOBAMPLE.tar.gz.map
+
+
+- key: gdc-DLBC-clinical-transform
+  command: github.com/biostream/gdc-transform/gdc-clinical-tar-transform.cwl
+  inputs:
+    TARBALL: source/gdc/TCGA.DLBC.CLINICAL.tar.gz
+  outputs:
+    INDIVIDUAL: biostream/gdc/TCGA.DLBC.Individual.json
+    CLINICAL_FOLLOWUP: biostream/gdc/TCGA.DLBC.ClinicalFollowup.json
+    DRUG_THERAPY: biostream/gdc/TCGA.DLBC.DrugTherapy.json
+    RADIATION_THERAPY: : biostream/gdc/TCGA.DLBC.RadiationTherapy.json
+  
+
 #############
 ### CTRP 
 
