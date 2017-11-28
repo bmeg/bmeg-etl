@@ -1,7 +1,7 @@
 - key: curl-extract
   repo: https://github.com/biostream/curl-extract
-  image_name: appropriate/curl
-  cmd: ["curl", "{{URL}}", "-o", "/tmp/out"]
+  image: appropriate/curl
+  command: ["curl", "{{URL}}", "-o", "/tmp/out"]
   vars:
     URL: http://google.com
   outputs:
@@ -9,8 +9,8 @@
 
 - key: ensembl-transform
   repo: https://github.com/biostream/ensembl-transform
-  image_name: spanglry/ensembl-transform
-  cmd: ["go", "run", "/command/run.go", "/in/gaf.gz"]
+  image: spanglry/ensembl-transform
+  command: ["go", "run", "/command/run.go", "/in/gaf.gz"]
   workdir: /out
   inputs:
     GAF_GZ: /in/gaf.gz
@@ -20,8 +20,8 @@
     EXON: /out/Exon.json
 
 - key: ccle-transform
-  image_name: spanglry/ccle-transform
-  cmd:
+  image: spanglry/ccle-transform
+  command:
     - "/command/convert-ccle.py"
     - "--format"
     - "json"
@@ -38,15 +38,15 @@
     RESPONSES: /out/ccle.bmeg.ResponseCurve.json
 
 - key: gdc-scan-extract
-  image_name: biostream/gdc-extract
-  cmd: ["/opt/gdc-scan.py", "cases", "list"]
+  image: biostream/gdc-extract
+  command: ["/opt/gdc-scan.py", "cases", "list"]
   stdout: /tmp/out
   outputs:
     OUT: /tmp/out
 
 - key: gdc-bulk-download-extract
-  image_name: biostream/gdc-extract
-  cmd: ["/opt/gdc-bulk-download.py", "{{DATA_TYPE}}", "{{PROJECT}}", "/out/out"]
+  image: biostream/gdc-extract
+  command: ["/opt/gdc-bulk-download.py", "{{DATA_TYPE}}", "{{PROJECT}}", "/out/out"]
   vars:
     DATA_TYPE: default
     PROJECT: default
@@ -55,8 +55,8 @@
     FILE_MAP: /out/out.map
 
 - key: gdc-expression-transform
-  image_name: biostream/gdc-transform
-  cmd: ["python", "/opt/convert-expression-tar.py", "/in/tarball.tar", "--filemap", "/in/tarball.tar.map", "--out", "/out/out"]
+  image: biostream/gdc-transform
+  command: ["python", "/opt/convert-expression-tar.py", "/in/tarball.tar", "--filemap", "/in/tarball.tar.map", "--out", "/out/out"]
   inputs:
     TARBALL: /in/tarball.tar
     FILE_MAP: /in/tarball.tar.map
@@ -64,8 +64,8 @@
     EXPRESSION: /out/tcga.GeneExpression.json
 
 - key: gdc-clinical-transform
-  image_name: biostream/gdc-transform
-  cmd: ["python", "/opt/convert-clinical.py", "--tar", "/in/tarball.tar", "--out", "/out/", "--pubchem", "/opt/tcga_pubchem.map"]
+  image: biostream/gdc-transform
+  command: ["python", "/opt/convert-clinical.py", "--tar", "/in/tarball.tar", "--out", "/out/", "--pubchem", "/opt/tcga_pubchem.map"]
   inputs:
     TARBALL: /in/tarball.tar
   outputs:
