@@ -27,6 +27,21 @@
   outputs:
     RESPONSES: biostream/ccle/ccle.ResponseCurve.json
 
+##############
+### TCGA
+
+- key: "gdc-project-{{PROJECT}}"
+  command: gdc-full-circle
+  vars:
+    PROJECT: [TCGA-BRCA, TCGA-LUAD]
+  outputs:
+    EXPRESSION: "biostream/tcga/{{PROJECT}}.GeneExpression.json"
+    CNA: "biostream/tcga/{{PROJECT}}.CNA.json"
+    INDIVIDUAL: "biostream/tcga/{{PROJECT}}.Individual.json"
+    CLINICAL_FOLLOWUP: "biostream/tcga/{{PROJECT}}.ClinicalFollowup.json"
+    DRUG_THERAPY: "biostream/tcga/{{PROJECT}}.DrugTherapy.json"
+    RADIATION_THERAPY: "biostream/tcga/{{PROJECT}}.RadiationTherapy.json"
+
 #############
 ### CTRP 
 
