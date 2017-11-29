@@ -63,6 +63,18 @@
   outputs:
     EXPRESSION: /out/tcga.GeneExpression.json
 
+- key: gdc-cna-transform
+  image: biostream/gdc-transform
+  command: ["python", "/opt/convert-seg-tar.py", "--tar", "/in/tarball.tar", "--filemap", "/in/tarball.tar.map", "--gtf", "/in/gtf.gtf"]
+  workdir: /out
+  inputs:
+    TARBALL: /in/tarball.tar
+    FILE_MAP: /in/tarball.tar.map
+    GTF: /in/gtf.gtf
+  outputs:
+    SEGMENT: /out/out.bmeg.CNASegment.json
+    CALL_SET: /out/out.bmeg.CNACallSet.json
+
 - key: gdc-clinical-transform
   image: biostream/gdc-transform
   command: ["python", "/opt/convert-clinical.py", "--tar", "/in/tarball.tar", "--out", "/out/", "--pubchem", "/opt/tcga_pubchem.map"]
@@ -77,9 +89,12 @@
 - key: gdc-full-circle
   vars:
     - PROJECT
+  inputs:
+    - GTF
   outputs:
     - EXPRESSION
-    - CNA
+    - SEGMENT
+    - CALL_SET
     - INDIVIDUAL
     - CLINICAL_FOLLOWUP
     - DRUG_THERAPY
@@ -125,12 +140,14 @@
       outputs:
         EXPRESSION: EXPRESSION
     - key: gdc-cna-transform
-      command: gdc-expression-transform
+      command: gdc-cna-transform
       inputs:
         TARBALL: CNA_ARCHIVE
         FILE_MAP: CNA_FILE_MAP
+        GTF: GTF
       outputs:
-        EXPRESSION: CNA
+        SEGMENT: SEGMENT
+        CALL_SET: CALL_SET
     - key: gdc-clinical-transform
       command: gdc-clinical-transform
       inputs:
