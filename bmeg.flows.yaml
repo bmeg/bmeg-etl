@@ -1,4 +1,4 @@
-F:
+- key: F
   type: atomic
   image_name: docker-image-F
   cmd: ["diff", "/in/A", "/in/B", "-o", "/out/out"]
@@ -8,7 +8,7 @@ F:
   outputs:
     OUTPUT: /out/out
 
-G:
+- key: G
   type: atomic
   image_name: docker-image-G
   cmd: ["wc", "/in/yellow", "-o", "/out/out"]
@@ -18,10 +18,10 @@ G:
   outputs:
     CONCLUSION: /out/out
 
-demo:
+- key: inner-composite
   type: composite
   vars:
-    - URL
+    - PROJECT
   inputs:
     - A
     - B
@@ -31,6 +31,8 @@ demo:
   steps:
     - key: diff-step
       command: F
+      vars:
+        URL: PROJECT
       inputs:
         PRIMARY: A
         SECONDARY: B
@@ -44,13 +46,50 @@ demo:
       outputs:
         CONCLUSION: Y
 
-- key: demo-invoke
-  command: demo
+- key: outer-composite
+  type: composite
+  vars:
+    - OUTER
+  inputs:
+    - ZZ
+  outputs:
+    - WW
+  steps:
+    - key: inner-step
+      command: inner-composite
+      vars:
+        PROJECT: OUTER
+      inputs:
+        A: ZZ
+        B: YY
+        C: CCC
+      outputs:
+        Y: WW
+    - key: wc-step
+      command: G
+      inputs:
+        YELLOW: ZZ
+        OUTER: YY
+      outputs:
+        CONCLUSION: CCC
+
+- key: inner-demo-invoke
+  command: inner-composite
   vars:
     URL: http://yellow.com
+    PROJECT: [TCGA-BRCA, TCGA-LUAD]
   inputs:
     A: data/store/path
     B: other/store/path
     C: yet/another
   outputs:
     Y: final/output/of/workflow
+
+- key: outer-demo-invoke
+  command: outer-composite
+  vars:
+    OUTER: http://yellow.com
+  inputs:
+    ZZ: data/store/path
+  outputs:
+    WW: final/output/of/workflow

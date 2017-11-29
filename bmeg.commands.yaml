@@ -1,21 +1,16 @@
-gdc-extract:
-  image_name: biostream/gdc-extract
-  cmd: ["/opt/gdc-scan.py", "cases", "list"]
-  stdout: /tmp/out
-  outputs:
-    OUT: /tmp/out
-
-curl-extract:
+- key: curl-extract
   repo: https://github.com/biostream/curl-extract
-  image_name: appropriate/curl
-  cmd: ["curl", "{{URL}}", "-o", "/tmp/out"]
+  image: appropriate/curl
+  command: ["curl", "{{URL}}", "-o", "/tmp/out"]
+  vars:
+    URL: http://google.com
   outputs:
     OUT: /tmp/out
 
-ensembl-transform:
+- key: ensembl-transform
   repo: https://github.com/biostream/ensembl-transform
-  image_name: spanglry/ensembl-transform
-  cmd: ["go", "run", "/command/run.go", "/in/gaf.gz"]
+  image: spanglry/ensembl-transform
+  command: ["go", "run", "/command/run.go", "/in/gaf.gz"]
   workdir: /out
   inputs:
     GAF_GZ: /in/gaf.gz
@@ -24,9 +19,9 @@ ensembl-transform:
     GENE: /out/Gene.json
     EXON: /out/Exon.json
 
-ccle-transform:
-  image_name: spanglry/ccle-transform
-  cmd:
+- key: ccle-transform
+  image: spanglry/ccle-transform
+  command:
     - "/command/convert-ccle.py"
     - "--format"
     - "json"
@@ -39,5 +34,128 @@ ccle-transform:
   workdir: /out
   inputs:
     DRUG_DATA: /in/drug-data.csv
+    PUBCHEM: /in/ccle_pubchem.txt
   outputs:
     RESPONSES: /out/ccle.bmeg.ResponseCurve.json
+
+- key: gdc-scan-extract
+  image: biostream/gdc-extract
+  command: ["/opt/gdc-scan.py", "cases", "list"]
+  stdout: /tmp/out
+  outputs:
+    OUT: /tmp/out
+
+- key: gdc-bulk-download-extract
+  image: biostream/gdc-extract
+  command: ["/opt/gdc-bulk-download.py", "{{DATA_TYPE}}", "{{PROJECT}}", "/out/out"]
+  vars:
+    DATA_TYPE: default
+    PROJECT: default
+  outputs:
+    ARCHIVE: /out/out
+    FILE_MAP: /out/out.map
+
+- key: gdc-expression-transform
+  image: biostream/gdc-transform
+  command: ["python", "/opt/convert-expression-tar.py", "/in/tarball.tar", "--filemap", "/in/tarball.tar.map", "--out", "/out/out"]
+  inputs:
+    TARBALL: /in/tarball.tar
+    FILE_MAP: /in/tarball.tar.map
+  outputs:
+    EXPRESSION: /out/tcga.GeneExpression.json
+
+- key: gdc-cna-transform
+  image: biostream/gdc-transform
+  command: ["python", "/opt/convert-seg-tar.py", "--tar", "/in/tarball.tar", "--filemap", "/in/tarball.tar.map", "--gtf", "/in/gtf.gtf"]
+  workdir: /out
+  inputs:
+    TARBALL: /in/tarball.tar
+    FILE_MAP: /in/tarball.tar.map
+    GTF: /in/gtf.gtf
+  outputs:
+    SEGMENT: /out/out.bmeg.CNASegment.json
+    CALL_SET: /out/out.bmeg.CNACallSet.json
+
+- key: gdc-clinical-transform
+  image: biostream/gdc-transform
+  command: ["python", "/opt/convert-clinical.py", "--tar", "/in/tarball.tar", "--out", "/out/", "--pubchem", "/opt/tcga_pubchem.map"]
+  inputs:
+    TARBALL: /in/tarball.tar
+  outputs:
+    INDIVIDUAL: /out/tcga.Individual.json
+    CLINICAL_FOLLOWUP: /out/tcga.ClinicalFollowup.json
+    DRUG_THERAPY: /out/tcga.DrugTherapy.json
+    RADIATION_THERAPY: /out/tcga.RadiationTherapy.json
+
+- key: gdc-full-circle
+  vars:
+    - PROJECT
+  inputs:
+    - GTF
+  outputs:
+    - EXPRESSION
+    - SEGMENT
+    - CALL_SET
+    - INDIVIDUAL
+    - CLINICAL_FOLLOWUP
+    - DRUG_THERAPY
+    - RADIATION_THERAPY
+  steps:
+    - key: download-gdc-expression
+      command: gdc-bulk-download-extract
+      vars:
+        DATA_TYPE: fpkm
+        PROJECT: "{{PROJECT}}"
+      outputs:
+        ARCHIVE: FPKM_ARCHIVE
+        FILE_MAP: FPKM_FILE_MAP
+    - key: download-gdc-cna
+      command: gdc-bulk-download-extract
+      vars:
+        DATA_TYPE: cna
+        PROJECT: "{{PROJECT}}"
+      outputs:
+        ARCHIVE: CNA_ARCHIVE
+        FILE_MAP: CNA_FILE_MAP
+    - key: download-gdc-clinical
+      command: gdc-bulk-download-extract
+      vars:
+        DATA_TYPE: clinical
+        PROJECT: "{{PROJECT}}"
+      outputs:
+        ARCHIVE: CLINICAL_ARCHIVE
+        FILE_MAP: CLINICAL_FILE_MAP
+    - key: download-gdc-biosample
+      command: gdc-bulk-download-extract
+      vars:
+        DATA_TYPE: biospecimen
+        PROJECT: "{{PROJECT}}"
+      outputs:
+        ARCHIVE: BIOSAMPLE_ARCHIVE
+        FILE_MAP: BIOSAMPLE_FILE_MAP
+    - key: gdc-rna-transform
+      command: gdc-expression-transform
+      inputs:
+        TARBALL: FPKM_ARCHIVE
+        FILE_MAP: FPKM_FILE_MAP
+      outputs:
+        EXPRESSION: EXPRESSION
+    - key: gdc-cna-transform
+      command: gdc-cna-transform
+      inputs:
+        TARBALL: CNA_ARCHIVE
+        FILE_MAP: CNA_FILE_MAP
+        GTF: GTF
+      outputs:
+        SEGMENT: SEGMENT
+        CALL_SET: CALL_SET
+    - key: gdc-clinical-transform
+      command: gdc-clinical-transform
+      inputs:
+        TARBALL: CLINICAL_ARCHIVE
+      outputs:
+        INDIVIDUAL: INDIVIDUAL
+        CLINICAL_FOLLOWUP: CLINICAL_FOLLOWUP
+        DRUG_THERAPY: DRUG_THERAPY
+        RADIATION_THERAPY: RADIATION_THERAPY
+
