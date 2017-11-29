@@ -24,6 +24,7 @@
   command: ccle-transform
   inputs:
     DRUG_DATA: source/CCLE_NP24.2009_Drug_data_2015.02.24.csv
+    PUBCHEM: source/ccle_pubchem.txt
   outputs:
     RESPONSES: biostream/ccle/ccle.ResponseCurve.json
 

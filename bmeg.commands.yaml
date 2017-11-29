@@ -34,6 +34,7 @@
   workdir: /out
   inputs:
     DRUG_DATA: /in/drug-data.csv
+    PUBCHEM: /in/ccle_pubchem.txt
   outputs:
     RESPONSES: /out/ccle.bmeg.ResponseCurve.json
 
