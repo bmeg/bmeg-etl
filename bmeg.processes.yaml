@@ -21,7 +21,7 @@
 ### CCLE
 
 - key: ccle-drug-transform
-  command: ccle-transform
+  command: github.com/biostream/ccle-transform/ccle-drug-transform.cwl
   inputs:
     DRUG_DATA: source/CCLE_NP24.2009_Drug_data_2015.02.24.csv
   outputs:
@@ -33,7 +33,7 @@
       GCT: source/CCLE_RNAseq_081117.rpkm.gct
     outputs:
       OUTPUT: biostream/ccle/ccle.GeneExpression.json
-	      
+
 - key: ccle-maf-transform
   command: github.com/biostream/variant-transform/maf-transform.cwl
   inputs:
@@ -42,6 +42,32 @@
     VARIANT: biostream/ccle/Variant.json
     VARIANT_ANNOTATION: biostream/ccle/VariantAnnotation.json
     CALLSET: biostream/ccle/Callset.json
+
+- key: ccle-sample-transform
+  command: github.com/biostream/ccle-transform/ccle-sample-transform.cwl
+  inputs:
+    SAMPLE_TSV: source/CCLE_sample_info_file_2012-10-18.txt
+  outputs:
+    OUTPUT: biostream/ccle/ccle.Sample.json
+
+
+##############
+### TCGA
+
+- key: "gdc-project-{{PROJECT}}"
+  command: gdc-full-circle
+  vars:
+    PROJECT: [TCGA-BRCA, TCGA-LUAD]
+  inputs:
+    GTF: source/ensembl.gtf.gz
+  outputs:
+    EXPRESSION: "biostream/tcga/{{PROJECT}}.GeneExpression.json"
+    SEGMENT: "biostream/tcga/{{PROJECT}}.CNASegment.json"
+    CALL_SET: "biostream/tcga/{{PROJECT}}.CNACallSet.json"
+    INDIVIDUAL: "biostream/tcga/{{PROJECT}}.Individual.json"
+    CLINICAL_FOLLOWUP: "biostream/tcga/{{PROJECT}}.ClinicalFollowup.json"
+    DRUG_THERAPY: "biostream/tcga/{{PROJECT}}.DrugTherapy.json"
+    RADIATION_THERAPY: "biostream/tcga/{{PROJECT}}.RadiationTherapy.json"
 
 #############
 ### CTRP 
