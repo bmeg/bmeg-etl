@@ -29,6 +29,16 @@
     RESPONSES: biostream/ccle/ccle.ResponseCurve.json
 
 ##############
+## CTDD
+
+- key: ctdd-response-transform
+  command: github.com/biostream/ctdd-transform/ctdd-transform.cwl
+  inputs:
+    CTRP_ZIP: source/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
+  outputs:
+    RESPONSE: biostream/ctdd/ctdd.ResponseCurve.json
+
+##############
 ### TCGA
 
 - key: "gdc-project-{{PROJECT}}"
