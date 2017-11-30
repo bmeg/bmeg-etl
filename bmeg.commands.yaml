@@ -18,7 +18,7 @@
     GENE: /out/Gene.json
     EXON: /out/Exon.json
 
-- key: ccle-transform
+- key: ccle-drug-transform
   image: spanglry/ccle-transform
   command:
     - "/command/convert-ccle.py"
@@ -35,6 +35,16 @@
     PUBCHEM: /in/ccle_pubchem.txt
   outputs:
     RESPONSES: /out/ccle.bmeg.ResponseCurve.json
+
+- key: ccle-sample-transform
+  image: biostream/ccle-transform
+  command:
+    - "/command/convert-ccle-sample.py"
+    - "/in/samples.tsv"
+  inputs:
+    SAMPLE_TSV: /in/samples.tsv
+  outputs:
+    SAMPLES: /out/Sample.json
 
 - key: ctdd-transform
   image: biostream/ctdd-transform

@@ -21,12 +21,19 @@
 ### CCLE
 
 - key: ccle-drug-transform
-  command: ccle-transform
+  command: ccle-drug-transform
   inputs:
     DRUG_DATA: source/CCLE_NP24.2009_Drug_data_2015.02.24.csv
     PUBCHEM: source/ccle_pubchem.txt
   outputs:
     RESPONSES: biostream/ccle/ccle.ResponseCurve.json
+
+- key: ccle-sample-transform
+  command: ccle-sample-transform
+  inputs:
+    SAMPLE_TSV: source/CCLE_sample_info_file_2012-10-18.txt
+  outputs:
+    SAMPLES: biostream/ccle/ccle.Sample.json
 
 ##############
 ## CTDD
