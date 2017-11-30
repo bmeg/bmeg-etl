@@ -50,7 +50,7 @@
     - "--pubchem"
     - "/opt/ctdd_pubchem.table"
     - "--zip"
-    - "/in/CTRP_ZIP"]
+    - "/in/CTRP_ZIP"
   workdir: /out
   inputs:
     CTRP_ZIP: /in/CTRP_ZIP
