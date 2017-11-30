@@ -62,7 +62,7 @@
     TARBALL: /in/tarball.tar
     FILE_MAP: /in/tarball.tar.map
   outputs:
-    EXPRESSION: /out/tcga.GeneExpression.json
+    EXPRESSION: /out/out
 
 - key: gdc-cna-transform
   image: biostream/gdc-transform
