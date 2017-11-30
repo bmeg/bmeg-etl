@@ -32,7 +32,7 @@
 ## CTDD
 
 - key: ctdd-response-transform
-  command: github.com/biostream/ctdd-transform/ctdd-transform.cwl
+  command: ctdd-transform
   inputs:
     CTRP_ZIP: source/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
   outputs:

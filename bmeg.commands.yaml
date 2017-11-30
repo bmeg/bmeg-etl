@@ -38,6 +38,25 @@
   outputs:
     RESPONSES: /out/ccle.bmeg.ResponseCurve.json
 
+- key: ctdd-transform
+  image: biostream/ctdd-transform
+  command:
+    - "python"
+    - "/opt/convert-ctdd.py"
+    - "--format"
+    - "json"
+    - "--multi"
+    - "ctdd"
+    - "--pubchem"
+    - "/opt/ctdd_pubchem.table"
+    - "--zip"
+    - "/in/CTRP_ZIP"]
+  workdir: /out
+  inputs:
+    CTRP_ZIP: /in/CTRP_ZIP
+  outputs:
+    RESPONSE: /out/ctdd.bmeg.ResponseCurve.json
+
 - key: gdc-scan-extract
   image: biostream/gdc-extract
   command: ["/opt/gdc-scan.py", "cases", "list"]
