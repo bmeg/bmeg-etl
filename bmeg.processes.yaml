@@ -57,6 +57,18 @@
     RADIATION_THERAPY: "biostream/tcga/{{PROJECT}}.RadiationTherapy.json"
 
 #############
+### MC3
+
+- key: mc3-transform
+  command: github.com/biostream/variant-transform/maf-transform.cwl
+  inputs:
+    MAF: source/mc3.v0.2.8.PUBLIC.maf.gz
+  outputs:
+    VARIANT: biostream/mc3/Variant.json
+    VARIANT_ANNOTATION: biostream/mc3/VariantAnnotation.json
+    CALLSET: biostream/mc3/CallSet.json
+
+#############
 ### CTRP 
 
 - key: ctrp-extract
