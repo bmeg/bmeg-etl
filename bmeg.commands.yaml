@@ -11,7 +11,6 @@
   repo: https://github.com/biostream/ensembl-transform
   image: spanglry/ensembl-transform
   command: ["go", "run", "/command/run.go", "/in/gaf.gz"]
-  workdir: /out
   inputs:
     GAF_GZ: /in/gaf.gz
   outputs:
@@ -31,7 +30,6 @@
     - "/in/ccle_pubchem.txt"
     - "--multi"
     - "/out/ccle"
-  workdir: /out
   inputs:
     DRUG_DATA: /in/drug-data.csv
     PUBCHEM: /in/ccle_pubchem.txt
@@ -51,11 +49,20 @@
     - "/opt/ctdd_pubchem.table"
     - "--zip"
     - "/in/CTRP_ZIP"
-  workdir: /out
   inputs:
     CTRP_ZIP: /in/CTRP_ZIP
   outputs:
     RESPONSE: /out/ctdd.bmeg.ResponseCurve.json
+
+- key: maf-transform
+  image: biostream/variant-transform
+  command: ["python", "/opt/ga4gh-variant.py", "--multi", "maf", "--maf", "/in/maf.maf"]
+  inputs:
+    MAF: /in/maf.maf
+  outputs:
+    VARIANT: maf.ga4gh.Variant.json
+    VARIANT_ANNOTATION: maf.ga4gh.VariantAnnotation.json
+    CALLSET: maf.ga4gh.CallSet.json
 
 - key: gdc-scan-extract
   image: biostream/gdc-extract

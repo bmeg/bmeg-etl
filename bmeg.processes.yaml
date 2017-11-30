@@ -60,7 +60,7 @@
 ### MC3
 
 - key: mc3-transform
-  command: github.com/biostream/variant-transform/maf-transform.cwl
+  command: maf-transform
   inputs:
     MAF: source/mc3.v0.2.8.PUBLIC.maf.gz
   outputs:
