@@ -67,9 +67,9 @@
 
 - key: maf-transform
   image: biostream/variant-transform
-  command: ["python", "/opt/ga4gh-variant.py", "--multi", "maf", "--maf", "/in/maf.maf"]
+  command: ["python", "/opt/ga4gh-variant.py", "--multi", "maf", "--maf", "/in/maf.gz"]
   inputs:
-    MAF: /in/maf.maf
+    MAF: /in/maf.gz
   outputs:
     VARIANT: /out/maf.ga4gh.Variant.json
     VARIANT_ANNOTATION: /out/maf.ga4gh.VariantAnnotation.json

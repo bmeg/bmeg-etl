@@ -36,7 +36,7 @@
     SAMPLES: biostream/ccle/ccle.Sample.json
 
 ##############
-## CTDD
+### CTDD
 
 - key: ctdd-response-transform
   command: ctdd-transform
