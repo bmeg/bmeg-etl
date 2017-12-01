@@ -41,6 +41,7 @@
   command:
     - "/command/convert-ccle-sample.py"
     - "/in/samples.tsv"
+    - "Sample.json"
   inputs:
     SAMPLE_TSV: /in/samples.tsv
   outputs:
