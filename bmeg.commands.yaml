@@ -71,9 +71,9 @@
   inputs:
     MAF: /in/maf.gz
   outputs:
-    VARIANT: /out/maf.ga4gh.Variant.json
-    VARIANT_ANNOTATION: /out/maf.ga4gh.VariantAnnotation.json
-    CALLSET: /out/maf.ga4gh.CallSet.json
+    VARIANT: /out/maf.Variant.json
+    VARIANT_ANNOTATION: /out/maf.VariantAnnotation.json
+    CALLSET: /out/maf.CallSet.json
 
 - key: gdc-scan-extract
   image: biostream/gdc-extract
