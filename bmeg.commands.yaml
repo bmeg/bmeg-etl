@@ -104,14 +104,13 @@
 - key: gdc-cna-transform
   image: biostream/gdc-transform
   command: ["python", "/opt/convert-seg-tar.py", "--tar", "/in/tarball.tar", "--filemap", "/in/tarball.tar.map", "--gtf", "/in/gtf.gtf"]
-  workdir: /out
   inputs:
     TARBALL: /in/tarball.tar
     FILE_MAP: /in/tarball.tar.map
     GTF: /in/gtf.gtf
   outputs:
-    SEGMENT: /out/out.bmeg.CNASegment.json
-    CALL_SET: /out/out.bmeg.CNACallSet.json
+    SEGMENT: /out/out.CNASegment.json
+    CALL_SET: /out/out.CNACallSet.json
 
 - key: gdc-clinical-transform
   image: biostream/gdc-transform
