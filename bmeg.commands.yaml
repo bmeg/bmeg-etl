@@ -109,8 +109,8 @@
     FILE_MAP: /in/tarball.tar.map
     GTF: /in/gtf.gtf
   outputs:
-    SEGMENT: /out/out.CNASegment.json
-    CALL_SET: /out/out.CNACallSet.json
+    SEGMENT: /out/out.bmeg.CNASegment.json
+    CALL_SET: /out/out.bmeg.CNACallSet.json
 
 - key: gdc-clinical-transform
   image: biostream/gdc-transform
