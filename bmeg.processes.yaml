@@ -35,6 +35,24 @@
   outputs:
     SAMPLES: biostream/ccle/ccle.Sample.json
 
+############
+## GeneOntology
+
+- key: go-transform
+  command: github.com/biostream/go-transform/go-transform.cwl
+  inputs:
+    OBO: source/go.obo
+  outputs:
+    GO_JSON: biostream/go/GeneOntologyTerm.json
+
+- key: gaf-transform
+  command: github.com/biostream/go-transform/gaf-transform.cwl
+  inputs:
+    GAF: source/goa_human.gaf.gz
+    UNIPRO_IDMAP: source/HUMAN_9606_idmapping.dat.gz
+  outputs:
+    GAF_JSON: biostream/ccle/GeneOntologyAnnotation.json
+
 ##############
 ### CTDD
 
