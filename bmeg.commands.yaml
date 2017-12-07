@@ -11,7 +11,6 @@
   repo: https://github.com/biostream/ensembl-transform
   image: spanglry/ensembl-transform
   command: ["go", "run", "/command/run.go", "/in/gaf.gz"]
-  workdir: /out
   inputs:
     GAF_GZ: /in/gaf.gz
   outputs:
@@ -19,7 +18,7 @@
     GENE: /out/Gene.json
     EXON: /out/Exon.json
 
-- key: ccle-transform
+- key: ccle-drug-transform
   image: spanglry/ccle-transform
   command:
     - "/command/convert-ccle.py"
@@ -31,12 +30,67 @@
     - "/in/ccle_pubchem.txt"
     - "--multi"
     - "/out/ccle"
-  workdir: /out
   inputs:
     DRUG_DATA: /in/drug-data.csv
     PUBCHEM: /in/ccle_pubchem.txt
   outputs:
     RESPONSES: /out/ccle.bmeg.ResponseCurve.json
+
+- key: ccle-sample-transform
+  image: biostream/ccle-transform
+  command:
+    - "/command/convert-ccle-sample.py"
+    - "/in/samples.tsv"
+    - "/out/Sample.json"
+  inputs:
+    SAMPLE_TSV: /in/samples.tsv
+  outputs:
+    SAMPLES: /out/Sample.json
+
+- key: ctdd-transform
+  image: biostream/ctdd-transform
+  command:
+    - "python"
+    - "/opt/convert-ctdd.py"
+    - "--format"
+    - "json"
+    - "--multi"
+    - "ctdd"
+    - "--pubchem"
+    - "/opt/ctdd_pubchem.table"
+    - "--zip"
+    - "/in/CTRP_ZIP"
+  inputs:
+    CTRP_ZIP: /in/CTRP_ZIP
+  outputs:
+    RESPONSE: /out/ctdd.bmeg.ResponseCurve.json
+
+- key: maf-transform
+  image: biostream/variant-transform
+  command: ["python", "/opt/ga4gh-variant.py", "--multi", "maf", "--maf", "/in/maf.gz"]
+  inputs:
+    MAF: /in/maf.gz
+  outputs:
+    VARIANT: /out/maf.ga4gh.Variant.json
+    VARIANT_ANNOTATION: /out/maf.ga4gh.VariantAnnotation.json
+    CALLSET: /out/maf.ga4gh.CallSet.json
+
+- key: gaf-transform
+  image: biostream/go-transform
+  command: ["python", "/opt/go_gaf2schema.py", "/in/gaf.gz", "/in/unipro.dat.gz", "gaf.json"]
+  inputs:
+    GAF: /in/gaf.gz
+    UNIPRO_MAP: /in/unipro.dat.gz
+  outputs:
+    OUT: /out/gaf.json
+
+- key: go-transform
+  image: biostream/go-transform
+  command: ["python", "/opt/go_obo2schema.py", "/in/go.obo"]
+  inputs:
+    OBO: /in/go.obo
+  outputs:
+    OUT: /out/go.json
 
 - key: gdc-scan-extract
   image: biostream/gdc-extract
@@ -47,7 +101,7 @@
 
 - key: gdc-bulk-download-extract
   image: biostream/gdc-extract
-  command: ["/opt/gdc-bulk-download.py", "{{DATA_TYPE}}", "{{PROJECT}}", "/out/out"]
+  command: ["/opt/gdc-bulk-download.py", "{{DATA_TYPE}}", "{{PROJECT}}", "out"]
   vars:
     DATA_TYPE: default
     PROJECT: default
@@ -62,12 +116,11 @@
     TARBALL: /in/tarball.tar
     FILE_MAP: /in/tarball.tar.map
   outputs:
-    EXPRESSION: /out/tcga.GeneExpression.json
+    EXPRESSION: /out/out
 
 - key: gdc-cna-transform
   image: biostream/gdc-transform
   command: ["python", "/opt/convert-seg-tar.py", "--tar", "/in/tarball.tar", "--filemap", "/in/tarball.tar.map", "--gtf", "/in/gtf.gtf"]
-  workdir: /out
   inputs:
     TARBALL: /in/tarball.tar
     FILE_MAP: /in/tarball.tar.map

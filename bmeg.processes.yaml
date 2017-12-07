@@ -21,12 +21,19 @@
 ### CCLE
 
 - key: ccle-drug-transform
-  command: ccle-transform
+  command: ccle-drug-transform
   inputs:
     DRUG_DATA: source/CCLE_NP24.2009_Drug_data_2015.02.24.csv
     PUBCHEM: source/ccle_pubchem.txt
   outputs:
     RESPONSES: biostream/ccle/ccle.ResponseCurve.json
+
+- key: ccle-sample-transform
+  command: ccle-sample-transform
+  inputs:
+    SAMPLE_TSV: source/CCLE_sample_info_file_2012-10-18.txt
+  outputs:
+    SAMPLES: biostream/ccle/ccle.Sample.json
 
 ############
 ## GeneOntology
@@ -47,6 +54,16 @@
     GAF_JSON: biostream/ccle/GeneOntologyAnnotation.json
 
 ##############
+### CTDD
+
+- key: ctdd-response-transform
+  command: ctdd-transform
+  inputs:
+    CTRP_ZIP: source/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
+  outputs:
+    RESPONSE: biostream/ctdd/ctdd.ResponseCurve.json
+
+##############
 ### TCGA
 
 - key: "gdc-project-{{PROJECT}}"
@@ -63,6 +80,18 @@
     CLINICAL_FOLLOWUP: "biostream/tcga/{{PROJECT}}.ClinicalFollowup.json"
     DRUG_THERAPY: "biostream/tcga/{{PROJECT}}.DrugTherapy.json"
     RADIATION_THERAPY: "biostream/tcga/{{PROJECT}}.RadiationTherapy.json"
+
+#############
+### MC3
+
+- key: mc3-transform
+  command: maf-transform
+  inputs:
+    MAF: source/mc3.v0.2.8.PUBLIC.maf.gz
+  outputs:
+    VARIANT: biostream/mc3/Variant.json
+    VARIANT_ANNOTATION: biostream/mc3/VariantAnnotation.json
+    CALLSET: biostream/mc3/CallSet.json
 
 #############
 ### CTRP 
