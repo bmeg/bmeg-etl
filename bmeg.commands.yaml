@@ -75,6 +75,23 @@
     VARIANT_ANNOTATION: /out/maf.ga4gh.VariantAnnotation.json
     CALLSET: /out/maf.ga4gh.CallSet.json
 
+- key: gaf-transform
+  image: biostream/go-transform
+  command: ["python", "/opt/go_gaf2schema.py", "/in/gaf.gz", "/in/unipro.dat.gz", "gaf.json"]
+  inputs:
+    GAF: /in/gaf.gz
+    UNIPRO_MAP: /in/unipro.dat.gz
+  outputs:
+    OUT: /out/gaf.json
+
+- key: go-transform
+  image: biostream/go-transform
+  command: ["python", "/opt/go_obo2schema.py", "/in/go.obo"]
+  inputs:
+    OBO: /in/go.obo
+  outputs:
+    OUT: /out/go.json
+
 - key: gdc-scan-extract
   image: biostream/gdc-extract
   command: ["/opt/gdc-scan.py", "cases", "list"]
