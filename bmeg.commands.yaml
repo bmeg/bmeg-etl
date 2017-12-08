@@ -87,6 +87,7 @@
 - key: go-transform
   image: biostream/go-transform
   command: ["python", "/opt/go_obo2schema.py", "/in/go.obo"]
+  stdout: /out/go.json
   inputs:
     OBO: /in/go.obo
   outputs:
