@@ -71,7 +71,7 @@
       toLabel: Biosample
       to: "{{biosampleId}}"
       lookup: "callSet:{{name}}"
-      properties:
+      data:
         callset: "{{name}}"
 
 - label: Variant
@@ -83,7 +83,7 @@
         - calls
       splice:
         - info
-      properties:
+      data:
         alternateBases: "{{alternateBases|join:,}}"
         chromosome: "{{referenceName}}"
   edges:
@@ -98,7 +98,7 @@
         - calls
       splice:
         - info
-      properties:
+      data:
         alternateBases: "{{alternateBases|join:,}}"
         chromosome: "{{referenceName}}"
 
@@ -110,7 +110,7 @@
       toLabel: Gene
       from: "{{variantId}}"
       to: "{{_index.featureId}}"
-      properties:
+      data:
         effects: "{{_index.effects|each:term|join:,}}"
         gene: "{{_index.featureId}}"
         bases: "{{_index.alternateBases}}"
@@ -206,7 +206,7 @@
       toLabel: Gene
       from: "{{biosampleId}}"
       to: "gene:{{_index.0|name}}"
-      properties:
+      data:
         gene: "{{_index.0|name}}"
         level.float: "{{_index.1}}"
         sample: "{{biosampleId}}"
@@ -249,7 +249,7 @@
   vertexes:
     - label: Evidence
       gid: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
-      properties:
+      data:
         source: "{{source}}"
         genotype: "{{genes|sort|join:,}}"
         phenotype: "{{association.phenotype.description}}"
@@ -260,7 +260,7 @@
         responseType: "{{association.response_type}}"
     - label: OntologyTerm
       gid: "term:{{association.phenotype.description}}"
-      properties:
+      data:
         term: "{{association.phenotype.description}}"
   edges:
     - index: features
@@ -277,7 +277,7 @@
       toLabel: Compound
       from: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
       to: "{{_index.id}}"
-      properties:
+      data:
         response: "{{association.response_type}}"
     - index: association.evidence.0.info.publications|flatten
       fromLabel: Evidence
