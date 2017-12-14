@@ -77,7 +77,7 @@
     - "--bioPrefix"
     - "{{SAMPLE_PREFIX}}"
     - "--callSetPrefix"
-    - "{{VARIANT_PREFIX}}"]
+    - "{{VARIANT_PREFIX}}"
   vars:
     SAMPLE_PREFIX: biosample
     VARIANT_PREFIX: variant
