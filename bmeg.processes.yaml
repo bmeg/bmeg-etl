@@ -35,6 +35,18 @@
   outputs:
     SAMPLES: biostream/ccle/ccle.Sample.json
 
+- key: ccle-variant-transform
+  command: maf-transform
+  vars:
+    SAMPLE_PREFIX: "ccle:biosample"
+    VARIANT_PREFIX: "ccle:variant"
+  inputs:
+    MAF: source/ccle2maf_081117.txt
+  outputs:
+    VARIANT: biostream/ccle/Variant.json
+    VARIANT_ANNOTATION: biostream/ccle/VariantAnnotation.json
+    CALLSET: biostream/ccle/CallSet.json
+
 ############
 ## GeneOntology
 
@@ -86,6 +98,9 @@
 
 - key: mc3-transform
   command: maf-transform
+  vars:
+    SAMPLE_PREFIX: "mc3:biosample"
+    VARIANT_PREFIX: "mc3:variant"
   inputs:
     MAF: source/mc3.v0.2.8.PUBLIC.maf.gz
   outputs:

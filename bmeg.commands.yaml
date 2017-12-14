@@ -67,7 +67,20 @@
 
 - key: maf-transform
   image: biostream/variant-transform
-  command: ["python", "/opt/ga4gh-variant.py", "--multi", "maf", "--maf", "/in/maf.gz"]
+  command:
+    - "python"
+    - "/opt/ga4gh-variant.py"
+    - "--multi"
+    - "maf"
+    - "--maf"
+    - "/in/maf.gz"
+    - "--bioPrefix"
+    - "{{SAMPLE_PREFIX}}"
+    - "--callSetPrefix"
+    - "{{VARIANT_PREFIX}}"]
+  vars:
+    SAMPLE_PREFIX: biosample
+    VARIANT_PREFIX: variant
   inputs:
     MAF: /in/maf.gz
   outputs:
