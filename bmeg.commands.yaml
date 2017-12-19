@@ -1,3 +1,27 @@
+- key: protograph
+  repo: https://github.com/bmeg/protograph
+  image: spanglry/protograph
+  command:
+    - "java"
+    - "-jar"
+    - "protograph.jar"
+    - "--protograph"
+    - "/in/protograph.yaml"
+    - "--label"
+    - "{{LABEL}}"
+    - "--input"
+    - "/in/input.json"
+    - "--output"
+    - "out"
+  vars:
+    LABEL: Type
+  inputs:
+    PROTOGRAPH: /in/protograph.yaml
+    INPUT: /in/input.json
+  outputs:
+    VERTEXES: /out/out.Vertex.json
+    EDGES: /out/out.Edge.json
+
 - key: curl-extract
   repo: https://github.com/biostream/curl-extract
   image: appropriate/curl

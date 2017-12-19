@@ -154,3 +154,16 @@
   outputs:
     OUT: source/crx/raw-data.xlsx
 
+##################
+### PROTOGRAPH
+
+- key: ccle-response-protograph
+  command: protograph
+  vars:
+    LABEL: ResponseCurve
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ccle/ccle.ResponseCurve.json
+  outputs:
+    VERTEXES: protograph/ccle/ccle.ResponseCurve.Vertex.json
+    EDGES: protograph/ccle/ccle.ResponseCurve.Edge.json
