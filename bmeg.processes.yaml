@@ -101,6 +101,7 @@
   vars:
     SAMPLE_PREFIX: "mc3:biosample"
     VARIANT_PREFIX: "mc3:variant"
+    OPTIONS: "--gz"
   inputs:
     MAF: source/mc3.v0.2.8.PUBLIC.maf.gz
   outputs:

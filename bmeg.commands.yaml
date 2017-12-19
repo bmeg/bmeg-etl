@@ -78,9 +78,11 @@
     - "{{SAMPLE_PREFIX}}"
     - "--callSetPrefix"
     - "{{VARIANT_PREFIX}}"
+    - "{{OPTIONS}}"
   vars:
     SAMPLE_PREFIX: biosample
     VARIANT_PREFIX: variant
+    OPTIONS: ""
   inputs:
     MAF: /in/maf.gz
   outputs:
