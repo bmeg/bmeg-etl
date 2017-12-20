@@ -4,7 +4,7 @@
   command:
     - "java"
     - "-jar"
-    - "protograph.jar"
+    - "/protograph.jar"
     - "--protograph"
     - "/in/protograph.yaml"
     - "--label"
@@ -258,7 +258,7 @@
   command:
     - "java"
     - "-jar"
-    - "protograph.jar"
+    - "/protograph.jar"
     - "--protograph"
     - "/in/protograph.yaml"
     - "--input"
