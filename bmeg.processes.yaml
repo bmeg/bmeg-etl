@@ -179,6 +179,27 @@
     VERTEXES: protograph/ccle/ccle.Biosample.Vertex.json
     EDGES: protograph/ccle/ccle.Biosample.Edge.json
 
+- key: ccle-variant-protograph
+  command: variant-protograph
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    VARIANT: biostream/ccle/Variant.json
+    CALL_SET: biostream/ccle/CallSet.json
+  outputs:
+    VERTEXES: protograph/ccle/ccle.Variant.Vertex.json
+    EDGES: protograph/ccle/ccle.Variant.Edge.json
+
+- key: ccle-annotation-protograph
+  command: protograph
+  vars:
+    LABEL: VariantAnnotation
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ccle/VariantAnnotation.json
+  outputs:
+    VERTEXES: protograph/ccle/ccle.VariantAnnotation.Vertex.json
+    EDGES: protograph/ccle/ccle.VariantAnnotation.Edge.json
+
 - key: ctdd-response-protograph
   command: protograph
   vars:
