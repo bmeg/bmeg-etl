@@ -167,3 +167,58 @@
   outputs:
     VERTEXES: protograph/ccle/ccle.ResponseCurve.Vertex.json
     EDGES: protograph/ccle/ccle.ResponseCurve.Edge.json
+
+- key: ccle-sample-protograph
+  command: protograph
+  vars:
+    LABEL: Biosample
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ccle/ccle.Sample.json
+  outputs:
+    VERTEXES: protograph/ccle/ccle.Biosample.Vertex.json
+    EDGES: protograph/ccle/ccle.Biosample.Edge.json
+
+- key: ctdd-response-protograph
+  command: protograph
+  vars:
+    LABEL: ResponseCurve
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ctdd/ctdd.ResponseCurve.json
+  outputs:
+    VERTEXES: protograph/ctdd/ctdd.ResponseCurve.Vertex.json
+    EDGES: protograph/ctdd/ctdd.ResponseCurve.Edge.json
+
+- key: ensembl-gene-protograph
+  command: protograph
+  vars:
+    LABEL: Gene
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ensembl/ensembl.Gene.json
+  outputs:
+    VERTEXES: protograph/ensembl/ensembl.Gene.Vertex.json
+    EDGES: protograph/ensembl/ensembl.Gene.Edge.json
+
+- key: mc3-variant-protograph
+  command: variant-protograph
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    VARIANT: biostream/mc3/Variant.json
+    CALL_SET: biostream/mc3/CallSet.json
+  outputs:
+    VERTEXES: protograph/mc3/mc3.Variant.Vertex.json
+    EDGES: protograph/mc3/mc3.Variant.Edge.json
+
+- key: mc3-annotation-protograph
+  command: protograph
+  vars:
+    LABEL: VariantAnnotation
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/mc3/VariantAnnotation.json
+  outputs:
+    VERTEXES: protograph/mc3/mc3.VariantAnnotation.Vertex.json
+    EDGES: protograph/mc3/mc3.VariantAnnotation.Edge.json
+

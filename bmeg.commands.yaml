@@ -252,3 +252,24 @@
         DRUG_THERAPY: DRUG_THERAPY
         RADIATION_THERAPY: RADIATION_THERAPY
 
+- key: variant-protograph
+  repo: https://github.com/bmeg/protograph
+  image: spanglry/protograph
+  command:
+    - "java"
+    - "-jar"
+    - "protograph.jar"
+    - "--protograph"
+    - "/in/protograph.yaml"
+    - "--input"
+    - "/in/variant"
+    - "--output"
+    - "out"
+  inputs:
+    PROTOGRAPH: /in/protograph.yaml
+    VARIANT: /in/variant/Variant.json
+    CALL_SET: /in/variant/CallSet.json
+  outputs:
+    VERTEXES: /out/out.Vertex.json
+    EDGES: /out/out.Edge.json
+
