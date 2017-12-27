@@ -257,7 +257,7 @@
       outputs:
         EXPRESSION: EXPRESSION
     - key: gdc-biosample-transform
-      command: gdc-biospeciment-transform
+      command: gdc-biospecimen-transform
       inputs:
         TARBALL: BIOSAMPLE_ARCHIVE
       outputs:
