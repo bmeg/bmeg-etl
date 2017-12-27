@@ -35,6 +35,13 @@
   outputs:
     SAMPLES: biostream/ccle/ccle.Sample.json
 
+- key: ccle-expression-transform
+  command: ccle-expression-transform
+  inputs:
+    GCT: source/CCLE_RNAseq_081117.rpkm.gct
+  outputs:
+    EXPRESSION: biostream/ccle/ccle.GeneExpression.json
+
 - key: ccle-variant-transform
   command: maf-transform
   vars:

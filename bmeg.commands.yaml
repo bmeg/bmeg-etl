@@ -71,6 +71,16 @@
   outputs:
     SAMPLES: /out/Sample.json
 
+- key: ccle-expression-transform
+  image: biostream/ccle-transform
+  command:
+    - "/command/convert-ccle-expression.py"
+    - "/in/expression"
+  inputs:
+    GCT: /in/expression
+  outputs:
+    EXPRESSION: /out/expression_ccle.json
+
 - key: ctdd-transform
   image: biostream/ctdd-transform
   command:
@@ -184,6 +194,14 @@
     DRUG_THERAPY: /out/tcga.DrugTherapy.json
     RADIATION_THERAPY: /out/tcga.RadiationTherapy.json
 
+- key: gdc-biospecimen-transform
+  image: biostream/gdc-transform
+  command: ["python", "/opt/convert-clinical.py", "--tar", "/in/tarball.tar", "--out", "/out/"]
+  inputs:
+    TARBALL: /in/tarball.tar
+  outputs:
+    BIOSAMPLE: /out/tcga.Biosample.json
+
 - key: gdc-full-circle
   vars:
     - PROJECT
@@ -194,6 +212,7 @@
     - SEGMENT
     - CALL_SET
     - INDIVIDUAL
+    - BIOSAMPLE
     - CLINICAL_FOLLOWUP
     - DRUG_THERAPY
     - RADIATION_THERAPY
@@ -237,6 +256,12 @@
         FILE_MAP: FPKM_FILE_MAP
       outputs:
         EXPRESSION: EXPRESSION
+    - key: gdc-biosample-transform
+      command: gdc-biospeciment-transform
+      inputs:
+        TARBALL: BIOSAMPLE_ARCHIVE
+      outputs:
+        EXPRESSION: BIOSAMPLE
     - key: gdc-cna-transform
       command: gdc-cna-transform
       inputs:
