@@ -102,6 +102,10 @@
     - "{{SAMPLE_PREFIX}}"
     - "--callSetPrefix"
     - "{{VARIANT_PREFIX}}"
+    - "--center"
+    - "{{CENTER_PREFIX}}"
+    - "--gene"
+    - "{{GENE_PREFIX}}"
     - "{{OPTIONS}}"
   vars:
     SAMPLE_PREFIX: biosample
