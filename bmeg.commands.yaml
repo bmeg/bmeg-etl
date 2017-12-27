@@ -261,7 +261,7 @@
       inputs:
         TARBALL: BIOSAMPLE_ARCHIVE
       outputs:
-        EXPRESSION: BIOSAMPLE
+        BIOSAMPLE: BIOSAMPLE
     - key: gdc-cna-transform
       command: gdc-cna-transform
       inputs:
