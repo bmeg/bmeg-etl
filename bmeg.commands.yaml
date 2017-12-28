@@ -33,7 +33,7 @@
 
 - key: ensembl-transform
   repo: https://github.com/biostream/ensembl-transform
-  image: spanglry/ensembl-transform
+  image: biostream/ensembl-transform
   command: ["go", "run", "/command/run.go", "/in/gaf.gz"]
   inputs:
     GAF_GZ: /in/gaf.gz
@@ -43,7 +43,7 @@
     EXON: /out/Exon.json
 
 - key: ccle-drug-transform
-  image: spanglry/ccle-transform
+  image: biostream/ccle-transform
   command:
     - "/command/convert-ccle.py"
     - "--format"

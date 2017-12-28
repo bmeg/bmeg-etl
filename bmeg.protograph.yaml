@@ -166,6 +166,18 @@
       from: "gene:{{symbol}}"
       to: "{{_index}}"
 
+- label: Exon
+  vertexes:
+    - label: Exon
+      gid: "exon:{{symbol}}"
+      merge: true
+  edges:
+    - fromLabel: Exon
+      label: exonFrom
+      toLabel: Gene
+      from: "gene:{{parent}}"
+      to: "exon:{{symbol}}"
+
 - label: GeneSynonym
   edges:
     - index: inDatabase
