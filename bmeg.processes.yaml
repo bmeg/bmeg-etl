@@ -107,8 +107,8 @@
   command: gdc-protograph
   vars:
     PROJECT: [TCGA-BRCA, TCGA-LUAD]
-    PROTOGRAPH: source/bmeg.protograph.yaml
   inputs:
+    PROTOGRAPH: "source/bmeg.protograph.yaml"
     EXPRESSION: "biostream/tcga/{{PROJECT}}.GeneExpression.json"
     SEGMENT: "biostream/tcga/{{PROJECT}}.CNASegment.json"
     CALL_SET: "biostream/tcga/{{PROJECT}}.CNACallSet.json"

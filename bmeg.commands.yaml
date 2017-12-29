@@ -284,8 +284,8 @@
 - key: gdc-protograph
   vars:
     - PROJECT
-    - PROTOGRAPH
   inputs:
+    - PROTOGRAPH
     - EXPRESSION
     - SEGMENT
     - CALL_SET
@@ -317,7 +317,7 @@
       vars:
         LABEL: GeneExpression
       inputs:
-        PROTOGRAPH: "{{PROTOGRAPH}}"
+        PROTOGRAPH: PROTOGRAPH
         INPUT: EXPRESSION
       outputs:
         VERTEXES: EXPRESSION_VERTEXES
@@ -327,7 +327,7 @@
       vars:
         LABEL: CNASegment
       inputs:
-        PROTOGRAPH: "{{PROTOGRAPH}}"
+        PROTOGRAPH: PROTOGRAPH
         INPUT: SEGMENT
       outputs:
         VERTEXES: SEGMENT_VERTEXES
@@ -337,7 +337,7 @@
       vars:
         LABEL: CNACallSet
       inputs:
-        PROTOGRAPH: "{{PROTOGRAPH}}"
+        PROTOGRAPH: PROTOGRAPH
         INPUT: CALL_SET
       outputs:
         VERTEXES: CALL_SET_VERTEXES
@@ -347,7 +347,7 @@
       vars:
         LABEL: Individual
       inputs:
-        PROTOGRAPH: "{{PROTOGRAPH}}"
+        PROTOGRAPH: PROTOGRAPH
         INPUT: INDIVIDUAL
       outputs:
         VERTEXES: INDIVIDUAL_VERTEXES
@@ -357,7 +357,7 @@
       vars:
         LABEL: Biosample
       inputs:
-        PROTOGRAPH: "{{PROTOGRAPH}}"
+        PROTOGRAPH: PROTOGRAPH
         INPUT: BIOSAMPLE
       outputs:
         VERTEXES: BIOSAMPLE_VERTEXES
