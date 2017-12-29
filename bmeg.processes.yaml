@@ -103,6 +103,29 @@
     DRUG_THERAPY: "biostream/tcga/{{PROJECT}}.DrugTherapy.json"
     RADIATION_THERAPY: "biostream/tcga/{{PROJECT}}.RadiationTherapy.json"
 
+- key: "gdc-protograph-{{PROJECT}}"
+  command: gdc-protograph
+  vars:
+    PROJECT: [TCGA-BRCA, TCGA-LUAD]
+    PROTOGRAPH: source/bmeg.protograph.yaml
+  inputs:
+    EXPRESSION: "biostream/tcga/{{PROJECT}}.GeneExpression.json"
+    SEGMENT: "biostream/tcga/{{PROJECT}}.CNASegment.json"
+    CALL_SET: "biostream/tcga/{{PROJECT}}.CNACallSet.json"
+    INDIVIDUAL: "biostream/tcga/{{PROJECT}}.Individual.json"
+    BIOSAMPLE: "biostream/tcga/{{PROJECT}}.Biosample.json"
+  outputs:
+    EXPRESSION_VERTEXES: "protograph/tcga/{{PROJECT}}.GeneExpression.Vertex.json"
+    EXPRESSION_EDGES: "protograph/tcga/{{PROJECT}}.GeneExpression.Edge.json"
+    SEGMENT_VERTEXES: "protograph/tcga/{{PROJECT}}.CNASegment.Vertex.json"
+    SEGMENT_EDGES: "protograph/tcga/{{PROJECT}}.CNASegment.Edge.json"
+    CALL_SET_VERTEXES: "protograph/tcga/{{PROJECT}}.CNACallSet.Vertex.json"
+    CALL_SET_EDGES: "protograph/tcga/{{PROJECT}}.CNACallSet.Edge.json"
+    INDIVIDUAL_VERTEXES: "protograph/tcga/{{PROJECT}}.Individual.Vertex.json"
+    INDIVIDUAL_EDGES: "protograph/tcga/{{PROJECT}}.Individual.Edge.json"
+    BIOSAMPLE_VERTEXES: "protograph/tcga/{{PROJECT}}.Biosample.Vertex.json"
+    BIOSAMPLE_EDGES: "protograph/tcga/{{PROJECT}}.Biosample.Edge.json"
+
 #############
 ### MC3
 

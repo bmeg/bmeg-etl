@@ -281,6 +281,88 @@
         DRUG_THERAPY: DRUG_THERAPY
         RADIATION_THERAPY: RADIATION_THERAPY
 
+- key: gdc-protograph
+  vars:
+    - PROJECT
+    - PROTOGRAPH
+  inputs:
+    - EXPRESSION
+    - SEGMENT
+    - CALL_SET
+    - INDIVIDUAL
+    - BIOSAMPLE
+    # - CLINICAL_FOLLOWUP
+    # - DRUG_THERAPY
+    # - RADIATION_THERAPY
+  outputs:
+    - EXPRESSION_VERTEXES
+    - EXPRESSION_EDGES
+    - SEGMENT_VERTEXES
+    - SEGMENT_EDGES
+    - CALL_SET_VERTEXES
+    - CALL_SET_EDGES
+    - INDIVIDUAL_VERTEXES
+    - INDIVIDUAL_EDGES
+    - BIOSAMPLE_VERTEXES
+    - BIOSAMPLE_EDGES
+    # - CLINICAL_FOLLOWUP_VERTEXES
+    # - CLINICAL_FOLLOWUP_EDGES
+    # - DRUG_THERAPY_VERTEXES
+    # - DRUG_THERAPY_EDGES
+    # - RADIATION_THERAPY_VERTEXES
+    # - RADIATION_THERAPY_EDGES
+  steps:
+    - key: expression-protograph
+      command: protograph
+      vars:
+        LABEL: GeneExpression
+      inputs:
+        PROTOGRAPH: "{{PROTOGRAPH}}"
+        INPUT: EXPRESSION
+      outputs:
+        VERTEXES: EXPRESSION_VERTEXES
+        EDGES: EXPRESSION_EDGES
+    - key: segment-protograph
+      command: protograph
+      vars:
+        LABEL: CNASegment
+      inputs:
+        PROTOGRAPH: "{{PROTOGRAPH}}"
+        INPUT: SEGMENT
+      outputs:
+        VERTEXES: SEGMENT_VERTEXES
+        EDGES: SEGMENT_EDGES
+    - key: call-set-protograph
+      command: protograph
+      vars:
+        LABEL: CNACallSet
+      inputs:
+        PROTOGRAPH: "{{PROTOGRAPH}}"
+        INPUT: CALL_SET
+      outputs:
+        VERTEXES: CALL_SET_VERTEXES
+        EDGES: CALL_SET_EDGES
+    - key: individual-protograph
+      command: protograph
+      vars:
+        LABEL: Individual
+      inputs:
+        PROTOGRAPH: "{{PROTOGRAPH}}"
+        INPUT: INDIVIDUAL
+      outputs:
+        VERTEXES: INDIVIDUAL_VERTEXES
+        EDGES: INDIVIDUAL_EDGES
+    - key: biosample-protograph
+      command: protograph
+      vars:
+        LABEL: Biosample
+      inputs:
+        PROTOGRAPH: "{{PROTOGRAPH}}"
+        INPUT: BIOSAMPLE
+      outputs:
+        VERTEXES: BIOSAMPLE_VERTEXES
+        EDGES: BIOSAMPLE_EDGES
+
 - key: variant-protograph
   repo: https://github.com/bmeg/protograph
   image: spanglry/protograph

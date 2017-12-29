@@ -147,7 +147,7 @@
 - label: Gene
   vertexes:
     - label: Gene
-      gid: "gene:{{symbol}}"
+      gid: "gene:{{id}}"
       merge: true
       filter:
         - inFamily
@@ -157,13 +157,13 @@
       fromLabel: Gene
       label: citedFrom
       toLabel: Pubmed
-      from: "gene:{{symbol}}"
+      from: "gene:{{id}}"
       to: "{{_index}}"
     - index: inFamily
       fromLabel: Gene
       label: inFamily
       toLabel: GeneFamily
-      from: "gene:{{symbol}}"
+      from: "gene:{{id}}"
       to: "{{_index}}"
 
 - label: Exon
