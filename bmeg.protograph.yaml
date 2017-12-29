@@ -169,14 +169,26 @@
 - label: Exon
   vertexes:
     - label: Exon
-      gid: "exon:{{symbol}}"
+      gid: "exon:{{id}}"
       merge: true
   edges:
     - fromLabel: Exon
       label: exonFrom
+      toLabel: Transcript
+      from: "exon:{{id}}"
+      to: "transcript:{{parent}}"
+
+- label: Transcript
+  vertexes:
+    - label: Transcript
+      gid: "transcript:{{id}}"
+      merge: true
+  edges:
+    - fromLabel: Transcript
+      label: transcriptFor
       toLabel: Gene
-      from: "gene:{{parent}}"
-      to: "exon:{{symbol}}"
+      from: "transcript:{{id}}"
+      to: "gene:{{parent}}"
 
 - label: GeneSynonym
   edges:

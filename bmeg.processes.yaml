@@ -212,6 +212,17 @@
     VERTEXES: protograph/ccle/ccle.VariantAnnotation.Vertex.json
     EDGES: protograph/ccle/ccle.VariantAnnotation.Edge.json
 
+- key: ccle-expression-protograph
+  command: protograph
+  vars:
+    LABEL: VariantAnnotation
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ccle/ccle.GeneExpression.json
+  outputs:
+    VERTEXES: protograph/ccle/ccle.GeneExpression.Vertex.json
+    EDGES: protograph/ccle/ccle.GeneExpression.Edge.json
+
 - key: ctdd-response-protograph
   command: protograph
   vars:
@@ -233,6 +244,28 @@
   outputs:
     VERTEXES: protograph/ensembl/ensembl.Gene.Vertex.json
     EDGES: protograph/ensembl/ensembl.Gene.Edge.json
+
+- key: ensembl-transcript-protograph
+  command: protograph
+  vars:
+    LABEL: Transcript
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ensembl/ensembl.Transcript.json
+  outputs:
+    VERTEXES: protograph/ensembl/ensembl.Transcript.Vertex.json
+    EDGES: protograph/ensembl/ensembl.Transcript.Edge.json
+
+- key: ensembl-exon-protograph
+  command: protograph
+  vars:
+    LABEL: Exon
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ensembl/ensembl.Exon.json
+  outputs:
+    VERTEXES: protograph/ensembl/ensembl.Exon.Vertex.json
+    EDGES: protograph/ensembl/ensembl.Exon.Edge.json
 
 - key: mc3-variant-protograph
   command: variant-protograph
