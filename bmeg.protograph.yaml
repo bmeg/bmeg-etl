@@ -214,6 +214,8 @@
       merge: true
 
 - label: GeneExpression
+  match:
+    type: expression
   vertexes:
     - label: GeneExpression
       gid: "geneExpression:{{biosampleId}}:{{type}}"

@@ -113,13 +113,15 @@
     - "--callSetPrefix"
     - "{{VARIANT_PREFIX}}"
     - "--center"
-    - "{{CENTER_PREFIX}}"
+    - "{{CENTER_COLUMN}}"
     - "--gene"
-    - "{{GENE_PREFIX}}"
+    - "{{GENE_COLUMN}}"
     - "{{OPTIONS}}"
   vars:
     SAMPLE_PREFIX: biosample
     VARIANT_PREFIX: variant
+    CENTER_COLUMN: Center
+    GENE_COLUMN: Entrez_Gene_Id
     OPTIONS: ""
   inputs:
     MAF: /in/maf.gz

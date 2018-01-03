@@ -47,8 +47,6 @@
   vars:
     SAMPLE_PREFIX: "ccle:biosample"
     VARIANT_PREFIX: "ccle:variant"
-    CENTER_PREFIX: "CENTERS"
-    GENE_PREFIX: "Gene"
   inputs:
     MAF: source/ccle2maf_081117.txt
   outputs:
@@ -134,8 +132,8 @@
   vars:
     SAMPLE_PREFIX: "mc3:biosample"
     VARIANT_PREFIX: "mc3:variant"
-    CENTER_PREFIX: "CENTERS"
-    GENE_PREFIX: "Gene"
+    CENTER_COLUMN: "CENTERS"
+    GENE_COLUMN: "Gene"
     OPTIONS: "--gz"
   inputs:
     MAF: source/mc3.v0.2.8.PUBLIC.maf.gz
