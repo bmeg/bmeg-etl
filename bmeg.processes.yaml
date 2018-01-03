@@ -288,6 +288,17 @@
     VERTEXES: protograph/ensembl/ensembl.Exon.Vertex.json
     EDGES: protograph/ensembl/ensembl.Exon.Edge.json
 
+- key: g2p-protograph
+  command: protograph
+  vars:
+    LABEL: Evidence
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: g2p/g2p.json
+  outputs:
+    VERTEXES: protograph/g2p/g2p.Evidence.Vertex.json
+    EDGES: protograph/g2p/g2p.Evidence.Edge.json
+
 - key: mc3-variant-protograph
   command: variant-protograph
   inputs:
