@@ -1,14 +1,388 @@
-gdc-extract:
-  image_name: biostream/gdc-extract
-  cmd: ["/opt/gdc-scan.py", "cases", "list"]
-  stdout: /tmp/out
+- key: protograph
+  repo: https://github.com/bmeg/protograph
+  image: spanglry/protograph
+  command:
+    - "java"
+    - "-jar"
+    - "/protograph.jar"
+    - "--protograph"
+    - "/in/protograph.yaml"
+    - "--label"
+    - "{{LABEL}}"
+    - "--input"
+    - "/in/input.json"
+    - "--output"
+    - "out"
+  vars:
+    LABEL: Type
+  inputs:
+    PROTOGRAPH: /in/protograph.yaml
+    INPUT: /in/input.json
+  outputs:
+    VERTEXES: /out/out.Vertex.json
+    EDGES: /out/out.Edge.json
 
-curl-extract:
+- key: curl-extract
   repo: https://github.com/biostream/curl-extract
-  image_name: biostream/curl-extract
-  cmd: ["curl" "{{URL}}"]
-  stdout: /tmp/out
+  image: appropriate/curl
+  command: ["curl", "{{URL}}", "-o", "/tmp/out"]
+  vars:
+    URL: http://google.com
+  outputs:
+    OUT: /tmp/out
 
-ensembl-transform:
-  image_name: biostream/ensembl-transform
-  cmd: ["/opt/ensembl-transform.py" "{{GAF_GZ}}"]
+- key: ensembl-transform
+  repo: https://github.com/biostream/ensembl-transform
+  image: biostream/ensembl-transform
+  command: ["go", "run", "/opt/run.go", "/in/gaf.gz"]
+  inputs:
+    GAF_GZ: /in/gaf.gz
+  outputs:
+    TRANSCRIPT: /out/Transcript.json
+    GENE: /out/Gene.json
+    EXON: /out/Exon.json
+
+- key: ccle-drug-transform
+  image: biostream/ccle-transform
+  command:
+    - "/command/convert-ccle.py"
+    - "--format"
+    - "json"
+    - "--drug"
+    - "/in/drug-data.csv"
+    - "--pubchem"
+    - "/in/ccle_pubchem.txt"
+    - "--multi"
+    - "/out/ccle"
+  inputs:
+    DRUG_DATA: /in/drug-data.csv
+    PUBCHEM: /in/ccle_pubchem.txt
+  outputs:
+    RESPONSES: /out/ccle.bmeg.ResponseCurve.json
+
+- key: ccle-sample-transform
+  image: biostream/ccle-transform
+  command:
+    - "/command/convert-ccle-sample.py"
+    - "/in/samples.tsv"
+    - "/out/Sample.json"
+  inputs:
+    SAMPLE_TSV: /in/samples.tsv
+  outputs:
+    SAMPLES: /out/Sample.json
+
+- key: ccle-expression-transform
+  image: biostream/ccle-transform
+  command:
+    - "/command/convert-ccle-expression.py"
+    - "/in/expression"
+  inputs:
+    GCT: /in/expression
+  outputs:
+    EXPRESSION: /out/expression_ccle.json
+
+- key: ctdd-transform
+  image: biostream/ctdd-transform
+  command:
+    - "python"
+    - "/opt/convert-ctdd.py"
+    - "--format"
+    - "json"
+    - "--multi"
+    - "ctdd"
+    - "--pubchem"
+    - "/opt/ctdd_pubchem.table"
+    - "--zip"
+    - "/in/CTRP_ZIP"
+  inputs:
+    CTRP_ZIP: /in/CTRP_ZIP
+  outputs:
+    RESPONSE: /out/ctdd.bmeg.ResponseCurve.json
+
+- key: maf-transform
+  image: biostream/variant-transform
+  command:
+    - "python"
+    - "/opt/ga4gh-variant.py"
+    - "--multi"
+    - "maf"
+    - "--maf"
+    - "/in/maf.gz"
+    - "--bioPrefix"
+    - "{{SAMPLE_PREFIX}}"
+    - "--callSetPrefix"
+    - "{{VARIANT_PREFIX}}"
+    - "--center"
+    - "{{CENTER_COLUMN}}"
+    - "--gene"
+    - "{{GENE_COLUMN}}"
+    - "{{OPTIONS}}"
+  vars:
+    SAMPLE_PREFIX: biosample
+    VARIANT_PREFIX: variant
+    CENTER_COLUMN: Center
+    GENE_COLUMN: Entrez_Gene_Id
+    OPTIONS: ""
+  inputs:
+    MAF: /in/maf.gz
+  outputs:
+    VARIANT: /out/maf.ga4gh.Variant.json
+    VARIANT_ANNOTATION: /out/maf.ga4gh.VariantAnnotation.json
+    CALLSET: /out/maf.ga4gh.CallSet.json
+
+- key: gaf-transform
+  image: biostream/go-transform
+  command: ["python", "/opt/go_gaf2schema.py", "/in/gaf.gz", "/in/unipro.dat.gz", "gaf.json"]
+  inputs:
+    GAF: /in/gaf.gz
+    UNIPRO_MAP: /in/unipro.dat.gz
+  outputs:
+    OUT: /out/gaf.json
+
+- key: go-transform
+  image: biostream/go-transform
+  command: ["python", "/opt/go_obo2schema.py", "/in/go.obo"]
+  stdout: /out/go.json
+  inputs:
+    OBO: /in/go.obo
+  outputs:
+    OUT: /out/go.json
+
+- key: gdc-scan-extract
+  image: biostream/gdc-extract
+  command: ["/opt/gdc-scan.py", "cases", "list"]
+  stdout: /tmp/out
+  outputs:
+    OUT: /tmp/out
+
+- key: gdc-bulk-download-extract
+  image: biostream/gdc-extract
+  command: ["/opt/gdc-bulk-download.py", "{{DATA_TYPE}}", "{{PROJECT}}", "out"]
+  vars:
+    DATA_TYPE: default
+    PROJECT: default
+  outputs:
+    ARCHIVE: /out/out
+    FILE_MAP: /out/out.map
+
+- key: gdc-expression-transform
+  image: biostream/gdc-transform
+  command: ["python", "/opt/convert-expression-tar.py", "/in/tarball.tar", "--filemap", "/in/tarball.tar.map", "--out", "/out/out"]
+  inputs:
+    TARBALL: /in/tarball.tar
+    FILE_MAP: /in/tarball.tar.map
+  outputs:
+    EXPRESSION: /out/out
+
+- key: gdc-cna-transform
+  image: biostream/gdc-transform
+  command: ["python", "/opt/convert-seg-tar.py", "--tar", "/in/tarball.tar", "--filemap", "/in/tarball.tar.map", "--gtf", "/in/gtf.gtf"]
+  inputs:
+    TARBALL: /in/tarball.tar
+    FILE_MAP: /in/tarball.tar.map
+    GTF: /in/gtf.gtf
+  outputs:
+    SEGMENT: /out/out.bmeg.CNASegment.json
+    CALL_SET: /out/out.bmeg.CNACallSet.json
+
+- key: gdc-clinical-transform
+  image: biostream/gdc-transform
+  command: ["python", "/opt/convert-clinical.py", "--tar", "/in/tarball.tar", "--out", "/out/", "--pubchem", "/opt/tcga_pubchem.map"]
+  inputs:
+    TARBALL: /in/tarball.tar
+  outputs:
+    INDIVIDUAL: /out/tcga.Individual.json
+    CLINICAL_FOLLOWUP: /out/tcga.ClinicalFollowup.json
+    DRUG_THERAPY: /out/tcga.DrugTherapy.json
+    RADIATION_THERAPY: /out/tcga.RadiationTherapy.json
+
+- key: gdc-biospecimen-transform
+  image: biostream/gdc-transform
+  command: ["python", "/opt/convert-clinical.py", "--tar", "/in/tarball.tar", "--out", "/out/"]
+  inputs:
+    TARBALL: /in/tarball.tar
+  outputs:
+    BIOSAMPLE: /out/tcga.Biosample.json
+
+- key: gdc-full-circle
+  vars:
+    - PROJECT
+  inputs:
+    - GTF
+  outputs:
+    - EXPRESSION
+    - SEGMENT
+    - CALL_SET
+    - INDIVIDUAL
+    - BIOSAMPLE
+    - CLINICAL_FOLLOWUP
+    - DRUG_THERAPY
+    - RADIATION_THERAPY
+  steps:
+    - key: download-gdc-expression
+      command: gdc-bulk-download-extract
+      vars:
+        DATA_TYPE: fpkm
+        PROJECT: "{{PROJECT}}"
+      outputs:
+        ARCHIVE: FPKM_ARCHIVE
+        FILE_MAP: FPKM_FILE_MAP
+    - key: download-gdc-cna
+      command: gdc-bulk-download-extract
+      vars:
+        DATA_TYPE: cna
+        PROJECT: "{{PROJECT}}"
+      outputs:
+        ARCHIVE: CNA_ARCHIVE
+        FILE_MAP: CNA_FILE_MAP
+    - key: download-gdc-clinical
+      command: gdc-bulk-download-extract
+      vars:
+        DATA_TYPE: clinical
+        PROJECT: "{{PROJECT}}"
+      outputs:
+        ARCHIVE: CLINICAL_ARCHIVE
+        FILE_MAP: CLINICAL_FILE_MAP
+    - key: download-gdc-biosample
+      command: gdc-bulk-download-extract
+      vars:
+        DATA_TYPE: biospecimen
+        PROJECT: "{{PROJECT}}"
+      outputs:
+        ARCHIVE: BIOSAMPLE_ARCHIVE
+        FILE_MAP: BIOSAMPLE_FILE_MAP
+    - key: gdc-rna-transform
+      command: gdc-expression-transform
+      inputs:
+        TARBALL: FPKM_ARCHIVE
+        FILE_MAP: FPKM_FILE_MAP
+      outputs:
+        EXPRESSION: EXPRESSION
+    - key: gdc-biosample-transform
+      command: gdc-biospecimen-transform
+      inputs:
+        TARBALL: BIOSAMPLE_ARCHIVE
+      outputs:
+        BIOSAMPLE: BIOSAMPLE
+    - key: gdc-cna-transform
+      command: gdc-cna-transform
+      inputs:
+        TARBALL: CNA_ARCHIVE
+        FILE_MAP: CNA_FILE_MAP
+        GTF: GTF
+      outputs:
+        SEGMENT: SEGMENT
+        CALL_SET: CALL_SET
+    - key: gdc-clinical-transform
+      command: gdc-clinical-transform
+      inputs:
+        TARBALL: CLINICAL_ARCHIVE
+      outputs:
+        INDIVIDUAL: INDIVIDUAL
+        CLINICAL_FOLLOWUP: CLINICAL_FOLLOWUP
+        DRUG_THERAPY: DRUG_THERAPY
+        RADIATION_THERAPY: RADIATION_THERAPY
+
+- key: gdc-protograph
+  vars:
+    - PROJECT
+  inputs:
+    - PROTOGRAPH
+    - EXPRESSION
+    - SEGMENT
+    - CALL_SET
+    - INDIVIDUAL
+    - BIOSAMPLE
+    # - CLINICAL_FOLLOWUP
+    # - DRUG_THERAPY
+    # - RADIATION_THERAPY
+  outputs:
+    - EXPRESSION_VERTEXES
+    - EXPRESSION_EDGES
+    - SEGMENT_VERTEXES
+    - SEGMENT_EDGES
+    - CALL_SET_VERTEXES
+    - CALL_SET_EDGES
+    - INDIVIDUAL_VERTEXES
+    - INDIVIDUAL_EDGES
+    - BIOSAMPLE_VERTEXES
+    - BIOSAMPLE_EDGES
+    # - CLINICAL_FOLLOWUP_VERTEXES
+    # - CLINICAL_FOLLOWUP_EDGES
+    # - DRUG_THERAPY_VERTEXES
+    # - DRUG_THERAPY_EDGES
+    # - RADIATION_THERAPY_VERTEXES
+    # - RADIATION_THERAPY_EDGES
+  steps:
+    - key: expression-protograph
+      command: protograph
+      vars:
+        LABEL: GeneExpression
+      inputs:
+        PROTOGRAPH: PROTOGRAPH
+        INPUT: EXPRESSION
+      outputs:
+        VERTEXES: EXPRESSION_VERTEXES
+        EDGES: EXPRESSION_EDGES
+    - key: segment-protograph
+      command: protograph
+      vars:
+        LABEL: CNASegment
+      inputs:
+        PROTOGRAPH: PROTOGRAPH
+        INPUT: SEGMENT
+      outputs:
+        VERTEXES: SEGMENT_VERTEXES
+        EDGES: SEGMENT_EDGES
+    - key: call-set-protograph
+      command: protograph
+      vars:
+        LABEL: CNACallSet
+      inputs:
+        PROTOGRAPH: PROTOGRAPH
+        INPUT: CALL_SET
+      outputs:
+        VERTEXES: CALL_SET_VERTEXES
+        EDGES: CALL_SET_EDGES
+    - key: individual-protograph
+      command: protograph
+      vars:
+        LABEL: Individual
+      inputs:
+        PROTOGRAPH: PROTOGRAPH
+        INPUT: INDIVIDUAL
+      outputs:
+        VERTEXES: INDIVIDUAL_VERTEXES
+        EDGES: INDIVIDUAL_EDGES
+    - key: biosample-protograph
+      command: protograph
+      vars:
+        LABEL: Biosample
+      inputs:
+        PROTOGRAPH: PROTOGRAPH
+        INPUT: BIOSAMPLE
+      outputs:
+        VERTEXES: BIOSAMPLE_VERTEXES
+        EDGES: BIOSAMPLE_EDGES
+
+- key: variant-protograph
+  repo: https://github.com/bmeg/protograph
+  image: spanglry/protograph
+  command:
+    - "java"
+    - "-jar"
+    - "/protograph.jar"
+    - "--protograph"
+    - "/in/protograph.yaml"
+    - "--input"
+    - "/in/variant"
+    - "--output"
+    - "out"
+  inputs:
+    PROTOGRAPH: /in/protograph.yaml
+    VARIANT: /in/variant/Variant.json
+    CALL_SET: /in/variant/CallSet.json
+  outputs:
+    VERTEXES: /out/out.Vertex.json
+    EDGES: /out/out.Edge.json
+

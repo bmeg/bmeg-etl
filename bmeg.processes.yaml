@@ -1,62 +1,322 @@
-- key: gdc-extract
-  command: gdc-extract
-  inputs: []
-  outputs:
-    /tmp/out: gdc-cases.json
+##################
+### ENSEMBL
 
 - key: ensembl-extract
   command: curl-extract
-  inputs:
+  vars:
     URL: ftp://ftp.ensembl.org/pub/release-90/gff3/homo_sapiens/Homo_sapiens.GRCh38.90.chr.gff3.gz
   outputs:
-    /tmp/out: ENSEMBL_GTF_GZ
-
-- key: ctrp-extract
-  command: curl-extract
-  inputs:
-    URL: ftp://caftpd.nci.nih.gov/pub/OCG-DCC/CTD2/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
-  outputs:
-    /tmp/out: CTRP_ZIP
+    OUT: source/ensembl.gtf.gz
 
 - key: ensembl-transform
   command: ensembl-transform
   inputs:
-    GAF_GZ: ENSEMBL_GTF_GZ
+    GAF_GZ: source/ensembl.gtf.gz
   outputs:
-    ENSEMBL_JSON: ensembl_streams
+    TRANSCRIPT: biostream/ensembl/ensembl.Transcript.json
+    GENE: biostream/ensembl/ensembl.Gene.json
+    EXON: biostream/ensembl/ensembl.Exon.json
+
+############
+### CCLE
+
+- key: ccle-drug-transform
+  command: ccle-drug-transform
+  inputs:
+    DRUG_DATA: source/CCLE_NP24.2009_Drug_data_2015.02.24.csv
+    PUBCHEM: source/ccle_pubchem.txt
+  outputs:
+    RESPONSES: biostream/ccle/ccle.ResponseCurve.json
+
+- key: ccle-sample-transform
+  command: ccle-sample-transform
+  inputs:
+    SAMPLE_TSV: source/CCLE_sample_info_file_2012-10-18.txt
+  outputs:
+    SAMPLES: biostream/ccle/ccle.Sample.json
+
+- key: ccle-expression-transform
+  command: ccle-expression-transform
+  inputs:
+    GCT: source/CCLE_RNAseq_081117.rpkm.gct
+  outputs:
+    EXPRESSION: biostream/ccle/ccle.GeneExpression.json
+
+- key: ccle-variant-transform
+  command: maf-transform
+  vars:
+    SAMPLE_PREFIX: "ccle:biosample"
+    VARIANT_PREFIX: "ccle:variant"
+  inputs:
+    MAF: source/ccle2maf_081117.txt
+  outputs:
+    VARIANT: biostream/ccle/Variant.json
+    VARIANT_ANNOTATION: biostream/ccle/VariantAnnotation.json
+    CALLSET: biostream/ccle/CallSet.json
+
+############
+## GeneOntology
+
+- key: go-transform
+  command: go-transform
+  inputs:
+    OBO: source/go.obo
+  outputs:
+    OUT: biostream/go/GeneOntologyTerm.json
+
+- key: gaf-transform
+  command: gaf-transform
+  inputs:
+    GAF: source/goa_human.gaf.gz
+    UNIPRO_MAP: source/HUMAN_9606_idmapping.dat.gz
+  outputs:
+    OUT: biostream/ccle/GeneOntologyAnnotation.json
+
+##############
+### CTDD
+
+- key: ctdd-response-transform
+  command: ctdd-transform
+  inputs:
+    CTRP_ZIP: source/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
+  outputs:
+    RESPONSE: biostream/ctdd/ctdd.ResponseCurve.json
+
+##############
+### TCGA
+
+- key: "gdc-project-{{PROJECT}}"
+  command: gdc-full-circle
+  vars:
+    PROJECT: [TCGA-BRCA, TCGA-LUAD]
+  inputs:
+    GTF: source/ensembl.gtf.gz
+  outputs:
+    EXPRESSION: "biostream/tcga/{{PROJECT}}.GeneExpression.json"
+    SEGMENT: "biostream/tcga/{{PROJECT}}.CNASegment.json"
+    CALL_SET: "biostream/tcga/{{PROJECT}}.CNACallSet.json"
+    INDIVIDUAL: "biostream/tcga/{{PROJECT}}.Individual.json"
+    BIOSAMPLE: "biostream/tcga/{{PROJECT}}.Biosample.json"
+    CLINICAL_FOLLOWUP: "biostream/tcga/{{PROJECT}}.ClinicalFollowup.json"
+    DRUG_THERAPY: "biostream/tcga/{{PROJECT}}.DrugTherapy.json"
+    RADIATION_THERAPY: "biostream/tcga/{{PROJECT}}.RadiationTherapy.json"
+
+- key: "gdc-protograph-{{PROJECT}}"
+  command: gdc-protograph
+  vars:
+    PROJECT: [TCGA-BRCA, TCGA-LUAD]
+  inputs:
+    PROTOGRAPH: "source/bmeg.protograph.yaml"
+    EXPRESSION: "biostream/tcga/{{PROJECT}}.GeneExpression.json"
+    SEGMENT: "biostream/tcga/{{PROJECT}}.CNASegment.json"
+    CALL_SET: "biostream/tcga/{{PROJECT}}.CNACallSet.json"
+    INDIVIDUAL: "biostream/tcga/{{PROJECT}}.Individual.json"
+    BIOSAMPLE: "biostream/tcga/{{PROJECT}}.Biosample.json"
+  outputs:
+    EXPRESSION_VERTEXES: "protograph/tcga/{{PROJECT}}.GeneExpression.Vertex.json"
+    EXPRESSION_EDGES: "protograph/tcga/{{PROJECT}}.GeneExpression.Edge.json"
+    SEGMENT_VERTEXES: "protograph/tcga/{{PROJECT}}.CNASegment.Vertex.json"
+    SEGMENT_EDGES: "protograph/tcga/{{PROJECT}}.CNASegment.Edge.json"
+    CALL_SET_VERTEXES: "protograph/tcga/{{PROJECT}}.CNACallSet.Vertex.json"
+    CALL_SET_EDGES: "protograph/tcga/{{PROJECT}}.CNACallSet.Edge.json"
+    INDIVIDUAL_VERTEXES: "protograph/tcga/{{PROJECT}}.Individual.Vertex.json"
+    INDIVIDUAL_EDGES: "protograph/tcga/{{PROJECT}}.Individual.Edge.json"
+    BIOSAMPLE_VERTEXES: "protograph/tcga/{{PROJECT}}.Biosample.Vertex.json"
+    BIOSAMPLE_EDGES: "protograph/tcga/{{PROJECT}}.Biosample.Edge.json"
+
+#############
+### MC3
+
+- key: mc3-transform
+  command: maf-transform
+  vars:
+    SAMPLE_PREFIX: "mc3:biosample"
+    VARIANT_PREFIX: "mc3:variant"
+    CENTER_COLUMN: "CENTERS"
+    GENE_COLUMN: "Gene"
+    OPTIONS: "--gz"
+  inputs:
+    MAF: source/mc3.v0.2.8.PUBLIC.maf.gz
+  outputs:
+    VARIANT: biostream/mc3/Variant.json
+    VARIANT_ANNOTATION: biostream/mc3/VariantAnnotation.json
+    CALLSET: biostream/mc3/CallSet.json
+
+#############
+### CTRP 
+
+- key: ctrp-extract
+  command: curl-extract
+  vars:
+    URL: ftp://caftpd.nci.nih.gov/pub/OCG-DCC/CTD2/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
+  outputs:
+    OUT: source/ctrp.zip
 
 - key: cancerrxgene-cellline-extract
   command: curl-extract
-  inputs:
+  vars:
     URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/Cell_Lines_Details.xlsx
   outputs:
-    /tmp/out: CRX_CELL
+    OUT: source/crx/cell-lines.xlsx
 
 - key: cancerrxgene-dose-extract
   command: curl-extract
-  inputs:
+  vars:
     URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/v17_fitted_dose_response.xlsx
   outputs:
-    /tmp/out: CRX_DOSE
+    OUT: source/crx/dose-response.xlsx
 
 - key: cancerrxgene-conversion-extract
   command: curl-extract
-  inputs:
+  vars:
     URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/GDSC-CCLE-CTRP_conversion.xlsx
   outputs:
-    /tmp/out: CRX_CONVERSION
+    OUT: source/crx/conversion.xlsx
 
 - key: cancerrxgene-compounds-extract
   command: curl-extract
-  inputs:
+  vars:
     URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/Screened_Compounds.xlsx
   outputs:
-    /tmp/out: CRX_COMPOUNDS
+    OUT: source/crx/compounds.xlsx
 
 - key: cancerrxgene-rawdata-extract
   command: curl-extract
-  inputs:
+  vars:
     URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/v17a_public_raw_data.xlsx
   outputs:
-    /tmp/out: CRX_RAWDATA
+    OUT: source/crx/raw-data.xlsx
+
+##################
+### PROTOGRAPH
+
+- key: ccle-response-protograph
+  command: protograph
+  vars:
+    LABEL: ResponseCurve
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ccle/ccle.ResponseCurve.json
+  outputs:
+    VERTEXES: protograph/ccle/ccle.ResponseCurve.Vertex.json
+    EDGES: protograph/ccle/ccle.ResponseCurve.Edge.json
+
+- key: ccle-sample-protograph
+  command: protograph
+  vars:
+    LABEL: Biosample
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ccle/ccle.Sample.json
+  outputs:
+    VERTEXES: protograph/ccle/ccle.Biosample.Vertex.json
+    EDGES: protograph/ccle/ccle.Biosample.Edge.json
+
+- key: ccle-variant-protograph
+  command: variant-protograph
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    VARIANT: biostream/ccle/Variant.json
+    CALL_SET: biostream/ccle/CallSet.json
+  outputs:
+    VERTEXES: protograph/ccle/ccle.Variant.Vertex.json
+    EDGES: protograph/ccle/ccle.Variant.Edge.json
+
+- key: ccle-annotation-protograph
+  command: protograph
+  vars:
+    LABEL: VariantAnnotation
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ccle/VariantAnnotation.json
+  outputs:
+    VERTEXES: protograph/ccle/ccle.VariantAnnotation.Vertex.json
+    EDGES: protograph/ccle/ccle.VariantAnnotation.Edge.json
+
+- key: ccle-expression-protograph
+  command: protograph
+  vars:
+    LABEL: VariantAnnotation
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ccle/ccle.GeneExpression.json
+  outputs:
+    VERTEXES: protograph/ccle/ccle.GeneExpression.Vertex.json
+    EDGES: protograph/ccle/ccle.GeneExpression.Edge.json
+
+- key: ctdd-response-protograph
+  command: protograph
+  vars:
+    LABEL: ResponseCurve
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ctdd/ctdd.ResponseCurve.json
+  outputs:
+    VERTEXES: protograph/ctdd/ctdd.ResponseCurve.Vertex.json
+    EDGES: protograph/ctdd/ctdd.ResponseCurve.Edge.json
+
+- key: ensembl-gene-protograph
+  command: protograph
+  vars:
+    LABEL: Gene
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ensembl/ensembl.Gene.json
+  outputs:
+    VERTEXES: protograph/ensembl/ensembl.Gene.Vertex.json
+    EDGES: protograph/ensembl/ensembl.Gene.Edge.json
+
+- key: ensembl-transcript-protograph
+  command: protograph
+  vars:
+    LABEL: Transcript
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ensembl/ensembl.Transcript.json
+  outputs:
+    VERTEXES: protograph/ensembl/ensembl.Transcript.Vertex.json
+    EDGES: protograph/ensembl/ensembl.Transcript.Edge.json
+
+- key: ensembl-exon-protograph
+  command: protograph
+  vars:
+    LABEL: Exon
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ensembl/ensembl.Exon.json
+  outputs:
+    VERTEXES: protograph/ensembl/ensembl.Exon.Vertex.json
+    EDGES: protograph/ensembl/ensembl.Exon.Edge.json
+
+- key: g2p-protograph
+  command: protograph
+  vars:
+    LABEL: Evidence
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: g2p/g2p.json
+  outputs:
+    VERTEXES: protograph/g2p/g2p.Evidence.Vertex.json
+    EDGES: protograph/g2p/g2p.Evidence.Edge.json
+
+- key: mc3-variant-protograph
+  command: variant-protograph
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    VARIANT: biostream/mc3/Variant.json
+    CALL_SET: biostream/mc3/CallSet.json
+  outputs:
+    VERTEXES: protograph/mc3/mc3.Variant.Vertex.json
+    EDGES: protograph/mc3/mc3.Variant.Edge.json
+
+- key: mc3-annotation-protograph
+  command: protograph
+  vars:
+    LABEL: VariantAnnotation
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/mc3/VariantAnnotation.json
+  outputs:
+    VERTEXES: protograph/mc3/mc3.VariantAnnotation.Vertex.json
+    EDGES: protograph/mc3/mc3.VariantAnnotation.Edge.json
 
