@@ -117,11 +117,12 @@
 
 - label: ResponseCurve
   edges:
-    - fromLabel: Biosample
+    - index: compounds
+      fromLabel: Biosample
       label: responseTo
       toLabel: Compound
       from: "{{sample}}"
-      to: "{{compound}}"
+      to: "{{_index.compound}}"
       merge: true
 
 - label: Compound
