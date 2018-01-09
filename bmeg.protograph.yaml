@@ -45,10 +45,6 @@
         - disease
       splice:
         - info
-    - label: OntologyTerm
-      gid: "term:{{disease.term}}"
-      splice:
-        - disease
   edges:
     - fromLabel: Biosample
       label: sampleOf
@@ -63,6 +59,12 @@
   embedded:
     - label: OntologyTerm
       path: disease
+
+- label: OntologyTerm
+  vertexes:
+    - label: OntologyTerm
+      gid: "term:{{term}}"
+      merge: true
 
 - label: CallSet
   edges:

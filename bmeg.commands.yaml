@@ -139,6 +139,38 @@
   outputs:
     OUT: /out/gaf.json
 
+- key: pubchem-transform
+  image: biostream/pubchem-transform
+  command:
+    - "/opt/pubchem-extract.py"
+    - "compound-extract"
+    - "--out"
+    - "compound.json"
+    - "{{CIDS}}"
+  vars:
+    CIDS: ""
+  outputs:
+    CASE_LIST: /out/compound.json
+
+- key: gdsc-transform
+  image: biostream/gdsc-transform
+  command:
+    - "/opt/gdsc-convert.py"
+    - "/in/conversion.xlsx"
+    - "/in/cell-lines.xlsx"
+    - "/in/compounds.xlsx"
+    - "/in/raw-data.xlsx"
+    - "/in/response.xlsx"
+    - "/opt/gdsc_pubchem.table"
+  inputs:
+    CONVERSION: /in/conversion.xlsx
+    CELL_LINES: /in/cell-lines.xlsx
+    COMPOUNDS: /in/compounds.xlsx
+    RAW_DATA: /in/raw-data.xlsx
+    RESPONSE: /in/response.xlsx
+  outputs:
+    RESPONSES: /out/gdsc.scan.bmeg.ResponseCurve.json
+
 - key: go-transform
   image: biostream/go-transform
   command: ["python", "/opt/go_obo2schema.py", "/in/go.obo"]
