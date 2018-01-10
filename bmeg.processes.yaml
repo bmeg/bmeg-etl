@@ -33,7 +33,7 @@
   inputs:
     SAMPLE_TSV: source/CCLE_sample_info_file_2012-10-18.txt
   outputs:
-    SAMPLES: biostream/ccle/ccle.Sample.json
+    SAMPLES: biostream/ccle/ccle.Biosample.json
 
 - key: ccle-expression-transform
   command: ccle-expression-transform
@@ -50,9 +50,9 @@
   inputs:
     MAF: source/ccle2maf_081117.txt
   outputs:
-    VARIANT: biostream/ccle/Variant.json
-    VARIANT_ANNOTATION: biostream/ccle/VariantAnnotation.json
-    CALLSET: biostream/ccle/CallSet.json
+    VARIANT: biostream/ccle/ccle.Variant.json
+    VARIANT_ANNOTATION: biostream/ccle/ccle.VariantAnnotation.json
+    CALLSET: biostream/ccle/ccle.CallSet.json
 
 ############
 ## GeneOntology
@@ -62,7 +62,7 @@
   inputs:
     OBO: source/go.obo
   outputs:
-    OUT: biostream/go/GeneOntologyTerm.json
+    OUT: biostream/go/go.GeneOntologyTerm.json
 
 - key: gaf-transform
   command: gaf-transform
@@ -70,7 +70,7 @@
     GAF: source/goa_human.gaf.gz
     UNIPRO_MAP: source/HUMAN_9606_idmapping.dat.gz
   outputs:
-    OUT: biostream/ccle/GeneOntologyAnnotation.json
+    OUT: biostream/ccle/ccle.GeneOntologyAnnotation.json
 
 ##############
 ### CTDD
@@ -138,9 +138,9 @@
   inputs:
     MAF: source/mc3.v0.2.8.PUBLIC.maf.gz
   outputs:
-    VARIANT: biostream/mc3/Variant.json
-    VARIANT_ANNOTATION: biostream/mc3/VariantAnnotation.json
-    CALLSET: biostream/mc3/CallSet.json
+    VARIANT: biostream/mc3/mc3.Variant.json
+    VARIANT_ANNOTATION: biostream/mc3/mc3.VariantAnnotation.json
+    CALLSET: biostream/mc3/mc3.CallSet.json
 
 #############
 ### CTRP 
@@ -207,7 +207,7 @@
     LABEL: Biosample
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
-    INPUT: biostream/ccle/ccle.Sample.json
+    INPUT: biostream/ccle/ccle.Biosample.json
   outputs:
     VERTEXES: protograph/ccle/ccle.Biosample.Vertex.json
     EDGES: protograph/ccle/ccle.Biosample.Edge.json
@@ -216,8 +216,8 @@
   command: variant-protograph
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
-    VARIANT: biostream/ccle/Variant.json
-    CALL_SET: biostream/ccle/CallSet.json
+    VARIANT: biostream/ccle/ccle.Variant.json
+    CALL_SET: biostream/ccle/ccle.CallSet.json
   outputs:
     VERTEXES: protograph/ccle/ccle.Variant.Vertex.json
     EDGES: protograph/ccle/ccle.Variant.Edge.json
@@ -228,7 +228,7 @@
     LABEL: VariantAnnotation
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
-    INPUT: biostream/ccle/VariantAnnotation.json
+    INPUT: biostream/ccle/ccle.VariantAnnotation.json
   outputs:
     VERTEXES: protograph/ccle/ccle.VariantAnnotation.Vertex.json
     EDGES: protograph/ccle/ccle.VariantAnnotation.Edge.json
@@ -303,8 +303,8 @@
   command: variant-protograph
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
-    VARIANT: biostream/mc3/Variant.json
-    CALL_SET: biostream/mc3/CallSet.json
+    VARIANT: biostream/mc3/mc3.Variant.json
+    CALL_SET: biostream/mc3/mc3.CallSet.json
   outputs:
     VERTEXES: protograph/mc3/mc3.Variant.Vertex.json
     EDGES: protograph/mc3/mc3.Variant.Edge.json
@@ -315,7 +315,7 @@
     LABEL: VariantAnnotation
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
-    INPUT: biostream/mc3/VariantAnnotation.json
+    INPUT: biostream/mc3/mc3.VariantAnnotation.json
   outputs:
     VERTEXES: protograph/mc3/mc3.VariantAnnotation.Vertex.json
     EDGES: protograph/mc3/mc3.VariantAnnotation.Edge.json
