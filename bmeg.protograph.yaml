@@ -56,7 +56,7 @@
       toLabel: OntologyTerm
       from: "biosample:{{datasetId}}:{{name}}"
       to: "term:{{disease.term}}"
-  embedded:
+  inner:
     - label: OntologyTerm
       path: disease
 
@@ -272,6 +272,27 @@
       toLabel: Gene
       from: "cnaSegment:{{callSetId}}:{{referenceName}}:{{start}}:{{end}}:{{value}}"
       to: "{{_index}}"
+
+- label: Oncotree
+  vertexes:
+    - label: Oncotree
+      gid: "oncotree:{{code}}"
+      merge: true
+      filter:
+        - children
+        - mainType
+      data:
+        mainType: "{{mainType.name}}"
+  edges:
+    - fromLabel: Oncotree
+      label: parentTerm
+      toLabel: Oncotree
+      from: "oncotree:{{code}}"
+      to: "oncotree:{{parent}}"
+  inner:
+    - index: children
+      path: _index.1
+      label: Oncotree
 
 - label: Evidence
   vertexes:

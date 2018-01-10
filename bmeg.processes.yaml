@@ -67,12 +67,12 @@
 ############
 ## Oncotree
 
-- key: oncotree-extract
-  command: curl-extract
-  vars:
-    URL: http://oncotree.mskcc.org/oncotree/api/tumorTypes
-  outputs:
-    OUT: source/oncotree.json
+# - key: oncotree-extract
+#   command: curl-extract
+#   vars:
+#     URL: oncotree.mskcc.org/oncotree/api/tumorTypes
+#   outputs:
+#     OUT: source/oncotree.json
 
 ############
 ## GeneOntology
@@ -90,7 +90,7 @@
     GAF: source/goa_human.gaf.gz
     UNIPRO_MAP: source/HUMAN_9606_idmapping.dat.gz
   outputs:
-    OUT: biostream/ccle/ccle.GeneOntologyAnnotation.json
+    OUT: biostream/go/go.GeneOntologyAnnotation.json
 
 ##############
 ### CTDD
@@ -263,6 +263,17 @@
   outputs:
     VERTEXES: protograph/ccle/ccle.GeneExpression.Vertex.json
     EDGES: protograph/ccle/ccle.GeneExpression.Edge.json
+
+- key: oncotree-protograph
+  command: protograph
+  vars:
+    LABEL: Oncotree
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: source/oncotree.json
+  outputs:
+    VERTEXES: protograph/oncotree/oncotree.Oncotree.Vertex.json
+    EDGES: protograph/oncotree/oncotree.Oncotree.Edge.json
 
 - key: ctdd-response-protograph
   command: protograph
