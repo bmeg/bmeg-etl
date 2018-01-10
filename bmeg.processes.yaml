@@ -55,6 +55,26 @@
     CALLSET: biostream/ccle/CallSet.json
 
 ############
+## Kallisto
+
+- key: kallisto-extract
+  command: curl-extract
+  vars:
+    URL: https://toil.xenahubs.net/download/tcga_Kallisto_tpm.gz
+  outputs:
+    OUT: source/tcga_Kallisto_tpm.gz
+
+############
+## Oncotree
+
+- key: oncotree-extract
+  command: curl-extract
+  vars:
+    URL: http://oncotree.mskcc.org/oncotree/api/tumorTypes
+  outputs:
+    OUT: source/oncotree.json
+
+############
 ## GeneOntology
 
 - key: go-transform

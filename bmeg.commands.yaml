@@ -171,6 +171,21 @@
   outputs:
     RESPONSES: /out/gdsc.scan.bmeg.ResponseCurve.json
 
+- key: gtex-transform
+  image: biostream/gtex-transform
+  command:
+    - "/opt/gtex-convert.py"
+    - "--format"
+    - "json"
+    - "--sample"
+    - "/in/gtex.gz"
+    - "--multi"
+    - "/out/ccle-data.json"
+  inputs:
+    GTEX: /in/gtex.gz
+  outputs:
+    OUT: /out/gtex.json
+
 - key: go-transform
   image: biostream/go-transform
   command: ["python", "/opt/go_obo2schema.py", "/in/go.obo"]
