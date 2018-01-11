@@ -266,6 +266,9 @@
       merge: true
       filter:
         - genes
+      data:
+        start.int: "{{start}}"
+        end.int: "{{end}}"
   edges:
     - index: genes
       fromLabel: CNASegment
