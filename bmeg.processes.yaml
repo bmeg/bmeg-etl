@@ -250,16 +250,6 @@
     VERTEXES: protograph/ccle/ccle.Variant.Vertex.json
     EDGES: protograph/ccle/ccle.Variant.Edge.json
 
-# - key: ccle-variant-protograph
-#   command: variant-protograph
-#   inputs:
-#     PROTOGRAPH: source/bmeg.protograph.yaml
-#     VARIANT: biostream/ccle/ccle.Variant.json
-#     CALL_SET: biostream/ccle/ccle.CallSet.json
-#   outputs:
-#     VERTEXES: protograph/ccle/ccle.Variant.Vertex.json
-#     EDGES: protograph/ccle/ccle.Variant.Edge.json
-
 - key: ccle-annotation-protograph
   command: protograph
   vars:
@@ -365,16 +355,6 @@
   outputs:
     VERTEXES: protograph/mc3/mc3.Variant.Vertex.json
     EDGES: protograph/mc3/mc3.Variant.Edge.json
-
-# - key: mc3-variant-protograph
-#   command: variant-protograph
-#   inputs:
-#     PROTOGRAPH: source/bmeg.protograph.yaml
-#     VARIANT: biostream/mc3/mc3.Variant.json
-#     CALL_SET: biostream/mc3/mc3.CallSet.json
-#   outputs:
-#     VERTEXES: protograph/mc3/mc3.Variant.Vertex.json
-#     EDGES: protograph/mc3/mc3.Variant.Edge.json
 
 - key: mc3-annotation-protograph
   command: protograph
