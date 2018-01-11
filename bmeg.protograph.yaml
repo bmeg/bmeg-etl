@@ -67,14 +67,16 @@
       merge: true
 
 - label: CallSet
+  vertexes:
+    - label: CallSet
+      gid: "callSet:{{id}}"
+      merge: true
   edges:
-    - fromLabel: Variant
-      label: variantFor
+    - label: callSetOf
       toLabel: Biosample
-      to: "{{biosampleId}}"
-      lookup: "callSet:{{name}}"
-      data:
-        callset: "{{name}}"
+      to: "biosample:{{biosampleId}}"
+      fromLabel: CallSet
+      from: "callSet:{{id}}"
 
 - label: Variant
   vertexes:
@@ -90,11 +92,11 @@
         chromosome: "{{referenceName}}"
   edges:
     - index: calls
+      label: variantOf
+      toLabel: CallSet
+      to: "callSet:{{_index.callSetId}}"
       fromLabel: Variant
-      label: variantFor
-      toLabel: Biosample
       from: "variant:{{referenceName}}:{{start}}:{{end}}:{{referenceBases}}:{{alternateBases|join:,}}"
-      lookup: "{{_index.callSetId}}"
       merge: true
       filter:
         - calls
@@ -118,13 +120,27 @@
         bases: "{{_index.alternateBases}}"
 
 - label: ResponseCurve
-  edges:
-    - fromLabel: Biosample
-      label: responseTo
-      toLabel: Compound
-      from: "{{sample}}"
-      to: "{{compound}}"
+  vertexes:
+    - label: ResponseCurve
+      gid: "responseCurve:{{gid}}"
       merge: true
+      filter:
+        - sample
+        - compounds
+  edges:
+    - index: compounds
+      label: responseTo
+      fromLabel: ResponseCurve
+      from: "responseCurve:{{gid}}"
+      toLabel: Compound
+      to: "compound:{{_index.compound}}"
+      data:
+        ratio.float: "{{_index.ratio}}"
+    - label: responseFor
+      fromLabel: ResponseCurve
+      from: "responseCurve:{{gid}}"
+      toLabel: Biosample
+      to: "biosample:{{sample}}"
 
 - label: Compound
   vertexes:
@@ -246,13 +262,17 @@
       merge: true
 
 - label: CNACallSet
+  vertexes:
+    - label: CNACallSet
+      gid: "cnaCallSet:{{id}}"
+      merge: true
   edges:
-    - fromLabel: CNASegment
-      label: segmentOf
+    - label: cnaCallSetOf
       toLabel: Biosample
-      to: "{{bioSampleId}}"
-      lookup: "cnaCallSet:{{bioSampleId}}"
-      
+      to: "biosample:{{biosampleId}}"
+      fromLabel: CNACallSet
+      from: "cnaCallSet:{{id}}"
+
 - label: CNASegment
   vertexes:
     - label: CNASegment
@@ -260,18 +280,21 @@
       merge: true
       filter:
         - genes
+      data:
+        start.int: "{{start}}"
+        end.int: "{{end}}"
   edges:
-    - fromLabel: CNASegment
-      label: segmentOf
-      toLabel: Biosample
-      from: "cnaSegment:{{callSetId}}:{{referenceName}}:{{start}}:{{end}}:{{value}}"
-      lookup: "{{callSetId}}"
     - index: genes
       fromLabel: CNASegment
-      label: segmentIn
+      label: segmentOf
       toLabel: Gene
       from: "cnaSegment:{{callSetId}}:{{referenceName}}:{{start}}:{{end}}:{{value}}"
       to: "{{_index}}"
+    - label: segmentOf
+      fromLabel: CNASegment
+      from: "cnaSegment:{{callSetId}}:{{referenceName}}:{{start}}:{{end}}:{{value}}"
+      toLabel: CNACallSet
+      to: "cnaCallSet:{{callSetId}}"
 
 - label: Oncotree
   vertexes:
