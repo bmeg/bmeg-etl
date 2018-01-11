@@ -232,15 +232,33 @@
     VERTEXES: protograph/ccle/ccle.Biosample.Vertex.json
     EDGES: protograph/ccle/ccle.Biosample.Edge.json
 
-- key: ccle-variant-protograph
-  command: variant-protograph
+- key: ccle-callset-protograph
+  command: protograph
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
-    VARIANT: biostream/ccle/ccle.Variant.json
-    CALL_SET: biostream/ccle/ccle.CallSet.json
+    INPUT: biostream/ccle/ccle.CallSet.json
+  outputs:
+    VERTEXES: protograph/ccle/ccle.CallSet.Vertex.json
+    EDGES: protograph/ccle/ccle.CallSet.Edge.json
+
+- key: ccle-variant-protograph
+  command: protograph
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ccle/ccle.Variant.json
   outputs:
     VERTEXES: protograph/ccle/ccle.Variant.Vertex.json
     EDGES: protograph/ccle/ccle.Variant.Edge.json
+
+# - key: ccle-variant-protograph
+#   command: variant-protograph
+#   inputs:
+#     PROTOGRAPH: source/bmeg.protograph.yaml
+#     VARIANT: biostream/ccle/ccle.Variant.json
+#     CALL_SET: biostream/ccle/ccle.CallSet.json
+#   outputs:
+#     VERTEXES: protograph/ccle/ccle.Variant.Vertex.json
+#     EDGES: protograph/ccle/ccle.Variant.Edge.json
 
 - key: ccle-annotation-protograph
   command: protograph
@@ -330,15 +348,33 @@
     VERTEXES: protograph/g2p/g2p.Evidence.Vertex.json
     EDGES: protograph/g2p/g2p.Evidence.Edge.json
 
-- key: mc3-variant-protograph
-  command: variant-protograph
+- key: mc3-callset-protograph
+  command: protograph
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
-    VARIANT: biostream/mc3/mc3.Variant.json
-    CALL_SET: biostream/mc3/mc3.CallSet.json
+    INPUT: biostream/mc3/mc3.CallSet.json
+  outputs:
+    VERTEXES: protograph/mc3/mc3.CallSet.Vertex.json
+    EDGES: protograph/mc3/mc3.CallSet.Edge.json
+
+- key: mc3-variant-protograph
+  command: protograph
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/mc3/mc3.Variant.json
   outputs:
     VERTEXES: protograph/mc3/mc3.Variant.Vertex.json
     EDGES: protograph/mc3/mc3.Variant.Edge.json
+
+# - key: mc3-variant-protograph
+#   command: variant-protograph
+#   inputs:
+#     PROTOGRAPH: source/bmeg.protograph.yaml
+#     VARIANT: biostream/mc3/mc3.Variant.json
+#     CALL_SET: biostream/mc3/mc3.CallSet.json
+#   outputs:
+#     VERTEXES: protograph/mc3/mc3.Variant.Vertex.json
+#     EDGES: protograph/mc3/mc3.Variant.Edge.json
 
 - key: mc3-annotation-protograph
   command: protograph
