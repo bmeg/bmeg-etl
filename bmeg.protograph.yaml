@@ -118,13 +118,27 @@
         bases: "{{_index.alternateBases}}"
 
 - label: ResponseCurve
-  edges:
-    - fromLabel: Biosample
-      label: responseTo
-      toLabel: Compound
-      from: "{{sample}}"
-      to: "{{compound}}"
+  vertexes:
+    - label: ResponseCurve
+      gid: "responseCurve:{{gid}}"
       merge: true
+      filter:
+        - sample
+        - compounds
+  edges:
+    - index: compounds
+      label: responseTo
+      fromLabel: ResponseCurve
+      from: "responseCurve:{{gid}}"
+      toLabel: Compound
+      to: "compound:{{_index.compound}}"
+      data:
+        ratio.float: "{{_index.ratio}}"
+    - label: responseFor
+      fromLabel: ResponseCurve
+      from: "responseCurve:{{gid}}"
+      toLabel: Biosample
+      to: "biosample:{{sample}}"
 
 - label: Compound
   vertexes:
