@@ -105,7 +105,7 @@
 ##############
 ### TCGA
 
-- key: "gdc-project-{{PROJECT}}"
+- key: gdc-project
   command: gdc-full-circle
   vars:
     PROJECT: [TCGA-BRCA, TCGA-LUAD]
@@ -121,7 +121,7 @@
     DRUG_THERAPY: "biostream/tcga/{{PROJECT}}.DrugTherapy.json"
     RADIATION_THERAPY: "biostream/tcga/{{PROJECT}}.RadiationTherapy.json"
 
-- key: "gdc-protograph-{{PROJECT}}"
+- key: gdc-protograph
   command: gdc-protograph
   vars:
     PROJECT: [TCGA-BRCA, TCGA-LUAD]

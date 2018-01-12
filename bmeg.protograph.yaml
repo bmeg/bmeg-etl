@@ -90,6 +90,8 @@
       data:
         alternateBases: "{{alternateBases|join:,}}"
         chromosome: "{{referenceName}}"
+        start.int: "{{start}}"
+        end.int: "{{end}}"
   edges:
     - index: calls
       label: variantOf
