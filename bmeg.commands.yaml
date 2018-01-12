@@ -433,3 +433,47 @@
     VERTEXES: /out/out.Vertex.json
     EDGES: /out/out.Edge.json
 
+- key: pubmed-extract-transform
+  vars:
+     - FILEID
+  inputs:
+    - PROTOGRAPH
+  outputs:
+    - PUBMED_VERTEXES
+    - PUBMED_EDGES
+  steps:
+    - key: pubmed-extract
+      command: curl-extract
+      vars:
+        URL: "ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/pubmed{{FILEID}}.xml.gz"
+      outputs:
+        OUT: PUBMED_XML
+    - key: pubmed-transform
+      command: pubmed-transform
+      inputs:
+        IN: PUBMED_XML
+      outputs:
+        OUT: PUBMED_JSON
+    - key: pubmed-protograph
+      command: protograph
+      vars:
+        LABEL: Pubmed
+      inputs:
+        PROTOGRAPH: PROTOGRAPH
+        INPUT: PUBMED_JSON
+      outputs:
+        VERTEXES: PUBMED_VERTEXES
+        EDGES: PUBMED_EDGES
+    
+- key: pubmed-transform
+  image: biostream/pubmed-transform
+  command:
+    - "python"
+    - "/opt/pubmed.py"
+    - "--output"
+    - "/out/pubmed.json"
+    - "/in/pubmed.xml.gz"
+  inputs:
+    IN: /in/pubmed.xml.gz
+  outputs:
+    OUT: /out/pubmed.json
