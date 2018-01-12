@@ -232,17 +232,15 @@
       merge: true
 
 - label: GeneExpression
-  match:
-    type: expression
   vertexes:
     - label: GeneExpression
-      gid: "geneExpression:{{biosampleId}}:{{type}}"
+      gid: "geneExpression:{{id}}"
       merge: true
   edges:
     - fromLabel: GeneExpression
       label: expressionFor
       toLabel: Biosample
-      from: "geneExpression:{{biosampleId}}:{{type}}"
+      from: "geneExpression:{{id}}"
       to: "{{biosampleId}}"
     - index: expressions
       fromLabel: Biosample
@@ -251,7 +249,6 @@
       from: "{{biosampleId}}"
       to: "gene:{{_index.0|name}}"
       data:
-        gene: "{{_index.0|name}}"
         level.float: "{{_index.1}}"
         sample: "{{biosampleId}}"
 
