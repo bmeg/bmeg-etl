@@ -362,3 +362,15 @@
       toLabel: OntologyTerm
       from: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
       to: "term:{{association.phenotype.description}}"
+
+- label: ProteinInteraction
+  edges:
+    - label: interactsWith
+      fromLabel: Gene
+      from: "{{src}}"
+      toLabel: Gene
+      to: "{{dst}}"
+      merge: true
+      filter:
+        - src
+        - dst

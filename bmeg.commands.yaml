@@ -477,3 +477,60 @@
     IN: /in/pubmed.xml.gz
   outputs:
     OUT: /out/pubmed.json
+
+- key: pathway-commons-extract-transform
+  vars:
+    - SIF_URL
+    - GENES_URL
+  inputs:
+    - PROTOGRAPH
+  outputs:
+    - PROTEIN_INTERACTION_VERTEXES
+    - PROTEIN_INTERACTION_EDGES
+  steps:
+    - key: pathway-commons-extract
+      command: curl-extract
+      vars:
+        URL: "{{SIF_URL}}"
+      outputs:
+        OUT: PATHWAY_COMMONS_SIF
+    - key: ebi-genenames-extract
+      command: curl-extract
+      vars:
+        URL: "{{GENES_URL}}"
+      outputs:
+        OUT: GENES
+    - key: pathway-commons-transform
+      command: pathway-commons-transform
+      inputs:
+        SIF: PATHWAY_COMMONS_SIF
+        GENES: GENES
+      outputs:
+        OUT: PROTEIN_INTERACTION_JSON
+    - key: pathway-commons-protograph
+      command: protograph
+      vars:
+        LABEL: ProteinInteraction
+      inputs:
+        PROTOGRAPH: PROTOGRAPH
+        INPUT: PROTEIN_INTERACTION_JSON
+      outputs:
+        VERTEXES: PROTEIN_INTERACTION_VERTEXES
+        EDGES: PROTEIN_INTERACTION_EDGES
+
+- key: pathway-commons-transform
+  image: biostream/pathway-commons-transform
+  command:
+    - "python"
+    - "/opt/sif_convert.py"
+    - "--output"
+    - "/out/ProteinInteraction.json"
+    - "--gene-map"
+    - "/in/hgnc_complete_set.txt"
+    - "--sif"
+    - "/in/pathway-commons.sif.gz"
+  inputs:
+    SIF: /in/pathway-commons.sif.gz
+    GENES: /in/hgnc_complete_set.txt
+  outputs:
+    OUT: /out/ProteinInteraction.json
