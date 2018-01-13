@@ -39,7 +39,7 @@
 - label: Biosample
   vertexes:
     - label: Biosample
-      gid: "biosample:{{datasetId}}:{{name}}"
+      gid: "biosample:{{datasetId}}:{{id}}"
       merge: true
       filter:
         - disease
