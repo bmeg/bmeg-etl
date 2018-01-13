@@ -16,7 +16,7 @@
 - label: Individual
   vertexes:
     - label: Individual
-      gid: "individual:{{datasetId}}:{{name}}"
+      gid: "individual:{{datasetId}}:{{id}}"
       merge: true
       splice:
         - info
