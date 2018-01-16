@@ -1,5 +1,4 @@
 - key: protograph
-  repo: https://github.com/bmeg/protograph
   image: spanglry/protograph
   command:
     - "java"
@@ -23,7 +22,6 @@
     EDGES: /out/out.Edge.json
 
 - key: curl-extract
-  repo: https://github.com/biostream/curl-extract
   image: appropriate/curl
   command: ["curl", "{{URL}}", "-o", "/tmp/out"]
   vars:
@@ -32,7 +30,6 @@
     OUT: /tmp/out
 
 - key: ensembl-transform
-  repo: https://github.com/biostream/ensembl-transform
   image: biostream/ensembl-transform
   command: ["go", "run", "/opt/run.go", "/in/gaf.gz"]
   inputs:
@@ -413,7 +410,6 @@
         EDGES: BIOSAMPLE_EDGES
 
 - key: variant-protograph
-  repo: https://github.com/bmeg/protograph
   image: spanglry/protograph
   command:
     - "java"
