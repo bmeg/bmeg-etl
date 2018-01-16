@@ -1,6 +1,5 @@
 
 - key: ensembl-extract
-  repo: https://github.com/biostream/curl-extract
   command: curl-extract
   inputs:
     URL: ftp://ftp.ensembl.org/pub/release-90/gff3/homo_sapiens/Homo_sapiens.GRCh38.90.chr.gff3.gz
@@ -9,7 +8,6 @@
     OUTPUT : $ENSEMBL_GTF_GZ
 
 - key: ctrp-extract
-  repo: https://github.com/biostream/curl-extract
   command: curl-extract
   inputs:
     URL: ftp://caftpd.nci.nih.gov/pub/OCG-DCC/CTD2/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
@@ -27,7 +25,6 @@
     - ENSEMBL_JSON : ensembl_streams
 
 - key: cancerrxgene-cellline-extract
-  repo: https://github.com/biostream/curl-extract
   command: curl-extract
   inputs:
     URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/Cell_Lines_Details.xlsx
@@ -36,7 +33,6 @@
     OUTPUT : $CRX_CELL
 
 - key: cancerrxgene-dose-extract
-  repo: https://github.com/biostream/curl-extract
   command: curl-extract
   inputs:
     URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/v17_fitted_dose_response.xlsx
@@ -45,7 +41,6 @@
     OUTPUT : $CRX_DOSE
 
 - key: cancerrxgene-conversion-extract
-  repo: https://github.com/biostream/curl-extract
   command: curl-extract
   inputs:
     URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/GDSC-CCLE-CTRP_conversion.xlsx
@@ -54,7 +49,6 @@
     OUTPUT : $CRX_CONVSERSION
 
 - key: cancerrxgene-compounds-extract
-  repo: https://github.com/biostream/curl-extract
   command: curl-extract
   inputs:
     URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/Screened_Compounds.xlsx
@@ -63,7 +57,6 @@
     OUTPUT : $CRX_COMPOUNDS
 
 - key: cancerrxgene-rawdata-extract
-  repo: https://github.com/biostream/curl-extract
   command: curl-extract
   inputs:
     URL: ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/release-6.0/v17a_public_raw_data.xlsx
