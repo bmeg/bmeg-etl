@@ -16,7 +16,7 @@
 - label: Individual
   vertexes:
     - label: Individual
-      gid: "individual:{{datasetId}}:{{name}}"
+      gid: "individual:{{datasetId}}:{{id}}"
       merge: true
       splice:
         - info
@@ -39,7 +39,7 @@
 - label: Biosample
   vertexes:
     - label: Biosample
-      gid: "biosample:{{datasetId}}:{{name}}"
+      gid: "biosample:{{datasetId}}:{{id}}"
       merge: true
       filter:
         - disease
