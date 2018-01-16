@@ -379,3 +379,17 @@
   outputs:
     PUBMED_VERTEXES: "protograph/pubmed/pubmed{{FILEID}}.Vertex.json"
     PUBMED_EDGES: "protograph/pubmed/pubmed{{FILEID}}.Edges.json"
+
+####################
+### PATHWAY COMMONS
+
+- key: pathway-commons-extract-transform
+  command: pathway-commons-extract-transform
+  vars:
+    SIF_URL: http://www.pathwaycommons.org/archives/PC2/v9/PathwayCommons9.All.hgnc.sif.gz
+    GENES_URL: ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/tsv/hgnc_complete_set.txt
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+  outputs:
+    PROTEIN_INTERACTION_VERTEXES: protograph/pathwaycommons/pathwaycommons.ProteinInteraction.Vertex.json
+    PROTEIN_INTERACTION_EDGES: protograph/pathwaycommons/pathwaycommons.ProteinInteraction.Edges.json
