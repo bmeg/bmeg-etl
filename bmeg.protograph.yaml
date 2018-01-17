@@ -373,3 +373,9 @@
       filter:
         - src
         - dst
+
+- label: PFAMFamily
+  vertexes:
+    - label: PFAMFamily
+      gid: "pfamFamily:{{accession}}"
+      merge: true

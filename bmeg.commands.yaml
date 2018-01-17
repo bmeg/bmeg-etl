@@ -530,3 +530,59 @@
     GENES: /in/hgnc_complete_set.txt
   outputs:
     OUT: /out/ProteinInteraction.json
+
+- key: pfam-extract-transform
+  inputs:
+    - PROTOGRAPH
+  outputs:
+    - VERTEXES
+    - EDGES
+  steps:
+    - key: pfam-download
+      command: pfam-download
+      outputs:
+        OUT: ARCHIVE
+    - key: pfam-transform
+      command: pfam-transform
+      inputs:
+        IN: ARCHIVE
+      outputs:
+        OUT: PFAM_FAMILY_JSON
+    - key: pfam-protograph
+      vars:
+        LABEL: PFAMFamily
+      inputs:
+        PROTOGRAPH: PROTOGRAPH
+        INPUT: PFAM_FAMILY_JSON
+      outputs:
+        VERTEXES: VERTEXES
+        EDGES: EDGES
+
+# downloads from: http://pfam.xfam.org/family?output=xml&acc=<SOME_PFAM_FAMILY>
+- key: pfam-download
+  image: biostream/pfam-transform
+  command:
+    - "python"
+    - "/opt/pfma_transform.py"
+    - "download"
+    - "--all"
+    - "--archive"
+    - "--output-dir"
+    - "/out"
+  outputs:
+    OUT: /out/pfam.tar.gz
+
+- key: pfam-transform
+  image: biostream/pfam-transform
+  command:
+    - "python"
+    - "/opt/pfma_transform.py"
+    - "transform"
+    - "--in-archive"
+    - "/in/pfam.tar.gz"
+    - "--output"
+    - "/out/PFAMFamily.json"
+  inputs:
+    ARCHIVE: /in/pfam.tar.gz
+  outputs:
+    OUT: /out/PFAMFamily.json
