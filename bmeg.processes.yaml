@@ -377,8 +377,8 @@
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
   outputs:
-    PUBMED_VERTEXES: "protograph/pubmed/pubmed{{FILEID}}.Vertex.json"
-    PUBMED_EDGES: "protograph/pubmed/pubmed{{FILEID}}.Edges.json"
+    VERTEXES: "protograph/pubmed/pubmed{{FILEID}}.Vertex.json"
+    EDGES: "protograph/pubmed/pubmed{{FILEID}}.Edge.json"
 
 ####################
 ### PATHWAY COMMONS
@@ -391,5 +391,5 @@
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
   outputs:
-    PROTEIN_INTERACTION_VERTEXES: protograph/pathwaycommons/pathwaycommons.ProteinInteraction.Vertex.json
-    PROTEIN_INTERACTION_EDGES: protograph/pathwaycommons/pathwaycommons.ProteinInteraction.Edges.json
+    VERTEXES: protograph/pathwaycommons/pathwaycommons.ProteinInteraction.Vertex.json
+    EDGES: protograph/pathwaycommons/pathwaycommons.ProteinInteraction.Edge.json
