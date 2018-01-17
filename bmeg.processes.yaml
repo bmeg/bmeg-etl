@@ -103,6 +103,20 @@
     RESPONSE: biostream/ctdd/ctdd.ResponseCurve.json
 
 ##############
+### GDSC
+
+- key: gdsc-transform
+  command: gdsc-transform
+  inputs:
+    CONVERSION: source/gdsc/GDSC-CCLE-CTRP_conversion.xlsx
+    CELL_LINES: source/gdsc/Cell_Lines_Details.xlsx
+    COMPOUNDS: source/gdsc/Screened_Compounds.xlsx
+    RAW_DATA: source/gdsc/v17a_public_raw_data.xlsx
+    RESPONSE: source/gdsc/v17_fitted_dose_response.xlsx
+  outputs:
+    RESPONSES: biostream/gdsc/gdsc.ResponseCurve.json
+
+##############
 ### TCGA
 
 - key: gdc-project
@@ -393,3 +407,14 @@
   outputs:
     VERTEXES: protograph/pathwaycommons/pathwaycommons.ProteinInteraction.Vertex.json
     EDGES: protograph/pathwaycommons/pathwaycommons.ProteinInteraction.Edge.json
+
+####################
+### PFAM
+
+- key: pfam-extract-transform
+  command: pfam-extract-transform
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+  outputs:
+    VERTEXES: protograph/pfam/PFAMFamily.Vertex.json
+    EDGES: protograph/pfam/PFAMFamily.Edge.json
