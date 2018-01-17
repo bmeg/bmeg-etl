@@ -435,8 +435,8 @@
   inputs:
     - PROTOGRAPH
   outputs:
-    - PUBMED_VERTEXES
-    - PUBMED_EDGES
+    - VERTEXES
+    - EDGES
   steps:
     - key: pubmed-extract
       command: curl-extract
@@ -458,8 +458,8 @@
         PROTOGRAPH: PROTOGRAPH
         INPUT: PUBMED_JSON
       outputs:
-        VERTEXES: PUBMED_VERTEXES
-        EDGES: PUBMED_EDGES
+        VERTEXES: VERTEXES
+        EDGES: EDGES
     
 - key: pubmed-transform
   image: biostream/pubmed-transform
@@ -481,8 +481,8 @@
   inputs:
     - PROTOGRAPH
   outputs:
-    - PROTEIN_INTERACTION_VERTEXES
-    - PROTEIN_INTERACTION_EDGES
+    - VERTEXES
+    - EDGES
   steps:
     - key: pathway-commons-extract
       command: curl-extract
@@ -511,8 +511,8 @@
         PROTOGRAPH: PROTOGRAPH
         INPUT: PROTEIN_INTERACTION_JSON
       outputs:
-        VERTEXES: PROTEIN_INTERACTION_VERTEXES
-        EDGES: PROTEIN_INTERACTION_EDGES
+        VERTEXES: VERTEXES
+        EDGES: EDGES
 
 - key: pathway-commons-transform
   image: biostream/pathway-commons-transform
