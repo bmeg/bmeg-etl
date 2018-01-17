@@ -1,3 +1,20 @@
+##############################
+###### summary of data ##############
+
+# moving from hugo to ensembl: genes, exons and transcripts
+# ccle: compounds, samples, expression, variants
+# kallisto: expression
+# go: gene ontologies
+# gaf: gene ontology annotations
+# ctdd: drug response
+# gdc: expression, cna, samples, clinical followup, drug and radiation therapy
+# mc3: variants and variant annotations
+# pubmed: publications
+# pathway commons: gene interactions
+# gdsc: response curves
+# gtex: expression
+# g2p: literature evidence for variants and drug response
+
 - key: protograph
   image: spanglry/protograph
   command:
