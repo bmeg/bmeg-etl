@@ -498,6 +498,7 @@
   inputs:
     - PROTOGRAPH
   outputs:
+    - PROTEIN_INTERACTION
     - VERTEXES
     - EDGES
   steps:
@@ -519,14 +520,14 @@
         SIF: PATHWAY_COMMONS_SIF
         GENES: GENES
       outputs:
-        OUT: PROTEIN_INTERACTION_JSON
+        OUT: PROTEIN_INTERACTION
     - key: pathway-commons-protograph
       command: protograph
       vars:
         LABEL: ProteinInteraction
       inputs:
         PROTOGRAPH: PROTOGRAPH
-        INPUT: PROTEIN_INTERACTION_JSON
+        INPUT: PROTEIN_INTERACTION
       outputs:
         VERTEXES: VERTEXES
         EDGES: EDGES
@@ -552,6 +553,7 @@
   inputs:
     - PROTOGRAPH
   outputs:
+    - PFAM_FAMILY
     - VERTEXES
     - EDGES
   steps:
@@ -564,13 +566,13 @@
       inputs:
         IN: ARCHIVE
       outputs:
-        OUT: PFAM_FAMILY_JSON
+        OUT: PFAM_FAMILY
     - key: pfam-protograph
       vars:
         LABEL: PFAMFamily
       inputs:
         PROTOGRAPH: PROTOGRAPH
-        INPUT: PFAM_FAMILY_JSON
+        INPUT: PFAM_FAMILY
       outputs:
         VERTEXES: VERTEXES
         EDGES: EDGES
