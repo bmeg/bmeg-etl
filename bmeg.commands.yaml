@@ -580,7 +580,7 @@
   image: biostream/pfam-transform
   command:
     - "python"
-    - "/opt/pfma_transform.py"
+    - "/opt/pfam_transform.py"
     - "download"
     - "--all"
     - "--archive"
@@ -593,7 +593,7 @@
   image: biostream/pfam-transform
   command:
     - "python"
-    - "/opt/pfma_transform.py"
+    - "/opt/pfam_transform.py"
     - "transform"
     - "--in-archive"
     - "/in/pfam.tar.gz"
