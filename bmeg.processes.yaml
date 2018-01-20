@@ -248,6 +248,8 @@
 
 - key: ccle-callset-protograph
   command: protograph
+  vars:
+    LABEL: CallSet
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
     INPUT: biostream/ccle/ccle.CallSet.json
@@ -257,6 +259,8 @@
 
 - key: ccle-variant-protograph
   command: protograph
+  vars:
+    LABEL: Variant
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
     INPUT: biostream/ccle/ccle.Variant.json
@@ -278,7 +282,7 @@
 - key: ccle-expression-protograph
   command: protograph
   vars:
-    LABEL: VariantAnnotation
+    LABEL: GeneExpression
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
     INPUT: biostream/ccle/ccle.GeneExpression.json
@@ -354,6 +358,8 @@
 
 - key: mc3-callset-protograph
   command: protograph
+  vars:
+    LABEL: CallSet
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
     INPUT: biostream/mc3/mc3.CallSet.json
@@ -363,6 +369,8 @@
 
 - key: mc3-variant-protograph
   command: protograph
+  vars:
+    LABEL: Variant
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
     INPUT: biostream/mc3/mc3.Variant.json

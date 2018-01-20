@@ -56,9 +56,6 @@
       toLabel: OntologyTerm
       from: "biosample:{{datasetId}}:{{name}}"
       to: "term:{{disease.term}}"
-  inner:
-    - label: OntologyTerm
-      path: disease
 
 - label: OntologyTerm
   vertexes:
@@ -249,9 +246,10 @@
       label: expressionLevel
       toLabel: Gene
       from: "biosample:{{biosampleId}}"
-      to: "gene:{{_index.0|name}}"
+      to: "gene:{{_index|first}}"
       data:
-        level.float: "{{_index.1}}"
+        gene: "{{_index|first}}"
+        level.float: "{{_index|last}}"
         sample: "{{biosampleId}}"
 
 - label: Pubmed
