@@ -602,6 +602,6 @@
     - "--output"
     - "/out/PFAMFamily.json"
   inputs:
-    ARCHIVE: /in/pfam.tar.gz
+    IN: /in/pfam.tar.gz
   outputs:
     OUT: /out/PFAMFamily.json

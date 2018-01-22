@@ -332,12 +332,12 @@
       data:
         term: "{{association.phenotype.description}}"
   edges:
-    - index: features
+    - index: genes
       fromLabel: Evidence
       label: genotypeOf
       toLabel: Gene
       from: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
-      to: "gene:{{_index.geneSymbol}}"
+      to: "gene:{{_index}}"
       splice:
         - _index
     - index: association.environmentalContexts
