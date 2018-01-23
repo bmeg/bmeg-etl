@@ -401,6 +401,8 @@
   outputs:
     VERTEXES: "protograph/pubmed/pubmed{{FILEID}}.Vertex.json"
     EDGES: "protograph/pubmed/pubmed{{FILEID}}.Edge.json"
+    PUBMED_XML: "source/pubmed/pubmed-{{FILEID}}.xml"
+    PUBMED_JSON: "biostream/pubmed/pubmed.{{FILEID}}.Pubmed.json"
 
 ####################
 ### PATHWAY COMMONS

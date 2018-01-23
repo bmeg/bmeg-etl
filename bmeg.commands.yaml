@@ -454,6 +454,8 @@
   outputs:
     - VERTEXES
     - EDGES
+    - PUBMED_XML
+    - PUBMED_JSON
   steps:
     - key: pubmed-extract
       command: curl-extract
