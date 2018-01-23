@@ -568,6 +568,7 @@
       outputs:
         OUT: PFAM_FAMILY
     - key: pfam-protograph
+      command: protograph
       vars:
         LABEL: PFAMFamily
       inputs:

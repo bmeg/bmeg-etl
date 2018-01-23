@@ -1,3 +1,13 @@
+#####################
+### fundamental types
+
+### gene - ensembl ids
+### compounds - pubchem / chembl
+### variants - start:end / protein ids
+### phenotypes - ontology term (monarch?)
+### tissues - ontology term (monarch?)
+### publications - pubmed
+
 - label: Project
   vertexes:
     - label: Project
@@ -338,8 +348,6 @@
       toLabel: Gene
       from: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
       to: "gene:{{_index}}"
-      splice:
-        - _index
     - index: association.environmentalContexts
       fromLabel: Evidence
       label: environmentalContextFor
