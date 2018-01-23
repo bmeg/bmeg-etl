@@ -4,8 +4,7 @@
 # moving from hugo to ensembl: genes, exons and transcripts
 # ccle: compounds, samples, expression, variants
 # kallisto: expression
-# go: gene ontologies
-# gaf: gene ontology annotations
+# go/gaf: gene ontologies and gene ontology annotations
 # ctdd: drug response
 # gdc: expression, cna, samples, clinical followup, drug and radiation therapy
 # mc3: variants and variant annotations
