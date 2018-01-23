@@ -16,7 +16,7 @@
       filter:
         - hasMember
   edges:
-    - index: hasMember
+    - index: "{{hasMember}}"
       fromLabel: Project
       label: hasMember
       toLabel: Individual
@@ -39,7 +39,7 @@
       filter:
         - hasMember
   edges:
-    - index: hasMember
+    - index: "{{hasMember}}"
       fromLabel: Cohort
       label: hasSample
       toLabel: Biosample
@@ -100,7 +100,7 @@
         start.int: "{{start}}"
         end.int: "{{end}}"
   edges:
-    - index: calls
+    - index: "{{calls}}"
       label: variantOf
       toLabel: CallSet
       to: "callSet:{{_index.callSetId}}"
@@ -117,7 +117,7 @@
 
 - label: VariantAnnotation
   edges:
-    - index: transcriptEffects
+    - index: "{{transcriptEffects}}"
       fromLabel: Variant
       label: variantIn
       toLabel: Gene
@@ -137,7 +137,7 @@
         - sample
         - compounds
   edges:
-    - index: compounds
+    - index: "{{compounds}}"
       label: responseTo
       fromLabel: ResponseCurve
       from: "responseCurve:{{gid}}"
@@ -164,7 +164,7 @@
       toLabel: Gene
       from: "compound:{{name}}"
       to: "{{target}}"
-    - index: synonyms
+    - index: "{{synonyms}}"
       fromLabel: Compound
       label: sameAs
       toLabel: Compound
@@ -180,13 +180,13 @@
         - inFamily
         - citedFrom
   edges:
-    - index: citedFrom
+    - index: "{{citedFrom}}"
       fromLabel: Gene
       label: citedFrom
       toLabel: Pubmed
       from: "gene:{{id}}"
       to: "{{_index}}"
-    - index: inFamily
+    - index: "{{inFamily}}"
       fromLabel: Gene
       label: inFamily
       toLabel: GeneFamily
@@ -219,7 +219,7 @@
 
 - label: GeneSynonym
   edges:
-    - index: inDatabase
+    - index: "{{inDatabase}}"
       fromLabel: GeneDatabase
       label: synonymFor
       toLabel: Gene
@@ -251,7 +251,7 @@
       toLabel: Biosample
       from: "geneExpression:{{id}}"
       to: "biosample:{{biosampleId}}"
-    - index: expressions
+    - index: "{{expressions}}"
       fromLabel: Biosample
       label: expressionLevel
       toLabel: Gene
@@ -291,7 +291,7 @@
         start.int: "{{start}}"
         end.int: "{{end}}"
   edges:
-    - index: genes
+    - index: "{{genes}}"
       fromLabel: CNASegment
       label: segmentOf
       toLabel: Gene
@@ -320,8 +320,8 @@
       from: "oncotree:{{code}}"
       to: "oncotree:{{parent}}"
   inner:
-    - index: children
-      path: _index.1
+    - index: "{{children}}"
+      path: "{{_index.1}}"
       label: Oncotree
 
 - label: Evidence
@@ -342,13 +342,13 @@
       data:
         term: "{{association.phenotype.description}}"
   edges:
-    - index: genes
+    - index: "{{genes}}"
       fromLabel: Evidence
       label: genotypeOf
       toLabel: Gene
       from: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
       to: "gene:{{_index}}"
-    - index: association.environmentalContexts
+    - index: "{{association.environmentalContexts}}"
       fromLabel: Evidence
       label: environmentalContextFor
       toLabel: Compound
@@ -356,7 +356,7 @@
       to: "{{_index.id}}"
       data:
         response: "{{association.response_type}}"
-    - index: association.evidence.0.info.publications|flatten
+    - index: "{{association.evidence.0.info.publications|flatten}}"
       fromLabel: Evidence
       label: evidenceFor
       toLabel: Pubmed
