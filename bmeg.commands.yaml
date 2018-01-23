@@ -185,6 +185,8 @@
   outputs:
     RESPONSES: /out/gdsc.scan.bmeg.ResponseCurve.json
 
+# incomplete command (does not apply biobank.txt input in command)
+
 - key: gtex-transform
   image: biostream/gtex-transform
   command:
@@ -194,9 +196,10 @@
     - "--sample"
     - "/in/gtex.gz"
     - "--multi"
-    - "/out/ccle-data.json"
+    - "/out/gtex.json"
   inputs:
     GTEX: /in/gtex.gz
+    BIOBANK: /in/biobank.txt
   outputs:
     OUT: /out/gtex.json
 
