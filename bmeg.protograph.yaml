@@ -26,10 +26,44 @@
 - label: Individual
   vertexes:
     - label: Individual
-      gid: "individual:{{datasetId}}:{{id}}"
+      gid: "individual:{{id}}"
       merge: true
       splice:
-        - info
+        - attributes
+
+- label: ClinicalFollowup
+  vertexes:
+    - label: ClinicalFollowup
+      gid: "clinicalFollowup:{{id}}"
+      merge: true
+  edges:
+    - fromLabel: Clinicalfollowup
+      label: followupFor
+      toLabel: Individual
+      from: "clinicalFollowup:{{id}}"
+      to: "individual:{{individualId}}"
+
+- label: DrugTherapy
+  edges:
+    - fromLabel: Individual
+      label: drugTherapyFrom
+      toLabel: Compound
+      from: "individual:{{individualId}}"
+      to: "compound:{{pubchemId}}"
+      merge: true
+
+- label: RadiationTherapy
+  vertexes:
+    - label: RadiationTherapy
+      gid: "radiationTherapy:{{id}}"
+      merge: true
+  edges:
+    - fromLabel: Radiationtherapy
+      label: radiationFor
+      toLabel: Individual
+      from: "radiationTherapy:{{id}}"
+      to: "individual:{{individualId}}"
+      merge: true
 
 - label: Cohort
   vertexes:
@@ -49,22 +83,22 @@
 - label: Biosample
   vertexes:
     - label: Biosample
-      gid: "biosample:{{datasetId}}:{{id}}"
+      gid: "biosample:{{id}}"
       merge: true
       filter:
         - disease
       splice:
-        - info
+        - attributes
   edges:
     - fromLabel: Biosample
       label: sampleOf
       toLabel: Individual
-      from: "biosample:{{datasetId}}:{{name}}"
-      to: "{{individualId}}"
+      from: "biosample:{{id}}"
+      to: "individual:{{individualId}}"
     - fromLabel: Biosample
       label: hasDisease
       toLabel: OntologyTerm
-      from: "biosample:{{datasetId}}:{{name}}"
+      from: "biosample:{{id}}"
       to: "term:{{disease.term}}"
 
 - label: OntologyTerm

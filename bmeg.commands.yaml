@@ -353,9 +353,9 @@
     - CALL_SET
     - INDIVIDUAL
     - BIOSAMPLE
-    # - CLINICAL_FOLLOWUP
-    # - DRUG_THERAPY
-    # - RADIATION_THERAPY
+    - CLINICAL_FOLLOWUP
+    - DRUG_THERAPY
+    - RADIATION_THERAPY
   outputs:
     - EXPRESSION_VERTEXES
     - EXPRESSION_EDGES
@@ -367,12 +367,12 @@
     - INDIVIDUAL_EDGES
     - BIOSAMPLE_VERTEXES
     - BIOSAMPLE_EDGES
-    # - CLINICAL_FOLLOWUP_VERTEXES
-    # - CLINICAL_FOLLOWUP_EDGES
-    # - DRUG_THERAPY_VERTEXES
-    # - DRUG_THERAPY_EDGES
-    # - RADIATION_THERAPY_VERTEXES
-    # - RADIATION_THERAPY_EDGES
+    - CLINICAL_FOLLOWUP_VERTEXES
+    - CLINICAL_FOLLOWUP_EDGES
+    - DRUG_THERAPY_VERTEXES
+    - DRUG_THERAPY_EDGES
+    - RADIATION_THERAPY_VERTEXES
+    - RADIATION_THERAPY_EDGES
   steps:
     - key: expression-protograph
       command: protograph
@@ -424,6 +424,36 @@
       outputs:
         VERTEXES: BIOSAMPLE_VERTEXES
         EDGES: BIOSAMPLE_EDGES
+    - key: clinical-followup-protograph
+      command: protograph
+      vars:
+        LABEL: ClinicalFollowup
+      inputs:
+        PROTOGRAPH: PROTOGRAPH
+        INPUT: CLINICAL_FOLLOWUP
+      outputs:
+        VERTEXES: CLINICAL_FOLLOWUP_VERTEXES
+        EDGES: CLINICAL_FOLLOWUP_EDGES
+    - key: drug-therapy-protograph
+      command: protograph
+      vars:
+        LABEL: DrugTherapy
+      inputs:
+        PROTOGRAPH: PROTOGRAPH
+        INPUT: DRUG_THERAPY
+      outputs:
+        VERTEXES: DRUG_THERAPY_VERTEXES
+        EDGES: DRUG_THERAPY_EDGES
+    - key: radiation-therapy-protograph
+      command: protograph
+      vars:
+        LABEL: RadiationTherapy
+      inputs:
+        PROTOGRAPH: PROTOGRAPH
+        INPUT: RADIATION_THERAPY
+      outputs:
+        VERTEXES: RADIATION_THERAPY_VERTEXES
+        EDGES: RADIATION_THERAPY_EDGES
 
 - key: variant-protograph
   image: spanglry/protograph
