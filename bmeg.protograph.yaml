@@ -73,6 +73,36 @@
       gid: "term:{{term}}"
       merge: true
 
+- label: GeneOntologyTerm
+  vertexes:
+    - label: GeneOntologyTerm
+      gid: "geneOntologyTerm:{{id}}"
+      merge: true
+      filter:
+        - is_a
+      data:
+        synonym: "{{synonym|join:,}}"
+  edges:
+    - index: "{{is_a}}"
+      fromLabel: GeneOntologyTerm
+      label: parentTerm
+      toLabel: GeneOntologyTerm
+      from: "geneOntologyTerm:{{id}}"
+      to: "geneOntologyTerm:{{_index}}"
+
+- label: GeneOntologyAnnotation
+  edges:
+    - index: "{{genes}}"
+      fromLabel: GeneOntologyTerm
+      label: annotationFor
+      toLabel: Gene
+      from: "geneOntologyTerm:{{functions|first}}"
+      to: "gene:{{_index}}"
+      data:
+        title: "{{title}}"
+        evidence: "{{evidence|first}}"
+        references: "{{references}}"
+
 - label: CallSet
   vertexes:
     - label: CallSet

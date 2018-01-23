@@ -92,6 +92,28 @@
   outputs:
     OUT: biostream/go/go.GeneOntologyAnnotation.json
 
+- key: gene-ontology-term-protograph
+  command: protograph
+  vars:
+    LABEL: GeneOntologyTerm
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/go/go.GeneOntologyTerm.json
+  outputs:
+    VERTEXES: protograph/go/go.GeneOntologyTerm.Vertex.json
+    EDGES: protograph/go/go.GeneOntologyTerm.Edge.json
+
+- key: gene-ontology-annotation-protograph
+  command: protograph
+  vars:
+    LABEL: GeneOntologyAnnotation
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/go/go.GeneOntologyAnnotation.json
+  outputs:
+    VERTEXES: protograph/go/go.GeneOntologyAnnotation.Vertex.json
+    EDGES: protograph/go/go.GeneOntologyAnnotation.Edge.json
+
 ##############
 ### CTDD
 
@@ -115,6 +137,17 @@
     RESPONSE: source/gdsc/v17_fitted_dose_response.xlsx
   outputs:
     RESPONSES: biostream/gdsc/gdsc.ResponseCurve.json
+
+- key: gdsc-protograph
+  command: protograph
+  vars:
+    LABEL: ResponseCurve
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/gdsc/gdsc.ResponseCurve.json
+  outputs:
+    VERTEXES: protograph/gdsc/gdsc.ResponseCurve.Vertex.json
+    EDGES: protograph/gdsc/gdsc.ResponseCurve.Edge.json
 
 ##############
 ### TCGA
@@ -399,8 +432,8 @@
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
   outputs:
-    VERTEXES: "protograph/pubmed/pubmed{{FILEID}}.Vertex.json"
-    EDGES: "protograph/pubmed/pubmed{{FILEID}}.Edge.json"
+    VERTEXES: "protograph/pubmed/pubmed.{{FILEID}}.Pubmed.Vertex.json"
+    EDGES: "protograph/pubmed/pubmed.{{FILEID}}.Pubmed.Edge.json"
     PUBMED_XML: "source/pubmed/pubmed-{{FILEID}}.xml"
     PUBMED_JSON: "biostream/pubmed/pubmed.{{FILEID}}.Pubmed.json"
 
