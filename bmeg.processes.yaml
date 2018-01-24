@@ -18,6 +18,16 @@
     EXON: biostream/ensembl/ensembl.Exon.json
 
 ############
+### GTEX
+
+- key: gtex-expression-transform
+  command: gtex-expression-transform
+  inputs:
+    GTEX: source/gtex/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_rpkm.gct.gz
+  outputs:
+    OUT: biostream/gtex/gtex.GeneExpression.json
+
+############
 ### CCLE
 
 - key: ccle-drug-transform
