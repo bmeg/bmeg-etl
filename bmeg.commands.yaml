@@ -190,14 +190,18 @@
     - "/opt/gtex-convert.py"
     - "--format"
     - "json"
-    - "--sample"
+    - "--bio"
+    - "/in/biobank.txt"
+    - "--expression"
     - "/in/gtex.gz"
-    - "--multi"
-    - "/out/ccle-data.json"
+    - "--out"
+    - "/out/gtex."
   inputs:
     GTEX: /in/gtex.gz
+    BIOBANK: /in/biobank.txt
   outputs:
-    OUT: /out/gtex.json
+    INDIVIDUAL: /out/gtex.ga4gh.Individual.json
+    BIOSAMPLE: /out/gtex.ga4gh.Biosample.json
 
 - key: go-transform
   image: biostream/go-transform
