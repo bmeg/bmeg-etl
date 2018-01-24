@@ -185,16 +185,15 @@
   outputs:
     RESPONSES: /out/gdsc.scan.bmeg.ResponseCurve.json
 
-- key: gtex-transform
-  image: biostream/gtex-transform
+- key: gtex-expression-transform
+  image: biostream/ccle-transform
   command:
-    - "/opt/gtex-convert.py"
-    - "--format"
-    - "json"
-    - "--sample"
+    - "python"
+    - "/opt/convert-gct.py"
+    - "gtex"
+    - "rpkm"
     - "/in/gtex.gz"
-    - "--multi"
-    - "/out/ccle-data.json"
+    - "/out/gtex.json"
   inputs:
     GTEX: /in/gtex.gz
   outputs:
