@@ -184,7 +184,7 @@
   outputs:
     RESPONSES: /out/gdsc.scan.bmeg.ResponseCurve.json
 
-- key: gtex-transform
+- key: gtex-sample-transform
   image: biostream/gtex-transform
   command:
     - "/opt/gtex-convert.py"
@@ -202,6 +202,20 @@
   outputs:
     INDIVIDUAL: /out/gtex.ga4gh.Individual.json
     BIOSAMPLE: /out/gtex.ga4gh.Biosample.json
+
+- key: gtex-expression-transform
+  image: biostream/ccle-transform
+  command:
+    - "python"
+    - "/opt/convert-gct.py"
+    - "gtex"
+    - "rpkm"
+    - "/in/gtex.gz"
+    - "/out/gtex.json"
+  inputs:
+    GTEX: /in/gtex.gz
+  outputs:
+    OUT: /out/gtex.json
 
 - key: go-transform
   image: biostream/go-transform

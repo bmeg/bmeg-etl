@@ -166,14 +166,21 @@
   outputs:
     OUT: source/gtex/gtex-rpkm.gz
  
-- key: gtex-transform
-  command: gtex-transform
+- key: gtex-sample-transform
+  command: gtex-sample-transform
   inputs:
     GTEX: source/gtex/gtex-rpkm.gz
     BIOBANK: source/gtex/biobank.txt
   outputs:
     INDIVIDUAL: biostream/gtex/gtex.Individual.json
     BIOSAMPLE: biostream/gtex/gtex.Biosample.json
+
+- key: gtex-expression-transform
+  command: gtex-expression-transform
+  inputs:
+    GTEX: source/gtex/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_rpkm.gct.gz
+  outputs:
+    OUT: biostream/gtex/gtex.GeneExpression.json
 
 ##############
 ### TCGA
