@@ -245,7 +245,9 @@
 
 - key: gdc-expression-transform
   image: biostream/gdc-transform
-  command: ["python", "/opt/convert-expression-tar.py", "/in/tarball.tar", "--filemap", "/in/tarball.tar.map", "--out", "/out/out"]
+  command: ["python", "/opt/convert-expression-tar.py", "/in/tarball.tar", "--filemap", "/in/tarball.tar.map", "--out", "/out/out", "--source", "{{SOURCE}}"]
+  vars:
+    SOURCE: tcga
   inputs:
     TARBALL: /in/tarball.tar
     FILE_MAP: /in/tarball.tar.map
@@ -254,7 +256,9 @@
 
 - key: gdc-cna-transform
   image: biostream/gdc-transform
-  command: ["python", "/opt/convert-seg-tar.py", "--tar", "/in/tarball.tar", "--filemap", "/in/tarball.tar.map", "--gtf", "/in/gtf.gtf", "--out", "/out/out"]
+  command: ["python", "/opt/convert-seg-tar.py", "--tar", "/in/tarball.tar", "--filemap", "/in/tarball.tar.map", "--gtf", "/in/gtf.gtf", "--out", "/out/out", "--source", "{{SOURCE}}"]
+  vars:
+    SOURCE: tcga
   inputs:
     TARBALL: /in/tarball.tar
     FILE_MAP: /in/tarball.tar.map
@@ -265,7 +269,9 @@
 
 - key: gdc-clinical-transform
   image: biostream/gdc-transform
-  command: ["python", "/opt/convert-clinical.py", "--tar", "/in/tarball.tar", "--out", "/out/", "--pubchem", "/opt/tcga_pubchem.map"]
+  command: ["python", "/opt/convert-clinical.py", "--tar", "/in/tarball.tar", "--out", "/out/", "--pubchem", "/opt/tcga_pubchem.map", "--source", "{{SOURCE}}"]
+  vars:
+    SOURCE: tcga
   inputs:
     TARBALL: /in/tarball.tar
   outputs:
@@ -276,7 +282,9 @@
 
 - key: gdc-biospecimen-transform
   image: biostream/gdc-transform
-  command: ["python", "/opt/convert-clinical.py", "--tar", "/in/tarball.tar", "--out", "/out/"]
+  command: ["python", "/opt/convert-clinical.py", "--tar", "/in/tarball.tar", "--out", "/out/", "--source", "{{SOURCE}}"]
+  vars:
+    SOURCE: tcga
   inputs:
     TARBALL: /in/tarball.tar
   outputs:

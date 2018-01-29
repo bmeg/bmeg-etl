@@ -83,7 +83,7 @@
 - label: Biosample
   vertexes:
     - label: Biosample
-      gid: "biosample:{{id}}"
+      gid: "biosample:{{source}}:{{id}}"
       merge: true
       filter:
         - disease
@@ -93,12 +93,12 @@
     - fromLabel: Biosample
       label: sampleOf
       toLabel: Individual
-      from: "biosample:{{id}}"
+      from: "biosample:{{source}}:{{id}}"
       to: "individual:{{individualId}}"
     - fromLabel: Biosample
       label: hasDisease
       toLabel: OntologyTerm
-      from: "biosample:{{id}}"
+      from: "biosample:{{source}}:{{id}}"
       to: "term:{{disease.term}}"
 
 - label: OntologyTerm
@@ -145,7 +145,7 @@
   edges:
     - label: callSetOf
       toLabel: Biosample
-      to: "biosample:{{biosampleId}}"
+      to: "biosample:{{source}}:{{biosampleId}}"
       fromLabel: CallSet
       from: "callSet:{{id}}"
 
@@ -213,7 +213,7 @@
       fromLabel: ResponseCurve
       from: "responseCurve:{{gid}}"
       toLabel: Biosample
-      to: "biosample:{{sample}}"
+      to: "biosample:{{source}}:{{sample}}"
 
 - label: Compound
   vertexes:
@@ -307,24 +307,25 @@
 - label: GeneExpression
   vertexes:
     - label: GeneExpression
-      gid: "geneExpression:{{id}}"
+      gid: "geneExpression:{{source}}:{{biosampleId}}"
       merge: true
   edges:
     - fromLabel: GeneExpression
       label: expressionFor
       toLabel: Biosample
-      from: "geneExpression:{{id}}"
-      to: "biosample:{{biosampleId}}"
+      from: "geneExpression:{{source}}:{{biosampleId}}"
+      to: "biosample:{{source}}:{{biosampleId}}"
     - index: "{{expressions}}"
-      fromLabel: Biosample
+      fromLabel: GeneExpression
       label: expressionLevel
       toLabel: Gene
-      from: "biosample:{{biosampleId}}"
+      from: "geneExpression:{{source}}:{{biosampleId}}"
       to: "gene:{{_index|first}}"
       data:
         gene: "{{_index|first}}"
         level.float: "{{_index|last}}"
         sample: "{{biosampleId}}"
+        source: "{{source}}"
 
 - label: Pubmed
   vertexes:
@@ -335,14 +336,14 @@
 - label: CNACallSet
   vertexes:
     - label: CNACallSet
-      gid: "cnaCallSet:{{id}}"
+      gid: "cnaCallSet:{{source}}:{{id}}"
       merge: true
   edges:
     - label: cnaCallSetOf
       toLabel: Biosample
-      to: "biosample:{{biosampleId}}"
+      to: "biosample:{{source}}:{{biosampleId}}"
       fromLabel: CNACallSet
-      from: "cnaCallSet:{{id}}"
+      from: "cnaCallSet:{{source}}:{{id}}"
 
 - label: CNASegment
   vertexes:
@@ -365,7 +366,7 @@
       fromLabel: CNASegment
       from: "cnaSegment:{{callSetId}}:{{referenceName}}:{{start}}:{{end}}:{{value}}"
       toLabel: CNACallSet
-      to: "cnaCallSet:{{callSetId}}"
+      to: "cnaCallSet:{{source}}:{{callSetId}}"
 
 - label: Oncotree
   vertexes:
