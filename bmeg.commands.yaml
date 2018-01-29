@@ -87,8 +87,12 @@
 - key: ccle-expression-transform
   image: biostream/ccle-transform
   command:
-    - "/command/convert-ccle-expression.py"
+    - "python"
+    - "/command/convert-gct.py"
+    - "ccle"
+    - "rpkm"
     - "/in/expression"
+    - "/out/expression_ccle.json"
   inputs:
     GCT: /in/expression
   outputs:
@@ -207,7 +211,7 @@
   image: biostream/ccle-transform
   command:
     - "python"
-    - "/opt/convert-gct.py"
+    - "/command/convert-gct.py"
     - "gtex"
     - "rpkm"
     - "/in/gtex.gz"
