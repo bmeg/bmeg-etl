@@ -45,8 +45,9 @@
 - key: ccle-variant-transform
   command: maf-transform
   vars:
-    SAMPLE_PREFIX: "ccle:biosample"
-    VARIANT_PREFIX: "ccle:variant"
+    GENE_COLUMN: Hugo_Symbol
+    SOURCE: ccle
+    METHOD: CCLE
   inputs:
     MAF: source/ccle2maf_081117.txt
   outputs:
@@ -239,10 +240,9 @@
 - key: mc3-transform
   command: maf-transform
   vars:
-    SAMPLE_PREFIX: "mc3:biosample"
-    VARIANT_PREFIX: "mc3:variant"
     CENTER_COLUMN: "CENTERS"
     GENE_COLUMN: "Gene"
+    SOURCE: mc3
     OPTIONS: "--gz"
   inputs:
     MAF: source/mc3.v0.2.8.PUBLIC.maf.gz

@@ -133,12 +133,18 @@
     - "{{CENTER_COLUMN}}"
     - "--gene"
     - "{{GENE_COLUMN}}"
+    - "--source"
+    - "{{SOURCE}}"
+    - "--method"
+    - "{{METHOD}}"
     - "{{OPTIONS}}"
   vars:
     SAMPLE_PREFIX: biosample
     VARIANT_PREFIX: variant
     CENTER_COLUMN: Center
     GENE_COLUMN: Entrez_Gene_Id
+    SOURCE: ccle
+    METHOD: ccle
     OPTIONS: ""
   inputs:
     MAF: /in/maf.gz

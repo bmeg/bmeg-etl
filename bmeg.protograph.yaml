@@ -140,14 +140,14 @@
 - label: CallSet
   vertexes:
     - label: CallSet
-      gid: "callSet:{{id}}"
+      gid: "callSet:{{source}}:{{biosampleId}}:{{method}}"
       merge: true
   edges:
     - label: callSetOf
       toLabel: Biosample
       to: "biosample:{{source}}:{{biosampleId}}"
       fromLabel: CallSet
-      from: "callSet:{{id}}"
+      from: "callSet:{{source}}:{{biosampleId}}:{{method}}"
 
 - label: Variant
   vertexes:
@@ -167,7 +167,7 @@
     - index: "{{calls}}"
       label: variantOf
       toLabel: CallSet
-      to: "callSet:{{_index.callSetId}}"
+      to: "callSet:{{_index.source}}:{{_index.biosampleId}}:{{_index.method}}"
       fromLabel: Variant
       from: "variant:{{referenceName}}:{{start}}:{{end}}:{{referenceBases}}:{{alternateBases|join:,}}"
       merge: true
@@ -185,8 +185,8 @@
       fromLabel: Variant
       label: variantIn
       toLabel: Gene
-      from: "{{variantId}}"
-      to: "{{_index.featureId}}"
+      from: "variant:{{variantId}}"
+      to: "gene:{{_index.featureId}}"
       data:
         effects: "{{_index.effects|each:term|join:,}}"
         gene: "{{_index.featureId}}"
