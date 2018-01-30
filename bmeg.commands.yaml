@@ -149,9 +149,9 @@
   inputs:
     MAF: /in/maf.gz
   outputs:
-    VARIANT: /out/maf.ga4gh.Variant.json
-    VARIANT_ANNOTATION: /out/maf.ga4gh.VariantAnnotation.json
-    CALLSET: /out/maf.ga4gh.CallSet.json
+    VARIANT: /out/maf.bmeg.Variant.json
+    VARIANT_ANNOTATION: /out/maf.bmeg.VariantAnnotation.json
+    CALLSET: /out/maf.bmeg.CallSet.json
 
 - key: gaf-transform
   image: biostream/go-transform
@@ -197,7 +197,7 @@
 - key: gtex-sample-transform
   image: biostream/gtex-transform
   command:
-    - "/opt/gtex-convert.py"
+    - "/opt/gtex_convert.py"
     - "--format"
     - "json"
     - "--bio"
