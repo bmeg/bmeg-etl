@@ -123,6 +123,7 @@
   inputs:
     CTRP_ZIP: source/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
   outputs:
+    COMPOUND: biostream/ctdd/ctdd.Compound.json
     RESPONSE: biostream/ctdd/ctdd.ResponseCurve.json
 
 ##############
@@ -386,6 +387,17 @@
   outputs:
     VERTEXES: protograph/ctdd/ctdd.ResponseCurve.Vertex.json
     EDGES: protograph/ctdd/ctdd.ResponseCurve.Edge.json
+
+- key: ctdd-compound-protograph
+  command: protograph
+  vars:
+    LABEL: Compound
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ctdd/ctdd.Compound.json
+  outputs:
+    VERTEXES: protograph/ctdd/ctdd.Compound.Vertex.json
+    EDGES: protograph/ctdd/ctdd.Compound.Edge.json
 
 - key: ensembl-gene-protograph
   command: protograph

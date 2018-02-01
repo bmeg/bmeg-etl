@@ -114,6 +114,7 @@
   inputs:
     CTRP_ZIP: /in/CTRP_ZIP
   outputs:
+    COMPOUND: /out/ctdd.bmeg.Compound.json
     RESPONSE: /out/ctdd.bmeg.ResponseCurve.json
 
 - key: maf-transform

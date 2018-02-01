@@ -218,7 +218,7 @@
 - label: Compound
   vertexes:
     - label: Compound
-      gid: "compound:{{name}}"
+      gid: "compound:{{id}}"
       merge: true
       filter:
         - synonyms
@@ -226,14 +226,14 @@
     - fromLabel: Compound
       label: targetsGene
       toLabel: Gene
-      from: "compound:{{name}}"
+      from: "compound:{{id}}"
       to: "{{target}}"
     - index: "{{synonyms}}"
       fromLabel: Compound
       label: sameAs
       toLabel: Compound
       from: "{{_index}}"
-      to: "compound:{{name}}"
+      to: "compound:{{id}}"
 
 - label: Gene
   vertexes:
