@@ -517,3 +517,40 @@
     PFAM_FAMILY: biostream/pfam/pfam.PFAMFamily.json
     VERTEXES: protograph/pfam/pfam.PFAMFamily.Vertex.json
     EDGES: protograph/pfam/pfam.PFAMFamily.Edge.json
+
+####################
+### GTEX
+
+- key: gtex-individual-protograph
+  command: protograph
+  vars:
+    LABEL: Individual
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/gtex/gtex.Individual.json
+  outputs:
+    VERTEXES: protograph/gtex/gtex.Individual.Vertex.json
+    EDGES: protograph/gtex/gtex.Individual.Edge.json
+
+- key: gtex-biosample-protograph
+  command: protograph
+  vars:
+    LABEL: Biosample
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/gtex/gtex.Biosample.json
+  outputs:
+    VERTEXES: protograph/gtex/gtex.Biosample.Vertex.json
+    EDGES: protograph/gtex/gtex.Biosample.Edge.json
+
+- key: gtex-expression-protograph
+  command: protograph
+  vars:
+    LABEL: GeneExpression
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/gtex/gtex.GeneExpression.json
+  outputs:
+    VERTEXES: protograph/gtex/gtex.GeneExpression.Vertex.json
+    EDGES: protograph/gtex/gtex.GeneExpression.Edge.json
+
