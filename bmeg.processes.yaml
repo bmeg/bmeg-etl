@@ -438,7 +438,7 @@
     LABEL: Evidence
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
-    INPUT: g2p/g2p.json
+    INPUT: source/g2p/g2p.Evidence.json
   outputs:
     VERTEXES: protograph/g2p/g2p.Evidence.Vertex.json
     EDGES: protograph/g2p/g2p.Evidence.Edge.json
