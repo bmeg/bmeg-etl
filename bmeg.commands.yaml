@@ -199,8 +199,6 @@
   image: biostream/gtex-transform
   command:
     - "/opt/gtex_convert.py"
-    - "--format"
-    - "json"
     - "--bio"
     - "/in/biobank.txt"
     - "--expression"
@@ -211,8 +209,8 @@
     GTEX: /in/gtex.gz
     BIOBANK: /in/biobank.txt
   outputs:
-    INDIVIDUAL: /out/gtex.ga4gh.Individual.json
-    BIOSAMPLE: /out/gtex.ga4gh.Biosample.json
+    INDIVIDUAL: /out/gtex.bmeg.Individual.json
+    BIOSAMPLE: /out/gtex.bmeg.Biosample.json
 
 - key: gtex-expression-transform
   image: biostream/ccle-transform
