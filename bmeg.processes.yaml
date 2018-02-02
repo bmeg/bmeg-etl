@@ -36,7 +36,9 @@
     SAMPLES: biostream/ccle/ccle.Biosample.json
 
 - key: ccle-expression-transform
-  command: ccle-expression-transform
+  command: gct-transform
+  vars:
+    SOURCE: ccle
   inputs:
     GCT: source/CCLE_RNAseq_081117.rpkm.gct
   outputs:
@@ -154,31 +156,18 @@
 ##############
 ### GTEX
 
-- key: gtex-biobank-extract
-  command: curl-extract
-  vars:
-    URL: http://www.gtexportal.org/static/datasets/biobank/downloads/biobank_collection_20170329_093753.txt
-  outputs:
-    OUT: source/gtex/biobank.txt
-
-- key: gtex-expression-extract
-  command: curl-extract
-  vars:
-    URL: http://www.gtexportal.org/static/datasets/gtex_analysis_v6p/rna_seq_data/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_rpkm.gct.gz
-  outputs:
-    OUT: source/gtex/gtex-rpkm.gz
- 
 - key: gtex-sample-transform
   command: gtex-sample-transform
   inputs:
-    GTEX: source/gtex/gtex-rpkm.gz
-    BIOBANK: source/gtex/biobank.txt
+    BIOBANK: source/gtex/biobank_collection_20180116_031101.txt
   outputs:
     INDIVIDUAL: biostream/gtex/gtex.Individual.json
     BIOSAMPLE: biostream/gtex/gtex.Biosample.json
 
 - key: gtex-expression-transform
-  command: gtex-expression-transform
+  command: gct-transform
+  vars:
+    SOURCE: gtex
   inputs:
     GTEX: source/gtex/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_rpkm.gct.gz
   outputs:
