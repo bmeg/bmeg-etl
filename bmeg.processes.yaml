@@ -243,7 +243,7 @@
   vars:
     CENTER_COLUMN: "CENTERS"
     GENE_COLUMN: "Gene"
-    SOURCE: mc3
+    SOURCE: tcga
     OPTIONS: "--gz"
   inputs:
     MAF: source/mc3.v0.2.8.PUBLIC.maf.gz
