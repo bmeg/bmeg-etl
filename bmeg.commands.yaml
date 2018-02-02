@@ -199,7 +199,7 @@
   image: biostream/gct-transform
   command:
     - "/opt/gct"
-    - "/in/expression"
+    - "/in/expression.gct.gz"
     - "{{SOURCE}}"
     - "RPKM"
   vars:
