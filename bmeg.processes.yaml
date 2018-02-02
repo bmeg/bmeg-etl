@@ -36,7 +36,9 @@
     SAMPLES: biostream/ccle/ccle.Biosample.json
 
 - key: ccle-expression-transform
-  command: ccle-expression-transform
+  command: gct-transform
+  vars:
+    SOURCE: ccle
   inputs:
     GCT: source/CCLE_RNAseq_081117.rpkm.gct
   outputs:
@@ -157,13 +159,15 @@
 - key: gtex-sample-transform
   command: gtex-sample-transform
   inputs:
-    BIOBANK: biobank_collection_20180116_031101.txt
+    BIOBANK: source/gtex/biobank_collection_20180116_031101.txt
   outputs:
     INDIVIDUAL: biostream/gtex/gtex.Individual.json
     BIOSAMPLE: biostream/gtex/gtex.Biosample.json
 
 - key: gtex-expression-transform
-  command: gtex-expression-transform
+  command: gct-transform
+  vars:
+    SOURCE: gtex
   inputs:
     GTEX: source/gtex/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_rpkm.gct.gz
   outputs:

@@ -84,18 +84,6 @@
   outputs:
     SAMPLES: /out/Sample.json
 
-- key: ccle-expression-transform
-  image: biostream/gct-transform
-  command:
-    - "/opt/gct"
-    - "/in/expression"
-    - "ccle"
-    - "RPKM"
-  inputs:
-    GCT: /in/expression
-  outputs:
-    EXPRESSION: /out/out.json
-
 - key: ctdd-transform
   image: biostream/ctdd-transform
   command:
@@ -207,13 +195,15 @@
     INDIVIDUAL: /out/gtex.bmeg.Individual.json
     BIOSAMPLE: /out/gtex.bmeg.Biosample.json
 
-- key: gtex-expression-transform
+- key: gct-transform
   image: biostream/gct-transform
   command:
     - "/opt/gct"
     - "/in/expression"
-    - "gtex"
+    - "{{SOURCE}}"
     - "RPKM"
+  vars:
+    SOURCE: src
   inputs:
     GTEX: /in/expression
   outputs:
