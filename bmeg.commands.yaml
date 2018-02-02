@@ -205,7 +205,7 @@
   vars:
     SOURCE: src
   inputs:
-    GTEX: /in/expression
+    GTEX: /in/expression.gct.gz
   outputs:
     OUT: /out/out.json
 
