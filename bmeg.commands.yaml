@@ -84,20 +84,6 @@
   outputs:
     SAMPLES: /out/Sample.json
 
-- key: ccle-expression-transform
-  image: biostream/ccle-transform
-  command:
-    - "python"
-    - "/command/convert-gct.py"
-    - "ccle"
-    - "rpkm"
-    - "/in/expression"
-    - "/out/expression_ccle.json"
-  inputs:
-    GCT: /in/expression
-  outputs:
-    EXPRESSION: /out/expression_ccle.json
-
 - key: ctdd-transform
   image: biostream/ctdd-transform
   command:
@@ -201,30 +187,27 @@
     - "/opt/gtex_convert.py"
     - "--bio"
     - "/in/biobank.txt"
-    - "--expression"
-    - "/in/gtex.gz"
     - "--out"
     - "/out/gtex."
   inputs:
-    GTEX: /in/gtex.gz
     BIOBANK: /in/biobank.txt
   outputs:
     INDIVIDUAL: /out/gtex.bmeg.Individual.json
     BIOSAMPLE: /out/gtex.bmeg.Biosample.json
 
-- key: gtex-expression-transform
-  image: biostream/ccle-transform
+- key: gct-transform
+  image: biostream/gct-transform
   command:
-    - "python"
-    - "/command/convert-gct.py"
-    - "gtex"
-    - "rpkm"
-    - "/in/gtex.gz"
-    - "/out/gtex.json"
+    - "/opt/gct"
+    - "/in/expression"
+    - "{{SOURCE}}"
+    - "RPKM"
+  vars:
+    SOURCE: src
   inputs:
-    GTEX: /in/gtex.gz
+    GTEX: /in/expression
   outputs:
-    OUT: /out/gtex.json
+    OUT: /out/out.json
 
 - key: go-transform
   image: biostream/go-transform
