@@ -40,7 +40,7 @@
   vars:
     SOURCE: ccle
   inputs:
-    GCT: source/CCLE_RNAseq_081117.rpkm.gct
+    GTEX: source/CCLE_RNAseq_081117.rpkm.gct
   outputs:
     EXPRESSION: biostream/ccle/ccle.GeneExpression.json
 
