@@ -359,7 +359,7 @@
   edges:
     - index: "{{genes}}"
       fromLabel: CNASegment
-      label: segmentOf
+      label: segmentIn
       toLabel: Gene
       from: "cnaSegment:{{callSetId}}:{{referenceName}}:{{start}}:{{end}}"
       to: "{{_index}}"
