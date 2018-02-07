@@ -42,7 +42,7 @@
   inputs:
     GTEX: source/CCLE_RNAseq_081117.rpkm.gct
   outputs:
-    EXPRESSION: biostream/ccle/ccle.GeneExpression.json
+    OUT: biostream/ccle/ccle.GeneExpression.json
 
 - key: ccle-variant-transform
   command: maf-transform
