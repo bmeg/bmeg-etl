@@ -199,13 +199,18 @@
   image: biostream/gct-transform
   command:
     - "/opt/gct"
-    - "/in/expression.gct.gz"
+    - "-filepath"
+    - "/in/expression.gct"
+    - "-source"
     - "{{SOURCE}}"
+    - "-scale"
     - "RPKM"
+    - "{{OPTIONS}}"
   vars:
     SOURCE: src
+    OPTIONS: ""
   inputs:
-    GTEX: /in/expression.gct.gz
+    GTEX: /in/expression.gct
   outputs:
     OUT: /out/out.json
 
