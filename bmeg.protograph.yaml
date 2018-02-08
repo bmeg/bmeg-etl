@@ -195,7 +195,7 @@
 - label: ResponseCurve
   vertexes:
     - label: ResponseCurve
-      gid: "responseCurve:{{gid}}"
+      gid: "responseCurve:{{source}}:{{sample}}:{{compounds|each:compound|sort|join:,}}"
       merge: true
       filter:
         - sample
@@ -204,21 +204,21 @@
     - index: "{{compounds}}"
       label: responseTo
       fromLabel: ResponseCurve
-      from: "responseCurve:{{gid}}"
+      from: "responseCurve:{{source}}:{{sample}}:{{compounds|each:compound|sort|join:,}}"
       toLabel: Compound
       to: "compound:{{_index.compound}}"
       data:
         ratio.float: "{{_index.ratio}}"
     - label: responseFor
       fromLabel: ResponseCurve
-      from: "responseCurve:{{gid}}"
+      from: "responseCurve:{{source}}:{{sample}}:{{compounds|each:compound|sort|join:,}}"
       toLabel: Biosample
       to: "biosample:{{source}}:{{sample}}"
 
 - label: Compound
   vertexes:
     - label: Compound
-      gid: "compound:{{name}}"
+      gid: "compound:{{id}}"
       merge: true
       filter:
         - synonyms
@@ -228,14 +228,14 @@
       fromLabel: Compound
       label: targetsGene
       toLabel: Gene
-      from: "compound:{{name}}"
+      from: "compound:{{id}}"
       to: "gene:{{_index}}"
     - index: "{{synonyms}}"
       fromLabel: Compound
       label: sameAs
       toLabel: Compound
       from: "compound:{{_index}}"
-      to: "compound:{{name}}"
+      to: "compound:{{id}}"
 
 - label: Gene
   vertexes:
@@ -350,7 +350,7 @@
 - label: CNASegment
   vertexes:
     - label: CNASegment
-      gid: "cnaSegment:{{callSetId}}:{{referenceName}}:{{start}}:{{end}}:{{value}}"
+      gid: "cnaSegment:{{callSetId}}:{{referenceName}}:{{start}}:{{end}}"
       merge: true
       filter:
         - genes
@@ -360,13 +360,13 @@
   edges:
     - index: "{{genes}}"
       fromLabel: CNASegment
-      label: segmentOf
+      label: segmentIn
       toLabel: Gene
-      from: "cnaSegment:{{callSetId}}:{{referenceName}}:{{start}}:{{end}}:{{value}}"
+      from: "cnaSegment:{{callSetId}}:{{referenceName}}:{{start}}:{{end}}"
       to: "{{_index}}"
     - label: segmentOf
       fromLabel: CNASegment
-      from: "cnaSegment:{{callSetId}}:{{referenceName}}:{{start}}:{{end}}:{{value}}"
+      from: "cnaSegment:{{callSetId}}:{{referenceName}}:{{start}}:{{end}}"
       toLabel: CNACallSet
       to: "cnaCallSet:{{source}}:{{callSetId}}"
 

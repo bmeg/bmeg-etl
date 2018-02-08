@@ -36,11 +36,13 @@
     SAMPLES: biostream/ccle/ccle.Biosample.json
 
 - key: ccle-expression-transform
-  command: ccle-expression-transform
+  command: gct-transform
+  vars:
+    SOURCE: ccle
   inputs:
-    GCT: source/CCLE_RNAseq_081117.rpkm.gct
+    GTEX: source/CCLE_RNAseq_081117.rpkm.gct
   outputs:
-    EXPRESSION: biostream/ccle/ccle.GeneExpression.json
+    OUT: biostream/ccle/ccle.GeneExpression.json
 
 - key: ccle-variant-transform
   command: maf-transform
@@ -123,6 +125,7 @@
   inputs:
     CTRP_ZIP: source/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
   outputs:
+    COMPOUND: biostream/ctdd/ctdd.Compound.json
     RESPONSE: biostream/ctdd/ctdd.ResponseCurve.json
 
 ##############
@@ -153,31 +156,19 @@
 ##############
 ### GTEX
 
-- key: gtex-biobank-extract
-  command: curl-extract
-  vars:
-    URL: http://www.gtexportal.org/static/datasets/biobank/downloads/biobank_collection_20170329_093753.txt
-  outputs:
-    OUT: source/gtex/biobank.txt
-
-- key: gtex-expression-extract
-  command: curl-extract
-  vars:
-    URL: http://www.gtexportal.org/static/datasets/gtex_analysis_v6p/rna_seq_data/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_rpkm.gct.gz
-  outputs:
-    OUT: source/gtex/gtex-rpkm.gz
- 
 - key: gtex-sample-transform
   command: gtex-sample-transform
   inputs:
-    GTEX: source/gtex/gtex-rpkm.gz
-    BIOBANK: source/gtex/biobank.txt
+    BIOBANK: source/gtex/biobank_collection_20180116_031101.txt
   outputs:
     INDIVIDUAL: biostream/gtex/gtex.Individual.json
     BIOSAMPLE: biostream/gtex/gtex.Biosample.json
 
 - key: gtex-expression-transform
-  command: gtex-expression-transform
+  command: gct-transform
+  vars:
+    SOURCE: gtex
+    OPTIONS: "-gzipped"
   inputs:
     GTEX: source/gtex/GTEx_Analysis_v6p_RNA-seq_RNA-SeQCv1.1.8_gene_rpkm.gct.gz
   outputs:
@@ -242,7 +233,7 @@
   vars:
     CENTER_COLUMN: "CENTERS"
     GENE_COLUMN: "Gene"
-    SOURCE: mc3
+    SOURCE: tcga
     OPTIONS: "--gz"
   inputs:
     MAF: source/mc3.v0.2.8.PUBLIC.maf.gz
@@ -387,6 +378,17 @@
     VERTEXES: protograph/ctdd/ctdd.ResponseCurve.Vertex.json
     EDGES: protograph/ctdd/ctdd.ResponseCurve.Edge.json
 
+- key: ctdd-compound-protograph
+  command: protograph
+  vars:
+    LABEL: Compound
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/ctdd/ctdd.Compound.json
+  outputs:
+    VERTEXES: protograph/ctdd/ctdd.Compound.Vertex.json
+    EDGES: protograph/ctdd/ctdd.Compound.Edge.json
+
 - key: ensembl-gene-protograph
   command: protograph
   vars:
@@ -426,7 +428,7 @@
     LABEL: Evidence
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
-    INPUT: g2p/g2p.json
+    INPUT: source/g2p/g2p.Evidence.json
   outputs:
     VERTEXES: protograph/g2p/g2p.Evidence.Vertex.json
     EDGES: protograph/g2p/g2p.Evidence.Edge.json
@@ -505,3 +507,40 @@
     PFAM_FAMILY: biostream/pfam/pfam.PFAMFamily.json
     VERTEXES: protograph/pfam/pfam.PFAMFamily.Vertex.json
     EDGES: protograph/pfam/pfam.PFAMFamily.Edge.json
+
+####################
+### GTEX
+
+- key: gtex-individual-protograph
+  command: protograph
+  vars:
+    LABEL: Individual
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/gtex/gtex.Individual.json
+  outputs:
+    VERTEXES: protograph/gtex/gtex.Individual.Vertex.json
+    EDGES: protograph/gtex/gtex.Individual.Edge.json
+
+- key: gtex-biosample-protograph
+  command: protograph
+  vars:
+    LABEL: Biosample
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/gtex/gtex.Biosample.json
+  outputs:
+    VERTEXES: protograph/gtex/gtex.Biosample.Vertex.json
+    EDGES: protograph/gtex/gtex.Biosample.Edge.json
+
+- key: gtex-expression-protograph
+  command: protograph
+  vars:
+    LABEL: GeneExpression
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/gtex/gtex.GeneExpression.json
+  outputs:
+    VERTEXES: protograph/gtex/gtex.GeneExpression.Vertex.json
+    EDGES: protograph/gtex/gtex.GeneExpression.Edge.json
+
