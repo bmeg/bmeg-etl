@@ -222,17 +222,19 @@
       merge: true
       filter:
         - synonyms
+        - target
   edges:
-    - fromLabel: Compound
+    - index: "{{target}}"
+      fromLabel: Compound
       label: targetsGene
       toLabel: Gene
       from: "compound:{{name}}"
-      to: "{{target}}"
+      to: "gene:{{_index}}"
     - index: "{{synonyms}}"
       fromLabel: Compound
       label: sameAs
       toLabel: Compound
-      from: "{{_index}}"
+      from: "compound:{{_index}}"
       to: "compound:{{name}}"
 
 - label: Gene
