@@ -27,6 +27,11 @@
   vertexes:
     - label: Individual
       gid: "individual:{{id}}"
+      fields:
+        - id
+        - name
+        - source
+        - tumorSite
       merge: true
       splice:
         - attributes
@@ -84,6 +89,12 @@
   vertexes:
     - label: Biosample
       gid: "biosample:{{source}}:{{id}}"
+      fields:
+        - id
+        - name
+        - gender
+        - source
+        - datasetId
       merge: true
       filter:
         - disease
@@ -112,6 +123,10 @@
     - label: GeneOntologyTerm
       gid: "geneOntologyTerm:{{id}}"
       merge: true
+      fields:
+        - id
+        - name
+        - namespace
       filter:
         - is_a
       data:
@@ -141,6 +156,10 @@
   vertexes:
     - label: CallSet
       gid: "callSet:{{source}}:{{biosampleId}}:{{method}}"
+      fields:
+        - source
+        - name
+        - method
       merge: true
   edges:
     - label: callSetOf
@@ -158,6 +177,10 @@
         - calls
       splice:
         - info
+      fields:
+        - start
+        - end
+        - chromosome
       data:
         alternateBases: "{{alternateBases|join:,}}"
         chromosome: "{{referenceName}}"
@@ -187,6 +210,8 @@
       toLabel: Gene
       from: "variant:{{variantId}}"
       to: "gene:{{_index.featureId}}"
+      fields:
+        - effects
       data:
         effects: "{{_index.effects|each:term|join:,}}"
         gene: "{{_index.featureId}}"
@@ -197,6 +222,8 @@
     - label: ResponseCurve
       gid: "responseCurve:{{source}}:{{sample}}:{{compounds|each:compound|sort|join:,}}"
       merge: true
+      fields:
+        - source
       filter:
         - sample
         - compounds
@@ -220,6 +247,8 @@
     - label: Compound
       gid: "compound:{{id}}"
       merge: true
+      fields:
+        - name
       filter:
         - synonyms
         - target
@@ -242,9 +271,18 @@
     - label: Gene
       gid: "gene:{{id}}"
       merge: true
+      fields:
+        - id
+        - symbol
+        - chromosome
+        - start
+        - end
+        - strand
       filter:
         - inFamily
         - citedFrom
+      data:
+        chromosome: "{{seqId}}"
   edges:
     - index: "{{citedFrom}}"
       fromLabel: Gene
@@ -263,7 +301,15 @@
   vertexes:
     - label: Exon
       gid: "exon:{{id}}"
+      fields:
+        - id
+        - chromosome
+        - start
+        - end
+        - strand
       merge: true
+      data:
+        chromosome: "{{seqId}}"
   edges:
     - fromLabel: Exon
       label: exonFrom
@@ -275,7 +321,16 @@
   vertexes:
     - label: Transcript
       gid: "transcript:{{id}}"
+      fields:
+        - id
+        - symbol
+        - chromosome
+        - start
+        - end
+        - strand
       merge: true
+      data:
+        chromosome: "{{seqId}}"
   edges:
     - fromLabel: Transcript
       label: transcriptFor
@@ -333,6 +388,9 @@
   vertexes:
     - label: Pubmed
       gid: "pubmed:{{pmid}}"
+      fields:
+        - date
+        - pmid
       merge: true
 
 - label: CNACallSet
@@ -351,12 +409,17 @@
   vertexes:
     - label: CNASegment
       gid: "cnaSegment:{{callSetId}}:{{referenceName}}:{{start}}:{{end}}"
+      fields:
+        - start
+        - end
+        - chromosome
       merge: true
       filter:
         - genes
       data:
         start.int: "{{start}}"
         end.int: "{{end}}"
+        chromomsome: "{{referenceName}}"
   edges:
     - index: "{{genes}}"
       fromLabel: CNASegment
@@ -443,6 +506,8 @@
       toLabel: Gene
       to: "{{dst}}"
       merge: true
+      fields:
+        - interaction
       filter:
         - src
         - dst
@@ -451,4 +516,7 @@
   vertexes:
     - label: PFAMFamily
       gid: "pfamFamily:{{accession}}"
+      fields:
+        - id
+        - accession
       merge: true
