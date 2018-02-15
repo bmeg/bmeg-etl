@@ -391,49 +391,49 @@
       path: "{{_index.1}}"
       label: Oncotree
 
-- label: Evidence
-  vertexes:
-    - label: Evidence
-      gid: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
-      data:
-        source: "{{source}}"
-        genotype: "{{genes|sort|join:,}}"
-        phenotype: "{{association.phenotype.description}}"
-        evidenceLabel: "{{association.evidence_label}}"
-        evidenceLevel: "{{association.evidence_level}}"
-        description: "{{association.description}}"
-        publicationUrl: "{{assocation.publication_url}}"
-        responseType: "{{association.response_type}}"
-    - label: OntologyTerm
-      gid: "term:{{association.phenotype.description}}"
-      data:
-        term: "{{association.phenotype.description}}"
-  edges:
-    - index: "{{genes}}"
-      fromLabel: Evidence
-      label: genotypeOf
-      toLabel: Gene
-      from: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
-      to: "gene:{{_index}}"
-    - index: "{{association.environmentalContexts}}"
-      fromLabel: Evidence
-      label: environmentalContextFor
-      toLabel: Compound
-      from: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
-      to: "{{_index.id}}"
-      data:
-        response: "{{association.response_type}}"
-    - index: "{{association.evidence.0.info.publications|flatten}}"
-      fromLabel: Evidence
-      label: evidenceFor
-      toLabel: Pubmed
-      from: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
-      to: "pubmed:{{_index|split:/|last}}"
-    - fromLabel: Evidence
-      label: phenotypeOf
-      toLabel: OntologyTerm
-      from: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
-      to: "term:{{association.phenotype.description}}"
+# - label: Evidence
+#   vertexes:
+#     - label: Evidence
+#       gid: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
+#       data:
+#         source: "{{source}}"
+#         genotype: "{{genes|sort|join:,}}"
+#         phenotype: "{{association.phenotype.description}}"
+#         evidenceLabel: "{{association.evidence_label}}"
+#         evidenceLevel: "{{association.evidence_level}}"
+#         description: "{{association.description}}"
+#         publicationUrl: "{{assocation.publication_url}}"
+#         responseType: "{{association.response_type}}"
+#     - label: OntologyTerm
+#       gid: "term:{{association.phenotype.description}}"
+#       data:
+#         term: "{{association.phenotype.description}}"
+#   edges:
+#     - index: "{{genes}}"
+#       fromLabel: Evidence
+#       label: genotypeOf
+#       toLabel: Gene
+#       from: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
+#       to: "gene:{{_index}}"
+#     - index: "{{association.environmentalContexts}}"
+#       fromLabel: Evidence
+#       label: environmentalContextFor
+#       toLabel: Compound
+#       from: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
+#       to: "{{_index.id}}"
+#       data:
+#         response: "{{association.response_type}}"
+#     - index: "{{association.evidence.0.info.publications|flatten}}"
+#       fromLabel: Evidence
+#       label: evidenceFor
+#       toLabel: Pubmed
+#       from: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
+#       to: "pubmed:{{_index|split:/|last}}"
+#     - fromLabel: Evidence
+#       label: phenotypeOf
+#       toLabel: OntologyTerm
+#       from: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
+#       to: "term:{{association.phenotype.description}}"
 
 - label: ProteinInteraction
   edges:
@@ -452,3 +452,68 @@
     - label: PFAMFamily
       gid: "pfamFamily:{{accession}}"
       merge: true
+
+- label: Phenotype
+  vertexes:
+    - label: Phenotype
+      gid: "phenotype:{{id}}"
+      merge: true
+      filter:
+        - type
+
+- label: Evidence
+  vertexes:
+    - label: Evidence
+      gid: "evidence:{{publications|sort|join:,}}"
+      merge: true
+      filter:
+        - publications
+  edges:
+    - index: "{{publications}}"
+      fromLabel: Evidence
+      label: publicationSupporting
+      toLabel: Pubmed
+      from: "evidence:{{publications|sort|join:,}}"
+      to: "pubmed:{{_index}}"
+      merge: true
+
+- label: G2PAssociation
+  vertexes:
+    - label: G2PAssociation
+      gid: "g2p:{{source}}:{{genes|sort|join:,}}:{{environments|sort|join:,}}:{{phenotypes|sort|join:,}}:{{features|sort|join:,}}"
+      merge: true
+  edges:
+    - index: "{{genes}}"
+      fromLabel: G2PAssociation
+      label: genotypeOf
+      toLabel: Gene
+      from: "g2p:{{source}}:{{genes|sort|join:,}}:{{environments|sort|join:,}}:{{phenotypes|sort|join:,}}:{{features|sort|join:,}}"
+      to: "gene:{{_index}}"
+    - index: "{{environments}}"
+      fromLabel: G2PAssociation
+      label: environmentFor
+      toLabel: Compound
+      from: "g2p:{{source}}:{{genes|sort|join:,}}:{{environments|sort|join:,}}:{{phenotypes|sort|join:,}}:{{features|sort|join:,}}"
+      to: "compound:{{_index|split:/|last}}"
+    - index: "{{phenotypes}}"
+      fromLabel: G2PAssociation
+      label: phenotypeOf
+      toLabel: Phenotype
+      from: "g2p:{{source}}:{{genes|sort|join:,}}:{{environments|sort|join:,}}:{{phenotypes|sort|join:,}}:{{features|sort|join:,}}"
+      to: "phenotype:{{_index}}"
+    - index: "{{features}}"
+      fromLabel: G2PAssociation
+      label: featureOf
+      toLabel: Variant
+      from: "g2p:{{source}}:{{genes|sort|join:,}}:{{environments|sort|join:,}}:{{phenotypes|sort|join:,}}:{{features|sort|join:,}}"
+      to: "{{_index}}"
+    - index: "{{evidence}}"
+      fromLabel: G2PAssociation
+      label: evidenceFor
+      toLabel: Evidence
+      from: "g2p:{{source}}:{{genes|sort|join:,}}:{{environments|sort|join:,}}:{{phenotypes|sort|join:,}}:{{features|sort|join:,}}"
+      to: "evidence:{{_index.publications|sort|join:,}}"
+  inner:
+    - index: "{{evidence}}"
+      path: "{{_index.1}}"
+      label: Evidence
