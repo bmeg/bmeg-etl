@@ -536,47 +536,47 @@
 ######################
 ### G2P protograph
 
-- key: g2p-association-protograph
-  command: protograph
-  vars:
-    LABEL: Evidence
-  inputs:
-    PROTOGRAPH: source/bmeg.protograph.yaml
-    INPUT: biostream/g2p/G2PAssociation.json
-  outputs:
-    VERTEXES: protograph/g2p/g2p.G2PAssociation.Vertex.json
-    EDGES: protograph/g2p/g2p.G2PAssociation.Edge.json
+# - key: g2p-association-protograph
+#   command: protograph
+#   vars:
+#     LABEL: Evidence
+#   inputs:
+#     PROTOGRAPH: source/bmeg.protograph.yaml
+#     INPUT: biostream/g2p/G2PAssociation.json
+#   outputs:
+#     VERTEXES: protograph/g2p/g2p.G2PAssociation.Vertex.json
+#     EDGES: protograph/g2p/g2p.G2PAssociation.Edge.json
 
-- key: g2p-phenotype-protograph
-  command: protograph
-  vars:
-    LABEL: Phenotype
-  inputs:
-    PROTOGRAPH: source/bmeg.protograph.yaml
-    INPUT: biostream/g2p/Phenotype.json
-  outputs:
-    VERTEXES: protograph/g2p/g2p.Phenotype.Vertex.json
-    EDGES: protograph/g2p/g2p.Phenotype.Edge.json
+# - key: g2p-phenotype-protograph
+#   command: protograph
+#   vars:
+#     LABEL: Phenotype
+#   inputs:
+#     PROTOGRAPH: source/bmeg.protograph.yaml
+#     INPUT: biostream/g2p/Phenotype.json
+#   outputs:
+#     VERTEXES: protograph/g2p/g2p.Phenotype.Vertex.json
+#     EDGES: protograph/g2p/g2p.Phenotype.Edge.json
 
-- key: g2p-compound-protograph
-  command: protograph
-  vars:
-    LABEL: Compound
-  inputs:
-    PROTOGRAPH: source/bmeg.protograph.yaml
-    INPUT: biostream/g2p/Compound.json
-  outputs:
-    VERTEXES: protograph/g2p/g2p.Compound.Vertex.json
-    EDGES: protograph/g2p/g2p.Compound.Edge.json
+# - key: g2p-compound-protograph
+#   command: protograph
+#   vars:
+#     LABEL: Compound
+#   inputs:
+#     PROTOGRAPH: source/bmeg.protograph.yaml
+#     INPUT: biostream/g2p/Compound.json
+#   outputs:
+#     VERTEXES: protograph/g2p/g2p.Compound.Vertex.json
+#     EDGES: protograph/g2p/g2p.Compound.Edge.json
 
-- key: g2p-variant-protograph
-  command: protograph
-  vars:
-    LABEL: Variant
-  inputs:
-    PROTOGRAPH: source/bmeg.protograph.yaml
-    INPUT: biostream/g2p/Variant.json
-  outputs:
-    VERTEXES: protograph/g2p/g2p.Variant.Vertex.json
-    EDGES: protograph/g2p/g2p.Variant.Edge.json
+# - key: g2p-variant-protograph
+#   command: protograph
+#   vars:
+#     LABEL: Variant
+#   inputs:
+#     PROTOGRAPH: source/bmeg.protograph.yaml
+#     INPUT: biostream/g2p/Variant.json
+#   outputs:
+#     VERTEXES: protograph/g2p/g2p.Variant.Vertex.json
+#     EDGES: protograph/g2p/g2p.Variant.Edge.json
 
