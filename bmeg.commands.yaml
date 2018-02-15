@@ -122,6 +122,8 @@
     - "{{GENE_COLUMN}}"
     - "--source"
     - "{{SOURCE}}"
+    - "--genome"
+    - "{{GENOME_BUILD}}"
     - "--method"
     - "{{METHOD}}"
     - "{{OPTIONS}}"
@@ -131,6 +133,7 @@
     CENTER_COLUMN: Center
     GENE_COLUMN: Entrez_Gene_Id
     SOURCE: ccle
+    GENOME_BUILD: GRCh37
     METHOD: ccle
     OPTIONS: ""
   inputs:
