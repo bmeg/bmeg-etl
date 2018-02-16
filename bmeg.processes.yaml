@@ -539,7 +539,7 @@
 - key: g2p-association-protograph
   command: protograph
   vars:
-    LABEL: Evidence
+    LABEL: G2PAssociation
   inputs:
     PROTOGRAPH: source/bmeg.protograph.yaml
     INPUT: biostream/g2p/G2PAssociation.json
