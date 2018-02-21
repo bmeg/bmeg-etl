@@ -548,38 +548,38 @@
 - label: G2PAssociation
   vertexes:
     - label: G2PAssociation
-      gid: "g2p:{{source}}:{{genes|sort|join:,}}:{{environments|sort|join:,}}:{{phenotypes|sort|join:,}}:{{features|sort|join:,}}"
+      gid: "g2p:{{id}}"
       merge: true
   edges:
     - index: "{{genes}}"
       fromLabel: G2PAssociation
       label: genotypeOf
       toLabel: Gene
-      from: "g2p:{{source}}:{{genes|sort|join:,}}:{{environments|sort|join:,}}:{{phenotypes|sort|join:,}}:{{features|sort|join:,}}"
+      from: "g2p:{{id}}"
       to: "gene:{{_index}}"
     - index: "{{environments}}"
       fromLabel: G2PAssociation
       label: environmentFor
       toLabel: Compound
-      from: "g2p:{{source}}:{{genes|sort|join:,}}:{{environments|sort|join:,}}:{{phenotypes|sort|join:,}}:{{features|sort|join:,}}"
+      from: "g2p:{{id}}"
       to: "compound:{{_index|split:/|last}}"
     - index: "{{phenotypes}}"
       fromLabel: G2PAssociation
       label: phenotypeOf
       toLabel: Phenotype
-      from: "g2p:{{source}}:{{genes|sort|join:,}}:{{environments|sort|join:,}}:{{phenotypes|sort|join:,}}:{{features|sort|join:,}}"
+      from: "g2p:{{id}}"
       to: "phenotype:{{_index}}"
     - index: "{{features}}"
       fromLabel: G2PAssociation
       label: featureOf
       toLabel: Variant
-      from: "g2p:{{source}}:{{genes|sort|join:,}}:{{environments|sort|join:,}}:{{phenotypes|sort|join:,}}:{{features|sort|join:,}}"
+      from: "g2p:{{id}}"
       to: "{{_index}}"
     - index: "{{evidence}}"
       fromLabel: G2PAssociation
       label: evidenceFor
       toLabel: Evidence
-      from: "g2p:{{source}}:{{genes|sort|join:,}}:{{environments|sort|join:,}}:{{phenotypes|sort|join:,}}:{{features|sort|join:,}}"
+      from: "g2p:{{id}}"
       to: "evidence:{{_index.publications|sort|join:,}}"
   inner:
     - index: "{{evidence}}"
