@@ -180,7 +180,40 @@
 - key: gdc-project
   command: gdc-full-circle
   vars:
-    PROJECT: [TCGA-BRCA, TCGA-LUAD]
+    PROJECT:
+      - TCGA-BRCA
+      - TCGA-GBM
+      - TCGA-OV
+      - TCGA-LUAD
+      - TCGA-UCEC
+      - TCGA-KIRC
+      - TCGA-HNSC
+      - TCGA-LGG
+      - TCGA-THCA
+      - TCGA-LUSC
+      - TCGA-PRAD
+      - TCGA-SKCM
+      - TCGA-COAD
+      - TCGA-STAD
+      - TCGA-BLCA
+      - TCGA-LIHC
+      - TCGA-CESC
+      - TCGA-KIRP
+      - TCGA-SARC
+      - TCGA-LAML
+      - TCGA-ESCA
+      - TCGA-PAAD
+      - TCGA-PCPG
+      - TCGA-READ
+      - TCGA-TGCT
+      - TCGA-THYM
+      - TCGA-KICH
+      - TCGA-ACC
+      - TCGA-MESO
+      - TCGA-UVM
+      - TCGA-DLBC
+      - TCGA-UCS
+      - TCGA-CHOL
   inputs:
     GTF: source/ensembl.gtf.gz
   outputs:

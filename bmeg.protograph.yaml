@@ -171,7 +171,7 @@
 - label: Variant
   vertexes:
     - label: Variant
-      gid: "variant:{{referenceGenome}}:{{referenceName}}:{{start}}:{{end}}:{{referenceBases}}:{{alternateBases|join:,}}"
+      gid: "variant:{{referenceGenome}}:{{referenceName}}:{{start}}:{{end}}:{{referenceBases|truncate:100}}:{{alternateBases|join:,}}"
       merge: true
       filter:
         - calls
@@ -192,7 +192,7 @@
       toLabel: CallSet
       to: "callSet:{{_index.source}}:{{_index.biosampleId}}:{{_index.method}}"
       fromLabel: Variant
-      from: "variant:{{referenceGenome}}:{{referenceName}}:{{start}}:{{end}}:{{referenceBases}}:{{alternateBases|join:,}}"
+      from: "variant:{{referenceGenome}}:{{referenceName}}:{{start}}:{{end}}:{{referenceBases|truncate:100}}:{{alternateBases|join:,}}"
       merge: true
       filter:
         - calls
