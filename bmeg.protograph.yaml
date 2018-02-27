@@ -372,17 +372,17 @@
       toLabel: Biosample
       from: "geneExpression:{{source}}:{{biosampleId}}"
       to: "biosample:{{source}}:{{biosampleId}}"
-    - index: "{{expressions}}"
-      fromLabel: GeneExpression
-      label: expressionLevel
-      toLabel: Gene
-      from: "geneExpression:{{source}}:{{biosampleId}}"
-      to: "gene:{{_index|first}}"
-      data:
-        gene: "{{_index|first}}"
-        level.float: "{{_index|last}}"
-        sample: "{{biosampleId}}"
-        source: "{{source}}"
+    # - index: "{{expressions}}"
+    #   fromLabel: GeneExpression
+    #   label: expressionLevel
+    #   toLabel: Gene
+    #   from: "geneExpression:{{source}}:{{biosampleId}}"
+    #   to: "gene:{{_index|first}}"
+    #   data:
+    #     gene: "{{_index|first}}"
+    #     level.float: "{{_index|last}}"
+    #     sample: "{{biosampleId}}"
+    #     source: "{{source}}"
 
 - label: Pubmed
   vertexes:
@@ -414,19 +414,19 @@
         - end
         - chromosome
       merge: true
-      filter:
-        - genes
+      # filter:
+      #   - genes
       data:
         start.int: "{{start}}"
         end.int: "{{end}}"
         chromomsome: "{{referenceName}}"
   edges:
-    - index: "{{genes}}"
-      fromLabel: CNASegment
-      label: segmentIn
-      toLabel: Gene
-      from: "cnaSegment:{{callSetId}}:{{referenceName}}:{{start}}:{{end}}"
-      to: "{{_index}}"
+    # - index: "{{genes}}"
+    #   fromLabel: CNASegment
+    #   label: segmentIn
+    #   toLabel: Gene
+    #   from: "cnaSegment:{{callSetId}}:{{referenceName}}:{{start}}:{{end}}"
+    #   to: "{{_index}}"
     - label: segmentOf
       fromLabel: CNASegment
       from: "cnaSegment:{{callSetId}}:{{referenceName}}:{{start}}:{{end}}"
@@ -437,12 +437,15 @@
   vertexes:
     - label: Oncotree
       gid: "oncotree:{{code}}"
+      fields:
+        - name
+        - code
+        - parent
       merge: true
       filter:
         - children
-        - mainType
       data:
-        mainType: "{{mainType.name}}"
+        name: "{{mainType.name}}"
   edges:
     - fromLabel: Oncotree
       label: parentTerm
