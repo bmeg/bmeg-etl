@@ -188,7 +188,7 @@
         end.int: "{{end}}"
   edges:
     - index: "{{calls}}"
-      label: variantOf
+      label: variantCall # variantOf
       toLabel: CallSet
       to: "callSet:{{_index.source}}:{{_index.biosampleId}}:{{_index.method}}"
       fromLabel: Variant
@@ -459,7 +459,7 @@
 
 - label: PreviousEvidence
   vertexes:
-    - label: Evidence
+    - label: PreviousEvidence
       gid: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
       data:
         source: "{{source}}"
@@ -476,13 +476,13 @@
         term: "{{association.phenotype.description}}"
   edges:
     - index: "{{genes}}"
-      fromLabel: Evidence
+      fromLabel: PreviousEvidence
       label: genotypeOf
       toLabel: Gene
       from: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
       to: "gene:{{_index}}"
     - index: "{{association.environmentalContexts}}"
-      fromLabel: Evidence
+      fromLabel: PreviousEvidence
       label: environmentalContextFor
       toLabel: Compound
       from: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
@@ -490,12 +490,12 @@
       data:
         response: "{{association.response_type}}"
     - index: "{{association.evidence.0.info.publications|flatten}}"
-      fromLabel: Evidence
+      fromLabel: PreviousEvidence
       label: evidenceFor
       toLabel: Pubmed
       from: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
       to: "pubmed:{{_index|split:/|last}}"
-    - fromLabel: Evidence
+    - fromLabel: PreviousEvidence
       label: phenotypeOf
       toLabel: OntologyTerm
       from: "evidence:{{genes|sort|join:,}}:{{association.phenotype.description}}"
