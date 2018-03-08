@@ -542,5 +542,5 @@
       to: "evidence:{{_index.publications|sort|join:,}}"
   inner:
     - index: "{{evidence}}"
-      path: "{{_index.1}}"
+      path: "{{_index}}"
       label: Evidence
