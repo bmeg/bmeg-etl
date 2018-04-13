@@ -533,7 +533,7 @@
       label: featureOf
       toLabel: Variant
       from: "g2p:{{id}}"
-      to: "{{_index}}"
+      to: "variant:{{_index}}"
     - index: "{{evidence}}"
       fromLabel: G2PAssociation
       label: evidenceFor
