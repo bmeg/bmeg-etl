@@ -42,7 +42,7 @@
       gid: "clinicalFollowup:{{id}}"
       merge: true
   edges:
-    - fromLabel: Clinicalfollowup
+    - fromLabel: ClinicalFollowup
       label: followupFor
       toLabel: Individual
       from: "clinicalFollowup:{{id}}"
@@ -63,7 +63,7 @@
       gid: "radiationTherapy:{{id}}"
       merge: true
   edges:
-    - fromLabel: Radiationtherapy
+    - fromLabel: RadiationTherapy
       label: radiationFor
       toLabel: Individual
       from: "radiationTherapy:{{id}}"
