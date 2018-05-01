@@ -1,0 +1,11 @@
+*.gz
+*.maf
+*.maf.gz
+*.json
+*.fa.gz
+*.fa.gz.gzi
+*.fa.gz.fai
+*.tar.gz
+*.txt
+vep-data
+homo_sapiens

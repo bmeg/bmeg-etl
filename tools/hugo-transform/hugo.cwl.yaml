@@ -1,0 +1,49 @@
+cwlVersion: v1.0
+class: Workflow
+
+inputs:
+    hgnc_file:
+        type: File
+        #dirac:sourceUrl: ftp://ftp.ebi.ac.uk/pub/databases/genenames/hgnc_complete_set.txt.gz
+
+steps:
+    convert:
+      run:
+        class: CommandLineTool
+        hints:
+          DockerRequirement:
+            dockerPull: bmeg/bmeg-python
+        baseCommand: [python]
+        inputs:
+          script:
+            type: File
+            default:
+              class: File
+              location: convert-hugo.py
+            inputBinding: 
+              position: 1
+          hugoFile:
+            type: File
+            inputBinding:
+              prefix: "--hugo"
+              position: 2
+          outname:
+            type: string
+            default: out.json
+            inputBinding:
+              prefix: "--out"
+              position: 3
+        outputs:
+          proto:
+            type: File
+            outputBinding:
+              glob: out.json
+      in:
+        hugoFile: hgnc_file
+      out: 
+        - proto
+
+outputs:
+  proto: 
+    type: File
+    outputSource: "convert/proto"

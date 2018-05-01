@@ -1,0 +1,6 @@
+{
+  "DRUG" : {
+    "class" : "File",
+    "path" : "CCLE_NP24.2009_Drug_data_2015.02.24.csv"
+  }
+}
