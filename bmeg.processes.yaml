@@ -95,28 +95,6 @@
   outputs:
     OUT: biostream/go/go.GeneOntologyAnnotation.json
 
-- key: gene-ontology-term-protograph
-  command: protograph
-  vars:
-    LABEL: GeneOntologyTerm
-  inputs:
-    PROTOGRAPH: source/bmeg.protograph.yaml
-    INPUT: biostream/go/go.GeneOntologyTerm.json
-  outputs:
-    VERTEXES: protograph/go/go.GeneOntologyTerm.Vertex.json
-    EDGES: protograph/go/go.GeneOntologyTerm.Edge.json
-
-- key: gene-ontology-annotation-protograph
-  command: protograph
-  vars:
-    LABEL: GeneOntologyAnnotation
-  inputs:
-    PROTOGRAPH: source/bmeg.protograph.yaml
-    INPUT: biostream/go/go.GeneOntologyAnnotation.json
-  outputs:
-    VERTEXES: protograph/go/go.GeneOntologyAnnotation.Vertex.json
-    EDGES: protograph/go/go.GeneOntologyAnnotation.Edge.json
-
 ##############
 ### CTDD
 
@@ -141,17 +119,6 @@
     RESPONSE: source/gdsc/v17_fitted_dose_response.xlsx
   outputs:
     RESPONSES: biostream/gdsc/gdsc.ResponseCurve.json
-
-- key: gdsc-protograph
-  command: protograph
-  vars:
-    LABEL: ResponseCurve
-  inputs:
-    PROTOGRAPH: source/bmeg.protograph.yaml
-    INPUT: biostream/gdsc/gdsc.ResponseCurve.json
-  outputs:
-    VERTEXES: protograph/gdsc/gdsc.ResponseCurve.Vertex.json
-    EDGES: protograph/gdsc/gdsc.ResponseCurve.Edge.json
 
 ##############
 ### GTEX
@@ -225,71 +192,6 @@
     CLINICAL_FOLLOWUP: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.ClinicalFollowup.json"
     DRUG_THERAPY: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.DrugTherapy.json"
     RADIATION_THERAPY: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.RadiationTherapy.json"
-
-- key: gdc-protograph
-  command: gdc-protograph
-  vars:
-    PROJECT:
-      - TCGA-BRCA
-      - TCGA-GBM
-      - TCGA-OV
-      - TCGA-LUAD
-      - TCGA-UCEC
-      - TCGA-KIRC
-      - TCGA-HNSC
-      - TCGA-LGG
-      - TCGA-THCA
-      - TCGA-LUSC
-      - TCGA-PRAD
-      - TCGA-SKCM
-      - TCGA-COAD
-      - TCGA-STAD
-      - TCGA-BLCA
-      - TCGA-LIHC
-      - TCGA-CESC
-      - TCGA-KIRP
-      - TCGA-SARC
-      - TCGA-LAML
-      - TCGA-ESCA
-      - TCGA-PAAD
-      - TCGA-PCPG
-      - TCGA-READ
-      - TCGA-TGCT
-      - TCGA-THYM
-      - TCGA-KICH
-      - TCGA-ACC
-      - TCGA-MESO
-      - TCGA-UVM
-      - TCGA-DLBC
-      - TCGA-UCS
-      - TCGA-CHOL
-  inputs:
-    PROTOGRAPH: "source/bmeg.protograph.yaml"
-    EXPRESSION: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.GeneExpression.json"
-    SEGMENT: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.CNASegment.json"
-    CALL_SET: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.CNACallSet.json"
-    INDIVIDUAL: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.Individual.json"
-    BIOSAMPLE: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.Biosample.json"
-    CLINICAL_FOLLOWUP: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.ClinicalFollowup.json"
-    DRUG_THERAPY: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.DrugTherapy.json"
-    RADIATION_THERAPY: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.RadiationTherapy.json"
-  outputs:
-    EXPRESSION_VERTEXES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.GeneExpression.Vertex.json"
-    EXPRESSION_EDGES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.GeneExpression.Edge.json"
-    SEGMENT_VERTEXES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.CNASegment.Vertex.json"
-    SEGMENT_EDGES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.CNASegment.Edge.json"
-    CALL_SET_VERTEXES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.CNACallSet.Vertex.json"
-    CALL_SET_EDGES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.CNACallSet.Edge.json"
-    INDIVIDUAL_VERTEXES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.Individual.Vertex.json"
-    INDIVIDUAL_EDGES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.Individual.Edge.json"
-    BIOSAMPLE_VERTEXES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.Biosample.Vertex.json"
-    BIOSAMPLE_EDGES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.Biosample.Edge.json"
-    CLINICAL_FOLLOWUP_VERTEXES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.ClinicalFollowup.Vertex.json"
-    CLINICAL_FOLLOWUP_EDGES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.ClinicalFollowup.Edge.json"
-    DRUG_THERAPY_VERTEXES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.DrugTherapy.Vertex.json"
-    DRUG_THERAPY_EDGES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.DrugTherapy.Edge.json"
-    RADIATION_THERAPY_VERTEXES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.RadiationTherapy.Vertex.json"
-    RADIATION_THERAPY_EDGES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.RadiationTherapy.Edge.json"
 
 #############
 ### MC3
@@ -645,4 +547,108 @@
   outputs:
     VERTEXES: protograph/g2p/g2p.Variant.Vertex.json
     EDGES: protograph/g2p/g2p.Variant.Edge.json
+
+########################
+### GDC
+
+- key: gdc-protograph
+  command: gdc-protograph
+  vars:
+    PROJECT:
+      - TCGA-BRCA
+      - TCGA-GBM
+      - TCGA-OV
+      - TCGA-LUAD
+      - TCGA-UCEC
+      - TCGA-KIRC
+      - TCGA-HNSC
+      - TCGA-LGG
+      - TCGA-THCA
+      - TCGA-LUSC
+      - TCGA-PRAD
+      - TCGA-SKCM
+      - TCGA-COAD
+      - TCGA-STAD
+      - TCGA-BLCA
+      - TCGA-LIHC
+      - TCGA-CESC
+      - TCGA-KIRP
+      - TCGA-SARC
+      - TCGA-LAML
+      - TCGA-ESCA
+      - TCGA-PAAD
+      - TCGA-PCPG
+      - TCGA-READ
+      - TCGA-TGCT
+      - TCGA-THYM
+      - TCGA-KICH
+      - TCGA-ACC
+      - TCGA-MESO
+      - TCGA-UVM
+      - TCGA-DLBC
+      - TCGA-UCS
+      - TCGA-CHOL
+  inputs:
+    PROTOGRAPH: "source/bmeg.protograph.yaml"
+    EXPRESSION: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.GeneExpression.json"
+    SEGMENT: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.CNASegment.json"
+    CALL_SET: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.CNACallSet.json"
+    INDIVIDUAL: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.Individual.json"
+    BIOSAMPLE: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.Biosample.json"
+    CLINICAL_FOLLOWUP: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.ClinicalFollowup.json"
+    DRUG_THERAPY: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.DrugTherapy.json"
+    RADIATION_THERAPY: "biostream/tcga/{{PROJECT}}/tcga.{{PROJECT}}.RadiationTherapy.json"
+  outputs:
+    EXPRESSION_VERTEXES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.GeneExpression.Vertex.json"
+    EXPRESSION_EDGES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.GeneExpression.Edge.json"
+    SEGMENT_VERTEXES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.CNASegment.Vertex.json"
+    SEGMENT_EDGES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.CNASegment.Edge.json"
+    CALL_SET_VERTEXES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.CNACallSet.Vertex.json"
+    CALL_SET_EDGES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.CNACallSet.Edge.json"
+    INDIVIDUAL_VERTEXES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.Individual.Vertex.json"
+    INDIVIDUAL_EDGES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.Individual.Edge.json"
+    BIOSAMPLE_VERTEXES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.Biosample.Vertex.json"
+    BIOSAMPLE_EDGES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.Biosample.Edge.json"
+    CLINICAL_FOLLOWUP_VERTEXES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.ClinicalFollowup.Vertex.json"
+    CLINICAL_FOLLOWUP_EDGES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.ClinicalFollowup.Edge.json"
+    DRUG_THERAPY_VERTEXES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.DrugTherapy.Vertex.json"
+    DRUG_THERAPY_EDGES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.DrugTherapy.Edge.json"
+    RADIATION_THERAPY_VERTEXES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.RadiationTherapy.Vertex.json"
+    RADIATION_THERAPY_EDGES: "protograph/tcga/{{PROJECT}}/tcga.{{PROJECT}}.RadiationTherapy.Edge.json"
+
+##################
+### Gene Ontology
+
+- key: gene-ontology-term-protograph
+  command: protograph
+  vars:
+    LABEL: GeneOntologyTerm
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/go/go.GeneOntologyTerm.json
+  outputs:
+    VERTEXES: protograph/go/go.GeneOntologyTerm.Vertex.json
+    EDGES: protograph/go/go.GeneOntologyTerm.Edge.json
+
+- key: gene-ontology-annotation-protograph
+  command: protograph
+  vars:
+    LABEL: GeneOntologyAnnotation
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/go/go.GeneOntologyAnnotation.json
+  outputs:
+    VERTEXES: protograph/go/go.GeneOntologyAnnotation.Vertex.json
+    EDGES: protograph/go/go.GeneOntologyAnnotation.Edge.json
+
+- key: gdsc-protograph
+  command: protograph
+  vars:
+    LABEL: ResponseCurve
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/gdsc/gdsc.ResponseCurve.json
+  outputs:
+    VERTEXES: protograph/gdsc/gdsc.ResponseCurve.Vertex.json
+    EDGES: protograph/gdsc/gdsc.ResponseCurve.Edge.json
 
