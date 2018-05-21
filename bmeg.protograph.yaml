@@ -13,6 +13,8 @@
     - label: Project
       gid: "project:{{name}}"
       merge: true
+      fields:
+        - name
       filter:
         - hasMember
   edges:
@@ -41,6 +43,10 @@
     - label: ClinicalFollowup
       gid: "clinicalFollowup:{{id}}"
       merge: true
+      fields:
+        - date
+        - event
+        - days_to_death
   edges:
     - fromLabel: ClinicalFollowup
       label: followupFor
@@ -62,6 +68,8 @@
     - label: RadiationTherapy
       gid: "radiationTherapy:{{id}}"
       merge: true
+      fields:
+        - total_dose
   edges:
     - fromLabel: RadiationTherapy
       label: radiationFor
@@ -75,6 +83,9 @@
     - label: Cohort
       gid: "cohort:{{name}}"
       merge: true
+      fields:
+        - name
+        - description
       filter:
         - hasMember
   edges:
@@ -117,6 +128,9 @@
     - label: OntologyTerm
       gid: "term:{{term}}"
       merge: true
+      fields:
+        - term
+        - term_id
 
 - label: GeneOntologyTerm
   vertexes:
@@ -278,6 +292,7 @@
         - start
         - end
         - strand
+        - description
       filter:
         - inFamily
         - citedFrom
@@ -342,6 +357,8 @@
   vertexes:
     - label: Protein
       gid: "protein:{{id}}"
+      fields:
+        - uniprotId
   edges:
     - fromLabel: Protein
       label: proteinFor
@@ -366,18 +383,25 @@
     - label: GeneDatabase
       gid: "geneDatabase:{{name}}"
       merge: true
+      fields:
+        - name
 
 - label: GeneFamily
   vertexes:
     - label: GeneFamily
       gid: "geneFamily:{{tag}}"
       merge: true
+      fields:
+        - name
 
 - label: GeneExpression
   vertexes:
     - label: GeneExpression
       gid: "geneExpression:{{source}}:{{biosampleId}}"
       merge: true
+      fields:
+        - source
+
   edges:
     - fromLabel: GeneExpression
       label: expressionFor
@@ -410,6 +434,8 @@
     - label: CNACallSet
       gid: "cnaCallSet:{{source}}:{{id}}"
       merge: true
+      fields:
+        - source
   edges:
     - label: cnaCallSetOf
       toLabel: Biosample
@@ -507,6 +533,8 @@
       merge: true
       filter:
         - type
+      fields:
+        - description
 
 - label: Evidence
   vertexes:
@@ -515,6 +543,8 @@
       merge: true
       filter:
         - publications
+      fields:
+        - description
   edges:
     - index: "{{publications}}"
       fromLabel: Evidence
@@ -529,6 +559,8 @@
     - label: G2PAssociation
       gid: "g2p:{{id}}"
       merge: true
+      fields:
+        - source
   edges:
     - index: "{{genes}}"
       fromLabel: G2PAssociation

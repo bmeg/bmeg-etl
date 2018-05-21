@@ -16,6 +16,13 @@ for ent in data:
             o['data']['fields'][f] = "string"
         vertices.append(o)
 
+        q = {"label": "field", "from": "root", "to": i['label'],
+  		    "data" : {
+    		      "name": i['label'],
+    	          "type": "idQuery"
+			}}
+        edges.append(q)
+
     for i in ent.get("edges", []):
         o = {"from" : i['fromLabel'], "to" : i["toLabel"], "label" : "field",
             "data" : {
