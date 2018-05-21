@@ -42,7 +42,7 @@
       gid: "clinicalFollowup:{{id}}"
       merge: true
   edges:
-    - fromLabel: Clinicalfollowup
+    - fromLabel: ClinicalFollowup
       label: followupFor
       toLabel: Individual
       from: "clinicalFollowup:{{id}}"
@@ -63,7 +63,7 @@
       gid: "radiationTherapy:{{id}}"
       merge: true
   edges:
-    - fromLabel: Radiationtherapy
+    - fromLabel: RadiationTherapy
       label: radiationFor
       toLabel: Individual
       from: "radiationTherapy:{{id}}"
@@ -338,6 +338,18 @@
       from: "transcript:{{id}}"
       to: "gene:{{parent}}"
 
+- label: Protein
+  vertexes:
+    - label: Protein
+      gid: "protein:{{id}}"
+  edges:
+    - fromLabel: Protein
+      label: proteinFor
+      toLabel: Transcript
+      fromLabel: Protein
+      from: "protein:{{id}}"
+      to: "transcript:{{transcript}}"
+
 - label: GeneSynonym
   edges:
     - index: "{{inDatabase}}"
@@ -433,29 +445,29 @@
       toLabel: CNACallSet
       to: "cnaCallSet:{{source}}:{{callSetId}}"
 
-- label: Oncotree
-  vertexes:
-    - label: Oncotree
-      gid: "oncotree:{{code}}"
-      fields:
-        - name
-        - code
-        - parent
-      merge: true
-      filter:
-        - children
-      data:
-        name: "{{mainType.name}}"
-  edges:
-    - fromLabel: Oncotree
-      label: parentTerm
-      toLabel: Oncotree
-      from: "oncotree:{{code}}"
-      to: "oncotree:{{parent}}"
-  inner:
-    - index: "{{children}}"
-      path: "{{_index.1}}"
-      label: Oncotree
+#- label: Oncotree
+#  vertexes:
+#    - label: Oncotree
+#      gid: "oncotree:{{code}}"
+#      fields:
+#        - name
+#        - code
+#        - parent
+#      merge: true
+#      filter:
+#        - children
+#      data:
+#        name: "{{mainType.name}}"
+#  edges:
+#    - fromLabel: Oncotree
+#      label: parentTerm
+#      toLabel: Oncotree
+#      from: "oncotree:{{code}}"
+#      to: "oncotree:{{parent}}"
+#  inner:
+#    - index: "{{children}}"
+#      path: "{{_index.1}}"
+#      label: Oncotree
 
 - label: ProteinInteraction
   edges:
@@ -479,6 +491,14 @@
         - id
         - accession
       merge: true
+
+- label: PFAMAnnotation
+  edges:
+    - label: annotationFor
+      toLabel: Protein
+      to: "{{protein}}"
+      fromLabel: PFAMFamily
+      from: "{{pfam}}"
 
 - label: Phenotype
   vertexes:
