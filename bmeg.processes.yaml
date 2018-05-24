@@ -148,6 +148,7 @@
   command: mmc-transform
   inputs:
     MMC: source/mmc1.xlsx
+    MAPPING: source/mappings/disease_alias.tsv
   outputs:
     OUT: biostream/mmc/mmc.G2PAssociation.json
 

@@ -47,8 +47,13 @@
     - "/in/input.json"
     - "--output"
     - "/out/out.json"
+    - "--lookup"
+    - "/disease_normalizer.py"
+    - "--mapping"
+    - "/in/mapping.tsv"
   inputs:
     MMC: /in/input.json
+    MAPPING: /in/mapping.tsv
   outputs:
     OUTPUT: /out/out.json
 
