@@ -141,6 +141,16 @@
   outputs:
     OUT: biostream/gtex/gtex.GeneExpression.json
 
+###################
+### MMC
+
+- key: mmc-transform
+  command: mmc-transform
+  inputs:
+    MMC: source/mmc1.xlsx
+  outputs:
+    OUT: biostream/mmc/mmc.G2PAssociation.json
+
 ##############
 ### TCGA
 
@@ -514,6 +524,17 @@
   outputs:
     VERTEXES: protograph/g2p/g2p.G2PAssociation.Vertex.json
     EDGES: protograph/g2p/g2p.G2PAssociation.Edge.json
+
+- key: mmc-association-protograph
+  command: protograph
+  vars:
+    LABEL: G2PAssociation
+  inputs:
+    PROTOGRAPH: source/bmeg.protograph.yaml
+    INPUT: biostream/mmc/mmc.G2PAssociation.json
+  outputs:
+    VERTEXES: protograph/mmc/mmc.G2PAssociation.Vertex.json
+    EDGES: protograph/mmc/mmc.G2PAssociation.Edge.json
 
 - key: g2p-phenotype-protograph
   command: protograph
