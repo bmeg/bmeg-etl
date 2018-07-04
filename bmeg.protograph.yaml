@@ -34,9 +34,36 @@
         - name
         - source
         - tumorSite
+        - birth_days_to
+        - age_at_initial_pathologic_diagnosis
+        - last_contact_days_to
+        - initial_pathologic_dx_days_to
+        - lymph_nodes_examined_count
+        - lymph_nodes_examined_he_count
+        - month_of_dcc_upload
+        - form_completion_day
+        - form_completion_year
+        - initial_pathologic_dx_year
+        - day_of_dcc_upload
+        - year_of_dcc_upload
+        - form_completion_month
       merge: true
       splice:
         - attributes
+      data:
+        birth_days_to.int: "{{birth_days_to}}"
+        age_at_initial_pathologic_diagnosis.int: "{{age_at_initial_pathologic_diagnosis}}"
+        last_contact_days_to.int: "{{last_contact_days_to}}"
+        initial_pathologic_dx_days_to.int: "{{initial_pathologic_dx_days_to}}"
+        lymph_nodes_examined_count.int: "{{lymph_nodes_examined_count}}"
+        lymph_nodes_examined_he_count.int: "{{lymph_nodes_examined_he_count}}"
+        month_of_dcc_upload.int: "{{month_of_dcc_upload}}"
+        form_completion_day.int: "{{form_completion_day}}"
+        form_completion_year.int: "{{form_completion_year}}"
+        initial_pathologic_dx_year.int: "{{initial_pathologic_dx_year}}"
+        day_of_dcc_upload.int: "{{day_of_dcc_upload}}"
+        year_of_dcc_upload.int: "{{year_of_dcc_upload}}"
+        form_completion_month.int: "{{form_completion_month}}"
 
 - label: ClinicalFollowup
   vertexes:
