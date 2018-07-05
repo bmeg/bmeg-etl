@@ -11,11 +11,8 @@ baseCommand:
   - json
   - "--pubchem"
   - /in/ccle_pubchem.txt
-
-
-arguments:
   - "--multi"
-  - "$(inputs.OUTPATH)"
+  - "ccle"
 
 inputs:
 
@@ -29,6 +26,6 @@ inputs:
 
 outputs:
   OUTPUT:
-    type: File[]
+    type: File
     outputBinding:
-      glob: "*.json"
+      glob: ccle.bmeg.ResponseCurve.json

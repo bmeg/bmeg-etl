@@ -18,32 +18,52 @@ inputs:
     type: File
     inputBinding:
       prefix: "--maf"
-  
+
   BIOPREFIX:
     type: string
-    inputBinding: 
+    inputBinding:
       prefix: "--bioPrefix"
-  
+
   CALLSETPREFIX:
     type: string
     inputBinding:
       prefix: "--callSetPrefix"
-  
+
   GENECOL:
     type: string?
     inputBinding:
       prefix: "--gene"
 
+  CENTER_COLUMN:
+    type: string?
+    inputBinding:
+      prefix: "--center"
+
+  SOURCE:
+    type: string?
+    inputBinding:
+      prefix: "--source"
+
+  GENOME_BUILD:
+    type: string?
+    inputBinding:
+      prefix: "--genome"
+
+  METHOD:
+    type: string?
+    inputBinding:
+      prefix: "--method"
+
 outputs:
   VARIANT:
     type: File
     outputBinding:
-      glob: "maf_data.ga4gh.Variant.json"
+      glob: "maf_data.bmeg.Variant.json"
   VARIANT_ANNOTATION:
     type: File
     outputBinding:
-      glob: "maf_data.ga4gh.VariantAnnotation.json"
+      glob: "maf_data.bmeg.VariantAnnotation.json"
   CALLSET:
     type: File
     outputBinding:
-       glob: "maf_data.ga4gh.CallSet.json"
+       glob: "maf_data.bmeg.CallSet.json"
