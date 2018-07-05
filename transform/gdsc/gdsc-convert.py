@@ -4,9 +4,8 @@ import sys
 import pandas
 import math
 import json
-from bmeg import phenotype_pb2, conversions
+from bmeg import phenotype_pb2, conversions, clinical_pb2
 from google.protobuf import json_format
-from ga4gh import bio_metadata_pb2
 
 def proto_list_append(message, a):
     v = message.values.add()
@@ -44,8 +43,8 @@ def gdsc_ic50_row(row, compound_table, sample_table, emit):
     s.value = row['RMSE']
     s.unit = "uM"
 
-    dose = row['MAX_CONC']
-
+    dose = row['CONC']
+    """
     dr = response.values.add()
     dr.dose = dose
     dr.response = row['raw_max']
@@ -69,10 +68,11 @@ def gdsc_ic50_row(row, compound_table, sample_table, emit):
                 response.blanks.append(v)
         except TypeError:
             pass
+    """
     emit(response)
 
 def gdsc_cell_info(row, emit):
-    sample = bio_metadata_pb2.Biosample()
+    sample = clinical_pb2.Biosample()
     sample.id = row["Sample Name"] # "gdsc:%s" % row["Sample Name"]
     sample.dataset_id = "gdsc"
 
@@ -80,10 +80,10 @@ def gdsc_cell_info(row, emit):
     if not isinstance(dis, float):
         sample.disease.term = dis.lower().replace('_', ' ')
 
-    proto_list_append(sample.attributes.attr['sampleType'], "cellline")
+    sample.attributes['sampleType'] = "cellline"
     label = row['Cancer Type\n(matching TCGA label)']
     if not isinstance(label, float) and len(label):
-        proto_list_append(sample.attributes.attr['source'], label)
+        sample.attributes['source'] = label
     emit(sample)
 
 
@@ -145,7 +145,7 @@ for row in cl_info.iterrows():
         sample_table[row[0]] = (str(row[1]['Sample Name']), 'gdsc') # "gdsc:%s" % (row[1]['Sample Name'])
         gdsc_cell_info(row[1], e.emit)
 
-raw = pandas.read_excel(raw_file)
+raw = pandas.read_csv(raw_file)
 fitted = pandas.read_excel(fitted_file)
 
 merge = pandas.merge(raw, fitted, on=["COSMIC_ID", "DRUG_ID"])

@@ -4,7 +4,7 @@ cwlVersion: v1.0
 class: CommandLineTool
 hints:
   DockerRequirement:
-    dockerPull: go-transform:latest
+    dockerPull: bmeg/bmeg-etl:latest
 
 
 baseCommand:

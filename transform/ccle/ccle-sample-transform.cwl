@@ -3,11 +3,11 @@ cwlVersion: v1.0
 class: CommandLineTool
 hints:
   DockerRequirement:
-    dockerPull: biostream/ccle-transform:latest
+    dockerPull: bmeg/bmeg-etl:latest
 
 baseCommand:
-  - /command/convert-ccle-sample.py
-  
+  - /opt/convert-ccle-sample.py
+
 arguments:
   - valueFrom: "Sample.json"
     position: 2

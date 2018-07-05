@@ -3,7 +3,7 @@
 import re
 import sys
 import json
-import phenotype_pb2
+from bmeg import phenotype_pb2
 from google.protobuf import json_format
 
 re_section = re.compile(r'^\[(.*)\]')

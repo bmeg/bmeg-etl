@@ -11,7 +11,7 @@ import csv
 import re
 import json
 import gzip
-import phenotype_pb2
+from bmeg import phenotype_pb2
 from google.protobuf import json_format
 
 def uniprot_ns(n):
@@ -19,7 +19,7 @@ def uniprot_ns(n):
 
 def ensembl_ns(n):
 	return "ensembl:" + n
-	
+
 def go_ns(n):
 	return "go:" + n
 
@@ -45,9 +45,9 @@ def message_to_json(handle, message):
 	handle.write("\n")
 
 if __name__ == "__main__":
-	
+
 	uniprot_2_ensembl = {}
-	
+
 	output = open(sys.argv[3], "w")
 
 	with gzip.GzipFile(sys.argv[2]) as handle:
@@ -55,8 +55,8 @@ if __name__ == "__main__":
 			row = line.rstrip().split("\t")
 			if row[1] == "Ensembl":
 				uniprot_2_ensembl[row[0]] = row[2]
-	
-	
+
+
 	with gzip.GzipFile(sys.argv[1]) as handle:
 		for line in handle:
 			if not line.startswith("!"):
@@ -66,7 +66,7 @@ if __name__ == "__main__":
 					goa = phenotype_pb2.GeneOntologyAnnotation()
 					#for r in row[SYMBOL_COL].split("|"):
 					#	if re.search(r'^[A-Z0-9]+$', r):
-					#		goa.genes.append( gene_ns(r) ) 
+					#		goa.genes.append( gene_ns(r) )
 					goa.genes.append(uniprot_2_ensembl[row[UNIPROT_COL]])
 					goa.functions.append(go_id)
 					goa.evidence.append(row[EVIDENCE_COL])
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 						goa.references.append(row[REF_COL])
 
 					if len(row[NAME_COL]):
-						goa.title = row[NAME_COL] 
-					
+						goa.title = row[NAME_COL]
+
 					message_to_json(output, goa)
 	output.close()

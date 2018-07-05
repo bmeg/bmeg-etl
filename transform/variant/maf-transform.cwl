@@ -3,7 +3,7 @@ cwlVersion: v1.0
 class: CommandLineTool
 hints:
   DockerRequirement:
-    dockerPull: biostream/variant-transform:latest
+    dockerPull: bmeg/bmeg-etl:latest
 
 baseCommand:
   - python
@@ -53,6 +53,10 @@ inputs:
     type: string?
     inputBinding:
       prefix: "--method"
+  GZIP:
+    type: boolean?
+    inputBinding:
+      prefix: "--gz"
 
 outputs:
   VARIANT:

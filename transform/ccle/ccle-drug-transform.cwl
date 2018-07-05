@@ -3,10 +3,10 @@ cwlVersion: v1.0
 class: CommandLineTool
 hints:
   DockerRequirement:
-    dockerPull: biostream/ccle-transform:latest
+    dockerPull: bmeg/bmeg-etl:latest
 
 baseCommand:
-  - /command/convert-ccle.py
+  - /opt/convert-ccle.py
   - "--format"
   - json
   - "--pubchem"
