@@ -1,13 +1,13 @@
 package main
 
 import (
-	"bmeg"
 	"compress/gzip"
 	"flag"
 	"fmt"
 	"github.com/blachlylab/gff3"
 	"github.com/golang/protobuf/jsonpb"
 	"github.com/golang/protobuf/proto"
+	"github.com/bmeg/schemas/go/bmeg"
 	"io"
 	"log"
 	"os"

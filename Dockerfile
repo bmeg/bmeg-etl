@@ -1,7 +1,7 @@
 FROM ubuntu:18.04
 
 RUN apt-get update && \
-apt-get install -y python python-pip python-lzo zlib1g-dev unzip
+apt-get install -y python python-pip python-lzo zlib1g-dev unzip golang-go git
 
 RUN pip install numpy bx-python requests protobuf biostream-schemas pandas xlrd
 
@@ -26,3 +26,11 @@ COPY transform/go/*.py /opt/
 # GDSC transform
 COPY transform/gdsc/*.py /opt/
 COPY transform/gdsc/gdsc_pubchem.table /opt/
+
+COPY transform/ensembl/run.go /opt/
+
+ENV GOPATH /opt
+RUN go get github.com/blachlylab/gff3
+RUN go get github.com/golang/protobuf/jsonpb
+RUN go get github.com/golang/protobuf/proto
+RUN go get github.com/bmeg/schemas/go/bmeg

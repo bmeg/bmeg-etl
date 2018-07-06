@@ -14,9 +14,10 @@ def run_run(args):
         workflow = yaml.load(handle.read())
 
     inputs = {}
-    for k,v in workflow['inputs'].items():
-        if 'bmeg:key' in v:
-            inputs[k] = {"class":"File", "path" : v['bmeg:key']}
+    if len(workflow['inputs']):
+        for k,v in workflow['inputs'].items():
+            if 'bmeg:key' in v:
+                inputs[k] = {"class":"File", "path" : v['bmeg:key']}
 
     inputFile = tempfile.NamedTemporaryFile(dir="./", prefix="bmegbuild-", suffix=".json", delete=False)
     inputFile.write(json.dumps(inputs))

@@ -3,7 +3,7 @@ cwlVersion: v1.0
 class: CommandLineTool
 hints:
   DockerRequirement:
-    dockerPull: biostream/ensembl-transform:latest
+    dockerPull: bmeg/bmeg-etl:latest
 
 
 baseCommand:
