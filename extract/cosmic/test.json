@@ -1,0 +1,6 @@
+{
+  "COSMIC" : {
+    "path" : "CosmicMutantExport.tsv.gz",
+    "class" : "File"
+  }
+}

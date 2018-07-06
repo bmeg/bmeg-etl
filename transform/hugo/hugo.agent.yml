@@ -1,0 +1,16 @@
+class: Agent
+
+trigger: once
+
+inputs:
+  hugo_file:
+    type: Download
+    sourceUrl: ftp://ftp.ebi.ac.uk/pub/databases/genenames/hgnc_complete_set.txt.gz
+
+workflow:
+  run: hugo-gz.cwl.yaml
+  inputs: 
+    hgnc_file: hugo_file
+  outputs:
+    - proto
+    

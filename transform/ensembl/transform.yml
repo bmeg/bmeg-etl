@@ -1,0 +1,3 @@
+
+inputs:
+  gff3: ftp://ftp.ensembl.org/pub/release-90/gff3/homo_sapiens/Homo_sapiens.GRCh38.90.chr.gff3.gz
