@@ -5,10 +5,10 @@ cwlVersion: v1.0
 class: CommandLineTool
 hints:
   DockerRequirement:
-    dockerPull: biostream/ctdd-transform:latest
+    dockerPull: bmeg/bmeg-etl:latest
 
 
-baseCommand: 
+baseCommand:
   - python
   - /opt/convert-ctdd.py
   - "--format"
@@ -21,7 +21,7 @@ baseCommand:
 inputs:
   CTRP_ZIP:
     type: File
-    inputBinding: 
+    inputBinding:
       prefix: "--zip"
 
 outputs:
