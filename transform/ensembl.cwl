@@ -34,9 +34,12 @@ outputs:
   TRANSCRIPT:
     type: File
     outputSource: ensembl-transform/TRANSCRIPT
+    bmeg:key: biostream/ensembl/ensembl.Transcript.json
   GENE:
     type: File
     outputSource: ensembl-transform/GENE
+    bmeg:key: biostream/ensembl/ensembl.Gene.json
   EXON:
     type: File
     outputSource: ensembl-transform/EXON
+    bmeg:key: biostream/ensembl/ensembl.Exon.json

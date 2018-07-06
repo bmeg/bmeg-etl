@@ -12,26 +12,19 @@ hints:
 
 baseCommand:
   - /opt/gtex_convert.py
-  - "--format"
-  - json
-
-
-arguments:
-  - "--multi"
-  - "$(inputs.OUTPATH)"
 
 inputs:
-
-  SAMPLES:
+  BIOBANK:
     type: File
     inputBinding:
-      prefix: "--sample"
-  OUTPATH:
-    type: [string, "null"]
-    default: "ccle-data"
+      prefix: "--bio"
 
 outputs:
-  OUTPUT:
-    type: File[]
+  BIOSAMPLE:
+    type: File
     outputBinding:
-      glob: "*.json"
+      glob: "*.Biosample.json"
+  INDIVIDUAL:
+    type: File
+    outputBinding:
+      glob: "*.Individual.json"

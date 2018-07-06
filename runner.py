@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import yaml
 import json
 import argparse
@@ -24,7 +25,21 @@ def run_run(args):
     inputFile.close()
     print inputFile.name
 
-    subprocess.check_call(["cwltool", args.cwl, inputFile.name])
+    outJSON = subprocess.check_output(["cwltool", args.cwl, inputFile.name])
+    outData = json.loads(outJSON)
+
+    outMapping = {}
+    for k,v in workflow['outputs'].items():
+        if 'bmeg:key' in v:
+            outMapping[k] = v['bmeg:key']
+
+    for k, v in outData.items():
+        if k in outMapping:
+            outPath = outMapping[k]
+            if not os.path.exists(os.path.dirname(outPath)):
+                os.makedirs(os.path.dirname(outPath))
+            os.rename(v['path'], outPath)
+    os.unlink(inputFile)
 
 
 

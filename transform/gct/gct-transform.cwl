@@ -24,6 +24,11 @@ inputs:
     inputBinding:
       prefix: "-scale"
 
+  GZIPPED:
+    type: boolean?
+    inputBinding:
+      prefix: "-gzipped"
+
 outputs:
   OUTPUT:
     type: File
