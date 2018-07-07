@@ -3,7 +3,8 @@ FROM ubuntu:18.04
 RUN apt-get update && \
 apt-get install -y python python-pip python-lzo zlib1g-dev unzip golang-go git
 
-RUN pip install numpy bx-python requests protobuf biostream-schemas pandas xlrd
+RUN pip install numpy bx-python requests protobuf pandas xlrd
+RUN pip install "git+https://github.com/bmeg/schemas.git#subdirectory=python"
 
 # GDC Transform
 COPY transform/gdc/*.py /opt/
@@ -28,6 +29,8 @@ COPY transform/gdsc/*.py /opt/
 COPY transform/gdsc/gdsc_pubchem.table /opt/
 
 COPY transform/ensembl/run.go /opt/
+
+COPY transform/pathway-commons/sif_convert.py /opt/
 
 ENV GOPATH /opt
 RUN go get github.com/blachlylab/gff3

@@ -23,11 +23,11 @@ def parse_gene_map(path):
     with open(path) as handle:
         reader = csv.DictReader(handle, delimiter="\t")
         for row in reader:
-            if len(row['ensembl_gene_id']) > 0:
-                name_table[row['symbol']] = row['ensembl_gene_id']
-                if len(row['prev_symbol']) > 0:
-                    for ps in row['prev_symbol'].split("|"):
-                        name_table[ps] = row['ensembl_gene_id']
+            if len(row['Ensembl Gene ID']) > 0:
+                name_table[row['Approved Symbol']] = row['Ensembl Gene ID']
+                if len(row['Previous Symbols']) > 0:
+                    for ps in row['Previous Symbols'].split("|"):
+                        name_table[ps] = row['Ensembl Gene ID']
     return name_table
 
 
