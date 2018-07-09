@@ -31,3 +31,4 @@ outputs:
   OUTPUT:
     type: File
     outputSource: pathway-commons-transform/OUTPUT
+    bmeg:key: biostream/pathway-commons.sif.json
