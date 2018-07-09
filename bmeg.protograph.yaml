@@ -229,19 +229,12 @@
         end.int: "{{end}}"
   edges:
     - index: "{{calls}}"
-      label: variantCall # variantOf
+      label: variantCall
       toLabel: CallSet
       to: "callSet:{{_index.source}}:{{_index.biosampleId}}:{{_index.method}}"
       fromLabel: Variant
       from: "variant:{{referenceGenome}}:{{referenceName}}:{{start}}:{{end}}:{{referenceBases|truncate:100}}:{{alternateBases|join:,}}"
-      merge: true
-      filter:
-        - calls
-      splice:
-        - info
-      data:
-        alternateBases: "{{alternateBases|join:,}}"
-        chromosome: "{{referenceName}}"
+      merge: false
 
 - label: VariantAnnotation
   edges:
@@ -526,9 +519,9 @@
   edges:
     - label: interactsWith
       fromLabel: Gene
-      from: "{{src}}"
+      from: "gene:{{src}}"
       toLabel: Gene
-      to: "{{dst}}"
+      to: "gene:{{dst}}"
       merge: true
       fields:
         - interaction

@@ -28,3 +28,4 @@ outputs:
   RESPONSE_JSON:
     type: File
     outputSource: ctdd-response-transform/RESPONSE
+    bmeg:key: biostream/ctdd/ctdd.ResponseCurve.json
