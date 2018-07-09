@@ -19,15 +19,21 @@ def message_to_json(message):
 
 
 def parse_gene_map(path):
+    ensembl_cols = ["Entrez Gene ID", "Ensembl ID (supplied by Ensembl)"]
+    symbol_col = "Approved Symbol"
+    prev_col = "Previous Symbols"
     name_table = {}
     with open(path) as handle:
         reader = csv.DictReader(handle, delimiter="\t")
         for row in reader:
-            if len(row['Ensembl Gene ID']) > 0:
-                name_table[row['Approved Symbol']] = row['Ensembl Gene ID']
-                if len(row['Previous Symbols']) > 0:
-                    for ps in row['Previous Symbols'].split("|"):
-                        name_table[ps] = row['Ensembl Gene ID']
+            ensembl_id = None
+            for ensembl_col in ensembl_cols:
+                if len(row[ensembl_col]) > 0:
+                    name_table[row[symbol_col]] = row[ensembl_col]
+                    ensembl_id = row[ensembl_col]
+            if ensembl_id and len(row[prev_col]) > 0:
+                for ps in row[prev_col].split("|"):
+                    name_table[ps] = row[ensembl_col]
     return name_table
 
 
