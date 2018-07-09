@@ -34,7 +34,8 @@ COPY transform/pathway-commons/sif_convert.py /opt/
 COPY transform/pubmed/pubmed.py /opt/
 
 ENV GOPATH /opt
-RUN go get github.com/blachlylab/gff3
-RUN go get github.com/golang/protobuf/jsonpb
-RUN go get github.com/golang/protobuf/proto
-RUN go get github.com/bmeg/schemas/go/bmeg
+WORKDIR /opt/
+COPY transform/gct/gct.go /opt/
+RUN go get github.com/blachlylab/gff3 && go get github.com/golang/protobuf/jsonpb && \
+go get github.com/golang/protobuf/proto && go get github.com/bmeg/schemas/go/bmeg && \
+go get github.com/biostream/schemas/go/bmeg && go build gct.go
