@@ -31,6 +31,7 @@ COPY transform/gdsc/gdsc_pubchem.table /opt/
 COPY transform/ensembl/run.go /opt/
 
 COPY transform/pathway-commons/sif_convert.py /opt/
+COPY transform/pubmed/pubmed.py /opt/
 
 ENV GOPATH /opt
 RUN go get github.com/blachlylab/gff3

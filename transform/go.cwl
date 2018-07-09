@@ -38,6 +38,9 @@ outputs:
   GOPROTO:
     type: File
     outputSource: go-transform/GO_JSON
+    bmeg:key: biostream/go/go.GeneOntologyTerm.json
+
   GAF_JSON:
     type: File
     outputSource: gaf-transform/GAF_JSON
+    bmeg:key: biostream/go/go.GeneOntologyAnnotation.json

@@ -75,3 +75,24 @@ outputs:
   CCLE_VARIANT:
     type: File
     outputSource: ccle-variant-transform/VARIANT
+    bmeg:key: biostream/ccle/ccle.Variant.json
+  CCLE_VARIANT_ANNOTATION:
+    type: File
+    outputSource: ccle-variant-transform/VARIANT_ANNOTATION
+    bmeg:key: biostream/ccle/ccle.VariantAnnotation.json
+  CCLE_CALLSET:
+    type: File
+    outputSource: ccle-variant-transform/CALLSET
+    bmeg:key: biostream/ccle/ccle.CallSet.json
+  CCLE_EXPRESSION:
+    type: File
+    outputSource: ccle-expression-transform/OUTPUT
+    bmeg:key: biostream/ccle/ccle.GeneExpression.json
+  CCLE_SAMPLES:
+    type: File
+    outputSource: ccle-sample-transform/OUTPUT
+    bmeg:key: biostream/ccle/ccle.Biosample.json
+  CCLE_RESPONSE:
+    type: File
+    outputSource: ccle-drug-transform/OUTPUT
+    bmeg:key: biostream/ccle/ccle.ResponseCurve.json
