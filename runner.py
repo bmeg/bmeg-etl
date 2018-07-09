@@ -18,7 +18,8 @@ def run_run(args):
         #if they have defined an input file as a split, create an array of existing
         #variable inputs
         inputArray = []
-        with open(workflow["bmeg:split"]) as handle:
+        splitFile = os.path.abspath(os.path.join(args.build_dir, workflow["bmeg:split"]))
+        with open(splitFile) as handle:
             for line in handle:
                 inputArray.append(json.loads(line))
     else:
