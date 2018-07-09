@@ -14,32 +14,54 @@ def run_run(args):
     with open(args.cwl) as handle:
         workflow = yaml.load(handle.read())
 
-    inputs = {}
-    if len(workflow['inputs']):
-        for k,v in workflow['inputs'].items():
+    if 'bmeg:split' in workflow:
+        #if they have defined an input file as a split, create an array of existing
+        #variable inputs
+        inputArray = []
+        with open(workflow["bmeg:split"]) as handle:
+            for line in handle:
+                inputArray.append(json.loads(line))
+    else:
+        #otherwise start a single run, with no input varibles
+        inputArray = [{}]
+
+    for buildInputs in inputArray:
+        inputs = buildInputs
+        if len(workflow['inputs']):
+            for k,v in workflow['inputs'].items():
+                if 'bmeg:key' in v:
+                    inputPath = v['bmeg:key'].format(**buildInputs)
+                    inputs[k] = {"class":"File", "path" : inputPath}
+
+        outputNotFound = False
+        outMapping = {}
+        for k,v in workflow['outputs'].items():
             if 'bmeg:key' in v:
-                inputs[k] = {"class":"File", "path" : v['bmeg:key']}
+                path = v['bmeg:key'].format(**buildInputs)
+                outMapping[k] = path
+                if not os.path.exists(path):
+                    outputNotFound = True
 
-    inputFile = tempfile.NamedTemporaryFile(dir="./", prefix="bmegbuild-", suffix=".json", delete=False)
-    inputFile.write(json.dumps(inputs))
-    inputFile.close()
-    print inputFile.name
+        if outputNotFound:
+            inputFile = tempfile.NamedTemporaryFile(dir="./", prefix="bmegbuild-", suffix=".json", delete=False)
+            inputFile.write(json.dumps(inputs))
+            inputFile.close()
+            print inputFile.name
 
-    outJSON = subprocess.check_output(["cwltool", args.cwl, inputFile.name])
-    outData = json.loads(outJSON)
+            outJSON = subprocess.check_output(["cwltool", args.cwl, inputFile.name])
+            outData = json.loads(outJSON)
 
-    outMapping = {}
-    for k,v in workflow['outputs'].items():
-        if 'bmeg:key' in v:
-            outMapping[k] = v['bmeg:key']
 
-    for k, v in outData.items():
-        if k in outMapping:
-            outPath = outMapping[k]
-            if not os.path.exists(os.path.dirname(outPath)):
-                os.makedirs(os.path.dirname(outPath))
-            os.rename(v['path'], outPath)
-    os.unlink(inputFile)
+            for k, v in outData.items():
+                if k in outMapping:
+                    outPath = outMapping[k]
+                    if not os.path.exists(os.path.dirname(outPath)):
+                        os.makedirs(os.path.dirname(outPath))
+                    print("Moving", v['path'], outPath)
+                    os.rename(v['path'], outPath)
+            os.unlink(inputFile.name)
+        else:
+            print("All outputs found")
 
 
 

@@ -7,8 +7,9 @@ import logging
 import re
 import sys
 import xml.sax
+import os
 from ftplib import FTP
-from nlp_pb2 import Pubmed
+from bmeg.nlp_pb2 import Pubmed
 from google.protobuf import json_format
 
 reWord = re.compile(r'\w')
@@ -95,7 +96,7 @@ def emit_pubmed(e, v, attrs, **kwds):
 
 
 f_map = [
-    (['PubmedArticleSet', 'PubmedArticle'], None, emit_pubmed),    
+    (['PubmedArticleSet', 'PubmedArticle'], None, emit_pubmed),
     (['PubmedArticleSet', 'PubmedArticle', 'MedlineCitation'], None, pass_attrs),
     (['PubmedArticleSet', 'PubmedArticle', 'MedlineCitation', 'PMID'], None, string_pass),
     (['PubmedArticleSet', 'PubmedArticle', 'MedlineCitation', 'DateCreated', '*'], None, string_pass),
@@ -216,7 +217,8 @@ if __name__ == "__main__":
         ftp = FTP('ftp.ncbi.nlm.nih.gov')
         ftp.login()
         for i in ftp.nlst("/pubmed/baseline/*.xml.gz"):
-            print "ftp://ftp.ncbi.nlm.nih.gov%s" % i
+            name = os.path.basename(i)
+            print json.dumps( {"url" : "ftp://ftp.ncbi.nlm.nih.gov%s" % i, "name" : name} )
         sys.exit(0)
 
     for path in args.files:
