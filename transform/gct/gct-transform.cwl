@@ -3,7 +3,7 @@ cwlVersion: v1.0
 class: CommandLineTool
 hints:
   DockerRequirement:
-    dockerPull: bmeg/bmeg-etl:latest
+    dockerPull: biostream/gct-transform:latest
 
 baseCommand:
   - "/opt/gct"
