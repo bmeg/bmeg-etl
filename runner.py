@@ -34,10 +34,6 @@ def run_run(args):
                     inputPath = os.path.abspath(os.path.join(args.build_dir, v['bmeg:key'].format(**buildInputs)))
                     inputs[k] = {"class":"File", "path" : inputPath}
 
-        if args.dry_run:
-            print(inputs)
-            continue
-
         outputNotFound = False
         outMapping = {}
         for k,v in workflow['outputs'].items():
@@ -62,18 +58,23 @@ def run_run(args):
             inputFile.write(json.dumps(inputs))
             inputFile.close()
 
-            tmpdir = os.path.join(args.exec_dir, "tmp")
+            tmpdir = os.path.join(args.exec_dir, "tmp/tmp")
             outdir = os.path.join(args.exec_dir, "out")
             cachedir = os.path.join(args.exec_dir, "cache")
 
             try:
-                outJSON = subprocess.check_output([
+                cmd = [
                     "cwltool",
                     "--outdir", outdir,
                     "--tmpdir-prefix", tmpdir,
                     "--cachedir", cachedir,
                     args.cwl, inputFile.name
-                ])
+                ]
+                print("Running:", " ".join(cmd))
+                print("Inputs:", inputs)
+                if args.dry_run:
+                    continue
+                outJSON = subprocess.check_output(cmd)
                 outData = json.loads(outJSON)
 
                 for k, v in outData.items():
