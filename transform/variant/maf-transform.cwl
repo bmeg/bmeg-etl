@@ -29,7 +29,7 @@ inputs:
     inputBinding:
       prefix: "--callSetPrefix"
 
-  GENECOL:
+  GENE_COLUMN:
     type: string?
     inputBinding:
       prefix: "--gene"
@@ -53,6 +53,7 @@ inputs:
     type: string?
     inputBinding:
       prefix: "--method"
+
   GZIP:
     type: boolean?
     inputBinding:

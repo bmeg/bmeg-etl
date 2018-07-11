@@ -13,7 +13,6 @@ inputs:
     bmeg:key: source/mc3.v0.2.8.PUBLIC.maf.gz
 
 steps:
-
   mc3-transform:
     run: variant/maf-transform.cwl
     in:
@@ -22,13 +21,13 @@ steps:
       GENE_COLUMN:
         default: "Gene"
       SOURCE:
-        default: tcga
+        default: "tcga"
       GZIP:
         default: true
       BIOPREFIX:
         default: "tcga"
       CALLSETPREFIX:
-        default: mc3
+        default: "mc3"
       MAF: MC3_MAF
     out:
       - VARIANT
@@ -40,10 +39,12 @@ outputs:
     type: File
     outputSource: mc3-transform/VARIANT
     bmeg:key: biostream/mc3/mc3.Variant.json
+
   VARIANT_ANNOTATION_JSON:
     type: File
     outputSource: mc3-transform/VARIANT_ANNOTATION
     bmeg:key: biostream/mc3/mc3.VariantAnnotation.json
+
   CALLSET_JSON:
     type: File
     outputSource: mc3-transform/CALLSET
