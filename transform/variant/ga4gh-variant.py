@@ -155,16 +155,8 @@ class MafConverter(Converter):
             alternate_bases = set(line[tumor_allele1])
             if tumor_allele2 in line:
                 alternate_bases.add( line[tumor_allele2] )
-            variant_id = self.gid_variant(
-                genome,
-                line[chromosome],
-                long(get_value(line, start, None)),
-                long(get_value(line, end, None)),
-                line[reference_allele],
-                ','.join(alternate_bases))
 
             variant = variants_pb2.Variant()
-            variant.id = variant_id
             variant.start = long(get_value(line, start, None))
             variant.end = long(get_value(line, end, None))
             variant.reference_name = line[chromosome]
@@ -202,7 +194,6 @@ class MafConverter(Converter):
                 call.source = source
                 call.biosample_id = sample
 
-            # variants = []
             for a in alternate_bases:
                 clone = variants_pb2.Variant()
                 clone.CopyFrom(variant)
@@ -213,10 +204,10 @@ class MafConverter(Converter):
                     long(get_value(line, start, None)),
                     long(get_value(line, end, None)),
                     line[reference_allele],
-                    ','.join(alternate_bases))
+                    a
+                )
                 clone.id = variant_id
                 emit(clone)
-                # variants.append(clone)
 
                 annotation_id = variant_id 
                 annotation = variants_pb2.VariantAnnotation()
@@ -227,9 +218,8 @@ class MafConverter(Converter):
                 ensembl_id = conversions.hugo_ensembl(feature_id)
                 feature_id = feature_id if len(ensembl_id) == 0 else ensembl_id
                 
-                effect = line[variant_type]
                 transcript_effect = annotation.transcript_effects.add()
-                transcript_effect.alternate_bases = ','.join(alternate_bases)
+                transcript_effect.alternate_bases = a
                 transcript_effect.feature_id = feature_id
                 # transcript_effect.id = self.gid_transcript_effect(
                 #     feature_id.replace(self.genePrefix + ":", ""),
@@ -237,6 +227,7 @@ class MafConverter(Converter):
                 #     ','.join(alternate_bases))
                 
                 ontology = transcript_effect.effects.add()
+                effect = line[variant_type]
                 ontology.term = effect
                 #annotations.append(annotation)
                 emit(annotation)
