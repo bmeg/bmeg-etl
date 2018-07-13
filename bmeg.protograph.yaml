@@ -212,7 +212,7 @@
 - label: Variant
   vertexes:
     - label: Variant
-      gid: "variant:{{referenceGenome}}:{{referenceName}}:{{start}}:{{end}}:{{referenceBases|truncate:100}}:{{alternateBases|join:,}}"
+      gid: "variant:{{id}}"
       merge: true
       filter:
         - calls
@@ -233,7 +233,7 @@
       toLabel: CallSet
       to: "callSet:{{_index.source}}:{{_index.biosampleId}}:{{_index.method}}"
       fromLabel: Variant
-      from: "variant:{{referenceGenome}}:{{referenceName}}:{{start}}:{{end}}:{{referenceBases|truncate:100}}:{{alternateBases|join:,}}"
+      from: "variant:{{id}}"
       merge: false
 
 - label: VariantAnnotation
@@ -249,7 +249,7 @@
       data:
         effects: "{{_index.effects|each:term|join:,}}"
         gene: "{{_index.featureId}}"
-        bases: "{{_index.alternateBases}}"
+        alternateBases: "{{_index.alternateBases}}"
 
 - label: ResponseCurve
   vertexes:

@@ -9,6 +9,7 @@ import os
 import sys
 import csv
 import gzip
+import hashlib
 import json
 import string
 import logging
@@ -25,30 +26,8 @@ def proto_list_append(message, a):
     v = message.values.add()
     v.string_value = a
 
-url = "https://api.gdc.cancer.gov/cases/"
-headers = {'Content-Type': "application/json"}
-def barcode_id(barcode, retries=5):
-    if retries == 0:
-        return barcode
-    else:
-        try:
-            query = {
-                "expand": "samples",
-                "fields": "samples.sample_id",
-                "filters": {
-                    'op': 'in',
-                    'content': {
-                        'field': 'samples.portions.analytes.aliquots.submitter_id',
-                        'value': [barcode]
-                    }
-                }
-            }
-
-            r = requests.post(url, headers=headers, data=json.dumps(query))
-            res = r.json()
-            return res['data']['hits'][0].get('samples', [])[0]['sample_id']
-        except:
-            return barcode_id(barcode, retries - 1)
+def tcga_aliquot2sample_barcode(barcode):
+    return "-".join(barcode.split("-")[0:4])
 
 class Converter(object):
     def __init__(self, 
@@ -152,16 +131,25 @@ class MafConverter(Converter):
             inhandle = open(mafpath)
         reader = csv.DictReader(inhandle, delimiter="\t")
         for line in reader:
-            alternate_bases = set(line[tumor_allele1])
-            if tumor_allele2 in line:
-                alternate_bases.add( line[tumor_allele2] )
-
             variant = variants_pb2.Variant()
+            variant_id = self.gid_variant(
+                genome,
+                line[chromosome],
+                long(get_value(line, start, None)),
+                long(get_value(line, end, None)),
+                line[reference_allele],
+                line[tumor_allele1]
+            )
+            vidhash = hashlib.sha1()
+            vidhash.update(variant_id)
+            vidhash = vidhash.hexdigest()            
+            variant.id = vidhash
             variant.start = long(get_value(line, start, None))
             variant.end = long(get_value(line, end, None))
             variant.reference_name = line[chromosome]
             variant.reference_genome = genome
             variant.reference_bases = line[reference_allele]
+            variant.alternate_bases = [line[tumor_allele2]]
             #if self.centerCol in line:
             #    for c in line[self.centerCol].split("|"):
                     #proto_list_append(variant.attributes["center"], c)
@@ -172,7 +160,7 @@ class MafConverter(Converter):
             sample = barcode
             if source == 'tcga':
                 if not barcode in sample_ids:
-                    sample_ids[barcode] = barcode_id(barcode)
+                    sample_ids[barcode] = tcga_aliquot2sample_barcode(barcode)
                 sample = sample_ids[barcode]
 
             sample_callsets = []
@@ -194,44 +182,29 @@ class MafConverter(Converter):
                 call.source = source
                 call.biosample_id = sample
 
-            for a in alternate_bases:
-                clone = variants_pb2.Variant()
-                clone.CopyFrom(variant)
-                clone.alternate_bases.append(a)
-                variant_id = self.gid_variant(
-                    genome,
-                    line[chromosome],
-                    long(get_value(line, start, None)),
-                    long(get_value(line, end, None)),
-                    line[reference_allele],
-                    a
-                )
-                clone.id = variant_id
-                emit(clone)
+            emit(variant)
 
-                annotation_id = variant_id 
-                annotation = variants_pb2.VariantAnnotation()
-                annotation.id = annotation_id
-                annotation.variant_id = variant_id
-                
-                feature_id = line[self.geneCol] # self.gid_gene(line[self.geneCol])
-                ensembl_id = conversions.hugo_ensembl(feature_id)
-                feature_id = feature_id if len(ensembl_id) == 0 else ensembl_id
-                
-                transcript_effect = annotation.transcript_effects.add()
-                transcript_effect.alternate_bases = a
-                transcript_effect.feature_id = feature_id
-                # transcript_effect.id = self.gid_transcript_effect(
-                #     feature_id.replace(self.genePrefix + ":", ""),
-                #     annotation_id.replace(self.genomePrefix + ":", ""),
-                #     ','.join(alternate_bases))
-                
-                ontology = transcript_effect.effects.add()
-                effect = line[variant_type]
-                ontology.term = effect
-                #annotations.append(annotation)
-                emit(annotation)
+            annotation = variants_pb2.VariantAnnotation()
+            annotation.id = vidhash 
+            annotation.variant_id = vidhash 
 
+            # feature_id = self.gid_gene(line[self.geneCol])
+            feature_id = line[self.geneCol] 
+            ensembl_id = conversions.hugo_ensembl(feature_id)
+            feature_id = feature_id if len(ensembl_id) == 0 else ensembl_id
+                
+            transcript_effect = annotation.transcript_effects.add()
+            transcript_effect.alternate_bases = line[tumor_allele1]
+            transcript_effect.feature_id = feature_id
+            # transcript_effect.id = self.gid_transcript_effect(
+            #     feature_id.replace(self.genePrefix + ":", ""),
+            #     annotation_id.replace(self.genomePrefix + ":", ""),
+            #     ','.join(alternate_bases))
+                
+            ontology = transcript_effect.effects.add()
+            effect = line[variant_type]
+            ontology.term = effect
+            emit(annotation)
 
             for sc, center in sample_callsets:
                 if sc not in samples:
@@ -245,10 +218,6 @@ class MafConverter(Converter):
                     # callset.attributes["center"] = center
 
                     emit(callset)
-                    
-            # for v in variants:
-            #     emit(v)
-
 
         inhandle.close()
 
