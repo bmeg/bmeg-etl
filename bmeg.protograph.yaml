@@ -126,7 +126,7 @@
 - label: Biosample
   vertexes:
     - label: Biosample
-      gid: "biosample:{{source}}:{{id}}"
+      gid: "biosample:{{source}}:{{attributes.bcr_sample_barcode}}"
       fields:
         - id
         - name
@@ -142,12 +142,12 @@
     - fromLabel: Biosample
       label: sampleOf
       toLabel: Individual
-      from: "biosample:{{source}}:{{id}}"
+      from: "biosample:{{source}}:{{attributes.bcr_sample_barcode}}"
       to: "individual:{{individualId}}"
     - fromLabel: Biosample
       label: hasDisease
       toLabel: OntologyTerm
-      from: "biosample:{{source}}:{{id}}"
+      from: "biosample:{{source}}:{{attributes.bcr_sample_barcode}}"
       to: "term:{{disease.term}}"
 
 - label: OntologyTerm
