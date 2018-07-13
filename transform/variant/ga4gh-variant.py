@@ -149,7 +149,7 @@ class MafConverter(Converter):
             variant.reference_name = line[chromosome]
             variant.reference_genome = genome
             variant.reference_bases = line[reference_allele]
-            variant.alternate_bases = [line[tumor_allele2]]
+            variant.alternate_bases.append(line[tumor_allele2])
             #if self.centerCol in line:
             #    for c in line[self.centerCol].split("|"):
                     #proto_list_append(variant.attributes["center"], c)
