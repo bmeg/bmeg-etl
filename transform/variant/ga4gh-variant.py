@@ -138,7 +138,7 @@ class MafConverter(Converter):
                 long(get_value(line, start, None)),
                 long(get_value(line, end, None)),
                 line[reference_allele],
-                line[tumor_allele1]
+                line[tumor_allele2]
             )
             vidhash = hashlib.sha1()
             vidhash.update(variant_id)
@@ -194,13 +194,13 @@ class MafConverter(Converter):
             feature_id = feature_id if len(ensembl_id) == 0 else ensembl_id
                 
             transcript_effect = annotation.transcript_effects.add()
-            transcript_effect.alternate_bases = line[tumor_allele1]
+            transcript_effect.alternate_bases = line[tumor_allele2]
             transcript_effect.feature_id = feature_id
             # transcript_effect.id = self.gid_transcript_effect(
             #     feature_id.replace(self.genePrefix + ":", ""),
             #     annotation_id.replace(self.genomePrefix + ":", ""),
             #     ','.join(alternate_bases))
-                
+
             ontology = transcript_effect.effects.add()
             effect = line[variant_type]
             ontology.term = effect
