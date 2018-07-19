@@ -1,14 +1,13 @@
 import json
 
 from dataclasses import dataclass, field
-from typing import NamedTuple
 
 from gid_models import GID
 from utils import set_gid
 
 
 @dataclass(frozen=True)
-class Vertex(object):
+class Vertex:
     gid: GID = field(init=False)
 
     def dump(self):
@@ -44,7 +43,8 @@ class Callset(Vertex):
         )
 
 
-class Allele(NamedTuple, Vertex):
+@dataclass(frozen=True)
+class Allele(Vertex):
     genome: str
     chromosome: str
     start: int
@@ -53,11 +53,10 @@ class Allele(NamedTuple, Vertex):
     alternate_bases: str
     myvariantinfo: dict
 
-    @property
-    def gid(self):
-        return Allele.make_gid(self.genome, self.chromosome, self.start,
-                               self.end, self.reference_bases,
-                               self.alternate_bases)
+    def __post_init__(self):
+        set_gid(self, Allele.make_gid(self.genome, self.chromosome, self.start,
+                                      self.end, self.reference_bases,
+                                      self.alternate_bases))
 
     @classmethod
     def make_gid(cls, genome, chromosome, start, end, reference_bases,
@@ -68,7 +67,8 @@ class Allele(NamedTuple, Vertex):
                                              alternate_bases))
 
 
-class Gene(NamedTuple, Vertex):
+@dataclass(frozen=True)
+class Gene(Vertex):
     ensembl_id: str
     symbol: str
     description: str
@@ -78,9 +78,8 @@ class Gene(NamedTuple, Vertex):
     strand: str
     mygeneinfo: dict
 
-    @property
-    def gid(self):
-        return Gene.make_gid(self.ensembl_id)
+    def __post_init__(self):
+        set_gid(self, Gene.make_gid(self.ensembl_id))
 
     @classmethod
     def make_gid(cls, ensembl_id):
@@ -89,7 +88,8 @@ class Gene(NamedTuple, Vertex):
         return GID("%s:%s" % (cls.__name__, ensembl_id))
 
 
-class Transcript(NamedTuple, Vertex):
+@dataclass(frozen=True)
+class Transcript(Vertex):
     ensembl_id: str
     gene_id: str
     chromosome: str
@@ -97,9 +97,8 @@ class Transcript(NamedTuple, Vertex):
     end: int
     strand: str
 
-    @property
-    def gid(self):
-        return Transcript.make_gid(self.ensembl_id)
+    def __post_init__(self):
+        set_gid(self, Transcript.make_gid(self.ensembl_id))
 
     @classmethod
     def make_gid(cls, ensembl_id):
@@ -108,7 +107,8 @@ class Transcript(NamedTuple, Vertex):
         return GID("%s:%s" % (cls.__name__, ensembl_id))
 
 
-class Exon(NamedTuple, Vertex):
+@dataclass(frozen=True)
+class Exon(Vertex):
     ensembl_id: str
     transcript_id: str
     chromosome: str
@@ -116,9 +116,8 @@ class Exon(NamedTuple, Vertex):
     end: int
     strand: str
 
-    @property
-    def gid(self):
-        return Exon.make_gid(self.ensembl_id)
+    def __post_init__(self):
+        set_gid(self, Exon.make_gid(self.ensembl_id))
 
     @classmethod
     def make_gid(cls, ensembl_id):
@@ -127,13 +126,13 @@ class Exon(NamedTuple, Vertex):
         return GID("%s:%s" % (cls.__name__, ensembl_id))
 
 
-class Protein(NamedTuple, Vertex):
+@dataclass(frozen=True)
+class Protein(Vertex):
     ensembl_id: str
     transcript_id: str
 
-    @property
-    def gid(self):
-        return Protein.make_gid(self.ensembl_id)
+    def __post_init__(self):
+        set_gid(self, Protein.make_gid(self.ensembl_id))
 
     @classmethod
     def make_gid(cls, ensembl_id):

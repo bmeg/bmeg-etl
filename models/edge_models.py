@@ -1,27 +1,41 @@
 import json
 
+from dataclasses import dataclass, field
+
 from gid_models import GID
+from utils import set_gid
 
 
-class GenericEdge(object):
-    def __init__(self, from_gid, to_gid):
-        if not isinstance(from_gid, GID):
-            raise TypeError(
-                "expected GID not %s" % (from_gid.__class__.__name__)
-            )
-        if not isinstance(to_gid, GID):
-            raise TypeError(
-                "expected GID not %s" % (to_gid.__class__.__name__)
-            )
-
-        self.label = self.__class__.__name__
-        self.id = "(%s:%s)--%s->(%s:%s)" % (from_gid, self.label, to_gid)
-        self.from_gid = from_gid
-        self.to_gid = to_gid
+@dataclass(frozen=True)
+class Edge:
+    gid: GID = field(init=False)
 
     def dump(self):
         return json.dumps({
-            "gid": self.id,
+            "gid": self.gid,
+            "label": self.__class__.__name__,
+            "from": self.from_gid,
+            "to": self.to_gid,
+            "data": self.data
+        })
+
+
+@dataclass(frozen=True)
+class GenericEdge(Edge):
+    label: str
+    from_gid: GID
+    to_gid: GID
+
+    def __post_init__(self):
+        set_gid(self, Edge.make_gid(self.label, self.from_gid, self.to_gid))
+
+    @classmethod
+    def make_gid(cls, label, from_gid, to_gid):
+        return "(%s)--%s->(%s)" % (from_gid, label, to_gid)
+
+    def dump(self):
+        return json.dumps({
+            "gid": self.gid,
             "label": self.label,
             "from": self.from_gid,
             "to": self.to_gid,
