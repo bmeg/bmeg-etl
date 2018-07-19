@@ -13,8 +13,7 @@ class Edge:
     to_gid: GID
 
     def __post_init__(self):
-        set_gid(self, self.__class__.make_gid(self.label, self.from_gid,
-                                              self.to_gid))
+        set_gid(self, self.__class__.make_gid(self.from_gid, self.to_gid))
 
     @classmethod
     def make_gid(cls, from_gid, to_gid):
@@ -27,7 +26,7 @@ class Edge:
         data = dict(self.__dict__)
         del data["gid"]
         del data["from_gid"]
-        del data["to"]
+        del data["to_gid"]
 
         return json.dumps({
             "gid": self.gid,

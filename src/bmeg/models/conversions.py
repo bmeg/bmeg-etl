@@ -17,7 +17,10 @@ def query_mygeneinfo_for_ensembl_gene(ids):
     )
     if 'notfound' in res[0]:
         raise RuntimeError("query for %s returned no hits" % id)
-    return [x["ensembl"]["gene"] for x in res]
+    if isinstance(ids, str):
+        return res[0]["ensembl"]["gene"]
+    else:
+        return [x["ensembl"]["gene"] for x in res]
 
 
 def ensembl_gene_lookup(id):
