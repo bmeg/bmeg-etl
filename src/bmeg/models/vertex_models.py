@@ -1,6 +1,8 @@
+import hashlib
 import json
 
 from dataclasses import dataclass, field
+from typing import List
 
 from bmeg.models.gid_models import GID
 from bmeg.models.utils import set_gid
@@ -61,10 +63,50 @@ class Allele(Vertex):
     @classmethod
     def make_gid(cls, genome, chromosome, start, end, reference_bases,
                  alternate_bases):
-        # TODO -  figure out hashing strategy
-        return GID("%s:%s:%s:%d:%d:%s:%s" % (cls.__name__, genome, chromosome,
-                                             start, end, reference_bases,
-                                             alternate_bases))
+        # TODO -  figure out better hashing strategy
+        vid = "%s:%s:%d:%d:%s:%s" % (genome, chromosome,
+                                     start, end, reference_bases,
+                                     alternate_bases)
+        vidhash = hashlib.sha1()
+        vidhash.update(vid)
+        vidhash = vidhash.hexdigest()
+        return GID("%s:%s" % (cls.__name__, vidhash))
+
+
+@dataclass(frozen=True)
+class CNASegment(Vertex):
+    genome: str
+    chromosome: str
+    start: int
+    end: int
+
+    def __post_init__(self):
+        set_gid(self, CNASegment.make_gid(self.genome, self.chromosome,
+                                          self.start, self.end))
+
+    @classmethod
+    def make_gid(cls, callset_id, genome, chromosome, start, end):
+        return GID("%s:%s:%s:%d:%d" % (cls.__name__, callset_id, genome, start,
+                                       end))
+
+
+@dataclass(frozen=True)
+class MethylationProbe(Vertex):
+    genome: str
+    chromosome: str
+    start: int
+    end: int
+    probe_id: str
+
+    def __post_init__(self):
+        set_gid(self, MethylationProbe.make_gid(self.genome, self.chromosome,
+                                                self.start, self.end,
+                                                self.probe_id))
+
+    @classmethod
+    def make_gid(cls, genome, chromosome, start, end, probe_id):
+        return GID("%s:%s:%d:%d:%s" % (cls.__name__, genome, start, end,
+                                       probe_id))
 
 
 @dataclass(frozen=True)
