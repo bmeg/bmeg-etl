@@ -37,7 +37,7 @@ def transform(args):
                                    value=val)
             emit(vert)
             emit(edge)
-        emitter.close()
+    emitter.close()
     return
 
 
