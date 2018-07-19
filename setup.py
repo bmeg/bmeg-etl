@@ -1,7 +1,7 @@
 import io
 import os
 
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 def read(*names, **kwargs):
@@ -20,7 +20,8 @@ setup(
     long_description_content_type='text/markdown',
     url="https://github.com/bmeg/bmeg-etl",
     license="MIT",
-    packages=["models"],
+    package_dir={'': 'src'},
+    packages=find_packages("src"),
     python_requires=">=3.6, <4",
     install_requires=[
         "dataclasses>=0.6",
