@@ -89,6 +89,14 @@ class MethlyationProbeValue(Edge):
 
 
 @dataclass(frozen=True)
+class MethlyationProbeForGene(Edge):
+    """
+    MethylationProbe -> Gene
+    """
+    pass
+
+
+@dataclass(frozen=True)
 class TranscriptFor(Edge):
     """
     Transcript -> Gene

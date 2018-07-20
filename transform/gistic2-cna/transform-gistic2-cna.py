@@ -8,6 +8,7 @@ from bmeg.models.vertex_models import Callset, Gene
 from bmeg.models.edge_models import CNAValueForGene
 from bmeg.models.conversions import query_mygeneinfo_for_ensembl_gene
 from bmeg.models.emitter import Emitter
+from bmeg.models.utils import get_tcga_sample_barcode, tcga_barcode_is_tumor
 
 
 def transform(args):
@@ -25,18 +26,28 @@ def transform(args):
 
     reader = csv.DictReader(inhandle, delimiter="\t")
     for line in reader:
-        gene = line["Sample"]
+        identifier = line["Sample"]
         del line["Sample"]
-        ensembl_gene_id = query_mygeneinfo_for_ensembl_gene(gene)
-        for k, val in line.items():
-            vert = Callset(tumor_biosample_id=k,
-                           normal_biosample_id="",
-                           call_method="GISTIC2")
-            edge = CNAValueForGene(from_gid=Gene.make_gid(ensembl_gene_id),
-                                   to_gid=vert.gid,
+
+        ids = identifier.split("|")
+        if len(ids) == 2:
+            gene = ids[1].split(".")[0]
+        else:
+            gene = ids[0]
+            gene = query_mygeneinfo_for_ensembl_gene(gene)
+
+        for id, val in line.items():
+            sample_id = get_tcga_sample_barcode(id)
+            if not tcga_barcode_is_tumor(sample_id):
+                raise RuntimeError("%s is not a tumor barcode" % sample_id)
+            c = Callset(tumor_biosample_id=sample_id,
+                        normal_biosample_id="",
+                        call_method="GISTIC2")
+            cvfg = CNAValueForGene(from_gid=c.gid,
+                                   to_gid=Gene.make_gid(gene),
                                    value=val)
-            emit(vert)
-            emit(edge)
+            emit(c)
+            emit(cvfg)
     emitter.close()
     return
 
