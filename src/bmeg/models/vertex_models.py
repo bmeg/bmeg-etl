@@ -197,7 +197,7 @@ class COCACluster(Vertex):
 @dataclass(frozen=True)
 class Individual(Vertex):
     individual_id: str
-    tcga_attributes: dict
+    gdc_attributes: dict
 
     def __post_init__(self):
         set_gid(self, Individual.make_gid(self.individual_id))
@@ -210,7 +210,7 @@ class Individual(Vertex):
 @dataclass(frozen=True)
 class Biosample(Vertex):
     biosample_id: str
-    tcga_attributes: dict
+    gdc_attributes: dict
 
     def __post_init__(self):
         set_gid(self, Individual.make_gid(self.biosample_id))

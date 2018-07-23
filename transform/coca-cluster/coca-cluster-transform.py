@@ -27,12 +27,15 @@ def transform(args):
         individual_id = get_tcga_individual_barcode(row["Sample"])
         cluster_id = row["COCA"]
         if cluster_id not in coca_clusters:
+            # TODO add edge from each coca cluster to the pubmed vertex that
+            # references this paper
             coca_clusters[cluster_id] = True
             coca = COCACluster(cluster_id=cluster_id)
             emit(coca)
         cvfg = COCAClusterContains(from_gid=COCACluster.make_gid(cluster_id),
                                    to_gid=Individual.make_gid(individual_id))
         emit(cvfg)
+
     emitter.close()
     return
 
