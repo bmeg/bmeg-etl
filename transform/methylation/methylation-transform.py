@@ -6,7 +6,7 @@ import os
 
 from bmeg.models.vertex_models import Callset, Gene, MethylationProbe
 from bmeg.models.edge_models import (MethlyationProbeValue,
-                                     MethlyationProbeForGene)
+                                     MethlyationProbeFor)
 from bmeg.models.conversions import query_mygeneinfo_for_ensembl_gene
 from bmeg.models.emitter import Emitter
 from bmeg.models.utils import get_tcga_sample_barcode, tcga_barcode_is_tumor
@@ -49,8 +49,8 @@ def transform(args):
                                     to_gid=c.gid,
                                     value=line["Beta_value"])
 
-        mpfg = MethlyationProbeForGene(from_gid=p.gid,
-                                       to_gid=Gene.make_gid(gene))
+        mpfg = MethlyationProbeFor(from_gid=p.gid,
+                                   to_gid=Gene.make_gid(gene))
 
         emit(p)
         emit(c)

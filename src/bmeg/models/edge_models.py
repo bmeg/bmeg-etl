@@ -38,7 +38,7 @@ class Edge:
 
 
 @dataclass(frozen=True)
-class VariantInGene(Edge):
+class VariantIn(Edge):
     """
     Variant -> Gene
     """
@@ -54,7 +54,7 @@ class VariantCall(Edge):
 
 
 @dataclass(frozen=True)
-class CNASegmentOverlapsGene(Edge):
+class CNASegmentOverlaps(Edge):
     """
     CNASegment -> Gene
     """
@@ -71,7 +71,7 @@ class CNASegmentCall(Edge):
 
 
 @dataclass(frozen=True)
-class CNAValueForGene(Edge):
+class GeneCNAValueCall(Edge):
     """
     Gene -> Callset
     """
@@ -89,7 +89,7 @@ class MethlyationProbeValue(Edge):
 
 
 @dataclass(frozen=True)
-class MethlyationProbeForGene(Edge):
+class MethlyationProbeFor(Edge):
     """
     MethylationProbe -> Gene
     """
@@ -121,8 +121,24 @@ class ProteinFor(Edge):
 
 
 @dataclass(frozen=True)
-class COCAClusterContains(Edge):
+class COCAClusterFor(Edge):
     """
     COCACluster -> Individual
+    """
+    pass
+
+
+@dataclass(frozen=True)
+class BiosampleFor(Edge):
+    """
+    Biosample -> Individual
+    """
+    pass
+
+
+@dataclass(frozen=True)
+class CallsetFor(Edge):
+    """
+    Callset -> Biosample
     """
     pass

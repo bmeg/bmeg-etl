@@ -3,7 +3,7 @@ import os
 import pandas as pd
 
 from bmeg.models.vertex_models import COCACluster, Individual
-from bmeg.models.edge_models import COCAClusterContains
+from bmeg.models.edge_models import COCAClusterFor
 from bmeg.models.emitter import Emitter
 from bmeg.models.utils import get_tcga_individual_barcode
 
@@ -32,8 +32,8 @@ def transform(args):
             coca_clusters[cluster_id] = True
             coca = COCACluster(cluster_id=cluster_id)
             emit(coca)
-        cvfg = COCAClusterContains(from_gid=COCACluster.make_gid(cluster_id),
-                                   to_gid=Individual.make_gid(individual_id))
+        cvfg = COCAClusterFor(from_gid=COCACluster.make_gid(cluster_id),
+                              to_gid=Individual.make_gid(individual_id))
         emit(cvfg)
 
     emitter.close()

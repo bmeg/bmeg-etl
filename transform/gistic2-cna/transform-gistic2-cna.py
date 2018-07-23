@@ -5,7 +5,7 @@ import io
 import os
 
 from bmeg.models.vertex_models import Callset, Gene
-from bmeg.models.edge_models import CNAValueForGene
+from bmeg.models.edge_models import GeneCNAValueCall
 from bmeg.models.conversions import query_mygeneinfo_for_ensembl_gene
 from bmeg.models.emitter import Emitter
 from bmeg.models.utils import get_tcga_sample_barcode, tcga_barcode_is_tumor
@@ -43,9 +43,9 @@ def transform(args):
             c = Callset(tumor_biosample_id=sample_id,
                         normal_biosample_id="",
                         call_method="GISTIC2")
-            cvfg = CNAValueForGene(from_gid=c.gid,
-                                   to_gid=Gene.make_gid(gene),
-                                   value=val)
+            cvfg = GeneCNAValueCall(from_gid=c.gid,
+                                    to_gid=Gene.make_gid(gene),
+                                    value=val)
             emit(c)
             emit(cvfg)
     emitter.close()
