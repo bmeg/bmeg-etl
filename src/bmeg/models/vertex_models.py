@@ -2,7 +2,6 @@ import hashlib
 import json
 
 from dataclasses import dataclass, field
-from typing import List
 
 from bmeg.models.gid_models import GID
 from bmeg.models.utils import set_gid
@@ -181,3 +180,41 @@ class Protein(Vertex):
         if not ensembl_id.startswith("ENSP"):
             raise ValueError("not an emsembl protein id")
         return GID("%s:%s" % (cls.__name__, ensembl_id))
+
+
+@dataclass(frozen=True)
+class COCACluster(Vertex):
+    cluster_id: str
+
+    def __post_init__(self):
+        set_gid(self, COCACluster.make_gid(self.cluster_id))
+
+    @classmethod
+    def make_gid(cls, cluster_id):
+        return GID("%s:%s" % (cls.__name__, cluster_id))
+
+
+@dataclass(frozen=True)
+class Individual(Vertex):
+    individual_id: str
+    tcga_attributes: dict
+
+    def __post_init__(self):
+        set_gid(self, Individual.make_gid(self.individual_id))
+
+    @classmethod
+    def make_gid(cls, individual_id):
+        return GID("%s:%s" % (cls.__name__, individual_id))
+
+
+@dataclass(frozen=True)
+class Biosample(Vertex):
+    biosample_id: str
+    tcga_attributes: dict
+
+    def __post_init__(self):
+        set_gid(self, Individual.make_gid(self.biosample_id))
+
+    @classmethod
+    def make_gid(cls, biosample_id):
+        return GID("%s:%s" % (cls.__name__, biosample_id))

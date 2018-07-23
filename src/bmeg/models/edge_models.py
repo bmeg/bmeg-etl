@@ -118,3 +118,11 @@ class ProteinFor(Edge):
     Protein -> Transcript
     """
     pass
+
+
+@dataclass(frozen=True)
+class COCAClusterContains(Edge):
+    """
+    COCACluster -> Individual
+    """
+    pass
