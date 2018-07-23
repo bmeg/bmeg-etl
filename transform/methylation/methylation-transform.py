@@ -43,7 +43,8 @@ def transform(args):
 
         c = Callset(tumor_biosample_id=sample_id,
                     normal_biosample_id="",
-                    call_method="Illumina Human Methylation 450")
+                    call_method="Illumina Human Methylation 450",
+                    source="GDC")
 
         mpv = MethlyationProbeValue(from_gid=p.gid,
                                     to_gid=c.gid,

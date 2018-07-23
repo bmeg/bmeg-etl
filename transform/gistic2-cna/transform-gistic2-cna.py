@@ -42,7 +42,8 @@ def transform(args):
                 raise RuntimeError("%s is not a tumor barcode" % sample_id)
             c = Callset(tumor_biosample_id=sample_id,
                         normal_biosample_id="",
-                        call_method="GISTIC2")
+                        call_method="GISTIC2",
+                        source="UCSCXena")
             cvfg = GeneCNAValueCall(from_gid=c.gid,
                                     to_gid=Gene.make_gid(gene),
                                     value=val)

@@ -30,18 +30,20 @@ class Callset(Vertex):
     tumor_biosample_id: str
     normal_biosample_id: str
     call_method: str
+    source: str
 
     def __post_init__(self):
-        set_gid(self, Callset.make_gid(self.tumor_biosample_id,
+        set_gid(self, Callset.make_gid(self.source,
+                                       self.tumor_biosample_id,
                                        self.normal_biosample_id,
                                        self.call_method))
 
     @classmethod
-    def make_gid(cls, tumor_biosample_id, normal_biosample_id, call_method):
-        return GID(
-            "%s:%s:%s:%s" % (cls.__name__, tumor_biosample_id,
-                             normal_biosample_id, call_method)
-        )
+    def make_gid(cls, source, tumor_biosample_id, normal_biosample_id,
+                 call_method):
+        return GID("%s:%s:%s:%s:%s" % (cls.__name__, source,
+                                       tumor_biosample_id, normal_biosample_id,
+                                       call_method))
 
 
 @dataclass(frozen=True)
