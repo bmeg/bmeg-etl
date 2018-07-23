@@ -10,22 +10,22 @@ from bmeg.models.utils import get_tcga_individual_barcode
 
 def transform(args):
     """
-    Hoadley et al. (2014). Multiplatform Analysis of 12 Cancer Types Reveals
-    Molecular Classification within and across Tissues of Origin
-    https://doi.org/10.1016/j.cell.2014.06.049
+    Hoadley et al. (2014). Cell-of-Origin Patterns Dominate the Molecular
+    Classification of 10,000 Tumors from 33 Types of Cancer
+    https://doi.org/10.1016/j.cell.2018.03.022
 
     Transform Table S1 downloaded from:
-        https://ars.els-cdn.com/content/image/1-s2.0-S0092867414008769-mmc2.xlsx
+        https://ars.els-cdn.com/content/image/1-s2.0-S0092867418303027-mmc6.xlsx
     """
     emitter = Emitter(args.output_prefix)
     emit = emitter.emit
 
-    df = pd.read_excel(args.input, sheet_name="Sheet1", header=1)
+    df = pd.read_excel(args.input, sheet_name="Table S6 - iCluster", header=1)
 
     coca_clusters = {}
     for index, row in df.iterrows():
-        individual_id = get_tcga_individual_barcode(row["Sample"])
-        cluster_id = row["COCA"]
+        individual_id = get_tcga_individual_barcode(row["Sample ID"])
+        cluster_id = row["iCluster"]
         if cluster_id not in coca_clusters:
             # TODO add edge from each coca cluster to the pubmed vertex that
             # references this paper
@@ -43,7 +43,7 @@ def transform(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--input', "-i", type=str, required=True,
-                        help='Path to the excel spreadsheet containing COCA \
+                        help='Path to the excel spreadsheet containing \
                         cluster assignments')
     parser.add_argument('--output-prefix', "-o", type=str, required=True,
                         help='Output file prefix')
