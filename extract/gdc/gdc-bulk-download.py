@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 """
 Bulk download legacy (hg19) data from the GDC
 
@@ -10,6 +9,7 @@ import json
 import os
 import re
 import requests
+import sys
 
 from subprocess import call
 from uuid import uuid4
@@ -30,6 +30,13 @@ if __name__ == "__main__":
     parser.add_argument("data_type")
     parser.add_argument("project_id")
     parser.add_argument("output_name")
+    parser.add_argument(
+        "--manifest-only",
+        type=bool,
+        default=False,
+        action="store_true",
+        help="write file manifest, but do not download the files"
+    )
     args = parser.parse_args()
     args.output_name = os.path.basename(args.output_name)
 
@@ -45,19 +52,6 @@ if __name__ == "__main__":
                     ]
                 }
             },
-            # Need these filters for cnv data
-            # exlcude hg18 probes
-            # exclude files with germline cnvs
-            {
-                "op": "exclude",
-                "content": {
-                    "field": "tags",
-                    "value": [
-                        "hg18",
-                        "allcnv"
-                    ]
-                }
-            },
             {
                 "op": "=",
                 "content": {
@@ -69,6 +63,34 @@ if __name__ == "__main__":
             }
         ]
     }
+
+    # Need these filters for cnv data
+    # exlcude hg18 probes
+    # exclude files with germline cnvs
+    if args.data_type == "cnv":
+        query["content"].append({
+            "op": "exclude",
+            "content": {
+                "field": "tags",
+                "value": [
+                    "hg18",
+                    "allcnv"
+                ]
+            }
+        })
+
+    # Need this filter for methylation data
+    if args.data_type == "methylation":
+        query["content"].append({
+            "op": "in",
+            "content": {
+                "field": "platform",
+                "value": [
+                    "Illumina Human Methylation 450",
+                    "Illumina Human Methylation 27"
+                ]
+            }
+        })
 
     data = {}
     id_map = {}
@@ -83,8 +105,6 @@ if __name__ == "__main__":
         params['size'] = 1000
         req = requests.get(URL_BASE + "files", params=params)
         data = req.json()['data']
-        # print(json.dumps(data, indent=4))
-        # sys.exit()
         for i in data['hits']:
             for case in i["cases"]:
                 if "samples" in case:
@@ -100,11 +120,15 @@ if __name__ == "__main__":
         params['from'] = data['pagination']['from'] + \
             data['pagination']['count']
 
+    print('creating file manifest...')
     with open(args.output_name + ".map", "w") as handle:
         handle.write("file_id\tproject_id\tsample_id\n")
         for k, v in id_map.items():
             handle.write("%s\t%s\t%s\n" %
                          (k, v["project"], v.get("sample", "")))
+
+    if args.manifest_only:
+        sys.exit(0)
 
     def chunks(l, n):
         for i in range(0, len(l), n):
@@ -114,6 +138,7 @@ if __name__ == "__main__":
     keychunks = chunks(list(id_map.keys()), 100)
     paths = []
     print('downloading files...')
+    headers = {'Content-type': 'application/json'}
     for index, ids in enumerate(keychunks):
         r = requests.post(URL_BASE + 'data',
                           data=json.dumps({"ids": ids}),
