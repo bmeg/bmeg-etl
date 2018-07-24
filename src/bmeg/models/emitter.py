@@ -30,4 +30,5 @@ class Emitter:
             self.handles[fname] = fh
 
         fh.write(obj.dump())
+        fh.write("\n")
         return
