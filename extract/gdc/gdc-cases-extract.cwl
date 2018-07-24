@@ -3,19 +3,13 @@ cwlVersion: v1.0
 class: CommandLineTool
 hints:
   DockerRequirement:
-    dockerPull: biostream/gdc-extract:latest
+    dockerPull: bmeg/bmeg-etl:latest
+  
 baseCommand:
-  - /opt/gdc-scan.py
-  - "--out"
-  - gdc_case_scan.json
-  - cases
-  - list
+  - /opt/gdc-scan-cases.py
 
-inputs:
-  blank:
-    type: [boolean, "null"]
+stdout: gdc-cases.json
+
 outputs:
-  CASE_LIST:
-    type: File
-    outputBinding:
-      glob: gdc_case_scan.json
+  CASES:
+    type: stdout
