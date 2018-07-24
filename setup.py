@@ -1,7 +1,7 @@
 import io
 import os
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 
 def read(*names, **kwargs):
@@ -13,18 +13,19 @@ def read(*names, **kwargs):
 
 
 setup(
-    name="bmeg-etl",
+    name="bmeg",
     version="0.1.0",
     description="Models and utilities for BMEG-ETL processes",
     long_description=read('README.md'),
     long_description_content_type='text/markdown',
     url="https://github.com/bmeg/bmeg-etl",
     license="MIT",
-    package_dir={'': 'src'},
-    packages=find_packages("src"),
+    package_dir={"": "src/"},
+    packages=["bmeg"],
     python_requires=">=3.6, <4",
     install_requires=[
         "dataclasses>=0.6",
+        "mygene>=3.0.0",
     ],
     extras_require={
         "test": [
