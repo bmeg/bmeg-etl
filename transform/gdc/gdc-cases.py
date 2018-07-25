@@ -3,10 +3,15 @@ Bulk download case, sample, project, etc. data from GDC.
 https://gdc.cancer.gov/
 """
 
+from pprint import pprint
+
+from bmeg.models.emitter import Emitter
+from bmeg.models.vertex_models import Individual, Biosample
 from bmeg.requests import Client
 
 URL_BASE = "https://api.gdc.cancer.gov/"
 client = Client()
+emitter = Emitter("gdc")
 
 # The GDC API requires you to explicitly request that nested fields be expanded.
 # https://docs.gdc.cancer.gov/API/Users_Guide/Appendix_A_Available_Fields/#cases-field-groups
@@ -62,11 +67,18 @@ def query_gdc(query, params):
             return
 
         for hit in hits:
-            yield hits
+            yield hit
 
         # Get the next page.
         params['from'] = data['pagination']['from'] + page_size
 
 
+def extract(data, keys):
+    return {key: data.get(key) for key in keys}
+
 for i, row in enumerate(query_gdc(URL_BASE + "cases", {"expand": ",".join(expand)})):
-    print("row", i)
+    #pprint(row)
+    m = Individual(row["id"], extract(row, ["diagnoses", "demographic", "disease_type", "primary_site", "summary"]))
+    emitter.emit(m)
+
+emitter.close()
