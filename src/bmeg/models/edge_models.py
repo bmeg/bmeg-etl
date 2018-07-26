@@ -37,6 +37,7 @@ class Edge:
         })
 
 
+# TODO deprecate
 @dataclass(frozen=True)
 class VariantIn(Edge):
     """
@@ -45,12 +46,29 @@ class VariantIn(Edge):
     pass
 
 
+# TODO deprecate
 @dataclass(frozen=True)
 class VariantCall(Edge):
     """
     Variant -> Callset
     """
     info: dict
+
+
+@dataclass(frozen=True)
+class AlleleIn(Edge):
+    """
+    Variant -> Gene
+    """
+    pass
+
+
+@dataclass(frozen=True)
+class AlleleCall(Edge):
+    """
+    Allele -> Callset
+    """
+    info: dict = None
 
 
 @dataclass(frozen=True)
