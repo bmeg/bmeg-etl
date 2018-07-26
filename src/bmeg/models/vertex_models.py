@@ -69,9 +69,10 @@ class Allele(Vertex):
     def make_gid(cls, genome, chromosome, start, end, reference_bases,
                  alternate_bases):
         # TODO -  figure out better hashing strategy
-        vid = "{}:{}:{}:{}:{}:{}".format(genome, chromosome, start, end,
-                                         reference_bases,
-                                         alternate_bases).encode('utf-8')
+        vid = "%s:%s:%d:%d:%s:%s" % (genome, chromosome, start, end,
+                                     reference_bases,
+                                     alternate_bases)
+        vid = vid.encode('utf-8')
         vidhash = hashlib.sha1()
         vidhash.update(vid)
         vidhash = vidhash.hexdigest()
