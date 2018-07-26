@@ -1,3 +1,4 @@
+import os
 from bmeg.models.vertex_models import Vertex
 from bmeg.models.edge_models import Edge
 
@@ -30,4 +31,5 @@ class Emitter:
             self.handles[fname] = fh
 
         fh.write(obj.dump())
+        fh.write(os.linesep)
         return
