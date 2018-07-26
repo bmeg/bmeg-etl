@@ -16,6 +16,7 @@ import allele_harvester
 
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed
+from itertools import islice
 
 
 def get_value(d, keys, default):
@@ -33,10 +34,22 @@ def _multithreading(func, lines, max_workers=5):
     """
     Create a thread pool and create alleles
     """
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = (executor.submit(func, line) for line in lines)
-        for future in as_completed(futures):
-            yield future.result()
+    # limit queue size == number of workers
+    # see https://stackoverflow.com/questions/48263704/threadpoolexecutor-how-to-limit-the-queue-maxsize  # noqa
+
+    def chunked_iterable(iterable, chunk_size):
+        it = iter(iterable)
+        while True:
+            chunk = tuple(islice(it, chunk_size))
+            if not chunk:
+                break
+            yield chunk
+
+    for chunk in chunked_iterable(lines, max_workers):
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            futures = (executor.submit(func, line) for line in chunk)
+            for future in as_completed(futures):
+                yield future.result()
 
 
 def _read_maf(mafpath, gz):
@@ -212,8 +225,8 @@ def parse_args(args):  # pragma: no cover
         formatter_class=argparse.RawDescriptionHelpFormatter)
 
     # Now add all the options to it
-    parser.add_argument('--gz', action="store_true", default=False,
-                        help='Path to the maf you want to import')
+    # parser.add_argument('--gz', action="store_true", default=False,
+    #                     help='Path to the maf you want to import')
     parser.add_argument('--maf_file', type=str,
                         help='Path to the maf you want to import')
     parser.add_argument('--prefix', type=str,
@@ -223,4 +236,6 @@ def parse_args(args):  # pragma: no cover
 
 if __name__ == '__main__':  # pragma: no cover
     options = parse_args(sys.argv)
+    fmt = '%(asctime)s - %(levelname)s - %(threadName)s - %(message)s'
+    logging.basicConfig(level=logging.INFO, format=fmt)
     convert(**vars(options))
