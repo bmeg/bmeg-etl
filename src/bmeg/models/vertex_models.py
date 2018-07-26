@@ -18,6 +18,11 @@ class Vertex:
         data = dict(self.__dict__)
         del data["gid"]
 
+        # delete null values
+        remove = [k for k in data if data[k] == None]
+        for k in remove:
+            del data[k]
+
         return json.dumps({
             "gid": self.gid,
             "label": self.__class__.__name__,
@@ -52,7 +57,8 @@ class Allele(Vertex):
     end: int
     reference_bases: str
     alternate_bases: str
-    myvariantinfo: dict
+    annotations: list = None
+    myvariantinfo: dict = None
 
     def __post_init__(self):
         set_gid(self, Allele.make_gid(self.genome, self.chromosome, self.start,
@@ -63,9 +69,9 @@ class Allele(Vertex):
     def make_gid(cls, genome, chromosome, start, end, reference_bases,
                  alternate_bases):
         # TODO -  figure out better hashing strategy
-        vid = "%s:%s:%d:%d:%s:%s" % (genome, chromosome,
-                                     start, end, reference_bases,
-                                     alternate_bases)
+        vid = "{}:{}:{}:{}:{}:{}".format(genome, chromosome, start, end,
+                                         reference_bases,
+                                         alternate_bases).encode('utf-8')
         vidhash = hashlib.sha1()
         vidhash.update(vid)
         vidhash = vidhash.hexdigest()
