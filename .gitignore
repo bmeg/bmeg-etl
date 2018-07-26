@@ -17,3 +17,6 @@ eggs/
 .desktop
 
 *venv*
+
+.cache/
+.pytest_cache/
