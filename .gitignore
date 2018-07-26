@@ -17,3 +17,6 @@ eggs/
 .desktop
 
 *venv*
+
+*.Vertex.json
+*.Edge.json
