@@ -1,0 +1,10 @@
+[run]
+omit =
+  tests/*
+  ga4gh*.py
+
+[paths]
+source = .
+
+[report]
+show_missing = True
