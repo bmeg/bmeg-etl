@@ -1,15 +1,16 @@
 import requests
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
+import requests_cache
 
 
 def Client(retries=3, backoff_factor=0.3, status_forcelist=(500, 502, 504), session=None):
     """
-    Client provides a requests session that is configured for automatic retries
-    for obvious failures, with exponential backoff.
+    Client provides a requests session that is configured with automatic retries,
+    caching, and more.
     """
     # TODO include rate limiting.
-    session = session or requests.Session()
+    session = session or requests_cache.CachedSession()
     retry = Retry(
         total=retries,
         read=retries,
