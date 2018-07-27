@@ -1,9 +1,7 @@
 import argparse
-import csv
-import gzip
-import io
 import os
 
+import bmeg.ioutils
 from bmeg.models.vertex_models import Callset, Gene, MethylationProbe
 from bmeg.models.edge_models import (MethlyationProbeValue,
                                      MethlyationProbeFor)
@@ -20,17 +18,12 @@ def transform(args):
     emitter = Emitter(args.output_prefix)
     emit = emitter.emit
 
-    if args.gz:
-        inhandle = io.TextIOWrapper(gzip.GzipFile(args.input))
-    else:
-        inhandle = open(args.input, "r")
+    reader = bmeg.ioutils.tsv(args.input)
 
-    header = inhandle.readline().split("\t")
-    sample_id = get_tcga_sample_barcode(header[1])
+    sample_id = get_tcga_sample_barcode(reader.fieldsnames[1])
     if not tcga_barcode_is_tumor(sample_id):
         raise RuntimeError("%s is not a tumor barcode" % sample_id)
 
-    reader = csv.DictReader(inhandle, delimiter="\t")
     for line in reader:
         gene = line["Gene_Symbol"]
         gene = query_mygeneinfo_for_ensembl_gene(gene)
@@ -66,8 +59,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--input', "-i", type=str, required=True,
                         help='Path to DNA methylation text file')
-    parser.add_argument('--gz', action="store_true", default=False,
-                        help='Input file is gzipped')
     parser.add_argument('--output-prefix', "-o", type=str, required=True,
                         help='Output file prefix')
     parser.add_argument('--genome', "-g", type=str, default="GRCh37",
