@@ -19,23 +19,6 @@ class Edge:
     def make_gid(cls, from_gid, to_gid):
         return "(%s)--%s->(%s)" % (from_gid, cls.__name__, to_gid)
 
-    def dump(self):
-        if not self.gid:
-            raise ValueError("gid is empty")
-
-        data = dict(self.__dict__)
-        del data["gid"]
-        del data["from_gid"]
-        del data["to_gid"]
-
-        return json.dumps({
-            "gid": self.gid,
-            "label": self.__class__.__name__,
-            "from": self.from_gid,
-            "to": self.to_gid,
-            "data": data
-        })
-
 
 @dataclass(frozen=True)
 class VariantIn(Edge):

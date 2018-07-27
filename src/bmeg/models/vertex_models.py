@@ -1,5 +1,4 @@
 import hashlib
-import json
 
 from dataclasses import dataclass, field
 
@@ -10,19 +9,6 @@ from bmeg.models.utils import set_gid
 @dataclass(frozen=True)
 class Vertex:
     gid: GID = field(init=False)
-
-    def dump(self):
-        if not self.gid:
-            raise ValueError("gid is empty")
-
-        data = dict(self.__dict__)
-        del data["gid"]
-
-        return json.dumps({
-            "gid": self.gid,
-            "label": self.__class__.__name__,
-            "data": data
-        })
 
 
 @dataclass(frozen=True)
