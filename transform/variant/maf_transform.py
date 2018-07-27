@@ -2,7 +2,6 @@
 # -*- coding: utf-8 -*-
 """ transform a maf file into vertexs[variant, allele]   """
 
-import argparse
 import logging
 import csv
 import gzip
@@ -18,7 +17,6 @@ import allele_harvester
 
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed
-from itertools import islice
 from more_itertools import chunked
 
 
@@ -91,14 +89,17 @@ def _allele_call_maker(allele, callset, line=None):
     return AlleleCall(allele.gid, callset.gid, info)
 
 
-def _callset_maker(allele, source, centerCol, method, sample_ids, line):
+def _tcga_aliquot2sample_barcode(barcode):
+    """ create tcga sample barcode """
+    return "-".join(barcode.split("-")[0:4])
+
+
+def _callset_maker(allele, source, centerCol, method, line):
     """ create callset from line """
     barcode = line[tumor_sample_barcode]
     sample = barcode
     if source == 'tcga':
-        if barcode not in sample_ids:
-            sample_ids[barcode] = _tcga_aliquot2sample_barcode(barcode)
-        sample = sample_ids[barcode]
+        sample = _tcga_aliquot2sample_barcode(barcode)
     sample = Biosample.make_gid(sample)
     sample_callsets = []
     sample_calls = []
@@ -162,11 +163,6 @@ def _allele_maker(line, genome='GRCh37'):
     return allele_harvester.harvest(**allele_dict), line
 
 
-def _tcga_aliquot2sample_barcode(barcode):
-    """ create tcga sample barcode """
-    return "-".join(barcode.split("-")[0:4])
-
-
 def maf_convert(emit, mafpath, workers, source='tcga', genome='GRCh37',
                 method='variant', gz=False, centerCol='Center'):
     """
@@ -180,7 +176,6 @@ def maf_convert(emit, mafpath, workers, source='tcga', genome='GRCh37',
 
     logging.info('converting maf: ' + mafpath)
     my_callsets_ids = set()
-    sample_ids = {}
     c = 0
     for allele, line in _multithreading(_allele_maker,
                                         _read_maf(mafpath, gz),
@@ -189,12 +184,11 @@ def maf_convert(emit, mafpath, workers, source='tcga', genome='GRCh37',
         emit(allele)
         # create edge between the allele and the callset
         calls, callsets = _callset_maker(allele, source, centerCol,
-                                         method, sample_ids, line)
-        # emit calls now
+                                         method, line)
+        # save the calls
         for call in calls:
             emit(call)
-        # many callsets can be created, save until end of maf processing
-        # to emit only uniques
+        # many callsets can be created, emit only uniques
         for callset in callsets:
             if callset.gid not in my_callsets_ids:
                 my_callsets_ids.add(callset.gid)
@@ -211,6 +205,7 @@ def convert(mafpath, prefix, workers=5):
     """ entry point """
     emitter = Emitter(prefix=prefix)
     maf_convert(emit=emitter.emit, mafpath=mafpath, workers=workers)
+
 
 if __name__ == '__main__':  # pragma: no cover
     parser = default_argument_parser()
