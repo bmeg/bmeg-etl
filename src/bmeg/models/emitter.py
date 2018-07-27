@@ -12,7 +12,7 @@ class Emitter:
         for fname, fh in self.handles.items():
             fh.close()
 
-    def emit(self, obj):
+    def emit(self, obj, preserve_nulls=False):
         label = obj.__class__.__name__
 
         if isinstance(obj, Vertex):
@@ -30,6 +30,6 @@ class Emitter:
             fh = open(fname, "w")
             self.handles[fname] = fh
 
-        fh.write(obj.dump())
+        fh.write(obj.dump(preserve_nulls))
         fh.write(os.linesep)
         return

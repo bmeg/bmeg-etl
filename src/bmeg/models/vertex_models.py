@@ -11,7 +11,7 @@ from bmeg.models.utils import set_gid
 class Vertex:
     gid: GID = field(init=False)
 
-    def dump(self):
+    def dump(self, preserve_nulls=False):
         if not self.gid:
             raise ValueError("gid is empty")
 
@@ -19,9 +19,10 @@ class Vertex:
         del data["gid"]
 
         # delete null values
-        remove = [k for k in data if data[k] == None]
-        for k in remove:
-            del data[k]
+        if not preserve_nulls:
+            remove = [k for k in data if data[k] is None]
+            for k in remove:
+                del data[k]
 
         return json.dumps({
             "gid": self.gid,

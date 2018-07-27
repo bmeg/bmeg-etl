@@ -19,7 +19,7 @@ class Edge:
     def make_gid(cls, from_gid, to_gid):
         return "(%s)--%s->(%s)" % (from_gid, cls.__name__, to_gid)
 
-    def dump(self):
+    def dump(self, preserve_nulls=False):
         if not self.gid:
             raise ValueError("gid is empty")
 
@@ -27,6 +27,12 @@ class Edge:
         del data["gid"]
         del data["from_gid"]
         del data["to_gid"]
+
+        # delete null values
+        if not preserve_nulls:
+            remove = [k for k in data if data[k] is None]
+            for k in remove:
+                del data[k]
 
         return json.dumps({
             "gid": self.gid,
