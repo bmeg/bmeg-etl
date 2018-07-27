@@ -1,3 +1,4 @@
+import atexit
 import json
 import bson
 import msgpack
@@ -131,6 +132,7 @@ class filehandler:
         self.extension = extension
         self.mode = mode
         self.handles = {}
+        atexit.register(self.close)
 
     def __getitem__(self, obj):
         label = obj.__class__.__name__
