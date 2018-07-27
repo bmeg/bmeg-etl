@@ -1,8 +1,10 @@
 import atexit
+from datetime import datetime
 import json
 import bson
 import msgpack
 import os
+import sys
 
 from bmeg.models.vertex_models import Vertex
 from bmeg.models.edge_models import Edge
@@ -64,6 +66,25 @@ class JSONEmitter:
         fh.write(os.linesep)
 
 
+class rate:
+    def __init__(self):
+        self.i = 0
+        self.start = None
+
+    def tick(self):
+        if self.start is None:
+            self.start = datetime.now()
+
+        self.i += 1
+
+        if self.i % 1000 == 0:
+            dt = datetime.now() - self.start
+            self.start = datetime.now()
+            rate = 1000 / dt.total_seconds()
+            m = "rate: {0} emitted ({1:d}/sec)".format(self.i, int(rate))
+            print("\r" + m, end='', file=sys.stderr)
+
+
 class emitter:
     """
     emitter is an internal helper that contains code shared by all emitters,
@@ -72,6 +93,7 @@ class emitter:
 
     def __init__(self, preserve_null=False):
         self.preserve_null = preserve_null
+        self.rate = rate()
 
     def emit(self, obj):
 
@@ -116,6 +138,7 @@ class emitter:
                 "data": data
             }
 
+        self.rate.tick()
         return dumped
 
 
