@@ -214,7 +214,7 @@ class Biosample(Vertex):
     gdc_attributes: dict
 
     def __post_init__(self):
-        set_gid(self, Individual.make_gid(self.biosample_id))
+        set_gid(self, Biosample.make_gid(self.biosample_id))
 
     @classmethod
     def make_gid(cls, biosample_id):

@@ -10,10 +10,8 @@ from bmeg.models.vertex_models import Individual, Biosample, Project
 
 from gdcutils import extract, query_gdc
 
-#emitter = JSONEmitter("gdc")
-#emitter = BSONEmitter("gdc")
-#emitter = MsgpackEmitter("gdc")
-emitter = bmeg.models.emitter.DebugEmitter()
+emitter = bmeg.models.emitter.JSONEmitter("gdc")
+#emitter = bmeg.models.emitter.DebugEmitter()
 
 # The GDC API requires you to explicitly request that nested fields be expanded.
 # https://docs.gdc.cancer.gov/API/Users_Guide/Appendix_A_Available_Fields/#cases-field-groups
@@ -63,8 +61,6 @@ for row in query_gdc("cases", {"expand": expand_case_fields}):
     emitter.emit(i)
 
     for sample in row.get("samples", []):
-        print(json.dumps(sample, indent=True))
-
         sample_fields = extract(sample, ["tumor_descriptor", "sample_type", "submitter_id"])
         b = Biosample(sample["sample_id"], sample_fields)
         emitter.emit(b)
