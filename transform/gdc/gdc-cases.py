@@ -5,13 +5,15 @@ https://gdc.cancer.gov/
 
 import json
 
-from bmeg.models.emitter import Emitter
+from bmeg.models.emitter import JSONEmitter, BSONEmitter, MsgpackEmitter
 from bmeg.models.vertex_models import Individual, Biosample
 from bmeg.requests import Client
 
 URL_BASE = "https://api.gdc.cancer.gov/"
 client = Client()
-emitter = Emitter("gdc")
+#emitter = JSONEmitter("gdc")
+#emitter = BSONEmitter("gdc")
+emitter = MsgpackEmitter("gdc")
 
 # The GDC API requires you to explicitly request that nested fields be expanded.
 # https://docs.gdc.cancer.gov/API/Users_Guide/Appendix_A_Available_Fields/#cases-field-groups
@@ -86,7 +88,7 @@ def extract(data, keys):
     return {key: data.get(key) for key in keys}
 
 for row in query_gdc(URL_BASE + "cases", {"expand": ",".join(expand)}):
-    print(json.dumps(row, indent=True))
+    #print(json.dumps(row, indent=True))
 
     i = Individual(row["id"], extract(row, GDC_CASE_FIELDS))
     emitter.emit(i)

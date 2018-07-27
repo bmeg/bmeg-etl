@@ -9,6 +9,35 @@ import sys
 from bmeg.models.vertex_models import Vertex
 from bmeg.models.edge_models import Edge
 
+class MsgpackEmitter:
+    def __init__(self, prefix, **kwargs):
+        self.handles = filehandler(prefix, "msgp", mode="wb")
+        self.emitter = emitter(**kwargs)
+
+    def close(self):
+        self.handles.close()
+
+    def emit(self, obj):
+        d = self.emitter.emit(obj)
+        fh = self.handles[obj]
+        b = msgpack.dumps(d)
+        fh.write(b)
+        #fh.write(os.linesep)
+
+class BSONEmitter:
+    def __init__(self, prefix, **kwargs):
+        self.handles = filehandler(prefix, "bson", mode="wb")
+        self.emitter = emitter(**kwargs)
+
+    def close(self):
+        self.handles.close()
+
+    def emit(self, obj):
+        d = self.emitter.emit(obj)
+        fh = self.handles[obj]
+        b = bson.dumps(d)
+        fh.write(b)
+        #fh.write(os.linesep)
 
 class DebugEmitter:
     def __init__(self, **kwargs):
