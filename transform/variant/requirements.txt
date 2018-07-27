@@ -7,3 +7,4 @@ requests-cache==0.4.13
 # -e git+git@github.com:bmeg/bmeg-etl.git@33e27b25f603ef8847b089415c949ada1332a648#egg=bmeg_etl
 pytest-cov==2.5.1
 flake8
+more-itertools==4.2.0

@@ -8,6 +8,9 @@ import logging
 from bmeg.models.vertex_models import Allele
 
 
+TIMEOUT = 30
+
+
 def _myvariantinfo(genome, chromosome, start, end, reference_bases,
                    alternate_bases, annotations):
     """ retrieve payload from myvariant.info location query"""
@@ -32,7 +35,7 @@ def _myvariantinfo(genome, chromosome, start, end, reference_bases,
             .format(chromosome, start, end, vcf_alternate)
         url = 'http://myvariant.info/v1/query?q={}' \
             .format(urllib.parse.quote_plus(q))
-        response = requests.get(url)
+        response = requests.get(url, timeout=TIMEOUT)
         _status_code = response.status_code
         if _status_code == 200:
             r = response.json()
@@ -44,7 +47,7 @@ def _myvariantinfo(genome, chromosome, start, end, reference_bases,
         # ["00058da0fb86f362e1504b6ec02d5e4446d9db44","GRCh37","16","397035","397035","C","T",["Variant_Type:SNP","Feature_type:Transcript","Feature:ENST00000262320","dbSNP_RS:rs375097914"]]
         if dbSNP:
             url = 'http://myvariant.info/v1/variant/{}'.format(dbSNP)
-            response = requests.get(url)
+            response = requests.get(url, timeout=TIMEOUT)
             _status_code = response.status_code
             if _status_code == 200:
                 hits = response.json()
@@ -55,7 +58,7 @@ def _myvariantinfo(genome, chromosome, start, end, reference_bases,
                     if (hit['vcf']['alt'] == alternate_bases and
                         (hit['vcf']['ref'] == '-' or
                             hit['vcf']['ref'] == reference_bases)):
-                        return hit
+                        return hit  # TODO - test case
                     else:
                         logging.info({
                                         'stage': 'dbSNP_mismatch',
@@ -69,10 +72,10 @@ def _myvariantinfo(genome, chromosome, start, end, reference_bases,
                                         'url': url,
                                         'hit': hit
                                     })
-    except Exception as e:
+    except Exception as e:  # pragma: no cover
         logging.exception({
                         'stage': 'myvariantinfo_exception',
-                        'message': e.message,
+                        'exception': str(e),
                         'genome': genome,
                         'chromosome': chromosome,
                         'start': start,
@@ -85,7 +88,7 @@ def _myvariantinfo(genome, chromosome, start, end, reference_bases,
                     })
         return None
     # default
-    logging.debug({
+    logging.info({
                     'stage': 'myvariantinfo_nofind',
                     'genome': genome,
                     'chromosome': chromosome,
