@@ -1,12 +1,11 @@
 import argparse
 import csv
-import gzip
-import io
 import os
 import re
 
 from urllib.parse import unquote
 
+import bmeg.ioutils
 from bmeg.models.vertex_models import Gene, Transcript, Exon
 from bmeg.models.edge_models import TranscriptFor, ExonFor
 from bmeg.models.emitter import Emitter
@@ -54,11 +53,7 @@ def transform(args):
     emitter = Emitter(args.output_prefix)
     emit = emitter.emit
 
-    if args.gz:
-        inhandle = io.TextIOWrapper(gzip.GzipFile(args.input))
-    else:
-        inhandle = open(args.input, "r")
-
+    inhandle = bmeg.ioutils.reader(args.input)
     reader = csv.DictReader(
         filter(lambda row: row[0] != '#', inhandle),
         delimiter="\t",
@@ -106,8 +101,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--input', "-i", type=str, required=True,
                         help='Path to the Ensembl GFF3 file')
-    parser.add_argument('--gz', action="store_true", default=False,
-                        help='Input file is gzipped')
     parser.add_argument('--output-prefix', "-o", type=str, required=True,
                         help='Output file prefix')
     args = parser.parse_args()

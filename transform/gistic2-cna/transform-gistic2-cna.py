@@ -1,9 +1,7 @@
 import argparse
-import csv
-import gzip
-import io
 import os
 
+import bmeg.ioutils
 from bmeg.models.vertex_models import Callset, Gene
 from bmeg.models.edge_models import GeneCNAValueCall
 from bmeg.models.conversions import query_mygeneinfo_for_ensembl_gene
@@ -19,13 +17,7 @@ def transform(args):
     emitter = Emitter(args.output_prefix)
     emit = emitter.emit
 
-    if args.gz:
-        inhandle = io.TextIOWrapper(gzip.GzipFile(args.input))
-    else:
-        inhandle = open(args.input, "r")
-
-    reader = csv.DictReader(inhandle, delimiter="\t")
-    for line in reader:
+    for line in bmeg.ioutils.tsv(args.input):
         identifier = line["Sample"]
         del line["Sample"]
 
@@ -57,8 +49,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--input', "-i", type=str, required=True,
                         help='Path to the GISTIC2 copy number matrix file')
-    parser.add_argument('--gz', action="store_true", default=False,
-                        help='Input file is gzipped')
     parser.add_argument('--output-prefix', "-o", type=str, required=True,
                         help='Output file prefix')
     args = parser.parse_args()
