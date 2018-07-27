@@ -20,3 +20,4 @@ eggs/
 
 *.Vertex.json
 *.Edge.json
+cache.sqlite
