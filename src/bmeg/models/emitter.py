@@ -15,7 +15,7 @@ class DebugEmitter:
         self.emitter = emitter(**kwargs)
 
     def close(self):
-        return
+        self.emitter.close()
 
     def emit(self, obj):
         d = self.emitter.emit(obj)
@@ -28,6 +28,7 @@ class MsgpackEmitter:
 
     def close(self):
         self.handles.close()
+        self.emitter.close()
 
     def emit(self, obj):
         d = self.emitter.emit(obj)
@@ -43,6 +44,7 @@ class BSONEmitter:
 
     def close(self):
         self.handles.close()
+        self.emitter.close()
 
     def emit(self, obj):
         d = self.emitter.emit(obj)
@@ -58,6 +60,7 @@ class JSONEmitter:
 
     def close(self):
         self.handles.close()
+        self.emitter.close()
 
     def emit(self, obj):
         d = self.emitter.emit(obj)
@@ -70,19 +73,36 @@ class rate:
     def __init__(self):
         self.i = 0
         self.start = None
+        self.first = None
+
+    def close(self):
+        if self.i == 0:
+            return
+
+        self.log()
+        dt = datetime.now() - self.first
+        m = "\ntotal: {0:,} in {1:,d} seconds".format(self.i, int(dt.total_seconds()))
+        print(m, file=sys.stderr)
+
+    def log(self):
+        if self.i == 0:
+            return
+
+        dt = datetime.now() - self.start
+        self.start = datetime.now()
+        rate = 1000 / dt.total_seconds()
+        m = "rate: {0:,} emitted ({1:,d}/sec)".format(self.i, int(rate))
+        print("\r" + m, end='', file=sys.stderr)
 
     def tick(self):
         if self.start is None:
             self.start = datetime.now()
+            self.first = self.start
 
         self.i += 1
 
         if self.i % 1000 == 0:
-            dt = datetime.now() - self.start
-            self.start = datetime.now()
-            rate = 1000 / dt.total_seconds()
-            m = "rate: {0} emitted ({1:d}/sec)".format(self.i, int(rate))
-            print("\r" + m, end='', file=sys.stderr)
+            self.log()
 
 
 class emitter:
@@ -94,6 +114,9 @@ class emitter:
     def __init__(self, preserve_null=False):
         self.preserve_null = preserve_null
         self.rate = rate()
+
+    def close(self):
+        self.rate.close()
 
     def emit(self, obj):
 
