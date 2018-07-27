@@ -7,8 +7,7 @@ ftp://ftp.ensembl.org/pub/grch37/release-90/variation/VEP/homo_sapiens_vep_90_GR
 
 ## verify source style
 ```
-# pip install -e git+https://gitlab.com/pycqa/flake8@9631dac5#egg=flake8 --src /usr/local/lib/python3.7/site-packages
-flake8  --exclude=ga4gh*.py,tests/*.py
+flake8
 # no output is the expected result
 ```
 
@@ -33,7 +32,7 @@ TOTAL                   144      1    99%
 
 ```
 
-Note flake8 has a patch for python3.7, (prints a futures warning) I installed it via 
+Note flake8 has a patch for python3.7, (prints a futures warning) I installed it via
 ```
 pip install -e git+https://gitlab.com/pycqa/flake8@9631dac5#egg=flake8 --src /usr/local/lib/python3.7/site-packages
 ```
@@ -114,3 +113,53 @@ $ curl -s 'http://myvariant.info/v1/variant/rs771777487' | jq .vcf
   "ref": "A"
 }
 ```
+
+#### Execution
+
+```
+python maf_transform.py --maf_file source/mc3.v0.2.8.PUBLIC.maf.gz --prefix biostream/mc3 --verbose --workers 10  2> maf_transform.log
+```
+
+#### Logs analysis
+
+Strip log format prefix
+
+```
+cat maf_transform.log | sed 's/^.* - .* - //' | jq  '. | your log parser '
+```
+
+Sample
+
+```
+TOTAL=$(cat  maf_transform.log | grep imported  | tail -1 | sed 's/^.*imported //')
+sed 's/^.* - .* - //' maf_transform.log  | grep stage | python miss_analysis.py $TOTAL | jq .
+{
+  "myvariantinfo_nofind": 274040,
+  "myvariantinfo_exception": 83,
+  "reference_wildcard": 13642,
+  "dbSNP_mismatch": 30479,
+  "alternate_wildcard": 44168,
+  "Variant_Type": {
+    "ONP": 52,
+    "DEL": 45283,
+    "TNP": 10,
+    "SNP": 245238,
+    "INS": 14019
+  },
+  "missing_snp": 228790,
+  "report": "misses = 26%; novel = 19%; wildcard_misses =5%; dbSNP_mismatch =2%",
+  "total": 1145000
+}
+
+
+```
+
+
+where:
+
+* myvariantinfo_nofind - nothing found either by location or dbSNP
+  * reference_wildcard, alternate_wildcard  - the nofind had a wild card (ref or alt was '-')
+  * dbSNP_mismatch - a second lookup was attempted by snp, but the alleles returned did not match ref, alt
+* myvariantinfo_exception - parsing or network error
+* missing_snp - novel
+* Variant_Type - for all misses
