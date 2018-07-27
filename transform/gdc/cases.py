@@ -6,11 +6,10 @@ https://gdc.cancer.gov/
 import json
 
 import bmeg.models.emitter
-from bmeg.models.vertex_models import Individual, Biosample
-from bmeg.requests import Client
+from bmeg.models.vertex_models import Individual, Biosample, Project
 
-URL_BASE = "https://api.gdc.cancer.gov/"
-client = Client()
+from gdcutils import extract, query_gdc
+
 #emitter = JSONEmitter("gdc")
 #emitter = BSONEmitter("gdc")
 #emitter = MsgpackEmitter("gdc")
@@ -21,7 +20,7 @@ emitter = bmeg.models.emitter.DebugEmitter()
 #
 # Note that (as of this writing) we are expanding most but not all possible fields.
 # Mostly we're skipping "files" data.
-expand = """
+expand_case_fields = ",".join("""
 demographic
 diagnoses
 diagnoses.treatments
@@ -45,65 +44,35 @@ summary
 summary.data_categories
 summary.experimental_strategies
 tissue_source_site
-""".strip().split()
+""".strip().split())
 
 # These are the fields we want to keep from the GDC Case (BMEG Individual).
-GDC_CASE_FIELDS = """
+keep_case_fields = """
 diagnoses
 demographic
 disease_type
 primary_site
 summary
+project
 """.strip().split()
 
-def query_gdc(query, params):
-    """
-    query_gdc makes a query to the GDC API while handling common issues
-    like pagination, retries, etc.
+# Crawl all cases, samples, aliquots to generate BMEG Individuals and Biosamples.
+for row in query_gdc("cases", {"expand": expand_case_fields}):
 
-    The return value is an iterator.
-    """
-    # Copy input params to avoid modification.
-    params = dict(params)
-    page_size = 100
-    params['size'] = page_size
-
-    # Iterate through all the pages.
-    while True:
-        req = client.get(query, params=params)
-        data = req.json()['data']
-        # print(json.dumps(data, indent=4))
-
-        hits = data.get("hits", [])
-        if len(hits) == 0:
-            return
-
-        for hit in hits:
-            yield hit
-
-        # Get the next page.
-        params['from'] = data['pagination']['from'] + page_size
-
-
-def extract(data, keys):
-    return {key: data.get(key) for key in keys}
-
-for row in query_gdc(URL_BASE + "cases", {"expand": ",".join(expand)}):
-    #print(json.dumps(row, indent=True))
-
-    i = Individual(row["id"], extract(row, GDC_CASE_FIELDS))
+    i = Individual(row["id"], extract(row, keep_case_fields))
     emitter.emit(i)
 
     for sample in row.get("samples", []):
+        print(json.dumps(sample, indent=True))
 
-        sample_fields = extract(row, ["tumor_descriptor", "sample_type", "submitter_id"])
+        sample_fields = extract(sample, ["tumor_descriptor", "sample_type", "submitter_id"])
         b = Biosample(sample["sample_id"], sample_fields)
         emitter.emit(b)
 
         for portion in sample.get("portions", []):
             for analyte in portion.get("analytes", []):
-                for aliquot in portion.get("aliquots", []):
-                    aliquot_fields = extract(row, ["analyte_type", "submitter_id"])
+                for aliquot in analyte.get("aliquots", []):
+                    aliquot_fields = extract(aliquot, ["analyte_type", "submitter_id"])
                     fields = dict(sample_fields)
                     fields.update(aliquot_fields)
                     a = Biosample(aliquot["aliquot_id"], fields)

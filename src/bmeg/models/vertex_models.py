@@ -183,6 +183,19 @@ class COCACluster(Vertex):
 
 
 @dataclass(frozen=True)
+class Project(Vertex):
+    project_id: str
+    gdc_attributes: dict
+
+    def __post_init__(self):
+        set_gid(self, Project.make_gid(self.project_id))
+
+    @classmethod
+    def make_gid(cls, project_id):
+        return GID("%s:%s" % (cls.__name__, project_id))
+
+
+@dataclass(frozen=True)
 class Individual(Vertex):
     individual_id: str
     gdc_attributes: dict
