@@ -70,7 +70,6 @@ def ZFP3_file(request):
     return os.path.join(request.fspath.dirname, 'test-ZFP3.maf')
 
 
-
 @pytest.fixture
 def emitter_path_prefix(request):
     """ get the full path of the test output """
@@ -140,6 +139,7 @@ def validate(maf_file, emitter_path_prefix):
         for line in f:
             # should be json
             allelecall = json.loads(line)
+            assert(allelecall)
 
 
 def test_simple(maf_file, emitter_path_prefix):
