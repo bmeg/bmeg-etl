@@ -6,6 +6,18 @@ import os
 from bmeg.models.vertex_models import Vertex
 from bmeg.models.edge_models import Edge
 
+
+class DebugEmitter:
+    def __init__(self, **kwargs):
+        self.emitter = emitter(**kwargs)
+
+    def close(self):
+        return
+
+    def emit(self, obj):
+        d = self.emitter.emit(obj)
+        print(json.dumps(d, indent=True))
+
 class MsgpackEmitter:
     def __init__(self, prefix, **kwargs):
         self.handles = filehandler(prefix, "msgp", mode="wb")
