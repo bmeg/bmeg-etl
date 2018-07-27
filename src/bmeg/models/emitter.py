@@ -5,38 +5,39 @@ from bmeg.models.vertex_models import Vertex
 from bmeg.models.edge_models import Edge
 
 
-class Emitter:
-    def __init__(self, prefix, preserve_null=False):
-        self.prefix = prefix
-        self.handles = {}
-        self.preserve_null = preserve_null
+class JSONEmitter:
+    def __init__(self, prefix, **kwargs):
+        self.handles = filehandler(prefix)
+        self.emitter = emitter(**kwargs)
 
     def close(self):
-        for fname, fh in self.handles.items():
-            fh.close()
+        self.handles.close()
+
+    def emit(self, obj):
+        d = self.emitter.emit(obj)
+        fh = self.handles[obj]
+        json.dump(d, fh)
+        fh.write(os.linesep)
+
+
+class emitter:
+    """
+    emitter is an internal helper that contains code shared by all emitters,
+    such as validation checks, data cleanup, etc.
+    """
+
+    def __init__(self, preserve_null=False):
+        self.preserve_null = preserve_null
 
     def emit(self, obj):
 
         if not obj.gid:
             raise ValueError("gid is empty")
 
-        label = obj.__class__.__name__
-
-        if isinstance(obj, Vertex):
-            suffix = "Vertex"
-        elif isinstance(obj, Edge):
-            suffix = "Edge"
-        else:
+        if not isinstance(obj, Vertex) and not isinstance(obj, Edge):
             raise TypeError("emit accepts objects of the Vertex or Edge type")
 
-        fname = "%s.%s.%s.json" % (self.prefix, label, suffix)
-
-        if fname in self.handles:
-            fh = self.handles[fname]
-        else:
-            fh = open(fname, "w")
-            self.handles[fname] = fh
-
+        label = obj.__class__.__name__
         data = dict(obj.__dict__)
 
         if "gid" in data:
@@ -55,23 +56,58 @@ class Emitter:
                 del data[k]
 
         if isinstance(obj, Vertex):
-            dumped = json.dumps({
+            dumped = {
                 "gid": self.gid,
                 "label": label,
                 "data": data
-            })
+            }
 
         elif isinstance(obj, Edge):
             suffix = "Edge"
-            dumped = json.dumps({
+            dumped = {
                 "gid": obj.gid,
                 "label": label,
                 "from": obj.from_gid,
                 "to": obj.to_gid,
                 "data": data
-            })
+            }
 
-        fh.write(dumped)
-        fh.write(os.linesep)
+        return dumped
 
-        return
+
+class filehandler:
+    """
+    filehandler helps manage a set of file handles, indexed by a key.
+    This is used by emitters to write to a set of files, such as
+    Biosample.Vertex.json, Individual.Vertex.json, etc.
+
+    This is an internal helper.
+    """
+    def __init__(self, prefix):
+        self.prefix = prefix
+        self.handles = {}
+
+    def __get__(self, obj):
+        label = obj.__class__.__name__
+
+        if isinstance(obj, Vertex):
+            suffix = "Vertex"
+        elif isinstance(obj, Edge):
+            suffix = "Edge"
+        else:
+            suffix = "Unknown"
+
+        fname = "%s.%s.%s.json" % (self.prefix, label, suffix)
+
+        if fname in self.handles:
+            return self.handles[fname]
+        else:
+            fh = open(fname, "w")
+            self.handles[fname] = fh
+            return fh
+        
+    def close(self):
+        for fh in self.handles.values():
+            fh.close()
+
+
