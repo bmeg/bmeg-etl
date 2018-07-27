@@ -33,6 +33,12 @@ TOTAL                   144      1    99%
 
 ```
 
+Note flake8 has a patch for python3.7, (prints a futures warning) I installed it via 
+```
+pip install -e git+https://gitlab.com/pycqa/flake8@9631dac5#egg=flake8 --src /usr/local/lib/python3.7/site-packages
+```
+
+
 
 ### Functionality
 
