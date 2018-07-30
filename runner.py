@@ -1,16 +1,17 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
-from __future__ import print_function
-
-import os
-import yaml
-import json
 import argparse
-import tempfile
+import json
+import os
 import subprocess
+import sys
+import tempfile
+import yaml
 
 
 def run_run(args):
+    args.exec_dir = os.path.abspath(args.exec_dir)
+
     with open(args.cwl) as handle:
         workflow = yaml.load(handle.read())
 
@@ -98,7 +99,7 @@ def run_run(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    subparsers = parser.add_subparsers(help='sub-command help')
+    subparsers = parser.add_subparsers(dest="cmd", help='sub-command help')
 
     parser_run = subparsers.add_parser('run', help='run a BMEG CWL ETL tool')
     parser_run.set_defaults(func=run_run)
@@ -110,7 +111,8 @@ if __name__ == "__main__":
                             help="base directory to use for cwltool '--outdir', \
                             '--tmpdir-prefix', '--tmp-outdir-prefix', \
                             '--cachedir'")
-
     args = parser.parse_args()
-    args.exec_dir = os.path.abspath(args.exec_dir)
+    if not args.cmd:
+        parser.print_help(sys.stderr)
+        sys.exit(1)
     args.func(args)
