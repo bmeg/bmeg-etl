@@ -76,22 +76,32 @@ def transform(args):
             emit(g)
 
         elif line["type"] == "transcript" or line["type"] == "mRNA":
+            gene_id = get_parent_gene(attrs["Parent"])
             t = Transcript(ensembl_id=attrs["transcript_id"],
-                           gene_id=get_parent_gene(attrs["Parent"]),
+                           gene_id=gene_id,
                            chromosome=line["seqId"],
                            start=int(line["start"]),
                            end=int(line["end"]),
                            strand=line["strand"])
             emit(t)
 
+            tf = TranscriptFor(from_gid=t.gid,
+                               to_gid=Gene.make_gid(gene_id))
+            emit(tf)
+
         elif line["type"] == "exon":
+            transcript_id = get_parent_transcript(attrs["Parent"])
             e = Exon(ensembl_id=attrs["exon_id"],
-                     transcript_id=get_parent_transcript(attrs["Parent"]),
+                     transcript_id=transcript_id,
                      chromosome=line["seqId"],
                      start=int(line["start"]),
                      end=int(line["end"]),
                      strand=line["strand"])
             emit(e)
+
+            ef = ExonFor(from_gid=e.gid,
+                         to_gid=Transcript.make_gid(transcript_id))
+            emit(ef)
 
     emitter.close()
     return
