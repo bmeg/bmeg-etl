@@ -10,11 +10,11 @@ def reader(path):
         return open(path, "r")
 
 
-def csv(path, **kwargs):
+def read_csv(path, **kwargs):
     r = reader(path)
     return csv.DictReader(r, **kwargs)
 
 
-def tsv(path, **kwargs):
+def read_tsv(path, **kwargs):
     r = reader(path)
     return csv.DictReader(r, delimiter="\t", **kwargs)
