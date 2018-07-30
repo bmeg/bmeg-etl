@@ -3,14 +3,16 @@ import hashlib
 from dataclasses import dataclass, field
 
 from bmeg.gid import GID
-from bmeg.utils import set_gid
+from bmeg.utils import set_gid, enforce_types
 
 
+@enforce_types
 @dataclass(frozen=True)
 class Vertex:
     gid: GID = field(init=False)
 
 
+@enforce_types
 @dataclass(frozen=True)
 class Callset(Vertex):
     tumor_biosample_id: str
@@ -32,6 +34,7 @@ class Callset(Vertex):
                                        call_method))
 
 
+@enforce_types
 @dataclass(frozen=True)
 class Allele(Vertex):
     genome: str
@@ -60,6 +63,7 @@ class Allele(Vertex):
         return GID("%s:%s" % (cls.__name__, vidhash))
 
 
+@enforce_types
 @dataclass(frozen=True)
 class CNASegment(Vertex):
     genome: str
@@ -77,6 +81,7 @@ class CNASegment(Vertex):
                                        end))
 
 
+@enforce_types
 @dataclass(frozen=True)
 class MethylationProbe(Vertex):
     genome: str
@@ -96,6 +101,7 @@ class MethylationProbe(Vertex):
                                        probe_id))
 
 
+@enforce_types
 @dataclass(frozen=True)
 class Gene(Vertex):
     ensembl_id: str
@@ -117,6 +123,7 @@ class Gene(Vertex):
         return GID("%s:%s" % (cls.__name__, ensembl_id))
 
 
+@enforce_types
 @dataclass(frozen=True)
 class Transcript(Vertex):
     ensembl_id: str
@@ -136,6 +143,7 @@ class Transcript(Vertex):
         return GID("%s:%s" % (cls.__name__, ensembl_id))
 
 
+@enforce_types
 @dataclass(frozen=True)
 class Exon(Vertex):
     ensembl_id: str
@@ -155,6 +163,7 @@ class Exon(Vertex):
         return GID("%s:%s" % (cls.__name__, ensembl_id))
 
 
+@enforce_types
 @dataclass(frozen=True)
 class Protein(Vertex):
     ensembl_id: str
@@ -170,6 +179,7 @@ class Protein(Vertex):
         return GID("%s:%s" % (cls.__name__, ensembl_id))
 
 
+@enforce_types
 @dataclass(frozen=True)
 class COCACluster(Vertex):
     cluster_id: str
@@ -182,6 +192,7 @@ class COCACluster(Vertex):
         return GID("%s:%s" % (cls.__name__, cluster_id))
 
 
+@enforce_types
 @dataclass(frozen=True)
 class Individual(Vertex):
     individual_id: str
@@ -195,6 +206,7 @@ class Individual(Vertex):
         return GID("%s:%s" % (cls.__name__, individual_id))
 
 
+@enforce_types
 @dataclass(frozen=True)
 class Biosample(Vertex):
     biosample_id: str

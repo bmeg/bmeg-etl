@@ -1,9 +1,10 @@
 from dataclasses import dataclass, field
 
 from bmeg.gid import GID
-from bmeg.utils import set_gid
+from bmeg.utils import set_gid, enforce_types
 
 
+@enforce_types
 @dataclass(frozen=True)
 class Edge:
     gid: GID = field(init=False)
@@ -18,6 +19,7 @@ class Edge:
         return "(%s)--%s->(%s)" % (from_gid, cls.__name__, to_gid)
 
 
+@enforce_types
 @dataclass(frozen=True)
 class VariantIn(Edge):
     """
@@ -26,6 +28,7 @@ class VariantIn(Edge):
     pass
 
 
+@enforce_types
 @dataclass(frozen=True)
 class VariantCall(Edge):
     """
@@ -34,6 +37,7 @@ class VariantCall(Edge):
     info: dict
 
 
+@enforce_types
 @dataclass(frozen=True)
 class CNASegmentOverlaps(Edge):
     """
@@ -42,6 +46,7 @@ class CNASegmentOverlaps(Edge):
     pass
 
 
+@enforce_types
 @dataclass(frozen=True)
 class CNASegmentCall(Edge):
     """
@@ -51,6 +56,7 @@ class CNASegmentCall(Edge):
     pass
 
 
+@enforce_types
 @dataclass(frozen=True)
 class GeneCNAValueCall(Edge):
     """
@@ -60,6 +66,7 @@ class GeneCNAValueCall(Edge):
     pass
 
 
+@enforce_types
 @dataclass(frozen=True)
 class MethlyationProbeValue(Edge):
     """
@@ -69,6 +76,7 @@ class MethlyationProbeValue(Edge):
     pass
 
 
+@enforce_types
 @dataclass(frozen=True)
 class MethlyationProbeFor(Edge):
     """
@@ -77,6 +85,7 @@ class MethlyationProbeFor(Edge):
     pass
 
 
+@enforce_types
 @dataclass(frozen=True)
 class TranscriptFor(Edge):
     """
@@ -85,6 +94,7 @@ class TranscriptFor(Edge):
     pass
 
 
+@enforce_types
 @dataclass(frozen=True)
 class ExonFor(Edge):
     """
@@ -93,6 +103,7 @@ class ExonFor(Edge):
     pass
 
 
+@enforce_types
 @dataclass(frozen=True)
 class ProteinFor(Edge):
     """
@@ -101,6 +112,7 @@ class ProteinFor(Edge):
     pass
 
 
+@enforce_types
 @dataclass(frozen=True)
 class COCAClusterFor(Edge):
     """
@@ -109,6 +121,7 @@ class COCAClusterFor(Edge):
     pass
 
 
+@enforce_types
 @dataclass(frozen=True)
 class BiosampleFor(Edge):
     """
@@ -117,6 +130,7 @@ class BiosampleFor(Edge):
     pass
 
 
+@enforce_types
 @dataclass(frozen=True)
 class CallsetFor(Edge):
     """
