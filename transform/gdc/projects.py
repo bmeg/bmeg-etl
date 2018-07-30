@@ -11,8 +11,7 @@ from bmeg.models.vertex_models import Individual, Biosample, Project
 from gdcutils import query_gdc, extract
 
 
-#emitter = JSONEmitter("gdc")
-emitter = bmeg.models.emitter.DebugEmitter()
+emitter = bmeg.models.emitter.JSONEmitter("gdc")
 
 expand_project_fields = ",".join("""
 dbgap_accession_number
@@ -35,6 +34,7 @@ summary
 """.strip().split()
 
 for row in query_gdc("projects", {"expand": expand_project_fields}):
-    print(json.dumps(row, indent=True))
     p = Project(row["id"], extract(row, keep_project_fields))
     emitter.emit(p)
+
+emitter.close()
