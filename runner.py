@@ -107,7 +107,9 @@ if __name__ == "__main__":
     parser_run.add_argument("--dry-run", action="store_true",
                             help="print generated CWL inputs and exit")
     parser_run.add_argument("--exec-dir", default=".",
-                            help="base directory to use for cwltool '--outdir', '--tmpdir-prefix', '--tmp-outdir-prefix', '--cachedir'")
+                            help="base directory to use for cwltool '--outdir',
+                            '--tmpdir-prefix', '--tmp-outdir-prefix',
+                            '--cachedir'")
 
     args = parser.parse_args()
     args.exec_dir = os.path.abspath(args.exec_dir)
