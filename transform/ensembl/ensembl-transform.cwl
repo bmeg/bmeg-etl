@@ -5,28 +5,36 @@ hints:
   DockerRequirement:
     dockerPull: bmeg/bmeg-etl:latest
 
-
 baseCommand:
-  - go
-  - run
-  - /opt/run.go
+  - "python"
+  - "/opt/ensembl-transform.py"
+  - "--output-prefix"
+  - "ensembl"
 
 inputs:
-  GAF_GZ:
+  GFF_GZ:
     type: File
     inputBinding:
-      position: 1
+      prefix: "-i"
 
 outputs:
-  TRANSCRIPT:
-    type: File
-    outputBinding:
-      glob: Transcript.json
   GENE:
     type: File
     outputBinding:
-      glob: Gene.json
+      glob: ensembl.Gene.Vertex.json
+  TRANSCRIPT:
+    type: File
+    outputBinding:
+      glob: ensembl.Transcript.Vertex.json
+  TRANSCRIPTFOR:
+    type: File
+    outputBinding:
+      glob: ensembl.TranscriptFor.Edge.json
   EXON:
     type: File
     outputBinding:
-      glob: Exon.json
+      glob: ensembl.Exon.Vertex.json
+  EXONFOR:
+    type: File
+    outputBinding:
+      glob: ensembl.ExonFor.Edge.json
