@@ -37,6 +37,21 @@
     VERTEXES: /out/out.Vertex.json
     EDGES: /out/out.Edge.json
 
+- key: mmc-transform
+  image: spanglry/mmc-transform
+  command:
+    - "java"
+    - "-jar"
+    - "/mmc-transform.jar"
+    - "--input"
+    - "/in/input.json"
+    - "--output"
+    - "/out/out.json"
+  inputs:
+    MMC: /in/input.json
+  outputs:
+    OUTPUT: /out/out.json
+
 - key: curl-extract
   image: appropriate/curl
   command: ["curl", "{{URL}}", "-o", "/tmp/out"]
