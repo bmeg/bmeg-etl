@@ -6,9 +6,9 @@ import re
 from urllib.parse import unquote
 
 import bmeg.ioutils
-from bmeg.models.vertex_models import Gene, Transcript, Exon
-from bmeg.models.edge_models import TranscriptFor, ExonFor
-from bmeg.models.emitter import Emitter
+from bmeg.vertex import Gene, Transcript, Exon
+from bmeg.edge import TranscriptFor, ExonFor
+from bmeg.emitter import JSONEmitter
 
 
 def parse_attributes(attrs):
@@ -50,7 +50,7 @@ def transform(args):
     Transform the file downloaded from:
         ftp://ftp.ensembl.org/pub/grch37/update/gff3/homo_sapiens/Homo_sapiens.GRCh37.87.gff3.gz
     """
-    emitter = Emitter(args.output_prefix)
+    emitter = JSONEmitter(args.output_prefix)
     emit = emitter.emit
 
     inhandle = bmeg.ioutils.reader(args.input)

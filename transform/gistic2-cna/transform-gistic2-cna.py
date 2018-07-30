@@ -2,11 +2,11 @@ import argparse
 import os
 
 import bmeg.ioutils
-from bmeg.models.vertex_models import Callset, Gene
-from bmeg.models.edge_models import GeneCNAValueCall
-from bmeg.models.conversions import query_mygeneinfo_for_ensembl_gene
-from bmeg.models.emitter import JSONEmitter
-from bmeg.models.utils import get_tcga_sample_barcode, tcga_barcode_is_tumor
+from bmeg.vertex import Callset, Gene
+from bmeg.edge import GeneCNAValueCall
+from bmeg.conversions import ensembl_gene_lookup
+from bmeg.emitter import JSONEmitter
+from bmeg.utils import get_tcga_sample_barcode, tcga_barcode_is_tumor
 
 
 def transform(args):
@@ -26,7 +26,7 @@ def transform(args):
             gene = ids[1].split(".")[0]
         else:
             gene = ids[0]
-            gene = query_mygeneinfo_for_ensembl_gene(gene)
+            gene = ensembl_gene_lookup(gene)
 
         for id, val in line.items():
             sample_id = get_tcga_sample_barcode(id)

@@ -2,12 +2,11 @@ import argparse
 import os
 
 import bmeg.ioutils
-from bmeg.models.vertex_models import Callset, Gene, MethylationProbe
-from bmeg.models.edge_models import (MethlyationProbeValue,
-                                     MethlyationProbeFor)
-from bmeg.models.conversions import query_mygeneinfo_for_ensembl_gene
-from bmeg.models.emitter import Emitter
-from bmeg.models.utils import get_tcga_sample_barcode, tcga_barcode_is_tumor
+from bmeg.vertex import Callset, Gene, MethylationProbe
+from bmeg.edge import (MethlyationProbeValue, MethlyationProbeFor)
+from bmeg.conversions import ensembl_gene_lookup
+from bmeg.emitter import JSONEmitter
+from bmeg.utils import get_tcga_sample_barcode, tcga_barcode_is_tumor
 
 
 def transform(args):
@@ -15,7 +14,7 @@ def transform(args):
     Transform legacy methylation data from the gdc. Example:
         https://portal.gdc.cancer.gov/legacy-archive/files/85d8d46e-5206-4c07-95e0-56b22c013321
     """
-    emitter = Emitter(args.output_prefix)
+    emitter = JSONEmitter(args.output_prefix)
     emit = emitter.emit
 
     reader = bmeg.ioutils.tsv(args.input)
@@ -26,7 +25,7 @@ def transform(args):
 
     for line in reader:
         gene = line["Gene_Symbol"]
-        gene = query_mygeneinfo_for_ensembl_gene(gene)
+        gene = ensembl_gene_lookup(gene)
 
         p = MethylationProbe(genome=args.genome,
                              chromosome=line["Chromosome"],
