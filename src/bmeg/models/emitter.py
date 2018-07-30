@@ -1,8 +1,6 @@
 import atexit
 from datetime import datetime
 import json
-import bson
-import msgpack
 import os
 import sys
 
@@ -12,7 +10,7 @@ from bmeg.models.edge_models import Edge
 
 class DebugEmitter:
     def __init__(self, **kwargs):
-        self.emitter = emitter(**kwargs)
+        self.emitter = BaseEmitter(**kwargs)
 
     def close(self):
         self.emitter.close()
@@ -21,42 +19,11 @@ class DebugEmitter:
         d = self.emitter.emit(obj)
         print(json.dumps(d, indent=True))
 
-class MsgpackEmitter:
-    def __init__(self, prefix, **kwargs):
-        self.handles = filehandler(prefix, "msgp", mode="wb")
-        self.emitter = emitter(**kwargs)
-
-    def close(self):
-        self.handles.close()
-        self.emitter.close()
-
-    def emit(self, obj):
-        d = self.emitter.emit(obj)
-        fh = self.handles[obj]
-        b = msgpack.dumps(d)
-        fh.write(b)
-        #fh.write(os.linesep)
-
-class BSONEmitter:
-    def __init__(self, prefix, **kwargs):
-        self.handles = filehandler(prefix, "bson", mode="wb")
-        self.emitter = emitter(**kwargs)
-
-    def close(self):
-        self.handles.close()
-        self.emitter.close()
-
-    def emit(self, obj):
-        d = self.emitter.emit(obj)
-        fh = self.handles[obj]
-        b = bson.dumps(d)
-        fh.write(b)
-        #fh.write(os.linesep)
 
 class JSONEmitter:
     def __init__(self, prefix, **kwargs):
-        self.handles = filehandler(prefix, "json")
-        self.emitter = emitter(**kwargs)
+        self.handles = FileHandler(prefix, "json")
+        self.emitter = BaseEmitter(**kwargs)
 
     def close(self):
         self.handles.close()
@@ -69,7 +36,7 @@ class JSONEmitter:
         fh.write(os.linesep)
 
 
-class rate:
+class Rate:
     def __init__(self):
         self.i = 0
         self.start = None
@@ -105,15 +72,15 @@ class rate:
             self.log()
 
 
-class emitter:
+class BaseEmitter:
     """
-    emitter is an internal helper that contains code shared by all emitters,
+    BaseEmitter is an internal helper that contains code shared by all emitters,
     such as validation checks, data cleanup, etc.
     """
 
     def __init__(self, preserve_null=False):
         self.preserve_null = preserve_null
-        self.rate = rate()
+        self.rate = Rate()
 
     def close(self):
         self.rate.close()
@@ -165,9 +132,9 @@ class emitter:
         return dumped
 
 
-class filehandler:
+class FileHandler:
     """
-    filehandler helps manage a set of file handles, indexed by a key.
+    FileHandler helps manage a set of file handles, indexed by a key.
     This is used by emitters to write to a set of files, such as
     Biosample.Vertex.json, Individual.Vertex.json, etc.
 
