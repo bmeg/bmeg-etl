@@ -6,6 +6,10 @@ from functools import wraps
 
 
 def enforce_types(callable):
+    """
+    From:
+    https://stackoverflow.com/questions/50563546/validating-detailed-types-in-python-dataclasses
+    """
     spec = inspect.getfullargspec(callable)
 
     def check_types(*args, **kwargs):
