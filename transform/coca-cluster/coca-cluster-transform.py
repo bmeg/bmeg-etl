@@ -2,10 +2,10 @@ import argparse
 import os
 import pandas as pd
 
-from bmeg.models.vertex_models import COCACluster, Individual
-from bmeg.models.edge_models import COCAClusterFor
-from bmeg.models.emitter import Emitter
-from bmeg.models.utils import get_tcga_individual_barcode
+from bmeg.vertex import COCACluster, Individual
+from bmeg.edge import COCAClusterFor
+from bmeg.emitter import JSONEmitter
+from bmeg.utils import get_tcga_individual_barcode
 
 
 def transform(args):
@@ -17,7 +17,7 @@ def transform(args):
     Transform Table S1 downloaded from:
         https://ars.els-cdn.com/content/image/1-s2.0-S0092867418303027-mmc6.xlsx
     """
-    emitter = Emitter(args.output_prefix)
+    emitter = JSONEmitter(args.output_prefix)
     emit = emitter.emit
 
     df = pd.read_excel(args.input, sheet_name="Table S6 - iCluster", header=1)
