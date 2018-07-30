@@ -17,7 +17,7 @@ def transform(args):
     emitter = JSONEmitter(args.output_prefix)
     emit = emitter.emit
 
-    reader = bmeg.ioutils.tsv(args.input)
+    reader = bmeg.ioutils.read_tsv(args.input)
 
     sample_id = get_tcga_sample_barcode(reader.fieldsnames[1])
     if not tcga_barcode_is_tumor(sample_id):

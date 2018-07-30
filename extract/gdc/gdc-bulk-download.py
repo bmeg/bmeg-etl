@@ -10,7 +10,6 @@ import json
 import os
 import re
 import requests
-import sys
 
 from subprocess import call
 from uuid import uuid4
@@ -75,12 +74,12 @@ if __name__ == "__main__":
     id_map = {}
     params = {}
     params['filters'] = json.dumps(query)
-    # params['fields'] = "type,data_type,data_category,data_format,tags,experimental_strategy"
     params['expand'] = "cases.samples,cases.project"
 
     print('creating file manifest...')
 
-    while 'size' not in params or data['pagination']['page'] < data['pagination']['pages']:
+    while 'size' not in params or \
+          data['pagination']['page'] < data['pagination']['pages']:
         params['size'] = 1000
         req = requests.get(URL_BASE + "files", params=params)
         data = req.json()['data']
@@ -140,7 +139,8 @@ if __name__ == "__main__":
 
     output_name = re.sub("\.tar\.gz$", "", args.output_name) + ".tar.gz"
     call("cat" + manifest + "/* > " + archive + "/MANIFEST.txt", shell=True)
-    tar = "cd " + archive + " && " + "tar czvf ../" + output_name + " . && cd .."
+    tar = "cd " + archive + " && " + "tar czvf ../" + output_name + \
+        " . && cd .."
     call(tar, shell=True)
     call(["rm", "-rf", archive])
     call(["rm", "-rf", manifest])

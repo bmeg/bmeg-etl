@@ -17,7 +17,7 @@ def transform(args):
     emitter = JSONEmitter(args.output_prefix)
     emit = emitter.emit
 
-    for line in bmeg.ioutils.tsv(args.input):
+    for line in bmeg.ioutils.read_tsv(args.input):
         identifier = line["Sample"]
         del line["Sample"]
 
