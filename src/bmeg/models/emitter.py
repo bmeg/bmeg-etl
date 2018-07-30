@@ -1,8 +1,6 @@
 import atexit
 from datetime import datetime
 import json
-import bson
-import msgpack
 import os
 import sys
 
@@ -15,84 +13,12 @@ class DebugEmitter:
         self.emitter = emitter(**kwargs)
 
     def close(self):
-        return
-
-    def emit(self, obj):
-        d = self.emitter.emit(obj)
-        print(json.dumps(d, indent=True))
-
-class MsgpackEmitter:
-    def __init__(self, prefix, **kwargs):
-        self.handles = filehandler(prefix, "msgp", mode="wb")
-        self.emitter = emitter(**kwargs)
-
-    def close(self):
-        self.handles.close()
-
-    def emit(self, obj):
-        d = self.emitter.emit(obj)
-        fh = self.handles[obj]
-        b = msgpack.dumps(d)
-        fh.write(b)
-        #fh.write(os.linesep)
-
-class BSONEmitter:
-    def __init__(self, prefix, **kwargs):
-        self.handles = filehandler(prefix, "bson", mode="wb")
-        self.emitter = emitter(**kwargs)
-
-    def close(self):
-        self.handles.close()
-
-    def emit(self, obj):
-        d = self.emitter.emit(obj)
-        fh = self.handles[obj]
-        b = bson.dumps(d)
-        fh.write(b)
-        #fh.write(os.linesep)
-
-class DebugEmitter:
-    def __init__(self, **kwargs):
-        self.emitter = emitter(**kwargs)
-
-    def close(self):
         self.emitter.close()
 
     def emit(self, obj):
         d = self.emitter.emit(obj)
         print(json.dumps(d, indent=True))
 
-class MsgpackEmitter:
-    def __init__(self, prefix, **kwargs):
-        self.handles = filehandler(prefix, "msgp", mode="wb")
-        self.emitter = emitter(**kwargs)
-
-    def close(self):
-        self.handles.close()
-        self.emitter.close()
-
-    def emit(self, obj):
-        d = self.emitter.emit(obj)
-        fh = self.handles[obj]
-        b = msgpack.dumps(d)
-        fh.write(b)
-        #fh.write(os.linesep)
-
-class BSONEmitter:
-    def __init__(self, prefix, **kwargs):
-        self.handles = filehandler(prefix, "bson", mode="wb")
-        self.emitter = emitter(**kwargs)
-
-    def close(self):
-        self.handles.close()
-        self.emitter.close()
-
-    def emit(self, obj):
-        d = self.emitter.emit(obj)
-        fh = self.handles[obj]
-        b = bson.dumps(d)
-        fh.write(b)
-        #fh.write(os.linesep)
 
 class JSONEmitter:
     def __init__(self, prefix, **kwargs):
