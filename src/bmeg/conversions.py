@@ -1,9 +1,7 @@
-from bmeg.models.ensembl_lookup import hugo_ensembl
-
 import mygene
 
 
-def query_mygeneinfo_for_ensembl_gene(id):
+def ensembl_gene_lookup(id):
     """
     Query http://mygene.info/v3/api for ensembl gene id
     """
@@ -31,13 +29,6 @@ def query_mygeneinfo_for_ensembl_gene(id):
         top_hit["ensembl"] = top_hit["ensembl"][0]
 
     return top_hit["ensembl"]["gene"]
-
-
-def ensembl_gene_lookup(id):
-    ensembl_id = hugo_ensembl(id)
-    if ensembl_id == "":
-        raise ValueError("ensembl id for %s not found" % id)
-    return ensembl_id
 
 
 def ensembl_transcript_lookup(id):

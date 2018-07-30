@@ -4,8 +4,8 @@ import json
 import os
 import sys
 
-from bmeg.models.vertex_models import Vertex
-from bmeg.models.edge_models import Edge
+from bmeg.vertex import Vertex
+from bmeg.edge import Edge
 
 
 class DebugEmitter:
@@ -48,7 +48,8 @@ class Rate:
 
         self.log()
         dt = datetime.now() - self.first
-        m = "\ntotal: {0:,} in {1:,d} seconds".format(self.i, int(dt.total_seconds()))
+        m = "\ntotal: {0:,} in {1:,d} seconds".format(self.i,
+                                                      int(dt.total_seconds()))
         print(m, file=sys.stderr)
 
     def log(self):
@@ -74,8 +75,8 @@ class Rate:
 
 class BaseEmitter:
     """
-    BaseEmitter is an internal helper that contains code shared by all emitters,
-    such as validation checks, data cleanup, etc.
+    BaseEmitter is an internal helper that contains code shared by all
+    emitters, such as validation checks, data cleanup, etc.
     """
 
     def __init__(self, preserve_null=False):
@@ -119,7 +120,6 @@ class BaseEmitter:
             }
 
         elif isinstance(obj, Edge):
-            suffix = "Edge"
             dumped = {
                 "gid": obj.gid,
                 "label": label,
@@ -165,9 +165,7 @@ class FileHandler:
             fh = open(fname, self.mode)
             self.handles[fname] = fh
             return fh
-        
+
     def close(self):
         for fh in self.handles.values():
             fh.close()
-
-
