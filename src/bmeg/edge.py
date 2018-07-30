@@ -1,9 +1,7 @@
-import json
-
 from dataclasses import dataclass, field
 
-from bmeg.models.gid_models import GID
-from bmeg.models.utils import set_gid
+from bmeg.gid import GID
+from bmeg.utils import set_gid
 
 
 @dataclass(frozen=True)
