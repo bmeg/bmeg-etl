@@ -1,8 +1,0 @@
-{
-  "PROJECT" : "BRCA", 
-  "SAMPLE" : "sample1",
-  "FILE" : {
-    "class" : "File",
-    "path" : "6f85af42-cf48-467a-a239-52e9ca745601.out"
-  }
-}

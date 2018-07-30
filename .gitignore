@@ -9,6 +9,7 @@ eggs/
 *.egg-info/
 *.egg
 .tox/
+.mypy_cache/
 
 # Editor Temps
 .*.sw?
