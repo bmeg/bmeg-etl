@@ -26,6 +26,8 @@ setup(
     install_requires=[
         "dataclasses>=0.6",
         "mygene>=3.0.0",
+        "requests>=2.19.1",
+        "requests-cache>=0.4.13",
     ],
     extras_require={
         "test": [

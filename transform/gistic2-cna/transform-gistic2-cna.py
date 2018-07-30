@@ -5,7 +5,7 @@ import bmeg.ioutils
 from bmeg.models.vertex_models import Callset, Gene
 from bmeg.models.edge_models import GeneCNAValueCall
 from bmeg.models.conversions import query_mygeneinfo_for_ensembl_gene
-from bmeg.models.emitter import Emitter
+from bmeg.models.emitter import JSONEmitter
 from bmeg.models.utils import get_tcga_sample_barcode, tcga_barcode_is_tumor
 
 
@@ -14,7 +14,7 @@ def transform(args):
     Transform the file downloaded from:
         https://tcga.xenahubs.net/download/TCGA.PANCAN.sampleMap/Gistic2_CopyNumber_Gistic2_all_thresholded.by_genes.gz
     """
-    emitter = Emitter(args.output_prefix)
+    emitter = JSONEmitter(args.output_prefix)
     emit = emitter.emit
 
     for line in bmeg.ioutils.tsv(args.input):
