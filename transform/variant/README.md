@@ -128,29 +128,29 @@ Strip log format prefix
 cat maf_transform.log | sed 's/^.* - .* - //' | jq  '. | your log parser '
 ```
 
-Sample
+Harvest results
 
 ```
 TOTAL=$(cat  maf_transform.log | grep imported  | tail -1 | sed 's/^.*imported //')
 sed 's/^.* - .* - //' maf_transform.log  | grep stage | python miss_analysis.py $TOTAL | jq .
-{
-  "myvariantinfo_nofind": 274040,
-  "myvariantinfo_exception": 83,
-  "reference_wildcard": 13642,
-  "dbSNP_mismatch": 30479,
-  "alternate_wildcard": 44168,
-  "Variant_Type": {
-    "ONP": 52,
-    "DEL": 45283,
-    "TNP": 10,
-    "SNP": 245238,
-    "INS": 14019
-  },
-  "missing_snp": 228790,
-  "report": "misses = 26%; novel = 19%; wildcard_misses =5%; dbSNP_mismatch =2%",
-  "total": 1145000
-}
 
+{
+  "myvariantinfo_nofind": 860324,
+  "myvariantinfo_exception": 66435,
+  "reference_wildcard": 43638,
+  "dbSNP_mismatch": 95899,
+  "alternate_wildcard": 165272,
+  "Variant_Type": {
+    "ONP": 151,
+    "DEL": 168164,
+    "TNP": 23,
+    "SNP": 809789,
+    "INS": 44531
+  },
+  "missing_snp": 760394,
+  "report": "misses = 26%; novel = 21%; wildcard_misses =5%; dbSNP_mismatch =2%",
+  "total": 3600963
+}
 
 ```
 
@@ -163,3 +163,70 @@ where:
 * myvariantinfo_exception - parsing or network error
 * missing_snp - novel
 * Variant_Type - for all misses
+
+
+### dedup
+
+```
+# reduce to unique ids
+$jq -r -c .gid  < mc3.Allele.Vertex.json  | sort | uniq >mc3.Allele.Vertex.unique_ids
+$ wc -l mc3.Allele.Vertex.unique_ids
+3088088 mc3.Allele.Vertex.unique_ids
+```
+
+### compare against original
+
+```
+# get the unique id of everything we harvested
+jq -r -c .gid  < mc3.Allele.Vertex.json  | sort | uniq >mc3.Allele.Vertex.unique_ids
+
+# run without harvesting to create a reference set
+$python maf_transform.py --maf_file source/mc3.v0.2.8.PUBLIC.maf.gz --prefix reference/mc3 --verbose --workers 10  2> maf_transform.log
+
+$ wc -l test.Allele.Vertex.unique_ids
+3091454 test.Allele.Vertex.unique_ids
+```
+
+### compare against g2p
+
+```
+# g2p_analysis.py
+{"total":46575,"hits":29488,"keys":{"_id":24749,"_score":24749,"chrom":24749,"clinvar":10389,"hg19":24749,"observed":16746,"snpeff":24749,"vcf":24749,"cadd":23517,"dbsnp":13995,"gnomad_genome":4209,"wellderly":4381,"dbnsfp":11918,"evs":3024,"exac_nontcga":4566,"gnomad_exome":8477,"mutdb":7164,"cosmic":10433,"exac":5257,"grasp":203,"geno2mp":3006,"emv":860,"snpedia":276,"gwassnps":21,"civic":4853,"cgi":2943,"docm":4332}}
+```
+
+#### myvariant meta coverage
+
+[snpeff](http://snpeff.sourceforge.net/) 24749
+[cadd](http://cadd.gs.washington.edu/home) 23517
+[dbsnp](https://www.ncbi.nlm.nih.gov/projects/SNP/) 13995
+[dbnsfp](https://sites.google.com/site/jpopgen/dbNSFP) 11918
+[cosmic](http://cancer.sanger.ac.uk/cosmic) 10433
+[clinvar](https://www.ncbi.nlm.nih.gov/clinvar/) 10389
+[mutdb](http://www.mutdb.org/) 7164
+[exac](http://exac.broadinstitute.org/) 5257
+[civic](https://civic.genome.wustl.edu/home) 4853
+[wellderly](https://genomics.scripps.edu/browser/) 4381
+[docm](None) 4332
+[evs](http://evs.gs.washington.edu/EVS/) 3024
+[geno2mp](http://geno2mp.gs.washington.edu) 3006
+[cgi](https://www.cancergenomeinterpreter.org/home) 2943
+[emv](http://www.egl-eurofins.com/emvclass/emvclass.php) 860
+[snpedia](https://www.snpedia.com/) 276
+[grasp](https://grasp.nhlbi.nih.gov/Updates.aspx) 203
+[gwassnps](http://www.ebi.ac.uk/gwas/) 21
+
+#### G2P dbnsfp.Vest3 rankscore
+
+* A 0.8763147826086949
+* B 0.6735934167140423
+* C 0.6866358542713499
+* D 0.8241483648428666
+* None 0.784781306053812
+
+
+#### G2P cadd.rawscore
+A 4.8880969561332135
+B 1.29712009661252
+C 1.3459371859442335
+D 2.8110570133636186
+None 3.1775750201342317

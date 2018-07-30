@@ -18,7 +18,7 @@ import allele_harvester
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed
 from more_itertools import chunked
-
+from itertools import islice
 
 # center = 2
 # ncbi_build = 3
@@ -67,13 +67,15 @@ def get_value(d, keys, default):
     return default
 
 
-def _read_maf(mafpath, gz):
+def _read_maf(mafpath, gz, skip=0, harvest=True):
     """ generator for each line in maf """
     if gz or 'gz' in mafpath:
         inhandle = gzip.open(mafpath, mode='rt')
     else:
         inhandle = open(mafpath)
     reader = csv.DictReader(inhandle, delimiter="\t")
+    logging.info('skipping: {}'.format(skip))
+    reader = islice(reader, skip, None)
     for line in reader:
         yield line
     inhandle.close()
@@ -123,22 +125,8 @@ def _callset_maker(allele, source, centerCol, method, line):
     return sample_calls, sample_callsets
 
 
-def _multithreading(func, lines, max_workers):
-    """
-    Create a thread pool and create alleles
-    """
-    # limit queue size == number of workers
-    # see https://stackoverflow.com/questions/48263704/threadpoolexecutor-how-to-limit-the-queue-maxsize  # noqa
-
-    for chunk in chunked(lines, max_workers):
-        with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            futures = (executor.submit(func, line) for line in chunk)
-            for future in as_completed(futures):
-                yield future.result()
-
-
-def _allele_maker(line, genome='GRCh37'):
-    """ worker task to create allele from line """
+def _allele_dict(line, genome='GRCh37'):
+    ''' return properly named allele dictionary, populated form line'''
     # collect CURIES that apply to allele
     annotations = []
     annotations.append('{}:{}'.format(
@@ -150,7 +138,7 @@ def _allele_maker(line, genome='GRCh37'):
     annotations.append('{}:{}'.format(
         dbSNP_RS, line[dbSNP_RS]))
 
-    allele_dict = {
+    return {
         'genome': genome,
         'chromosome': line[chromosome],
         'start': int(get_value(line, start, None)),
@@ -160,11 +148,36 @@ def _allele_maker(line, genome='GRCh37'):
         # ,myvariantinfo: dict
         'annotations': annotations,
     }
-    return allele_harvester.harvest(**allele_dict), line
+
+
+def _allele_maker(line, harvest, filter):
+    """ worker task to create and/or harvest allele from line """
+    allele_dict = _allele_dict(line)
+    return allele_harvester.harvest(**allele_dict,
+                                    harvest=harvest,
+                                    filter=filter), line
+    # if harvest:
+    #     return allele_harvester.harvest(**allele_dict), line
+    # return allele_harvester.create(**allele_dict), line
+
+
+def _multithreading(func, lines, max_workers, harvest, filter):
+    """
+    Create a thread pool and create alleles
+    """
+    # limit queue size == number of workers
+    # see https://stackoverflow.com/questions/48263704/threadpoolexecutor-how-to-limit-the-queue-maxsize  # noqa
+
+    for chunk in chunked(lines, max_workers):
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            futures = (executor.submit(func, line, harvest, filter) for line in chunk)  # noqa
+            for future in as_completed(futures):
+                yield future.result()
 
 
 def maf_convert(emit, mafpath, workers, source='tcga', genome='GRCh37',
-                method='variant', gz=False, centerCol='Center'):
+                method='variant', gz=False, centerCol='Center', skip=0,
+                harvest=True, filter=[]):
     """
     emit -  a way to write output
     mafpath - a file to read
@@ -172,14 +185,20 @@ def maf_convert(emit, mafpath, workers, source='tcga', genome='GRCh37',
     genome - reference_genome e.g. GRCh37
     method - call's method
     gz - is mafpath a gz
+    skip - ignore first N lines
     """
 
     logging.info('converting maf: ' + mafpath)
     my_callsets_ids = set()
-    c = 0
+    c = skip
     for allele, line in _multithreading(_allele_maker,
-                                        _read_maf(mafpath, gz),
-                                        max_workers=workers):
+                                        _read_maf(mafpath, gz, skip),
+                                        max_workers=workers,
+                                        harvest=harvest,
+                                        filter=filter):
+        # if allele was filtered out
+        if not allele:
+            continue
         # save the allele that was created
         emit(allele)
         # create edge between the allele and the callset
@@ -201,10 +220,11 @@ def maf_convert(emit, mafpath, workers, source='tcga', genome='GRCh37',
     logging.info('imported {}'.format(c))
 
 
-def convert(mafpath, prefix, workers=5):
+def convert(mafpath, prefix, workers=5, skip=0, harvest=True, filter=[]):
     """ entry point """
     emitter = Emitter(prefix=prefix)
-    maf_convert(emit=emitter.emit, mafpath=mafpath, workers=workers)
+    maf_convert(emit=emitter.emit, mafpath=mafpath, workers=workers, skip=skip,
+                harvest=harvest, filter=filter)
 
 
 if __name__ == '__main__':  # pragma: no cover
@@ -216,9 +236,37 @@ if __name__ == '__main__':  # pragma: no cover
         help="multithread harvest from myvariant.info",
         default=5
     )
+    parser.add_argument(
+        '--skip', type=int,
+        help="skip first N lines in MAF",
+        default=0
+    )
+    parser.add_argument('--filter', type=str,
+                        help='Path of already harvested Allele gids')
+    harvest = parser.add_mutually_exclusive_group(required=False)
+    harvest.add_argument('--harvest', dest='harvest',
+                         help="get myvariantinfo", action='store_true')
+    harvest.add_argument('--no-harvest', dest='harvest',
+                         help="do not get myvariantinfo", action='store_false')
+    parser.set_defaults(harvest=True)
+
+    #
+    # parser.add_argument('--harvest', dest='harvest', action='store_true',
+    #                     help="retrieve external data",
+    #                     default=True)
 
     # We don't need the first argument, which is the program name
     options = parser.parse_args(sys.argv[1:])
     default_logging(options.loglevel)
+
+    # ids to skip
+    filter = {}
+    if options.filter:
+        with open(options.filter) as f:
+            for line in f:
+                line = line.strip()
+                filter[line] = None
+
     convert(mafpath=options.maf_file, prefix=options.prefix,
-            workers=options.workers)
+            workers=options.workers, skip=options.skip,
+            harvest=options.harvest, filter=filter)

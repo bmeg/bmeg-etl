@@ -18,6 +18,7 @@
 #     "INS": 2863
 #   }
 # }
+from __future__ import print_function
 
 import json
 import sys
@@ -27,24 +28,34 @@ summary = {'total': total}
 
 
 for line in sys.stdin:
-    line = eval(line)
+    try:
+        line = eval(line)
+    except Exception as e:
+        print(line, file=sys.stderr)
+        print(e, file=sys.stderr)
+        continue
+
     summary[line['stage']] = summary.get(line['stage'], 0) + 1
     for k, v in [a.split(':') for a in line['annotations']]:
         summary[k] = summary.get(k, {})
         summary[k][v] = summary[k].get(v, 0) + 1
     if line['reference_bases'] == '-':
-        summary['reference_wildcard'] = summary.get('reference_wildcard', 0) + 1
+        summary['reference_wildcard'] = \
+            summary.get('reference_wildcard', 0) + 1
     if line['alternate_bases'] == '-':
-        summary['alternate_wildcard'] = summary.get('alternate_wildcard', 0) + 1
+        summary['alternate_wildcard'] = \
+            summary.get('alternate_wildcard', 0) + 1
 
-summary['missing_snp'] = summary['dbSNP_RS']['novel'] + summary['dbSNP_RS']['.']
+summary['missing_snp'] = summary['dbSNP_RS']['novel'] \
+                         + summary['dbSNP_RS']['.']
 
-summary['report'] = 'misses = {}%; novel = {}%; wildcard_misses ={}%; dbSNP_mismatch ={}%'.format(
+report = 'misses = {}%; novel = {}%; wildcard_misses ={}%; dbSNP_mismatch ={}%'
+summary['report'] = report.format(
     ((summary['myvariantinfo_nofind']+summary['dbSNP_mismatch']) *100)/summary['total'],
     (summary['missing_snp']*100)/summary['total'],
     ((summary['alternate_wildcard'] + summary['reference_wildcard'])*100)/summary['total'],
     (summary['dbSNP_mismatch']*100)/summary['total'],
-)
+)  # noqa
 
 del summary['Feature']
 del summary['dbSNP_RS']
