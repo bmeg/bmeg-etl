@@ -51,7 +51,6 @@ def transform(args):
         ftp://ftp.ensembl.org/pub/grch37/update/gff3/homo_sapiens/Homo_sapiens.GRCh37.87.gff3.gz
     """
     emitter = JSONEmitter(args.output_prefix)
-    emit = emitter.emit
 
     inhandle = bmeg.ioutils.reader(args.input)
     reader = csv.DictReader(
@@ -73,7 +72,7 @@ def transform(args):
                      end=int(line["end"]),
                      strand=line["strand"],
                      mygeneinfo=None)
-            emit(g)
+            emitter.emit_vertex(g)
 
         elif line["type"] == "transcript" or line["type"] == "mRNA":
             gene_id = get_parent_gene(attrs["Parent"])
@@ -83,11 +82,10 @@ def transform(args):
                            start=int(line["start"]),
                            end=int(line["end"]),
                            strand=line["strand"])
-            emit(t)
-
-            tf = TranscriptFor(from_gid=t.gid,
-                               to_gid=Gene.make_gid(gene_id))
-            emit(tf)
+            emitter.emit_vertex(t)
+            emitter.emit_edge(TranscriptFor(),
+                              from_gid=t.gid,
+                              to_gid=Gene.make_gid(gene_id))
 
         elif line["type"] == "exon":
             transcript_id = get_parent_transcript(attrs["Parent"])
@@ -97,11 +95,10 @@ def transform(args):
                      start=int(line["start"]),
                      end=int(line["end"]),
                      strand=line["strand"])
-            emit(e)
-
-            ef = ExonFor(from_gid=e.gid,
-                         to_gid=Transcript.make_gid(transcript_id))
-            emit(ef)
+            emitter.emit_vertex(e)
+            emitter.emit_edge(ExonFor(),
+                              from_gid=e.gid,
+                              to_gid=Transcript.make_gid(transcript_id))
 
     emitter.close()
     return

@@ -15,7 +15,6 @@ def transform(args):
         https://tcga.xenahubs.net/download/TCGA.PANCAN.sampleMap/Gistic2_CopyNumber_Gistic2_all_thresholded.by_genes.gz
     """
     emitter = JSONEmitter(args.output_prefix)
-    emit = emitter.emit
 
     for line in bmeg.ioutils.read_tsv(args.input):
         identifier = line["Sample"]
@@ -32,15 +31,16 @@ def transform(args):
             sample_id = get_tcga_sample_barcode(id)
             if not tcga_barcode_is_tumor(sample_id):
                 raise RuntimeError("%s is not a tumor barcode" % sample_id)
+
             c = Callset(tumor_biosample_id=sample_id,
                         normal_biosample_id="",
                         call_method="GISTIC2",
                         source="UCSCXena")
-            cvfg = GeneCNAValueCall(from_gid=c.gid,
-                                    to_gid=Gene.make_gid(gene),
-                                    value=val)
-            emit(c)
-            emit(cvfg)
+            emitter.emit_vertex(c)
+
+            emitter.emit_edge(GeneCNAValueCall(value=val),
+                              from_gid=c.gid,
+                              to_gid=Gene.make_gid(gene))
     emitter.close()
     return
 

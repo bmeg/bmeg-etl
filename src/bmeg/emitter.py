@@ -1,11 +1,15 @@
 import atexit
-from datetime import datetime
 import json
 import os
 import sys
+import typing
 
-from bmeg.vertex import Vertex
+from datetime import datetime
+
 from bmeg.edge import Edge
+from bmeg.gid import GID
+from bmeg.utils import enforce_types
+from bmeg.vertex import Vertex
 
 
 class DebugEmitter:
@@ -86,25 +90,8 @@ class BaseEmitter:
     def close(self):
         self.rate.close()
 
-    def emit(self, obj):
-
-        if not obj.gid:
-            raise ValueError("gid is empty")
-
-        if not isinstance(obj, Vertex) and not isinstance(obj, Edge):
-            raise TypeError("emit accepts objects of the Vertex or Edge type")
-
-        label = obj.__class__.__name__
+    def _get_data(self, obj: typing.Union[Edge, Vertex]):
         data = dict(obj.__dict__)
-
-        if "gid" in data:
-            del data["gid"]
-
-        if "from_gid" in data:
-            del data["from_gid"]
-
-        if "to_gid" in data:
-            del data["to_gid"]
 
         # delete null values
         if not self.preserve_null:
@@ -112,21 +99,28 @@ class BaseEmitter:
             for k in remove:
                 del data[k]
 
-        if isinstance(obj, Vertex):
-            dumped = {
-                "gid": obj.gid,
-                "label": label,
-                "data": data
-            }
+        return data
 
-        elif isinstance(obj, Edge):
-            dumped = {
-                "gid": obj.gid,
-                "label": label,
-                "from": obj.from_gid,
-                "to": obj.to_gid,
-                "data": data
-            }
+    @enforce_types
+    def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
+        dumped = {
+            "gid": obj.make_gid(from_gid, to_gid),
+            "label": obj.label(),
+            "from": from_gid,
+            "to": to_gid,
+            "data": self._get_data(obj)
+        }
+
+        self.rate.tick()
+        return dumped
+
+    @enforce_types
+    def emit_vertex(self, obj: Vertex):
+        dumped = {
+            "gid": obj.gid(),
+            "label": obj.label(),
+            "data": self._get_data(obj)
+        }
 
         self.rate.tick()
         return dumped
