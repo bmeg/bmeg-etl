@@ -65,7 +65,7 @@ def transform(args):
         attrs = parse_attributes(line["attributes"])
 
         if line["type"] == "gene":
-            g = Gene(ensembl_id=attrs["gene_id"],
+            g = Gene(gene_id=attrs["gene_id"],
                      symbol=attrs["Name"],
                      description=attrs.get("description", ""),
                      chromosome=line["seqId"],
@@ -77,7 +77,7 @@ def transform(args):
 
         elif line["type"] == "transcript" or line["type"] == "mRNA":
             gene_id = get_parent_gene(attrs["Parent"])
-            t = Transcript(ensembl_id=attrs["transcript_id"],
+            t = Transcript(transcript_id=attrs["transcript_id"],
                            gene_id=gene_id,
                            chromosome=line["seqId"],
                            start=int(line["start"]),
@@ -91,7 +91,7 @@ def transform(args):
 
         elif line["type"] == "exon":
             transcript_id = get_parent_transcript(attrs["Parent"])
-            e = Exon(ensembl_id=attrs["exon_id"],
+            e = Exon(exon_id=attrs["exon_id"],
                      transcript_id=transcript_id,
                      chromosome=line["seqId"],
                      start=int(line["start"]),

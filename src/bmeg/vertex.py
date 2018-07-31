@@ -104,7 +104,7 @@ class MethylationProbe(Vertex):
 @enforce_types
 @dataclass(frozen=True)
 class Gene(Vertex):
-    ensembl_id: str
+    gene_id: str
     symbol: str
     description: str
     chromosome: str
@@ -114,19 +114,19 @@ class Gene(Vertex):
     mygeneinfo: dict
 
     def __post_init__(self):
-        set_gid(self, Gene.make_gid(self.ensembl_id))
+        set_gid(self, Gene.make_gid(self.gene_id))
 
     @classmethod
-    def make_gid(cls, ensembl_id):
-        if not ensembl_id.startswith("ENSG"):
+    def make_gid(cls, gene_id):
+        if not gene_id.startswith("ENSG"):
             raise ValueError("not an emsembl gene id")
-        return GID("%s:%s" % (cls.__name__, ensembl_id))
+        return GID("%s:%s" % (cls.__name__, gene_id))
 
 
 @enforce_types
 @dataclass(frozen=True)
 class Transcript(Vertex):
-    ensembl_id: str
+    transcript_id: str
     gene_id: str
     chromosome: str
     start: int
@@ -134,19 +134,19 @@ class Transcript(Vertex):
     strand: str
 
     def __post_init__(self):
-        set_gid(self, Transcript.make_gid(self.ensembl_id))
+        set_gid(self, Transcript.make_gid(self.transcript_id))
 
     @classmethod
-    def make_gid(cls, ensembl_id):
-        if not ensembl_id.startswith("ENST"):
+    def make_gid(cls, transcript_id):
+        if not transcript_id.startswith("ENST"):
             raise ValueError("not an emsembl transcript id")
-        return GID("%s:%s" % (cls.__name__, ensembl_id))
+        return GID("%s:%s" % (cls.__name__, transcript_id))
 
 
 @enforce_types
 @dataclass(frozen=True)
 class Exon(Vertex):
-    ensembl_id: str
+    exon_id: str
     transcript_id: str
     chromosome: str
     start: int
@@ -154,29 +154,29 @@ class Exon(Vertex):
     strand: str
 
     def __post_init__(self):
-        set_gid(self, Exon.make_gid(self.ensembl_id))
+        set_gid(self, Exon.make_gid(self.exon_id))
 
     @classmethod
-    def make_gid(cls, ensembl_id):
-        if not ensembl_id.startswith("ENSE"):
+    def make_gid(cls, exon_id):
+        if not exon_id.startswith("ENSE"):
             raise ValueError("not an emsembl exon id")
-        return GID("%s:%s" % (cls.__name__, ensembl_id))
+        return GID("%s:%s" % (cls.__name__, exon_id))
 
 
 @enforce_types
 @dataclass(frozen=True)
 class Protein(Vertex):
-    ensembl_id: str
+    protein_id: str
     transcript_id: str
 
     def __post_init__(self):
-        set_gid(self, Protein.make_gid(self.ensembl_id))
+        set_gid(self, Protein.make_gid(self.protein_id))
 
     @classmethod
-    def make_gid(cls, ensembl_id):
-        if not ensembl_id.startswith("ENSP"):
+    def make_gid(cls, protein_id):
+        if not protein_id.startswith("ENSP"):
             raise ValueError("not an emsembl protein id")
-        return GID("%s:%s" % (cls.__name__, ensembl_id))
+        return GID("%s:%s" % (cls.__name__, protein_id))
 
 
 @enforce_types
