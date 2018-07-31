@@ -1,21 +1,18 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from bmeg.gid import GID
-from bmeg.utils import set_gid, enforce_types
+from bmeg.utils import enforce_types
 
 
 @enforce_types
 @dataclass(frozen=True)
 class Edge:
-    gid: GID = field(init=False)
-    from_gid: GID
-    to_gid: GID
-
-    def __post_init__(self):
-        set_gid(self, self.__class__.make_gid(self.from_gid, self.to_gid))
+    def label(self):
+        return self.__class__.__name__
 
     @classmethod
-    def make_gid(cls, from_gid, to_gid):
+    @enforce_types
+    def make_gid(cls, from_gid: GID, to_gid: GID):
         return "(%s)--%s->(%s)" % (from_gid, cls.__name__, to_gid)
 
 
@@ -53,7 +50,6 @@ class CNASegmentCall(Edge):
     CNASegment -> Callset
     """
     value: float
-    pass
 
 
 @enforce_types
@@ -63,7 +59,6 @@ class GeneCNAValueCall(Edge):
     Gene -> Callset
     """
     value: float
-    pass
 
 
 @enforce_types
@@ -73,7 +68,6 @@ class MethlyationProbeValue(Edge):
     MethylationProbe -> Callset
     """
     value: float
-    pass
 
 
 @enforce_types

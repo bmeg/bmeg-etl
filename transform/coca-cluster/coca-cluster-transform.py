@@ -18,7 +18,6 @@ def transform(args):
         https://ars.els-cdn.com/content/image/1-s2.0-S0092867418303027-mmc6.xlsx
     """
     emitter = JSONEmitter(args.output_prefix)
-    emit = emitter.emit
 
     df = pd.read_excel(args.input, sheet_name="Table S6 - iCluster", header=1)
 
@@ -31,10 +30,10 @@ def transform(args):
             # references this paper
             coca_clusters[cluster_id] = True
             coca = COCACluster(cluster_id=cluster_id)
-            emit(coca)
-        cvfg = COCAClusterFor(from_gid=COCACluster.make_gid(cluster_id),
-                              to_gid=Individual.make_gid(individual_id))
-        emit(cvfg)
+            emitter.emit_vertex(coca)
+        emitter.emit_edge(COCAClusterFor(),
+                          from_gid=COCACluster.make_gid(cluster_id),
+                          to_gid=Individual.make_gid(individual_id))
 
     emitter.close()
     return

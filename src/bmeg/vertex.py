@@ -1,15 +1,16 @@
 import hashlib
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 
 from bmeg.gid import GID
-from bmeg.utils import set_gid, enforce_types
+from bmeg.utils import enforce_types
 
 
 @enforce_types
 @dataclass(frozen=True)
 class Vertex:
-    gid: GID = field(init=False)
+    def label(self):
+        return self.__class__.__name__
 
 
 @enforce_types
@@ -20,15 +21,15 @@ class Callset(Vertex):
     call_method: str
     source: str
 
-    def __post_init__(self):
-        set_gid(self, Callset.make_gid(self.source,
-                                       self.tumor_biosample_id,
-                                       self.normal_biosample_id,
-                                       self.call_method))
+    def gid(self):
+        return Callset.make_gid(self.tumor_biosample_id,
+                                self.normal_biosample_id,
+                                self.call_method,
+                                self.source)
 
     @classmethod
-    def make_gid(cls, source, tumor_biosample_id, normal_biosample_id,
-                 call_method):
+    def make_gid(cls, tumor_biosample_id, normal_biosample_id,
+                 call_method, source):
         return GID("%s:%s:%s:%s:%s" % (cls.__name__, source,
                                        tumor_biosample_id, normal_biosample_id,
                                        call_method))
@@ -45,15 +46,16 @@ class Allele(Vertex):
     alternate_bases: str
     myvariantinfo: dict
 
-    def __post_init__(self):
-        set_gid(self, Allele.make_gid(self.genome, self.chromosome, self.start,
-                                      self.end, self.reference_bases,
-                                      self.alternate_bases))
+    def gid(self):
+        return Allele.make_gid(self.genome, self.chromosome, self.start,
+                               self.end, self.reference_bases,
+                               self.alternate_bases)
 
     @classmethod
     def make_gid(cls, genome, chromosome, start, end, reference_bases,
                  alternate_bases):
-        # TODO -  figure out better hashing strategy
+        # TODO
+        # figure out better hashing strategy
         vid = "%s:%s:%d:%d:%s:%s" % (genome, chromosome,
                                      start, end, reference_bases,
                                      alternate_bases)
@@ -71,9 +73,9 @@ class CNASegment(Vertex):
     start: int
     end: int
 
-    def __post_init__(self):
-        set_gid(self, CNASegment.make_gid(self.genome, self.chromosome,
-                                          self.start, self.end))
+    def gid(self):
+        return CNASegment.make_gid(self.genome, self.chromosome,
+                                   self.start, self.end)
 
     @classmethod
     def make_gid(cls, callset_id, genome, chromosome, start, end):
@@ -90,10 +92,10 @@ class MethylationProbe(Vertex):
     end: int
     probe_id: str
 
-    def __post_init__(self):
-        set_gid(self, MethylationProbe.make_gid(self.genome, self.chromosome,
-                                                self.start, self.end,
-                                                self.probe_id))
+    def gid(self):
+        return MethylationProbe.make_gid(self.genome, self.chromosome,
+                                         self.start, self.end,
+                                         self.probe_id)
 
     @classmethod
     def make_gid(cls, genome, chromosome, start, end, probe_id):
@@ -113,8 +115,8 @@ class Gene(Vertex):
     strand: str
     mygeneinfo: dict
 
-    def __post_init__(self):
-        set_gid(self, Gene.make_gid(self.gene_id))
+    def gid(self):
+        return Gene.make_gid(self.gene_id)
 
     @classmethod
     def make_gid(cls, gene_id):
@@ -133,8 +135,8 @@ class Transcript(Vertex):
     end: int
     strand: str
 
-    def __post_init__(self):
-        set_gid(self, Transcript.make_gid(self.transcript_id))
+    def gid(self):
+        return Transcript.make_gid(self.transcript_id)
 
     @classmethod
     def make_gid(cls, transcript_id):
@@ -153,8 +155,8 @@ class Exon(Vertex):
     end: int
     strand: str
 
-    def __post_init__(self):
-        set_gid(self, Exon.make_gid(self.exon_id))
+    def gid(self):
+        return Exon.make_gid(self.exon_id)
 
     @classmethod
     def make_gid(cls, exon_id):
@@ -169,8 +171,8 @@ class Protein(Vertex):
     protein_id: str
     transcript_id: str
 
-    def __post_init__(self):
-        set_gid(self, Protein.make_gid(self.protein_id))
+    def gid(self):
+        return Protein.make_gid(self.protein_id)
 
     @classmethod
     def make_gid(cls, protein_id):
@@ -184,8 +186,8 @@ class Protein(Vertex):
 class COCACluster(Vertex):
     cluster_id: str
 
-    def __post_init__(self):
-        set_gid(self, COCACluster.make_gid(self.cluster_id))
+    def gid(self):
+        return COCACluster.make_gid(self.cluster_id)
 
     @classmethod
     def make_gid(cls, cluster_id):
@@ -198,8 +200,8 @@ class Individual(Vertex):
     individual_id: str
     gdc_attributes: dict
 
-    def __post_init__(self):
-        set_gid(self, Individual.make_gid(self.individual_id))
+    def gid(self):
+        return Individual.make_gid(self.individual_id)
 
     @classmethod
     def make_gid(cls, individual_id):
@@ -212,8 +214,8 @@ class Biosample(Vertex):
     biosample_id: str
     gdc_attributes: dict
 
-    def __post_init__(self):
-        set_gid(self, Individual.make_gid(self.biosample_id))
+    def gid(self):
+        return Individual.make_gid(self.biosample_id)
 
     @classmethod
     def make_gid(cls, biosample_id):

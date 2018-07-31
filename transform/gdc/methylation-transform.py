@@ -15,7 +15,6 @@ def transform(args):
         https://portal.gdc.cancer.gov/legacy-archive/files/85d8d46e-5206-4c07-95e0-56b22c013321
     """
     emitter = JSONEmitter(args.output_prefix)
-    emit = emitter.emit
 
     reader = bmeg.ioutils.read_tsv(args.input)
 
@@ -32,23 +31,21 @@ def transform(args):
                              start=int(line["Genomic_Coordinate"]),
                              end=int(line["Genomic_Coordinate"]),
                              probe_id=line["Composite Element REF"])
+        emitter.emit_vertex(p)
 
         c = Callset(tumor_biosample_id=sample_id,
                     normal_biosample_id="",
                     call_method="Illumina Human Methylation 450",
                     source="GDC")
+        emitter.emit_vertex(c)
 
-        mpv = MethlyationProbeValue(from_gid=p.gid,
-                                    to_gid=c.gid,
-                                    value=line["Beta_value"])
+        emitter.emit_edge(MethlyationProbeValue(value=line["Beta_value"]),
+                          from_gid=p.gid,
+                          to_gid=c.gid)
 
-        mpfg = MethlyationProbeFor(from_gid=p.gid,
-                                   to_gid=Gene.make_gid(gene))
-
-        emit(p)
-        emit(c)
-        emit(mpv)
-        emit(mpfg)
+        emitter.emit_edge(MethlyationProbeFor(),
+                          from_gid=p.gid,
+                          to_gid=Gene.make_gid(gene))
 
     emitter.close()
     return
