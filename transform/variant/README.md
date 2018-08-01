@@ -135,21 +135,23 @@ TOTAL=$(cat  maf_transform.log | grep imported  | tail -1 | sed 's/^.*imported /
 sed 's/^.* - .* - //' maf_transform.log  | grep stage | python miss_analysis.py $TOTAL | jq .
 
 {
+  "total": 3600963,
+  "alt_off_by_one": 5213,
+  "ref_off_by_one": 12708,
   "myvariantinfo_nofind": 860324,
-  "myvariantinfo_exception": 66435,
+  "Variant_Type": {
+    "SNP": 809789,
+    "DEL": 168164,
+    "INS": 44531,
+    "TNP": 23,
+    "ONP": 151
+  },
+  "alternate_wildcard": 165272,
   "reference_wildcard": 43638,
   "dbSNP_mismatch": 95899,
-  "alternate_wildcard": 165272,
-  "Variant_Type": {
-    "ONP": 151,
-    "DEL": 168164,
-    "TNP": 23,
-    "SNP": 809789,
-    "INS": 44531
-  },
+  "myvariantinfo_exception": 66435,
   "missing_snp": 760394,
-  "report": "misses = 26%; novel = 21%; wildcard_misses =5%; dbSNP_mismatch =2%",
-  "total": 3600963
+  "report": "misses = 26.554646632025932%; novel = 21.116406916705337%; wildcard_misses =5.80150365332829%; dbSNP_mismatch =2.6631487188288245%"
 }
 
 ```
