@@ -22,9 +22,10 @@ from __future__ import print_function
 
 import json
 import sys
+import difflib
 
 total = int(sys.argv[1])
-summary = {'total': total}
+summary = {'total': total, 'alt_off_by_one': 0, 'ref_off_by_one': 0}
 
 
 for line in sys.stdin:
@@ -45,9 +46,22 @@ for line in sys.stdin:
     if line['alternate_bases'] == '-':
         summary['alternate_wildcard'] = \
             summary.get('alternate_wildcard', 0) + 1
+    if line['stage'] == 'dbSNP_mismatch':
+        # print(line['hit'].keys())
+        # print(line['hit']['vcf'])
+        ref = line['hit']['vcf']['ref']
+        alt = line['hit']['vcf']['alt']
+        if len(ref) > 1:
+            ref_diff = sum ([ {' ':0, '-':1,  '+':1}[d[0]]  for d in difflib.ndiff(line['reference_bases'],ref)])
+            if ref_diff == 1:
+                summary['ref_off_by_one'] += 1
+        if len(alt) > 1:
+            alt_diff = sum ([ {' ':0, '-':1,  '+':1}[d[0]]  for d in difflib.ndiff(line['alternate_bases'],alt)])
+            if alt_diff == 1:
+                summary['alt_off_by_one'] += 1
 
-summary['missing_snp'] = summary['dbSNP_RS']['novel'] \
-                         + summary['dbSNP_RS']['.']
+summary['missing_snp'] = summary['dbSNP_RS'].get('novel', 0) \
+                         + summary['dbSNP_RS'].get('.', 0)
 
 report = 'misses = {}%; novel = {}%; wildcard_misses ={}%; dbSNP_mismatch ={}%'
 summary['report'] = report.format(
