@@ -162,5 +162,5 @@ def test_no_center(no_center_file, emitter_path_prefix):
 
 def test_NO_REF_ALT(NO_REF_ALT_file, emitter_path_prefix):
     """ no start """
-    with pytest.raises(ValueError) as context:
+    with pytest.raises(ValueError):
         validate(NO_REF_ALT_file, emitter_path_prefix)
