@@ -19,8 +19,12 @@ class DebugEmitter:
     def close(self):
         self.emitter.close()
 
-    def emit(self, obj):
-        d = self.emitter.emit(obj)
+    def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
+        d = self.emitter.emit_edge(obj)
+        print(json.dumps(d, indent=True))
+
+    def emit_vertex(self, obj: Vertex):
+        d = self.emitter.emit_vertex(obj)
         print(json.dumps(d, indent=True))
 
 
@@ -33,8 +37,14 @@ class JSONEmitter:
         self.handles.close()
         self.emitter.close()
 
-    def emit(self, obj):
-        d = self.emitter.emit(obj)
+    def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
+        d = self.emitter.emit_edge(obj)
+        fh = self.handles[obj]
+        json.dump(d, fh)
+        fh.write(os.linesep)
+
+    def emit_vertex(self, obj: Vertex):
+        d = self.emitter.emit_vertex(obj)
         fh = self.handles[obj]
         json.dump(d, fh)
         fh.write(os.linesep)
