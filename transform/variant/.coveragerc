@@ -1,7 +1,6 @@
 [run]
 omit =
   tests/*
-  ga4gh*.py
 
 [paths]
 source = .
