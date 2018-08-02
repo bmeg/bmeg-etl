@@ -5,7 +5,7 @@ import requests
 import urllib
 import logging
 import json
-from bmeg.models.vertex_models import Allele
+from bmeg.vertex import Allele
 
 
 TIMEOUT = 30

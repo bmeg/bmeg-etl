@@ -7,9 +7,9 @@ import csv
 import gzip
 import sys
 
-from bmeg.models.vertex_models import Biosample, Callset, Gene
-from bmeg.models.edge_models import AlleleCall, CallsetFor, AlleleIn
-from bmeg.models.emitter import Emitter
+from bmeg.vertex import Biosample, Callset, Gene
+from bmeg.edge import AlleleCall, CallsetFor, AlleleIn
+from bmeg.emitter import JSONEmitter as Emitter
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
 
