@@ -35,45 +35,9 @@ def no_center_file(request):
 
 
 @pytest.fixture
-def LARP6_file(request):
-    """ get the full path of the test fixture """
-    return os.path.join(request.fspath.dirname, 'test-LARP6.maf')
-
-
-@pytest.fixture
-def TMX3_file(request):
-    """ get the full path of the test fixture """
-    return os.path.join(request.fspath.dirname, 'test-TMX3.maf')
-
-
-@pytest.fixture
-def TPTE_file(request):
-    """ get the full path of the test fixture """
-    return os.path.join(request.fspath.dirname, 'test-TPTE.maf')
-
-
-@pytest.fixture
-def AXIN1_file(request):
-    """ get the full path of the test fixture """
-    return os.path.join(request.fspath.dirname, 'test-AXIN1.maf')
-
-
-@pytest.fixture
 def NO_REF_ALT_file(request):
     """ get the full path of the test fixture """
     return os.path.join(request.fspath.dirname, 'test-NO_REF_ALT.maf')
-
-
-@pytest.fixture
-def RIMS1_file(request):
-    """ get the full path of the test fixture """
-    return os.path.join(request.fspath.dirname, 'test-RIMS1.maf')
-
-
-@pytest.fixture
-def ZFP3_file(request):
-    """ get the full path of the test fixture """
-    return os.path.join(request.fspath.dirname, 'test-ZFP3.maf')
 
 
 @pytest.fixture
@@ -86,11 +50,13 @@ def validate(maf_file, emitter_path_prefix, harvest=True, filter=[]):
     allele_file = '{}.Allele.Vertex.json'.format(emitter_path_prefix)
     allelecall_file = '{}.AlleleCall.Edge.json'.format(emitter_path_prefix)
     callset_file = '{}.Callset.Vertex.json'.format(emitter_path_prefix)
+    allelein_file = '{}.AlleleIn.Edge.json'.format(emitter_path_prefix)
     # remove output
     with contextlib.suppress(FileNotFoundError):
         os.remove(allele_file)
         os.remove(allelecall_file)
         os.remove(callset_file)
+        os.remove(allelein_file)
     # create output
     maf_transform.convert(maf_file, emitter_path_prefix,
                           harvest=harvest, filter=filter)
@@ -146,7 +112,21 @@ def validate(maf_file, emitter_path_prefix, harvest=True, filter=[]):
         for line in f:
             # should be json
             allelecall = json.loads(line)
-            assert(allelecall)
+            # optional keys, if set should be non null
+            optional_keys = ['t_depth', 't_ref_count', 't_alt_count',
+                             'n_depth', 'n_ref_count', 'n_alt_count', 'FILTER',
+                             'Match_Norm_Seq_Allele1',
+                             'Match_Norm_Seq_Allele2',
+                             'Tumor_Seq_Allele1', 'Tumor_Seq_Allele2']
+            for k in optional_keys:
+                if k in allelecall['data']['info']:
+                    assert allelecall['data']['info'][k], 'empty key %s' % k
+    # test allelein (gene) contents
+    with open(allelein_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            # should be json
+            allelein = json.loads(line)
+            assert(allelein)
 
 
 def test_simple(maf_file, emitter_path_prefix):
@@ -178,36 +158,6 @@ def test_get_value():
 def test_no_center(no_center_file, emitter_path_prefix):
     """ 'Center column' renamed """
     validate(no_center_file, emitter_path_prefix)
-
-
-def test_larp6(LARP6_file, emitter_path_prefix):
-    """ no alt """
-    validate(LARP6_file, emitter_path_prefix)
-
-
-def test_tpte(TPTE_file, emitter_path_prefix):
-    """ no alt """
-    validate(TPTE_file, emitter_path_prefix)
-
-
-def test_AXIN1(AXIN1_file, emitter_path_prefix):
-    """ no alt """
-    validate(AXIN1_file, emitter_path_prefix)
-
-
-def test_TMX3(TMX3_file, emitter_path_prefix):
-    """ no alt """
-    validate(TMX3_file, emitter_path_prefix)
-
-
-def test_RIMS1(RIMS1_file, emitter_path_prefix):
-    """ no alt """
-    validate(RIMS1_file, emitter_path_prefix)
-
-
-def test_ZFP3(ZFP3_file, emitter_path_prefix):
-    """ no alt """
-    validate(ZFP3_file, emitter_path_prefix)
 
 
 def test_NO_REF_ALT(NO_REF_ALT_file, emitter_path_prefix):

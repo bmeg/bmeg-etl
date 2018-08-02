@@ -7,8 +7,8 @@ import csv
 import gzip
 import sys
 
-from bmeg.models.vertex_models import Biosample, Callset
-from bmeg.models.edge_models import AlleleCall, CallsetFor
+from bmeg.models.vertex_models import Biosample, Callset, Gene
+from bmeg.models.edge_models import AlleleCall, CallsetFor, AlleleIn
 from bmeg.models.emitter import Emitter
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
@@ -84,7 +84,10 @@ def _read_maf(mafpath, gz, skip=0, harvest=True):
 def _allele_call_maker(allele, callset, line=None):
     """ create call from line """
     keys = ['t_depth', 't_ref_count', 't_alt_count', 'n_depth',
-            'n_ref_count', 'n_alt_count']
+            'n_ref_count', 'n_alt_count', 'FILTER',
+            'Match_Norm_Seq_Allele1',	'Match_Norm_Seq_Allele2',
+            'Tumor_Seq_Allele1', 'Tumor_Seq_Allele2',
+            ]
     info = {}
     for k in keys:
         info[k] = get_value(line, k, None)
@@ -175,6 +178,16 @@ def _multithreading(func, lines, max_workers, harvest, filter):
                 yield future.result()
 
 
+def _allele_to_gene(allele, line):
+    """
+    create edge to gene
+    """
+    ensembl_id = line.get('Gene', None)
+    symbol = line.get('Hugo_Symbol', None)
+    gene_gid = Gene.make_gid(ensembl_id=ensembl_id)
+    return AlleleIn(allele.gid, gene_gid)
+
+
 def maf_convert(emit, mafpath, workers, source='tcga', genome='GRCh37',
                 method='variant', gz=False, centerCol='Center', skip=0,
                 harvest=True, filter=[]):
@@ -214,6 +227,10 @@ def maf_convert(emit, mafpath, workers, source='tcga', genome='GRCh37',
                 emit(callset)
                 emit(CallsetFor(callset.gid, callset.normal_biosample_id))
                 emit(CallsetFor(callset.gid, callset.tumor_biosample_id))
+
+        # create edge to gene
+        emit(_allele_to_gene(allele, line))
+        # log progress
         c += 1
         if c % 1000 == 0:  # pragma nocover
             logging.info('imported {}'.format(c))
