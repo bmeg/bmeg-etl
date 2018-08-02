@@ -72,7 +72,7 @@ def validate(maf_file, emitter_path_prefix, harvest=True, filter=[]):
             # minimum protograph keys
             assert list(allele.keys()) == ['gid', 'label', 'data'], \
                 'expected keys'
-            # should not be emoty
+            # should not be empty
             for k in allele.keys():
                 assert allele[k], 'empty key %s' % k
 
