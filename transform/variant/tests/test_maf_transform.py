@@ -59,6 +59,12 @@ def AXIN1_file(request):
 
 
 @pytest.fixture
+def NO_REF_ALT_file(request):
+    """ get the full path of the test fixture """
+    return os.path.join(request.fspath.dirname, 'test-NO_REF_ALT.maf')
+
+
+@pytest.fixture
 def RIMS1_file(request):
     """ get the full path of the test fixture """
     return os.path.join(request.fspath.dirname, 'test-RIMS1.maf')
@@ -76,7 +82,7 @@ def emitter_path_prefix(request):
     return os.path.join(request.fspath.dirname, 'test')
 
 
-def validate(maf_file, emitter_path_prefix, harvest=True):
+def validate(maf_file, emitter_path_prefix, harvest=True, filter=[]):
     allele_file = '{}.Allele.Vertex.json'.format(emitter_path_prefix)
     allelecall_file = '{}.AlleleCall.Edge.json'.format(emitter_path_prefix)
     callset_file = '{}.Callset.Vertex.json'.format(emitter_path_prefix)
@@ -86,7 +92,8 @@ def validate(maf_file, emitter_path_prefix, harvest=True):
         os.remove(allelecall_file)
         os.remove(callset_file)
     # create output
-    maf_transform.convert(maf_file, emitter_path_prefix, harvest=harvest)
+    maf_transform.convert(maf_file, emitter_path_prefix,
+                          harvest=harvest, filter=filter)
     # test.Allele.Vertex.json
     error_message = 'maf_transform.convert({}, {}) should create {}' \
                     .format(maf_file, emitter_path_prefix, allele_file)
@@ -152,6 +159,12 @@ def test_simple_harvest(maf_file, emitter_path_prefix):
     validate(maf_file, emitter_path_prefix, harvest=False)
 
 
+def test_simple_filter(maf_file, emitter_path_prefix):
+    """ simple test """
+    validate(maf_file, emitter_path_prefix,
+             filter=['Allele:733057c6dcfcdaecc00a0212b65ee0421737c36f'])
+
+
 def test_gz(gz_file, emitter_path_prefix):
     """ simple test """
     validate(gz_file, emitter_path_prefix)
@@ -195,3 +208,9 @@ def test_RIMS1(RIMS1_file, emitter_path_prefix):
 def test_ZFP3(ZFP3_file, emitter_path_prefix):
     """ no alt """
     validate(ZFP3_file, emitter_path_prefix)
+
+
+def test_NO_REF_ALT(NO_REF_ALT_file, emitter_path_prefix):
+    """ no start """
+    with pytest.raises(ValueError) as context:
+        validate(NO_REF_ALT_file, emitter_path_prefix)
