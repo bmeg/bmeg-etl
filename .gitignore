@@ -9,6 +9,7 @@ eggs/
 *.egg-info/
 *.egg
 .tox/
+.mypy_cache/
 
 # Editor Temps
 .*.sw?
@@ -18,5 +19,6 @@ eggs/
 
 *venv*
 
-.cache/
-.pytest_cache/
+*.Vertex.json
+*.Edge.json
+cache.sqlite
