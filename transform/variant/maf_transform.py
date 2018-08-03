@@ -81,7 +81,7 @@ def _read_maf(mafpath, gz, skip=0, harvest=True):
     inhandle.close()
 
 
-def _allele_call_maker(allele, callset, line=None):
+def _allele_call_maker(allele, line=None):
     """ create call from line """
     keys = ['t_depth', 't_ref_count', 't_alt_count', 'n_depth',
             'n_ref_count', 'n_alt_count', 'FILTER',
@@ -91,7 +91,7 @@ def _allele_call_maker(allele, callset, line=None):
     info = {}
     for k in keys:
         info[k] = get_value(line, k, None)
-    return AlleleCall(allele.gid, callset.gid, info)
+    return AlleleCall(info)
 
 
 def _tcga_aliquot2sample_barcode(barcode):
@@ -113,18 +113,18 @@ def _callset_maker(allele, source, centerCol, method, line):
             center = c.replace("*", "")
             # callset_id = "%s:%s" % (sample, center)
             callset = Callset(sample,
-                              Biosample.make_gid(
-                                line[normal_sample_barcode]), center)
+                              Biosample.make_gid(line[normal_sample_barcode]),
+                              center, source)
             sample_callsets.append(callset)
-            sample_calls.append(
-                _allele_call_maker(allele, callset, line))
+            sample_calls.append((_allele_call_maker(allele, line),
+                                 callset.gid()))
     else:
         callset = Callset(sample,
-                          Biosample.make_gid(
-                            line[normal_sample_barcode]), method)
+                          Biosample.make_gid(line[normal_sample_barcode]),
+                          method, source)
         sample_callsets.append(callset)
-        sample_calls.append(
-            _allele_call_maker(allele, callset, line))
+        sample_calls.append((_allele_call_maker(allele, line),
+                             callset.gid()))
     return sample_calls, sample_callsets
 
 
@@ -178,21 +178,11 @@ def _multithreading(func, lines, max_workers, harvest, filter):
                 yield future.result()
 
 
-def _allele_to_gene(allele, line):
-    """
-    create edge to gene
-    """
-    ensembl_id = line.get('Gene', None)
-    symbol = line.get('Hugo_Symbol', None)
-    gene_gid = Gene.make_gid(ensembl_id=ensembl_id)
-    return AlleleIn(allele.gid, gene_gid)
-
-
-def maf_convert(emit, mafpath, workers, source='tcga', genome='GRCh37',
+def maf_convert(emitter, mafpath, workers, source='tcga', genome='GRCh37',
                 method='variant', gz=False, centerCol='Center', skip=0,
                 harvest=True, filter=[]):
     """
-    emit -  a way to write output
+    emitter -  a way to write output
     mafpath - a file to read
     source - special handling if 'tcga'
     genome - reference_genome e.g. GRCh37
@@ -213,23 +203,29 @@ def maf_convert(emit, mafpath, workers, source='tcga', genome='GRCh37',
         if not allele:
             continue
         # save the allele that was created
-        emit(allele)
+        emitter.emit_vertex(allele)
         # create edge between the allele and the callset
-        calls, callsets = _callset_maker(allele, source, centerCol,
-                                         method, line)
+        call_tuples, callsets = _callset_maker(allele, source, centerCol,
+                                               method, line)
         # save the calls
-        for call in calls:
-            emit(call)
+        for call_tuple in call_tuples:
+            call = call_tuple[0]
+            callset_gid = call_tuple[1]
+            emitter.emit_edge(call, allele.gid(), callset_gid)
         # many callsets can be created, emit only uniques
         for callset in callsets:
             if callset.gid not in my_callsets_ids:
                 my_callsets_ids.add(callset.gid)
-                emit(callset)
-                emit(CallsetFor(callset.gid, callset.normal_biosample_id))
-                emit(CallsetFor(callset.gid, callset.tumor_biosample_id))
+                emitter.emit_vertex(callset)
+                emitter.emit_edge(CallsetFor(), callset.gid(),
+                                  callset.normal_biosample_id)
+                emitter.emit_edge(CallsetFor(), callset.gid(),
+                                  callset.tumor_biosample_id)
 
         # create edge to gene
-        emit(_allele_to_gene(allele, line))
+        ensembl_id = line.get('Gene', None)
+        gene_gid = Gene.make_gid(gene_id=ensembl_id)
+        emitter.emit_edge(AlleleIn(), allele.gid(), gene_gid)
         # log progress
         c += 1
         if c % 1000 == 0:  # pragma nocover
@@ -240,8 +236,9 @@ def maf_convert(emit, mafpath, workers, source='tcga', genome='GRCh37',
 def convert(mafpath, prefix, workers=5, skip=0, harvest=True, filter=[]):
     """ entry point """
     emitter = Emitter(prefix=prefix)
-    maf_convert(emit=emitter.emit, mafpath=mafpath, workers=workers, skip=skip,
+    maf_convert(emitter=emitter, mafpath=mafpath, workers=workers, skip=skip,
                 harvest=harvest, filter=filter)
+    emitter.close()
 
 
 if __name__ == '__main__':  # pragma: no cover
@@ -266,11 +263,6 @@ if __name__ == '__main__':  # pragma: no cover
     harvest.add_argument('--no-harvest', dest='harvest',
                          help="do not get myvariantinfo", action='store_false')
     parser.set_defaults(harvest=True)
-
-    #
-    # parser.add_argument('--harvest', dest='harvest', action='store_true',
-    #                     help="retrieve external data",
-    #                     default=True)
 
     # We don't need the first argument, which is the program name
     options = parser.parse_args(sys.argv[1:])

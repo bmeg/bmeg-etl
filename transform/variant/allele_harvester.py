@@ -113,10 +113,10 @@ def harvest(genome, chromosome, start, end, reference_bases, alternate_bases,
     allele = None
     allele = Allele(genome, chromosome, start, end, reference_bases,
                     alternate_bases, annotations)
-    if allele.gid in filter:
+    if allele.gid() in filter:
         _log_json({
                         'stage': 'filtered',
-                        'allele_gid':  allele.gid,
+                        'allele_gid':  allele.gid(),
                         'genome': genome,
                         'chromosome': chromosome,
                         'start': start,
