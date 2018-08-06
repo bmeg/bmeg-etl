@@ -5,6 +5,6 @@ import logging
 
 
 def default_logging(loglevel):  # pragma: no cover
-    """ bear bones logging"""
+    """ bare bones logging"""
     fmt = '%(asctime)s - %(levelname)s - %(threadName)s - %(message)s'
     logging.basicConfig(level=loglevel, format=fmt)
