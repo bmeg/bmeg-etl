@@ -5,8 +5,9 @@ python:
 install:
   - pip3 install -r dev-requirements.txt
 
-script: 
+script:
   - flake8 .
+  - test_all_transform
 
 notifications:
   email: false
