@@ -45,6 +45,7 @@ def _myvariantinfo(genome, chromosome, start, end, reference_bases,
         _status_code = response.status_code
         if _status_code == 200:
             r = response.json()
+            logging.debug('hit length = {}'.format(len(r['hits'])))
             # return first response
             for hit in r['hits']:
                 return hit
@@ -64,7 +65,8 @@ def _myvariantinfo(genome, chromosome, start, end, reference_bases,
                     if (hit['vcf']['alt'] == alternate_bases and
                         (hit['vcf']['ref'] == '-' or
                             hit['vcf']['ref'] == reference_bases)):
-                        return hit  # TODO - test case
+                        # TODO - can this happen? do we have a test case?
+                        return hit
                     else:
                         _log_json({
                                         'stage': 'dbSNP_mismatch',
@@ -109,7 +111,6 @@ def _myvariantinfo(genome, chromosome, start, end, reference_bases,
 def harvest(genome, chromosome, start, end, reference_bases, alternate_bases,
             annotations=[], harvest=True, filter={}):
     """ creates an Allele, including external datasources (myvariant.info)"""
-
     allele = None
     allele = Allele(genome, chromosome, start, end, reference_bases,
                     alternate_bases, annotations)
