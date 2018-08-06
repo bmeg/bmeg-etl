@@ -7,7 +7,7 @@ install:
 
 script:
   - flake8 .
-  - test_all_transform
+  - ./test_all_transform
 
 notifications:
   email: false
