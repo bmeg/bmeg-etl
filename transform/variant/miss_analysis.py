@@ -4,7 +4,6 @@
 
 # print total imported
 # see README.md for example how to call
-from __future__ import print_function
 
 import json
 import sys
