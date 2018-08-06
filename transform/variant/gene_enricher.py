@@ -44,13 +44,13 @@ data = None
 
 def get_gene(identifier):
     """ return gene for identifier """
+    genes = None
     for store in [GENES, ALIASES]:
         genes = store.get(identifier, None)
         if genes and len(genes) == 1:
             return genes
-        else:
-            if genes is None:
-                raise ValueError(
-                    'gene reference does not exist {}'.format(identifier))  # noqa
-            raise ValueError(
-                'gene reference refers to multiple genes {}'.format(identifier))  # noqa
+    if genes is None:
+        raise ValueError(
+            'gene reference does not exist {}'.format(identifier))  # noqa
+    raise ValueError(
+        'gene reference refers to multiple genes {}'.format(identifier))  # noqa

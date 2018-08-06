@@ -5,3 +5,4 @@
 biostream/
 source/
 *.log
+non_alt_loci_set.json
