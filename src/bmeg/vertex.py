@@ -44,7 +44,8 @@ class Allele(Vertex):
     end: int
     reference_bases: str
     alternate_bases: str
-    myvariantinfo: dict
+    annotations: list = None
+    myvariantinfo: dict = None
 
     def gid(self):
         return Allele.make_gid(self.genome, self.chromosome, self.start,
@@ -59,6 +60,7 @@ class Allele(Vertex):
         vid = "%s:%s:%d:%d:%s:%s" % (genome, chromosome,
                                      start, end, reference_bases,
                                      alternate_bases)
+        vid = vid.encode('utf-8')
         vidhash = hashlib.sha1()
         vidhash.update(vid)
         vidhash = vidhash.hexdigest()

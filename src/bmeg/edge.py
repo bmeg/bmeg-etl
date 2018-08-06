@@ -36,6 +36,22 @@ class VariantCall(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
+class AlleleIn(Edge):
+    """
+    Variant -> Gene
+    """
+    pass
+
+
+@dataclass(frozen=True)
+class AlleleCall(Edge):
+    """
+    Allele -> Callset
+    """
+    info: dict = None
+
+
+@dataclass(frozen=True)
 class CNASegmentOverlaps(Edge):
     """
     CNASegment -> Gene
