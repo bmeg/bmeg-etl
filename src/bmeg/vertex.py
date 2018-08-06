@@ -214,7 +214,8 @@ class Individual(Vertex):
 @dataclass(frozen=True)
 class Biosample(Vertex):
     biosample_id: str
-    gdc_attributes: dict
+    gdc_attributes: dict = None
+    ccle_attributes: dict = None
 
     def gid(self):
         return Individual.make_gid(self.biosample_id)
@@ -222,3 +223,20 @@ class Biosample(Vertex):
     @classmethod
     def make_gid(cls, biosample_id):
         return GID("%s:%s" % (cls.__name__, biosample_id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Expression(Vertex):
+    # TODO not just gene, but "feature"
+    gene_id: str
+    sample_id: str
+    scale: str
+    value: float
+
+    def gid(self):
+        return Expression.make_gid(self.gene_id)
+
+    @classmethod
+    def make_gid(cls, gene_id):
+        return GID("%s:%s" % (cls.__name__, gene_id))
