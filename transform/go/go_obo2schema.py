@@ -2,7 +2,6 @@
 
 import re
 import sys
-import json
 
 from bmeg.vertex import GeneOntologyTerm
 from bmeg.edge import GeneOntologyIsA
@@ -21,7 +20,7 @@ def obo_parse(handle):
                 yield rec
             rec = None
             if res.group(1) == "Term":
-                rec = {"type":res.group(1)}
+                rec = {"type": res.group(1)}
         else:
             if rec is not None:
                 res = re_field.search(line)
@@ -68,11 +67,13 @@ if __name__ == "__main__":
                 for i in rec['xref']:
                     xref.append(i.split(" ")[0])
             emitter.emit_vertex(GeneOntologyTerm(
-                go_id=go_id, name=go_name, definition=go_definition, namespace=go_namespace,
+                go_id=go_id, name=go_name,
+                definition=go_definition, namespace=go_namespace,
                 synonym=synonym, xref=xref
             ))
             for i in is_a:
-                emitter.emit_edge(GeneOntologyIsA(),
+                emitter.emit_edge(
+                    GeneOntologyIsA(),
                     from_gid=GeneOntologyTerm.make_gid(go_id),
                     to_gid=GeneOntologyTerm.make_gid(i)
                 )
