@@ -54,6 +54,7 @@ def run_run(args):
 
             cwl = os.path.splitext(os.path.basename(args.cwl))[0]
             inputFile = tempfile.NamedTemporaryFile(
+                mode="w",
                 dir=os.path.join(args.exec_dir, "inputs"),
                 prefix="bmegbuild-" + cwl + "-",
                 suffix=".json",
@@ -92,9 +93,19 @@ def run_run(args):
                 raise e
             finally:
                 os.remove(inputFile.name)
-
         else:
             print("All outputs found")
+
+
+def run_docker_build(args):
+    cmd = [
+        "docker",
+        "build",
+        "-t", "bmeg/bmeg-etl:latest",
+        "."
+    ]
+    print("Running:", " ".join(cmd))
+    subprocess.check_call(cmd, cwd=os.path.dirname(__file__))
 
 
 if __name__ == "__main__":
@@ -111,6 +122,10 @@ if __name__ == "__main__":
                             help="base directory to use for cwltool '--outdir', \
                             '--tmpdir-prefix', '--tmp-outdir-prefix', \
                             '--cachedir'")
+
+    parser_build = subparsers.add_parser('docker-build')
+    parser_build.set_defaults(func=run_docker_build)
+
     args = parser.parse_args()
     if not args.cmd:
         parser.print_help(sys.stderr)
