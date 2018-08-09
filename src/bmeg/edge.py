@@ -1,5 +1,3 @@
-from dataclasses import dataclass
-
 from bmeg.gid import GID
 from bmeg.utils import model, enforce_types
 
