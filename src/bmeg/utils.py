@@ -2,7 +2,55 @@ import inspect
 import typing
 
 from contextlib import suppress
+from dataclasses import dataclass
 from functools import wraps
+
+from bmeg.gid import GID
+
+
+def add_gid_fields(cls, gid):
+    if issubclass(cls, Vertex) and not hasattr(cls, "gid") and gid:
+        fields = gid.split()
+        for field in fields:
+            if field not in cls.__dataclass_fields__:
+                raise Exception("missing gid field %s" % field)
+
+        def _gid(self):
+            args = []
+            for field in fields:
+                arg = getattr(self, field)
+                args.append(arg)
+            return cls.make_gid(*args)
+
+        def _make_gid(cls, *args):
+            if len(args) != len(fields):
+                raise Exception(
+                    "mismatched gid fields, expected %d but got %d",
+                    len(fields),
+                    len(args),
+                )
+
+            return GID(":".join([cls.__name__] + [str(a) for a in args]))
+
+        cls.gid = _gid
+        cls.make_gid = classmethod(_make_gid)
+        cls._gid_fields = fields
+    return cls
+
+
+def model(gid=None):
+    def _wrapper(cls):
+        cls = dataclass(frozen=True)(cls)
+        cls = enforce_types(cls)
+        cls = add_gid_fields(cls, gid)
+        return cls
+
+    return _wrapper
+
+
+class Vertex:
+    def label(self):
+        return self.__class__.__name__
 
 
 def enforce_types(callable):

@@ -1,11 +1,10 @@
 from dataclasses import dataclass
 
 from bmeg.gid import GID
-from bmeg.utils import enforce_types
+from bmeg.utils import model, enforce_types
 
 
-@enforce_types
-@dataclass(frozen=True)
+@model()
 class Edge:
     def label(self):
         return self.__class__.__name__
@@ -16,8 +15,7 @@ class Edge:
         return "(%s)--%s->(%s)" % (from_gid, cls.__name__, to_gid)
 
 
-@enforce_types
-@dataclass(frozen=True)
+@model()
 class VariantIn(Edge):
     """
     Variant -> Gene
@@ -25,8 +23,7 @@ class VariantIn(Edge):
     pass
 
 
-@enforce_types
-@dataclass(frozen=True)
+@model()
 class VariantCall(Edge):
     """
     Variant -> Callset
@@ -34,8 +31,7 @@ class VariantCall(Edge):
     info: dict
 
 
-@enforce_types
-@dataclass(frozen=True)
+@model()
 class AlleleIn(Edge):
     """
     Variant -> Gene
@@ -43,7 +39,7 @@ class AlleleIn(Edge):
     pass
 
 
-@dataclass(frozen=True)
+@model()
 class AlleleCall(Edge):
     """
     Allele -> Callset
@@ -51,7 +47,7 @@ class AlleleCall(Edge):
     info: dict = None
 
 
-@dataclass(frozen=True)
+@model()
 class CNASegmentOverlaps(Edge):
     """
     CNASegment -> Gene
@@ -59,8 +55,7 @@ class CNASegmentOverlaps(Edge):
     pass
 
 
-@enforce_types
-@dataclass(frozen=True)
+@model()
 class CNASegmentCall(Edge):
     """
     CNASegment -> Callset
@@ -68,8 +63,7 @@ class CNASegmentCall(Edge):
     value: float
 
 
-@enforce_types
-@dataclass(frozen=True)
+@model()
 class GeneCNAValueCall(Edge):
     """
     Gene -> Callset
@@ -77,8 +71,7 @@ class GeneCNAValueCall(Edge):
     value: float
 
 
-@enforce_types
-@dataclass(frozen=True)
+@model()
 class MethlyationProbeValue(Edge):
     """
     MethylationProbe -> Callset
@@ -86,8 +79,7 @@ class MethlyationProbeValue(Edge):
     value: float
 
 
-@enforce_types
-@dataclass(frozen=True)
+@model()
 class MethlyationProbeFor(Edge):
     """
     MethylationProbe -> Gene
@@ -95,8 +87,7 @@ class MethlyationProbeFor(Edge):
     pass
 
 
-@enforce_types
-@dataclass(frozen=True)
+@model()
 class TranscriptFor(Edge):
     """
     Transcript -> Gene
@@ -104,8 +95,7 @@ class TranscriptFor(Edge):
     pass
 
 
-@enforce_types
-@dataclass(frozen=True)
+@model()
 class ExonFor(Edge):
     """
     Exon -> Transcript
@@ -113,8 +103,7 @@ class ExonFor(Edge):
     pass
 
 
-@enforce_types
-@dataclass(frozen=True)
+@model()
 class ProteinFor(Edge):
     """
     Protein -> Transcript
@@ -122,8 +111,7 @@ class ProteinFor(Edge):
     pass
 
 
-@enforce_types
-@dataclass(frozen=True)
+@model()
 class COCAClusterFor(Edge):
     """
     COCACluster -> Individual
@@ -131,8 +119,7 @@ class COCAClusterFor(Edge):
     pass
 
 
-@enforce_types
-@dataclass(frozen=True)
+@model()
 class BiosampleFor(Edge):
     """
     Biosample -> Individual
@@ -140,8 +127,7 @@ class BiosampleFor(Edge):
     pass
 
 
-@enforce_types
-@dataclass(frozen=True)
+@model()
 class CallsetFor(Edge):
     """
     Callset -> Biosample
@@ -149,8 +135,7 @@ class CallsetFor(Edge):
     pass
 
 
-@enforce_types
-@dataclass(frozen=True)
+@model()
 class InProject(Edge):
     """
     Individual -> Project
@@ -158,8 +143,7 @@ class InProject(Edge):
     pass
 
 
-@enforce_types
-@dataclass(frozen=True)
+@model()
 class AliquotFor(Edge):
     """
     Aliquot -> Biosample

@@ -1,42 +1,18 @@
 import hashlib
 
-from dataclasses import dataclass
-
 from bmeg.gid import GID
-from bmeg.utils import enforce_types
+from bmeg.utils import model, Vertex
 
 
-@enforce_types
-@dataclass(frozen=True)
-class Vertex:
-    def label(self):
-        return self.__class__.__name__
-
-
-@enforce_types
-@dataclass(frozen=True)
+@model("tumor_biosample_id normal_biosample_id call_method source")
 class Callset(Vertex):
     tumor_biosample_id: str
     normal_biosample_id: str
     call_method: str
     source: str
 
-    def gid(self):
-        return Callset.make_gid(self.tumor_biosample_id,
-                                self.normal_biosample_id,
-                                self.call_method,
-                                self.source)
 
-    @classmethod
-    def make_gid(cls, tumor_biosample_id, normal_biosample_id,
-                 call_method, source):
-        return GID("%s:%s:%s:%s:%s" % (cls.__name__, source,
-                                       tumor_biosample_id, normal_biosample_id,
-                                       call_method))
-
-
-@enforce_types
-@dataclass(frozen=True)
+@model
 class Allele(Vertex):
     genome: str
     chromosome: str
@@ -67,26 +43,15 @@ class Allele(Vertex):
         return GID("%s:%s" % (cls.__name__, vidhash))
 
 
-@enforce_types
-@dataclass(frozen=True)
+@model("genome chromosome start end")
 class CNASegment(Vertex):
     genome: str
     chromosome: str
     start: int
     end: int
 
-    def gid(self):
-        return CNASegment.make_gid(self.genome, self.chromosome,
-                                   self.start, self.end)
 
-    @classmethod
-    def make_gid(cls, callset_id, genome, chromosome, start, end):
-        return GID("%s:%s:%s:%d:%d" % (cls.__name__, callset_id, genome, start,
-                                       end))
-
-
-@enforce_types
-@dataclass(frozen=True)
+@model("genome chromosome start end probe_id")
 class MethylationProbe(Vertex):
     genome: str
     chromosome: str
@@ -94,19 +59,8 @@ class MethylationProbe(Vertex):
     end: int
     probe_id: str
 
-    def gid(self):
-        return MethylationProbe.make_gid(self.genome, self.chromosome,
-                                         self.start, self.end,
-                                         self.probe_id)
 
-    @classmethod
-    def make_gid(cls, genome, chromosome, start, end, probe_id):
-        return GID("%s:%s:%d:%d:%s" % (cls.__name__, genome, start, end,
-                                       probe_id))
-
-
-@enforce_types
-@dataclass(frozen=True)
+@model("gene_id")
 class Gene(Vertex):
     gene_id: str
     symbol: str
@@ -117,18 +71,8 @@ class Gene(Vertex):
     strand: str
     mygeneinfo: dict
 
-    def gid(self):
-        return Gene.make_gid(self.gene_id)
 
-    @classmethod
-    def make_gid(cls, gene_id):
-        if not gene_id.startswith("ENSG"):
-            raise ValueError("not an emsembl gene id")
-        return GID("%s:%s" % (cls.__name__, gene_id))
-
-
-@enforce_types
-@dataclass(frozen=True)
+@model("transcript_id")
 class Transcript(Vertex):
     transcript_id: str
     gene_id: str
@@ -137,18 +81,8 @@ class Transcript(Vertex):
     end: int
     strand: str
 
-    def gid(self):
-        return Transcript.make_gid(self.transcript_id)
 
-    @classmethod
-    def make_gid(cls, transcript_id):
-        if not transcript_id.startswith("ENST"):
-            raise ValueError("not an emsembl transcript id")
-        return GID("%s:%s" % (cls.__name__, transcript_id))
-
-
-@enforce_types
-@dataclass(frozen=True)
+@model("exon_id")
 class Exon(Vertex):
     exon_id: str
     transcript_id: str
@@ -157,96 +91,37 @@ class Exon(Vertex):
     end: int
     strand: str
 
-    def gid(self):
-        return Exon.make_gid(self.exon_id)
 
-    @classmethod
-    def make_gid(cls, exon_id):
-        if not exon_id.startswith("ENSE"):
-            raise ValueError("not an emsembl exon id")
-        return GID("%s:%s" % (cls.__name__, exon_id))
-
-
-@enforce_types
-@dataclass(frozen=True)
+@model("protein_id")
 class Protein(Vertex):
     protein_id: str
     transcript_id: str
 
-    def gid(self):
-        return Protein.make_gid(self.protein_id)
 
-    @classmethod
-    def make_gid(cls, protein_id):
-        if not protein_id.startswith("ENSP"):
-            raise ValueError("not an emsembl protein id")
-        return GID("%s:%s" % (cls.__name__, protein_id))
-
-
-@enforce_types
-@dataclass(frozen=True)
+@model("cluster_id")
 class COCACluster(Vertex):
     cluster_id: str
 
-    def gid(self):
-        return COCACluster.make_gid(self.cluster_id)
 
-    @classmethod
-    def make_gid(cls, cluster_id):
-        return GID("%s:%s" % (cls.__name__, cluster_id))
-
-
-@enforce_types
-@dataclass(frozen=True)
+@model("individual_id")
 class Individual(Vertex):
     individual_id: str
     gdc_attributes: dict
 
-    def gid(self):
-        return Individual.make_gid(self.individual_id)
 
-    @classmethod
-    def make_gid(cls, individual_id):
-        return GID("%s:%s" % (cls.__name__, individual_id))
-
-
-@enforce_types
-@dataclass(frozen=True)
+@model("biosample_id")
 class Biosample(Vertex):
     biosample_id: str
     gdc_attributes: dict
 
-    def gid(self):
-        return Biosample.make_gid(self.biosample_id)
 
-    @classmethod
-    def make_gid(cls, biosample_id):
-        return GID("%s:%s" % (cls.__name__, biosample_id))
-
-
-@enforce_types
-@dataclass(frozen=True)
+@model("project_id")
 class Project(Vertex):
     project_id: str
     gdc_attributes: dict
 
-    def gid(self):
-        return Project.make_gid(self.project_id)
 
-    @classmethod
-    def make_gid(cls, project_id):
-        return GID("%s:%s" % (cls.__name__, project_id))
-
-
-@enforce_types
-@dataclass(frozen=True)
+@model("aliquot_id")
 class Aliquot(Vertex):
     aliquot_id: str
     gdc_attributes: dict
-
-    def gid(self):
-        return Aliquot.make_gid(self.aliquot_id)
-
-    @classmethod
-    def make_gid(cls, aliquot_id):
-        return GID("%s:%s" % (cls.__name__, aliquot_id))
