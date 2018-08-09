@@ -13,11 +13,11 @@ from gdcutils import extract, query_gdc
 
 parser = default_argument_parser()
 
-# The GDC API requires you to explicitly request that nested fields be expanded.
+# The GDC API requires you to request that nested fields be expanded.
 # https://docs.gdc.cancer.gov/API/Users_Guide/Appendix_A_Available_Fields/#cases-field-groups
 #
-# Note that (as of this writing) we are expanding most but not all possible fields.
-# Mostly we're skipping "files" data.
+# Note that (as of this writing) we are expanding most but
+# not all possible fields. Mostly we're skipping "files" data.
 expand_case_fields = ",".join("""
 demographic
 diagnoses
@@ -56,7 +56,8 @@ project
 
 
 def transform(emitter):
-    # Crawl all cases, samples, aliquots to generate BMEG Individuals and Biosamples.
+    # Crawl all cases, samples, aliquots to generate
+    # BMEG Individuals and Biosamples.
     for row in query_gdc("cases", {"expand": expand_case_fields}):
 
         i = Individual(row["id"], extract(row, keep_case_fields))
@@ -69,7 +70,10 @@ def transform(emitter):
         )
 
         for sample in row.get("samples", []):
-            sample_fields = extract(sample, ["tumor_descriptor", "sample_type", "submitter_id"])
+            sample_fields = extract(
+                sample,
+                ["tumor_descriptor", "sample_type", "submitter_id"],
+            )
             b = Biosample(sample["sample_id"], sample_fields)
             emitter.emit_vertex(b)
 
@@ -82,8 +86,10 @@ def transform(emitter):
             for portion in sample.get("portions", []):
                 for analyte in portion.get("analytes", []):
                     for aliquot in analyte.get("aliquots", []):
-                        #print(aliquot)
-                        aliquot_fields = extract(aliquot, ["analyte_type", "submitter_id"])
+                        aliquot_fields = extract(
+                            aliquot,
+                            ["analyte_type", "submitter_id"],
+                        )
                         fields = dict(sample_fields)
                         fields.update(aliquot_fields)
                         a = Aliquot(aliquot["submitter_id"], fields)
@@ -94,7 +100,6 @@ def transform(emitter):
                             a.gid(),
                             b.gid(),
                         )
-
 
 
 if __name__ == "__main__":

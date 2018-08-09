@@ -1,9 +1,8 @@
-from dataclasses import dataclass, field
-
 from bmeg.requests import Client
 
 URL_BASE = "https://api.gdc.cancer.gov/"
 client = Client()
+
 
 def query_gdc(endpoint, params):
     """
