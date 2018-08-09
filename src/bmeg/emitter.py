@@ -12,6 +12,18 @@ from bmeg.utils import enforce_types
 from bmeg.vertex import Vertex
 
 
+def get_emitter(name, **kwargs):
+    d = {
+        "json": JSONEmitter,
+        "debug": DebugEmitter,
+    }
+    try:
+        cls = d[name]
+    except KeyError:
+        raise UnknownEmitter(name)
+    return cls(**kwargs)
+
+
 class DebugEmitter:
     def __init__(self, **kwargs):
         self.emitter = BaseEmitter(**kwargs)
@@ -29,7 +41,10 @@ class DebugEmitter:
 
 
 class JSONEmitter:
-    def __init__(self, prefix, **kwargs):
+    def __init__(self, **kwargs):
+        if "prefix" not in kwargs:
+            raise InvalidEmitter("JSONEmitter requires 'prefix'")
+        prefix = kwargs["prefix"]
         self.handles = FileHandler(prefix, "json")
         self.emitter = BaseEmitter(**kwargs)
 
@@ -93,8 +108,8 @@ class BaseEmitter:
     emitters, such as validation checks, data cleanup, etc.
     """
 
-    def __init__(self, preserve_null=False):
-        self.preserve_null = preserve_null
+    def __init__(self, **kwargs):
+        self.preserve_null = kwargs.get("preserve_null", False)
         self.rate = Rate()
 
     def close(self):
@@ -173,3 +188,10 @@ class FileHandler:
     def close(self):
         for fh in self.handles.values():
             fh.close()
+
+
+class UnknownEmitter(Exception):
+    def __init__(self, name):
+        super().__init__("unknown emitter named %s" % name)
+
+class InvalidEmitter(Exception): pass
