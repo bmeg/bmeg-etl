@@ -160,15 +160,6 @@ class InProject(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class BiosampleFor(Edge):
-    """
-    Biosample -> Individual
-    """
-    pass
-
-
-@enforce_types
-@dataclass(frozen=True)
 class AliquotFor(Edge):
     """
     Aliquot -> Biosample

@@ -4,7 +4,6 @@ https://gdc.cancer.gov/
 """
 
 from bmeg.util.cli import default_argument_parser
-from bmeg.edge import InProject, BiosampleFor, AliquotFor
 from bmeg.emitter import JSONEmitter
 from bmeg.vertex import Project
 
