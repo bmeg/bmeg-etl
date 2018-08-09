@@ -20,12 +20,6 @@ REF_COL = 5
 EVIDENCE_COL = 6
 NAME_COL = 9
 
-
-def message_to_json(handle, message):
-    msg = json_format.MessageToDict(message, preserving_proto_field_name=True)
-    handle.write(json.dumps(msg))
-    handle.write("\n")
-
 if __name__ == "__main__":
 
     uniprot_2_ensembl = {}
