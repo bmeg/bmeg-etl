@@ -222,3 +222,31 @@ class Biosample(Vertex):
     @classmethod
     def make_gid(cls, biosample_id):
         return GID("%s:%s" % (cls.__name__, biosample_id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Project(Vertex):
+    project_id: str
+    gdc_attributes: dict
+
+    def gid(self):
+        return Individual.make_gid(self.project_id)
+
+    @classmethod
+    def make_gid(cls, project_id):
+        return GID("%s:%s" % (cls.__name__, project_id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Aliquot(Vertex):
+    aliquot_id: str
+    gdc_attributes: dict
+
+    def gid(self):
+        return Individual.make_gid(self.aliquot_id)
+
+    @classmethod
+    def make_gid(cls, aliquot_id):
+        return GID("%s:%s" % (cls.__name__, aliquot_id))

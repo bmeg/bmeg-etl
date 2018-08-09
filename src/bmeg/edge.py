@@ -147,3 +147,30 @@ class CallsetFor(Edge):
     Callset -> Biosample
     """
     pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class InProject(Edge):
+    """
+    Individual -> Project
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class BiosampleFor(Edge):
+    """
+    Biosample -> Individual
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class AliquotFor(Edge):
+    """
+    Aliquot -> Biosample
+    """
+    pass
