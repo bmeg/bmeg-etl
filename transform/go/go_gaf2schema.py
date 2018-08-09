@@ -5,7 +5,6 @@
 
 
 import sys
-import json
 import gzip
 
 from bmeg.vertex import Gene, GeneOntologyTerm

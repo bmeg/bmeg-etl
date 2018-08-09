@@ -4,16 +4,15 @@ import re
 import sys
 import json
 
-import bmeg.ioutils
-from bmeg.vertex import Gene, GeneOntologyTerm
-from bmeg.edge import GeneOntologyAnnotation, GeneOntologyIsA
+from bmeg.vertex import GeneOntologyTerm
+from bmeg.edge import GeneOntologyIsA
 from bmeg.emitter import JSONEmitter
 
 re_section = re.compile(r'^\[(.*)\]')
 re_field = re.compile(r'^(\w+): (.*)$')
 
-def obo_parse(handle):
 
+def obo_parse(handle):
     rec = None
     for line in handle:
         res = re_section.search(line)
@@ -38,15 +37,13 @@ def obo_parse(handle):
     if rec is not None:
         yield rec
 
+
 def unquote(s):
     res = re.search(r'"(.*)"', s)
     if res:
         return res.group(1)
     return s
 
-def message_to_json(message):
-    msg = json_format.MessageToDict(message, preserving_proto_field_name=True)
-    return json.dumps(msg)
 
 if __name__ == "__main__":
 
