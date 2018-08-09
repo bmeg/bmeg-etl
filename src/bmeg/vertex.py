@@ -233,7 +233,7 @@ class Biosample(Vertex):
     gdc_attributes: dict
 
     def gid(self):
-        return Individual.make_gid(self.biosample_id)
+        return Biosample.make_gid(self.biosample_id)
 
     @classmethod
     def make_gid(cls, biosample_id):
@@ -247,7 +247,7 @@ class Project(Vertex):
     gdc_attributes: dict
 
     def gid(self):
-        return Individual.make_gid(self.project_id)
+        return Project.make_gid(self.project_id)
 
     @classmethod
     def make_gid(cls, project_id):
@@ -261,7 +261,7 @@ class Aliquot(Vertex):
     gdc_attributes: dict
 
     def gid(self):
-        return Individual.make_gid(self.aliquot_id)
+        return Aliquot.make_gid(self.aliquot_id)
 
     @classmethod
     def make_gid(cls, aliquot_id):
