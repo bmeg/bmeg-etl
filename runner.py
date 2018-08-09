@@ -96,6 +96,7 @@ def run_run(args):
         else:
             print("All outputs found")
 
+
 def run_docker_build(args):
     cmd = [
         "docker",
@@ -105,6 +106,7 @@ def run_docker_build(args):
     ]
     print("Running:", " ".join(cmd))
     subprocess.check_call(cmd, cwd=os.path.dirname(__file__))
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
