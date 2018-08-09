@@ -1,0 +1,17 @@
+
+class: Agent
+
+trigger: once
+
+inputs:
+  owl:
+    type: Download
+    sourceUrl: http://purl.obolibrary.org/obo/go/extensions/go-plus.owl
+
+workflow:
+  run: hugo.cwl.yaml
+  inputs: 
+    hgnc_file: hugo_file
+  outputs:
+    - proto
+    

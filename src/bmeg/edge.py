@@ -147,3 +147,20 @@ class CallsetFor(Edge):
     Callset -> Biosample
     """
     pass
+
+@enforce_types
+@dataclass(frozen=True)
+class GeneOntologyAnnotation(Edge):
+    """
+    GenoOntologyTerm -> Gene
+    """
+    evidence: str
+    title: str
+    references: list
+
+@enforce_types
+@dataclass(frozen=True)
+class GeneOntologyIsA(Edge):
+    """
+    GenoOntologyTerm -> GenoOntologyTerm
+    """
