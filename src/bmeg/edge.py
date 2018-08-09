@@ -148,6 +148,7 @@ class CallsetFor(Edge):
     """
     pass
 
+
 @enforce_types
 @dataclass(frozen=True)
 class GeneOntologyAnnotation(Edge):
@@ -157,6 +158,7 @@ class GeneOntologyAnnotation(Edge):
     evidence: str
     title: str
     references: list
+
 
 @enforce_types
 @dataclass(frozen=True)

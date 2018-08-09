@@ -223,6 +223,7 @@ class Biosample(Vertex):
     def make_gid(cls, biosample_id):
         return GID("%s:%s" % (cls.__name__, biosample_id))
 
+
 @enforce_types
 @dataclass(frozen=True)
 class GeneOntologyTerm(Vertex):
@@ -239,5 +240,5 @@ class GeneOntologyTerm(Vertex):
     @classmethod
     def make_gid(cls, go_id):
         if go_id.startswith("GO:"):
-            return  GID(go_id)
+            return GID(go_id)
         return GID("GO:%s" % (go_id))

@@ -7,12 +7,9 @@
 # curl -O ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/by_organism/HUMAN_9606_idmapping.dat.gz
 
 import sys
-import csv
-import re
 import json
 import gzip
 
-import bmeg.ioutils
 from bmeg.vertex import Gene, GeneOntologyTerm
 from bmeg.edge import GeneOntologyAnnotation
 from bmeg.emitter import JSONEmitter
@@ -81,7 +78,9 @@ if __name__ == "__main__":
 
 					gene_gid = Gene.make_gid(gene_id=ensembl_id)
 					go_gid = GeneOntologyTerm.make_gid(go_id=go_id)
-					emitter.emit_edge(GeneOntologyAnnotation(evidence=evidence, references=references, title=title),
+					emitter.emit_edge(GeneOntologyAnnotation(
+							evidence=evidence,
+							references=references, title=title),
 						to_gid=gene_gid,
 						from_gid=go_gid
 					)
