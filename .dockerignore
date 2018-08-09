@@ -3,3 +3,4 @@ venv
 biostream
 output
 *.json
+build

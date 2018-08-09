@@ -71,7 +71,7 @@ def transform(args):
                      start=int(line["start"]),
                      end=int(line["end"]),
                      strand=line["strand"],
-                     mygeneinfo=None)
+                     mygeneinfo={})
             emitter.emit_vertex(g)
 
         elif line["type"] == "transcript" or line["type"] == "mRNA":
@@ -84,7 +84,7 @@ def transform(args):
                            strand=line["strand"])
             emitter.emit_vertex(t)
             emitter.emit_edge(TranscriptFor(),
-                              from_gid=t.gid,
+                              from_gid=t.gid(),
                               to_gid=Gene.make_gid(gene_id))
 
         elif line["type"] == "exon":
@@ -97,7 +97,7 @@ def transform(args):
                      strand=line["strand"])
             emitter.emit_vertex(e)
             emitter.emit_edge(ExonFor(),
-                              from_gid=e.gid,
+                              from_gid=e.gid(),
                               to_gid=Transcript.make_gid(transcript_id))
 
     emitter.close()
