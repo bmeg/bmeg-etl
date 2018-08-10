@@ -157,6 +157,7 @@ class PFAMClanMember(Edge):
     """
     pass
 
+
 class InProject(Edge):
     """
     Individual -> Project

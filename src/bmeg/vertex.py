@@ -273,6 +273,7 @@ class GeneOntologyTerm(Vertex):
             return GID(go_id)
         return GID("GO:%s" % (go_id))
 
+
 @enforce_types
 @dataclass(frozen=True)
 class Project(Vertex):
