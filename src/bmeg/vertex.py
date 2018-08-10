@@ -247,7 +247,7 @@ class Biosample(Vertex):
     gdc_attributes: dict
 
     def gid(self):
-        return Individual.make_gid(self.biosample_id)
+        return Biosample.make_gid(self.biosample_id)
 
     @classmethod
     def make_gid(cls, biosample_id):
@@ -272,3 +272,30 @@ class GeneOntologyTerm(Vertex):
         if go_id.startswith("GO:"):
             return GID(go_id)
         return GID("GO:%s" % (go_id))
+
+@enforce_types
+@dataclass(frozen=True)
+class Project(Vertex):
+    project_id: str
+    gdc_attributes: dict
+
+    def gid(self):
+        return Project.make_gid(self.project_id)
+
+    @classmethod
+    def make_gid(cls, project_id):
+        return GID("%s:%s" % (cls.__name__, project_id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Aliquot(Vertex):
+    aliquot_id: str
+    gdc_attributes: dict
+
+    def gid(self):
+        return Aliquot.make_gid(self.aliquot_id)
+
+    @classmethod
+    def make_gid(cls, aliquot_id):
+        return GID("%s:%s" % (cls.__name__, aliquot_id))

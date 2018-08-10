@@ -157,6 +157,12 @@ class PFAMClanMember(Edge):
     """
     pass
 
+class InProject(Edge):
+    """
+    Individual -> Project
+    """
+    pass
+
 
 @enforce_types
 @dataclass(frozen=True)
@@ -175,3 +181,13 @@ class GeneOntologyIsA(Edge):
     """
     GenoOntologyTerm -> GenoOntologyTerm
     """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class AliquotFor(Edge):
+    """
+    Aliquot -> Biosample
+    """
+    pass
