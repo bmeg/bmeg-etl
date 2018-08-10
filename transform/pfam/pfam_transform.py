@@ -1,14 +1,11 @@
 #!/usr/bin/env python3
 
 import argparse
-import json
 import os
-import sys
 import tarfile
-import urllib
 import requests
 
-from xml.dom.minidom import parse, parseString
+from xml.dom.minidom import parseString
 
 from bmeg.vertex import PFAMFamily, PFAMClan, GeneOntologyTerm
 from bmeg.edge import GeneOntologyAnnotation, PFAMClanMember
@@ -79,16 +76,20 @@ def xml_transform(dom, emit):
         out.comments = comments.strip()
         """
 
-        out = PFAMFamily(pfam_id=pfam_id, accession=pfam_acc, type=pfam_type,
-            description=description.strip(), comments=comments.strip())
+        out = PFAMFamily(
+            pfam_id=pfam_id, accession=pfam_acc, type=pfam_type,
+            description=description.strip(), comments=comments.strip()
+        )
         emit.emit_vertex(out)
         for g in go_terms:
-            emit.emit_edge(GeneOntologyAnnotation(evidence="NA", title="", references=[]),
+            emit.emit_edge(
+                GeneOntologyAnnotation(evidence="NA", title="", references=[]),
                 from_gid=GeneOntologyTerm.make_gid(g),
                 to_gid=out.gid()
             )
         for c in clans:
-            emit.emit_edge(PFAMClanMember(),
+            emit.emit_edge(
+                PFAMClanMember(),
                 from_gid=PFAMClan.make_gid(c),
                 to_gid=out.gid()
             )
