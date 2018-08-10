@@ -5,6 +5,7 @@ import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
 from bmeg.util import cli
 from bmeg.vertex import Biosample, DrugResponse, DrugResponseMetric
+from bmeg.edge import DrugResponseIn
 
 
 def transform(emitter, auc_file, sample_info_file):
@@ -52,6 +53,11 @@ def transform(emitter, auc_file, sample_info_file):
                 value=value,
             )
             emitter.emit_vertex(e)
+            emitter.emit_edge(
+                DrugResponseIn(),
+                e.gid(),
+                Biosample.make_gid(sample),
+            )
 
 
 parser = cli.default_argument_parser()

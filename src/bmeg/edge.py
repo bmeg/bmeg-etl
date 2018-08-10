@@ -192,3 +192,10 @@ class AliquotFor(Edge):
     Aliquot -> Biosample
     """
     pass
+
+
+class DrugResponseIn(Edge):
+    """
+    DrugResponse -> Biosample
+    """
+    pass
