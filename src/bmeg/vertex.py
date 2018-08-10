@@ -182,6 +182,7 @@ class Protein(Vertex):
             raise ValueError("not an emsembl protein id")
         return GID("%s:%s" % (cls.__name__, protein_id))
 
+
 @enforce_types
 @dataclass(frozen=True)
 class PFAMFamily(Vertex):
@@ -198,6 +199,7 @@ class PFAMFamily(Vertex):
     def make_gid(cls, accession):
         return GID("%s:%s" % ("PFAM", accession))
 
+
 @enforce_types
 @dataclass(frozen=True)
 class PFAMClan(Vertex):
@@ -209,7 +211,6 @@ class PFAMClan(Vertex):
     @classmethod
     def make_gid(cls, accession):
         return GID("%s:%s" % ("PFAMCLAN", accession))
-
 
 
 @enforce_types
