@@ -148,6 +148,14 @@ class CallsetFor(Edge):
     """
     pass
 
+@enforce_types
+@dataclass(frozen=True)
+class PFAMClanMember(Edge):
+    """
+    PFAMClan -> PFAMFamily
+    """
+    pass
+
 
 @enforce_types
 @dataclass(frozen=True)

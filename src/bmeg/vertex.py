@@ -198,6 +198,19 @@ class PFAMFamily(Vertex):
     def make_gid(cls, accession):
         return GID("%s:%s" % ("PFAM", accession))
 
+@enforce_types
+@dataclass(frozen=True)
+class PFAMClan(Vertex):
+    accession: str
+
+    def gid(self):
+        return PFAMClan.make_gid(self.accession)
+
+    @classmethod
+    def make_gid(cls, accession):
+        return GID("%s:%s" % ("PFAMCLAN", accession))
+
+
 
 @enforce_types
 @dataclass(frozen=True)
