@@ -232,6 +232,7 @@ class COCACluster(Vertex):
 class Individual(Vertex):
     individual_id: str
     gdc_attributes: dict
+    gtex_attributes: dict
 
     def gid(self):
         return Individual.make_gid(self.individual_id)
