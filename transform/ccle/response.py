@@ -66,7 +66,7 @@ parser.add_argument("sample_info_file")
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    emitter = JSONEmitter("gdsc")
+    emitter = JSONEmitter("ccle")
     transform(
         emitter,
         bmeg.ioutils.reader(args.auc_file),
