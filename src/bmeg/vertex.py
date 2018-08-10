@@ -201,6 +201,23 @@ class PFAMFamily(Vertex):
 
 @enforce_types
 @dataclass(frozen=True)
+class GeneExpression(Vertex):
+    id: str
+    source: str
+    scale: str
+    method: str
+    values: dict
+
+    def gid(self):
+        return GeneExpression.make_gid(self.source, self.id)
+
+    @classmethod
+    def make_gid(cls, source, id):
+        return GID("rna-%s:%s" % (source, id))
+
+
+@enforce_types
+@dataclass(frozen=True)
 class COCACluster(Vertex):
     cluster_id: str
 

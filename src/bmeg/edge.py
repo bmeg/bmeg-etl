@@ -165,3 +165,11 @@ class AliquotFor(Edge):
     Aliquot -> Biosample
     """
     pass
+
+@enforce_types
+@dataclass(frozen=True)
+class ExpressionOf(Edge):
+    """
+    GeneExpression -> Aliquot
+    """
+    pass
