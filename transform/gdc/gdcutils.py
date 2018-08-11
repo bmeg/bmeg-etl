@@ -1,7 +1,7 @@
 from bmeg.requests import Client
 
 URL_BASE = "https://api.gdc.cancer.gov/"
-client = Client()
+client = Client("gdc")
 
 
 def query_gdc(endpoint, params):

@@ -8,7 +8,7 @@ from datetime import datetime
 
 from bmeg.edge import Edge
 from bmeg.gid import GID
-from bmeg.utils import enforce_types
+from bmeg.utils import enforce_types, ensure_directory
 from bmeg.vertex import Vertex
 
 
@@ -146,6 +146,8 @@ class FileHandler:
     """
     def __init__(self, prefix, extension, mode="w"):
         self.prefix = prefix
+        ensure_directory("outputs", self.prefix)
+        self.outdir = os.path.join("outputs", self.prefix)
         self.extension = extension
         self.mode = mode
         self.handles = {}
@@ -162,6 +164,7 @@ class FileHandler:
             suffix = "Unknown"
 
         fname = "%s.%s.%s.%s" % (self.prefix, label, suffix, self.extension)
+        fname = os.path.join(self.outdir, fname)
 
         if fname in self.handles:
             return self.handles[fname]
