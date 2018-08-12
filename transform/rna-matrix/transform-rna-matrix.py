@@ -16,7 +16,7 @@ def matrix_parse(handle, emitter, args):
     df = csv.reader(handle, delimiter="\t")
     samples = next(df)[1:]
     genes = []
-    #write values out to temp matrix
+    # write values out to temp matrix
     t = open("tmp_matrix.data", "wb")
     for k in df:
         gene = k[0]
@@ -36,7 +36,7 @@ def matrix_parse(handle, emitter, args):
         genes = o
     print("genes:", genes)
 
-    #read back, steping through the rows to do a transpose
+    # read back, steping through the rows to do a transpose
     t = open("tmp_matrix.data", "rb")
     rowSize = 8 * len(samples)
     for i, s in enumerate(samples):
@@ -54,7 +54,11 @@ def matrix_parse(handle, emitter, args):
             values=out
         )
         emitter.emit_vertex(g)
-        emitter.emit_edge(ExpressionOf(), from_gid=g.gid(), to_gid=Aliquot.make_gid(s))
+        emitter.emit_edge(
+            ExpressionOf(),
+            from_gid=g.gid(),
+            to_gid=Aliquot.make_gid(s)
+        )
     t.close()
     os.unlink("tmp_matrix.data")
 

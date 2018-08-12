@@ -182,6 +182,7 @@ class Protein(Vertex):
             raise ValueError("not an emsembl protein id")
         return GID("%s:%s" % (cls.__name__, protein_id))
 
+
 @enforce_types
 @dataclass(frozen=True)
 class PFAMFamily(Vertex):
