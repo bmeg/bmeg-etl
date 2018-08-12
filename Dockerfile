@@ -11,6 +11,9 @@ COPY transform/gdc/*.py /opt/
 # Ensembl Gene / Transcript / Exon
 COPY transform/ensembl/*.py /opt/
 
+# Copy RNA Transform code
+COPY transform/rna-matrix/transform-rna-matrix.py /opt/
+
 COPY setup.py README.md /build/
 COPY src /build/src
 
