@@ -1,16 +1,22 @@
+import os
+
 from requests.adapters import HTTPAdapter
 from requests.packages.urllib3.util.retry import Retry
 import requests_cache
 
+from bmeg.utils import ensure_directory
 
-def Client(retries=3, backoff_factor=0.3, status_forcelist=(500, 502, 504),
-           session=None):
+
+def Client(prefix, cache_name="requests_cache", retries=3, backoff_factor=0.3,
+           status_forcelist=(500, 502, 504), session=None):
     """
     Client provides a requests session that is configured with automatic
     retries, caching, and more.
     """
+    ensure_directory("outputs", prefix)
+    cache_path = os.path.join("outputs", prefix, cache_name)
     # TODO include rate limiting.
-    session = session or requests_cache.CachedSession()
+    session = session or requests_cache.CachedSession(cache_path)
     retry = Retry(
         total=retries,
         read=retries,
