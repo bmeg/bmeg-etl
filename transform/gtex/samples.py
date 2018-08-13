@@ -34,7 +34,6 @@ for row in samples:
     individual_id = extract_individual_id(sample_id)
     b = Biosample(
         sample_id,
-        gdc_attributes={},
         gtex_attributes=row,
     )
     emitter.emit_vertex(b)
@@ -44,10 +43,7 @@ for row in samples:
         Individual.make_gid(individual_id),
     )
 
-    a = Aliquot(
-        sample_id,
-        gdc_attributes={},
-    )
+    a = Aliquot(sample_id)
     emitter.emit_vertex(a)
     emitter.emit_edge(
         AliquotFor(),
