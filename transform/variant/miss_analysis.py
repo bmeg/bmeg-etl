@@ -38,23 +38,22 @@ for line in sys.stdin:
         ref = line['hit']['vcf']['ref']
         alt = line['hit']['vcf']['alt']
         if len(ref) > 1:
-            ref_diff = sum([{' ': 0, '-': 1,  '+': 1}[d[0]] for d in difflib.ndiff(line['reference_bases'], ref)])  # noqa
+            ref_diff = sum([{' ': 0, '-': 1, '+': 1}[d[0]] for d in difflib.ndiff(line['reference_bases'], ref)])
             if ref_diff == 1:
                 summary['ref_off_by_one'] += 1
         if len(alt) > 1:
-            alt_diff = sum([{' ': 0, '-': 1, '+': 1}[d[0]] for d in difflib.ndiff(line['alternate_bases'], alt)])  # noqa
+            alt_diff = sum([{' ': 0, '-': 1, '+': 1}[d[0]] for d in difflib.ndiff(line['alternate_bases'], alt)])
             if alt_diff == 1:
                 summary['alt_off_by_one'] += 1
 
-summary['missing_snp'] = summary['dbSNP_RS'].get('novel', 0) \
-                         + summary['dbSNP_RS'].get('.', 0)
+summary['missing_snp'] = summary['dbSNP_RS'].get('novel', 0) + summary['dbSNP_RS'].get('.', 0)
 
 report = 'misses = {}%; novel = {}%; wildcard_misses ={}%; dbSNP_mismatch ={}%'
 summary['report'] = report.format(
-    ((summary['myvariantinfo_nofind']+summary['dbSNP_mismatch']) * 100)/summary['total'],  # noqa
-    (summary['missing_snp']*100)/summary['total'],
-    ((summary['alternate_wildcard'] + summary['reference_wildcard']) * 100)/summary['total'],  # noqa
-    (summary['dbSNP_mismatch']*100)/summary['total'],
+    ((summary['myvariantinfo_nofind'] + summary['dbSNP_mismatch']) * 100) / summary['total'],
+    (summary['missing_snp'] * 100) / summary['total'],
+    ((summary['alternate_wildcard'] + summary['reference_wildcard']) * 100) / summary['total'],
+    (summary['dbSNP_mismatch'] * 100) / summary['total'],
 )
 
 del summary['Feature']
