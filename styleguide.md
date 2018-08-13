@@ -75,9 +75,13 @@ class Foo:
     return "Foo:" + bar.
 ```
 
-### Guidelines
+### HG19 genome only 
 
-GID constructors should be a simple join of model fields, where possible.
+All data should be based on HG19 genome reference.
+
+### 0-based, half-open genomic intervals
+
+All genomic intervals should be 0-based, half-open.
 
 ### Don't over generalize
 
