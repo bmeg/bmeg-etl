@@ -1,8 +1,8 @@
 from bmeg.util.cli import default_argument_parser
 from bmeg.emitter import JSONEmitter
 from bmeg.ioutils import read_tsv
-from bmeg.vertex import Biosample, Project, Individual
-from bmeg.edge import BiosampleFor, InProject
+from bmeg.vertex import Aliquot, Biosample, Project, Individual
+from bmeg.edge import AliquotFor, BiosampleFor, InProject
 
 
 parser = default_argument_parser()
@@ -47,13 +47,22 @@ def transform(emitter, samples, individuals):
             Individual.make_gid(individual_id),
         )
 
+        a = Aliquot(
+            sample_id,
+            gdc_attributes={},
+        )
+        emitter.emit_vertex(a)
+        emitter.emit_edge(
+            AliquotFor(),
+            a.gid(),
+            b.gid(),
+        )
+
 
 if __name__ == "__main__":
-    args = parser.parse_args()
-
     e = JSONEmitter("gtex")
-    s = read_tsv(args.samples_file)
-    i = read_tsv(args.individuals_file)
+    s = read_tsv("source/gtex/GTEx_v7_Annotations_SampleAttributesDS.txt")
+    i = read_tsv("source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.txt")
 
     transform(e, s, i)
 
