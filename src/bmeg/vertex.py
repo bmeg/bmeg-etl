@@ -182,6 +182,7 @@ class Protein(Vertex):
             raise ValueError("not an emsembl protein id")
         return GID("%s:%s" % (cls.__name__, protein_id))
 
+
 @enforce_types
 @dataclass(frozen=True)
 class PFAMFamily(Vertex):
@@ -197,6 +198,19 @@ class PFAMFamily(Vertex):
     @classmethod
     def make_gid(cls, accession):
         return GID("%s:%s" % ("PFAM", accession))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class PFAMClan(Vertex):
+    accession: str
+
+    def gid(self):
+        return PFAMClan.make_gid(self.accession)
+
+    @classmethod
+    def make_gid(cls, accession):
+        return GID("%s:%s" % ("PFAMCLAN", accession))
 
 
 @enforce_types
@@ -238,6 +252,26 @@ class Biosample(Vertex):
     @classmethod
     def make_gid(cls, biosample_id):
         return GID("%s:%s" % (cls.__name__, biosample_id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class GeneOntologyTerm(Vertex):
+    go_id: str
+    name: str
+    namespace: str
+    definition: str
+    synonym: list
+    xref: list
+
+    def gid(self):
+        return GeneOntologyTerm.make_gid(self.go_id)
+
+    @classmethod
+    def make_gid(cls, go_id):
+        if go_id.startswith("GO:"):
+            return GID(go_id)
+        return GID("GO:%s" % (go_id))
 
 
 @enforce_types
