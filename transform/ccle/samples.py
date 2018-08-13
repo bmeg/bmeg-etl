@@ -1,5 +1,3 @@
-import csv
-
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
 from bmeg.vertex import Biosample

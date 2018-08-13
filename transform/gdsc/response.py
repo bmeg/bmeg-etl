@@ -1,4 +1,3 @@
-import csv
 import re
 
 import bmeg.ioutils
@@ -18,8 +17,8 @@ r = bmeg.ioutils.read_csv("source/gdsc/GDSC_AUC.csv")
 # Depmap added some strange headers and changed their sample ID codes,
 # The GDSC data currently is downloaded from Depmap.org.
 # Depmap started a new sample ID type (Broad ID) in order to ensure uniqueness.
-# We're not using Broad IDs yet, so we parse the CCLE sample ID out of the header,
-# and reset the csv reader's fieldnames.
+# We're not using Broad IDs yet, so we parse the CCLE sample ID
+# out of the header, and reset the csv reader's fieldnames.
 rx = re.compile("^(.*) \((.*)\)$")
 
 # The first column header is blank.
