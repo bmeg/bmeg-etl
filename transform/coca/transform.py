@@ -17,7 +17,7 @@ Transform Table S1 downloaded from:
 emitter = JSONEmitter("coca")
 
 df = pd.read_excel("source/coca/1-s2.0-S0092867418303027-mmc6.xlsx",
-    sheet_name="Table S6 - iCluster", header=1)
+                   sheet_name="Table S6 - iCluster", header=1)
 
 coca_clusters = {}
 for index, row in df.iterrows():
