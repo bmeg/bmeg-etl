@@ -83,11 +83,12 @@ def _read_maf(mafpath, gz, skip=0, harvest=True):
 
 def _allele_call_maker(allele, line=None):
     """ create call from line """
-    keys = ['t_depth', 't_ref_count', 't_alt_count', 'n_depth',
-            'n_ref_count', 'n_alt_count', 'FILTER',
-            'Match_Norm_Seq_Allele1',	'Match_Norm_Seq_Allele2',
-            'Tumor_Seq_Allele1', 'Tumor_Seq_Allele2',
-            ]
+    keys = [
+        't_depth', 't_ref_count', 't_alt_count', 'n_depth',
+        'n_ref_count', 'n_alt_count', 'FILTER',
+        'Match_Norm_Seq_Allele1', 'Match_Norm_Seq_Allele2',
+        'Tumor_Seq_Allele1', 'Tumor_Seq_Allele2',
+    ]
     info = {}
     for k in keys:
         info[k] = get_value(line, k, None)
@@ -169,11 +170,11 @@ def _multithreading(func, lines, max_workers, harvest, filter):
     Create a thread pool and create alleles
     """
     # limit queue size == number of workers
-    # see https://stackoverflow.com/questions/48263704/threadpoolexecutor-how-to-limit-the-queue-maxsize  # noqa
+    # see https://stackoverflow.com/questions/48263704/threadpoolexecutor-how-to-limit-the-queue-maxsize
 
     for chunk in chunked(lines, max_workers):
         with ThreadPoolExecutor(max_workers=max_workers) as executor:
-            futures = (executor.submit(func, line, harvest, filter) for line in chunk)  # noqa
+            futures = (executor.submit(func, line, harvest, filter) for line in chunk)
             for future in as_completed(futures):
                 yield future.result()
 

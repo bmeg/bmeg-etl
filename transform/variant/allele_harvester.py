@@ -67,43 +67,43 @@ def _myvariantinfo(genome, chromosome, start, end, reference_bases,
                         return hit  # TODO - test case
                     else:
                         _log_json({
-                                        'stage': 'dbSNP_mismatch',
-                                        'genome': genome,
-                                        'chromosome': chromosome,
-                                        'start': start,
-                                        'end': end,
-                                        'reference_bases': reference_bases,
-                                        'alternate_bases': alternate_bases,
-                                        'annotations': annotations,
-                                        'url': url,
-                                        'hit': hit
-                                    })
+                            'stage': 'dbSNP_mismatch',
+                            'genome': genome,
+                            'chromosome': chromosome,
+                            'start': start,
+                            'end': end,
+                            'reference_bases': reference_bases,
+                            'alternate_bases': alternate_bases,
+                            'annotations': annotations,
+                            'url': url,
+                            'hit': hit
+                        })
     except Exception as e:  # pragma: no cover
         logging.exception(json.dumps({
-                        'stage': 'myvariantinfo_exception',
-                        'exception': str(e),
-                        'genome': genome,
-                        'chromosome': chromosome,
-                        'start': start,
-                        'end': end,
-                        'reference_bases': reference_bases,
-                        'alternate_bases': alternate_bases,
-                        'annotations': annotations,
-                        'url': url,
-                        'hit': hit
-                    }))
+            'stage': 'myvariantinfo_exception',
+            'exception': str(e),
+            'genome': genome,
+            'chromosome': chromosome,
+            'start': start,
+            'end': end,
+            'reference_bases': reference_bases,
+            'alternate_bases': alternate_bases,
+            'annotations': annotations,
+            'url': url,
+            'hit': hit
+        }))
         return None
     # default
     _log_json({
-                    'stage': 'myvariantinfo_nofind',
-                    'genome': genome,
-                    'chromosome': chromosome,
-                    'start': start,
-                    'end': end,
-                    'reference_bases': reference_bases,
-                    'alternate_bases': alternate_bases,
-                    'annotations': annotations,
-                })
+        'stage': 'myvariantinfo_nofind',
+        'genome': genome,
+        'chromosome': chromosome,
+        'start': start,
+        'end': end,
+        'reference_bases': reference_bases,
+        'alternate_bases': alternate_bases,
+        'annotations': annotations,
+    })
 
 
 def harvest(genome, chromosome, start, end, reference_bases, alternate_bases,
@@ -115,16 +115,16 @@ def harvest(genome, chromosome, start, end, reference_bases, alternate_bases,
                     alternate_bases, annotations)
     if allele.gid() in filter:
         _log_json({
-                        'stage': 'filtered',
-                        'allele_gid':  allele.gid(),
-                        'genome': genome,
-                        'chromosome': chromosome,
-                        'start': start,
-                        'end': end,
-                        'reference_bases': reference_bases,
-                        'alternate_bases': alternate_bases,
-                        'annotations': annotations,
-                    })
+            'stage': 'filtered',
+            'allele_gid': allele.gid(),
+            'genome': genome,
+            'chromosome': chromosome,
+            'start': start,
+            'end': end,
+            'reference_bases': reference_bases,
+            'alternate_bases': alternate_bases,
+            'annotations': annotations,
+        })
         return None
 
     if harvest:

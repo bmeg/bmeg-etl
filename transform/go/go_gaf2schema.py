@@ -51,9 +51,11 @@ if __name__ == "__main__":
 
                     gene_gid = Gene.make_gid(gene_id=ensembl_id)
                     go_gid = GeneOntologyTerm.make_gid(go_id=go_id)
-                    emitter.emit_edge(GeneOntologyAnnotation(
+                    emitter.emit_edge(
+                        GeneOntologyAnnotation(
                             evidence=evidence,
-                            references=references, title=title),
+                            references=references, title=title
+                        ),
                         to_gid=gene_gid,
                         from_gid=go_gid
                     )
