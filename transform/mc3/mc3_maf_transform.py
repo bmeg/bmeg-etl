@@ -3,7 +3,7 @@
 from bmeg.vertex import Biosample, Callset, Gene
 from bmeg.edge import AlleleCall
 
-from bmeg.maf.maf_transform import main, get_value,  MAFTransformer
+from bmeg.maf.maf_transform import main, get_value, MAFTransformer
 from bmeg.maf.maf_transform import transform as parent_transform
 
 TUMOR_SAMPLE_BARCODE = "Tumor_Sample_Barcode"  # 15
@@ -25,7 +25,7 @@ class MC3_MAFTransformer(MAFTransformer):
         """ create call from line """
         keys = ['t_depth', 't_ref_count', 't_alt_count', 'n_depth',
                 'n_ref_count', 'n_alt_count', 'FILTER',
-                'Match_Norm_Seq_Allele1',	'Match_Norm_Seq_Allele2',
+                'Match_Norm_Seq_Allele1', 'Match_Norm_Seq_Allele2',
                 'Tumor_Seq_Allele1', 'Tumor_Seq_Allele2',
                 ]
         info = {}

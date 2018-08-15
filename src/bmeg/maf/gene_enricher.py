@@ -11,7 +11,7 @@ ALIASES = {}
 # get file if not already present
 fname = 'source/reference/non_alt_loci_set.json'
 if not os.path.isfile(fname):
-    url = 'ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/non_alt_loci_set.json'  # noqa
+    url = 'ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/non_alt_loci_set.json'
     urllib.request.urlretrieve(url, fname)
 
 # trim payload, we only need symbol and ensembl
@@ -21,7 +21,7 @@ for doc in data['response']['docs']:
         'symbol': doc['symbol'],
         'ensembl_gene_id': doc.get('ensembl_gene_id', None),
         'entrez_id': doc.get('entrez_id', None)
-        }
+    }
     GENES[doc['symbol']] = [gene]
     if gene['ensembl_gene_id']:
         if gene['ensembl_gene_id'] not in ALIASES:

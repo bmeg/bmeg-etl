@@ -14,9 +14,8 @@ TIMEOUT = 30
 def _myvariantinfo(genome, chromosome, start, end, reference_bases,
                    alternate_bases, annotations=[]):
     """ retrieve payload from myvariant.info location query"""
-    if (reference_bases == '' or alternate_bases == '' or
-       reference_bases is None or alternate_bases is None):
-            raise ValueError('reference_bases & alternate_bases must be set')
+    if (reference_bases == '' or alternate_bases == '' or reference_bases is None or alternate_bases is None):
+        raise ValueError('reference_bases & alternate_bases must be set')
     url = hit = None
     try:
         dbSNP = None
@@ -62,9 +61,7 @@ def _myvariantinfo(genome, chromosome, start, end, reference_bases,
                     hits = [hits]
                 for hit in hits:
                     # ensure we  have an exact match
-                    if (hit['vcf']['alt'] == alternate_bases and
-                        (hit['vcf']['ref'] == '-' or
-                            hit['vcf']['ref'] == reference_bases)):
+                    if (hit['vcf']['alt'] == alternate_bases and (hit['vcf']['ref'] == '-' or hit['vcf']['ref'] == reference_bases)):
                         # TODO - can this happen? do we have a test case?
                         return hit
                     else:

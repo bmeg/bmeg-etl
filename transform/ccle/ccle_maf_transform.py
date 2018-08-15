@@ -6,7 +6,7 @@ import logging
 from bmeg.vertex import Biosample, Callset, Gene
 from bmeg.edge import AlleleCall
 
-from bmeg.maf.maf_transform import main, get_value,  MAFTransformer
+from bmeg.maf.maf_transform import main, get_value, MAFTransformer
 from bmeg.maf.maf_transform import transform as parent_transform
 
 

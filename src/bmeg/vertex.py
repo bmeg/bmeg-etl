@@ -6,8 +6,6 @@ from typing import Union
 from bmeg.gid import GID
 from bmeg.utils import enforce_types
 
-from typing import Union
-
 
 @enforce_types
 @dataclass(frozen=True)

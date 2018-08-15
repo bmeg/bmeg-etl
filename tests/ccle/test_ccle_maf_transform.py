@@ -45,7 +45,7 @@ def validate(maf_file, emitter_path_prefix, harvest=True, filter=[]):
     # test.Allele.Vertex.json
     error_message = 'maf_transform.convert({}, {}) should create {}' \
                     .format(maf_file, emitter_path_prefix, allele_file)
-    assert os.path.isfile(allele_file),  error_message
+    assert os.path.isfile(allele_file), error_message
     # test allele contents
     with open(allele_file, 'r', encoding='utf-8') as f:
         for line in f:
@@ -73,7 +73,7 @@ def validate(maf_file, emitter_path_prefix, harvest=True, filter=[]):
     # test.Callset.Vertex.json
     error_message = 'maf_transform.convert({}, {}) should create {}' \
                     .format(maf_file, emitter_path_prefix, callset_file)
-    assert os.path.isfile(callset_file),  error_message
+    assert os.path.isfile(callset_file), error_message
     # test allele contents
     with open(callset_file, 'r', encoding='utf-8') as f:
         for line in f:
@@ -87,7 +87,7 @@ def validate(maf_file, emitter_path_prefix, harvest=True, filter=[]):
     # test.AlleleCall.Edge.json
     error_message = 'maf_transform.convert({}, {}) should create {}' \
                     .format(maf_file, emitter_path_prefix, allelecall_file)
-    assert os.path.isfile(allelecall_file),  error_message
+    assert os.path.isfile(allelecall_file), error_message
     # test allele contents
     with open(allelecall_file, 'r', encoding='utf-8') as f:
         for line in f:

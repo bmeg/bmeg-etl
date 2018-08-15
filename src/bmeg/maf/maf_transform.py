@@ -102,19 +102,10 @@ class MAFTransformer():
         ''' return properly named allele dictionary, populated from line'''
         # collect CURIES that apply to allele
         annotations = []
-        annotations.append('{}:{}'.format(
-            VARIANT_TYPE, line.get(VARIANT_TYPE, None)
-            ))
-        annotations.append('{}:{}'.format(
-            FEATURE_TYPE, line.get(FEATURE_TYPE, None)
-            ))
-        annotations.append('{}:{}'.format(
-            FEATURE, line.get(FEATURE, None)
-            ))
-        annotations.append('{}:{}'.format(
-            dbSNP_RS, line.get(dbSNP_RS, None)
-            ))
-
+        annotations.append('{}:{}'.format(VARIANT_TYPE, line.get(VARIANT_TYPE, None)))
+        annotations.append('{}:{}'.format(FEATURE_TYPE, line.get(FEATURE_TYPE, None)))
+        annotations.append('{}:{}'.format(FEATURE, line.get(FEATURE, None)))
+        annotations.append('{}:{}'.format(dbSNP_RS, line.get(dbSNP_RS, None)))
         return {
             'genome': genome,
             'chromosome': line[CHROMOSOME],
@@ -189,12 +180,14 @@ class MAFTransformer():
                     my_callsets_ids.add(callset.gid)
                     emitter.emit_vertex(callset)
                     if callset.normal_biosample_id:
-                        emitter.emit_edge(CallsetFor(), callset.gid(),
-                                          Biosample.make_gid(
-                                            callset.normal_biosample_id))
-                    emitter.emit_edge(CallsetFor(), callset.gid(),
-                                      Biosample.make_gid(
-                                        callset.tumor_biosample_id))
+                        emitter.emit_edge(CallsetFor(),
+                                          callset.gid(),
+                                          Biosample.make_gid(callset.normal_biosample_id)
+                                          )
+                    emitter.emit_edge(CallsetFor(),
+                                      callset.gid(),
+                                      Biosample.make_gid(callset.tumor_biosample_id)
+                                      )
 
             # create edge to gene
             gene_gid = self.create_gene_gid(line)
