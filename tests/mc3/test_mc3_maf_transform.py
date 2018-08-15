@@ -71,7 +71,7 @@ def validate(maf_file, emitter_path_prefix, harvest=True, filter=[]):
             # should be json
             allele = json.loads(line)
             # minimum graph keys
-            assert list(allele.keys()) == ['gid', 'label', 'data'], \
+            assert list(allele.keys()) == ['_id', 'gid', 'label', 'data'], \
                 'expected keys'
             # should not be empty
             for k in allele.keys():
@@ -129,7 +129,7 @@ def validate(maf_file, emitter_path_prefix, harvest=True, filter=[]):
             allelein = json.loads(line)
             # minimum graph keys
             assert list(allelein.keys()) == \
-                ['gid', 'label', 'from', 'to', 'data'], 'expected keys'
+                ['_id', 'gid', 'label', 'from', 'to', 'data'], 'expected keys'
 
 
 def test_simple(maf_file, emitter_path_prefix):

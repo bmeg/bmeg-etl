@@ -27,3 +27,4 @@ source/reference/*.json
 
 .cache/
 .pytest_cache/
+/outputs

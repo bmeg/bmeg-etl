@@ -6,16 +6,8 @@ hints:
     dockerPull: bmeg/bmeg-etl:latest
 
 baseCommand:
-  - "python"
+  - "python3.7"
   - "/opt/ensembl-transform.py"
-  - "--output-prefix"
-  - "ensembl"
-
-inputs:
-  GFF_GZ:
-    type: File
-    inputBinding:
-      prefix: "-i"
 
 outputs:
   GENE:

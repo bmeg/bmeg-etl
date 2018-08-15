@@ -147,3 +147,55 @@ class CallsetFor(Edge):
     Callset -> Biosample
     """
     pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class PFAMClanMember(Edge):
+    """
+    PFAMClan -> PFAMFamily
+    """
+    pass
+
+
+class InProject(Edge):
+    """
+    Individual -> Project
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class GeneOntologyAnnotation(Edge):
+    """
+    GenoOntologyTerm -> Gene
+    """
+    evidence: str
+    title: str
+    references: list
+
+
+@enforce_types
+@dataclass(frozen=True)
+class GeneOntologyIsA(Edge):
+    """
+    GenoOntologyTerm -> GenoOntologyTerm
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class AliquotFor(Edge):
+    """
+    Aliquot -> Biosample
+    """
+    pass
+
+
+class DrugResponseIn(Edge):
+    """
+    DrugResponse -> Biosample
+    """
+    pass

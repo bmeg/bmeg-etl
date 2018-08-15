@@ -108,7 +108,7 @@ if __name__ == "__main__":
 
     def chunks(l, n):
         for i in range(0, len(l), n):
-            yield l[i:i+n]
+            yield l[i:i + n]
 
     headers = {'Content-type': 'application/json'}
     keychunks = chunks(list(id_map.keys()), 100)
