@@ -13,7 +13,7 @@ from bmeg.emitter import JSONEmitter as Emitter
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
 
-import allele_harvester
+import bmeg.maf.allele_harvester as allele_harvester
 
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed

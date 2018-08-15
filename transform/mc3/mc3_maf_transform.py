@@ -1,17 +1,16 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-""" transform a maf file into vertexs[variant, allele]   """
-from maf_transform import main, get_value, MAFTransformer
-from maf_transform import transform as parent_transform
 
+""" transform a maf file into vertexs[variant, allele]   """
 from bmeg.vertex import Biosample, Callset, Gene
 from bmeg.edge import AlleleCall
+
+from bmeg.maf.maf_transform import main, get_value,  MAFTransformer
+from bmeg.maf.maf_transform import transform as parent_transform
 
 TUMOR_SAMPLE_BARCODE = "Tumor_Sample_Barcode"  # 15
 NORMAL_SAMPLE_BARCODE = "Matched_Norm_Sample_Barcode"  # 16
 
 
-class TCGA_MAFTransformer(MAFTransformer):
+class MC3_MAFTransformer(MAFTransformer):
 
     def barcode_to_sampleid(self, barcode):
         """ create tcga sample barcode """
@@ -64,7 +63,7 @@ class TCGA_MAFTransformer(MAFTransformer):
 
 def transform(mafpath, prefix, workers=5, skip=0, harvest=True, filter=[]):
     return parent_transform(mafpath, prefix, workers, skip, harvest, filter,
-                            transformer=TCGA_MAFTransformer())
+                            transformer=MC3_MAFTransformer())
 
 
 if __name__ == '__main__':  # pragma: no cover

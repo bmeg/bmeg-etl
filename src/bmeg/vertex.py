@@ -5,6 +5,8 @@ from dataclasses import dataclass
 from bmeg.gid import GID
 from bmeg.utils import enforce_types
 
+from typing import Union
+
 
 @enforce_types
 @dataclass(frozen=True)
@@ -17,7 +19,7 @@ class Vertex:
 @dataclass(frozen=True)
 class Callset(Vertex):
     tumor_biosample_id: str
-    normal_biosample_id: str
+    normal_biosample_id: Union[None, str]
     call_method: str
     source: str
 

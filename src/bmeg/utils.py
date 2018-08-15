@@ -16,9 +16,6 @@ def enforce_types(callable):
         parameters = dict(zip(spec.args, args))
         parameters.update(kwargs)
         for name, value in parameters.items():
-            # do not check null parameters
-            if value is None:
-                continue
             # Assume un-annotated parameters can be any type
             with suppress(KeyError):
                 type_hint = spec.annotations[name]

@@ -1,13 +1,14 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+
 """ transform a maf file into vertexs[variant, allele]   """
-from maf_transform import main, get_value,  MAFTransformer
-from maf_transform import transform as parent_transform
-import gene_enricher
+import bmeg.maf.gene_enricher as gene_enricher
 import logging
 
 from bmeg.vertex import Biosample, Callset, Gene
 from bmeg.edge import AlleleCall
+
+from bmeg.maf.maf_transform import main, get_value,  MAFTransformer
+from bmeg.maf.maf_transform import transform as parent_transform
+
 
 TUMOR_SAMPLE_BARCODE = "Tumor_Sample_Barcode"  # 15
 NORMAL_SAMPLE_BARCODE = "Matched_Norm_Sample_Barcode"  # 16
