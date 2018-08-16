@@ -14,13 +14,16 @@ from bmeg.emitter import JSONEmitter
 
 def matrix_parse(handle, emitter, args):
     df = csv.reader(handle, delimiter="\t")
-    samples = next(df)[1:]
+    next(df)
+    next(df)
+    samples = next(df)[2:]
+    print(samples)
     genes = []
     # write values out to temp matrix
     t = open("tmp_matrix.data", "wb")
     for k in df:
         gene = k[0]
-        values = k[1:]
+        values = k[2:]
         assert(len(samples) == len(values))
         v = array("d", (float(a) for a in values))
         v.tofile(t)

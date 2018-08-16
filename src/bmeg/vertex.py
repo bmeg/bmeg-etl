@@ -214,7 +214,7 @@ class GeneExpression(Vertex):
 
     @classmethod
     def make_gid(cls, source, id):
-        return GID("rna-%s:%s" % (source, id))
+        return GID("%s:%s:%s" % (cls.__name__, source, id))
 
 
 @enforce_types
