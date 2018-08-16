@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+
+
 """ utility, sets common arguments   """
 import argparse
 import logging

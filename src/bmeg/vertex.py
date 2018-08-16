@@ -1,6 +1,7 @@
+from dataclasses import dataclass, field
+from enum import Enum
 import hashlib
-
-from dataclasses import dataclass
+from typing import Union
 
 from bmeg.gid import GID
 from bmeg.utils import enforce_types
@@ -17,7 +18,7 @@ class Vertex:
 @dataclass(frozen=True)
 class Callset(Vertex):
     tumor_biosample_id: str
-    normal_biosample_id: str
+    normal_biosample_id: Union[None, str]
     call_method: str
     source: str
 
@@ -197,7 +198,7 @@ class PFAMFamily(Vertex):
 
     @classmethod
     def make_gid(cls, accession):
-        return GID("%s:%s" % ("PFAM", accession))
+        return GID("%s:%s" % (cls.__name__, accession))
 
 
 @enforce_types
@@ -215,6 +216,19 @@ class GeneExpression(Vertex):
     @classmethod
     def make_gid(cls, source, id):
         return GID("%s:%s:%s" % (cls.__name__, source, id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class PFAMClan(Vertex):
+    accession: str
+
+    def gid(self):
+        return PFAMClan.make_gid(self.accession)
+
+    @classmethod
+    def make_gid(cls, accession):
+        return GID("%s:%s" % (cls.__name__, accession))
 
 
 @enforce_types
@@ -248,7 +262,8 @@ class Individual(Vertex):
 @dataclass(frozen=True)
 class Biosample(Vertex):
     biosample_id: str
-    gdc_attributes: dict
+    gdc_attributes: dict = field(default_factory=dict)
+    ccle_attributes: dict = field(default_factory=dict)
 
     def gid(self):
         return Biosample.make_gid(self.biosample_id)
@@ -256,6 +271,26 @@ class Biosample(Vertex):
     @classmethod
     def make_gid(cls, biosample_id):
         return GID("%s:%s" % (cls.__name__, biosample_id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class GeneOntologyTerm(Vertex):
+    go_id: str
+    name: str
+    namespace: str
+    definition: str
+    synonym: list
+    xref: list
+
+    def gid(self):
+        return GeneOntologyTerm.make_gid(self.go_id)
+
+    @classmethod
+    def make_gid(cls, go_id):
+        if go_id.startswith("GO:"):
+            return GID(go_id)
+        return GID("%s:%s" % (cls.__name__, go_id))
 
 
 @enforce_types
@@ -272,15 +307,22 @@ class Project(Vertex):
         return GID("%s:%s" % (cls.__name__, project_id))
 
 
+class DrugResponseMetric(str, Enum):
+    AUC = "AUC"
+    IC50 = "IC50"
+
+
 @enforce_types
 @dataclass(frozen=True)
-class Aliquot(Vertex):
-    aliquot_id: str
-    gdc_attributes: dict
+class DrugResponse(Vertex):
+    compound_name: str
+    sample_id: str
+    metric: DrugResponseMetric
+    value: Union[None, float]
 
     def gid(self):
-        return Aliquot.make_gid(self.aliquot_id)
+        return DrugResponse.make_gid(self.compound_name, self.sample_id)
 
     @classmethod
-    def make_gid(cls, aliquot_id):
-        return GID("%s:%s" % (cls.__name__, aliquot_id))
+    def make_gid(cls, compound_name, sample_id):
+        return GID("%s:%s:%s" % (cls.__name__, compound_name, sample_id))

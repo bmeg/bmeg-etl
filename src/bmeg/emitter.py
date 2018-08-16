@@ -8,7 +8,7 @@ from datetime import datetime
 
 from bmeg.edge import Edge
 from bmeg.gid import GID
-from bmeg.utils import enforce_types
+from bmeg.utils import enforce_types, ensure_directory
 from bmeg.vertex import Vertex
 
 
@@ -114,6 +114,7 @@ class BaseEmitter:
     @enforce_types
     def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
         dumped = {
+            "_id": obj.make_gid(from_gid, to_gid),
             "gid": obj.make_gid(from_gid, to_gid),
             "label": obj.label(),
             "from": from_gid,
@@ -127,6 +128,7 @@ class BaseEmitter:
     @enforce_types
     def emit_vertex(self, obj: Vertex):
         dumped = {
+            "_id": obj.gid(),
             "gid": obj.gid(),
             "label": obj.label(),
             "data": self._get_data(obj)
@@ -146,6 +148,8 @@ class FileHandler:
     """
     def __init__(self, prefix, extension, mode="w"):
         self.prefix = prefix
+        ensure_directory("outputs", self.prefix)
+        self.outdir = os.path.join("outputs", self.prefix)
         self.extension = extension
         self.mode = mode
         self.handles = {}
@@ -162,6 +166,7 @@ class FileHandler:
             suffix = "Unknown"
 
         fname = "%s.%s.%s.%s" % (self.prefix, label, suffix, self.extension)
+        fname = os.path.join(self.outdir, fname)
 
         if fname in self.handles:
             return self.handles[fname]
