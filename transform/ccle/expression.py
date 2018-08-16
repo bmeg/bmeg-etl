@@ -1,4 +1,4 @@
-from bmeg.vertex import GeneExpression, Aliquot
+from bmeg.vertex import GeneExpression, Aliquot, ExpressionMetric
 from bmeg.edge import ExpressionOf
 from bmeg.emitter import JSONEmitter
 from bmeg.gct import parse_gct, split_ensembl_id
