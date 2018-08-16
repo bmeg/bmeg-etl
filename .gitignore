@@ -25,6 +25,7 @@ eggs/
 source/reference/*.json
 .coverage
 
+/source
 .cache/
 .pytest_cache/
 /outputs

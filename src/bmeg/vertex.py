@@ -275,6 +275,19 @@ class Biosample(Vertex):
 
 @enforce_types
 @dataclass(frozen=True)
+class Aliquot(Vertex):
+    aliquot_id: str
+
+    def gid(self):
+        return Aliquot.make_gid(self.aliquot_id)
+
+    @classmethod
+    def make_gid(cls, aliquot_id):
+        return GID("%s:%s" % (cls.__name__, aliquot_id))
+
+
+@enforce_types
+@dataclass(frozen=True)
 class GeneOntologyTerm(Vertex):
     go_id: str
     name: str
