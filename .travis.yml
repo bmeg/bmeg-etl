@@ -1,12 +1,18 @@
+
+os: linux
+dist: xenial
 language: python
-python:
-  - 3.6
+python: "3.7"
+sudo: true
 
 install:
   - pip3 install -r dev-requirements.txt
+  - pip3 install -e .
+  - curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/non_alt_loci_set.json --output ./source/reference/non_alt_loci_set.json
 
-script: 
+script:
   - flake8 .
+  - python -m pytest tests --cov=.
 
 notifications:
   email: false

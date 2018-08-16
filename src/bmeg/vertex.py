@@ -18,7 +18,7 @@ class Vertex:
 @dataclass(frozen=True)
 class Callset(Vertex):
     tumor_biosample_id: str
-    normal_biosample_id: str
+    normal_biosample_id: Union[None, str]
     call_method: str
     source: str
 

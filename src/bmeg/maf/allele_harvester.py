@@ -1,11 +1,10 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """ given a genomic location, harvest allele and dependencies """
 import requests
 import urllib
 import logging
 import json
 from bmeg.vertex import Allele
+from bmeg.requests import Client
 
 
 TIMEOUT = 30
@@ -14,9 +13,8 @@ TIMEOUT = 30
 def _myvariantinfo(genome, chromosome, start, end, reference_bases,
                    alternate_bases, annotations=[]):
     """ retrieve payload from myvariant.info location query"""
-    if (reference_bases == '' or alternate_bases == '' or
-       reference_bases is None or alternate_bases is None):
-            raise ValueError('reference_bases & alternate_bases must be set')
+    if (reference_bases == '' or alternate_bases == '' or reference_bases is None or alternate_bases is None):
+        raise ValueError('reference_bases & alternate_bases must be set')
     url = hit = None
     try:
         dbSNP = None
@@ -36,15 +34,19 @@ def _myvariantinfo(genome, chromosome, start, end, reference_bases,
 
         q = 'chrom:{} AND hg19.start:{} AND hg19.end:{} AND vcf.alt:{}' \
             .format(chromosome, start, end, vcf_alternate)
-        # logging.debug(genome, chromosome, start, end, alternate_bases)
         logging.debug(q)
         url = 'http://myvariant.info/v1/query?q={}' \
             .format(urllib.parse.quote_plus(q))
-        response = requests.get(url, timeout=TIMEOUT)
+        # create our own session, so that cache is not turned on
+        # (we should be checking against a datastore , e.g. bmeg)
+        session = requests.Session()
+        session = Client("allele_harvester", session=session)
+        response = session.get(url, timeout=TIMEOUT)
         logging.debug(response)
         _status_code = response.status_code
         if _status_code == 200:
             r = response.json()
+            logging.debug('hit length = {}'.format(len(r['hits'])))
             # return first response
             for hit in r['hits']:
                 return hit
@@ -53,7 +55,7 @@ def _myvariantinfo(genome, chromosome, start, end, reference_bases,
         # ["00058da0fb86f362e1504b6ec02d5e4446d9db44","GRCh37","16","397035","397035","C","T",["Variant_Type:SNP","Feature_type:Transcript","Feature:ENST00000262320","dbSNP_RS:rs375097914"]]
         if dbSNP:
             url = 'http://myvariant.info/v1/variant/{}'.format(dbSNP)
-            response = requests.get(url, timeout=TIMEOUT)
+            response = session.get(url, timeout=TIMEOUT)
             _status_code = response.status_code
             if _status_code == 200:
                 hits = response.json()
@@ -61,10 +63,9 @@ def _myvariantinfo(genome, chromosome, start, end, reference_bases,
                     hits = [hits]
                 for hit in hits:
                     # ensure we  have an exact match
-                    if (hit['vcf']['alt'] == alternate_bases and
-                        (hit['vcf']['ref'] == '-' or
-                            hit['vcf']['ref'] == reference_bases)):
-                        return hit  # TODO - test case
+                    if (hit['vcf']['alt'] == alternate_bases and (hit['vcf']['ref'] == '-' or hit['vcf']['ref'] == reference_bases)):
+                        # TODO - can this happen? do we have a test case?
+                        return hit
                     else:
                         _log_json({
                             'stage': 'dbSNP_mismatch',
@@ -109,7 +110,6 @@ def _myvariantinfo(genome, chromosome, start, end, reference_bases,
 def harvest(genome, chromosome, start, end, reference_bases, alternate_bases,
             annotations=[], harvest=True, filter={}):
     """ creates an Allele, including external datasources (myvariant.info)"""
-
     allele = None
     allele = Allele(genome, chromosome, start, end, reference_bases,
                     alternate_bases, annotations)
@@ -140,10 +140,3 @@ def harvest(genome, chromosome, start, end, reference_bases, alternate_bases,
 def _log_json(obj):
     ''' log object as json '''
     logging.info(json.dumps(obj))
-
-
-# def create(genome, chromosome, start, end, reference_bases, alternate_bases,
-#            annotations):
-#     """ creates an Allele, no external datasources"""
-#     return Allele(genome, chromosome, start, end, reference_bases,
-#                   alternate_bases, annotations)
