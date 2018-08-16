@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
 """ test maf_transform """
 
 import pytest
@@ -9,11 +7,6 @@ import contextlib
 import json
 
 import requests_cache
-
-# cache responses
-requests_cache.install_cache('tests/test.myvariant.info',
-                             allowable_codes=(200, 400, 404),
-                             allowable_methods=('GET', 'POST'))
 
 
 @pytest.fixture
