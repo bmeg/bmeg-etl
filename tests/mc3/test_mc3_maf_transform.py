@@ -9,8 +9,6 @@ import os
 import contextlib
 import json
 
-import requests_cache
-
 
 @pytest.fixture
 def maf_file(request):
