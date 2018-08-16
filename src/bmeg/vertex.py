@@ -201,12 +201,17 @@ class PFAMFamily(Vertex):
         return GID("%s:%s" % (cls.__name__, accession))
 
 
+class ExpressionMetric(str, Enum):
+    TPM = "TPM"
+    RPKM = "RKPM"
+
+
 @enforce_types
 @dataclass(frozen=True)
 class GeneExpression(Vertex):
     id: str
     source: str
-    scale: str
+    metric: ExpressionMetric
     method: str
     values: dict
 

@@ -4,15 +4,15 @@ from bmeg.emitter import JSONEmitter
 from bmeg.gct import parse_gct, split_ensembl_id
 
 
-p = "source/gtex/GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_tpm.gct"
-emitter = JSONEmitter("gtex")
+p = "source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct"
+emitter = JSONEmitter("ccle")
 
-for sample, values in parse_gct(p, "outputs/gtex", split_ensembl_id):
+for sample, values in parse_gct(p, "outputs/ccle", split_ensembl_id):
     g = GeneExpression(
         id=sample,
-        source="gtex",
-        scale="RPKM",
-        method="Illumina HiSeq",
+        source="ccle",
+        scale=ExpressionMetric.RPKM,
+        method="Unknown",
         values=values,
     )
     emitter.emit_vertex(g)
