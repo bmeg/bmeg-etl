@@ -1,6 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-""" transform a maf file into vertexs[variant, allele]   """
+""" transform a maf file into vertex[variant, allele]   """
 
 import logging
 import csv

@@ -1,5 +1,4 @@
-#!/usr/bin/python
-# -*- coding: utf-8 -*-
+""" lookup gene alias and id """
 import json
 import os.path
 import urllib.request

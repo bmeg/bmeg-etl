@@ -11,11 +11,6 @@ import json
 
 import requests_cache
 
-# cache responses
-requests_cache.install_cache('tests/test.myvariant.info',
-                             allowable_codes=(200, 400, 404),
-                             allowable_methods=('GET', 'POST'))
-
 
 @pytest.fixture
 def maf_file(request):
