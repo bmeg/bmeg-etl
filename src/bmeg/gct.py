@@ -27,7 +27,7 @@ def parse_gct(path, output_dir, gene_func=default_gene_func):
     cell_type = "f"
     # Expression values take 4 bytes.
     cell_bytesize = 4
-    
+
     reader = csv.reader(open(path), delimiter="\t")
 
     # Skip the version and shape headers.
@@ -64,7 +64,7 @@ def parse_gct(path, output_dir, gene_func=default_gene_func):
     for i, sample in enumerate(samples):
         values = {}
         for j, gene in enumerate(genes):
-            t.seek(i*cell_bytesize + j*rowSize)
+            t.seek(i * cell_bytesize + j * rowSize)
             o = struct.unpack(cell_type, t.read(cell_bytesize))
             values[gene] = o[0]
 
