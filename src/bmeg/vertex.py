@@ -43,8 +43,8 @@ class Allele(Vertex):
     chromosome: str
     start: int
     end: int
-    reference_bases: str
-    alternate_bases: str
+    reference_bases:  Union[None, str]
+    alternate_bases:  Union[None, str]
     annotations: list = None
     myvariantinfo: dict = None
 
@@ -309,3 +309,74 @@ class DrugResponse(Vertex):
     @classmethod
     def make_gid(cls, compound_name, sample_id):
         return GID("%s:%s:%s" % (cls.__name__, compound_name, sample_id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Compound(Vertex):
+    term_id: str  # compound:CID60823
+    term: str  # Atorvastatin
+
+    def gid(self):
+        return Compound.make_gid(self.term_id)
+
+    @classmethod
+    def make_gid(cls, term_id):
+        return GID("%s:%s" % (cls.__name__, term_id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Phenotype(Vertex):
+    term_id: str  # DOID:11198 ; MONDO:0007254
+    term: str  # DiGeorge syndrome ; breast cancer
+
+    def gid(self):
+        return Phenotype.make_gid(self.term_id)
+
+    @classmethod
+    def make_gid(cls, term_id):
+        return GID("%s:%s" % (cls.__name__, term_id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class G2PAssociation(Vertex):
+    source: str  # civic, cgi
+    description: str  # asprin cures headaches
+    evidence_label: Union[None, str]  # evidence
+    response_type: Union[None, str]   # evidence
+    oncogenic: Union[None, str]  # for non drug evidence source:[oncokb, brca]
+    source_document: Union[None, str] # stringified document from source
+    source_url: Union[None, str]  # link back to original document
+
+    def gid(self):
+        return G2PAssociation.make_gid(self.source,
+                                       self.description,
+                                       self.evidence_label,
+                                       self.response_type,
+                                       self.oncogenic,
+                                       self.source_document,
+                                       self.source_url)
+
+    @classmethod
+    def make_gid(cls, source, description, evidence_label, response_type,
+                 oncogenic, source_document, source_url):
+        a = [p for p in [source, description, evidence_label, response_type, oncogenic, source_document, source_url] if p]
+        m = hashlib.sha1()
+        m.update(':'.join(a).encode('utf-8'))
+        return GID("%s:%s" % (cls.__name__,  m.hexdigest()))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Publication(Vertex):
+    url: str  # http://www.ncbi.nlm.nih.gov/pubmed/18451181
+    description: Union[None, str]   # Functional assays for classification of BRCA2 variants of uncertain significance.
+
+    def gid(self):
+        return Publication.make_gid(self.url)
+
+    @classmethod
+    def make_gid(cls, url):
+        return GID("%s:%s" % (cls.__name__, url))
