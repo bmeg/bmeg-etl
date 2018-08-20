@@ -1,6 +1,6 @@
 
 """ transform a maf file into vertexs[variant, allele]   """
-import bmeg.maf.gene_enricher as gene_enricher
+import bmeg.enrichers.gene_enricher as gene_enricher
 import logging
 
 from bmeg.vertex import Biosample, Callset, Gene

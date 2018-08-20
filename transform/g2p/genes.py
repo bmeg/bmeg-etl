@@ -1,5 +1,5 @@
 
-import bmeg.maf.gene_enricher as gene_enricher
+import bmeg.enrichers.gene_enricher as gene_enricher
 from bmeg.vertex import Gene
 from bmeg.util.logging import log_missing_vertex
 import logging

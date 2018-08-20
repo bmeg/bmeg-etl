@@ -15,6 +15,8 @@ import bmeg.ioutils
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
 
+from bmeg.emitter import JSONEmitter as Emitter
+
 files = {}
 
 
@@ -57,7 +59,7 @@ def toGraph(normalized_association, prefix):
         print('create edge {}->{}'.format(association.gid(), phenotype_gid))
     for publication_gid in na.publications:
         print('create edge {}->{}'.format(association.gid(), publication_gid))
-    print('create association {}'.format(association.gid()))
+    print('create vertex {}'.format(association.gid()))
 
     # association_gid = normalized_association.association['gid']
 

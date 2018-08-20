@@ -20,18 +20,19 @@ def emitter_path_prefix(request):
 
 
 def validate(g2p_file, emitter_path_prefix):
-    allele_file = '{}.Allele.Vertex.json'.format(emitter_path_prefix)
-    allelecall_file = '{}.AlleleCall.Edge.json'.format(emitter_path_prefix)
-    callset_file = '{}.Callset.Vertex.json'.format(emitter_path_prefix)
-    allelein_file = '{}.AlleleIn.Edge.json'.format(emitter_path_prefix)
+    association_file = '{}.G2G2PAssociation.Vertex.json'.format(emitter_path_prefix)
     # remove output
     with contextlib.suppress(FileNotFoundError):
-        os.remove(allele_file)
-        os.remove(allelecall_file)
-        os.remove(callset_file)
-        os.remove(allelein_file)
+        os.remove(association_file)
     # create output
     transform(g2p_file, emitter_path_prefix)
+    # test.G2G2PAssociation.Vertex.json
+    error_message = 'g2p.transform.convert({}, {}) should create {}' \
+                    .format(g2p_file, emitter_path_prefix, association_file)
+    assert os.path.isfile(association_file), error_message                    
+
+
+
     # # test.Allele.Vertex.json
     # error_message = 'maf_transform.convert({}, {}) should create {}' \
     #                 .format(maf_file, emitter_path_prefix, allele_file)
