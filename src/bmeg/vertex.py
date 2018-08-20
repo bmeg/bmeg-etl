@@ -43,8 +43,8 @@ class Allele(Vertex):
     chromosome: str
     start: int
     end: int
-    reference_bases:  Union[None, str]
-    alternate_bases:  Union[None, str]
+    reference_bases: Union[None, str]
+    alternate_bases: Union[None, str]
     annotations: list = None
     myvariantinfo: dict = None
 
@@ -347,7 +347,7 @@ class G2PAssociation(Vertex):
     evidence_label: Union[None, str]  # evidence
     response_type: Union[None, str]   # evidence
     oncogenic: Union[None, str]  # for non drug evidence source:[oncokb, brca]
-    source_document: Union[None, str] # stringified document from source
+    source_document: Union[None, str]  # stringified document from source
     source_url: Union[None, str]  # link back to original document
 
     def gid(self):
@@ -365,7 +365,7 @@ class G2PAssociation(Vertex):
         a = [p for p in [source, description, evidence_label, response_type, oncogenic, source_document, source_url] if p]
         m = hashlib.sha1()
         m.update(':'.join(a).encode('utf-8'))
-        return GID("%s:%s" % (cls.__name__,  m.hexdigest()))
+        return GID("%s:%s" % (cls.__name__, m.hexdigest()))
 
 
 @enforce_types

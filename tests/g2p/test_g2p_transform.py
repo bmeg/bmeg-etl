@@ -5,7 +5,6 @@ from transform.g2p.transform import transform
 from transform.g2p.genes import normalize as gene_normalize
 import os
 import contextlib
-import json
 
 
 @pytest.fixture
@@ -124,7 +123,7 @@ def test_genes():
     import transform.g2p.genes
     # reset singleton 'already seen'
     transform.g2p.genes.EXPORTED_GENES = []
-    assert gene_normalize({'genes': ['TP53']}) == ({'genes': ['Gene:ENSG00000141510']} , ['Gene:ENSG00000141510']), 'We should have a modified hit and a gene vertex gid'
+    assert gene_normalize({'genes': ['TP53']}) == ({'genes': ['Gene:ENSG00000141510']}, ['Gene:ENSG00000141510']), 'We should have a modified hit and a gene vertex gid'
     assert gene_normalize({'genes': ['TP53', 'EGFR']}) == ({'genes': ['Gene:ENSG00000141510', 'Gene:ENSG00000146648']}, ['Gene:ENSG00000146648']), 'We should have a modified hit and a gene vertex gid only for genes we havent seen'
 
 
@@ -133,5 +132,5 @@ def test_genes_nofind():
     try:
         gene_normalize({'genes': ['XXXX']})
         assert True, 'Should have raised exception'
-    except Exception as e:
+    except Exception:
         pass

@@ -1,8 +1,6 @@
 
 
 import json
-import os
-import argparse
 import sys
 import collections
 
@@ -14,9 +12,8 @@ from transform.g2p.association import normalize as association_normalize
 from transform.g2p.publications import normalize as publication_normalize
 
 import bmeg.ioutils
-
-from bmeg.vertex import Biosample, Callset, Gene
-from bmeg.edge import AlleleCall
+from bmeg.util.logging import default_logging
+from bmeg.util.cli import default_argument_parser
 
 files = {}
 
@@ -42,11 +39,8 @@ def normalizeAssociations(path):
 
 def writeGraph(cls, obj):
     """ write Vertex and Edges """
-    pb_obj = eval('{}()'.format(cls))
-    o = json_format.Parse(json.dumps(obj), pb_obj, ignore_unknown_fields=False)
-    data = MessageToDict(o)
-    file.write(json.dumps(data, separators=(',', ':')))
-    file.write('\n')
+    pass
+    # TODO: emitter ...
 
 
 def toGraph(normalized_association, prefix):

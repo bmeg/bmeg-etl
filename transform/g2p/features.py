@@ -1,5 +1,5 @@
 
-
+import logging
 from bmeg.vertex import Allele
 from bmeg.util.logging import log_missing_vertex
 
@@ -29,6 +29,7 @@ def normalize(hit):
         try:
             allele_gids.append(allele_gid(feature))
         except Exception as e:
+            logging.debug(e)
             log_missing_vertex({'label': 'Allele', 'feature': feature})
 
     hit['features'] = list(set(allele_gids))

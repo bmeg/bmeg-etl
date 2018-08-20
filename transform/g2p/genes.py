@@ -3,7 +3,6 @@ import bmeg.maf.gene_enricher as gene_enricher
 from bmeg.vertex import Gene
 from bmeg.util.logging import log_missing_vertex
 import logging
-import json
 
 EXPORTED_GENES = []
 
@@ -23,6 +22,7 @@ def normalize(hit):
         try:
             gene_gids.append(gene_gid(symbol))
         except Exception as e:
+            logging.debug(e)
             log_missing_vertex({'label': 'Gene', 'symbol': symbol})
     hit['genes'] = gene_gids
     gene_gids = [gid for gid in gene_gids if gid not in EXPORTED_GENES]
