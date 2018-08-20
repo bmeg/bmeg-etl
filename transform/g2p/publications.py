@@ -5,22 +5,22 @@ from bmeg.vertex import Publication
 EXPORTED_PUBLICATIONS = []
 
 
-def publication_gid(url):
+def publication(url, description=None):
     """ return publication gid """
-    return Publication.make_gid(url=url)
+    return Publication(url=url, description=description)
 
 
 def normalize(hit):
     """ return the hit modified replacing 'environmentalContexts'
     with publication_gids; publication_gids we haven't seen before """
-    publication_gids = []
+    publications = []
     # format evidence as bmeg friendly
     association = hit['association']
     evidence = association['evidence'][0]
     if evidence.get('info', None):
         for url in evidence['info'].get('publications', []):
-            publication_gids.append(publication_gid(url))
-    hit['publications'] = publication_gids
-    publication_gids = [gid for gid in publication_gids if gid not in EXPORTED_PUBLICATIONS]
+            publications.append(publication(url))
+    hit['publications'] = publications
+    publication_gids = [p.gid() for p in publications if p.gid() not in EXPORTED_PUBLICATIONS]
     EXPORTED_PUBLICATIONS.extend(publication_gids)
     return (hit, publication_gids)

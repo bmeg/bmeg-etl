@@ -1,10 +1,11 @@
 """ test maf_transform """
 
+import os
+import contextlib
 import pytest
 from transform.g2p.transform import transform
 from transform.g2p.genes import normalize as gene_normalize
-import os
-import contextlib
+from bmeg.vertex import G2PAssociation, Publication, Gene, Allele, Phenotype
 
 
 @pytest.fixture
@@ -16,107 +17,51 @@ def g2p_file(request):
 @pytest.fixture
 def emitter_path_prefix(request):
     """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'test')
+    return os.path.join(request.fspath.dirname, 'test/test')
 
 
-def validate(g2p_file, emitter_path_prefix):
-    association_file = '{}.G2G2PAssociation.Vertex.json'.format(emitter_path_prefix)
+def validate(helpers, g2p_file, emitter_path_prefix):
+    association_file = '{}.G2PAssociation.Vertex.json'.format(emitter_path_prefix)
+    publication_file = '{}.Publication.Vertex.json'.format(emitter_path_prefix)
+    publication_edge_file = '{}.HasSupportingReference.Edge.json'.format(emitter_path_prefix)
+    gene_edge_file = '{}.GeneFeatureFor.Edge.json'.format(emitter_path_prefix)
+    allele_edge_file = '{}.AlleleFeatureFor.Edge.json'.format(emitter_path_prefix)
+    allele_file = '{}.Allele.Vertex.json'.format(emitter_path_prefix)
+    phenotype_file = '{}.Phenotype.Vertex.json'.format(emitter_path_prefix)
+    phenotype_edge_file = '{}.PhenotypeOf.Edge.json'.format(emitter_path_prefix)
     # remove output
     with contextlib.suppress(FileNotFoundError):
         os.remove(association_file)
+        os.remove(publication_file)
+        os.remove(publication_edge_file)
+        os.remove(gene_edge_file)
+        os.remove(allele_edge_file)
+        os.remove(allele_file)
+        os.remove(phenotype_file)
+        os.remove(phenotype_edge_file)
     # create output
-    transform(g2p_file, emitter_path_prefix)
-    # test.G2G2PAssociation.Vertex.json
-    error_message = 'g2p.transform.convert({}, {}) should create {}' \
-                    .format(g2p_file, emitter_path_prefix, association_file)
-    assert os.path.isfile(association_file), error_message                    
+    transform(g2p_file, prefix=emitter_path_prefix)
+    # test/test.G2PAssociation.Vertex.json
+    helpers.assert_vertex_file_valid(G2PAssociation, association_file)
+    # test/test.Publication.Vertex.json
+    helpers.assert_vertex_file_valid(Publication, publication_file)
+    # test/test.HasSupportingReference.Edge.json
+    helpers.assert_edge_file_valid(G2PAssociation, Publication, publication_edge_file)
+    # test/test.GeneFeatureFor.Edge.json
+    helpers.assert_edge_file_valid(G2PAssociation, Gene, gene_edge_file)
+    # test/test.AlleleFeatureFor.Edge.json
+    helpers.assert_edge_file_valid(G2PAssociation, Allele, allele_edge_file)
+    # test/test.Allele.Vertex.json
+    helpers.assert_vertex_file_valid(Allele, allele_file)
+    # test/test.Phenotype.Vertex.json
+    helpers.assert_vertex_file_valid(Phenotype, phenotype_file)
+    # test/test.PhenotypeOf.Edge.json
+    helpers.assert_edge_file_valid(G2PAssociation, Phenotype, phenotype_edge_file)
 
 
-
-    # # test.Allele.Vertex.json
-    # error_message = 'maf_transform.convert({}, {}) should create {}' \
-    #                 .format(maf_file, emitter_path_prefix, allele_file)
-    # assert os.path.isfile(allele_file), error_message
-    # # test allele contents
-    # with open(allele_file, 'r', encoding='utf-8') as f:
-    #     for line in f:
-    #         # should be json
-    #         allele = json.loads(line)
-    #         # minimum graph keys
-    #         assert list(allele.keys()) == ['_id', 'gid', 'label', 'data'], \
-    #             'expected keys'
-    #         # should not be empty
-    #         for k in allele.keys():
-    #             assert allele[k], 'empty key %s' % k
-    #
-    #         # mandatory keys
-    #         required_keys = ['genome', 'chromosome', 'start', 'end',
-    #                          'reference_bases', 'alternate_bases']
-    #         for k in required_keys:
-    #             assert allele['data'][k], 'empty key %s' % k
-    #
-    #         # optional keys, if set should be non null
-    #         optional_keys = ['annotations', 'myvariantinfo']
-    #         for k in optional_keys:
-    #             if k in allele['data']:
-    #                 assert allele['data'][k], 'empty key %s' % k
-    #
-    # # test.Callset.Vertex.json
-    # error_message = 'maf_transform.convert({}, {}) should create {}' \
-    #                 .format(maf_file, emitter_path_prefix, callset_file)
-    # assert os.path.isfile(callset_file), error_message
-    # # test allele contents
-    # with open(callset_file, 'r', encoding='utf-8') as f:
-    #     for line in f:
-    #         # should be json
-    #         callset = json.loads(line)
-    #         # mandatory keys, no 'normal_biosample_id'
-    #         required_keys = ['tumor_biosample_id', 'call_method']
-    #         for k in required_keys:
-    #             assert callset['data'][k], 'empty key %s' % k
-    #
-    # # test.AlleleCall.Edge.json
-    # error_message = 'maf_transform.convert({}, {}) should create {}' \
-    #                 .format(maf_file, emitter_path_prefix, allelecall_file)
-    # assert os.path.isfile(allelecall_file), error_message
-    # # test allele contents
-    # with open(allelecall_file, 'r', encoding='utf-8') as f:
-    #     for line in f:
-    #         # should be json
-    #         allelecall = json.loads(line)
-    #         # optional keys, if set should be non null
-    #         optional_keys = ['cDNA_Change',
-    #                          'Codon_Change',
-    #                          'Protein_Change',
-    #                          'isDeleterious',
-    #                          'isTCGAhotspot',
-    #                          'TCGAhsCnt',
-    #                          'isCOSMIChotspot',
-    #                          'COSMIChsCnt',
-    #                          'ExAC_AF',
-    #                          'WES_AC',
-    #                          'WGS_AC',
-    #                          'SangerWES_AC',
-    #                          'SangerRecalibWES_AC',
-    #                          'RNAseq_AC',
-    #                          'HC_AC',
-    #                          'RD_AC', ]
-    #         for k in optional_keys:
-    #             if k in allelecall['data']['info']:
-    #                 assert allelecall['data']['info'][k], 'empty key %s' % k
-    # # test allelein (gene) contents
-    # with open(allelein_file, 'r', encoding='utf-8') as f:
-    #     for line in f:
-    #         # should be json
-    #         allelein = json.loads(line)
-    #         # minimum graph keys
-    #         assert list(allelein.keys()) == \
-    #             ['_id', 'gid', 'label', 'from', 'to', 'data'], 'expected keys'
-
-
-def test_simple(g2p_file, emitter_path_prefix):
+def test_simple(helpers, g2p_file, emitter_path_prefix):
     """ simple test """
-    validate(g2p_file, emitter_path_prefix)
+    validate(helpers, g2p_file, emitter_path_prefix)
 
 
 def test_genes():

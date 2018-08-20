@@ -45,8 +45,8 @@ class Allele(Vertex):
     end: int
     reference_bases: Union[None, str]
     alternate_bases: Union[None, str]
-    annotations: list = None
-    myvariantinfo: dict = None
+    annotations: Union[None, list] = None
+    myvariantinfo: Union[None, dict] = None
 
     def gid(self):
         return Allele.make_gid(self.genome, self.chromosome, self.start,
