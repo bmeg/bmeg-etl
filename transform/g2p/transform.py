@@ -15,6 +15,7 @@ from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
 
 from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment
+from bmeg.vertex import Deadletter
 from bmeg.emitter import *  # noqa dynamic class instantiation
 
 files = {}
@@ -29,17 +30,18 @@ def normalizeAssociations(path):
     NormalizedAssociation = collections.namedtuple(
         'NormalizedAssociation',
         ['vertices', 'genes', 'features', 'environments', 'phenotypes',
-         'publications', 'association'])
+         'publications', 'association', 'missing_vertexes'])
     for line in input_stream:
         hit = json.loads(line)
-        (hit, genes) = genes_normalize(hit)
-        (hit, features) = features_normalize(hit)
+        (hit, genes, missing_genes) = genes_normalize(hit)
+        (hit, features, missing_features) = features_normalize(hit)
         (hit, environments) = environments_normalize(hit)
         (hit, phenotypes) = phenotypes_normalize(hit)
         (hit, publications) = publication_normalize(hit)
         (hit, association) = association_normalize(hit)
         yield NormalizedAssociation(hit, genes, features, environments,
-                                    phenotypes, publications, association)
+                                    phenotypes, publications, association,
+                                    missing_genes + missing_features)
 
 
 def toGraph(normalized_association, emitter):
@@ -79,6 +81,8 @@ def toGraph(normalized_association, emitter):
                           association.gid(),
                           environment_gid
                           )
+    for missing_vertex in na.missing_vertexes:
+        emitter.emit_vertex(Deadletter(**missing_vertex))
 
 
 def transform(input_path, prefix, emitter_class='JSONEmitter'):

@@ -43,10 +43,12 @@ class Allele(Vertex):
     chromosome: str
     start: int
     end: int
-    reference_bases: Union[None, str]
-    alternate_bases: Union[None, str]
+    reference_bases: str
+    alternate_bases: str
     annotations: Union[None, list] = None
     myvariantinfo: Union[None, dict] = None
+    # type: Union[None, str] # SNP, ...
+    # effect: Union[None, str]
 
     def gid(self):
         return Allele.make_gid(self.genome, self.chromosome, self.start,
@@ -380,3 +382,23 @@ class Publication(Vertex):
     @classmethod
     def make_gid(cls, url):
         return GID("%s:%s" % (cls.__name__, url))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Deadletter(Vertex):
+    """ standard way to log missing data """
+    target_label: str  # desired vertex label
+    data: dict  # data from source
+
+    def gid(self):
+        return Deadletter.make_gid(self.target_label, self.data)
+
+    @classmethod
+    def make_gid(cls, target_label, data):
+        # create hash from data dict
+        data = '%s:%s' % (target_label, str(data))
+        datahash = hashlib.sha1()
+        datahash.update(data.encode('utf-8'))
+        datahash = datahash.hexdigest()
+        return GID("%s:%s" % (cls.__name__, datahash))

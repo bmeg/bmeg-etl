@@ -5,7 +5,7 @@ import contextlib
 import pytest
 from transform.g2p.transform import transform
 from transform.g2p.genes import normalize as gene_normalize
-from bmeg.vertex import G2PAssociation, Publication, Gene, Allele, Phenotype
+from bmeg.vertex import G2PAssociation, Publication, Gene, Allele, Phenotype, Deadletter
 
 
 @pytest.fixture
@@ -28,6 +28,7 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     allele_file = '{}.Allele.Vertex.json'.format(emitter_path_prefix)
     phenotype_file = '{}.Phenotype.Vertex.json'.format(emitter_path_prefix)
     phenotype_edge_file = '{}.HasPhenotype.Edge.json'.format(emitter_path_prefix)
+    deadletter_file = '{}.Deadletter.Vertex.json'.format(emitter_path_prefix)
     # remove output
     with contextlib.suppress(FileNotFoundError):
         os.remove(association_file)
@@ -37,6 +38,7 @@ def validate(helpers, g2p_file, emitter_path_prefix):
         os.remove(allele_file)
         os.remove(phenotype_file)
         os.remove(phenotype_edge_file)
+        os.remove(deadletter_file)
     # create output
     transform(g2p_file, prefix=emitter_path_prefix)
     # test/test.G2PAssociation.Vertex.json
@@ -53,6 +55,8 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     helpers.assert_vertex_file_valid(Phenotype, phenotype_file)
     # test/test.PhenotypeOf.Edge.json
     helpers.assert_edge_file_valid(G2PAssociation, Phenotype, phenotype_edge_file)
+    # test/test.Deadletter.Vertex.json
+    helpers.assert_vertex_file_valid(Deadletter, deadletter_file)
 
 
 def test_simple(helpers, g2p_file, emitter_path_prefix):
@@ -65,8 +69,8 @@ def test_genes():
     import transform.g2p.genes
     # reset singleton 'already seen'
     transform.g2p.genes.EXPORTED_GENES = []
-    assert gene_normalize({'genes': ['TP53']}) == ({'genes': ['Gene:ENSG00000141510']}, ['Gene:ENSG00000141510']), 'We should have a modified hit and a gene vertex gid'
-    assert gene_normalize({'genes': ['TP53', 'EGFR']}) == ({'genes': ['Gene:ENSG00000141510', 'Gene:ENSG00000146648']}, ['Gene:ENSG00000146648']), 'We should have a modified hit and a gene vertex gid only for genes we havent seen'
+    assert gene_normalize({'genes': ['TP53']}) == ({'genes': ['Gene:ENSG00000141510']}, ['Gene:ENSG00000141510'], []), 'We should have a modified hit and a gene vertex gid'
+    assert gene_normalize({'genes': ['TP53', 'EGFR']}) == ({'genes': ['Gene:ENSG00000141510', 'Gene:ENSG00000146648']}, ['Gene:ENSG00000146648'], []), 'We should have a modified hit and a gene vertex gid only for genes we havent seen'
 
 
 def test_genes_nofind():
