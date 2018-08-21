@@ -14,7 +14,7 @@ import bmeg.ioutils
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
 
-from bmeg.edge import HasSupportingReference, GeneFeatureFor, AlleleFeatureFor, PhenotypeOf, EnvironmentFor
+from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment
 from bmeg.emitter import *  # noqa dynamic class instantiation
 
 files = {}
@@ -54,28 +54,28 @@ def toGraph(normalized_association, emitter):
                           )
     # note we assume gene vertexes are already created
     for gene_gid in na.genes:
-        emitter.emit_edge(GeneFeatureFor(),
+        emitter.emit_edge(HasGeneFeature(),
                           association.gid(),
                           gene_gid
                           )
     for allele in na.vertices['features']:
         emitter.emit_vertex(allele)
     for feature_gid in na.features:
-        emitter.emit_edge(AlleleFeatureFor(),
+        emitter.emit_edge(HasAlleleFeature(),
                           association.gid(),
                           feature_gid
                           )
     for phenotype in na.vertices['phenotypes']:
         emitter.emit_vertex(phenotype)
     for phenotype_gid in na.phenotypes:
-        emitter.emit_edge(PhenotypeOf(),
+        emitter.emit_edge(HasPhenotype(),
                           association.gid(),
                           phenotype_gid
                           )
     for environment in na.vertices['environments']:
         emitter.emit_vertex(environment)
     for environment_gid in na.environments:
-        emitter.emit_edge(EnvironmentFor(),
+        emitter.emit_edge(HasEnvironment(),
                           association.gid(),
                           environment_gid
                           )

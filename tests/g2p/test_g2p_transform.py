@@ -23,11 +23,11 @@ def emitter_path_prefix(request):
 def validate(helpers, g2p_file, emitter_path_prefix):
     association_file = '{}.G2PAssociation.Vertex.json'.format(emitter_path_prefix)
     publication_edge_file = '{}.HasSupportingReference.Edge.json'.format(emitter_path_prefix)
-    gene_edge_file = '{}.GeneFeatureFor.Edge.json'.format(emitter_path_prefix)
-    allele_edge_file = '{}.AlleleFeatureFor.Edge.json'.format(emitter_path_prefix)
+    gene_edge_file = '{}.HasGeneFeature.Edge.json'.format(emitter_path_prefix)
+    allele_edge_file = '{}.HasAlleleFeature.Edge.json'.format(emitter_path_prefix)
     allele_file = '{}.Allele.Vertex.json'.format(emitter_path_prefix)
     phenotype_file = '{}.Phenotype.Vertex.json'.format(emitter_path_prefix)
-    phenotype_edge_file = '{}.PhenotypeOf.Edge.json'.format(emitter_path_prefix)
+    phenotype_edge_file = '{}.HasPhenotype.Edge.json'.format(emitter_path_prefix)
     # remove output
     with contextlib.suppress(FileNotFoundError):
         os.remove(association_file)

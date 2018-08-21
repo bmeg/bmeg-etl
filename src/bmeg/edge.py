@@ -212,7 +212,7 @@ class HasSupportingReference(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class GeneFeatureFor(Edge):
+class HasGeneFeature(Edge):
     """
     G2PAssociation -> Gene
     """
@@ -221,7 +221,7 @@ class GeneFeatureFor(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class AlleleFeatureFor(Edge):
+class HasAlleleFeature(Edge):
     """
     G2PAssociation -> Allele
     """
@@ -230,7 +230,7 @@ class AlleleFeatureFor(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class PhenotypeOf(Edge):
+class HasPhenotype(Edge):
     """
     G2PAssociation -> Phenotype
     """
@@ -239,7 +239,7 @@ class PhenotypeOf(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class EnvironmentFor(Edge):
+class HasEnvironment(Edge):
     """
     G2PAssociation -> Compound
     """
