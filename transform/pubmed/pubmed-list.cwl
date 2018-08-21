@@ -6,8 +6,8 @@ hints:
     dockerPull: bmeg/bmeg-etl:latest
 
 baseCommand:
-  - python
-  - /opt/pubmed.py
+  - python3.7
+  - /opt/transform/pubmed/pubmed.py
 
 arguments:
   - "-l"
