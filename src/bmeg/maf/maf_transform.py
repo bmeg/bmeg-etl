@@ -11,7 +11,7 @@ from bmeg.emitter import JSONEmitter as Emitter
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
 
-import bmeg.maf.allele_harvester as allele_harvester
+import bmeg.enrichers.allele_enricher as allele_enricher
 
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed
@@ -118,9 +118,9 @@ class MAFTransformer():
     def allele_maker(self, line, harvest, filter):
         """ worker task to create and/or harvest allele from line """
         allele_dict = self.create_allele_dict(line)
-        return allele_harvester.harvest(**allele_dict,
-                                        harvest=harvest,
-                                        filter=filter), line
+        return allele_enricher.harvest(**allele_dict,
+                                       harvest=harvest,
+                                       filter=filter), line
 
     def multithreading(self, func, lines, max_workers, harvest, filter):
         """
