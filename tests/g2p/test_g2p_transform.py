@@ -22,7 +22,6 @@ def emitter_path_prefix(request):
 
 def validate(helpers, g2p_file, emitter_path_prefix):
     association_file = '{}.G2PAssociation.Vertex.json'.format(emitter_path_prefix)
-    publication_file = '{}.Publication.Vertex.json'.format(emitter_path_prefix)
     publication_edge_file = '{}.HasSupportingReference.Edge.json'.format(emitter_path_prefix)
     gene_edge_file = '{}.GeneFeatureFor.Edge.json'.format(emitter_path_prefix)
     allele_edge_file = '{}.AlleleFeatureFor.Edge.json'.format(emitter_path_prefix)
@@ -32,7 +31,6 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     # remove output
     with contextlib.suppress(FileNotFoundError):
         os.remove(association_file)
-        os.remove(publication_file)
         os.remove(publication_edge_file)
         os.remove(gene_edge_file)
         os.remove(allele_edge_file)
@@ -43,8 +41,6 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     transform(g2p_file, prefix=emitter_path_prefix)
     # test/test.G2PAssociation.Vertex.json
     helpers.assert_vertex_file_valid(G2PAssociation, association_file)
-    # test/test.Publication.Vertex.json
-    helpers.assert_vertex_file_valid(Publication, publication_file)
     # test/test.HasSupportingReference.Edge.json
     helpers.assert_edge_file_valid(G2PAssociation, Publication, publication_edge_file)
     # test/test.GeneFeatureFor.Edge.json

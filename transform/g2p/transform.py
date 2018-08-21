@@ -47,8 +47,6 @@ def toGraph(normalized_association, emitter):
     na = normalized_association
     association = na.association
     emitter.emit_vertex(association)
-    for publication in na.vertices['publications']:
-        emitter.emit_vertex(publication)
     for publication_gid in na.publications:
         emitter.emit_edge(HasSupportingReference(),
                           association.gid(),
