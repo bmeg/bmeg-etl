@@ -2,6 +2,7 @@ import pytest
 import os
 import json
 
+
 class Helpers:
 
     @staticmethod
@@ -72,7 +73,7 @@ class Helpers:
                 if 'Edge' in graph_file_path:
                     store = edges
                 for line in f:
-                    obj =  json.loads(line)
+                    obj = json.loads(line)
                     store[obj['gid']] = obj
         # ensure that all edges have vertexes
         for edge_gid in edges.keys():
