@@ -14,7 +14,7 @@ import bmeg.ioutils
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
 
-from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment
+from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment, HasMinimalAlleleFeature
 from bmeg.vertex import Deadletter
 from bmeg.emitter import *  # noqa dynamic class instantiation
 
@@ -30,17 +30,18 @@ def normalizeAssociations(path):
     NormalizedAssociation = collections.namedtuple(
         'NormalizedAssociation',
         ['vertices', 'genes', 'features', 'environments', 'phenotypes',
-         'publications', 'association', 'missing_vertexes'])
+         'publications', 'association', 'minimal_alleles', 'missing_vertexes'])
     for line in input_stream:
         hit = json.loads(line)
         (hit, genes, missing_genes) = genes_normalize(hit)
-        (hit, features, missing_features) = features_normalize(hit)
+        (hit, features, minimal_alleles, missing_features) = features_normalize(hit)
         (hit, environments) = environments_normalize(hit)
         (hit, phenotypes) = phenotypes_normalize(hit)
         (hit, publications) = publication_normalize(hit)
         (hit, association) = association_normalize(hit)
         yield NormalizedAssociation(hit, genes, features, environments,
                                     phenotypes, publications, association,
+                                    minimal_alleles,
                                     missing_genes + missing_features)
 
 
@@ -49,6 +50,7 @@ def toGraph(normalized_association, emitter):
     na = normalized_association
     association = na.association
     emitter.emit_vertex(association)
+    # assume pubmed transformer creating publication vertex
     for publication_gid in na.publications:
         emitter.emit_edge(HasSupportingReference(),
                           association.gid(),
@@ -67,6 +69,14 @@ def toGraph(normalized_association, emitter):
                           association.gid(),
                           feature_gid
                           )
+    for allele in na.vertices['minimal_alleles']:
+        emitter.emit_vertex(allele)
+    for feature_gid in na.minimal_alleles:
+        emitter.emit_edge(HasMinimalAlleleFeature(),
+                          association.gid(),
+                          feature_gid
+                          )
+
     for phenotype in na.vertices['phenotypes']:
         emitter.emit_vertex(phenotype)
     for phenotype_gid in na.phenotypes:

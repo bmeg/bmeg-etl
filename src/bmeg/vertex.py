@@ -47,8 +47,8 @@ class Allele(Vertex):
     alternate_bases: str
     annotations: Union[None, list] = None
     myvariantinfo: Union[None, dict] = None
-    # type: Union[None, str] # SNP, ...
-    # effect: Union[None, str]
+    type: Union[None, str] = None
+    effect: Union[None, str] = None
 
     def gid(self):
         return Allele.make_gid(self.genome, self.chromosome, self.start,
@@ -402,3 +402,35 @@ class Deadletter(Vertex):
         datahash.update(data.encode('utf-8'))
         datahash = datahash.hexdigest()
         return GID("%s:%s" % (cls.__name__, datahash))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class MinimalAllele(Vertex):
+    """ https://www.ncbi.nlm.nih.gov/pubmed/27814769
+        consensus set of minimal variant level data (MVLD)
+    """
+    genome: str = None
+    chromosome: str = None
+    start: int = None
+    end: int = None
+    annotations: Union[None, list] = None
+    myvariantinfo: Union[None, dict] = None
+    type: Union[None, str] = None
+    effect: Union[None, str] = None
+    name: str = None
+
+    def gid(self):
+        return MinimalAllele.make_gid(self.genome, self.chromosome, self.start, self.end, self.annotations, self.myvariantinfo,
+                                      self.type, self.effect, self.name)
+
+    @classmethod
+    def make_gid(cls, genome, chromosome, start, end, annotations, myvariantinfo, type, effect, name):
+        # TODO
+        # figure out better hashing strategy
+        vid = "%s:%s:%d:%d:%s:%s:%s:%s:%s" % (genome, chromosome, start, end, annotations, myvariantinfo, type, effect, name)
+        vid = vid.encode('utf-8')
+        vidhash = hashlib.sha1()
+        vidhash.update(vid)
+        vidhash = vidhash.hexdigest()
+        return GID("%s:%s" % (cls.__name__, vidhash))

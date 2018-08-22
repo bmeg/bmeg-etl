@@ -5,7 +5,7 @@ import contextlib
 import pytest
 from transform.g2p.transform import transform
 from transform.g2p.genes import normalize as gene_normalize
-from bmeg.vertex import G2PAssociation, Publication, Gene, Allele, Phenotype, Deadletter
+from bmeg.vertex import G2PAssociation, Publication, Gene, Allele, Phenotype, Deadletter, MinimalAllele
 
 
 @pytest.fixture
@@ -29,6 +29,8 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     phenotype_file = '{}.Phenotype.Vertex.json'.format(emitter_path_prefix)
     phenotype_edge_file = '{}.HasPhenotype.Edge.json'.format(emitter_path_prefix)
     deadletter_file = '{}.Deadletter.Vertex.json'.format(emitter_path_prefix)
+    minimal_allele_file = '{}.MinimalAllele.Vertex.json'.format(emitter_path_prefix)
+    minimal_allele_edge_file = '{}.HasMinimalAlleleFeature.Edge.json'.format(emitter_path_prefix)
     # remove output
     with contextlib.suppress(FileNotFoundError):
         os.remove(association_file)
@@ -39,6 +41,8 @@ def validate(helpers, g2p_file, emitter_path_prefix):
         os.remove(phenotype_file)
         os.remove(phenotype_edge_file)
         os.remove(deadletter_file)
+        os.remove(minimal_allele_file)
+        os.remove(minimal_allele_edge_file)
     # create output
     transform(g2p_file, prefix=emitter_path_prefix)
     # test/test.G2PAssociation.Vertex.json
@@ -57,6 +61,10 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     helpers.assert_edge_file_valid(G2PAssociation, Phenotype, phenotype_edge_file)
     # test/test.Deadletter.Vertex.json
     helpers.assert_vertex_file_valid(Deadletter, deadletter_file)
+    # test/test.MinimalAllele.Vertex.json
+    helpers.assert_vertex_file_valid(MinimalAllele, minimal_allele_file)
+    # test/test.MinimalAllele.Vertex.json
+    helpers.assert_edge_file_valid(G2PAssociation, MinimalAllele, minimal_allele_edge_file)
 
 
 def test_simple(helpers, g2p_file, emitter_path_prefix):

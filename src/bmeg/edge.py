@@ -244,3 +244,12 @@ class HasEnvironment(Edge):
     G2PAssociation -> Compound
     """
     pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class HasMinimalAlleleFeature(Edge):
+    """
+    G2PAssociation -> Gene
+    """
+    pass
