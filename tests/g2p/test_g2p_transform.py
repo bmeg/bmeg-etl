@@ -74,6 +74,12 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     helpers.assert_edge_file_valid(MinimalAllele, Gene, has_gene_edge_file)
     # test/test.AlleleIn.Edge.json
     helpers.assert_edge_file_valid(Allele, Gene, allele_in_edge_file)
+    # validate vertex for all edges exist
+    helpers.assert_edge_joins_valid(
+        [association_file, publication_edge_file, gene_edge_file, allele_edge_file, allele_file, phenotype_file,
+         phenotype_edge_file, deadletter_file, minimal_allele_file, minimal_allele_edge_file, has_gene_edge_file, allele_in_edge_file],
+         exclude_labels=['Publication', 'Gene']
+         )
 
 
 def test_simple(helpers, g2p_file, emitter_path_prefix):
