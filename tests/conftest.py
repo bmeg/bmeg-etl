@@ -42,6 +42,8 @@ class Helpers:
     @staticmethod
     def assert_edge_file_valid(from_data_class, to_data_class, edge_file_path):
         """ ensure file exists; populated with json objs with required keys """
+        if not isinstance(from_data_class, list):
+            from_data_class = [from_data_class]
         error_message = 'data_class {} {} {}' \
                         .format(from_data_class, to_data_class, edge_file_path)
         assert os.path.isfile(edge_file_path), error_message
@@ -50,8 +52,13 @@ class Helpers:
                 # should be json
                 edge_dict = json.loads(line)
                 # from, to should exist with correct gid
-                name = str(from_data_class.__name__).split('\\.')[-1]
-                assert name in edge_dict['from'], 'edge.from should contain {}'.format(name)
+                found = False
+                for clazz in from_data_class:
+                    name = str(clazz.__name__).split('\\.')[-1]
+                    if name in edge_dict['from']:
+                        found = True
+                assert found, 'edge.from should contain {}'.format(from_data_class)
+                
                 name = str(to_data_class.__name__).split('\\.')[-1]
                 assert name in edge_dict['to'], 'edge.to should contain {}'.format(name)
 

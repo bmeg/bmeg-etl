@@ -253,3 +253,12 @@ class HasMinimalAlleleFeature(Edge):
     G2PAssociation -> Gene
     """
     pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class HasGene(Edge):
+    """
+    Allele -> Gene
+    """
+    pass

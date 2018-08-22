@@ -407,13 +407,13 @@ class Deadletter(Vertex):
 @enforce_types
 @dataclass(frozen=True)
 class MinimalAllele(Vertex):
-    """ https://www.ncbi.nlm.nih.gov/pubmed/27814769
-        consensus set of minimal variant level data (MVLD)
+    """ consensus set of minimal variant level data (MVLD)
+        inspired by https://www.ncbi.nlm.nih.gov/pubmed/27814769
     """
-    genome: str = None
-    chromosome: str = None
-    start: int = None
-    end: int = None
+    genome: Union[None, str] = None
+    chromosome: Union[None, str] = None
+    start: Union[None, int] = None
+    end: Union[None, int] = None
     annotations: Union[None, list] = None
     myvariantinfo: Union[None, dict] = None
     type: Union[None, str] = None
@@ -428,7 +428,7 @@ class MinimalAllele(Vertex):
     def make_gid(cls, genome, chromosome, start, end, annotations, myvariantinfo, type, effect, name):
         # TODO
         # figure out better hashing strategy
-        vid = "%s:%s:%d:%d:%s:%s:%s:%s:%s" % (genome, chromosome, start, end, annotations, myvariantinfo, type, effect, name)
+        vid = "%s:%s:%s:%s:%s:%s:%s:%s:%s" % (genome, chromosome, start, end, annotations, myvariantinfo, type, effect, name)
         vid = vid.encode('utf-8')
         vidhash = hashlib.sha1()
         vidhash.update(vid)
