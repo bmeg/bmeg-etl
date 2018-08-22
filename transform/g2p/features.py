@@ -9,7 +9,6 @@ import re
 EXPORTED_ALLELES = []
 
 
-
 def gene_gid(symbol):
     """ return gene gid """
     symbol = symbol.replace('Wild-Type', '').strip()

@@ -89,7 +89,6 @@ def toGraph(normalized_association, emitter):
                           minimal_allele_has_gene[1],
                           )
 
-
     for phenotype in na.vertices['phenotypes']:
         emitter.emit_vertex(phenotype)
     for phenotype_gid in na.phenotypes:
