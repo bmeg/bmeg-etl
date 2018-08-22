@@ -14,7 +14,7 @@ import bmeg.ioutils
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
 
-from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment, HasMinimalAlleleFeature, HasGene
+from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment, HasMinimalAlleleFeature, HasGene, AlleleIn
 from bmeg.vertex import Deadletter
 from bmeg.emitter import *  # noqa dynamic class instantiation
 
@@ -79,7 +79,7 @@ def toGraph(normalized_association, emitter):
                           )
 
     for allele_has_gene in na.vertices['allele_has_gene']:
-        emitter.emit_edge(HasGene(),
+        emitter.emit_edge(AlleleIn(),
                           allele_has_gene[0],
                           allele_has_gene[1],
                           )

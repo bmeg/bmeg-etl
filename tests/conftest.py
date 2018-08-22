@@ -57,7 +57,7 @@ class Helpers:
                     name = str(clazz.__name__).split('\\.')[-1]
                     if name in edge_dict['from']:
                         found = True
-                assert found, 'edge.from should contain {}'.format(from_data_class)
+                assert found, 'edge.from should contain {} {}'.format(from_data_class, edge_dict['from'])
 
                 name = str(to_data_class.__name__).split('\\.')[-1]
                 assert name in edge_dict['to'], 'edge.to should contain {}'.format(name)
