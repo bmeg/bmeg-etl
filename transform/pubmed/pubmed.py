@@ -65,7 +65,6 @@ def author_extract(e, v, attrs, **kwds):
 
 def emit_pubmed(e, v, attrs, **kwds):
     # https://www.nlm.nih.gov/bsd/licensee/elements_descriptions.html#status_value
-    #if kwds['MedlineCitation']['Status'] in ["MEDLINE", "Pubmed-not-MEDLINE"]:
     pmid = kwds['MedlineCitation']['PMID']
     title = kwds['MedlineCitation']['Article']['ArticleTitle']
     date = kwds['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']
