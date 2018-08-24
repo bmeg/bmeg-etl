@@ -65,23 +65,23 @@ def author_extract(e, v, attrs, **kwds):
 
 def emit_pubmed(e, v, attrs, **kwds):
     # https://www.nlm.nih.gov/bsd/licensee/elements_descriptions.html#status_value
-    if kwds['MedlineCitation']['Status'] in ["MEDLINE", "Pubmed-not-MEDLINE"]:
-        pmid = kwds['MedlineCitation']['PMID']
-        title = kwds['MedlineCitation']['Article']['ArticleTitle']
-        date = kwds['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']
+    #if kwds['MedlineCitation']['Status'] in ["MEDLINE", "Pubmed-not-MEDLINE"]:
+    pmid = kwds['MedlineCitation']['PMID']
+    title = kwds['MedlineCitation']['Article']['ArticleTitle']
+    date = kwds['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']
 
-        author = []
-        if 'AuthorList' in kwds['MedlineCitation']['Article']:
-            if 'Author' in kwds['MedlineCitation']['Article']['AuthorList']:
-                [author.append(x) for x in kwds['MedlineCitation']['Article']['AuthorList']['Author']]
-                if kwds['MedlineCitation']['Article']['AuthorList']['CompleteYN'] == 'N':
-                    author.append('et al.')
-        abstract = ""
-        if 'Abstract' in kwds['MedlineCitation']['Article']:
-            abstract = kwds['MedlineCitation']['Article']['Abstract']['AbstractText']
+    author = []
+    if 'AuthorList' in kwds['MedlineCitation']['Article']:
+        if 'Author' in kwds['MedlineCitation']['Article']['AuthorList']:
+            [author.append(x) for x in kwds['MedlineCitation']['Article']['AuthorList']['Author']]
+            if kwds['MedlineCitation']['Article']['AuthorList']['CompleteYN'] == 'N':
+                author.append('et al.')
+    abstract = ""
+    if 'Abstract' in kwds['MedlineCitation']['Article']:
+        abstract = kwds['MedlineCitation']['Article']['Abstract']['AbstractText']
 
-        out = Pubmed(pmid=pmid, title=title, abstract=abstract, text="", date=date, author=author, citation=[])
-        e.emit_vertex(out)
+    out = Pubmed(pmid=pmid, title=title, abstract=abstract, text="", date=date, author=author, citation=[])
+    e.emit_vertex(out)
 
 
 f_map = [
