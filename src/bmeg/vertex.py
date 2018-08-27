@@ -204,11 +204,12 @@ class PFAMFamily(Vertex):
 class ExpressionMetric(str, Enum):
     TPM = "TPM"
     RPKM = "RKPM"
+    GENE_TPM = "GENE_TPM"
 
 
 @enforce_types
 @dataclass(frozen=True)
-class GeneExpression(Vertex):
+class Expression(Vertex):
     id: str
     source: str
     metric: ExpressionMetric
