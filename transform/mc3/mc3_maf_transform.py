@@ -1,4 +1,6 @@
-""" transform a maf file into vertexs[variant, allele]   """
+"""
+Transform a maf file into AlleleCall and Callset vertices.
+"""
 
 from bmeg.vertex import Biosample, Callset, Gene
 from bmeg.edge import AlleleCall

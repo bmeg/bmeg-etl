@@ -1,13 +1,16 @@
+"""
+Transform a maf file into AlleleCall and Callset vertices.
+"""
 
-""" transform a maf file into vertexs[variant, allele]   """
 import bmeg.maf.gene_enricher as gene_enricher
 import logging
 
 from bmeg.vertex import Biosample, Callset, Gene
 from bmeg.edge import AlleleCall
-
-from bmeg.maf.maf_transform import main, get_value, MAFTransformer
-from bmeg.maf.maf_transform import transform as parent_transform
+from bmeg.util.cli import default_argument_parser
+from bmeg.util.logging import default_logging
+from bmeg.emitter import JSONEmitter
+from bmeg.maf.maf_transform import get_value, MAFTransformer
 
 
 TUMOR_SAMPLE_BARCODE = "Tumor_Sample_Barcode"  # 15
@@ -55,10 +58,20 @@ class CCLE_MAFTransformer(MAFTransformer):
         return AlleleCall(info)
 
 
-def transform(mafpath, prefix, workers=5, skip=0, harvest=True, filter=[]):
-    return parent_transform(mafpath, prefix, workers, skip, harvest, filter,
-                            transformer=CCLE_MAFTransformer())
+parser = default_argument_parser()
+options = parser.parse_args()
+default_logging(options.loglevel)
 
+emitter = JSONEmitter("ccle")
 
-if __name__ == '__main__':  # pragma: no cover
-    main(transformer=CCLE_MAFTransformer())
+maf_path = "source/ccle/ccle2maf_081117.txt"
+transformer = CCLE_MAFTransformer()
+transformer.maf_convert(
+    emitter=emitter,
+    mafpath=maf_path,
+    workers=10,
+    source="ccle",
+    gz=False,
+)
+
+emitter.close()
