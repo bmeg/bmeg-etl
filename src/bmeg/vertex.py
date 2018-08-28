@@ -313,19 +313,19 @@ class DrugResponse(Vertex):
 
 @enforce_types
 @dataclass(frozen=True)
-class Pubmed(Vertex):
-    pmid: str
-    title: str
-    abstract: str
-    text: str
-    date: str
+class Publication(Vertex):
+    url: str  # http://www.ncbi.nlm.nih.gov/pubmed/18451181
+    title: Union[None, str]
+    abstract: Union[None, str]
+    text: Union[None, str]
+    date: Union[None, str]
 
-    author: list
-    citation: list
+    author: Union[None, list]
+    citation: Union[None, list]
 
     def gid(self):
-        return Pubmed.make_gid(self.pmid)
+        return Publication.make_gid(self.url)
 
     @classmethod
-    def make_gid(cls, pmid):
-        return GID("PMID:%s" % (pmid))
+    def make_gid(cls, url):
+        return GID("%s:%s" % (cls.__name__, url))

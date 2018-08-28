@@ -10,7 +10,7 @@ import xml.sax
 import os
 from ftplib import FTP
 
-from bmeg.vertex import Pubmed
+from bmeg.vertex import Publication
 from bmeg.emitter import JSONEmitter
 
 
@@ -78,8 +78,8 @@ def emit_pubmed(e, v, attrs, **kwds):
     abstract = ""
     if 'Abstract' in kwds['MedlineCitation']['Article']:
         abstract = kwds['MedlineCitation']['Article']['Abstract']['AbstractText']
-
-    out = Pubmed(pmid=pmid, title=title, abstract=abstract, text="", date=date, author=author, citation=[])
+    url = 'https://www.ncbi.nlm.nih.gov/pubmed/{}'.format(pmid)
+    out = Publication(url=url, title=title, abstract=abstract, text="", date=date, author=author, citation=[])
     e.emit_vertex(out)
 
 
