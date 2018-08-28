@@ -21,4 +21,10 @@ eggs/
 
 *.Vertex.json
 *.Edge.json
-cache.sqlite
+*.sqlite
+source/reference/*.json
+.coverage
+
+.cache/
+.pytest_cache/
+/outputs
