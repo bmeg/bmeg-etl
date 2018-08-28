@@ -8,7 +8,7 @@ GENES = {}
 ALIASES = {}
 
 # get file if not already present
-fname = 'source/reference/non_alt_loci_set.json'
+fname = 'source/gene_enricher/non_alt_loci_set.json'
 if not os.path.isfile(fname):
     url = 'ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/non_alt_loci_set.json'
     urllib.request.urlretrieve(url, fname)
