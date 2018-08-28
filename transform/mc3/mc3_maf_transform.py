@@ -1,10 +1,12 @@
-
 """ transform a maf file into vertexs[variant, allele]   """
+
 from bmeg.vertex import Biosample, Callset, Gene
 from bmeg.edge import AlleleCall
+from bmeg.util.cli import default_argument_parser
+from bmeg.util.logging import default_logging
+from bmeg.emitter import JSONEmitter
+from bmeg.maf.maf_transform import get_value, MAFTransformer
 
-from bmeg.maf.maf_transform import main, get_value, MAFTransformer
-from bmeg.maf.maf_transform import transform as parent_transform
 
 TUMOR_SAMPLE_BARCODE = "Tumor_Sample_Barcode"  # 15
 NORMAL_SAMPLE_BARCODE = "Matched_Norm_Sample_Barcode"  # 16
@@ -61,10 +63,20 @@ class MC3_MAFTransformer(MAFTransformer):
         return sample_calls, sample_callsets
 
 
-def transform(mafpath, prefix, workers=5, skip=0, harvest=True, filter=[]):
-    return parent_transform(mafpath, prefix, workers, skip, harvest, filter,
-                            transformer=MC3_MAFTransformer())
+parser = default_argument_parser()
+options = parser.parse_args()
+default_logging(options.loglevel)
 
+emitter = JSONEmitter("mc3")
 
-if __name__ == '__main__':  # pragma: no cover
-    main()
+maf_path = "source/mc3/mc3.v0.2.8.PUBLIC.maf.gz"
+transformer = MC3_MAFTransformer()
+transformer.maf_convert(
+    emitter=emitter,
+    mafpath=maf_path,
+    workers=10,
+    source="mc3",
+    gz=True,
+)
+
+emitter.close()
