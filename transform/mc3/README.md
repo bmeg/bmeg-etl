@@ -1,10 +1,5 @@
-## verify source style
-```
-flake8
-# no output is the expected result
-```
-
 ## testing
+
 ```
 python -m pytest   --cov=.
 platform linux -- Python 3.7.0, pytest-3.6.3, py-1.5.4, pluggy-0.6.0
@@ -107,11 +102,6 @@ $ curl -s 'http://myvariant.info/v1/variant/rs771777487' | jq .vcf
 }
 ```
 
-#### Execution
-
-```
-python maf_transform.py --maf_file source/mc3.v0.2.8.PUBLIC.maf.gz --prefix biostream/mc3 --verbose --workers 10  2> maf_transform.log
-```
 
 #### Logs analysis
 

@@ -3,13 +3,9 @@
 import logging
 import csv
 import gzip
-import sys
 
 from bmeg.vertex import Biosample
 from bmeg.edge import CallsetFor, AlleleIn
-from bmeg.emitter import JSONEmitter as Emitter
-from bmeg.util.cli import default_argument_parser
-from bmeg.util.logging import default_logging
 
 import bmeg.maf.allele_harvester as allele_harvester
 
@@ -196,56 +192,3 @@ class MAFTransformer():
             if c % 1000 == 0:  # pragma nocover
                 logging.info('imported {}'.format(c))
         logging.info('imported {}'.format(c))
-
-
-def transform(mafpath, prefix, workers=5, skip=0, harvest=True, filter=[],
-              transformer=MAFTransformer()):
-    """ entry point """
-    emitter = Emitter(prefix=prefix)
-    transformer.maf_convert(emitter=emitter, mafpath=mafpath, workers=workers,
-                            skip=skip, harvest=harvest, filter=filter)
-    emitter.close()
-
-
-def main(transformer=MAFTransformer()):  # pragma: no cover
-    parser = default_argument_parser()
-    parser.add_argument('--maf_file', type=str,
-                        help='Path to the maf you want to import')
-    parser.add_argument(
-        '--workers', type=int,
-        help="multithread harvest from myvariant.info",
-        default=5
-    )
-    parser.add_argument(
-        '--skip', type=int,
-        help="skip first N lines in MAF",
-        default=0
-    )
-    parser.add_argument('--filter', type=str,
-                        help='Path of already harvested Allele gids')
-    harvest = parser.add_mutually_exclusive_group(required=False)
-    harvest.add_argument('--harvest', dest='harvest',
-                         help="get myvariantinfo", action='store_true')
-    harvest.add_argument('--no-harvest', dest='harvest',
-                         help="do not get myvariantinfo", action='store_false')
-    parser.set_defaults(harvest=True)
-
-    # We don't need the first argument, which is the program name
-    options = parser.parse_args(sys.argv[1:])
-    default_logging(options.loglevel)
-
-    # ids to skip
-    filter = {}
-    if options.filter:
-        with open(options.filter) as f:
-            for line in f:
-                line = line.strip()
-                filter[line] = None
-
-    transform(mafpath=options.maf_file, prefix=options.prefix,
-              workers=options.workers, skip=options.skip,
-              harvest=options.harvest, filter=filter, transformer=transformer)
-
-
-if __name__ == '__main__':  # pragma: no cover
-    main()

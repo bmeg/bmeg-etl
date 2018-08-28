@@ -28,6 +28,7 @@ setup(
         "mygene>=3.0.0",
         "requests>=2.19.1",
         "requests-cache>=0.4.13",
+        "more-itertools==4.3.0",
     ],
     extras_require={
         "test": [
