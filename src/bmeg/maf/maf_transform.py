@@ -3,13 +3,9 @@
 import logging
 import csv
 import gzip
-import sys
 
 from bmeg.vertex import Biosample
 from bmeg.edge import CallsetFor, AlleleIn
-from bmeg.emitter import JSONEmitter as Emitter
-from bmeg.util.cli import default_argument_parser
-from bmeg.util.logging import default_logging
 
 import bmeg.maf.allele_harvester as allele_harvester
 
