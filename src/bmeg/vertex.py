@@ -217,7 +217,7 @@ class Expression(Vertex):
     values: dict
 
     def gid(self):
-        return GeneExpression.make_gid(self.source, self.id)
+        return Expression.make_gid(self.source, self.id)
 
     @classmethod
     def make_gid(cls, source, id):

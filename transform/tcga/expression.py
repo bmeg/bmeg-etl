@@ -1,7 +1,7 @@
 from collections import defaultdict
 import csv
 from glob import glob
-import os
+import gzip
 
 from bmeg.vertex import Expression, Aliquot, ExpressionMetric
 from bmeg.edge import ExpressionOf
@@ -16,7 +16,7 @@ r = csv.DictReader(open(id_map_file))
 id_map = {row["CGHubAnalysisID"]: row["Aliquot_id"] for row in r}
 
 for path in glob("source/tcga/expression/transcript-level/*_tpm.tsv.gz"):
-    reader = csv.reader(open(path), delimiter="\t")
+    reader = csv.reader(gzip.open(path, "rt"), delimiter="\t")
     header = next(reader)
     samples = header[1:]
 
@@ -36,7 +36,8 @@ for path in glob("source/tcga/expression/transcript-level/*_tpm.tsv.gz"):
         g = Expression(
             id=aliquot_id,
             source="tcga",
-            scale=ExpressionMetric.TPM,
+            metric=ExpressionMetric.TPM,
+            method="Illumina Hiseq",
             values=values,
         )
         emitter.emit_vertex(g)
