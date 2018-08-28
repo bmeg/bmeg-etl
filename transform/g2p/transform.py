@@ -16,7 +16,7 @@ from bmeg.util.cli import default_argument_parser
 
 from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment, HasMinimalAlleleFeature, HasGene, AlleleIn
 from bmeg.vertex import Deadletter
-from bmeg.emitter import *  # noqa dynamic class instantiation
+from bmeg.emitter import new_emitter
 
 files = {}
 
@@ -107,10 +107,9 @@ def toGraph(normalized_association, emitter):
         emitter.emit_vertex(Deadletter(**missing_vertex))
 
 
-def transform(input_path, prefix, emitter_class='JSONEmitter'):
+def transform(input_path, prefix, emitter_class='json'):
     """ parse the association and write to graph using emitter"""
-    klass = globals()[emitter_class]
-    emitter = klass(prefix=prefix)
+    emitter = new_emitter(prefix=prefix)
 
     for normalized_association in normalizeAssociations(input_path):
         toGraph(normalized_association, emitter)
@@ -122,9 +121,6 @@ def main():  # pragma: no cover
     parser.add_argument('--input_path', type=str,
                         default='source/g2p/all.json.gz',
                         help='Path to g2p associations for import')
-    parser.add_argument('--emitter', type=str,
-                        default='JSONEmitter',
-                        help='classname of emitter')
 
     # We don't need the first argument, which is the program name
     options = parser.parse_args()

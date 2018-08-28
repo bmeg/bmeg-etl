@@ -26,4 +26,8 @@ def default_argument_parser():  # pragma: no cover
         help="Be verbose",
         action="store_const", dest="loglevel", const=logging.INFO,
     )
+    parser.add_argument('--emitter', type=str,
+                        default='json',
+                        help='emitter type [json, debug]')
+
     return parser

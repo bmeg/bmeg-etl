@@ -178,3 +178,16 @@ class FileHandler:
     def close(self):
         for fh in self.handles.values():
             fh.close()
+
+
+# shorthand aliases for emitter names
+EMITTER_NAME_MAP = {
+    "json": JSONEmitter,
+    "debug": DebugEmitter,
+}
+
+
+def new_emitter(name="json", **kwargs):
+    """ construct an emitter """
+    cls = EMITTER_NAME_MAP[name]
+    return cls(**kwargs)
