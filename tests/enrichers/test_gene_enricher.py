@@ -1,4 +1,4 @@
-import bmeg.maf.gene_enricher as gene_enricher
+import bmeg.enrichers.gene_enricher as gene_enricher
 
 
 def test_simple():

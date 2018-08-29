@@ -45,8 +45,10 @@ class Allele(Vertex):
     end: int
     reference_bases: str
     alternate_bases: str
-    annotations: list = None
-    myvariantinfo: dict = None
+    annotations: Union[None, list] = None
+    myvariantinfo: Union[None, dict] = None
+    type: Union[None, str] = None
+    effect: Union[None, str] = None
 
     def gid(self):
         return Allele.make_gid(self.genome, self.chromosome, self.start,
@@ -328,6 +330,63 @@ class DrugResponse(Vertex):
 
 @enforce_types
 @dataclass(frozen=True)
+class Compound(Vertex):
+    term_id: str  # compound:CID60823
+    term: str  # Atorvastatin
+
+    def gid(self):
+        return Compound.make_gid(self.term_id)
+
+    @classmethod
+    def make_gid(cls, term_id):
+        return GID("%s:%s" % (cls.__name__, term_id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Phenotype(Vertex):
+    term_id: str  # DOID:11198 ; MONDO:0007254
+    term: str  # DiGeorge syndrome ; breast cancer
+
+    def gid(self):
+        return Phenotype.make_gid(self.term_id)
+
+    @classmethod
+    def make_gid(cls, term_id):
+        return GID("%s:%s" % (cls.__name__, term_id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class G2PAssociation(Vertex):
+    source: str  # civic, cgi
+    description: str  # asprin cures headaches
+    evidence_label: Union[None, str]  # evidence
+    response_type: Union[None, str]   # evidence
+    oncogenic: Union[None, str]  # for non drug evidence source:[oncokb, brca]
+    source_document: Union[None, str]  # stringified document from source
+    source_url: Union[None, str]  # link back to original document
+
+    def gid(self):
+        return G2PAssociation.make_gid(self.source,
+                                       self.description,
+                                       self.evidence_label,
+                                       self.response_type,
+                                       self.oncogenic,
+                                       self.source_document,
+                                       self.source_url)
+
+    @classmethod
+    def make_gid(cls, source, description, evidence_label, response_type,
+                 oncogenic, source_document, source_url):
+        a = [p for p in [source, description, evidence_label, response_type, oncogenic, source_document, source_url] if p]
+        m = hashlib.sha1()
+        m.update(':'.join(a).encode('utf-8'))
+        return GID("%s:%s" % (cls.__name__, m.hexdigest()))
+
+
+@enforce_types
+@dataclass(frozen=True)
 class Publication(Vertex):
     url: str  # http://www.ncbi.nlm.nih.gov/pubmed/18451181
     title: Union[None, str]
@@ -344,3 +403,55 @@ class Publication(Vertex):
     @classmethod
     def make_gid(cls, url):
         return GID("%s:%s" % (cls.__name__, url))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Deadletter(Vertex):
+    """ standard way to log missing data """
+    target_label: str  # desired vertex label
+    data: dict  # data from source
+
+    def gid(self):
+        return Deadletter.make_gid(self.target_label, self.data)
+
+    @classmethod
+    def make_gid(cls, target_label, data):
+        # create hash from data dict
+        data = '%s:%s' % (target_label, str(data))
+        datahash = hashlib.sha1()
+        datahash.update(data.encode('utf-8'))
+        datahash = datahash.hexdigest()
+        return GID("%s:%s" % (cls.__name__, datahash))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class MinimalAllele(Vertex):
+    """ consensus set of minimal variant level data (MVLD)
+        inspired by https://www.ncbi.nlm.nih.gov/pubmed/27814769
+    """
+    genome: Union[None, str] = None
+    chromosome: Union[None, str] = None
+    start: Union[None, int] = None
+    end: Union[None, int] = None
+    annotations: Union[None, list] = None
+    myvariantinfo: Union[None, dict] = None
+    type: Union[None, str] = None
+    effect: Union[None, str] = None
+    name: str = None
+
+    def gid(self):
+        return MinimalAllele.make_gid(self.genome, self.chromosome, self.start, self.end, self.annotations, self.myvariantinfo,
+                                      self.type, self.effect, self.name)
+
+    @classmethod
+    def make_gid(cls, genome, chromosome, start, end, annotations, myvariantinfo, type, effect, name):
+        # TODO
+        # figure out better hashing strategy
+        vid = "%s:%s:%s:%s:%s:%s:%s:%s:%s" % (genome, chromosome, start, end, annotations, myvariantinfo, type, effect, name)
+        vid = vid.encode('utf-8')
+        vidhash = hashlib.sha1()
+        vidhash.update(vid)
+        vidhash = vidhash.hexdigest()
+        return GID("%s:%s" % (cls.__name__, vidhash))

@@ -199,3 +199,66 @@ class DrugResponseIn(Edge):
     DrugResponse -> Biosample
     """
     pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class HasSupportingReference(Edge):
+    """
+    G2PAssociation -> Publication
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class HasGeneFeature(Edge):
+    """
+    G2PAssociation -> Gene
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class HasAlleleFeature(Edge):
+    """
+    G2PAssociation -> Allele
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class HasPhenotype(Edge):
+    """
+    G2PAssociation -> Phenotype
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class HasEnvironment(Edge):
+    """
+    G2PAssociation -> Compound
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class HasMinimalAlleleFeature(Edge):
+    """
+    G2PAssociation -> Gene
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class HasGene(Edge):
+    """
+    Allele -> Gene
+    """
+    pass

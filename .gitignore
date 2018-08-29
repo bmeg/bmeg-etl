@@ -22,9 +22,12 @@ eggs/
 *.Vertex.json
 *.Edge.json
 *.sqlite
-source/reference/*.json
 .coverage
 
 .cache/
 .pytest_cache/
 /outputs
+
+# ignore everything except markdown documents in source
+source/*/*.*
+!source/*/*.md
