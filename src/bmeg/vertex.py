@@ -234,6 +234,7 @@ class COCACluster(Vertex):
 class Individual(Vertex):
     individual_id: str
     gdc_attributes: dict
+    gtex_attributes: dict
 
     def gid(self):
         return Individual.make_gid(self.individual_id)
@@ -249,6 +250,7 @@ class Biosample(Vertex):
     biosample_id: str
     gdc_attributes: dict = field(default_factory=dict)
     ccle_attributes: dict = field(default_factory=dict)
+    gtex_attributes: dict = field(default_factory=dict)
 
     def gid(self):
         return Biosample.make_gid(self.biosample_id)
@@ -256,6 +258,19 @@ class Biosample(Vertex):
     @classmethod
     def make_gid(cls, biosample_id):
         return GID("%s:%s" % (cls.__name__, biosample_id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Aliquot(Vertex):
+    aliquot_id: str
+
+    def gid(self):
+        return Aliquot.make_gid(self.aliquot_id)
+
+    @classmethod
+    def make_gid(cls, aliquot_id):
+        return GID("%s:%s" % (cls.__name__, aliquot_id))
 
 
 @enforce_types
@@ -374,7 +389,13 @@ class G2PAssociation(Vertex):
 @dataclass(frozen=True)
 class Publication(Vertex):
     url: str  # http://www.ncbi.nlm.nih.gov/pubmed/18451181
-    description: Union[None, str]   # Functional assays for classification of BRCA2 variants of uncertain significance.
+    title: Union[None, str]
+    abstract: Union[None, str]
+    text: Union[None, str]
+    date: Union[None, str]
+
+    author: Union[None, list]
+    citation: Union[None, list]
 
     def gid(self):
         return Publication.make_gid(self.url)
