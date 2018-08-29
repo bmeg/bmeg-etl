@@ -5,11 +5,8 @@ apt-get install -y python3.7 python3-pip python-lzo zlib1g-dev unzip git liblzo2
 
 RUN pip3 install numpy bx-python requests protobuf pandas xlrd
 
-# GDC Transform
-COPY transform/gdc/*.py /opt/
-
-# Ensembl Gene / Transcript / Exon
-COPY transform/ensembl/*.py /opt/
+# Copy Transform code
+COPY transform /opt/transform
 
 COPY setup.py README.md /build/
 COPY src /build/src

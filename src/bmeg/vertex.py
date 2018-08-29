@@ -324,3 +324,23 @@ class DrugResponse(Vertex):
     @classmethod
     def make_gid(cls, compound_name, sample_id):
         return GID("%s:%s:%s" % (cls.__name__, compound_name, sample_id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Publication(Vertex):
+    url: str  # http://www.ncbi.nlm.nih.gov/pubmed/18451181
+    title: Union[None, str]
+    abstract: Union[None, str]
+    text: Union[None, str]
+    date: Union[None, str]
+
+    author: Union[None, list]
+    citation: Union[None, list]
+
+    def gid(self):
+        return Publication.make_gid(self.url)
+
+    @classmethod
+    def make_gid(cls, url):
+        return GID("%s:%s" % (cls.__name__, url))
