@@ -5,7 +5,7 @@ import csv
 import gzip
 import sys
 
-from bmeg.vertex import Biosample, Allele
+from bmeg.vertex import Biosample, Allele, AlleleAnnotations
 from bmeg.edge import CallsetFor, AlleleIn
 from bmeg.emitter import new_emitter
 from bmeg.util.cli import default_argument_parser
@@ -16,6 +16,25 @@ from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed
 from more_itertools import chunked
 from itertools import islice
+
+
+STANDARD_MAF_KEYS = [
+    'Hugo_Symbol',
+    'Entrez_Gene_Id',
+    'Center',
+    'NCBI_Build',
+    'Chromosome',
+    'Start_Position',
+    'End_Position',
+    'Strand',
+    'Variant_Classification',
+    'Variant_Type',
+    'Reference_Allele',
+    'Tumor_Seq_Allele1',
+    'Tumor_Seq_Allele2',
+    'dbSNP_RS',
+    'dbSNP_Val_Status',
+    'Tumor_Sample_Barcode']
 
 # center = 2
 # ncbi_build = 3
@@ -72,7 +91,8 @@ class MAFTransformer():
         else:
             inhandle = open(mafpath)
         reader = csv.DictReader(inhandle, delimiter="\t")
-        logging.info('skipping: {}'.format(skip))
+        if skip > 0:
+            logging.info('skipping: {}'.format(skip))
         reader = islice(reader, skip, None)
         for line in reader:
             yield line
@@ -98,11 +118,12 @@ class MAFTransformer():
     def create_allele_dict(self, line, genome='GRCh37'):
         ''' return properly named allele dictionary, populated from line'''
         # collect CURIES that apply to allele
-        annotations = []
-        annotations.append('{}:{}'.format(VARIANT_TYPE, line.get(VARIANT_TYPE, None)))
-        annotations.append('{}:{}'.format(FEATURE_TYPE, line.get(FEATURE_TYPE, None)))
-        annotations.append('{}:{}'.format(FEATURE, line.get(FEATURE, None)))
-        annotations.append('{}:{}'.format(dbSNP_RS, line.get(dbSNP_RS, None)))
+        annotations = {}
+        for key in STANDARD_MAF_KEYS:
+            value = line.get(key,None)
+            if value:
+                annotations[key] = value
+        allele_annotations = AlleleAnnotations(maf=annotations)
         return {
             'genome': genome,
             'chromosome': line[CHROMOSOME],
@@ -110,8 +131,7 @@ class MAFTransformer():
             'end': int(get_value(line, END, None)),
             'reference_bases': line[REFERENCE_ALLELE],
             'alternate_bases': line[TUMOR_ALLELE],
-            # ,myvariantinfo: dict
-            'annotations': annotations,
+            'annotations': allele_annotations,
         }
 
     def allele_maker(self, line):

@@ -9,6 +9,16 @@ from bmeg.edge import AlleleCall
 from bmeg.maf.maf_transform import main, get_value, MAFTransformer
 from bmeg.maf.maf_transform import transform as parent_transform
 
+CCLE_EXTENSION_CALLSET_KEYS = ['cDNA_Change', 'Codon_Change', 'Protein_Change',
+    'isDeleterious', 'isTCGAhotspot', 'TCGAhsCnt',
+    'isCOSMIChotspot', 'COSMIChsCnt', 'ExAC_AF', 'WES_AC',
+    'WGS_AC', 'SangerWES_AC', 'SangerRecalibWES_AC', 'RNAseq_AC',
+    'HC_AC', 'RD_AC']
+
+CCLE_EXTENSION_MAF_KEYS = [
+    'Genome_Change', 'Annotation_Transcript', 'cDNA_Change', 'Codon_Change', 'Protein_Change', 'isDeleterious', 'isTCGAhotspot', 'TCGAhsCnt',
+    'isCOSMIChotspot', 'COSMIChsCnt', 'ExAC_AF', 'WES_AC', 'WGS_AC', 'SangerWES_AC', 'SangerRecalibWES_AC', 'RNAseq_AC', 'HC_AC', 'RD_AC',
+]
 
 TUMOR_SAMPLE_BARCODE = "Tumor_Sample_Barcode"  # 15
 NORMAL_SAMPLE_BARCODE = "Matched_Norm_Sample_Barcode"  # 16
@@ -42,17 +52,24 @@ class CCLE_MAFTransformer(MAFTransformer):
 
     def allele_call_maker(self, allele, line=None):
         """ create call from line """
-        keys = ['cDNA_Change', 'Codon_Change', 'Protein_Change',
-                'isDeleterious', 'isTCGAhotspot', 'TCGAhsCnt',
-                'isCOSMIChotspot', 'COSMIChsCnt', 'ExAC_AF', 'WES_AC',
-                'WGS_AC', 'SangerWES_AC', 'SangerRecalibWES_AC', 'RNAseq_AC',
-                'HC_AC', 'RD_AC']
         info = {}
-        for k in keys:
+        for k in CCLE_EXTENSION_CALLSET_KEYS:
             v = get_value(line, k, None)
             if v:
                 info[k] = v
         return AlleleCall(info)
+
+    def create_allele_dict(self, line, genome='GRCh37'):
+        ''' return properly named allele dictionary, populated from line'''
+        allele_dict = super(CCLE_MAFTransformer, self).create_allele_dict(line, genome)
+        annotations = {}
+        for key in CCLE_EXTENSION_MAF_KEYS:
+            value = line.get(key,None)
+            if value:
+                annotations[key] = value
+
+        allele_dict['annotations'].ccle = annotations
+        return allele_dict
 
 
 def transform(mafpath, prefix, emitter_name='json', skip=0):

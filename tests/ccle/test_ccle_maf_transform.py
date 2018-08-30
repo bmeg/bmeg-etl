@@ -2,7 +2,9 @@
 
 import pytest
 import transform.ccle.ccle_maf_transform as ccle_maf_transform
+from transform.ccle.ccle_maf_transform import CCLE_EXTENSION_CALLSET_KEYS, CCLE_EXTENSION_MAF_KEYS
 from bmeg.vertex import Allele, Callset, Gene
+from bmeg.maf.maf_transform import STANDARD_MAF_KEYS
 
 import os
 import contextlib
@@ -53,25 +55,22 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
             # should be json
             allelecall = json.loads(line)
             # optional keys, if set should be non null
-            optional_keys = ['cDNA_Change',
-                             'Codon_Change',
-                             'Protein_Change',
-                             'isDeleterious',
-                             'isTCGAhotspot',
-                             'TCGAhsCnt',
-                             'isCOSMIChotspot',
-                             'COSMIChsCnt',
-                             'ExAC_AF',
-                             'WES_AC',
-                             'WGS_AC',
-                             'SangerWES_AC',
-                             'SangerRecalibWES_AC',
-                             'RNAseq_AC',
-                             'HC_AC',
-                             'RD_AC', ]
-            for k in optional_keys:
+            for k in CCLE_EXTENSION_CALLSET_KEYS:
                 if k in allelecall['data']['info']:
                     assert allelecall['data']['info'][k], 'empty key %s' % k
+    # test Allele contents
+    with open(allele_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            # should be json
+            allele = json.loads(line)
+            for k in STANDARD_MAF_KEYS:
+                if k in allele['data']['annotations']['maf']:
+                    assert allele['data']['annotations']['maf'][k], 'empty key %s' % k
+            # optional keys, if set should be non null
+            for k in CCLE_EXTENSION_MAF_KEYS:
+                if k in allele['data']['annotations']['ccle']:
+                    assert allele['data']['annotations']['ccle'][k], 'empty key %s' % k
+
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(
         [allele_file, allelecall_file, callset_file, allelein_file],

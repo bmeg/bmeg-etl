@@ -1,5 +1,7 @@
 
-""" transform a maf file into vertexs[variant, allele]   """
+"""
+dedupe and Allele.Vertex.json file into
+"""
 # import bmeg.enrichers.gene_enricher as gene_enricher
 import logging
 import glob
@@ -35,7 +37,7 @@ def transform(output_dir, prefix, emitter_name='json'):
         logging.debug(filename)
         with open(filename, "r") as ins:
             for line in ins:
-                allele = Allele(**json.loads(line)['data'])
+                allele = Allele.from_dict(json.loads(line)['data'])
                 put_allele(dedupe(allele))
 
 

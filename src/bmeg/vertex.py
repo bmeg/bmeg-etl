@@ -37,6 +37,15 @@ class Callset(Vertex):
 
 
 @enforce_types
+@dataclass(frozen=False)  # note: mutable class
+class AlleleAnnotations:
+    maf: Union[None, dict] = None   # annotations from standard maf https://docs.gdc.cancer.gov/Data/File_Formats/MAF_Format/
+    mc3: Union[None, dict] = None   # annotations from mc3 maf extension
+    ccle: Union[None, dict] = None  # annotations from mc3 maf  extension
+    myvariantinfo: Union[None, dict] = None # annotations from biothings
+
+
+@enforce_types
 @dataclass(frozen=True)
 class Allele(Vertex):
     genome: str
@@ -45,8 +54,7 @@ class Allele(Vertex):
     end: int
     reference_bases: str
     alternate_bases: str
-    annotations: Union[None, list] = None
-    myvariantinfo: Union[None, dict] = None
+    annotations: AlleleAnnotations
     type: Union[None, str] = None
     effect: Union[None, str] = None
 
@@ -54,6 +62,11 @@ class Allele(Vertex):
         return Allele.make_gid(self.genome, self.chromosome, self.start,
                                self.end, self.reference_bases,
                                self.alternate_bases)
+
+    @classmethod
+    def from_dict(cls, data):
+        data['annotations'] = AlleleAnnotations(**data['annotations'])
+        return Allele(**data)
 
     @classmethod
     def make_gid(cls, genome, chromosome, start, end, reference_bases,
@@ -248,6 +261,7 @@ class Individual(Vertex):
 @dataclass(frozen=True)
 class Biosample(Vertex):
     biosample_id: str
+    # TODO normalize style w/ Allele annotations
     gdc_attributes: dict = field(default_factory=dict)
     ccle_attributes: dict = field(default_factory=dict)
     gtex_attributes: dict = field(default_factory=dict)

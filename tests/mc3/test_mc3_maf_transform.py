@@ -4,6 +4,9 @@
 
 import pytest
 import transform.mc3.mc3_maf_transform as mc3_maf_transform
+from transform.mc3.mc3_maf_transform import MC3_EXTENSION_MAF_KEYS
+from transform.mc3.mc3_maf_transform import MC3_EXTENSION_CALLSET_KEYS
+from bmeg.maf.maf_transform import STANDARD_MAF_KEYS
 from bmeg.maf.maf_transform import get_value
 from bmeg.vertex import Allele, Callset, Gene
 import os
@@ -73,14 +76,22 @@ def validate(helpers, maf_file, emitter_path_prefix):
             # should be json
             allelecall = json.loads(line)
             # optional keys, if set should be non null
-            optional_keys = ['t_depth', 't_ref_count', 't_alt_count',
-                             'n_depth', 'n_ref_count', 'n_alt_count', 'FILTER',
-                             'Match_Norm_Seq_Allele1',
-                             'Match_Norm_Seq_Allele2',
-                             'Tumor_Seq_Allele1', 'Tumor_Seq_Allele2']
-            for k in optional_keys:
+            for k in MC3_EXTENSION_CALLSET_KEYS:
                 if k in allelecall['data']['info']:
                     assert allelecall['data']['info'][k], 'empty key %s' % k
+    # test Allele contents
+    with open(allele_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            # should be json
+            allele = json.loads(line)
+            for k in STANDARD_MAF_KEYS:
+                if k in allele['data']['annotations']['maf']:
+                    assert allele['data']['annotations']['maf'][k], 'empty key %s' % k
+            # optional keys, if set should be non null
+            for k in MC3_EXTENSION_MAF_KEYS:
+                if k in allele['data']['annotations']['mc3']:
+                    assert allele['data']['annotations']['mc3'][k], 'empty key %s' % k
+
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(
         [allele_file, allelecall_file, callset_file, allelein_file],
