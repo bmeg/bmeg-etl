@@ -34,7 +34,6 @@ def dedupe(allele):
 def transform(output_dir, prefix, emitter_name='json'):
     path = '{}/**/*.Allele.Vertex.json'.format(output_dir)
     for filename in glob.iglob(path, recursive=True):
-        logging.debug(filename)
         with open(filename, "r") as ins:
             for line in ins:
                 allele = Allele.from_dict(json.loads(line)['data'])
