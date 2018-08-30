@@ -2,6 +2,8 @@
 
 import pytest
 import transform.ccle.ccle_maf_transform as ccle_maf_transform
+from bmeg.vertex import Allele, Callset, Gene
+
 import os
 import contextlib
 import json
@@ -19,7 +21,7 @@ def emitter_path_prefix(request):
     return os.path.join(request.fspath.dirname, 'test')
 
 
-def validate(maf_file, emitter_path_prefix, harvest=True, filter=[]):
+def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
     allele_file = '{}.Allele.Vertex.json'.format(emitter_path_prefix)
     allelecall_file = '{}.AlleleCall.Edge.json'.format(emitter_path_prefix)
     callset_file = '{}.Callset.Vertex.json'.format(emitter_path_prefix)
@@ -32,53 +34,20 @@ def validate(maf_file, emitter_path_prefix, harvest=True, filter=[]):
         os.remove(allelein_file)
     # create output
     ccle_maf_transform.transform(maf_file, emitter_path_prefix)
-    # test.Allele.Vertex.json
-    error_message = 'maf_transform.convert({}, {}) should create {}' \
-                    .format(maf_file, emitter_path_prefix, allele_file)
-    assert os.path.isfile(allele_file), error_message
-    # test allele contents
-    with open(allele_file, 'r', encoding='utf-8') as f:
-        for line in f:
-            # should be json
-            allele = json.loads(line)
-            # minimum graph keys
-            assert list(allele.keys()) == ['_id', 'gid', 'label', 'data'], \
-                'expected keys'
-            # should not be empty
-            for k in allele.keys():
-                assert allele[k], 'empty key %s' % k
 
-            # mandatory keys
-            required_keys = ['genome', 'chromosome', 'start', 'end',
-                             'reference_bases', 'alternate_bases']
-            for k in required_keys:
-                assert allele['data'][k], 'empty key %s' % k
-
-            # optional keys, if set should be non null
-            optional_keys = ['annotations', 'myvariantinfo']
-            for k in optional_keys:
-                if k in allele['data']:
-                    assert allele['data'][k], 'empty key %s' % k
-
+    # test/test.Allele.Vertex.json
+    helpers.assert_vertex_file_valid(Allele, allele_file)
     # test.Callset.Vertex.json
-    error_message = 'maf_transform.convert({}, {}) should create {}' \
-                    .format(maf_file, emitter_path_prefix, callset_file)
-    assert os.path.isfile(callset_file), error_message
-    # test allele contents
-    with open(callset_file, 'r', encoding='utf-8') as f:
-        for line in f:
-            # should be json
-            callset = json.loads(line)
-            # mandatory keys, no 'normal_biosample_id'
-            required_keys = ['tumor_biosample_id', 'call_method']
-            for k in required_keys:
-                assert callset['data'][k], 'empty key %s' % k
-
+    helpers.assert_vertex_file_valid(Callset, callset_file)
+    # test/test.AlleleIn.Edge.json
+    helpers.assert_edge_file_valid(Allele, Gene, allelein_file)
+    # test/test.AlleleCall.Edge.json
+    helpers.assert_edge_file_valid(Allele, Callset, allelecall_file)
     # test.AlleleCall.Edge.json
     error_message = 'maf_transform.convert({}, {}) should create {}' \
                     .format(maf_file, emitter_path_prefix, allelecall_file)
     assert os.path.isfile(allelecall_file), error_message
-    # test allele contents
+    # test AlleleCall contents
     with open(allelecall_file, 'r', encoding='utf-8') as f:
         for line in f:
             # should be json
@@ -103,16 +72,13 @@ def validate(maf_file, emitter_path_prefix, harvest=True, filter=[]):
             for k in optional_keys:
                 if k in allelecall['data']['info']:
                     assert allelecall['data']['info'][k], 'empty key %s' % k
-    # test allelein (gene) contents
-    with open(allelein_file, 'r', encoding='utf-8') as f:
-        for line in f:
-            # should be json
-            allelein = json.loads(line)
-            # minimum graph keys
-            assert list(allelein.keys()) == \
-                ['_id', 'gid', 'label', 'from', 'to', 'data'], 'expected keys'
+    # validate vertex for all edges exist
+    helpers.assert_edge_joins_valid(
+        [allele_file, allelecall_file, callset_file, allelein_file],
+        exclude_labels=['Gene']
+    )
 
 
-def test_simple(maf_file, emitter_path_prefix):
+def test_simple(helpers, maf_file, emitter_path_prefix):
     """ simple test """
-    validate(maf_file, emitter_path_prefix)
+    validate(helpers, maf_file, emitter_path_prefix)
