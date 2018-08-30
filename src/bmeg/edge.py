@@ -124,6 +124,15 @@ class ProteinFor(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
+class StructureFor(Edge):
+    """
+    Protein -> ProteinStructure
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
 class COCAClusterFor(Edge):
     """
     COCACluster -> Individual
