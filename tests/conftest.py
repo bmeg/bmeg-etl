@@ -8,7 +8,7 @@ class Helpers:
     @staticmethod
     def assert_data_keys_populated(data_class, vertex_dict):
         """ ensure that all non Union(NoneType,...) fields are not empty. """
-        # mandatory keys
+        # introspect mandatory keys
         for k in data_class.__dataclass_fields__.keys():
             field = data_class.__dataclass_fields__[k]
             # skip if union(None, ...)
