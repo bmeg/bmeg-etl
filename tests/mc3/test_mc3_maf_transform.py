@@ -40,7 +40,7 @@ def emitter_path_prefix(request):
     return os.path.join(request.fspath.dirname, 'test')
 
 
-def validate(maf_file, emitter_path_prefix, harvest=True, filter=[]):
+def validate(maf_file, emitter_path_prefix):
     allele_file = '{}.Allele.Vertex.json'.format(emitter_path_prefix)
     allelecall_file = '{}.AlleleCall.Edge.json'.format(emitter_path_prefix)
     callset_file = '{}.Callset.Vertex.json'.format(emitter_path_prefix)
@@ -52,8 +52,7 @@ def validate(maf_file, emitter_path_prefix, harvest=True, filter=[]):
         os.remove(callset_file)
         os.remove(allelein_file)
     # create output
-    mc3_maf_transform.transform(maf_file, emitter_path_prefix,
-                                harvest=harvest, filter=filter)
+    mc3_maf_transform.transform(maf_file, emitter_path_prefix)
     # test.Allele.Vertex.json
     error_message = 'maf_transform.convert({}, {}) should create {}' \
                     .format(maf_file, emitter_path_prefix, allele_file)
@@ -128,17 +127,6 @@ def validate(maf_file, emitter_path_prefix, harvest=True, filter=[]):
 def test_simple(maf_file, emitter_path_prefix):
     """ simple test """
     validate(maf_file, emitter_path_prefix)
-
-
-def test_simple_harvest(maf_file, emitter_path_prefix):
-    """ simple test """
-    validate(maf_file, emitter_path_prefix, harvest=False)
-
-
-def test_simple_filter(maf_file, emitter_path_prefix):
-    """ simple test """
-    validate(maf_file, emitter_path_prefix,
-             filter=['Allele:8101ba32cd3e557bb5baa2218835ab3b903b8c42'])
 
 
 def test_gz(gz_file, emitter_path_prefix):

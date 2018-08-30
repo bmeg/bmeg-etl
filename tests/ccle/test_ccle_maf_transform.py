@@ -31,8 +31,7 @@ def validate(maf_file, emitter_path_prefix, harvest=True, filter=[]):
         os.remove(callset_file)
         os.remove(allelein_file)
     # create output
-    ccle_maf_transform.transform(maf_file, emitter_path_prefix,
-                                 harvest=harvest, filter=filter)
+    ccle_maf_transform.transform(maf_file, emitter_path_prefix)
     # test.Allele.Vertex.json
     error_message = 'maf_transform.convert({}, {}) should create {}' \
                     .format(maf_file, emitter_path_prefix, allele_file)

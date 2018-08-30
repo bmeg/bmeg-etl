@@ -5,13 +5,12 @@ import csv
 import gzip
 import sys
 
-from bmeg.vertex import Biosample
+from bmeg.vertex import Biosample, Allele
 from bmeg.edge import CallsetFor, AlleleIn
-from bmeg.emitter import JSONEmitter as Emitter
+from bmeg.emitter import new_emitter
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
 
-import bmeg.enrichers.allele_enricher as allele_enricher
 
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed
@@ -115,12 +114,10 @@ class MAFTransformer():
             'annotations': annotations,
         }
 
-    def allele_maker(self, line, harvest, filter):
+    def allele_maker(self, line):
         """ worker task to create and/or harvest allele from line """
         allele_dict = self.create_allele_dict(line)
-        return allele_enricher.harvest(**allele_dict,
-                                       harvest=harvest,
-                                       filter=filter), line
+        return Allele(**allele_dict)
 
     def multithreading(self, func, lines, max_workers, harvest, filter):
         """
@@ -135,7 +132,7 @@ class MAFTransformer():
                 for future in as_completed(futures):
                     yield future.result()
 
-    def maf_convert(self, emitter, mafpath, workers, source='tcga',
+    def maf_convert(self, emitter, mafpath, source='tcga',
                     genome='GRCh37',
                     method='variant', gz=False, centerCol='Center', skip=0,
                     harvest=True, filter=[]):
@@ -152,15 +149,8 @@ class MAFTransformer():
         logging.info('converting maf: ' + mafpath)
         my_callsets_ids = set()
         c = skip
-        for allele, line in self.multithreading(self.allele_maker,
-                                                self.read_maf(
-                                                    mafpath, gz, skip),
-                                                max_workers=workers,
-                                                harvest=harvest,
-                                                filter=filter):
-            # if allele was filtered out
-            if not allele:
-                continue
+        for line in self.read_maf(mafpath, gz, skip):
+            allele = self.allele_maker(line)
             # save the allele that was created
             emitter.emit_vertex(allele)
             # create edge between the allele and the callset
@@ -198,53 +188,30 @@ class MAFTransformer():
         logging.info('imported {}'.format(c))
 
 
-def transform(mafpath, prefix, workers=5, skip=0, harvest=True, filter=[],
-              transformer=MAFTransformer()):
+def transform(mafpath, prefix, emitter_name='json', skip=0, transformer=MAFTransformer()):
     """ entry point """
-    emitter = Emitter(prefix=prefix)
-    transformer.maf_convert(emitter=emitter, mafpath=mafpath, workers=workers,
-                            skip=skip, harvest=harvest, filter=filter)
+    emitter = new_emitter(name=emitter_name, prefix=prefix)
+    transformer.maf_convert(emitter=emitter, mafpath=mafpath, skip=skip)
     emitter.close()
 
 
-def main(transformer=MAFTransformer()):  # pragma: no cover
+def main():  # pragma: no cover
     parser = default_argument_parser()
     parser.add_argument('--maf_file', type=str,
                         help='Path to the maf you want to import')
-    parser.add_argument(
-        '--workers', type=int,
-        help="multithread harvest from myvariant.info",
-        default=5
-    )
     parser.add_argument(
         '--skip', type=int,
         help="skip first N lines in MAF",
         default=0
     )
-    parser.add_argument('--filter', type=str,
-                        help='Path of already harvested Allele gids')
-    harvest = parser.add_mutually_exclusive_group(required=False)
-    harvest.add_argument('--harvest', dest='harvest',
-                         help="get myvariantinfo", action='store_true')
-    harvest.add_argument('--no-harvest', dest='harvest',
-                         help="do not get myvariantinfo", action='store_false')
-    parser.set_defaults(harvest=True)
-
     # We don't need the first argument, which is the program name
     options = parser.parse_args(sys.argv[1:])
     default_logging(options.loglevel)
 
-    # ids to skip
-    filter = {}
-    if options.filter:
-        with open(options.filter) as f:
-            for line in f:
-                line = line.strip()
-                filter[line] = None
-
-    transform(mafpath=options.maf_file, prefix=options.prefix,
-              workers=options.workers, skip=options.skip,
-              harvest=options.harvest, filter=filter, transformer=transformer)
+    transform(mafpath=options.maf_file,
+              prefix=options.prefix,
+              skip=options.skip,
+              emitter_name=options.emitter)
 
 
 if __name__ == '__main__':  # pragma: no cover

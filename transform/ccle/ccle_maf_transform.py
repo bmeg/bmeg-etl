@@ -55,9 +55,8 @@ class CCLE_MAFTransformer(MAFTransformer):
         return AlleleCall(info)
 
 
-def transform(mafpath, prefix, workers=5, skip=0, harvest=True, filter=[]):
-    return parent_transform(mafpath, prefix, workers, skip, harvest, filter,
-                            transformer=CCLE_MAFTransformer())
+def transform(mafpath, prefix, emitter_name='json', skip=0):
+    return parent_transform(mafpath, prefix, emitter_name, skip, transformer=CCLE_MAFTransformer())
 
 
 if __name__ == '__main__':  # pragma: no cover
