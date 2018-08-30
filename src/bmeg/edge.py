@@ -158,6 +158,16 @@ class PFAMClanMember(Edge):
     pass
 
 
+@enforce_types
+@dataclass(frozen=True)
+class PFAMAlignment(Edge):
+    """
+    Protein -> PFAMFamily
+    """
+    start: int
+    end: int
+
+
 class InProject(Edge):
     """
     Individual -> Project
