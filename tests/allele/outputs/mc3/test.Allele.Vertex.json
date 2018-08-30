@@ -1,0 +1,1 @@
+{"_id": "Allele:901d62944dee674baca34483a9304503a3dc5e95", "gid": "Allele:901d62944dee674baca34483a9304503a3dc5e95", "label": "Allele", "data": {"genome": "GRCh37", "chromosome": "17", "start": 4998659, "end": 4998659, "reference_bases": "", "alternate_bases": "", "annotations": ["Variant_Type:SNP", "Feature_type:4196", "Feature:3_prime_UTR_variant", "dbSNP_RS:rs776510613"]}}
