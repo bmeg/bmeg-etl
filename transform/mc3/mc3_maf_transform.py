@@ -14,10 +14,12 @@ MC3_EXTENSION_MAF_KEYS = [
     'SYMBOL', 'SYMBOL_SOURCE', 'HGNC_ID', 'BIOTYPE', 'CANONICAL', 'CCDS', 'ENSP', 'SWISSPROT', 'TREMBL', 'UNIPARC', 'RefSeq', 'SIFT', 'PolyPhen', 'EXON', 'INTRON', 'DOMAINS', 'GMAF', 'AFR_MAF', 'AMR_MAF', 'ASN_MAF', 'EAS_MAF', 'EUR_MAF', 'SAS_MAF', 'AA_MAF', 'EA_MAF', 'CLIN_SIG', 'SOMATIC', 'PUBMED', 'MOTIF_NAME', 'MOTIF_POS', 'HIGH_INF_POS', 'MOTIF_SCORE_CHANGE', 'IMPACT', 'PICK', 'VARIANT_CLASS', 'TSL', 'HGVS_OFFSET', 'PHENO', 'MINIMISED', 'ExAC_AF', 'ExAC_AF_AFR', 'ExAC_AF_AMR', 'ExAC_AF_EAS', 'ExAC_AF_FIN', 'ExAC_AF_NFE', 'ExAC_AF_OTH', 'ExAC_AF_SAS', 'GENE_PHENO', 'FILTER', 'COSMIC', 'CENTERS', 'CONTEXT', 'DBVS', 'NCALLERS'
 ]
 
-MC3_EXTENSION_CALLSET_KEYS = ['t_depth', 't_ref_count', 't_alt_count', 'n_depth', 'n_ref_count', 'n_alt_count', 'FILTER',
+MC3_EXTENSION_CALLSET_KEYS = [
+    't_depth', 't_ref_count', 't_alt_count', 'n_depth', 'n_ref_count', 'n_alt_count', 'FILTER',
     'Match_Norm_Seq_Allele1', 'Match_Norm_Seq_Allele2',
     'Tumor_Seq_Allele1', 'Tumor_Seq_Allele2',
 ]
+
 
 class MC3_MAFTransformer(MAFTransformer):
 
@@ -69,13 +71,12 @@ class MC3_MAFTransformer(MAFTransformer):
         allele_dict = super(MC3_MAFTransformer, self).create_allele_dict(line, genome)
         annotations = {}
         for key in MC3_EXTENSION_MAF_KEYS:
-            value = line.get(key,None)
+            value = line.get(key, None)
             if value:
                 annotations[key] = value
 
         allele_dict['annotations'].mc3 = annotations
         return allele_dict
-
 
 
 def transform(mafpath, prefix, emitter_name='json', skip=0):

@@ -120,7 +120,7 @@ class MAFTransformer():
         # collect CURIES that apply to allele
         annotations = {}
         for key in STANDARD_MAF_KEYS:
-            value = line.get(key,None)
+            value = line.get(key, None)
             if value:
                 annotations[key] = value
         allele_annotations = AlleleAnnotations(maf=annotations)

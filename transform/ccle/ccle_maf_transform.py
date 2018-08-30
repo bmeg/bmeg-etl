@@ -9,11 +9,13 @@ from bmeg.edge import AlleleCall
 from bmeg.maf.maf_transform import main, get_value, MAFTransformer
 from bmeg.maf.maf_transform import transform as parent_transform
 
-CCLE_EXTENSION_CALLSET_KEYS = ['cDNA_Change', 'Codon_Change', 'Protein_Change',
+CCLE_EXTENSION_CALLSET_KEYS = [
+    'cDNA_Change', 'Codon_Change', 'Protein_Change',
     'isDeleterious', 'isTCGAhotspot', 'TCGAhsCnt',
     'isCOSMIChotspot', 'COSMIChsCnt', 'ExAC_AF', 'WES_AC',
     'WGS_AC', 'SangerWES_AC', 'SangerRecalibWES_AC', 'RNAseq_AC',
-    'HC_AC', 'RD_AC']
+    'HC_AC', 'RD_AC'
+]
 
 CCLE_EXTENSION_MAF_KEYS = [
     'Genome_Change', 'Annotation_Transcript', 'cDNA_Change', 'Codon_Change', 'Protein_Change', 'isDeleterious', 'isTCGAhotspot', 'TCGAhsCnt',
@@ -64,7 +66,7 @@ class CCLE_MAFTransformer(MAFTransformer):
         allele_dict = super(CCLE_MAFTransformer, self).create_allele_dict(line, genome)
         annotations = {}
         for key in CCLE_EXTENSION_MAF_KEYS:
-            value = line.get(key,None)
+            value = line.get(key, None)
             if value:
                 annotations[key] = value
 

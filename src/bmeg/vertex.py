@@ -42,7 +42,7 @@ class AlleleAnnotations:
     maf: Union[None, dict] = None   # annotations from standard maf https://docs.gdc.cancer.gov/Data/File_Formats/MAF_Format/
     mc3: Union[None, dict] = None   # annotations from mc3 maf extension
     ccle: Union[None, dict] = None  # annotations from ccle maf  extension
-    myvariantinfo: Union[None, dict] = None # annotations from biothings
+    myvariantinfo: Union[None, dict] = None  # annotations from biothings
 
 
 @enforce_types
