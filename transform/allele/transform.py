@@ -25,7 +25,9 @@ def put_allele(allele):
 
 def dedupe(allele):
     existing_allele = get_allele(allele.gid())
+    logging.debug('existing_allele {}'.format(existing_allele))
     return allele
+
 
 def transform(output_dir, prefix, emitter_name='json'):
     path = '{}/**/*.Allele.Vertex.json'.format(output_dir)

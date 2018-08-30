@@ -5,7 +5,7 @@ import contextlib
 import pytest
 import logging
 from transform.allele.transform import transform
-from bmeg.vertex import G2PAssociation, Publication, Gene, Allele, Phenotype, Deadletter, MinimalAllele
+# from bmeg.vertex import G2PAssociation, Publication, Gene, Allele, Phenotype, Deadletter, MinimalAllele
 
 
 @pytest.fixture
@@ -29,6 +29,7 @@ def validate(helpers, output_directory, emitter_path_prefix):
     # create output
     transform(output_directory, prefix=emitter_path_prefix)
     # test/test.Allele.Vertex.json
+
 
 def test_simple(caplog, helpers, output_directory, emitter_path_prefix):
     """ simple test """
