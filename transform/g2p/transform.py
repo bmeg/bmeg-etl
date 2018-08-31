@@ -33,6 +33,8 @@ def normalizeAssociations(path):
          'publications', 'association', 'minimal_alleles', 'missing_vertexes'])
     for line in input_stream:
         hit = json.loads(line)
+        if hit['source'] == 'litvar':
+            continue
         (hit, genes, missing_genes) = genes_normalize(hit)
         (hit, features, minimal_alleles, missing_features) = features_normalize(hit)
         (hit, environments) = environments_normalize(hit)

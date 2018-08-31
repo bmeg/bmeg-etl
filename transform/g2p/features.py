@@ -1,5 +1,4 @@
 
-import logging
 from bmeg.vertex import Allele, MinimalAllele, AlleleAnnotations
 import bmeg.enrichers.gene_enricher as gene_enricher
 from bmeg.vertex import Gene
@@ -13,7 +12,6 @@ def gene_gid(symbol):
     """ return gene gid """
     symbol = symbol.replace('Wild-Type', '').strip()
     genes = gene_enricher.get_gene(symbol)
-    logging.debug(genes)
     return Gene.make_gid(gene_id=genes[0]['ensembl_gene_id'])
 
 
@@ -40,7 +38,7 @@ def minimal_allele(feature):
         'start': feature.get('start', None),
         'end': feature.get('end', None),
         'type': feature.get('biomarker_type', None),
-        'name': feature.get('description', None)
+        'name': feature.get('description', feature.get('name', None))
     }
 
     return MinimalAllele(**params)
@@ -60,19 +58,22 @@ def normalize(hit):
         try:
             a = allele(feature)
             alleles.append(a)
-            allele_has_gene.append((a.gid(), gene_gid(feature['geneSymbol'])))
+            try:
+                allele_has_gene.append((a.gid(), gene_gid(feature['geneSymbol'])))
+            except Exception:
+                missing_vertexes.append({'target_label': 'Gene', 'data': feature})
         except Exception:
             try:
                 a = minimal_allele(feature)
                 minimal_alleles.append(a)
-                # this check for geneSymbol should be in g2p, not here
-                description_parts = re.split(' +', feature['description'].strip())
-                geneSymbol = feature.get('geneSymbol', description_parts[0])
-                minimal_allele_has_gene.append((a.gid(), gene_gid(geneSymbol)))
-            except Exception as e:
-                logging.error(hit['source'])
-                logging.error(feature)
-                logging.exception(e)
+                try:
+                    # this check for geneSymbol should be in g2p, not here
+                    description_parts = re.split(' +', feature['description'].strip())
+                    geneSymbol = feature.get('geneSymbol', description_parts[0])
+                    minimal_allele_has_gene.append((a.gid(), gene_gid(geneSymbol)))
+                except Exception:
+                    missing_vertexes.append({'target_label': 'Gene', 'data': feature})
+            except Exception:
                 missing_vertexes.append({'target_label': 'Allele', 'data': feature})
 
     hit['features'] = alleles
