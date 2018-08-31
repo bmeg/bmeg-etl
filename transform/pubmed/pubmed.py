@@ -183,6 +183,9 @@ def parse_pubmed(handle, emitter):
     parser.parse(handle)
 
 
+def name_clean(path):
+    return os.path.basename(path).replace(".xml.gz", "")
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
@@ -201,10 +204,11 @@ if __name__ == "__main__":
             print(json.dumps({"url": "ftp://ftp.ncbi.nlm.nih.gov%s" % i, "name": name}))
         sys.exit(0)
 
-    emitter = JSONEmitter(args.output)
     if len(args.files) == 0:
         args.files = glob(os.path.join(args.scan, "*.xml.gz"))
 
     for path in args.files:
+        emitter = JSONEmitter(args.output, name_clean(path))
         with gzip.open(path) as handle:
             parse_pubmed(handle, emitter)
+        emitter.close()

@@ -29,8 +29,8 @@ class DebugEmitter:
 
 
 class JSONEmitter:
-    def __init__(self, prefix, **kwargs):
-        self.handles = FileHandler(prefix, "json")
+    def __init__(self, directory, prefix=None, **kwargs):
+        self.handles = FileHandler(directory, prefix, "json")
         self.emitter = BaseEmitter(**kwargs)
 
     def close(self):
@@ -146,10 +146,11 @@ class FileHandler:
 
     This is an internal helper.
     """
-    def __init__(self, prefix, extension, mode="w"):
+    def __init__(self, directory, prefix, extension, mode="w"):
         self.prefix = prefix
-        ensure_directory("outputs", self.prefix)
-        self.outdir = os.path.join("outputs", self.prefix)
+        self.directory = directory
+        ensure_directory("outputs", self.directory)
+        self.outdir = os.path.join("outputs", self.directory)
         self.extension = extension
         self.mode = mode
         self.handles = {}
@@ -165,7 +166,9 @@ class FileHandler:
         else:
             suffix = "Unknown"
 
-        fname = "%s.%s.%s.%s" % (self.prefix, label, suffix, self.extension)
+        fname = "%s.%s.%s" % (label, suffix, self.extension)
+        if self.prefix is not None:
+            fname = self.prefix + "." + fname
         fname = os.path.join(self.outdir, fname)
 
         if fname in self.handles:
