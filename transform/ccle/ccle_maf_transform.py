@@ -75,6 +75,7 @@ class CCLE_MAFTransformer(MAFTransformer):
 
 
 def transform(mafpath, prefix, emitter_name='json', skip=0):
+    """ called from tests """
     return parent_transform(mafpath, prefix, emitter_name, skip, transformer=CCLE_MAFTransformer())
 
 

@@ -215,7 +215,7 @@ def transform(mafpath, prefix, emitter_name='json', skip=0, transformer=MAFTrans
     emitter.close()
 
 
-def main():  # pragma: no cover
+def main(transformer):  # pragma: no cover
     parser = default_argument_parser()
     parser.add_argument('--maf_file', type=str,
                         help='Path to the maf you want to import')
@@ -231,8 +231,9 @@ def main():  # pragma: no cover
     transform(mafpath=options.maf_file,
               prefix=options.prefix,
               skip=options.skip,
-              emitter_name=options.emitter)
+              emitter_name=options.emitter,
+              transformer=transformer)
 
 
 if __name__ == '__main__':  # pragma: no cover
-    main()
+    main(transformer=MAFTransformer)

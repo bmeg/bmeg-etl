@@ -80,8 +80,10 @@ class MC3_MAFTransformer(MAFTransformer):
 
 
 def transform(mafpath, prefix, emitter_name='json', skip=0):
+    """ called from tests """
     return parent_transform(mafpath, prefix, emitter_name, skip, transformer=MC3_MAFTransformer())
 
 
 if __name__ == '__main__':  # pragma: no cover
-    main()
+    """ called from cli """
+    main(transformer=MC3_MAFTransformer())
