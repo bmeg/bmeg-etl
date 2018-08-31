@@ -33,3 +33,5 @@ source/*/*.*
 !source/*/*.md
 
 !tests/allele/outputs/*/test.Allele.Vertex.json
+tests/allele/source/myvariantinfo/sqlite.db
+.DS_Store

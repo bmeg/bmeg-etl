@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, asdict
 from enum import Enum
 import hashlib
 from typing import Union
@@ -12,6 +12,9 @@ from bmeg.utils import enforce_types
 class Vertex:
     def label(self):
         return self.__class__.__name__
+
+    def asdict(self):
+        return asdict(self)
 
 
 @enforce_types
@@ -65,8 +68,10 @@ class Allele(Vertex):
 
     @classmethod
     def from_dict(cls, data):
-        data['annotations'] = AlleleAnnotations(**data['annotations'])
-        return Allele(**data)
+        if data:
+            data['annotations'] = AlleleAnnotations(**data['annotations'])
+            return Allele(**data)
+        return None
 
     @classmethod
     def make_gid(cls, genome, chromosome, start, end, reference_bases,
