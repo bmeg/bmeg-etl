@@ -69,7 +69,12 @@ class Allele(Vertex):
     @classmethod
     def from_dict(cls, data):
         if data:
-            data['annotations'] = AlleleAnnotations(**data['annotations'])
+            if 'annotations' in data:
+                data['annotations'] = AlleleAnnotations(**data['annotations'])
+            else:
+                data['annotations'] = AlleleAnnotations()
+                print('data has no annotations?')
+                print(data)
             return Allele(**data)
         return None
 

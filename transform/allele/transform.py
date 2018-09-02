@@ -6,25 +6,31 @@ import logging
 import glob
 import sys
 import json
+import uuid
+import dataclasses
+import subprocess
+
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
 from bmeg.emitter import new_emitter
 from bmeg.vertex import Allele, AlleleAnnotations
 from bmeg.enrichers.allele_enricher import myvariantinfo
 from bmeg.stores import new_store
+from bmeg.ioutils import reader
 
-import dataclasses
 
-
-def merge(allele, existing_allele):
+def merge(alleles):
     """ reconcile annotations """
-    if existing_allele:
+    # first one in list is reference
+    alleles = iter(alleles)
+    base = next(alleles)
+    for c in alleles:
         for f in dataclasses.fields(AlleleAnnotations):
-            existing = getattr(existing_allele.annotations, f.name)
-            current = getattr(allele.annotations, f.name)
-            if not current and existing:
-                setattr(allele, f.name, existing)
-    return allele
+            existing = getattr(base.annotations, f.name)
+            current = getattr(c.annotations, f.name)
+            if not existing and current:
+                setattr(base.annotations, f.name, current)
+    return base
 
 
 def enrich(allele, myvariant_store):
@@ -48,35 +54,79 @@ def enrich(allele, myvariant_store):
     return allele
 
 
+def from_dict(allele_dicts):
+    """ turn array of dicts into array of Alleles"""
+    return [Allele.from_dict(d['data']) for d in allele_dicts]
+
+def group_sorted_alleles(sorted_allele_file):
+    """ yield an array of data records with the same gid"""
+    with reader(sorted_allele_file) as ins:
+        data = json.loads(ins.readline())
+        _id = data['_id']
+        alleles = [data]
+        for line in ins:
+            data = json.loads(line)
+            if data['_id'] != _id:
+                yield from_dict(alleles)
+                alleles = []
+            _id = data['_id']
+            alleles.append(data)
+        yield from_dict(alleles)
+
+
+def sort_allele_files(path, tmp_dir):
+    """ sort alleles file_names[] into tmp_foe"""
+    try:
+        logging.debug(path)
+        tmp_file = '{}/{}.json'.format(tmp_dir,str(uuid.uuid4()))
+        files = [filename for filename in glob.iglob(path, recursive=True)]
+        assert len(files) > 0
+        files = ' '.join(files)
+        cat = 'cat'
+        if '.gz' in files:
+            cat = 'zcat'
+        cmd = '{} {} | sort -k1 -r  > {}'.format(cat, files, tmp_file)
+        logging.info('running {}'.format(cmd))
+        subprocess.check_output(cmd, shell=True)
+        return tmp_file
+    except subprocess.CalledProcessError as sort_error:
+        raise ValueError('A very specific bad thing happened.')
+
+        raise("sort error code {} {}".format(sort_error.returncode, sort_error.output))
+
+
 def transform(output_dir, prefix,
-              store_name='memory',
               myvariant_store_name='memory',
               emitter_name='json',
-              vertex_filename_pattern='**/*.Allele.Vertex.json',
-              myvariantinfo_path=None):
+              vertex_filename_pattern='**/*.Allele.Vertex.json.gz',
+              myvariantinfo_path=None,
+              tmp_dir='/tmp'):
     """
     dedupe & reconcile annotations.
     * look at all AllelFiles decending from output_dir
     * reconcile AlleleAnnotations
     * enrich w/ myvariantinfo
     """
-    # TODO pass pattern, don't hardcode
-    path = '{}/{}'.format(output_dir, vertex_filename_pattern)
-    store = new_store(store_name)
+
     emitter = new_emitter(name=emitter_name, prefix=prefix)
 
-    for filename in glob.iglob(path, recursive=True):
-        with open(filename, "r") as ins:
-            for line in ins:
-                allele = Allele.from_dict(json.loads(line)['data'])
-                # allele's nulls set tot store's alleles values
-                store.put(merge(allele, store.get(allele.gid())))
-
+    logging.info('creating myvariant_store')
     myvariant_store = new_store(myvariant_store_name, myvariantinfo_path=myvariantinfo_path)
-    for allele in store.all():
+    c = 0
+    t = 0
+    logging.info('sorting')
+    path = '{}/{}'.format(output_dir, vertex_filename_pattern)
+    sorted_allele_file = sort_allele_files(path, tmp_dir)
+    logging.info('merging/enrich')
+    for alleles in group_sorted_alleles(sorted_allele_file):
+        allele = merge(alleles)
         allele = enrich(allele, myvariant_store)
         emitter.emit_vertex(allele)
-
+        c += 1
+        t += 1
+        if c % 1000 == 0:
+            logging.info(t)
+            c = 0
     emitter.close()
 
 
@@ -86,21 +136,21 @@ def main():  # pragma: no cover
     parser.add_argument('--output_dir', type=str,
                         help='Path to the directory containing **/*.Allele.Vertex.json',
                         default='outputs')
-    parser.add_argument('--allele_store_name', type=str,
-                        help='name of allele database [memory, sqlite, mongo, bmeg]',
-                        default='memory')
     parser.add_argument('--myvariant_store_name', type=str,
                         help='name of allele database [memory, sqlite, mongo, bmeg]',
                         default='myvariantinfo-memory')
+    parser.add_argument('--myvariantinfo_path', type=str,
+                        help='path to myvariantinfo json',
+                        default='source/myvariant.info/biothings_current_old_hg19.json.gz')
 
     # We don't need the first argument, which is the program name
     options = parser.parse_args(sys.argv[1:])
     default_logging(options.loglevel)
 
-    transform(mafpath=options.output_dir,
+    transform(output_dir=options.output_dir,
               prefix=options.prefix,
-              store_name=options.store_name,
               myvariant_store_name=options.myvariant_store_name,
+              myvariantinfo_path=options.myvariantinfo_path,
               emitter_name=options.emitter)
 
 

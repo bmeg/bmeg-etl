@@ -77,7 +77,7 @@ class Sqlitestore:
     def put(self, obj):
         cur = self.conn.cursor()
         cur.execute(
-            "insert into data values(?, ?, ?)",
+            "insert or replace into data values(?, ?, ?)",
             (obj.gid(), obj.__class__.__name__, json.dumps(dataclasses.asdict(obj), separators=(',', ':')))
         )
         self.conn.commit()
@@ -94,6 +94,23 @@ class Sqlitestore:
         if not result:
             result = 0
         return result
+
+    def all(self):
+        cur = self.conn.cursor()
+        for t in cur.execute('SELECT * FROM data ;'):
+            yield json.loads(t[2])
+
+
+class AlleleSqlitestore(Sqlitestore):
+
+    def get(self, gid):
+        """ xform dict to Allele"""
+        return Allele.from_dict(super(AlleleSqlitestore, self).get(gid))
+
+    def all(self, gid):
+        """ xform dict to Allele"""
+        for allele in super(AlleleSqlitestore, self).all():
+            yield Allele.from_dict(allele)
 
 
 class MyVariantSqlitestore(Sqlitestore):
@@ -130,13 +147,22 @@ class MyVariantSqlitestore(Sqlitestore):
         """ xform dict to Allele"""
         return Allele.from_dict(super(MyVariantSqlitestore, self).get(gid))
 
+    def all(self, gid):
+        """ xform dict to Allele"""
+        for allele in super(MyVariantSqlitestore, self).all():
+            yield Allele.from_dict(allele)
+
 
 def new_store(name, **kwargs):
     """ create store based on names"""
     if name == 'memory':
         return Memorystore()
+    if name == 'sqlite':
+        return Sqlitestore()
     if name == 'myvariantinfo-memory':
         return MyVariantTestMemorystore(**kwargs)
     if name == 'myvariantinfo-sqlite':
         return MyVariantSqlitestore(**kwargs)
+    if name == 'allele-sqlite':
+        return AlleleSqlitestore(**kwargs)
     assert False, 'no store named {}'.format(name)
