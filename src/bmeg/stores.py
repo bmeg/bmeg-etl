@@ -8,8 +8,11 @@ import dataclasses
 import logging
 import sqlite3
 import os.path
-
+import hashlib
 import json
+from threading import Thread
+from queue import Queue
+import queue
 
 
 class Memorystore:
@@ -61,6 +64,11 @@ class Sqlitestore:
         self.conn = sqlite3.connect(path)
         cur = self.conn.cursor()
         cur.execute("CREATE TABLE IF NOT EXISTS data (gid text, clazz text, json text);")
+        self.conn.commit()
+
+
+    def index(self):
+        cur = self.conn.cursor()
         cur.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_data ON data(gid);")
         self.conn.commit()
 
@@ -127,21 +135,112 @@ class MyVariantSqlitestore(Sqlitestore):
 
     def load(self, myvariantinfo_path):
         """ take myvariant into json, xform to Allele"""
-        with reader(myvariantinfo_path) as ins:
-            for line in ins:
-                myvariant = json.loads(line)
-                aa = AlleleAnnotations()
-                aa.myvariantinfo = myvariant
-                allele = Allele(
-                    genome='GRCh37',
-                    chromosome=myvariant['chrom'],
-                    start=myvariant['hg19']['start'],
-                    end=myvariant['hg19']['end'],
-                    reference_bases=myvariant['vcf']['ref'],
-                    alternate_bases=myvariant['vcf']['alt'],
-                    annotations=aa
-                )
-                self.put(allele)
+        def make_gid(cls, genome, chromosome, start, end, reference_bases,
+                     alternate_bases):
+            vid = "%s:%s:%d:%d:%s:%s" % (genome, chromosome,
+                                         start, end, reference_bases,
+                                         alternate_bases)
+            vid = vid.encode('utf-8')
+            vidhash = hashlib.sha1()
+            vidhash.update(vid)
+            vidhash = vidhash.hexdigest()
+            return "%s:%s" % (cls, vidhash)
+
+
+
+        def reader_worker():
+            t = c = 0
+            batch = []
+            batch_size = 20000
+            with reader(myvariantinfo_path) as ins:
+                for line in ins:
+                    myvariant = json.loads(line)
+                    if 'hg19' not in myvariant:
+                        continue
+                    if 'vcf' not in myvariant:
+                        continue
+                    # aa = AlleleAnnotations()
+                    # aa.myvariantinfo = myvariant
+                    # allele = Allele(
+                        # genome='GRCh37',
+                        # chromosome=myvariant['chrom'],
+                        # start=myvariant['hg19']['start'],
+                        # end=myvariant['hg19']['end'],
+                        # reference_bases=myvariant['vcf']['ref'],
+                        # alternate_bases=myvariant['vcf']['alt'],
+                    #     annotations=aa
+                    # )
+                    # batch.append(
+                    #     (
+                    #         allele.gid(),
+                    #         allele.__class__.__name__,
+                    #         json.dumps(dataclasses.asdict(allele), separators=(',', ':'))
+                    #     )
+                    # )
+                    gid = make_gid(
+                        cls='Allele',
+                        genome='GRCh37',
+                        chromosome=myvariant['chrom'],
+                        start=myvariant['hg19']['start'],
+                        end=myvariant['hg19']['end'],
+                        reference_bases=myvariant['vcf']['ref'],
+                        alternate_bases=myvariant['vcf']['alt'],
+                    )
+                    allele = {
+                        'genome': 'GRCh37',
+                        'chromosome': myvariant['chrom'],
+                        'start': myvariant['hg19']['start'],
+                        'end': myvariant['hg19']['end'],
+                        'reference_bases': myvariant['vcf']['ref'],
+                        'alternate_bases': myvariant['vcf']['alt'],
+                        'annotations': {'myvariantinfo': myvariant}
+                    }
+                    batch.append(
+                        (
+                            gid,
+                            'Allele',
+                            json.dumps(allele, separators=(',', ':'))
+                        )
+                    )
+
+                    c += 1
+                    t += 1
+                    if c % batch_size == 0:
+                        c = 0
+                        logging.info('loaded {}'.format(t))
+                        pending_q.put(batch)
+                        batch = []
+                pending_q.put('DONE')
+                logging.info('loaded {}'.format(t))
+
+        # q to hold messages
+        pending_q = Queue(maxsize=5)
+        logging.debug('created pending_q')
+        # optimize db calls
+        self.conn.execute("PRAGMA synchronous = OFF;")
+        self.conn.execute("PRAGMA journal_mode = OFF;")
+
+        # start worker
+        worker = Thread(target=reader_worker, args=(), name='reader_worker')
+        worker.setDaemon(True)
+        worker.start()
+
+        while True:
+            logging.info('waitin on q')
+            batch = pending_q.get(block=True, timeout=20)
+            if not batch:
+                contine
+            if batch == 'DONE':
+                break
+            logging.info('starting insert')
+            self.conn.executemany("insert into data(gid, clazz, json) values(?, ?, ?)", batch)
+            logging.info('done insert')
+        logging.info('creating index')
+        self.index()
+        logging.info('done creating index')
+
+
+
 
     def get(self, gid):
         """ xform dict to Allele"""

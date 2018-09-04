@@ -75,7 +75,7 @@ def group_sorted_alleles(sorted_allele_file):
 
 
 def sort_allele_files(path, tmp_dir):
-    """ sort alleles file_names[] into tmp_foe"""
+    """ sort alleles file_names[] into a file in tmp_dir"""
     try:
         logging.debug(path)
         tmp_file = '{}/{}.json'.format(tmp_dir,str(uuid.uuid4()))
@@ -90,8 +90,6 @@ def sort_allele_files(path, tmp_dir):
         subprocess.check_output(cmd, shell=True)
         return tmp_file
     except subprocess.CalledProcessError as sort_error:
-        raise ValueError('A very specific bad thing happened.')
-
         raise("sort error code {} {}".format(sort_error.returncode, sort_error.output))
 
 
