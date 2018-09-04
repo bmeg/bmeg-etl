@@ -124,6 +124,15 @@ class ProteinFor(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
+class StructureFor(Edge):
+    """
+    Protein -> ProteinStructure
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
 class COCAClusterFor(Edge):
     """
     COCACluster -> Individual
@@ -156,6 +165,16 @@ class PFAMClanMember(Edge):
     PFAMClan -> PFAMFamily
     """
     pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class PFAMAlignment(Edge):
+    """
+    Protein -> PFAMFamily
+    """
+    start: int
+    end: int
 
 
 class InProject(Edge):

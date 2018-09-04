@@ -188,6 +188,19 @@ class Protein(Vertex):
 
 @enforce_types
 @dataclass(frozen=True)
+class ProteinStructure(Vertex):
+    pdb_id: str
+
+    def gid(self):
+        return ProteinStructure.make_gid(self.protein_id)
+
+    @classmethod
+    def make_gid(cls, protein_id):
+        return GID("%s:%s" % ("PDB", protein_id))
+
+
+@enforce_types
+@dataclass(frozen=True)
 class PFAMFamily(Vertex):
     pfam_id: str
     accession: str
