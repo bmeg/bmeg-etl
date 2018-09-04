@@ -78,20 +78,35 @@ def test_simple(caplog, helpers, output_directory, emitter_path_prefix, myvarian
 
 def test_sort_allele_files(output_directory):
     """ ensure that allele files are sorted """
+    sorted_allele_file = '/tmp/sorted_allele_file.json'
+    with contextlib.suppress(FileNotFoundError):
+        os.remove(sorted_allele_file)
+
     path = '{}/{}'.format(output_directory, '**/*.Allele.Vertex.json')
-    sorted_allele_file = sort_allele_files(path, '/tmp')
+    sorted_allele_file = sort_allele_files(path, sorted_allele_file)
     with reader(sorted_allele_file) as ins:
-        _id = 'zzzzzzzzzzz'
+        _id = ''
         for line in ins:
             data = json.loads(line)
-            assert data['_id'] < _id or data['_id'] == _id
+            assert data['_id'] > _id or data['_id'] == _id
+            _id = data['_id']
+    # repeat test with already sorted allele file
+    sorted_allele_file = sort_allele_files(path, sorted_allele_file)
+    with reader(sorted_allele_file) as ins:
+        _id = ''
+        for line in ins:
+            data = json.loads(line)
+            assert data['_id'] > _id or data['_id'] == _id
             _id = data['_id']
 
 
 def test_group_sorted_alleles(output_directory):
     """ ensure that allele files are sorted """
+    sorted_allele_file = '/tmp/sorted_allele_file.json'
+    with contextlib.suppress(FileNotFoundError):
+        os.remove(sorted_allele_file)
     path = '{}/{}'.format(output_directory, '**/*.Allele.Vertex.json')
-    sorted_allele_file = sort_allele_files(path, '/tmp')
+    sorted_allele_file = sort_allele_files(path, sorted_allele_file)
     t = 0
     uniq_ids = []
     for alleles in group_sorted_alleles(sorted_allele_file):

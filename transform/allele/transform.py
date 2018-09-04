@@ -9,6 +9,7 @@ import json
 import uuid
 import dataclasses
 import subprocess
+import os.path
 
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
@@ -74,23 +75,24 @@ def group_sorted_alleles(sorted_allele_file):
         yield from_dict(alleles)
 
 
-def sort_allele_files(path, tmp_dir):
-    """ sort alleles file_names[] into a file in tmp_dir"""
+def sort_allele_files(path, sorted_alleles_file):
+    """ sort alleles file_names[] into a file in sorted_alleles_file"""
     try:
         logging.debug(path)
-        tmp_file = '{}/{}.json'.format(tmp_dir,str(uuid.uuid4()))
-        files = [filename for filename in glob.iglob(path, recursive=True)]
-        assert len(files) > 0
-        files = ' '.join(files)
-        cat = 'cat'
-        if '.gz' in files:
-            cat = 'zcat'
-        cmd = '{} {} | sort -k1 -r  > {}'.format(cat, files, tmp_file)
-        logging.info('running {}'.format(cmd))
-        subprocess.check_output(cmd, shell=True)
-        return tmp_file
+        if not os.path.isfile(sorted_alleles_file):
+            files = [filename for filename in glob.iglob(path, recursive=True)]
+            assert len(files) > 0
+            files = ' '.join(files)
+            cat = 'cat'
+            if '.gz' in files:
+                cat = 'zcat'
+            # cat the files, sort on first key and save
+            cmd = '{} {} | sort -k1 > {}'.format(cat, files, sorted_alleles_file)
+            logging.info('running {}'.format(cmd))
+            subprocess.check_output(cmd, shell=True)
+        return sorted_alleles_file
     except subprocess.CalledProcessError as sort_error:
-        raise("sort error code {} {}".format(sort_error.returncode, sort_error.output))
+        raise ValueError("sort error code {} {}".format(sort_error.returncode, sort_error.output))
 
 
 def transform(output_dir, prefix,
@@ -98,10 +100,10 @@ def transform(output_dir, prefix,
               emitter_name='json',
               vertex_filename_pattern='**/*.Allele.Vertex.json.gz',
               myvariantinfo_path=None,
-              tmp_dir='/tmp'):
+              sorted_alleles_file='/tmp/sorted_allele_file.json'):
     """
     dedupe & reconcile annotations.
-    * look at all AllelFiles decending from output_dir
+    * if sorted_allele_file does not exist create it by sorting all AlleleFiles decending from output_dir
     * reconcile AlleleAnnotations
     * enrich w/ myvariantinfo
     """
@@ -112,9 +114,10 @@ def transform(output_dir, prefix,
     myvariant_store = new_store(myvariant_store_name, myvariantinfo_path=myvariantinfo_path)
     c = 0
     t = 0
+    batch_size = 20000
     logging.info('sorting')
     path = '{}/{}'.format(output_dir, vertex_filename_pattern)
-    sorted_allele_file = sort_allele_files(path, tmp_dir)
+    sorted_allele_file = sort_allele_files(path, sorted_alleles_file)
     logging.info('merging/enrich')
     for alleles in group_sorted_alleles(sorted_allele_file):
         allele = merge(alleles)
@@ -122,7 +125,7 @@ def transform(output_dir, prefix,
         emitter.emit_vertex(allele)
         c += 1
         t += 1
-        if c % 1000 == 0:
+        if c % batch_size == 0:
             logging.info(t)
             c = 0
     emitter.close()
@@ -130,10 +133,15 @@ def transform(output_dir, prefix,
 
 def main():  # pragma: no cover
     parser = default_argument_parser()
-    # TODO should this just be wildcard
+
+    # TODO these should be exclusive
     parser.add_argument('--output_dir', type=str,
                         help='Path to the directory containing **/*.Allele.Vertex.json',
                         default='outputs')
+    parser.add_argument('--sorted_allele_file', type=str,
+                        help='Path to the file containing sorted **/*.Allele.Vertex.json',
+                        default='/tmp/sorted_allele_file.json')
+
     parser.add_argument('--myvariant_store_name', type=str,
                         help='name of allele database [memory, sqlite, mongo, bmeg]',
                         default='myvariantinfo-memory')
