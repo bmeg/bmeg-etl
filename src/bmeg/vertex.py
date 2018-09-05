@@ -257,7 +257,7 @@ class COCACluster(Vertex):
 class Individual(Vertex):
     individual_id: str
     gdc_attributes: dict
-    gtex_attributes: dict
+    gtex_attributes: Union[None, dict] = None
 
     def gid(self):
         return Individual.make_gid(self.individual_id)
@@ -271,10 +271,9 @@ class Individual(Vertex):
 @dataclass(frozen=True)
 class Biosample(Vertex):
     biosample_id: str
-    # TODO normalize style w/ Allele annotations
-    gdc_attributes: dict = field(default_factory=dict)
-    ccle_attributes: dict = field(default_factory=dict)
-    gtex_attributes: dict = field(default_factory=dict)
+    gdc_attributes: Union[None, dict] = None
+    ccle_attributes: Union[None, dict] = None
+    gtex_attributes: Union[None, dict] = None
 
     def gid(self):
         return Biosample.make_gid(self.biosample_id)
@@ -288,6 +287,7 @@ class Biosample(Vertex):
 @dataclass(frozen=True)
 class Aliquot(Vertex):
     aliquot_id: str
+    gdc_attributes: Union[None, dict] = None
 
     def gid(self):
         return Aliquot.make_gid(self.aliquot_id)

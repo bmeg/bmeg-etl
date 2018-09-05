@@ -8,7 +8,7 @@ from bmeg.edge import InProject, BiosampleFor, AliquotFor
 from bmeg.emitter import JSONEmitter
 from bmeg.vertex import Individual, Biosample, Project, Aliquot
 
-from gdcutils import extract, query_gdc
+from transform.gdc.gdcutils import extract, query_gdc
 
 
 parser = default_argument_parser()
@@ -55,14 +55,13 @@ project
 """.strip().split()
 
 
-def transform(emitter):
+def transform(emitter, parameters={}):
     # Crawl all cases, samples, aliquots to generate
-    # BMEG Individuals and Biosamples.
-    for row in query_gdc("cases", {"expand": expand_case_fields}):
-
+    # BMEG Individuals, Biosamples, and Aliquots.
+    parameters['expand'] = expand_case_fields
+    for row in query_gdc("cases", parameters):
         i = Individual(row["id"], extract(row, keep_case_fields))
         emitter.emit_vertex(i)
-
         emitter.emit_edge(
             InProject(),
             i.gid(),
@@ -92,7 +91,7 @@ def transform(emitter):
                         )
                         fields = dict(sample_fields)
                         fields.update(aliquot_fields)
-                        a = Aliquot(aliquot["submitter_id"], fields)
+                        a = Aliquot(aliquot_id=aliquot["submitter_id"], gdc_attributes=fields)
                         emitter.emit_vertex(a)
 
                         emitter.emit_edge(

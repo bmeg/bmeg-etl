@@ -86,8 +86,8 @@ class Helpers:
             label = _to.split(':')[0]
             if label in exclude_labels:
                 continue
-            assert vertices[_from], 'edge {} from {} does not exist'.format(edge_gid, _from)
-            assert vertices[_to], 'edge {} from {} does not exist'.format(edge_gid, _to)
+            assert vertices.get(_from, None), 'edge {} from {} does not exist'.format(edge_gid, _from)
+            assert vertices.get(_to, None), 'edge {} from {} does not exist'.format(edge_gid, _to)
         # ensure that all vertexes have edge
         froms = [edges[gid]['from'] for gid in edges.keys()]
         tos = [edges[gid]['to'] for gid in edges.keys()]

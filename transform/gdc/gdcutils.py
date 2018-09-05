@@ -1,4 +1,6 @@
 from bmeg.requests import Client
+import json
+import logging
 
 URL_BASE = "https://api.gdc.cancer.gov/"
 client = Client("gdc")
@@ -15,21 +17,31 @@ def query_gdc(endpoint, params):
     params = dict(params)
     page_size = 100
     params['size'] = page_size
+    # With a GET request, the filters parameter needs to be converted
+    # from a dictionary to JSON-formatted string
+    if 'filters' in params:
+        params['filters'] = json.dumps(params['filters'])
 
     # Iterate through all the pages.
     while True:
-        req = client.get(URL_BASE + endpoint, params=params)
-        data = req.json()['data']
+        try:
+            req = client.get(URL_BASE + endpoint, params=params)
+            data = req.json()
+            data = data['data']
 
-        hits = data.get("hits", [])
-        if len(hits) == 0:
-            return
+            hits = data.get("hits", [])
+            if len(hits) == 0:
+                return
 
-        for hit in hits:
-            yield hit
+            for hit in hits:
+                yield hit
 
-        # Get the next page.
-        params['from'] = data['pagination']['from'] + page_size
+            # Get the next page.
+            params['from'] = data['pagination']['from'] + page_size
+        except Exception as e:
+            logging.warning(str(e))
+            logging.warning(json.dumps(params))
+            raise
 
 
 def extract(data, keys):
