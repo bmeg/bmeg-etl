@@ -28,6 +28,10 @@ NORMAL_SAMPLE_BARCODE = "Matched_Norm_Sample_Barcode"  # 16
 
 class CCLE_MAFTransformer(MAFTransformer):
 
+    # callset source
+    SOURCE = 'ccle'
+    DEFAULT_PREFIX = SOURCE
+
     def create_gene_gid(self, line):  # pragma nocover
         """ override, create gene_gid from line """
         symbol = line.get('Hugo_Symbol', None)
@@ -76,7 +80,7 @@ class CCLE_MAFTransformer(MAFTransformer):
 
 def transform(mafpath, prefix, emitter_name='json', skip=0):
     """ called from tests """
-    return parent_transform(mafpath, prefix, emitter_name, skip, transformer=CCLE_MAFTransformer())
+    return parent_transform(mafpath, prefix, CCLE_MAFTransformer.SOURCE, emitter_name, skip, transformer=CCLE_MAFTransformer())
 
 
 if __name__ == '__main__':  # pragma: no cover

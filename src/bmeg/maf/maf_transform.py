@@ -155,7 +155,7 @@ class MAFTransformer():
                 for future in as_completed(futures):
                     yield future.result()
 
-    def maf_convert(self, emitter, mafpath, source='tcga',
+    def maf_convert(self, emitter, mafpath, source,
                     genome='GRCh37',
                     method='variant', gz=False, centerCol='Center', skip=0,
                     harvest=True, filter=[]):
@@ -211,15 +211,15 @@ class MAFTransformer():
         logging.info('imported {}'.format(c))
 
 
-def transform(mafpath, prefix, emitter_name='json', skip=0, transformer=MAFTransformer()):
+def transform(mafpath, prefix, source, emitter_name='json', skip=0, transformer=MAFTransformer()):
     """ entry point """
     emitter = new_emitter(name=emitter_name, prefix=prefix)
-    transformer.maf_convert(emitter=emitter, mafpath=mafpath, skip=skip)
+    transformer.maf_convert(emitter=emitter, mafpath=mafpath, skip=skip, source=source)
     emitter.close()
 
 
 def main(transformer):  # pragma: no cover
-    parser = default_argument_parser()
+    parser = default_argument_parser(transformer.DEFAULT_PREFIX)
     parser.add_argument('--maf_file', type=str,
                         help='Path to the maf you want to import')
     parser.add_argument(
@@ -234,6 +234,7 @@ def main(transformer):  # pragma: no cover
     transform(mafpath=options.maf_file,
               prefix=options.prefix,
               skip=options.skip,
+              source=transformer.SOURCE,
               emitter_name=options.emitter,
               transformer=transformer)
 

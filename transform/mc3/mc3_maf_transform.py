@@ -23,7 +23,12 @@ MC3_EXTENSION_CALLSET_KEYS = [
 
 class MC3_MAFTransformer(MAFTransformer):
 
+    # override the alt allele column
     TUMOR_ALLELE = "Tumor_Seq_Allele2"  # 11
+    # callset source
+    SOURCE = 'mc3'
+    DEFAULT_PREFIX = SOURCE
+
 
     def barcode_to_sampleid(self, barcode):
         """ create tcga sample barcode """
@@ -83,7 +88,7 @@ class MC3_MAFTransformer(MAFTransformer):
 
 def transform(mafpath, prefix, emitter_name='json', skip=0):
     """ called from tests """
-    return parent_transform(mafpath, prefix, emitter_name, skip, transformer=MC3_MAFTransformer())
+    return parent_transform(mafpath, prefix, MC3_MAFTransformer.SOURCE, emitter_name, skip, transformer=MC3_MAFTransformer())
 
 
 if __name__ == '__main__':  # pragma: no cover

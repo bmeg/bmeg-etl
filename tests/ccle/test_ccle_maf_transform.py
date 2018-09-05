@@ -49,6 +49,13 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
     error_message = 'maf_transform.convert({}, {}) should create {}' \
                     .format(maf_file, emitter_path_prefix, allelecall_file)
     assert os.path.isfile(allelecall_file), error_message
+    with open(callset_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            # should be json
+            callset = json.loads(line)
+            # source should be ccle
+            assert callset['data']['source'] == 'ccle', 'source should be ccle'
+
     # test AlleleCall contents
     with open(allelecall_file, 'r', encoding='utf-8') as f:
         for line in f:
@@ -63,6 +70,7 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
         for line in f:
             # should be json
             allele = json.loads(line)
+            # ref & allele should be different
             assert allele['data']['reference_bases'] != allele['data']['alternate_bases'], 'reference should not equal alternate'
             for k in STANDARD_MAF_KEYS:
                 if k in allele['data']['annotations']['maf']:
@@ -71,7 +79,6 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
             for k in CCLE_EXTENSION_MAF_KEYS:
                 if k in allele['data']['annotations']['ccle']:
                     assert allele['data']['annotations']['ccle'][k], 'empty key %s' % k
-
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(
         [allele_file, allelecall_file, callset_file, allelein_file],
