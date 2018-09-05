@@ -5,7 +5,9 @@ import io
 
 def reader(path):
     if path.endswith(".gz"):
-        return io.TextIOWrapper(gzip.GzipFile(path))
+        return io.TextIOWrapper(
+            io.BufferedReader(gzip.GzipFile(path))
+        )
     else:
         return open(path, "r")
 
