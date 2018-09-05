@@ -128,9 +128,8 @@ def transform(output_dir,
     threading.local().skip_check_types = True
     emitter = new_emitter(name=emitter_name, prefix=prefix)
 
-
     path = '{}/{}'.format(output_dir, vertex_filename_pattern)
-    logging.info('sorting {}'.format(path))
+    logging.info('checking {}'.format(path))
     sorted_allele_file = sort_allele_files(path, sorted_allele_file)
     allele_store = new_store('allele-sqlite', path=allele_store_path)
     c = 0
@@ -171,6 +170,7 @@ def transform(output_dir,
             if c % batch_size == 0:
                 logging.info('loading gid_cache {}'.format(t))
                 c = 0
+        logging.info('loaded gid_cache {}'.format(t))
 
 
     logging.info('enriching')
@@ -179,7 +179,11 @@ def transform(output_dir,
         for line in ins:
             c += 1
             t += 1
-            myvariant = ujson.loads(line)
+            myvariant = {}
+            try:
+                myvariant = ujson.loads(line)
+            except Exception as e:
+                logging.warning(str(e))
             if 'hg19' not in myvariant:
                 continue
             if 'vcf' not in myvariant:
@@ -204,6 +208,7 @@ def transform(output_dir,
             allele_store.put(allele)
             w += 1
     logging.info('enriching finished read: {}, written: {}'.format(t, w))
+    logging.info('enriching finished allele_store.size: {}'.format(allele_store.size()))
     logging.info('emitting')
     c = t = m = 0
     for allele in allele_store.all():
@@ -221,7 +226,7 @@ def transform(output_dir,
 
 
 def main():  # pragma: no cover
-    parser = default_argument_parser()
+    parser = default_argument_parser(prefix_default='allele')
 
     # TODO these should be exclusive
     parser.add_argument('--output_dir', type=str,
