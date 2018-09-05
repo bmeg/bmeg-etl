@@ -36,7 +36,7 @@ def validate_myvariantinfo_count(allele_file):
             # optional keys, if set should be non null
             if allele['data']['annotations']['myvariantinfo']:
                 myvariantinfo_count += 1
-    assert myvariantinfo_count == 45, 'we should have had myvariantinfo hits'
+    assert myvariantinfo_count == 44, 'we should have had myvariantinfo hits'
 
 
 def validate(helpers, output_directory, emitter_path_prefix, myvariantinfo_path):
@@ -49,7 +49,6 @@ def validate(helpers, output_directory, emitter_path_prefix, myvariantinfo_path)
     transform(output_directory,
               prefix=emitter_path_prefix,
               vertex_filename_pattern='**/*.Allele.Vertex.json',
-              myvariant_store_name='myvariantinfo-memory',
               myvariantinfo_path=myvariantinfo_path)
     # test/test.Allele.Vertex.json
     helpers.assert_vertex_file_valid(Allele, allele_file)
@@ -62,8 +61,9 @@ def validate(helpers, output_directory, emitter_path_prefix, myvariantinfo_path)
     # check using sqllite
     transform(output_directory,
               prefix=emitter_path_prefix,
+              allele_store_name='allele-sqlite',
+              allele_store_path='/tmp/sqlite.db',
               vertex_filename_pattern='**/*.Allele.Vertex.json',
-              myvariant_store_name='myvariantinfo-sqlite',
               myvariantinfo_path=myvariantinfo_path)
     # test/test.Allele.Vertex.json
     helpers.assert_vertex_file_valid(Allele, allele_file)

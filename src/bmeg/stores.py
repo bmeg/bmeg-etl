@@ -60,8 +60,12 @@ class MyVariantTestMemorystore(Memorystore):
 
 class Sqlitestore:
 
-    def __init__(self, path='sqllite.db'):
+    def __init__(self, path):
         self.conn = sqlite3.connect(path)
+        # optimize db calls
+        self.conn.execute("PRAGMA synchronous = OFF;")
+        self.conn.execute("PRAGMA journal_mode = OFF;")
+        # create table
         cur = self.conn.cursor()
         cur.execute("CREATE TABLE IF NOT EXISTS data (gid text, clazz text, json text);")
         self.conn.commit()
@@ -108,6 +112,11 @@ class Sqlitestore:
         for t in cur.execute('SELECT * FROM data ;'):
             yield json.loads(t[2])
 
+    def all_ids(self):
+        cur = self.conn.cursor()
+        for t in cur.execute('SELECT gid FROM data ;'):
+            yield t[0]
+
 
 class AlleleSqlitestore(Sqlitestore):
 
@@ -115,10 +124,17 @@ class AlleleSqlitestore(Sqlitestore):
         """ xform dict to Allele"""
         return Allele.from_dict(super(AlleleSqlitestore, self).get(gid))
 
-    def all(self, gid):
+    def all(self):
         """ xform dict to Allele"""
         for allele in super(AlleleSqlitestore, self).all():
             yield Allele.from_dict(allele)
+
+    def load_many(self, batch):
+        """ load a batch of tuples into table """
+        logging.info('starting insert')
+        self.conn.executemany("insert or replace into data(gid, clazz, json) values(?, ?, ?)", batch)
+        logging.info('done insert')
+
 
 
 class MyVariantSqlitestore(Sqlitestore):
@@ -226,7 +242,7 @@ class MyVariantSqlitestore(Sqlitestore):
         worker.start()
 
         while True:
-            logging.info('waitin on q')
+            logging.info('waiting on q')
             batch = pending_q.get(block=True, timeout=20)
             if not batch:
                 contine
