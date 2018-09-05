@@ -12,7 +12,6 @@ import hashlib
 import json
 from threading import Thread
 from queue import Queue
-import queue
 
 
 class Memorystore:
@@ -69,7 +68,6 @@ class Sqlitestore:
         cur = self.conn.cursor()
         cur.execute("CREATE TABLE IF NOT EXISTS data (gid text, clazz text, json text);")
         self.conn.commit()
-
 
     def index(self):
         cur = self.conn.cursor()
@@ -136,7 +134,6 @@ class AlleleSqlitestore(Sqlitestore):
         logging.info('done insert')
 
 
-
 class MyVariantSqlitestore(Sqlitestore):
     """ create sqlite.db in same directory as myvariantinfo_path """
     def __init__(self, myvariantinfo_path):
@@ -161,8 +158,6 @@ class MyVariantSqlitestore(Sqlitestore):
             vidhash.update(vid)
             vidhash = vidhash.hexdigest()
             return "%s:%s" % (cls, vidhash)
-
-
 
         def reader_worker():
             t = c = 0
@@ -245,7 +240,7 @@ class MyVariantSqlitestore(Sqlitestore):
             logging.info('waiting on q')
             batch = pending_q.get(block=True, timeout=20)
             if not batch:
-                contine
+                continue
             if batch == 'DONE':
                 break
             logging.info('starting insert')
@@ -254,9 +249,6 @@ class MyVariantSqlitestore(Sqlitestore):
         logging.info('creating index')
         self.index()
         logging.info('done creating index')
-
-
-
 
     def get(self, gid):
         """ xform dict to Allele"""

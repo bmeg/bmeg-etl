@@ -9,6 +9,7 @@ from transform.allele.transform import transform, sort_allele_files, group_sorte
 from bmeg.vertex import Allele, AlleleAnnotations
 from bmeg.ioutils import reader
 
+
 @pytest.fixture
 def output_directory(request):
     """ get the full path of the test fixture """

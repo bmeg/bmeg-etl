@@ -25,7 +25,7 @@ EXPECTED_COUNTS = {
 
 
 conn = gripql.Connection("http://arachne.compbio.ohsu.edu")
-O = conn.graph("bmeg-test")
+O = conn.graph("bmeg-test")  # noqa: E741 ambiguous variable name 'O'
 
 
 def count_label(label):
@@ -36,6 +36,7 @@ def count_label(label):
         ).count()
     )[0]['count']
 
+
 def test_expected_counts():
     """ iterate through EXPECTED_COUNTS, assert expected_count """
     errors = []
@@ -43,7 +44,7 @@ def test_expected_counts():
         expected_count = EXPECTED_COUNTS[label]
         actual_count = count_label(label)
         if actual_count != expected_count:
-             errors.append(
+            errors.append(
                 'Expected {} {}, got {}'.format(expected_count, label, actual_count)
-             )
+            )
     assert len(errors) == 0, errors

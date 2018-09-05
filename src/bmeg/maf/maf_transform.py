@@ -84,7 +84,9 @@ def get_value(d, keys, default):
 
 
 class MAFTransformer():
+    # override the column used for tumor allele
     TUMOR_ALLELE = tumor_allele1
+
     def read_maf(self, mafpath, gz, skip=0, harvest=True):
         """ generator for each line in maf """
         if gz or 'gz' in mafpath:

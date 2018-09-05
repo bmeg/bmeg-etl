@@ -6,7 +6,6 @@ import logging
 import glob
 import sys
 import ujson
-import uuid
 import dataclasses
 import subprocess
 import os.path
@@ -74,6 +73,7 @@ def enrich_from_dict(allele, myvariantinfo_annotation):
 def from_dict(allele_dicts):
     """ turn array of dicts into array of Alleles"""
     return [Allele.from_dict(d['data']) for d in allele_dicts]
+
 
 def group_sorted_alleles(sorted_allele_file):
     """ yield an array of data records with the same gid"""
@@ -171,7 +171,6 @@ def transform(output_dir,
                 logging.info('loading gid_cache {}'.format(t))
                 c = 0
         logging.info('loaded gid_cache {}'.format(t))
-
 
     logging.info('enriching')
     with reader(myvariantinfo_path) as ins:

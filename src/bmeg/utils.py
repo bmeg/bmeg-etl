@@ -30,7 +30,7 @@ def enforce_types(callable):
         try:
             if threading.local().skip_check_types:
                 return
-        except AttributeError as e:
+        except AttributeError:
             pass
         for name, value in parameters.items():
             # Assume un-annotated parameters can be any type
