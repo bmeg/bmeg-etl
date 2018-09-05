@@ -3,8 +3,7 @@
 a set of very basic queries - simply ensure the counts of label
 """
 
-
-import gripql
+from gripql import eq
 
 EXPECTED_COUNTS = {
     'Individual': 32555,
@@ -24,25 +23,21 @@ EXPECTED_COUNTS = {
 }
 
 
-conn = gripql.Connection("http://arachne.compbio.ohsu.edu")
-O = conn.graph("bmeg-test")  # noqa: E741 ambiguous variable name 'O'
-
-
-def count_label(label):
+def count_label(label, V):
     """ count label template query """
     return list(
-        O.query().V().where(
-            gripql.eq("_label", label)
+        V.where(
+            eq("_label", label)
         ).count()
     )[0]['count']
 
 
-def test_expected_counts():
+def test_expected_counts(V):
     """ iterate through EXPECTED_COUNTS, assert expected_count """
     errors = []
     for label in EXPECTED_COUNTS.keys():
         expected_count = EXPECTED_COUNTS[label]
-        actual_count = count_label(label)
+        actual_count = count_label(label, V)
         if actual_count != expected_count:
             errors.append(
                 'Expected {} {}, got {}'.format(expected_count, label, actual_count)

@@ -1,10 +1,10 @@
 
 """
-a set of very basic queries - simply ensure the counts of label
+a set of very basic queries - simply ensure the counts of label->label
 """
 
 
-import gripql
+from gripql import eq
 
 EXPECTED_COUNTS = [
     {'_from': 'Biosample', 'to': 'Individual', 'expected_count': 57186},
@@ -15,16 +15,13 @@ EXPECTED_COUNTS = [
     {'_from': 'Protein', 'to': 'Transcript', 'expected_count': 73439},
 ]
 
-conn = gripql.Connection("http://arachne.compbio.ohsu.edu")
-O = conn.graph("bmeg-test")  # noqa: E741 ambiguous variable name 'O'
 
-
-def count_traversal(_from, to, expected_count):
+def count_traversal(_from, to, expected_count, V):
     """ count traversal template query """
     actual_count = list(
-        O.query().V().where(
-            gripql.eq("_label", _from)
-        ).out().where(gripql.eq("_label", to)).count()
+        V.where(
+            eq("_label", _from)
+        ).out().where(eq("_label", to)).count()
     )[0]['count']
     if actual_count != expected_count:
         return 'Expected from:{} to:{} expected:{} actual: {}'.format(
@@ -32,23 +29,23 @@ def count_traversal(_from, to, expected_count):
         )
 
 
-def test_expected_counts():
+def test_expected_counts(V):
     """ iterate through EXPECTED_COUNTS, assert expected_count """
     errors = []
     for traversal in EXPECTED_COUNTS:
-        error_msg = count_traversal(**traversal)
+        error_msg = count_traversal(**traversal, V=V)
         if error_msg:
             errors.append(error_msg)
     assert len(errors) == 0, errors
 
 
-def test_expected_exon_transcript():
+def test_expected_exon_transcript(V):
     """ subset only for one chromosome """
     q = (
-        O.query().V()
-        .where(gripql.eq("_label", 'Gene'))
-        .where(gripql.eq("chromosome", '22'))
-        .in_().where(gripql.eq("_label", 'Transcript'))
+        V
+        .where(eq("_label", 'Gene'))
+        .where(eq("chromosome", '22'))
+        .in_().where(eq("_label", 'Transcript'))
         .count()
     )
     actual_count = list(q)[0]['count']
