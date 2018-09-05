@@ -12,7 +12,7 @@ install:
 
 script:
   - flake8 .
-  - python -m pytest tests --cov=.
+  - python -m pytest tests --cov=. --ignore=tests/integration
 
 notifications:
   email: false
