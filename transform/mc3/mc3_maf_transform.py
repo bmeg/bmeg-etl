@@ -23,6 +23,8 @@ MC3_EXTENSION_CALLSET_KEYS = [
 
 class MC3_MAFTransformer(MAFTransformer):
 
+    TUMOR_ALLELE = "Tumor_Seq_Allele2"  # 11
+
     def barcode_to_sampleid(self, barcode):
         """ create tcga sample barcode """
         return "-".join(barcode.split("-")[0:4])

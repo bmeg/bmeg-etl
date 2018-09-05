@@ -63,6 +63,7 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
         for line in f:
             # should be json
             allele = json.loads(line)
+            assert allele['data']['reference_bases'] != allele['data']['alternate_bases'], 'reference should not equal alternate'            
             for k in STANDARD_MAF_KEYS:
                 if k in allele['data']['annotations']['maf']:
                     assert allele['data']['annotations']['maf'][k], 'empty key %s' % k

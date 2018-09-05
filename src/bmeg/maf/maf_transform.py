@@ -44,7 +44,7 @@ END = ["End_Position", "End_position"]  # 6
 # strand = 7
 VARIANT_TYPE = "Variant_Type"  # 9
 REFERENCE_ALLELE = "Reference_Allele"  # 10
-TUMOR_ALLELE = "Tumor_Seq_Allele1"  # 11
+tumor_allele1 = "Tumor_Seq_Allele1"  # 11
 tumor_allele2 = "Tumor_Seq_Allele2"  # 12
 # annotation_transcript = "Annotation_Transcript"  # 14
 
@@ -84,6 +84,7 @@ def get_value(d, keys, default):
 
 
 class MAFTransformer():
+    TUMOR_ALLELE = tumor_allele1
     def read_maf(self, mafpath, gz, skip=0, harvest=True):
         """ generator for each line in maf """
         if gz or 'gz' in mafpath:
@@ -130,7 +131,7 @@ class MAFTransformer():
             'start': int(get_value(line, START, None)),
             'end': int(get_value(line, END, None)),
             'reference_bases': line[REFERENCE_ALLELE],
-            'alternate_bases': line[TUMOR_ALLELE],
+            'alternate_bases': line[self.TUMOR_ALLELE],
             'annotations': allele_annotations,
         }
 
