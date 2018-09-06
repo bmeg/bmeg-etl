@@ -4,6 +4,11 @@ This directory should contain [
 `metadata.json`
 ].
 
+```
+# md5sum biothings_current_old_hg19.json.gz
+8e30320d5023dc5b06bde81b986dfa85  biothings_current_old_hg19.json.gz
+
+```
 # Download instructions
 
 
