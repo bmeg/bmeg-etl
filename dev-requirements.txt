@@ -7,3 +7,5 @@ requests==2.19.1
 requests-cache==0.4.13
 pytest-cov==2.5.1
 more-itertools==4.2.0
+# grip
+git+https://github.com/bmeg/grip.git#subdirectory=gripql/python
