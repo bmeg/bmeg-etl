@@ -2,7 +2,7 @@ from dataclasses import dataclass, asdict
 from enum import Enum
 import hashlib
 from typing import Union
-
+from dacite import from_dict as dacite_from_dict
 from bmeg.gid import GID
 from bmeg.utils import enforce_types
 
@@ -15,6 +15,12 @@ class Vertex:
 
     def asdict(self):
         return asdict(self)
+
+    @classmethod
+    def from_dict(cls, data):
+        if data:
+            return dacite_from_dict(data_class=cls, data=data)
+        return None
 
 
 @enforce_types
@@ -65,18 +71,6 @@ class Allele(Vertex):
         return Allele.make_gid(self.genome, self.chromosome, self.start,
                                self.end, self.reference_bases,
                                self.alternate_bases)
-
-    @classmethod
-    def from_dict(cls, data):
-        if data:
-            if 'annotations' in data:
-                data['annotations'] = AlleleAnnotations(**data['annotations'])
-            else:
-                data['annotations'] = AlleleAnnotations()
-                print('data has no annotations?')
-                print(data)
-            return Allele(**data)
-        return None
 
     @classmethod
     def make_gid(cls, genome, chromosome, start, end, reference_bases,
