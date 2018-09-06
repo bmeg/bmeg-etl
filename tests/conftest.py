@@ -101,7 +101,7 @@ class Helpers:
 
 @pytest.fixture
 def helpers():
-    """ ratify class """
+    """ ratify Helper class """
     return Helpers
 
 
