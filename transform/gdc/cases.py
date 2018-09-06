@@ -87,11 +87,11 @@ def transform(emitter, parameters={}):
                     for aliquot in analyte.get("aliquots", []):
                         aliquot_fields = extract(
                             aliquot,
-                            ["analyte_type", "submitter_id"],
+                            ["analyte_type", "submitter_id", "aliquot_id"],
                         )
                         fields = dict(sample_fields)
                         fields.update(aliquot_fields)
-                        a = Aliquot(aliquot_id=aliquot["submitter_id"], gdc_attributes=fields)
+                        a = Aliquot(aliquot_id=aliquot["aliquot_id"], gdc_attributes=fields)
                         emitter.emit_vertex(a)
 
                         emitter.emit_edge(

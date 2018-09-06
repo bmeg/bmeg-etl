@@ -2,6 +2,7 @@
 import os
 import contextlib
 import pytest
+import json
 from transform.gdc.cases import transform
 from bmeg.vertex import Biosample, Aliquot, Individual, Project
 from bmeg.emitter import JSONEmitter
@@ -50,6 +51,14 @@ def validate(helpers, emitter_path_prefix, parameters):
         all_files,
         exclude_labels=['Project']
     )
+
+    # test Aliquot contents
+    with open(aliquot_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            # should be json
+            aliquot = json.loads(line)
+            assert 'TCGA' not in aliquot['gid'],  'Aliquot gid should be a uuid not {}'.format(aliquot['gid'])
+            assert 'TCGA' in aliquot['data']['gdc_attributes']['submitter_id'],  'Aliquot gid should be a uuid not {}'.format(aliquot['gid'])
 
 
 def test_simple(helpers, emitter_path_prefix):
