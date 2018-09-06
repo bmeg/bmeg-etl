@@ -9,3 +9,7 @@ pytest-cov==2.5.1
 more-itertools==4.2.0
 # grip
 git+https://github.com/bmeg/grip.git#subdirectory=gripql/python
+# faster json
+ujson==1.35
+# dataclass serialization
+dacite==0.0.16
