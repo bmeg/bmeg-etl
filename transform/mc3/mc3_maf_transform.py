@@ -3,8 +3,10 @@
 from bmeg.vertex import Aliquot, Callset, Gene
 from bmeg.edge import AlleleCall
 
-from bmeg.maf.maf_transform import main, get_value, MAFTransformer
+from bmeg.maf.maf_transform import get_value, MAFTransformer, maf_default_argument_parser
 from bmeg.maf.maf_transform import transform as parent_transform
+from bmeg.emitter import new_emitter
+import json
 
 TUMOR_SAMPLE_BARCODE = "Tumor_Sample_Barcode"  # 15
 NORMAL_SAMPLE_BARCODE = "Matched_Norm_Sample_Barcode"  # 16
@@ -20,7 +22,7 @@ MC3_EXTENSION_CALLSET_KEYS = [
     'Tumor_Seq_Allele1', 'Tumor_Seq_Allele2',
 ]
 
-
+ALLELE_CONVERSION_TABLE = {}
 class MC3_MAFTransformer(MAFTransformer):
 
     # override the alt allele column
@@ -31,7 +33,8 @@ class MC3_MAFTransformer(MAFTransformer):
 
     def barcode_to_aliquot_id(self, barcode):
         """ create tcga sample barcode """
-        return barcode
+        global ALLELE_CONVERSION_TABLE
+        return ALLELE_CONVERSION_TABLE[barcode]
 
     def create_gene_gid(self, line):  # pragma nocover
         """ override, create gene_gid from line """
@@ -88,12 +91,38 @@ class MC3_MAFTransformer(MAFTransformer):
         return allele_dict
 
 
-def transform(mafpath, prefix, emitter_name='json', skip=0):
-    """ called from tests """
-    return parent_transform(mafpath, prefix, MC3_MAFTransformer.SOURCE,
-                            emitter_name, skip, transformer=MC3_MAFTransformer())
+def transform(mafpath, prefix, gdc_aliquot_path, source=MC3_MAFTransformer.SOURCE, emitter_name='json', skip=0, transformer=MC3_MAFTransformer()):
+    """ entry point """
+
+    # ensure that we have a lookup from CCLE native barcode to gdc derived uuid
+    global ALLELE_CONVERSION_TABLE
+    with open(gdc_aliquot_path, 'r', encoding='utf-8') as f:
+        for line in f:
+            aliquot = json.loads(line)
+            ALLELE_CONVERSION_TABLE[aliquot['data']['gdc_attributes']['submitter_id']] = aliquot['gid']
+    emitter = new_emitter(name=emitter_name, prefix=prefix)
+    transformer.maf_convert(emitter=emitter, mafpath=mafpath, skip=skip, source=source)
+
+    emitter.close()
+
+
+def main(transformer=MC3_MAFTransformer()):  # pragma: no cover
+    parser = maf_default_argument_parser(transformer.DEFAULT_PREFIX)
+    parser.add_argument('--gdc_aliquot_path', type=str,
+                        help='Path to the directory containing gdc.Aliquot.Vertex.json',
+                        default='outputs/gdc/gdc.Aliquot.Vertex.json')
+    # We don't need the first argument, which is the program name
+    options = parser.parse_args(sys.argv[1:])
+    default_logging(options.loglevel)
+
+    transform(mafpath=options.maf_file,
+              prefix=options.prefix,
+              skip=options.skip,
+              source=transformer.SOURCE,
+              emitter_name=options.emitter,
+              gdc_aliquot_path=options.gdc_aliquot_path,
+              transformer=transformer)
 
 
 if __name__ == '__main__':  # pragma: no cover
-    """ called from cli """
-    main(transformer=MC3_MAFTransformer())
+    main()

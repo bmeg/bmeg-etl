@@ -43,8 +43,15 @@ def emitter_path_prefix(request):
     """ get the full path of the test output """
     return os.path.join(request.fspath.dirname, 'test/test')
 
+@pytest.fixture
+def gdc_aliquot_path(request):
+    """ get the full path of the test fixture """
+    return os.path.join(request.fspath.dirname, 'outputs/gdc/gdc.Aliquot.Vertex.json')
 
-def validate(helpers, maf_file, emitter_path_prefix):
+
+
+
+def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
     allele_file = '{}.Allele.Vertex.json'.format(emitter_path_prefix)
     allelecall_file = '{}.AlleleCall.Edge.json'.format(emitter_path_prefix)
     callset_file = '{}.Callset.Vertex.json'.format(emitter_path_prefix)
@@ -56,7 +63,7 @@ def validate(helpers, maf_file, emitter_path_prefix):
         for f in all_files:
             os.remove(f)
     # create output
-    mc3_maf_transform.transform(maf_file, emitter_path_prefix)
+    mc3_maf_transform.transform(maf_file, emitter_path_prefix, gdc_aliquot_path=gdc_aliquot_path)
 
     # test/test.Allele.Vertex.json
     helpers.assert_vertex_file_valid(Allele, allele_file)
@@ -75,7 +82,6 @@ def validate(helpers, maf_file, emitter_path_prefix):
             callset = json.loads(line)
             # source should be ccle
             assert callset['data']['source'] == 'mc3', 'source should be ccle'
-
 
     # test AlleleCall contents
     with open(allelecall_file, 'r', encoding='utf-8') as f:
@@ -125,14 +131,14 @@ def validate(helpers, maf_file, emitter_path_prefix):
     )
 
 
-def test_simple(helpers, maf_file, emitter_path_prefix):
+def test_simple(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
     """ simple test """
-    validate(helpers, maf_file, emitter_path_prefix)
+    validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path)
 
 
-def test_gz(helpers, gz_file, emitter_path_prefix):
+def test_gz(helpers, gz_file, emitter_path_prefix, gdc_aliquot_path):
     """ simple test """
-    validate(helpers, gz_file, emitter_path_prefix)
+    validate(helpers, gz_file, emitter_path_prefix, gdc_aliquot_path)
 
 
 def test_get_value():
@@ -140,12 +146,12 @@ def test_get_value():
     assert get_value({'foo': 0}, 'bar', 1) == 1
 
 
-def test_no_center(helpers, no_center_file, emitter_path_prefix):
+def test_no_center(helpers, no_center_file, emitter_path_prefix, gdc_aliquot_path):
     """ 'Center column' renamed """
-    validate(helpers, no_center_file, emitter_path_prefix)
+    validate(helpers, no_center_file, emitter_path_prefix, gdc_aliquot_path)
 
 
-def test_NO_REF_ALT(helpers, NO_REF_ALT_file, emitter_path_prefix):
+def test_NO_REF_ALT(helpers, NO_REF_ALT_file, emitter_path_prefix, gdc_aliquot_path):
     """ no start """
     with pytest.raises(ValueError):
-        validate(helpers, NO_REF_ALT_file, emitter_path_prefix)
+        validate(helpers, NO_REF_ALT_file, emitter_path_prefix, gdc_aliquot_path)

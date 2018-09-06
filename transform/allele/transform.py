@@ -234,6 +234,7 @@ def main():  # pragma: no cover
     parser.add_argument('--sorted_allele_file', type=str,
                         help='Path to the file containing sorted **/*.Allele.Vertex.json',
                         default='source/allele/sorted_allele_file.json')
+
     parser.add_argument('--allele_store_name', type=str,
                         help='name of allele database [memory, sqlite, (mongo, bmeg)]',
                         default='allele-sqlite')

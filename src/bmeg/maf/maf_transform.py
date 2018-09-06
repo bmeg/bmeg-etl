@@ -111,7 +111,7 @@ class MAFTransformer():
 
     def callset_maker(self, allele, source, centerCol, method, line):  # noqa pragma nocover
         """ override, create callset from line """
-        print('override me')
+        logging.error('override me')
         pass
 
     def create_gene_gid(self, line):  # pragma nocover
@@ -218,7 +218,8 @@ def transform(mafpath, prefix, source, emitter_name='json', skip=0, transformer=
     emitter.close()
 
 
-def main(transformer):  # pragma: no cover
+def maf_default_argument_parser(transformer):
+    """ add our default arguments """
     parser = default_argument_parser(transformer.DEFAULT_PREFIX)
     parser.add_argument('--maf_file', type=str,
                         help='Path to the maf you want to import')
@@ -227,6 +228,10 @@ def main(transformer):  # pragma: no cover
         help="skip first N lines in MAF",
         default=0
     )
+
+
+def main(transformer):  # pragma: no cover
+    parser = maf_default_argument_parser(transformer)
     # We don't need the first argument, which is the program name
     options = parser.parse_args(sys.argv[1:])
     default_logging(options.loglevel)
