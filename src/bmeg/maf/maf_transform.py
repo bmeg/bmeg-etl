@@ -5,7 +5,7 @@ import csv
 import gzip
 import sys
 
-from bmeg.vertex import Aliquot, Allele, AlleleAnnotations
+from bmeg.vertex import Allele, AlleleAnnotations
 from bmeg.edge import CallsetFor, AlleleIn
 from bmeg.emitter import new_emitter
 from bmeg.util.cli import default_argument_parser

@@ -57,8 +57,8 @@ def validate(helpers, emitter_path_prefix, parameters):
         for line in f:
             # should be json
             aliquot = json.loads(line)
-            assert 'TCGA' not in aliquot['gid'],  'Aliquot gid should be a uuid not {}'.format(aliquot['gid'])
-            assert 'TCGA' in aliquot['data']['gdc_attributes']['submitter_id'],  'Aliquot gid should be a uuid not {}'.format(aliquot['gid'])
+            assert 'TCGA' not in aliquot['gid'], 'Aliquot gid should be a uuid not {}'.format(aliquot['gid'])
+            assert 'TCGA' in aliquot['data']['gdc_attributes']['submitter_id'], 'Aliquot gid should be a uuid not {}'.format(aliquot['gid'])
 
 
 def test_simple(helpers, emitter_path_prefix):

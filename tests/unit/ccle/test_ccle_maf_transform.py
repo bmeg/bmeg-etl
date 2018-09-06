@@ -49,7 +49,6 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
     # test/test.CallsetFor.Edge.json
     helpers.assert_edge_file_valid(Callset, Aliquot, callsetfor_file)
 
-
     with open(callset_file, 'r', encoding='utf-8') as f:
         for line in f:
             # should be json

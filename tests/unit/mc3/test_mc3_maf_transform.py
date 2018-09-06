@@ -43,12 +43,11 @@ def emitter_path_prefix(request):
     """ get the full path of the test output """
     return os.path.join(request.fspath.dirname, 'test/test')
 
+
 @pytest.fixture
 def gdc_aliquot_path(request):
     """ get the full path of the test fixture """
     return os.path.join(request.fspath.dirname, 'outputs/gdc/gdc.Aliquot.Vertex.json')
-
-
 
 
 def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
@@ -122,7 +121,6 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
             callsetfor = json.loads(line)
             assert callsetfor['from'].startswith('Callset:mc3:Aliquot:'), 'from should be a callset'
             assert callsetfor['to'].startswith('Aliquot:'), 'to should be an aliquot'
-
 
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(

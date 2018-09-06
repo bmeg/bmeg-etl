@@ -4,9 +4,10 @@ from bmeg.vertex import Aliquot, Callset, Gene
 from bmeg.edge import AlleleCall
 
 from bmeg.maf.maf_transform import get_value, MAFTransformer, maf_default_argument_parser
-from bmeg.maf.maf_transform import transform as parent_transform
 from bmeg.emitter import new_emitter
+from bmeg.util.logging import default_logging
 import json
+import sys
 
 TUMOR_SAMPLE_BARCODE = "Tumor_Sample_Barcode"  # 15
 NORMAL_SAMPLE_BARCODE = "Matched_Norm_Sample_Barcode"  # 16
@@ -23,6 +24,8 @@ MC3_EXTENSION_CALLSET_KEYS = [
 ]
 
 ALLELE_CONVERSION_TABLE = {}
+
+
 class MC3_MAFTransformer(MAFTransformer):
 
     # override the alt allele column
@@ -60,7 +63,6 @@ class MC3_MAFTransformer(MAFTransformer):
         sample_calls = []
         if centerCol in line:
             for c in line[centerCol].split("|"):
-                center = c.replace("*", "")
                 callset = Callset(tumor_aliquot_id=tumor_aliquot_gid,
                                   normal_aliquot_id=normal_aliquot_gid,
                                   call_method=call_method,
