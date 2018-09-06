@@ -181,9 +181,6 @@ def transform(output_dir,
             if c % batch_size == 0:
                 logging.info('enriching read: {}, written: {}'.format(t, w))
                 c = 0
-
-            if t < 3940000:
-                continue
             myvariant = {}
             try:
                 myvariant = ujson.loads(line)
