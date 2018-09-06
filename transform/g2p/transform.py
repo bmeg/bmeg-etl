@@ -14,7 +14,7 @@ import bmeg.ioutils
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
 
-from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment, HasMinimalAlleleFeature, HasGene, AlleleIn
+from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment, HasMinimalAlleleFeature, AlleleIn, MinimalAlleleIn
 from bmeg.vertex import Deadletter
 from bmeg.emitter import new_emitter
 
@@ -86,7 +86,7 @@ def toGraph(normalized_association, emitter):
                           allele_has_gene[1],
                           )
     for minimal_allele_has_gene in na.vertices['minimal_allele_has_gene']:
-        emitter.emit_edge(HasGene(),
+        emitter.emit_edge(MinimalAlleleIn(),
                           minimal_allele_has_gene[0],
                           minimal_allele_has_gene[1],
                           )

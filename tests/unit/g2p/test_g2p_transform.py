@@ -31,7 +31,7 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     deadletter_file = '{}.Deadletter.Vertex.json'.format(emitter_path_prefix)
     minimal_allele_file = '{}.MinimalAllele.Vertex.json'.format(emitter_path_prefix)
     minimal_allele_edge_file = '{}.HasMinimalAlleleFeature.Edge.json'.format(emitter_path_prefix)
-    has_gene_edge_file = '{}.HasGene.Edge.json'.format(emitter_path_prefix)
+    has_gene_edge_file = '{}.MinimalAlleleIn.Edge.json'.format(emitter_path_prefix)
     allele_in_edge_file = '{}.AlleleIn.Edge.json'.format(emitter_path_prefix)
     # remove output
     with contextlib.suppress(FileNotFoundError):

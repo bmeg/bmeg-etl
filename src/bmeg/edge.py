@@ -257,8 +257,8 @@ class HasMinimalAlleleFeature(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class HasGene(Edge):
+class MinimalAlleleIn(Edge):
     """
-    Allele -> Gene
+    MinimalAllele -> Gene
     """
     pass
