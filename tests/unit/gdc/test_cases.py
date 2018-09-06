@@ -4,8 +4,8 @@ import contextlib
 import pytest
 from transform.gdc.cases import transform
 from bmeg.vertex import Biosample, Aliquot, Individual, Project
-# from bmeg.edge import BiosampleFor, AliquotFor, InProject
 from bmeg.emitter import JSONEmitter
+
 
 @pytest.fixture
 def emitter_path_prefix(request):
@@ -57,9 +57,9 @@ def test_simple(helpers, emitter_path_prefix):
     # see https://docs.gdc.cancer.gov/API/Users_Guide/Search_and_Retrieval/#example_2
     parameters = {
         "filters": {
-            "op":"in",
-            "content":{
-                "field":"submitter_id","value":["TCGA-02-0003"]
+            "op": "in",
+            "content": {
+                "field": "submitter_id", "value": ["TCGA-02-0003"]
             }
         }
 

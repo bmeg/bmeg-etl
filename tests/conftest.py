@@ -3,6 +3,7 @@ import os
 import json
 import gripql
 
+
 class Helpers:
 
     @staticmethod
@@ -103,12 +104,12 @@ def helpers():
     return Helpers
 
 
-
 @pytest.fixture(scope="module")
 def graph():
     bmeg_url = os.getenv('BMEG_URL', "http://arachne.compbio.ohsu.edu")
     bmeg_graph = os.getenv('BMEG_GRAPH', "bmeg-test")
     return gripql.Connection(bmeg_url).graph(bmeg_graph)
+
 
 @pytest.fixture(scope="module")
 def V(graph):

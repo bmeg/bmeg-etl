@@ -4,6 +4,7 @@ test gdc data in graph
 V is a test fixture greated in conftest.py
 """
 
+
 def test_project(V):
     q = (V.
          where(eq("_label", "Project")).

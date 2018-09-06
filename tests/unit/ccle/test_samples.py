@@ -5,6 +5,7 @@ import pytest
 from transform.ccle.samples import transform
 from bmeg.vertex import Biosample, Aliquot
 
+
 @pytest.fixture
 def emitter_path_prefix(request):
     """ get the full path of the test output """
@@ -40,6 +41,7 @@ def validate(helpers, emitter_path_prefix, sample_info_file):
     helpers.assert_edge_file_valid(Aliquot, Biosample, aliquotfor_file)
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(all_files)
+
 
 def test_simple(helpers, emitter_path_prefix, sample_info_file):
     """ limit the result to a single project"""
