@@ -32,6 +32,6 @@ eggs/
 source/*/*.*
 !source/*/*.md
 
-!tests/allele/outputs/*/test.Allele.Vertex.json
-tests/allele/source/myvariantinfo/sqlite.db
+!tests/unit/allele/outputs/*/test.Allele.Vertex.json
+tests/unit/allele/source/myvariantinfo/sqlite.db
 .DS_Store

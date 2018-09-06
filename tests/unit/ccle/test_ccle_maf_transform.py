@@ -3,7 +3,7 @@
 import pytest
 import transform.ccle.ccle_maf_transform as ccle_maf_transform
 from transform.ccle.ccle_maf_transform import CCLE_EXTENSION_CALLSET_KEYS, CCLE_EXTENSION_MAF_KEYS
-from bmeg.vertex import Allele, Callset, Gene
+from bmeg.vertex import Allele, Callset, Gene, Aliquot
 from bmeg.maf.maf_transform import STANDARD_MAF_KEYS
 
 import os
@@ -20,7 +20,7 @@ def maf_file(request):
 @pytest.fixture
 def emitter_path_prefix(request):
     """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'test')
+    return os.path.join(request.fspath.dirname, 'test/test')
 
 
 def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
@@ -28,12 +28,13 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
     allelecall_file = '{}.AlleleCall.Edge.json'.format(emitter_path_prefix)
     callset_file = '{}.Callset.Vertex.json'.format(emitter_path_prefix)
     allelein_file = '{}.AlleleIn.Edge.json'.format(emitter_path_prefix)
+    callsetfor_file = '{}.CallsetFor.Edge.json'.format(emitter_path_prefix)
+    all_files = [allele_file, allelecall_file, callset_file, allelein_file, callsetfor_file]
+
     # remove output
     with contextlib.suppress(FileNotFoundError):
-        os.remove(allele_file)
-        os.remove(allelecall_file)
-        os.remove(callset_file)
-        os.remove(allelein_file)
+        for f in all_files:
+            os.remove(f)
     # create output
     ccle_maf_transform.transform(maf_file, emitter_path_prefix)
 
@@ -45,10 +46,10 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
     helpers.assert_edge_file_valid(Allele, Gene, allelein_file)
     # test/test.AlleleCall.Edge.json
     helpers.assert_edge_file_valid(Allele, Callset, allelecall_file)
-    # test.AlleleCall.Edge.json
-    error_message = 'maf_transform.convert({}, {}) should create {}' \
-                    .format(maf_file, emitter_path_prefix, allelecall_file)
-    assert os.path.isfile(allelecall_file), error_message
+    # test/test.CallsetFor.Edge.json
+    helpers.assert_edge_file_valid(Callset, Aliquot, callsetfor_file)
+
+
     with open(callset_file, 'r', encoding='utf-8') as f:
         for line in f:
             # should be json
@@ -81,8 +82,8 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
                     assert allele['data']['annotations']['ccle'][k], 'empty key %s' % k
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(
-        [allele_file, allelecall_file, callset_file, allelein_file],
-        exclude_labels=['Gene']
+        all_files,
+        exclude_labels=['Gene', 'Aliquot']
     )
 
 

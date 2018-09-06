@@ -8,7 +8,7 @@ from transform.mc3.mc3_maf_transform import MC3_EXTENSION_MAF_KEYS
 from transform.mc3.mc3_maf_transform import MC3_EXTENSION_CALLSET_KEYS
 from bmeg.maf.maf_transform import STANDARD_MAF_KEYS
 from bmeg.maf.maf_transform import get_value
-from bmeg.vertex import Allele, Callset, Gene
+from bmeg.vertex import Allele, Callset, Gene, Aliquot
 import os
 import contextlib
 import json
@@ -41,7 +41,7 @@ def NO_REF_ALT_file(request):
 @pytest.fixture
 def emitter_path_prefix(request):
     """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'test')
+    return os.path.join(request.fspath.dirname, 'test/test')
 
 
 def validate(helpers, maf_file, emitter_path_prefix):
@@ -49,12 +49,12 @@ def validate(helpers, maf_file, emitter_path_prefix):
     allelecall_file = '{}.AlleleCall.Edge.json'.format(emitter_path_prefix)
     callset_file = '{}.Callset.Vertex.json'.format(emitter_path_prefix)
     allelein_file = '{}.AlleleIn.Edge.json'.format(emitter_path_prefix)
+    callsetfor_file = '{}.CallsetFor.Edge.json'.format(emitter_path_prefix)
+    all_files = [allele_file, allelecall_file, callset_file, allelein_file, callsetfor_file]
     # remove output
     with contextlib.suppress(FileNotFoundError):
-        os.remove(allele_file)
-        os.remove(allelecall_file)
-        os.remove(callset_file)
-        os.remove(allelein_file)
+        for f in all_files:
+            os.remove(f)
     # create output
     mc3_maf_transform.transform(maf_file, emitter_path_prefix)
 
@@ -66,10 +66,17 @@ def validate(helpers, maf_file, emitter_path_prefix):
     helpers.assert_edge_file_valid(Allele, Callset, allelecall_file)
     # test/test.AlleleIn.Edge.json
     helpers.assert_edge_file_valid(Allele, Gene, allelein_file)
-    # test.AlleleCall.Edge.json
-    error_message = 'maf_transform.convert({}, {}) should create {}' \
-                    .format(maf_file, emitter_path_prefix, allelecall_file)
-    assert os.path.isfile(allelecall_file), error_message
+    # test/test.CallsetFor.Edge.json
+    helpers.assert_edge_file_valid(Callset, Aliquot, callsetfor_file)
+
+    with open(callset_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            # should be json
+            callset = json.loads(line)
+            # source should be ccle
+            assert callset['data']['source'] == 'mc3', 'source should be ccle'
+
+
     # test AlleleCall contents
     with open(allelecall_file, 'r', encoding='utf-8') as f:
         for line in f:
@@ -79,6 +86,7 @@ def validate(helpers, maf_file, emitter_path_prefix):
             for k in MC3_EXTENSION_CALLSET_KEYS:
                 if k in allelecall['data']['info']:
                     assert allelecall['data']['info'][k], 'empty key %s' % k
+
     # test Allele contents
     with open(allele_file, 'r', encoding='utf-8') as f:
         for line in f:
@@ -93,10 +101,27 @@ def validate(helpers, maf_file, emitter_path_prefix):
                 if k in allele['data']['annotations']['mc3']:
                     assert allele['data']['annotations']['mc3'][k], 'empty key %s' % k
 
+    # check callset
+    with open(callset_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            # should be json
+            callset = json.loads(line)
+            assert callset['gid'].startswith('Callset:mc3:Aliquot'), 'should start with Callset:mc3:Aliquot'
+            assert callset['data']['tumor_aliquot_id'] != callset['data']['normal_aliquot_id'], 'tumor should not equal normal'
+
+    # check callsetfor
+    with open(callsetfor_file, 'r', encoding='utf-8') as f:
+        for line in f:
+            # should be json
+            callsetfor = json.loads(line)
+            assert callsetfor['from'].startswith('Callset:mc3:Aliquot:'), 'from should be a callset'
+            assert callsetfor['to'].startswith('Aliquot:'), 'to should be an aliquot'
+
+
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(
-        [allele_file, allelecall_file, callset_file, allelein_file],
-        exclude_labels=['Gene']
+        all_files,
+        exclude_labels=['Gene', 'Aliquot']
     )
 
 
