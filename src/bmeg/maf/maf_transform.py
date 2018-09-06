@@ -5,7 +5,7 @@ import csv
 import gzip
 import sys
 
-from bmeg.vertex import Biosample, Allele, AlleleAnnotations
+from bmeg.vertex import Aliquot, Allele, AlleleAnnotations
 from bmeg.edge import CallsetFor, AlleleIn
 from bmeg.emitter import new_emitter
 from bmeg.util.cli import default_argument_parser
@@ -105,7 +105,7 @@ class MAFTransformer():
         """ override, create call from line """
         pass
 
-    def barcode_to_sampleid(self, barcode):  # pragma nocover
+    def barcode_to_aliquot_id(self, barcode):  # pragma nocover
         """ override, decode barcode """
         return barcode
 
@@ -190,14 +190,14 @@ class MAFTransformer():
                 if callset.gid not in my_callsets_ids:
                     my_callsets_ids.add(callset.gid)
                     emitter.emit_vertex(callset)
-                    if callset.normal_biosample_id:
+                    if callset.normal_aliquot_id:
                         emitter.emit_edge(CallsetFor(),
                                           callset.gid(),
-                                          Biosample.make_gid(callset.normal_biosample_id)
+                                          callset.normal_aliquot_id
                                           )
                     emitter.emit_edge(CallsetFor(),
                                       callset.gid(),
-                                      Biosample.make_gid(callset.tumor_biosample_id)
+                                      callset.tumor_aliquot_id
                                       )
 
             # create edge to gene

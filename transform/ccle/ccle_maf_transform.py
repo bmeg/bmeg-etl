@@ -3,7 +3,7 @@
 import bmeg.enrichers.gene_enricher as gene_enricher
 import logging
 
-from bmeg.vertex import Biosample, Callset, Gene
+from bmeg.vertex import Aliquot, Callset, Gene
 from bmeg.edge import AlleleCall
 
 from bmeg.maf.maf_transform import main, get_value, MAFTransformer
@@ -44,13 +44,13 @@ class CCLE_MAFTransformer(MAFTransformer):
 
     def callset_maker(self, allele, source, centerCol, method, line):
         """ create callset from line """
-        sample = self.barcode_to_sampleid(line[TUMOR_SAMPLE_BARCODE])
-        sample = Biosample.make_gid(sample)
+        aliquot_id = Aliquot.make_gid(self.barcode_to_aliquot_id(line[TUMOR_SAMPLE_BARCODE]))
         sample_callsets = []
         sample_calls = []
-        callset = Callset(sample,
-                          None,
-                          method, source)
+        callset = Callset(tumor_aliquot_id=aliquot_id,
+                          normal_aliquot_id=None,
+                          call_method=method,
+                          source=source)
         sample_callsets.append(callset)
         sample_calls.append((self.allele_call_maker(allele, line),
                              callset.gid()))

@@ -20,22 +20,22 @@ class Vertex:
 @enforce_types
 @dataclass(frozen=True)
 class Callset(Vertex):
-    tumor_biosample_id: str
-    normal_biosample_id: Union[None, str]
+    tumor_aliquot_id: str
+    normal_aliquot_id: Union[None, str]
     call_method: str
     source: str
 
     def gid(self):
-        return Callset.make_gid(self.tumor_biosample_id,
-                                self.normal_biosample_id,
+        return Callset.make_gid(self.tumor_aliquot_id,
+                                self.normal_aliquot_id,
                                 self.call_method,
                                 self.source)
 
     @classmethod
-    def make_gid(cls, tumor_biosample_id, normal_biosample_id,
+    def make_gid(cls, tumor_aliquot_id, normal_aliquot_id,
                  call_method, source):
         return GID("%s:%s:%s:%s:%s" % (cls.__name__, source,
-                                       tumor_biosample_id, normal_biosample_id,
+                                       tumor_aliquot_id, normal_aliquot_id,
                                        call_method))
 
 

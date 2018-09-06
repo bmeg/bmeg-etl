@@ -178,6 +178,12 @@ def transform(output_dir,
         for line in ins:
             c += 1
             t += 1
+            if c % batch_size == 0:
+                logging.info('enriching read: {}, written: {}'.format(t, w))
+                c = 0
+
+            if t < 3940000:
+                continue
             myvariant = {}
             try:
                 myvariant = ujson.loads(line)
@@ -196,9 +202,6 @@ def transform(output_dir,
                 alternate_bases=myvariant['vcf']['alt'],
             )
             gid = str(gid)
-            if c % batch_size == 0:
-                logging.info('enriching read: {}, written: {}'.format(t, w))
-                c = 0
             if gid not in gid_cache:
                 continue
             allele = allele_store.get(gid)

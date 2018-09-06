@@ -1,6 +1,6 @@
 
 """ transform a maf file into vertexs[variant, allele]   """
-from bmeg.vertex import Biosample, Callset, Gene
+from bmeg.vertex import Aliquot, Callset, Gene
 from bmeg.edge import AlleleCall
 
 from bmeg.maf.maf_transform import main, get_value, MAFTransformer
@@ -29,10 +29,9 @@ class MC3_MAFTransformer(MAFTransformer):
     SOURCE = 'mc3'
     DEFAULT_PREFIX = SOURCE
 
-
-    def barcode_to_sampleid(self, barcode):
+    def barcode_to_aliquot_id(self, barcode):
         """ create tcga sample barcode """
-        return "-".join(barcode.split("-")[0:4])
+        return barcode
 
     def create_gene_gid(self, line):  # pragma nocover
         """ override, create gene_gid from line """
@@ -48,26 +47,29 @@ class MC3_MAFTransformer(MAFTransformer):
 
     def callset_maker(self, allele, source, centerCol, method, line):
         """ create callset from line """
-        barcode = line[TUMOR_SAMPLE_BARCODE]
-        sample = barcode
-        sample = self.barcode_to_sampleid(barcode)
-        sample = Biosample.make_gid(sample)
+        tumor_aliquot_gid = Aliquot.make_gid(self.barcode_to_aliquot_id(line['Tumor_Sample_Barcode']))
+        normal_aliquot_gid = Aliquot.make_gid(self.barcode_to_aliquot_id(line['Matched_Norm_Sample_Barcode']))
+        call_method = line['CENTERS']
+        if not call_method:
+            call_method = ''
+
         sample_callsets = []
         sample_calls = []
         if centerCol in line:
             for c in line[centerCol].split("|"):
                 center = c.replace("*", "")
-                # callset_id = "%s:%s" % (sample, center)
-                callset = Callset(sample,
-                                  line[NORMAL_SAMPLE_BARCODE],
-                                  center, source)
+                callset = Callset(tumor_aliquot_id=tumor_aliquot_gid,
+                                  normal_aliquot_id=normal_aliquot_gid,
+                                  call_method=call_method,
+                                  source=source)
                 sample_callsets.append(callset)
                 sample_calls.append((self.allele_call_maker(allele, line),
                                      callset.gid()))
         else:
-            callset = Callset(sample,
-                              line[NORMAL_SAMPLE_BARCODE],
-                              method, source)
+            callset = Callset(tumor_aliquot_id=tumor_aliquot_gid,
+                              normal_aliquot_id=normal_aliquot_gid,
+                              call_method=call_method,
+                              source=source)
             sample_callsets.append(callset)
             sample_calls.append((self.allele_call_maker(allele, line),
                                  callset.gid()))
