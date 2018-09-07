@@ -220,7 +220,7 @@ class MAFTransformer():
 
 def transform(mafpath, prefix, source, emitter_name='json', skip=0, transformer=MAFTransformer()):
     """ entry point """
-    emitter = new_emitter(name=emitter_name, prefix=prefix)
+    emitter = new_emitter(name=emitter_name, directory=prefix)
     transformer.maf_convert(emitter=emitter, mafpath=mafpath, skip=skip, source=source)
     emitter.close()
 
