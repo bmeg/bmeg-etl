@@ -127,7 +127,11 @@ def transform(output_dir,
     """
     threading.local().skip_check_types = True
     emitter = new_emitter(name=emitter_name, prefix=prefix)
-
+    # Step one:
+    # * sort the output/**/*.Allele.Vertex.json.gz files
+    # * merge all alleles with the same gid
+    # * load an allele_store, for enrichment updates
+    # * load memory gid_cache[gid] (used to control enrichment)
     path = '{}/{}'.format(output_dir, vertex_filename_pattern)
     logging.info('checking {}'.format(path))
     sorted_allele_file = sort_allele_files(path, sorted_allele_file)
@@ -173,6 +177,8 @@ def transform(output_dir,
         logging.info('loaded gid_cache {}'.format(t))
 
     logging.info('enriching')
+    # Step two:
+    # * read all previously harvested alleles, and add to our allele store
     with reader(myvariantinfo_path) as ins:
         c = t = w = 0
         for line in ins:
@@ -208,6 +214,8 @@ def transform(output_dir,
             w += 1
     logging.info('enriching finished read: {}, written: {}'.format(t, w))
     logging.info('enriching finished allele_store.size: {}'.format(allele_store.size()))
+    # Step three:
+    # * emit all alleles
     logging.info('emitting')
     c = t = m = 0
     for allele in allele_store.all():
