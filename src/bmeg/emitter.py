@@ -3,7 +3,7 @@ import json
 import os
 import sys
 import typing
-
+import dataclasses
 from datetime import datetime
 
 from bmeg.edge import Edge
@@ -101,8 +101,9 @@ class BaseEmitter:
         self.rate.close()
 
     def _get_data(self, obj: typing.Union[Edge, Vertex]):
-        data = dict(obj.__dict__)
-
+        # this util recurses and unravels embedded dataclasses
+        # see https://docs.python.org/3/library/dataclasses.html#dataclasses.asdict
+        data = dataclasses.asdict(obj)
         # delete null values
         if not self.preserve_null:
             remove = [k for k in data if data[k] is None]
@@ -181,3 +182,16 @@ class FileHandler:
     def close(self):
         for fh in self.handles.values():
             fh.close()
+
+
+# shorthand aliases for emitter names
+EMITTER_NAME_MAP = {
+    "json": JSONEmitter,
+    "debug": DebugEmitter,
+}
+
+
+def new_emitter(name="json", **kwargs):
+    """ construct an emitter """
+    cls = EMITTER_NAME_MAP[name]
+    return cls(**kwargs)

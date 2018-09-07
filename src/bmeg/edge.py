@@ -124,6 +124,15 @@ class ProteinFor(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
+class StructureFor(Edge):
+    """
+    Protein -> ProteinStructure
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
 class COCAClusterFor(Edge):
     """
     COCACluster -> Individual
@@ -156,6 +165,16 @@ class PFAMClanMember(Edge):
     PFAMClan -> PFAMFamily
     """
     pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class PFAMAlignment(Edge):
+    """
+    Protein -> PFAMFamily
+    """
+    start: int
+    end: int
 
 
 class InProject(Edge):
@@ -194,8 +213,82 @@ class AliquotFor(Edge):
     pass
 
 
+@enforce_types
+@dataclass(frozen=True)
+class ExpressionOf(Edge):
+    """
+    GeneExpression -> Aliquot
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
 class DrugResponseIn(Edge):
     """
     DrugResponse -> Biosample
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class HasSupportingReference(Edge):
+    """
+    G2PAssociation -> Publication
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class HasGeneFeature(Edge):
+    """
+    G2PAssociation -> Gene
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class HasAlleleFeature(Edge):
+    """
+    G2PAssociation -> Allele
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class HasPhenotype(Edge):
+    """
+    G2PAssociation -> Phenotype
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class HasEnvironment(Edge):
+    """
+    G2PAssociation -> Compound
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class HasMinimalAlleleFeature(Edge):
+    """
+    G2PAssociation -> Gene
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class MinimalAlleleIn(Edge):
+    """
+    MinimalAllele -> Gene
     """
     pass

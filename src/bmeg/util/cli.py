@@ -5,7 +5,7 @@ import argparse
 import logging
 
 
-def default_argument_parser():  # pragma: no cover
+def default_argument_parser(prefix_default=None):  # pragma: no cover
     # We don't need the first argument, which is the program name
     # Construct the parser
     parser = argparse.ArgumentParser(
@@ -13,6 +13,7 @@ def default_argument_parser():  # pragma: no cover
         formatter_class=argparse.RawDescriptionHelpFormatter)
 
     parser.add_argument('--prefix', type=str,
+                        default=prefix_default,
                         help='Path prefix for output files')
 
     parser.add_argument(
@@ -26,4 +27,8 @@ def default_argument_parser():  # pragma: no cover
         help="Be verbose",
         action="store_const", dest="loglevel", const=logging.INFO,
     )
+    parser.add_argument('--emitter', type=str,
+                        default='json',
+                        help='emitter type [json, debug]')
+
     return parser
