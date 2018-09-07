@@ -119,6 +119,7 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
             # should be json
             callset = json.loads(line)
             assert callset['gid'].startswith('Callset:mc3:Aliquot'), 'should start with Callset:mc3:Aliquot'
+            assert not callset['gid'].startswith('Callset:mc3:Aliquot:Aliquot'), 'should start with Callset:mc3:Aliquot'
             assert callset['data']['tumor_aliquot_id'] != callset['data']['normal_aliquot_id'], 'tumor should not equal normal'
 
     # check callsetfor

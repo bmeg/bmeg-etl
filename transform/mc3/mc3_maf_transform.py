@@ -23,7 +23,7 @@ MC3_EXTENSION_CALLSET_KEYS = [
     'Tumor_Seq_Allele1', 'Tumor_Seq_Allele2',
 ]
 
-ALLELE_CONVERSION_TABLE = {}
+ALIQUOT_CONVERSION_TABLE = {}
 
 
 class MC3_MAFTransformer(MAFTransformer):
@@ -36,8 +36,10 @@ class MC3_MAFTransformer(MAFTransformer):
 
     def barcode_to_aliquot_id(self, barcode):
         """ create tcga sample barcode """
-        global ALLELE_CONVERSION_TABLE
-        return ALLELE_CONVERSION_TABLE[barcode]
+        global ALIQUOT_CONVERSION_TABLE
+        if barcode not in ALIQUOT_CONVERSION_TABLE:
+            logging.warning('{} not found in ALIQUOT_CONVERSION_TABLE'.format(barcode))
+        return ALIQUOT_CONVERSION_TABLE[barcode]
 
     def create_gene_gid(self, line):  # pragma nocover
         """ override, create gene_gid from line """
@@ -97,11 +99,11 @@ def transform(mafpath, prefix, gdc_aliquot_path, source=MC3_MAFTransformer.SOURC
     """ entry point """
 
     # ensure that we have a lookup from CCLE native barcode to gdc derived uuid
-    global ALLELE_CONVERSION_TABLE
+    global ALIQUOT_CONVERSION_TABLE
     with open(gdc_aliquot_path, 'r', encoding='utf-8') as f:
         for line in f:
             aliquot = json.loads(line)
-            ALLELE_CONVERSION_TABLE[aliquot['data']['gdc_attributes']['submitter_id']] = aliquot['gid']
+            ALIQUOT_CONVERSION_TABLE[aliquot['data']['gdc_attributes']['submitter_id']] = aliquot['data']['aliquot_id']
     emitter = new_emitter(name=emitter_name, prefix=prefix)
     transformer.maf_convert(emitter=emitter, mafpath=mafpath, skip=skip, source=source)
 

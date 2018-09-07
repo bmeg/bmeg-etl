@@ -109,7 +109,7 @@ def sort_allele_files(path, sorted_allele_file):
 
 def transform(output_dir,
               prefix,
-              allele_store_name='memory',
+              allele_store_name='allele-sqlite',
               allele_store_path='/tmp/sqlite.db',
               emitter_name='json',
               vertex_filename_pattern='**/*.Allele.Vertex.json.gz',
