@@ -4,3 +4,6 @@ biostream
 output
 *.json
 build
+bmeg-build
+*.gz
+*.data

@@ -213,6 +213,17 @@ class AliquotFor(Edge):
     pass
 
 
+@enforce_types
+@dataclass(frozen=True)
+class ExpressionOf(Edge):
+    """
+    GeneExpression -> Aliquot
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
 class DrugResponseIn(Edge):
     """
     DrugResponse -> Biosample

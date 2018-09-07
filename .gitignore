@@ -24,6 +24,7 @@ eggs/
 *.sqlite
 .coverage
 
+/source
 .cache/
 .pytest_cache/
 /outputs

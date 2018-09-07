@@ -213,7 +213,30 @@ class PFAMFamily(Vertex):
 
     @classmethod
     def make_gid(cls, accession):
-        return GID("%s:%s" % ("PFAM", accession))
+        return GID("%s:%s" % (cls.__name__, accession))
+
+
+class ExpressionMetric(str, Enum):
+    TPM = "TPM"
+    RPKM = "RKPM"
+    GENE_TPM = "GENE_TPM"
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Expression(Vertex):
+    id: str
+    source: str
+    metric: ExpressionMetric
+    method: str
+    values: dict
+
+    def gid(self):
+        return Expression.make_gid(self.source, self.id)
+
+    @classmethod
+    def make_gid(cls, source, id):
+        return GID("%s:%s:%s" % (cls.__name__, source, id))
 
 
 @enforce_types
@@ -226,7 +249,7 @@ class PFAMClan(Vertex):
 
     @classmethod
     def make_gid(cls, accession):
-        return GID("%s:%s" % ("PFAMCLAN", accession))
+        return GID("%s:%s" % (cls.__name__, accession))
 
 
 @enforce_types
@@ -303,7 +326,7 @@ class GeneOntologyTerm(Vertex):
     def make_gid(cls, go_id):
         if go_id.startswith("GO:"):
             return GID(go_id)
-        return GID("GO:%s" % (go_id))
+        return GID("%s:%s" % (cls.__name__, go_id))
 
 
 @enforce_types
