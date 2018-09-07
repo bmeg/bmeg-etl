@@ -186,6 +186,7 @@ def parse_pubmed(handle, emitter):
 def name_clean(path):
     return os.path.basename(path).replace(".xml.gz", "")
 
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
