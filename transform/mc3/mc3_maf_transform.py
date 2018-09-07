@@ -109,7 +109,7 @@ def transform(mafpath, prefix, gdc_aliquot_path, source=MC3_MAFTransformer.SOURC
 
 
 def main(transformer=MC3_MAFTransformer()):  # pragma: no cover
-    parser = maf_default_argument_parser(transformer.DEFAULT_PREFIX)
+    parser = maf_default_argument_parser(transformer)
     parser.add_argument('--gdc_aliquot_path', type=str,
                         help='Path to the directory containing gdc.Aliquot.Vertex.json',
                         default='outputs/gdc/gdc.Aliquot.Vertex.json')

@@ -5,7 +5,7 @@ import csv
 import gzip
 import sys
 
-from bmeg.vertex import Allele, AlleleAnnotations
+from bmeg.vertex import Allele, AlleleAnnotations, Deadletter
 from bmeg.edge import CallsetFor, AlleleIn
 from bmeg.emitter import new_emitter
 from bmeg.util.cli import default_argument_parser
@@ -172,42 +172,49 @@ class MAFTransformer():
         logging.info('converting maf: ' + mafpath)
         my_callsets_ids = set()
         c = skip
+        e = 0
         for line in self.read_maf(mafpath, gz, skip):
-            allele = self.allele_maker(line)
-            # save the allele that was created
-            emitter.emit_vertex(allele)
-            # create edge between the allele and the callset
-            call_tuples, callsets = self.callset_maker(allele, source,
-                                                       centerCol,
-                                                       method, line)
-            # save the calls
-            for call_tuple in call_tuples:
-                call = call_tuple[0]
-                callset_gid = call_tuple[1]
-                emitter.emit_edge(call, allele.gid(), callset_gid)
-            # many callsets can be created, emit only uniques
-            for callset in callsets:
-                if callset.gid not in my_callsets_ids:
-                    my_callsets_ids.add(callset.gid)
-                    emitter.emit_vertex(callset)
-                    if callset.normal_aliquot_id:
+            try:
+                allele = self.allele_maker(line)
+                # save the allele that was created
+                emitter.emit_vertex(allele)
+                # create edge between the allele and the callset
+                call_tuples, callsets = self.callset_maker(allele, source,
+                                                           centerCol,
+                                                           method, line)
+                # save the calls
+                for call_tuple in call_tuples:
+                    call = call_tuple[0]
+                    callset_gid = call_tuple[1]
+                    emitter.emit_edge(call, allele.gid(), callset_gid)
+                # many callsets can be created, emit only uniques
+                for callset in callsets:
+                    if callset.gid not in my_callsets_ids:
+                        my_callsets_ids.add(callset.gid)
+                        emitter.emit_vertex(callset)
+                        if callset.normal_aliquot_id:
+                            emitter.emit_edge(CallsetFor(),
+                                              callset.gid(),
+                                              callset.normal_aliquot_id
+                                              )
                         emitter.emit_edge(CallsetFor(),
                                           callset.gid(),
-                                          callset.normal_aliquot_id
+                                          callset.tumor_aliquot_id
                                           )
-                    emitter.emit_edge(CallsetFor(),
-                                      callset.gid(),
-                                      callset.tumor_aliquot_id
-                                      )
 
-            # create edge to gene
-            gene_gid = self.create_gene_gid(line)
-            if gene_gid:
-                emitter.emit_edge(AlleleIn(), allele.gid(), gene_gid)
+                # create edge to gene
+                gene_gid = self.create_gene_gid(line)
+                if gene_gid:
+                    emitter.emit_edge(AlleleIn(), allele.gid(), gene_gid)
+            except Exception as exc:
+                logging.error(str(exc))
+                e += 1
+                emitter.emit_vertex(Deadletter(target_label='Allele', data=line))
+
             # log progress
             c += 1
             if c % 1000 == 0:  # pragma nocover
-                logging.info('imported {}'.format(c))
+                logging.info('imported {} errors: {}'.format(c, e))
         logging.info('imported {}'.format(c))
 
 
@@ -228,6 +235,7 @@ def maf_default_argument_parser(transformer):
         help="skip first N lines in MAF",
         default=0
     )
+    return parser
 
 
 def main(transformer):  # pragma: no cover

@@ -2,6 +2,7 @@ import pytest
 import os
 import json
 import gripql
+import contextlib
 
 
 class Helpers:
@@ -69,13 +70,14 @@ class Helpers:
         vertices = {}
         edges = {}
         for graph_file_path in graph_file_paths:
-            with open(graph_file_path, 'r', encoding='utf-8') as f:
-                store = vertices
-                if 'Edge' in graph_file_path:
-                    store = edges
-                for line in f:
-                    obj = json.loads(line)
-                    store[obj['gid']] = obj
+            with contextlib.suppress(FileNotFoundError):
+                with open(graph_file_path, 'r', encoding='utf-8') as f:
+                    store = vertices
+                    if 'Edge' in graph_file_path:
+                        store = edges
+                    for line in f:
+                        obj = json.loads(line)
+                        store[obj['gid']] = obj
         # ensure that all edges have vertexes
         for edge_gid in edges.keys():
             edge = edges[edge_gid]

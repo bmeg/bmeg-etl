@@ -39,6 +39,12 @@ def NO_REF_ALT_file(request):
 
 
 @pytest.fixture
+def NO_BARCODE_file(request):
+    """ get the full path of the test fixture """
+    return os.path.join(request.fspath.dirname, 'tcga_test-NO_BARCODE.maf')
+
+
+@pytest.fixture
 def emitter_path_prefix(request):
     """ get the full path of the test output """
     return os.path.join(request.fspath.dirname, 'test/test')
@@ -56,7 +62,8 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
     callset_file = '{}.Callset.Vertex.json'.format(emitter_path_prefix)
     allelein_file = '{}.AlleleIn.Edge.json'.format(emitter_path_prefix)
     callsetfor_file = '{}.CallsetFor.Edge.json'.format(emitter_path_prefix)
-    all_files = [allele_file, allelecall_file, callset_file, allelein_file, callsetfor_file]
+    deadletter_file = '{}.Deadletter.Vertex.json'.format(emitter_path_prefix)
+    all_files = [allele_file, allelecall_file, callset_file, allelein_file, callsetfor_file, deadletter_file]
     # remove output
     with contextlib.suppress(FileNotFoundError):
         for f in all_files:
@@ -151,5 +158,25 @@ def test_no_center(helpers, no_center_file, emitter_path_prefix, gdc_aliquot_pat
 
 def test_NO_REF_ALT(helpers, NO_REF_ALT_file, emitter_path_prefix, gdc_aliquot_path):
     """ no start """
-    with pytest.raises(ValueError):
+    with pytest.raises(AssertionError):
         validate(helpers, NO_REF_ALT_file, emitter_path_prefix, gdc_aliquot_path)
+    deadletter_file = '{}.Deadletter.Vertex.json'.format(emitter_path_prefix)
+    with open(deadletter_file, 'r', encoding='utf-8') as f:
+        c = 0
+        for line in f:
+            json.loads(line)
+            c += 1
+        assert c == 1, 'We should have 1 dead letter'
+
+
+def test_NO_BARCODE(helpers, NO_BARCODE_file, emitter_path_prefix, gdc_aliquot_path):
+    """ no start """
+    with pytest.raises(AssertionError):
+        validate(helpers, NO_BARCODE_file, emitter_path_prefix, gdc_aliquot_path)
+    deadletter_file = '{}.Deadletter.Vertex.json'.format(emitter_path_prefix)
+    with open(deadletter_file, 'r', encoding='utf-8') as f:
+        c = 0
+        for line in f:
+            json.loads(line)
+            c += 1
+        assert c == 1, 'We should have 1 dead letter'
