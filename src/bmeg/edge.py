@@ -292,3 +292,12 @@ class MinimalAlleleIn(Edge):
     MinimalAllele -> Gene
     """
     pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class ResponseTo(Edge):
+    """
+    ResponseCurve -> Compound
+    """
+    pass
