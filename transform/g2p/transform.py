@@ -111,7 +111,7 @@ def toGraph(normalized_association, emitter):
 
 def transform(input_path, prefix, emitter_class='json'):
     """ parse the association and write to graph using emitter"""
-    emitter = new_emitter(prefix=prefix)
+    emitter = new_emitter(directory=prefix)
 
     for normalized_association in normalizeAssociations(input_path):
         toGraph(normalized_association, emitter)
