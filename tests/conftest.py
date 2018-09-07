@@ -1,6 +1,8 @@
 import pytest
 import os
 import json
+import gripql
+import contextlib
 
 
 class Helpers:
@@ -8,7 +10,7 @@ class Helpers:
     @staticmethod
     def assert_data_keys_populated(data_class, vertex_dict):
         """ ensure that all non Union(NoneType,...) fields are not empty. """
-        # mandatory keys
+        # introspect mandatory keys
         for k in data_class.__dataclass_fields__.keys():
             field = data_class.__dataclass_fields__[k]
             # skip if union(None, ...)
@@ -68,13 +70,14 @@ class Helpers:
         vertices = {}
         edges = {}
         for graph_file_path in graph_file_paths:
-            with open(graph_file_path, 'r', encoding='utf-8') as f:
-                store = vertices
-                if 'Edge' in graph_file_path:
-                    store = edges
-                for line in f:
-                    obj = json.loads(line)
-                    store[obj['gid']] = obj
+            with contextlib.suppress(FileNotFoundError):
+                with open(graph_file_path, 'r', encoding='utf-8') as f:
+                    store = vertices
+                    if 'Edge' in graph_file_path:
+                        store = edges
+                    for line in f:
+                        obj = json.loads(line)
+                        store[obj['gid']] = obj
         # ensure that all edges have vertexes
         for edge_gid in edges.keys():
             edge = edges[edge_gid]
@@ -86,8 +89,8 @@ class Helpers:
             label = _to.split(':')[0]
             if label in exclude_labels:
                 continue
-            assert vertices[_from], 'edge {} from {} does not exist'.format(edge_gid, _from)
-            assert vertices[_to], 'edge {} from {} does not exist'.format(edge_gid, _to)
+            assert vertices.get(_from, None), 'edge {} from {} does not exist'.format(edge_gid, _from)
+            assert vertices.get(_to, None), 'edge {} from {} does not exist'.format(edge_gid, _to)
         # ensure that all vertexes have edge
         froms = [edges[gid]['from'] for gid in edges.keys()]
         tos = [edges[gid]['to'] for gid in edges.keys()]
@@ -100,4 +103,19 @@ class Helpers:
 
 @pytest.fixture
 def helpers():
+    """ ratify Helper class """
     return Helpers
+
+
+@pytest.fixture(scope="module")
+def graph():
+    """ return a connection to the bmeg graph (control w/ BMEG_URL, BMEG_GRAPH env var) """
+    bmeg_url = os.getenv('BMEG_URL', "http://arachne.compbio.ohsu.edu")
+    bmeg_graph = os.getenv('BMEG_GRAPH', "bmeg-test")
+    return gripql.Connection(bmeg_url).graph(bmeg_graph)
+
+
+@pytest.fixture(scope="module")
+def V(graph):
+    """ return the Vertex in the bmeg graph """
+    return graph.query().V()

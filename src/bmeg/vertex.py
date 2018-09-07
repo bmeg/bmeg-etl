@@ -1,8 +1,8 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, asdict
 from enum import Enum
 import hashlib
 from typing import Union
-
+from dacite import from_dict as dacite_from_dict
 from bmeg.gid import GID
 from bmeg.utils import enforce_types
 
@@ -13,27 +13,45 @@ class Vertex:
     def label(self):
         return self.__class__.__name__
 
+    def asdict(self):
+        return asdict(self)
+
+    @classmethod
+    def from_dict(cls, data):
+        if data:
+            return dacite_from_dict(data_class=cls, data=data)
+        return None
+
 
 @enforce_types
 @dataclass(frozen=True)
 class Callset(Vertex):
-    tumor_biosample_id: str
-    normal_biosample_id: Union[None, str]
+    tumor_aliquot_id: str
+    normal_aliquot_id: Union[None, str]
     call_method: str
     source: str
 
     def gid(self):
-        return Callset.make_gid(self.tumor_biosample_id,
-                                self.normal_biosample_id,
+        return Callset.make_gid(self.tumor_aliquot_id,
+                                self.normal_aliquot_id,
                                 self.call_method,
                                 self.source)
 
     @classmethod
-    def make_gid(cls, tumor_biosample_id, normal_biosample_id,
+    def make_gid(cls, tumor_aliquot_id, normal_aliquot_id,
                  call_method, source):
         return GID("%s:%s:%s:%s:%s" % (cls.__name__, source,
-                                       tumor_biosample_id, normal_biosample_id,
+                                       tumor_aliquot_id, normal_aliquot_id,
                                        call_method))
+
+
+@enforce_types
+@dataclass(frozen=False)  # note: mutable class
+class AlleleAnnotations:
+    maf: Union[None, dict] = None   # annotations from standard maf https://docs.gdc.cancer.gov/Data/File_Formats/MAF_Format/
+    mc3: Union[None, dict] = None   # annotations from mc3 maf extension
+    ccle: Union[None, dict] = None  # annotations from ccle maf  extension
+    myvariantinfo: Union[None, dict] = None  # annotations from biothings
 
 
 @enforce_types
@@ -45,8 +63,7 @@ class Allele(Vertex):
     end: int
     reference_bases: str
     alternate_bases: str
-    annotations: Union[None, list] = None
-    myvariantinfo: Union[None, dict] = None
+    annotations: AlleleAnnotations
     type: Union[None, str] = None
     effect: Union[None, str] = None
 
@@ -270,7 +287,7 @@ class COCACluster(Vertex):
 class Individual(Vertex):
     individual_id: str
     gdc_attributes: dict
-    gtex_attributes: dict
+    gtex_attributes: Union[None, dict] = None
 
     def gid(self):
         return Individual.make_gid(self.individual_id)
@@ -284,9 +301,9 @@ class Individual(Vertex):
 @dataclass(frozen=True)
 class Biosample(Vertex):
     biosample_id: str
-    gdc_attributes: dict = field(default_factory=dict)
-    ccle_attributes: dict = field(default_factory=dict)
-    gtex_attributes: dict = field(default_factory=dict)
+    gdc_attributes: Union[None, dict] = None
+    ccle_attributes: Union[None, dict] = None
+    gtex_attributes: Union[None, dict] = None
 
     def gid(self):
         return Biosample.make_gid(self.biosample_id)
@@ -300,6 +317,7 @@ class Biosample(Vertex):
 @dataclass(frozen=True)
 class Aliquot(Vertex):
     aliquot_id: str
+    gdc_attributes: Union[None, dict] = None
 
     def gid(self):
         return Aliquot.make_gid(self.aliquot_id)

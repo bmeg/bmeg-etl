@@ -1,11 +1,12 @@
-from aql import Connection, eq
+from gripql import eq
+"""
+test gdc data in graph
+V is a test fixture greated in conftest.py
+"""
 
 
-v = Connection("localhost:8201").graph("bmeg-test").query().V()
-
-
-def test_project():
-    q = (v.
+def test_project(V):
+    q = (V.
          where(eq("_label", "Project")).
          where(eq("project_id", "TCGA-BRCA")))
 
@@ -17,8 +18,8 @@ def test_project():
     assert proj.data.project_id == "TCGA-BRCA"
 
 
-def test_project_biosamples():
-    q = (v.
+def test_project_biosamples(V):
+    q = (V.
          where(eq("_label", "Project")).
          where(eq("project_id", "TCGA-BRCA")).
          in_("InProject").
@@ -30,15 +31,15 @@ def test_project_biosamples():
     print(first)
 
 
-def test_biosample_gid():
-    q = (v.
+def test_biosample_gid(V):
+    q = (V.
          where(eq("_gid", "Biosample:2ba23626-b0f4-449b-9e4f-a4163c1cf474")))
     res = q.execute()
     assert len(res) == 1
 
 
-def test_project_aliquots():
-    q = (v.
+def test_project_aliquots(V):
+    q = (V.
          where(eq("_label", "Project")).
          where(eq("project_id", "TCGA-BRCA")).
          in_("InProject").
@@ -51,6 +52,6 @@ def test_project_aliquots():
     print(first)
 
 
-def test_aliquot_gid():
-    res = v.where(eq("_gid", "Aliquot:TCGA-AR-A0U1-01A-11W-A12T-09")).execute()
+def test_aliquot_gid(V):
+    res = V.where(eq("_gid", "Aliquot:TCGA-AR-A0U1-01A-11W-A12T-09")).execute()
     assert len(res) == 1

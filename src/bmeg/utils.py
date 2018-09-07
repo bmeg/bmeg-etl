@@ -1,7 +1,7 @@
 import os
 import inspect
 import typing
-
+import threading
 from contextlib import suppress
 from functools import wraps
 
@@ -26,6 +26,12 @@ def enforce_types(callable):
     def check_types(*args, **kwargs):
         parameters = dict(zip(spec.args, args))
         parameters.update(kwargs)
+        # allow thread to control if check skipped
+        try:
+            if threading.local().skip_check_types:
+                return
+        except AttributeError:
+            pass
         for name, value in parameters.items():
             # Assume un-annotated parameters can be any type
             with suppress(KeyError):

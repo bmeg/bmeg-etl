@@ -14,7 +14,7 @@ import bmeg.ioutils
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
 
-from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment, HasMinimalAlleleFeature, HasGene, AlleleIn
+from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment, HasMinimalAlleleFeature, AlleleIn, MinimalAlleleIn
 from bmeg.vertex import Deadletter
 from bmeg.emitter import new_emitter
 
@@ -33,6 +33,8 @@ def normalizeAssociations(path):
          'publications', 'association', 'minimal_alleles', 'missing_vertexes'])
     for line in input_stream:
         hit = json.loads(line)
+        if hit['source'] == 'litvar':
+            continue
         (hit, genes, missing_genes) = genes_normalize(hit)
         (hit, features, minimal_alleles, missing_features) = features_normalize(hit)
         (hit, environments) = environments_normalize(hit)
@@ -84,7 +86,7 @@ def toGraph(normalized_association, emitter):
                           allele_has_gene[1],
                           )
     for minimal_allele_has_gene in na.vertices['minimal_allele_has_gene']:
-        emitter.emit_edge(HasGene(),
+        emitter.emit_edge(MinimalAlleleIn(),
                           minimal_allele_has_gene[0],
                           minimal_allele_has_gene[1],
                           )

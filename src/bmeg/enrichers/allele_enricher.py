@@ -3,15 +3,15 @@ import requests
 import urllib
 import logging
 import json
-from bmeg.vertex import Allele
 from bmeg.requests import Client
-
 
 TIMEOUT = 30
 
 
-def _myvariantinfo(genome, chromosome, start, end, reference_bases,
-                   alternate_bases, annotations=[]):
+def myvariantinfo(
+    genome, chromosome, start, end, reference_bases,
+    alternate_bases, annotations=[]
+):
     """ retrieve payload from myvariant.info location query"""
     if (reference_bases == '' or alternate_bases == '' or reference_bases is None or alternate_bases is None):
         raise ValueError('reference_bases & alternate_bases must be set')
@@ -107,36 +107,6 @@ def _myvariantinfo(genome, chromosome, start, end, reference_bases,
     })
 
 
-def harvest(genome, chromosome, start, end, reference_bases, alternate_bases,
-            annotations=[], harvest=True, filter={}):
-    """ creates an Allele, including external datasources (myvariant.info)"""
-    allele = None
-    allele = Allele(genome, chromosome, start, end, reference_bases,
-                    alternate_bases, annotations)
-    if allele.gid() in filter:
-        _log_json({
-            'stage': 'filtered',
-            'allele_gid': allele.gid(),
-            'genome': genome,
-            'chromosome': chromosome,
-            'start': start,
-            'end': end,
-            'reference_bases': reference_bases,
-            'alternate_bases': alternate_bases,
-            'annotations': annotations,
-        })
-        return None
-
-    if harvest:
-        myvariantinfo_dict = _myvariantinfo(genome, chromosome, start, end,
-                                            reference_bases, alternate_bases,
-                                            annotations)
-        if myvariantinfo_dict:
-            allele = Allele(genome, chromosome, start, end, reference_bases,
-                            alternate_bases, annotations, myvariantinfo_dict)
-    return allele
-
-
 def _log_json(obj):
     ''' log object as json '''
-    logging.info(json.dumps(obj))
+    logging.debug(json.dumps(obj))
