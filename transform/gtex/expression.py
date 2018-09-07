@@ -11,7 +11,7 @@ for sample, values in parse_gct(p, "outputs/gtex", split_ensembl_id):
     g = Expression(
         id=sample,
         source="gtex",
-        scale=ExpressionMetric.GENE_TPM,
+        metric=ExpressionMetric.GENE_TPM,
         method="Illumina HiSeq",
         values=values,
     )
