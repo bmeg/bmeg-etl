@@ -34,25 +34,21 @@ def merge(alleles):
     return base
 
 
-def enrich(allele, myvariant_store):
-    """ check store, fetch & update.  TODO - other enrichments?"""
+def enrich(allele):
+    """ check store, fetch & update. returns enriched (allele, myvariantinfo_annotation)"""
     # skip if already done
+    myvariantinfo_annotation = None
     if not allele.annotations.myvariantinfo:
-        # in local store?
-        myvariantinfo_annotation = myvariant_store.get(allele.gid())
-        if not myvariantinfo_annotation:
-            # no, fetch it from biothings
-            myvariantinfo_annotation = myvariantinfo(
-                genome=allele.genome, chromosome=allele.chromosome, start=allele.start,
-                end=allele.end, reference_bases=allele.reference_bases,
-                alternate_bases=allele.alternate_bases
-            )
-            if myvariantinfo_annotation:
-                logging.debug('found new myvariant annotation for {}'.format(allele.gid()))
-                # save it for next time
-                myvariant_store.put(allele)
-        allele.annotations.myvariantinfo = myvariantinfo_annotation
-    return allele
+        # no, fetch it from biothings
+        myvariantinfo_annotation = myvariantinfo(
+            genome=allele.genome, chromosome=allele.chromosome, start=allele.start,
+            end=allele.end, reference_bases=allele.reference_bases,
+            alternate_bases=allele.alternate_bases
+        )
+        if myvariantinfo_annotation:
+            logging.debug('found new myvariant annotation for {}'.format(allele.gid()))
+            allele.annotations.myvariantinfo = myvariantinfo_annotation
+    return allele, myvariantinfo_annotation
 
 
 def enrich_from_dict(allele, myvariantinfo_annotation):
@@ -135,7 +131,7 @@ def transform(output_dir,
     path = '{}/{}'.format(output_dir, vertex_filename_pattern)
     logging.info('checking {}'.format(path))
     sorted_allele_file = sort_allele_files(path, sorted_allele_file)
-    allele_store = new_store('allele-sqlite', path=allele_store_path)
+    allele_store = new_store(allele_store_name, path=allele_store_path)
     c = 0
     t = 0
     batch_size = 20000
@@ -232,6 +228,33 @@ def transform(output_dir,
     emitter.close()
 
 
+def harvest(allele_store_name, allele_store_path):
+    """ read the allele_store, enrich it & write myvariantinfo"""
+    logging.info('harvesting')
+    allele_store = new_store(allele_store_name, path=allele_store_path)
+    c = t = h = e = 0
+    batch_size = 1000
+    with open('source/allele/harvested_myvariantinfo.json', 'w') as outfile:
+        for allele in allele_store.all():
+            myvariantinfo_annotation = None
+            try:
+                allele, myvariantinfo_annotation = enrich(allele)
+            except Exception as exc:
+                logging.debug(str(exc))
+                e += 1
+            c += 1
+            t += 1
+            if myvariantinfo_annotation:
+                h += 1
+                ujson.dump(myvariantinfo_annotation, outfile)
+                outfile.write("\n")
+            if c % batch_size == 0:
+                logging.info('harvesting read: {} myvariant hits: {} errors: {}'.format(t, h, e))
+                c = 0
+
+
+
+
 def main():  # pragma: no cover
     parser = default_argument_parser(prefix_default='allele')
 
@@ -254,17 +277,26 @@ def main():  # pragma: no cover
                         help='path to myvariantinfo json',
                         default='source/myvariant.info/biothings_current_old_hg19.json.gz')
 
+    parser.add_argument('--harvest', dest='harvest', default=False, action='store_true',
+                        help="don't transform, just harvest from myvariantinfo")
+
     # We don't need the first argument, which is the program name
     options = parser.parse_args(sys.argv[1:])
     default_logging(options.loglevel)
 
-    transform(output_dir=options.output_dir,
-              prefix=options.prefix,
-              sorted_allele_file=options.sorted_allele_file,
-              allele_store_name=options.allele_store_name,
-              allele_store_path=options.allele_store_path,
-              myvariantinfo_path=options.myvariantinfo_path,
-              emitter_name=options.emitter)
+    if options.harvest:
+        harvest(
+            allele_store_name=options.allele_store_name,
+            allele_store_path=options.allele_store_path,
+        )
+    else:
+        transform(output_dir=options.output_dir,
+                  prefix=options.prefix,
+                  sorted_allele_file=options.sorted_allele_file,
+                  allele_store_name=options.allele_store_name,
+                  allele_store_path=options.allele_store_path,
+                  myvariantinfo_path=options.myvariantinfo_path,
+                  emitter_name=options.emitter)
 
 
 if __name__ == '__main__':  # pragma: no cover

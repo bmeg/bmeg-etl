@@ -109,4 +109,4 @@ def myvariantinfo(
 
 def _log_json(obj):
     ''' log object as json '''
-    logging.info(json.dumps(obj))
+    logging.debug(json.dumps(obj))
