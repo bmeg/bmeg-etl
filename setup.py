@@ -21,7 +21,7 @@ setup(
     url="https://github.com/bmeg/bmeg-etl",
     license="MIT",
     package_dir={"": "src/"},
-    packages=["bmeg"],
+    packages=["bmeg", "bmeg.util", "bmeg.maf"],
     python_requires=">=3.6, <4",
     install_requires=[
         "dataclasses>=0.6",

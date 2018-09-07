@@ -201,7 +201,7 @@ class MAFTransformer():
 def transform(mafpath, prefix, workers=5, skip=0, harvest=True, filter=[],
               transformer=MAFTransformer()):
     """ entry point """
-    emitter = Emitter(prefix=prefix)
+    emitter = Emitter(directory=prefix)
     transformer.maf_convert(emitter=emitter, mafpath=mafpath, workers=workers,
                             skip=skip, harvest=harvest, filter=filter)
     emitter.close()
