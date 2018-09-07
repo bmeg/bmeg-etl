@@ -253,8 +253,6 @@ def harvest(allele_store_name, allele_store_path):
                 c = 0
 
 
-
-
 def main():  # pragma: no cover
     parser = default_argument_parser(prefix_default='allele')
 

@@ -8,6 +8,7 @@ from bmeg.emitter import new_emitter
 from bmeg.util.logging import default_logging
 import json
 import sys
+import logging
 
 TUMOR_SAMPLE_BARCODE = "Tumor_Sample_Barcode"  # 15
 NORMAL_SAMPLE_BARCODE = "Matched_Norm_Sample_Barcode"  # 16
