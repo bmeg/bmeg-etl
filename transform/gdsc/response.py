@@ -45,7 +45,7 @@ def transform(path="source/gdsc/GDSC_AUC.csv", prefix=DEFAULT_PREFIX):
     # Iterate all rows, writing out the expression for different tissue types
     # to separate files.
     c = t = 0
-    compound_cache = []
+    compound_cache = {}
     for row in r:
         c += 1
         t += 1
@@ -72,10 +72,11 @@ def transform(path="source/gdsc/GDSC_AUC.csv", prefix=DEFAULT_PREFIX):
                 Biosample.make_gid(sample),
             )
             # create compound
-            compound = enrich(row["compound_name"])
-            if compound.gid() not in compound_cache:
+            compound = compound_cache.get(row["compound_name"], None)
+            if not compound:
+                compound = enrich(row["compound_name"])
                 emitter.emit_vertex(compound)
-                compound_cache.append(compound.gid())
+                compound_cache[row["compound_name"]] = compound
             # and an edge to it
             emitter.emit_edge(
                 ResponseTo(),
