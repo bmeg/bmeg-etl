@@ -1,0 +1,41 @@
+# Python temps
+__pycache__/
+*.py[cod]
+*$py.class
+build/
+dist/
+eggs/
+.eggs/
+*.egg-info/
+*.egg
+.tox/
+.mypy_cache/
+
+# Editor Temps
+.*.sw?
+*~
+\#*\#
+.desktop
+
+*venv*
+
+*.Vertex.json
+*.Edge.json
+*.sqlite
+.coverage
+
+/source
+.cache/
+.pytest_cache/
+/outputs
+
+# ignore everything except markdown documents in source
+source/*/*.*
+!source/*/*.md
+
+!tests/unit/allele/outputs/*/test.Allele.Vertex.json
+tests/unit/allele/source/myvariantinfo/sqlite.db
+!tests/unit/mc3/outputs/**/*.json
+
+
+.DS_Store

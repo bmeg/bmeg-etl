@@ -19,7 +19,7 @@ inputs:
     default: False
     inputBinding:
       prefix: "--all"
-  
+
   ids:
     type: ["null", "string[]"]
     inputBinding:

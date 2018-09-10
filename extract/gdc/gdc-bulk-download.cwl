@@ -3,7 +3,7 @@ cwlVersion: v1.0
 class: CommandLineTool
 hints:
   DockerRequirement:
-    dockerPull: biostream/gdc-extract:latest
+    dockerPull: bmeg/bmeg-etl:latest
 
 requirements:
   - class: InlineJavascriptRequirement
@@ -29,7 +29,7 @@ outputs:
   ARCHIVE:
     type: File
     outputBinding:
-      glob: $(inputs.OUTPUT_NAME)
+      glob: $(inputs.OUTPUT_NAME + ".tar.gz")
 
   FILEMAP:
     type: File

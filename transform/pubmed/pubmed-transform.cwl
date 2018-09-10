@@ -3,11 +3,11 @@ cwlVersion: v1.0
 class: CommandLineTool
 hints:
   DockerRequirement:
-    dockerPull: biostream/pubmed-transform:latest
+    dockerPull: bmeg/bmeg-etl:latest
 
 baseCommand:
-  - python
-  - /opt/pubmed.py
+  - python3.7
+  - /opt/transform/pubmed/pubmed.py
 
 inputs:
   file:
@@ -15,8 +15,8 @@ inputs:
     inputBinding:
       position: 1
 
-stdout: pubmed.json
-
 outputs:
   DATA:
-    type: stdout
+    type: File
+    outputBinding:
+      glob: outputs/pubmed/pubmed.Pubmed.Vertex.json

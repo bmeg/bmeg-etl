@@ -1,41 +1,19 @@
 FROM ubuntu:18.04
 
 RUN apt-get update && \
-apt-get install -y python python-pip python-lzo zlib1g-dev unzip golang-go git
+apt-get install -y python3.7 python3-pip python-lzo zlib1g-dev unzip git liblzo2-dev
 
-RUN pip install numpy bx-python requests protobuf pandas xlrd
-RUN pip install "git+https://github.com/bmeg/schemas.git#subdirectory=python"
+RUN pip3 install numpy bx-python requests protobuf pandas xlrd
 
-# GDC Transform
-COPY transform/gdc/*.py /opt/
-COPY transform/gdc/tcga_pubchem.map /opt/
+# Copy Transform code
+COPY transform /opt/transform
 
-# CCLE Transform
-COPY transform/ccle/*.py /opt/
-COPY transform/ccle/ccle_pubchem.txt /opt/
+# Copy RNA Transform code
+COPY transform/rna-matrix/transform-rna-matrix.py /opt/
 
-# CTDD transform
-COPY transform/ctdd/*.py /opt/
-COPY transform/ctdd/ctdd_pubchem.table /opt/
+COPY setup.py README.md /build/
+COPY src /build/src
 
-# Variant transform
-COPY transform/variant/ga4gh-variant.py /opt/
+RUN cd /build && python3.7 setup.py build && python3.7 setup.py install
 
-# GO Transform
-COPY transform/go/*.py /opt/
-
-# GDSC transform
-COPY transform/gdsc/*.py /opt/
-COPY transform/gdsc/gdsc_pubchem.table /opt/
-
-COPY transform/ensembl/run.go /opt/
-
-COPY transform/pathway-commons/sif_convert.py /opt/
-COPY transform/pubmed/pubmed.py /opt/
-
-ENV GOPATH /opt
-WORKDIR /opt/
-COPY transform/gct/gct.go /opt/
-RUN go get github.com/blachlylab/gff3 && go get github.com/golang/protobuf/jsonpb && \
-go get github.com/golang/protobuf/proto && go get github.com/bmeg/schemas/go/bmeg && \
-go get github.com/biostream/schemas/go/bmeg && go build gct.go
+WORKDIR /opt

@@ -1,0 +1,15 @@
+flake8
+pytest==3.6.3
+pandas==0.23.3
+mygene==3.0.0
+myvariant==0.3.1
+requests==2.19.1
+requests-cache==0.4.13
+pytest-cov==2.5.1
+more-itertools==4.2.0
+# grip
+git+https://github.com/bmeg/grip.git#subdirectory=gripql/python
+# faster json
+ujson==1.35
+# dataclass serialization
+dacite==0.0.16
