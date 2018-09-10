@@ -20,11 +20,11 @@ def pubmed_file(request):
 @pytest.fixture
 def emitter_path_prefix(request):
     """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'test/test')
+    return os.path.join(request.fspath.dirname, 'test')
 
 
 def validate(pubmed_file, emitter_path_prefix):
-    publication_file = '{}.Publication.Vertex.json'.format(emitter_path_prefix)
+    publication_file = os.path.join(emitter_path_prefix, 'Publication.Vertex.json')
     # remove output
     with contextlib.suppress(FileNotFoundError):
         os.remove(publication_file)

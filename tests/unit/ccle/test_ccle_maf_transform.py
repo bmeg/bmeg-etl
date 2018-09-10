@@ -20,15 +20,15 @@ def maf_file(request):
 @pytest.fixture
 def emitter_path_prefix(request):
     """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'test/test')
+    return os.path.join(request.fspath.dirname, 'test')
 
 
 def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
-    allele_file = '{}.Allele.Vertex.json'.format(emitter_path_prefix)
-    allelecall_file = '{}.AlleleCall.Edge.json'.format(emitter_path_prefix)
-    callset_file = '{}.Callset.Vertex.json'.format(emitter_path_prefix)
-    allelein_file = '{}.AlleleIn.Edge.json'.format(emitter_path_prefix)
-    callsetfor_file = '{}.CallsetFor.Edge.json'.format(emitter_path_prefix)
+    allele_file = os.path.join(emitter_path_prefix, 'Allele.Vertex.json')
+    allelecall_file = os.path.join(emitter_path_prefix, 'AlleleCall.Edge.json')
+    callset_file = os.path.join(emitter_path_prefix, 'Callset.Vertex.json')
+    allelein_file = os.path.join(emitter_path_prefix, 'AlleleIn.Edge.json')
+    callsetfor_file = os.path.join(emitter_path_prefix, 'CallsetFor.Edge.json')
     all_files = [allele_file, allelecall_file, callset_file, allelein_file, callsetfor_file]
 
     # remove output

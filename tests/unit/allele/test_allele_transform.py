@@ -19,7 +19,7 @@ def output_directory(request):
 @pytest.fixture
 def emitter_path_prefix(request):
     """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'test/test')
+    return os.path.join(request.fspath.dirname, 'test')
 
 
 @pytest.fixture
@@ -41,7 +41,7 @@ def validate_myvariantinfo_count(allele_file):
 
 
 def validate(helpers, output_directory, emitter_path_prefix, myvariantinfo_path):
-    allele_file = '{}.Allele.Vertex.json'.format(emitter_path_prefix)
+    allele_file = os.path.join(emitter_path_prefix, 'Allele.Vertex.json')
     # remove output
     with contextlib.suppress(FileNotFoundError):
         os.remove(allele_file)
@@ -66,7 +66,8 @@ def validate(helpers, output_directory, emitter_path_prefix, myvariantinfo_path)
               allele_store_path='/tmp/sqlite.db',
               vertex_filename_pattern='**/Allele.Vertex.json',
               myvariantinfo_path=myvariantinfo_path)
-    # test/test.Allele.Vertex.json
+
+    # test/Allele.Vertex.json
     helpers.assert_vertex_file_valid(Allele, allele_file)
     validate_myvariantinfo_count(allele_file)
 

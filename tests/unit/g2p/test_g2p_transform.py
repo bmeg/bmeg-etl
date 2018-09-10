@@ -17,22 +17,22 @@ def g2p_file(request):
 @pytest.fixture
 def emitter_path_prefix(request):
     """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'test/test')
+    return os.path.join(request.fspath.dirname, 'test')
 
 
 def validate(helpers, g2p_file, emitter_path_prefix):
-    association_file = '{}.G2PAssociation.Vertex.json'.format(emitter_path_prefix)
-    publication_edge_file = '{}.HasSupportingReference.Edge.json'.format(emitter_path_prefix)
-    gene_edge_file = '{}.HasGeneFeature.Edge.json'.format(emitter_path_prefix)
-    allele_edge_file = '{}.HasAlleleFeature.Edge.json'.format(emitter_path_prefix)
-    allele_file = '{}.Allele.Vertex.json'.format(emitter_path_prefix)
-    phenotype_file = '{}.Phenotype.Vertex.json'.format(emitter_path_prefix)
-    phenotype_edge_file = '{}.HasPhenotype.Edge.json'.format(emitter_path_prefix)
-    deadletter_file = '{}.Deadletter.Vertex.json'.format(emitter_path_prefix)
-    minimal_allele_file = '{}.MinimalAllele.Vertex.json'.format(emitter_path_prefix)
-    minimal_allele_edge_file = '{}.HasMinimalAlleleFeature.Edge.json'.format(emitter_path_prefix)
-    has_gene_edge_file = '{}.MinimalAlleleIn.Edge.json'.format(emitter_path_prefix)
-    allele_in_edge_file = '{}.AlleleIn.Edge.json'.format(emitter_path_prefix)
+    association_file = os.path.join(emitter_path_prefix, 'G2PAssociation.Vertex.json')
+    publication_edge_file = os.path.join(emitter_path_prefix, 'HasSupportingReference.Edge.json')
+    gene_edge_file = os.path.join(emitter_path_prefix, 'HasGeneFeature.Edge.json')
+    allele_edge_file = os.path.join(emitter_path_prefix, 'HasAlleleFeature.Edge.json')
+    allele_file = os.path.join(emitter_path_prefix, 'Allele.Vertex.json')
+    phenotype_file = os.path.join(emitter_path_prefix, 'Phenotype.Vertex.json')
+    phenotype_edge_file = os.path.join(emitter_path_prefix, 'HasPhenotype.Edge.json')
+    deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json')
+    minimal_allele_file = os.path.join(emitter_path_prefix, 'MinimalAllele.Vertex.json')
+    minimal_allele_edge_file = os.path.join(emitter_path_prefix, 'HasMinimalAlleleFeature.Edge.json')
+    has_gene_edge_file = os.path.join(emitter_path_prefix, 'MinimalAlleleIn.Edge.json')
+    allele_in_edge_file = os.path.join(emitter_path_prefix, 'AlleleIn.Edge.json')
     # remove output
     with contextlib.suppress(FileNotFoundError):
         os.remove(association_file)
