@@ -55,6 +55,9 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
             callset = json.loads(line)
             # source should be ccle
             assert callset['data']['source'] == 'ccle', 'source should be ccle'
+            # from & to should be ids, not gids
+            assert 'Aliquot' not in callset['data']['tumor_aliquot_id'], 'tumor_aliquot_id should not have Aliquot gid'
+
 
     # test AlleleCall contents
     with open(allelecall_file, 'r', encoding='utf-8') as f:

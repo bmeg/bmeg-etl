@@ -88,6 +88,9 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
             callset = json.loads(line)
             # source should be ccle
             assert callset['data']['source'] == 'mc3', 'source should be ccle'
+            assert 'Aliquot:' not in callset['data']['tumor_aliquot_id'], 'tumor_aliquot_id should not have Aliquot gid'
+            assert 'Aliquot:' not in callset['data']['normal_aliquot_id'], 'normal_aliquot_id should not have Aliquot gid'
+
 
     # test AlleleCall contents
     with open(allelecall_file, 'r', encoding='utf-8') as f:
@@ -118,8 +121,8 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
         for line in f:
             # should be json
             callset = json.loads(line)
-            assert callset['gid'].startswith('Callset:mc3:Aliquot'), 'should start with Callset:mc3:Aliquot'
-            assert not callset['gid'].startswith('Callset:mc3:Aliquot:Aliquot'), 'should start with Callset:mc3:Aliquot'
+            assert callset['gid'].startswith('Callset:mc3:'), 'should start with Callset:mc3:xxx'
+            assert not callset['gid'].startswith('Callset:mc3:Aliquot:'), 'should start with Callset:mc3:xxx'
             assert callset['data']['tumor_aliquot_id'] != callset['data']['normal_aliquot_id'], 'tumor should not equal normal'
 
     # check callsetfor
@@ -127,7 +130,7 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
         for line in f:
             # should be json
             callsetfor = json.loads(line)
-            assert callsetfor['from'].startswith('Callset:mc3:Aliquot:'), 'from should be a callset'
+            assert callsetfor['from'].startswith('Callset:mc3:'), 'from should be a callset'
             assert callsetfor['to'].startswith('Aliquot:'), 'to should be an aliquot'
 
     # validate vertex for all edges exist

@@ -5,7 +5,7 @@ import csv
 import gzip
 import sys
 
-from bmeg.vertex import Allele, AlleleAnnotations, Deadletter
+from bmeg.vertex import Allele, AlleleAnnotations, Deadletter, Aliquot
 from bmeg.edge import CallsetFor, AlleleIn
 from bmeg.emitter import new_emitter
 from bmeg.util.cli import default_argument_parser
@@ -195,11 +195,11 @@ class MAFTransformer():
                         if callset.normal_aliquot_id:
                             emitter.emit_edge(CallsetFor(),
                                               callset.gid(),
-                                              callset.normal_aliquot_id
+                                              Aliquot.make_gid(callset.normal_aliquot_id)
                                               )
                         emitter.emit_edge(CallsetFor(),
                                           callset.gid(),
-                                          callset.tumor_aliquot_id
+                                          Aliquot.make_gid(callset.tumor_aliquot_id)
                                           )
 
                 # create edge to gene
