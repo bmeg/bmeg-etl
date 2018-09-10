@@ -19,6 +19,7 @@ requests = Client('drug_enricher')
 NAME_PART_MIN_LEN = 5
 MIN_BIOTHINGS_SCORE = 8.5
 
+
 def enrich(name):
     """ retrieve payload from myvariant.info location query"""
     # TODO - this is just a stub for now
@@ -170,7 +171,7 @@ def normalize_biothings(name):
                 if hit['_score'] < MIN_BIOTHINGS_SCORE:
                     logging.debug(
                         'discarded, score too low {}'.format(hit['_score'])
-                        )
+                    )
                     continue
 
                 chembl = hit['chembl']
@@ -192,7 +193,6 @@ def normalize_biothings(name):
                             synonym_usan = molecule_synonyms['synonyms'].encode('utf8')
                         if molecule_synonyms['syn_type'] == 'INN':
                             synonym_inn = molecule_synonyms['synonyms'].encode('utf8')
-
 
                 toxicity = pydash.get(hit,
                                       'drugbank.pharmacology.toxicity',
@@ -230,8 +230,7 @@ def normalize_biothings(name):
                     source = 'http://rdf.ebi.ac.uk/terms/chembl'
 
                 compound = {'ontology_term': ontology_term,
-                            'synonym': synonym_fda or synonym_usan or
-                            synonym_inn or name_part,
+                            'synonym': synonym_fda or synonym_usan or synonym_inn or name_part,
                             'source': source
                             }
                 if toxicity:
@@ -285,10 +284,9 @@ def normalize_chembl(name):
                     continue
                 compounds.append({'ontology_term':
                                   '{}'.format(lookup['chembl_id']),
-                                  'synonym': synonym_fda or synonym_usan or
-                                  synonym_inn,
-                                  'source': 'http://rdf.ebi.ac.uk/terms/chembl' })
-        except Exception as e:
+                                  'synonym': synonym_fda or synonym_usan or synonym_inn,
+                                  'source': 'http://rdf.ebi.ac.uk/terms/chembl'})
+        except Exception:
             pass
     return compounds
 
@@ -302,7 +300,7 @@ def normalize(name):
         return []
     try:
         name = name.encode('utf8')
-    except Exception as e:
+    except Exception:
         pass
     drugs = normalize_biothings(name)
     if len(drugs) == 0:
