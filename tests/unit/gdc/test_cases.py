@@ -11,18 +11,18 @@ from bmeg.emitter import JSONEmitter
 @pytest.fixture
 def emitter_path_prefix(request):
     """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'test/test')
+    return os.path.join(request.fspath.dirname, 'test/')
 
 
 def validate(helpers, emitter_path_prefix, parameters):
     """ run xform and test results"""
-    biosample_file = '{}.Biosample.Vertex.json'.format(emitter_path_prefix)
-    aliquot_file = '{}.Aliquot.Vertex.json'.format(emitter_path_prefix)
-    individual_file = '{}.Individual.Vertex.json'.format(emitter_path_prefix)
+    biosample_file = '{}Biosample.Vertex.json'.format(emitter_path_prefix)
+    aliquot_file = '{}Aliquot.Vertex.json'.format(emitter_path_prefix)
+    individual_file = '{}Individual.Vertex.json'.format(emitter_path_prefix)
 
-    biosamplefor_file = '{}.BiosampleFor.Edge.json'.format(emitter_path_prefix)
-    aliquotfor_file = '{}.AliquotFor.Edge.json'.format(emitter_path_prefix)
-    inproject_file = '{}.InProject.Edge.json'.format(emitter_path_prefix)
+    biosamplefor_file = '{}BiosampleFor.Edge.json'.format(emitter_path_prefix)
+    aliquotfor_file = '{}AliquotFor.Edge.json'.format(emitter_path_prefix)
+    inproject_file = '{}InProject.Edge.json'.format(emitter_path_prefix)
 
     all_files = [biosample_file, aliquot_file, individual_file, biosamplefor_file, aliquotfor_file, inproject_file]
     # remove output

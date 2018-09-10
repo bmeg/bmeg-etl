@@ -122,7 +122,7 @@ def transform(output_dir,
     * enrich w/ myvariantinfo
     """
     threading.local().skip_check_types = True
-    emitter = new_emitter(name=emitter_name, prefix=prefix)
+    emitter = new_emitter(name=emitter_name, directory=prefix)
     # Step one:
     # * sort the output/**/*.Allele.Vertex.json.gz files
     # * merge all alleles with the same gid

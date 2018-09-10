@@ -19,7 +19,7 @@ def output_directory(request):
 @pytest.fixture
 def emitter_path_prefix(request):
     """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'test/test')
+    return os.path.join(request.fspath.dirname, 'test')
 
 
 @pytest.fixture
@@ -41,7 +41,7 @@ def validate_myvariantinfo_count(allele_file):
 
 
 def validate(helpers, output_directory, emitter_path_prefix, myvariantinfo_path):
-    allele_file = '{}.Allele.Vertex.json'.format(emitter_path_prefix)
+    allele_file = os.path.join(emitter_path_prefix, 'Allele.Vertex.json')
     # remove output
     with contextlib.suppress(FileNotFoundError):
         os.remove(allele_file)
@@ -49,7 +49,7 @@ def validate(helpers, output_directory, emitter_path_prefix, myvariantinfo_path)
     # check using memory store
     transform(output_directory,
               prefix=emitter_path_prefix,
-              vertex_filename_pattern='**/*.Allele.Vertex.json',
+              vertex_filename_pattern='**/Allele.Vertex.json',
               myvariantinfo_path=myvariantinfo_path)
     # test/test.Allele.Vertex.json
     helpers.assert_vertex_file_valid(Allele, allele_file)
@@ -64,9 +64,10 @@ def validate(helpers, output_directory, emitter_path_prefix, myvariantinfo_path)
               prefix=emitter_path_prefix,
               allele_store_name='allele-sqlite',
               allele_store_path='/tmp/sqlite.db',
-              vertex_filename_pattern='**/*.Allele.Vertex.json',
+              vertex_filename_pattern='**/Allele.Vertex.json',
               myvariantinfo_path=myvariantinfo_path)
-    # test/test.Allele.Vertex.json
+
+    # test/Allele.Vertex.json
     helpers.assert_vertex_file_valid(Allele, allele_file)
     validate_myvariantinfo_count(allele_file)
 
@@ -83,7 +84,7 @@ def test_sort_allele_files(output_directory):
     with contextlib.suppress(FileNotFoundError):
         os.remove(sorted_allele_file)
 
-    path = '{}/{}'.format(output_directory, '**/*.Allele.Vertex.json')
+    path = '{}/{}'.format(output_directory, '**/Allele.Vertex.json')
     sorted_allele_file = sort_allele_files(path, sorted_allele_file)
     with reader(sorted_allele_file) as ins:
         _id = ''
@@ -106,7 +107,7 @@ def test_group_sorted_alleles(output_directory):
     sorted_allele_file = '/tmp/sorted_allele_file.json'
     with contextlib.suppress(FileNotFoundError):
         os.remove(sorted_allele_file)
-    path = '{}/{}'.format(output_directory, '**/*.Allele.Vertex.json')
+    path = '{}/{}'.format(output_directory, '**/Allele.Vertex.json')
     sorted_allele_file = sort_allele_files(path, sorted_allele_file)
     t = 0
     uniq_ids = []

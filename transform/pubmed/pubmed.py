@@ -6,6 +6,7 @@ import json
 import logging
 import re
 import sys
+from glob import glob
 import xml.sax
 import os
 from ftplib import FTP
@@ -182,12 +183,17 @@ def parse_pubmed(handle, emitter):
     parser.parse(handle)
 
 
+def name_clean(path):
+    return os.path.basename(path).replace(".xml.gz", "")
+
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-l", action="store_true", default=False)
     parser.add_argument("-o", "--output", default="pubmed")
+    parser.add_argument("--scan", default="source/pubmed")
     parser.add_argument("files", nargs="*")
     args = parser.parse_args()
 
@@ -199,7 +205,11 @@ if __name__ == "__main__":
             print(json.dumps({"url": "ftp://ftp.ncbi.nlm.nih.gov%s" % i, "name": name}))
         sys.exit(0)
 
-    emitter = JSONEmitter(args.output)
+    if len(args.files) == 0:
+        args.files = glob(os.path.join(args.scan, "*.xml.gz"))
+
     for path in args.files:
+        emitter = JSONEmitter(args.output, name_clean(path))
         with gzip.open(path) as handle:
             parse_pubmed(handle, emitter)
+        emitter.close()

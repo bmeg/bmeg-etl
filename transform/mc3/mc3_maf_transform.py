@@ -105,7 +105,7 @@ def transform(mafpath, prefix, gdc_aliquot_path, source=MC3_MAFTransformer.SOURC
         for line in f:
             aliquot = json.loads(line)
             ALIQUOT_CONVERSION_TABLE[aliquot['data']['gdc_attributes']['submitter_id']] = aliquot['data']['aliquot_id']
-    emitter = new_emitter(name=emitter_name, prefix=prefix)
+    emitter = new_emitter(name=emitter_name, directory=prefix)
     transformer.maf_convert(emitter=emitter, mafpath=mafpath, skip=skip, source=source)
 
     emitter.close()
