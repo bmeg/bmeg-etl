@@ -91,7 +91,6 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
             assert 'Aliquot:' not in callset['data']['tumor_aliquot_id'], 'tumor_aliquot_id should not have Aliquot gid'
             assert 'Aliquot:' not in callset['data']['normal_aliquot_id'], 'normal_aliquot_id should not have Aliquot gid'
 
-
     # test AlleleCall contents
     with open(allelecall_file, 'r', encoding='utf-8') as f:
         for line in f:

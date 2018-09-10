@@ -1,6 +1,6 @@
 
 """ transform a maf file into vertexs[variant, allele]   """
-from bmeg.vertex import Aliquot, Callset, Gene
+from bmeg.vertex import Callset, Gene
 from bmeg.edge import AlleleCall
 
 from bmeg.maf.maf_transform import get_value, MAFTransformer, maf_default_argument_parser

@@ -3,7 +3,7 @@
 import bmeg.enrichers.gene_enricher as gene_enricher
 import logging
 
-from bmeg.vertex import Aliquot, Callset, Gene
+from bmeg.vertex import Callset, Gene
 from bmeg.edge import AlleleCall
 
 from bmeg.maf.maf_transform import main, get_value, MAFTransformer
