@@ -25,7 +25,7 @@ EXPECTED = [
     [{'ontology_term': 'CID10184653', 'synonym': b'AFATINIB', 'source': 'http://rdf.ncbi.nlm.nih.gov/pubchem/compound', 'toxicity': 'Most common adverse reactions (≥20%) are diarrhea, rash/dermatitis, acneiform, stomatitis, paronychia, dry skin, decreased appetite, pruritus [FDA Label].\r\n\r\nConversely, overdose in 2 healthy adolescents involving the ingestion of 360 mg each of afatinib (as part of a mixed drug ingestion) was associated with adverse events of nausea, vomiting, asthenia, dizziness, headache, abdominal pain and elevated amylase (< 1.5 times ULN) [L2937]. Both individuals recovered from these adverse events [L2937].', 'taxonomy': {'class': 'Diazanaphthalenes', 'direct-parent': 'Quinazolinamines', 'kingdom': 'Organic compounds', 'subclass': 'Benzodiazines', 'superclass': 'Organoheterocyclic compounds'}, 'approved_countries': ['Canada', 'US'], 'usan_stem': 'tyrosine kinase inhibitors'}, ],
     [{'ontology_term': 'CID65110', 'source': 'http://rdf.ncbi.nlm.nih.gov/pubchem/compound', 'synonym': 'AICA ribonucleotide'}],
     [{'ontology_term': 'SID319552803', 'source': 'http://rdf.ncbi.nlm.nih.gov/pubchem/substance', 'synonym': 'akt inhibitor'}],
-    []
+    [{'ontology_term': 'CID2244', 'source': 'http://rdf.ncbi.nlm.nih.gov/pubchem/compound', 'synonym': 'aspirin'}],
 ]
 
 
