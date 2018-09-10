@@ -47,7 +47,7 @@ def NO_BARCODE_file(request):
 @pytest.fixture
 def emitter_path_prefix(request):
     """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'test/test')
+    return os.path.join(request.fspath.dirname, 'test')
 
 
 @pytest.fixture
@@ -57,12 +57,12 @@ def gdc_aliquot_path(request):
 
 
 def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
-    allele_file = '{}.Allele.Vertex.json'.format(emitter_path_prefix)
-    allelecall_file = '{}.AlleleCall.Edge.json'.format(emitter_path_prefix)
-    callset_file = '{}.Callset.Vertex.json'.format(emitter_path_prefix)
-    allelein_file = '{}.AlleleIn.Edge.json'.format(emitter_path_prefix)
-    callsetfor_file = '{}.CallsetFor.Edge.json'.format(emitter_path_prefix)
-    deadletter_file = '{}.Deadletter.Vertex.json'.format(emitter_path_prefix)
+    allele_file = os.path.join(emitter_path_prefix, 'Allele.Vertex.json')
+    allelecall_file = os.path.join(emitter_path_prefix, 'AlleleCall.Edge.json')
+    callset_file = os.path.join(emitter_path_prefix, 'Callset.Vertex.json')
+    allelein_file = os.path.join(emitter_path_prefix, 'AlleleIn.Edge.json')
+    callsetfor_file = os.path.join(emitter_path_prefix, 'CallsetFor.Edge.json')
+    deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json')
     all_files = [allele_file, allelecall_file, callset_file, allelein_file, callsetfor_file, deadletter_file]
     # remove output
     with contextlib.suppress(FileNotFoundError):
@@ -161,7 +161,7 @@ def test_NO_REF_ALT(helpers, NO_REF_ALT_file, emitter_path_prefix, gdc_aliquot_p
     """ no start """
     with pytest.raises(AssertionError):
         validate(helpers, NO_REF_ALT_file, emitter_path_prefix, gdc_aliquot_path)
-    deadletter_file = '{}.Deadletter.Vertex.json'.format(emitter_path_prefix)
+    deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json')
     with open(deadletter_file, 'r', encoding='utf-8') as f:
         c = 0
         for line in f:
@@ -174,7 +174,7 @@ def test_NO_BARCODE(helpers, NO_BARCODE_file, emitter_path_prefix, gdc_aliquot_p
     """ no start """
     with pytest.raises(AssertionError):
         validate(helpers, NO_BARCODE_file, emitter_path_prefix, gdc_aliquot_path)
-    deadletter_file = '{}.Deadletter.Vertex.json'.format(emitter_path_prefix)
+    deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json')
     with open(deadletter_file, 'r', encoding='utf-8') as f:
         c = 0
         for line in f:
