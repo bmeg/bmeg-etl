@@ -13,3 +13,4 @@ git+https://github.com/bmeg/grip.git#subdirectory=gripql/python
 ujson==1.35
 # dataclass serialization
 dacite==0.0.16
+pydash==4.7.3
