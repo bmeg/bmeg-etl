@@ -16,6 +16,8 @@ NOFINDS_BIOTHINGS = []
 
 requests = Client('drug_enricher')
 
+NAME_PART_MIN_LEN = 5
+MIN_BIOTHINGS_SCORE = 8.5
 
 def enrich(name):
     """ retrieve payload from myvariant.info location query"""
@@ -34,22 +36,23 @@ def _chunks(l, n):
 
 def _decompose(name):
     """given a name, split into an array of searchable terms"""
-    name_parts = re.split('\W+', str(name))
+    name = name.decode("utf-8")
+    name_parts = re.split('\W+', name)
     no_punct = ' '.join(name_parts).strip()
     name_parts = no_punct.split()
     pairs = [' '.join(c) for c in _chunks(name_parts, 2)]
     logging.debug('pairs {} {} >{}<'.format(pairs, len(name_parts), no_punct))
     if len(name_parts) == 1:
         logging.debug('returning [no_punct] {}'.format([no_punct]))
-        return [no_punct]
+        return [name] + [no_punct]
     if name_parts == no_punct.split():
-        logging.debug('returning [name_parts] {}'.format(name_parts))
-        return name_parts
+        logging.debug('<<< returning [name_parts] {}'.format(name_parts))
+        return [name] + ['{} {}'.format(name_parts[0], name_parts[1])] + name_parts
     if [no_punct] == pairs:
         logging.debug('returning pairs + name_parts {}'.format(pairs + name_parts))
-        return pairs + name_parts
+        return [name] + pairs + name_parts
     logging.debug('returning [no_punct] + pairs + name_parts {}'.format([no_punct] + pairs + name_parts))
-    return [no_punct] + pairs + name_parts
+    return [name] + [no_punct] + pairs + name_parts
 
 
 def normalize_pubchem_substance(name):
@@ -63,7 +66,7 @@ def normalize_pubchem_substance(name):
     compounds = []
     try:
         for name_part in name_parts:
-            if len(name_part) < 3:
+            if len(name_part) < NAME_PART_MIN_LEN:
                 continue
             if name_part in NOFINDS_PUBCHEM_SUBSTANCE:
                 continue
@@ -98,7 +101,7 @@ def normalize_pubchem(name):
     name_parts = _decompose(name)
     compounds = []
     for name_part in name_parts:
-        if len(name_part) < 3:
+        if len(name_part) < NAME_PART_MIN_LEN:
             continue
         url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/{}/synonyms/JSON'.format(name_part)  # NOQA
         r = requests.get(url, timeout=60)
@@ -127,7 +130,8 @@ def normalize_biothings(name):
         logging.debug(name_parts)
         compounds = []
         for name_part in name_parts:
-            if len(name_part) < 3:
+            logging.debug('checking {}'.format(name_part))
+            if len(name_part) < NAME_PART_MIN_LEN:
                 continue
             fields = 'fields=pubchem.cid,chebi.chebi_id'\
                 ',chembl.molecule_chembl_id'\
@@ -163,7 +167,7 @@ def normalize_biothings(name):
                                     .format(name))
                     continue
                 # The higher the _score, the more relevant the document.
-                if hit['_score'] < 8.8:
+                if hit['_score'] < MIN_BIOTHINGS_SCORE:
                     logging.debug(
                         'discarded, score too low {}'.format(hit['_score'])
                         )
@@ -211,7 +215,7 @@ def normalize_biothings(name):
                     if product['approved']:
                         approved_countries.append(product['country'])
 
-                approved_countries = list(set(approved_countries))
+                approved_countries = sorted(list(set(approved_countries)))
 
                 ontology_term = None
                 source = None
@@ -252,7 +256,7 @@ def normalize_chembl(name):
     name_parts = _decompose(name)
     compounds = []
     for name_part in name_parts:
-        if len(name_part) < 3:
+        if len(name_part) < NAME_PART_MIN_LEN:
             continue
         try:
             url = 'https://www.ebi.ac.uk/chembl/api/data/chembl_id_lookup/search?q={}'.format(name_part)  # NOQA
@@ -315,4 +319,9 @@ def normalize(name):
                         .format(name))
         # skip next time
         NOFINDS.append(name)
-    return drugs
+    # de-dup
+    ontology_terms = {}
+    for d in drugs:
+        if d['ontology_term'] not in ontology_terms:
+            ontology_terms[d['ontology_term']] = d
+    return list(ontology_terms.values())
