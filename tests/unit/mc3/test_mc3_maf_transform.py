@@ -12,6 +12,9 @@ from bmeg.vertex import Allele, Callset, Gene, Aliquot
 import os
 import contextlib
 import json
+import logging
+
+from tests.unit.gdc.test_cases import validate as gdc_validate
 
 
 @pytest.fixture
@@ -137,6 +140,7 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
         all_files,
         exclude_labels=['Gene', 'Aliquot']
     )
+    return all_files
 
 
 def test_simple(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
@@ -183,3 +187,35 @@ def test_NO_BARCODE(helpers, NO_BARCODE_file, emitter_path_prefix, gdc_aliquot_p
             json.loads(line)
             c += 1
         assert c == 1, 'We should have 1 dead letter'
+
+
+@pytest.fixture
+def TCGA_GBM_file(request):
+    """ get the full path of the test fixture """
+    return os.path.join(request.fspath.dirname, 'test_TCGA_GBM.maf')
+
+
+def test_TCGA_GBM(caplog, helpers, TCGA_GBM_file, emitter_path_prefix):
+    """ validate that mc3 aliquot aligns with our callset"""
+    caplog.set_level(logging.DEBUG)
+    # first harvest GDC data, specifically Aliquot
+    # note TCGA_GBM_file only has alleles for TCGA-02-0003
+    parameters = {
+        "filters": {
+            "op": "in",
+            "content": {
+                "field": "submitter_id", "value": ["TCGA-02-0003"]
+            }
+        }
+    }
+    # harvest aliquots and write it to out emitter path ('test')
+    gdc_validate(helpers, emitter_path_prefix, parameters)
+    # now transform and validate our maf file, using aliquots we just harvested
+    aliquot_file = '{}.Aliquot.Vertex.json'.format(emitter_path_prefix)
+    validate(helpers, TCGA_GBM_file, emitter_path_prefix, aliquot_file)
+    # grab the callset we just created
+    callset_file = '{}.Callset.Vertex.json'.format(emitter_path_prefix)
+    callsetfor_file = '{}.CallsetFor.Edge.json'.format(emitter_path_prefix)
+    # re-validate a two node graph CallsetFor->Aliquot including the Aliquot into the `graph`
+    vertexes, edges = helpers.load_stores([aliquot_file, callsetfor_file, callset_file])
+    helpers.assert_edge_has_vertex(vertexes, edges)
