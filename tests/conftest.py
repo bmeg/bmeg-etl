@@ -33,6 +33,7 @@ class Helpers:
         error_message = 'data_class {} {} ' \
                         .format(data_class, vertex_file_path)
         assert os.path.isfile(vertex_file_path), error_message
+        c = 0
         with open(vertex_file_path, 'r', encoding='utf-8') as f:
             for line in f:
                 # should be json
@@ -40,6 +41,8 @@ class Helpers:
                 # should have all vertex keys
                 Helpers.assert_vertex_keys_populated(vertex_dict)
                 Helpers.assert_data_keys_populated(data_class, vertex_dict)
+                c += 1
+        return c
 
     @staticmethod
     def assert_edge_file_valid(from_data_class, to_data_class, edge_file_path):
@@ -49,6 +52,7 @@ class Helpers:
         error_message = 'data_class {} {} {}' \
                         .format(from_data_class, to_data_class, edge_file_path)
         assert os.path.isfile(edge_file_path), error_message
+        c = 0
         with open(edge_file_path, 'r', encoding='utf-8') as f:
             for line in f:
                 # should be json
@@ -63,6 +67,8 @@ class Helpers:
 
                 name = str(to_data_class.__name__).split('\\.')[-1]
                 assert name in edge_dict['to'], 'edge.to should contain {}'.format(name)
+                c += 1
+        return c
 
     @staticmethod
     def assert_edge_joins_valid(graph_file_paths, exclude_labels=[]):
