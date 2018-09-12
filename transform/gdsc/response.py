@@ -46,7 +46,6 @@ def transform(path="source/gdsc/GDSC_AUC.csv", prefix=DEFAULT_PREFIX):
     # Iterate all rows, writing out the expression for different tissue types
     # to separate files.
     c = t = 0
-    compound_cache = {}
     for row in r:
         c += 1
         t += 1
@@ -88,6 +87,7 @@ def transform(path="source/gdsc/GDSC_AUC.csv", prefix=DEFAULT_PREFIX):
 
     emitter.close()
     caching_emitter.close()
+
 
 if __name__ == "__main__":
     parser = default_argument_parser()
