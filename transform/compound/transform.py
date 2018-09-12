@@ -4,7 +4,7 @@ from bmeg.ioutils import reader
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
 from bmeg.vertex import Compound
-from bmeg.edge import *
+from bmeg.edge import *  # noqa
 from bmeg.enrichers.drug_enricher import normalize
 from bmeg.gid import GID
 
@@ -15,6 +15,7 @@ import ujson
 import threading
 
 threading.local().skip_check_types = True
+
 
 def transform(
     prefix="compound",
@@ -48,7 +49,8 @@ def transform(
                     compound = Compound.from_dict(compound)
                     emitter.emit_vertex(compound)
                     compound_cache[compound_gid] = compound
-                    c += 1 ; t += 1
+                    c += 1
+                    t += 1
                 except Exception as exc:
                     logging.warning(str(exc))
                     raise
@@ -81,12 +83,16 @@ def transform(
                     if from_ in compound_cache:
                         from_ = compound_cache[from_].gid()
                     cls = globals()[label]
+                    edge = cls()
+                    if data:
+                        edge = cls(data=data)
                     emitter.emit_edge(
-                        cls(),
+                        edge,
                         GID(from_),
                         GID(to),
                     )
-                    c += 1 ; t += 1
+                    c += 1
+                    t += 1
                 except Exception as exc:
                     logging.warning(str(exc))
                     raise
@@ -95,6 +101,7 @@ def transform(
                     logging.info('transforming read: {} errors: {}'.format(t, e))
                     c = 0
         logging.info('transforming read: {} errors: {}'.format(t, e))
+        emitter.close()
 
 
 if __name__ == '__main__':  # pragma: no cover
