@@ -1,6 +1,6 @@
 
 """ transform a maf file into vertexs[variant, allele]   """
-from bmeg.vertex import Aliquot, Callset, Gene
+from bmeg.vertex import Callset, Gene
 from bmeg.edge import AlleleCall
 
 from bmeg.maf.maf_transform import get_value, MAFTransformer, maf_default_argument_parser
@@ -56,8 +56,8 @@ class MC3_MAFTransformer(MAFTransformer):
 
     def callset_maker(self, allele, source, centerCol, method, line):
         """ create callset from line """
-        tumor_aliquot_gid = Aliquot.make_gid(self.barcode_to_aliquot_id(line['Tumor_Sample_Barcode']))
-        normal_aliquot_gid = Aliquot.make_gid(self.barcode_to_aliquot_id(line['Matched_Norm_Sample_Barcode']))
+        tumor_aliquot_gid = self.barcode_to_aliquot_id(line['Tumor_Sample_Barcode'])
+        normal_aliquot_gid = self.barcode_to_aliquot_id(line['Matched_Norm_Sample_Barcode'])
         call_method = line['CENTERS']
         if not call_method:
             call_method = ''

@@ -65,8 +65,8 @@ class Helpers:
                 assert name in edge_dict['to'], 'edge.to should contain {}'.format(name)
 
     @staticmethod
-    def assert_edge_joins_valid(graph_file_paths, exclude_labels=[]):
-        """ load an in memory 'graph', ensure all edges link to a vertex and vice versa"""
+    def load_stores(graph_file_paths):
+        """ load an in memory 'graph' returns (vertices, edges)"""
         vertices = {}
         edges = {}
         for graph_file_path in graph_file_paths:
@@ -78,7 +78,11 @@ class Helpers:
                     for line in f:
                         obj = json.loads(line)
                         store[obj['gid']] = obj
-        # ensure that all edges have vertexes
+        return vertices, edges
+
+    @staticmethod
+    def assert_edge_has_vertex(vertices, edges, exclude_labels=[]):
+        """ensure that all edges have vertexes"""
         for edge_gid in edges.keys():
             edge = edges[edge_gid]
             _from = edge['from']  # from keyword workaround
@@ -91,7 +95,10 @@ class Helpers:
                 continue
             assert vertices.get(_from, None), 'edge {} from {} does not exist'.format(edge_gid, _from)
             assert vertices.get(_to, None), 'edge {} from {} does not exist'.format(edge_gid, _to)
-        # ensure that all vertexes have edge
+
+    @staticmethod
+    def assert_vertex_has_edge(vertices, edges, exclude_labels=[]):
+        """ensure that all vertexes have edge"""
         froms = [edges[gid]['from'] for gid in edges.keys()]
         tos = [edges[gid]['to'] for gid in edges.keys()]
         for vertex_gid in vertices.keys():
@@ -99,6 +106,13 @@ class Helpers:
             if label == 'Deadletter':
                 continue
             assert vertex_gid in froms or vertex_gid in tos, 'could not find {} in edge'.format(vertex_gid)
+
+    @staticmethod
+    def assert_edge_joins_valid(graph_file_paths, exclude_labels=[]):
+        """ load an in memory 'graph', ensure all edges link to a vertex and vice versa"""
+        vertices, edges = Helpers.load_stores(graph_file_paths)
+        Helpers.assert_edge_has_vertex(vertices, edges, exclude_labels)
+        Helpers.assert_vertex_has_edge(vertices, edges, exclude_labels)
 
 
 @pytest.fixture

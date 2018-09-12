@@ -22,3 +22,7 @@ def transform(path="source/ccle/CCLE_sample_info_file_2012-10-18.txt",
             b.gid(),
         )
     emitter.close()
+
+
+if __name__ == '__main__':  # pragma: no cover
+    transform()

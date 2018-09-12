@@ -55,6 +55,8 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
             callset = json.loads(line)
             # source should be ccle
             assert callset['data']['source'] == 'ccle', 'source should be ccle'
+            # from & to should be ids, not gids
+            assert 'Aliquot' not in callset['data']['tumor_aliquot_id'], 'tumor_aliquot_id should not have Aliquot gid'
 
     # test AlleleCall contents
     with open(allelecall_file, 'r', encoding='utf-8') as f:
@@ -65,6 +67,7 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
             for k in CCLE_EXTENSION_CALLSET_KEYS:
                 if k in allelecall['data']['info']:
                     assert allelecall['data']['info'][k], 'empty key %s' % k
+
     # test Allele contents
     with open(allele_file, 'r', encoding='utf-8') as f:
         for line in f:
@@ -79,6 +82,7 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
             for k in CCLE_EXTENSION_MAF_KEYS:
                 if k in allele['data']['annotations']['ccle']:
                     assert allele['data']['annotations']['ccle'][k], 'empty key %s' % k
+
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(
         all_files,
