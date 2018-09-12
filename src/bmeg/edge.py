@@ -2,6 +2,7 @@ from dataclasses import dataclass
 
 from bmeg.gid import GID
 from bmeg.utils import enforce_types
+from dacite import from_dict as dacite_from_dict
 
 
 @enforce_types
@@ -14,6 +15,12 @@ class Edge:
     @enforce_types
     def make_gid(cls, from_gid: GID, to_gid: GID):
         return "(%s)--%s->(%s)" % (from_gid, cls.__name__, to_gid)
+
+    @classmethod
+    def from_dict(cls, data):
+        if data:
+            return dacite_from_dict(data_class=cls, data=data)
+        return None
 
 
 @enforce_types
