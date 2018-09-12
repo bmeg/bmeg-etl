@@ -387,7 +387,7 @@ class DrugResponse(Vertex):
 class Compound(Vertex):
     term_id: str  # compound:CID60823
     term: str  # Atorvastatin
-    name: Union[None, str] = None # some unoffical name e.g. Lipitor, tulip
+    name: Union[None, str] = None  # some unoffical name e.g. Lipitor, tulip
 
     def gid(self):
         return Compound.make_gid(self.term_id)
