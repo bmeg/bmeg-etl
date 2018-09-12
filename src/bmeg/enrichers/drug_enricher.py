@@ -20,13 +20,9 @@ NAME_PART_MIN_LEN = 5
 MIN_BIOTHINGS_SCORE = 8.5
 
 
-def enrich(name):
-    """ retrieve payload from myvariant.info location query"""
-    # TODO - this is just a stub for now
-    drugs = normalize(name)
-    print(name, drugs)
-
-    return Compound(term_id='TODO~{}'.format(name), term=name)
+def compound_factory(name):
+    """ create a stub compound for downstream normalization """
+    return Compound(term_id='TODO:{}'.format(name), term='TODO', name=name)
 
 
 def _chunks(l, n):
@@ -320,6 +316,11 @@ def normalize(name):
     # de-dup
     ontology_terms = {}
     for d in drugs:
+        try:
+            d['synonym'] = d['synonym'].decode()
+        except AttributeError:
+            pass
         if d['ontology_term'] not in ontology_terms:
             ontology_terms[d['ontology_term']] = d
+    # ensure synonym is a str, not bytes
     return list(ontology_terms.values())

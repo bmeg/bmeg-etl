@@ -1,12 +1,12 @@
 import re
 
 import bmeg.ioutils
-from bmeg.emitter import JSONEmitter
+from bmeg.emitter import JSONEmitter, CachingEmitter
 from bmeg.vertex import Biosample, DrugResponse, DrugResponseMetric
 from bmeg.edge import DrugResponseIn, ResponseTo
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
-from bmeg.enrichers.drug_enricher import enrich
+from bmeg.enrichers.drug_enricher import compound_factory
 import logging
 
 DEFAULT_PREFIX = 'gdsc'
@@ -15,6 +15,7 @@ DEFAULT_PREFIX = 'gdsc'
 def transform(path="source/gdsc/GDSC_AUC.csv", prefix=DEFAULT_PREFIX):
     logging.info('transform')
     emitter = JSONEmitter(prefix)
+    caching_emitter = CachingEmitter(prefix)
     r = bmeg.ioutils.read_csv(path)
 
     # Fix up the headers:
@@ -72,11 +73,8 @@ def transform(path="source/gdsc/GDSC_AUC.csv", prefix=DEFAULT_PREFIX):
                 Biosample.make_gid(sample),
             )
             # create compound
-            compound = compound_cache.get(row["compound_name"], None)
-            if not compound:
-                compound = enrich(row["compound_name"])
-                emitter.emit_vertex(compound)
-                compound_cache[row["compound_name"]] = compound
+            compound = compound_factory(name=row["compound_name"])
+            caching_emitter.emit_vertex(compound)
             # and an edge to it
             emitter.emit_edge(
                 ResponseTo(),
@@ -89,7 +87,7 @@ def transform(path="source/gdsc/GDSC_AUC.csv", prefix=DEFAULT_PREFIX):
                 c = 0
 
     emitter.close()
-
+    caching_emitter.close()
 
 if __name__ == "__main__":
     parser = default_argument_parser()
