@@ -181,7 +181,7 @@ class FileHandler:
             fh.close()
 
 
-class CachingEmitter():
+class DeduplicationEmitter():
     """ guarantees that a vertex will be emitted only once """
     def __init__(self, *positional, **kwargs):
         emitter_class = kwargs.get('emitter_class', JSONEmitter)
@@ -194,7 +194,7 @@ class CachingEmitter():
         self.emitter.close()
 
     def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
-        raise NotImplementedError('CachingEmitter only supports Vertex')
+        raise NotImplementedError('DeduplicationEmitter only supports Vertex')
 
     def emit_vertex(self, obj: Vertex):
         gid = obj.gid()
@@ -207,7 +207,7 @@ class CachingEmitter():
 EMITTER_NAME_MAP = {
     "json": JSONEmitter,
     "debug": DebugEmitter,
-    "caching": CachingEmitter,
+    "deduplication": DeduplicationEmitter,
 }
 
 
