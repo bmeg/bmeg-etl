@@ -1,7 +1,7 @@
 import re
 
 import bmeg.ioutils
-from bmeg.emitter import JSONEmitter, CachingEmitter
+from bmeg.emitter import JSONEmitter, DeduplicationEmitter
 from bmeg.vertex import Biosample, DrugResponse, DrugResponseMetric
 from bmeg.edge import DrugResponseIn, ResponseTo
 from bmeg.util.logging import default_logging
@@ -15,7 +15,7 @@ DEFAULT_PREFIX = 'gdsc'
 def transform(path="source/gdsc/GDSC_AUC.csv", prefix=DEFAULT_PREFIX):
     logging.info('transform')
     emitter = JSONEmitter(prefix)
-    caching_emitter = CachingEmitter(prefix)
+    caching_emitter = DeduplicationEmitter(prefix)
     r = bmeg.ioutils.read_csv(path)
 
     # Fix up the headers:
