@@ -3,7 +3,7 @@ from bmeg.vertex import Compound
 from bmeg.emitter import CachingEmitter, new_emitter
 import pytest
 import os
-import contextlib
+
 
 @pytest.fixture
 def emitter_path_prefix(request):
