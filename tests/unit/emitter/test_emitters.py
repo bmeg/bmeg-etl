@@ -2,7 +2,6 @@
 from bmeg.vertex import Compound
 from bmeg.emitter import DeduplicationEmitter, new_emitter
 import pytest
-import os
 
 
 def test_dedup_emitter(helpers, emitter_directory, emitter_prefix):

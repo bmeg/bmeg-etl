@@ -12,11 +12,12 @@ import logging
 DEFAULT_PREFIX = 'gdsc'
 DEFAULT_DIRECTORY = 'outputs/gdsc'
 
+
 def transform(
-    path="source/gdsc/GDSC_AUC.csv",
-    emitter_prefix=DEFAULT_PREFIX,
-    emitter_directory=DEFAULT_DIRECTORY,
-    ):
+        path="source/gdsc/GDSC_AUC.csv",
+        emitter_prefix=DEFAULT_PREFIX,
+        emitter_directory=DEFAULT_DIRECTORY,
+):
     logging.info('transform')
     emitter = JSONEmitter(prefix=emitter_prefix, directory=emitter_directory)
     caching_emitter = DeduplicationEmitter(prefix=emitter_prefix, directory=emitter_directory)

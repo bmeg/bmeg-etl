@@ -14,6 +14,8 @@ import sys
 import ujson
 
 DEFAULT_DIRECTORY = 'compound'
+
+
 def transform(
     emitter_name="json",
     output_dir="outputs",
