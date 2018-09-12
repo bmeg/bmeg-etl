@@ -8,12 +8,6 @@ from bmeg.vertex import Compound, DrugResponse, Biosample
 
 
 @pytest.fixture
-def emitter_path_prefix(request):
-    """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'test/test')
-
-
-@pytest.fixture
 def GDSC_AUC_file(request):
     """ get the full path of the test fixture """
     return os.path.join(request.fspath.dirname, 'source/gdsc/GDSC_AUC.csv')
@@ -27,16 +21,16 @@ ResponseTo.Edge.json
 """.strip().split()
 
 
-def validate(helpers, emitter_path_prefix, GDSC_AUC_file):
+def validate(helpers, GDSC_AUC_file, emitter_directory, emitter_prefix):
 
-    all_files = ['{}.{}'.format(emitter_path_prefix, f) for f in ALL_FILES]
+    all_files = ['{}/{}.{}'.format(emitter_directory, emitter_prefix, f) for f in ALL_FILES]
     # remove output
     with contextlib.suppress(FileNotFoundError):
         for f in all_files:
             os.remove(f)
 
     # create output
-    transform(path=GDSC_AUC_file, prefix=emitter_path_prefix)
+    transform(path=GDSC_AUC_file, emitter_directory=emitter_directory, emitter_prefix=emitter_prefix)
 
     compounds = all_files[0]
     drug_responses = all_files[1]
@@ -60,5 +54,5 @@ def validate(helpers, emitter_path_prefix, GDSC_AUC_file):
     assert c == 9, 'Should have 9 compounds'
 
 
-def test_simple(helpers, emitter_path_prefix, GDSC_AUC_file):
-    validate(helpers, emitter_path_prefix, GDSC_AUC_file)
+def test_simple(helpers, GDSC_AUC_file, emitter_directory, emitter_prefix):
+    validate(helpers, GDSC_AUC_file, emitter_directory, emitter_prefix)

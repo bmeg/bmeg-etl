@@ -12,21 +12,18 @@ import glob
 import logging
 import sys
 import ujson
-import threading
 
-threading.local().skip_check_types = True
-
-
+DEFAULT_DIRECTORY = 'compound'
 def transform(
-    prefix="compound",
     emitter_name="json",
     output_dir="outputs",
+    emitter_directory=DEFAULT_DIRECTORY,
     vertex_names="**/*.Compound.Vertex.json",
     edge_names="**/*.*.Edge.json",
 ):
     batch_size = 100
     compound_cache = {}
-    emitter = new_emitter(name=emitter_name, prefix=prefix)
+    emitter = new_emitter(name=emitter_name, directory=emitter_directory)
     path = '{}/{}'.format(output_dir, vertex_names)
     files = [filename for filename in glob.iglob(path, recursive=True)]
     c = t = e = 0

@@ -139,3 +139,14 @@ def graph():
 def V(graph):
     """ return the Vertex in the bmeg graph """
     return graph.query().V()
+
+
+@pytest.fixture
+def emitter_directory(request):
+    """ get the full path of the test output """
+    return os.path.join(request.fspath.dirname, 'test')
+
+@pytest.fixture
+def emitter_prefix(request):
+    """ get the full path of the test output """
+    return 'test'

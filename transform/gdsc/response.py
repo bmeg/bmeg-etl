@@ -10,12 +10,16 @@ from bmeg.enrichers.drug_enricher import compound_factory
 import logging
 
 DEFAULT_PREFIX = 'gdsc'
+DEFAULT_DIRECTORY = 'outputs/gdsc'
 
-
-def transform(path="source/gdsc/GDSC_AUC.csv", prefix=DEFAULT_PREFIX):
+def transform(
+    path="source/gdsc/GDSC_AUC.csv",
+    emitter_prefix=DEFAULT_PREFIX,
+    emitter_directory=DEFAULT_DIRECTORY,
+    ):
     logging.info('transform')
-    emitter = JSONEmitter(prefix)
-    caching_emitter = DeduplicationEmitter(prefix)
+    emitter = JSONEmitter(prefix=emitter_prefix, directory=emitter_directory)
+    caching_emitter = DeduplicationEmitter(prefix=emitter_prefix, directory=emitter_directory)
     r = bmeg.ioutils.read_csv(path)
 
     # Fix up the headers:
