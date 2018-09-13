@@ -37,5 +37,6 @@ source/*/*.*
 tests/unit/allele/source/myvariantinfo/sqlite.db
 !tests/unit/mc3/outputs/**/*.json
 tests/unit/compound/source/compound/sqlite.db
+!tests/unit/compound/source/compound/README.md
 
 .DS_Store
