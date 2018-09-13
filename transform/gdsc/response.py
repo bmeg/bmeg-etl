@@ -30,7 +30,7 @@ def transform(
     # Depmap started a new sample ID type (Broad ID) in order to ensure uniqueness.
     # We're not using Broad IDs yet, so we parse the CCLE sample ID
     # out of the header, and reset the csv reader's fieldnames.
-    rx = re.compile("^(.*) \((.*)\)$")  # noqa W605 invalid escape sequence
+    rx = re.compile("^(.*) \((.*)\)$")
 
     # The first column header is blank.
     replace_with = ["compound_name"]

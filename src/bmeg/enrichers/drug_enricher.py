@@ -71,7 +71,7 @@ def normalize_pubchem_substance(name):
                 continue
             if name_part in NOFINDS_PUBCHEM_SUBSTANCE:
                 continue
-            url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/substance/name/{}/synonyms/JSON'.format(name_part)  # NOQA
+            url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/substance/name/{}/synonyms/JSON'.format(name_part)
             r = requests.get(url, timeout=60)
             rsp = r.json()
             if 'InformationList' in rsp:
@@ -104,7 +104,7 @@ def normalize_pubchem(name):
     for name_part in name_parts:
         if len(name_part) < NAME_PART_MIN_LEN:
             continue
-        url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/{}/synonyms/JSON'.format(name_part)  # NOQA
+        url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/{}/synonyms/JSON'.format(name_part)
         r = requests.get(url, timeout=60)
         rsp = r.json()
         if 'InformationList' in rsp:
@@ -122,7 +122,7 @@ def normalize_pubchem(name):
 def normalize_biothings(name):
     """
      curl 'http://c.biothings.io/v1/query?q=chembl.molecule_synonyms.synonyms:aspirin&fields=pubchem.cid,chembl.molecule_synonyms,chembl.molecule_chembl_id,chebi.chebi_id' | jq .
-    """  # NOQA
+    """
     try:
         if name in NOFINDS_BIOTHINGS:
             logging.info("NOFINDS_BIOTHINGS {}".format(name))
@@ -142,14 +142,14 @@ def normalize_biothings(name):
                 'drugbank.taxonomy.kingdom,drugbank.taxonomy.subclass,' \
                 'drugbank.taxonomy.superclass,' \
                 'chembl.usan_stem_definition'
-            url = 'http://c.biothings.io/v1/query?q=chembl.pref_name:{}&{}'.format(name_part, fields)  # NOQA
+            url = 'http://c.biothings.io/v1/query?q=chembl.pref_name:{}&{}'.format(name_part, fields)
             logging.debug(url)
             r = requests.get(url, timeout=60)
             rsp = r.json()
             hits = rsp['hits']
             logging.debug('len(hits) {}'.format(len(hits)))
             if len(hits) == 0:
-                url = 'http://c.biothings.io/v1/query?q=chembl.molecule_synonyms.synonyms:{}&{}'.format(name_part, fields)  # NOQA
+                url = 'http://c.biothings.io/v1/query?q=chembl.molecule_synonyms.synonyms:{}&{}'.format(name_part, fields)
                 logging.debug(url)
                 r = requests.get(url, timeout=60)
                 rsp = r.json()
@@ -163,7 +163,7 @@ def normalize_biothings(name):
                 # sort to get best hit
                 hits = sorted(hits, key=lambda k: k['_score'], reverse=True)
                 hit = hits[0]
-                if 'pubchem' not in hit and 'chebi' not in hit and 'chembl' not in hit:  # NOQA
+                if 'pubchem' not in hit and 'chebi' not in hit and 'chembl' not in hit:
                     logging.warning('no pubchem or chebi or chembl for {}'
                                     .format(name))
                     continue
@@ -258,7 +258,7 @@ def normalize_chembl(name):
         if len(name_part) < NAME_PART_MIN_LEN:
             continue
         try:
-            url = 'https://www.ebi.ac.uk/chembl/api/data/chembl_id_lookup/search?q={}'.format(name_part)  # NOQA
+            url = 'https://www.ebi.ac.uk/chembl/api/data/chembl_id_lookup/search?q={}'.format(name_part)
             r = requests.get(url,
                              headers={'Accept': 'application/json'},
                              timeout=5)
