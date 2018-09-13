@@ -39,16 +39,20 @@ def _decompose(name):
     name_parts = no_punct.split()
     pairs = [' '.join(c) for c in _chunks(name_parts, 2)]
     logging.debug('pairs {} {} >{}<'.format(pairs, len(name_parts), no_punct))
-    if len(name_parts) == 1:
-        logging.debug('returning [no_punct] {}'.format([no_punct]))
-        return [name] + [no_punct]
-    if name_parts == no_punct.split():
-        logging.debug('<<< returning [name_parts] {}'.format(name_parts))
-        return [name] + ['{} {}'.format(name_parts[0], name_parts[1])] + name_parts
-    if [no_punct] == pairs:
-        logging.debug('returning pairs + name_parts {}'.format(pairs + name_parts))
-        return [name] + pairs + name_parts
-    logging.debug('returning [no_punct] + pairs + name_parts {}'.format([no_punct] + pairs + name_parts))
+    try:
+        if len(name_parts) == 1:
+            logging.debug('returning [no_punct] {}'.format([no_punct]))
+            return [name] + [no_punct]
+        if name_parts == no_punct.split():
+            logging.debug('<<< returning [name_parts] {}'.format(name_parts))
+            return [name] + ['{} {}'.format(name_parts[0], name_parts[1])] + name_parts
+        if [no_punct] == pairs:
+            logging.debug('returning pairs + name_parts {}'.format(pairs + name_parts))
+            return [name] + pairs + name_parts
+    except Exception as e:
+        logging.error(name)
+        logging.exception(e)
+    logging.debug('returning [name] [no_punct] + pairs + name_parts {}'.format([no_punct] + pairs + name_parts))
     return [name] + [no_punct] + pairs + name_parts
 
 

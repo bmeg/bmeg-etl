@@ -7,6 +7,7 @@ from bmeg.vertex import Compound
 from bmeg.edge import *  # noqa
 from bmeg.enrichers.drug_enricher import normalize
 from bmeg.gid import GID
+from bmeg.stores import new_store
 
 import glob
 import logging
@@ -20,31 +21,49 @@ def transform(
     emitter_name="json",
     output_dir="outputs",
     emitter_directory=DEFAULT_DIRECTORY,
-    vertex_names="**/*.Compound.Vertex.json",
-    edge_names="**/*.*.Edge.json",
+    vertex_names="**/*Compound.Vertex.json",
+    edge_names="**/*.Edge.json",
+    store_path="source/compound/sqlite.db"
 ):
-    batch_size = 100
+    batch_size = 1000
     compound_cache = {}
-    emitter = new_emitter(name=emitter_name, directory=emitter_directory)
+    emitter = new_emitter(name=emitter_name, directory=emitter_directory, prefix='normalized')
     path = '{}/{}'.format(output_dir, vertex_names)
-    files = [filename for filename in glob.iglob(path, recursive=True)]
+    files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
+    store = new_store('compound', path=store_path)
+    store.index() # default is no index
     c = t = e = 0
     for file in files:
         logging.info(file)
         with reader(file) as ins:
             for line in ins:
                 try:
+                    # get the compound the transformer wrote
                     compound = ujson.loads(line)
                     compound_gid = compound['gid']
                     compound = compound['data']
+                    # if un-normalized, normalize it
                     if compound['term'] == 'TODO':
-                        ontology_terms = normalize(compound['name'])
-                        if len(ontology_terms) == 0:
-                            compound['term'] = compound['name']
-                            compound['term_id'] = 'NO_ONTOLOGY~{}'.format(compound['term'])
+                        # do we have it already?
+                        stored_compound = store.get(compound['name'])
+                        if not stored_compound:
+                            # nope, fetch it
+                            ontology_terms = normalize(compound['name'])
+                            if len(ontology_terms) == 0:
+                                # no hits? set term and id to name
+                                compound['term'] = compound['name']
+                                compound['term_id'] = 'NO_ONTOLOGY~{}'.format(compound['term'])
+                            else:
+                                # hits: set term and id to normalized term
+                                compound['term'] = ontology_terms[0]['synonym']
+                                compound['term_id'] = ontology_terms[0]['ontology_term']
+                            # save it for next time
+                            store.put(compound['name'], compound)
                         else:
-                            compound['term'] = ontology_terms[0]['synonym']
-                            compound['term_id'] = ontology_terms[0]['ontology_term']
+                            compound = stored_compound
+                    else:
+                        # we have a compound with a term already
+                        store.put(compound['name'], compound)
                     compound = Compound.from_dict(compound)
                     emitter.emit_vertex(compound)
                     compound_cache[compound_gid] = compound
@@ -59,8 +78,9 @@ def transform(
                     c = 0
         logging.info('transforming read: {} errors: {}'.format(t, e))
 
+    # get the edges
     path = '{}/{}'.format(output_dir, edge_names)
-    files = [filename for filename in glob.iglob(path, recursive=True)]
+    files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
     c = t = e = 0
     for file in files:
         logging.info(file)

@@ -5,7 +5,7 @@ import contextlib
 import pytest
 from transform.g2p.transform import transform
 from transform.g2p.genes import normalize as gene_normalize
-from bmeg.vertex import G2PAssociation, Publication, Gene, Allele, Phenotype, Deadletter, MinimalAllele
+from bmeg.vertex import G2PAssociation, Publication, Gene, Allele, Phenotype, Deadletter, MinimalAllele, Compound
 
 
 @pytest.fixture
@@ -33,6 +33,8 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     minimal_allele_edge_file = os.path.join(emitter_path_prefix, 'HasMinimalAlleleFeature.Edge.json')
     has_gene_edge_file = os.path.join(emitter_path_prefix, 'MinimalAlleleIn.Edge.json')
     allele_in_edge_file = os.path.join(emitter_path_prefix, 'AlleleIn.Edge.json')
+    environment_in_edge_file = os.path.join(emitter_path_prefix, 'HasEnvironment.Edge.json')
+    environment_file = os.path.join(emitter_path_prefix, 'Compound.Vertex.json')
     # remove output
     with contextlib.suppress(FileNotFoundError):
         os.remove(association_file)
@@ -47,6 +49,8 @@ def validate(helpers, g2p_file, emitter_path_prefix):
         os.remove(minimal_allele_edge_file)
         os.remove(has_gene_edge_file)
         os.remove(allele_in_edge_file)
+        os.remove(environment_in_edge_file)
+        os.remove(environment_file)
 
     # create output
     transform(g2p_file, prefix=emitter_path_prefix)
@@ -68,15 +72,19 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     helpers.assert_vertex_file_valid(Deadletter, deadletter_file)
     # test/test.MinimalAllele.Vertex.json
     helpers.assert_vertex_file_valid(MinimalAllele, minimal_allele_file)
+    # test/test.Environment.Vertex.json
+    helpers.assert_vertex_file_valid(Compound, environment_file)
     # test/test.MinimalAllele.Vertex.json
     helpers.assert_edge_file_valid(G2PAssociation, MinimalAllele, minimal_allele_edge_file)
     # test/test.HasGene.Edge.json
     helpers.assert_edge_file_valid(MinimalAllele, Gene, has_gene_edge_file)
     # test/test.AlleleIn.Edge.json
     helpers.assert_edge_file_valid(Allele, Gene, allele_in_edge_file)
+    # test/test.HasEnvironment.Edge.json
+    helpers.assert_edge_file_valid(G2PAssociation, Compound, environment_in_edge_file)
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(
-        [association_file, publication_edge_file, gene_edge_file, allele_edge_file, allele_file, phenotype_file, phenotype_edge_file, deadletter_file, minimal_allele_file, minimal_allele_edge_file, has_gene_edge_file, allele_in_edge_file],
+        [association_file, publication_edge_file, gene_edge_file, allele_edge_file, allele_file, phenotype_file, phenotype_edge_file, deadletter_file, minimal_allele_file, minimal_allele_edge_file, has_gene_edge_file, allele_in_edge_file, environment_in_edge_file, environment_file],
         exclude_labels=['Publication', 'Gene']
     )
 

@@ -10,7 +10,7 @@ from bmeg.enrichers.drug_enricher import compound_factory
 import logging
 
 DEFAULT_PREFIX = 'gdsc'
-DEFAULT_DIRECTORY = 'outputs/gdsc'
+DEFAULT_DIRECTORY = 'gdsc'
 
 
 def transform(
