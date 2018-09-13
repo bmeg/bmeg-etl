@@ -2,16 +2,11 @@
 """
 store and retrieve anything with a gid()
 """
-from bmeg.vertex import Allele, AlleleAnnotations
-from bmeg.ioutils import reader
+from bmeg.vertex import Allele
 import dataclasses
 import logging
 import sqlite3
-import os.path
-import hashlib
 import json
-from threading import Thread
-from queue import Queue
 
 
 class Memorystore:
@@ -31,7 +26,6 @@ class Memorystore:
 
     def size(self):
         return len(self.key_val.keys())
-
 
 
 class Sqlitestore:
