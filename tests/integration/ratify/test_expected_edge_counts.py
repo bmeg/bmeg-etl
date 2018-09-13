@@ -5,6 +5,7 @@ a set of very basic queries - simply ensure the counts of label->label
 
 import time
 from gripql import eq
+import json
 
 EXPECTED_COUNTS = [
     {'_from': 'Biosample', 'to': 'Individual', 'expected_count': 57186},
@@ -22,23 +23,27 @@ class Stopwatch:
 
     # Construct self and start it running.
     def __init__(self):
-        self._creationTime = time.time()  # Creation time
+        self.creationTime = time.time()  # Creation time
 
     # Return the elapsed time since creation of self, in seconds.
     def elapsedTime(self):
-        return time.time() - self._creationTime
+        return time.time() - self.creationTime
 
 
-def count_traversal(_from, to, expected_count, V):
+def count_traversal(_from, to, expected_count, V, expected_time=60):
     """ count traversal template query """
     watch = Stopwatch()
     q = V.where(eq("_label", _from)).out().where(eq("_label", to)).count()
-    print(q.__dict__)
+    query_string = json.dumps(q.__dict__, separators=(',',':'))
     actual_count = list(q)[0]['count']
-    print(watch.elapsedTime())
+    actual_time = watch.elapsedTime()
     if actual_count != expected_count:
         return 'Expected from:{} to:{} expected:{} actual: {}'.format(
             _from, to, expected_count, actual_count
+        )
+    if actual_time > expected_time:
+        return 'Time exceeded from:{} to:{} expected:{} actual: {}\n    {}'.format(
+            _from, to, expected_time, actual_time, query_string
         )
 
 
