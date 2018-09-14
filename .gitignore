@@ -45,5 +45,6 @@ tests/unit/compound/source/compound/sqlite.db
 
 !tests/unit/phenotype/source/*/*.json
 !tests/unit/phenotype/outputs/**/*.*
+postgres/data
 
 .DS_Store
