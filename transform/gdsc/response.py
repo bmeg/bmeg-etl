@@ -1,7 +1,7 @@
 import re
 
 import bmeg.ioutils
-from bmeg.emitter import JSONEmitter, DeduplicationEmitter
+from bmeg.emitter import JSONEmitter
 from bmeg.vertex import Biosample, DrugResponse, DrugResponseMetric
 from bmeg.edge import DrugResponseIn, ResponseTo
 from bmeg.util.logging import default_logging
@@ -20,7 +20,6 @@ def transform(
 ):
     logging.info('transform')
     emitter = JSONEmitter(prefix=emitter_prefix, directory=emitter_directory)
-    caching_emitter = DeduplicationEmitter(prefix=emitter_prefix, directory=emitter_directory)
     r = bmeg.ioutils.read_csv(path)
 
     # Fix up the headers:
@@ -51,6 +50,7 @@ def transform(
     # Iterate all rows, writing out the expression for different tissue types
     # to separate files.
     c = t = 0
+    compound_gids = []
     for row in r:
         c += 1
         t += 1
@@ -78,7 +78,10 @@ def transform(
             )
             # create compound
             compound = compound_factory(name=row["compound_name"])
-            caching_emitter.emit_vertex(compound)
+            if compound.gid() not in compound_gids:
+                emitter.emit_vertex(compound)
+                compound_gids.append(compound.gid())
+
             # and an edge to it
             emitter.emit_edge(
                 ResponseTo(),
@@ -91,7 +94,6 @@ def transform(
                 c = 0
 
     emitter.close()
-    caching_emitter.close()
 
 
 if __name__ == "__main__":

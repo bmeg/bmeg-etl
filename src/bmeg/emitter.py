@@ -184,33 +184,10 @@ class FileHandler:
             fh.close()
 
 
-class DeduplicationEmitter():
-    """ guarantees that a vertex will be emitted only once """
-    def __init__(self, *positional, **kwargs):
-        emitter_class = kwargs.get('emitter_class', JSONEmitter)
-        if 'emitter_class' in kwargs:
-            del kwargs['emitter_class']
-        self.emitter = emitter_class(*positional, **kwargs)
-        self.cache = []
-
-    def close(self):
-        self.emitter.close()
-
-    def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
-        raise NotImplementedError('DeduplicationEmitter only supports Vertex')
-
-    def emit_vertex(self, obj: Vertex):
-        gid = obj.gid()
-        if gid not in self.cache:
-            self.emitter.emit_vertex(obj)
-            self.cache.append(gid)
-
-
 # shorthand aliases for emitter names
 EMITTER_NAME_MAP = {
     "json": JSONEmitter,
     "debug": DebugEmitter,
-    "deduplication": DeduplicationEmitter,
 }
 
 
