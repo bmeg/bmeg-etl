@@ -286,8 +286,9 @@ class COCACluster(Vertex):
 @dataclass(frozen=True)
 class Individual(Vertex):
     individual_id: str
-    gdc_attributes: dict
+    gdc_attributes: Union[None, dict] = None
     gtex_attributes: Union[None, dict] = None
+    ccle_attributes: Union[None, dict] = None
 
     def gid(self):
         return Individual.make_gid(self.individual_id)
@@ -351,7 +352,7 @@ class GeneOntologyTerm(Vertex):
 @dataclass(frozen=True)
 class Project(Vertex):
     project_id: str
-    gdc_attributes: dict
+    gdc_attributes: Union[None, dict] = None
 
     def gid(self):
         return Project.make_gid(self.project_id)
@@ -402,6 +403,7 @@ class Compound(Vertex):
 class Phenotype(Vertex):
     term_id: str  # DOID:11198 ; MONDO:0007254
     term: str  # DiGeorge syndrome ; breast cancer
+    name: Union[None, str] = None  # some unoffical name e.g. cancer of the breast
 
     def gid(self):
         return Phenotype.make_gid(self.term_id)
