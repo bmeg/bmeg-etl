@@ -30,7 +30,7 @@ def transform(
     emitter = new_emitter(name=emitter_name, directory=emitter_directory, prefix='normalized')
     path = '{}/{}'.format(output_dir, vertex_names)
     files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
-    store = new_store('compound', path=store_path)
+    store = new_store('key-val', path=store_path)
     store.index()  # default is no index
     c = t = e = 0
     for file in files:

@@ -109,7 +109,7 @@ def sort_allele_files(path, sorted_allele_file):
 
 def transform(output_dir,
               prefix,
-              allele_store_name='allele-sqlite',
+              allele_store_name='dataclass',
               allele_store_path='/tmp/sqlite.db',
               emitter_name='json',
               vertex_filename_pattern='**/*.Allele.Vertex.json.gz',
@@ -131,7 +131,7 @@ def transform(output_dir,
     path = '{}/{}'.format(output_dir, vertex_filename_pattern)
     logging.info('checking {}'.format(path))
     sorted_allele_file = sort_allele_files(path, sorted_allele_file)
-    allele_store = new_store(allele_store_name, path=allele_store_path)
+    allele_store = new_store(allele_store_name, path=allele_store_path, clazz=Allele)
     c = 0
     t = 0
     batch_size = 20000
@@ -142,13 +142,7 @@ def transform(output_dir,
         for alleles in group_sorted_alleles(sorted_allele_file):
             allele = merge(alleles)
             gid = allele.gid()
-            batch.append(
-                (
-                    gid,
-                    allele.__class__.__name__,
-                    ujson.dumps(dataclasses.asdict(allele))
-                )
-            )
+            batch.append(allele)
             gid_cache[gid] = True
             c += 1
             t += 1

@@ -34,7 +34,7 @@ def count_traversal(_from, to, expected_count, V, expected_time=60):
     """ count traversal template query """
     watch = Stopwatch()
     q = V.where(eq("_label", _from)).out().where(eq("_label", to)).count()
-    query_string = json.dumps(q.__dict__, separators=(',',':'))
+    query_string = json.dumps(q.__dict__, separators=(',', ':'))
     actual_count = list(q)[0]['count']
     actual_time = watch.elapsedTime()
     if actual_count != expected_count:

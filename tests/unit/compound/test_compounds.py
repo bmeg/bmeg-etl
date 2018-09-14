@@ -44,7 +44,7 @@ def validate(helpers, output_dir, emitter_directory, store_path):
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['DrugResponse'])
     # ensure the store was created
-    store = new_store('compound', path=store_path)
+    store = new_store('key-val', path=store_path)
     assert len([c for c in store.all()]) == 9, 'store should have 9 names'
 
 

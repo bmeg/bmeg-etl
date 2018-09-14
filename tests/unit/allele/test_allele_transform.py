@@ -62,7 +62,7 @@ def validate(helpers, output_directory, emitter_path_prefix, myvariantinfo_path)
     # check using sqllite
     transform(output_directory,
               prefix=emitter_path_prefix,
-              allele_store_name='allele-sqlite',
+              allele_store_name='dataclass',
               allele_store_path='/tmp/sqlite.db',
               vertex_filename_pattern='**/Allele.Vertex.json',
               myvariantinfo_path=myvariantinfo_path)
