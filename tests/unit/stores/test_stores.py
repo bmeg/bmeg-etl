@@ -1,5 +1,4 @@
 import contextlib
-import pytest
 from bmeg.vertex import Compound
 from bmeg.stores import new_store
 
@@ -9,18 +8,20 @@ def validate_put_get(s):
     a = s.get('a')
     assert a == 'AAAA', 'should get what we put'
 
+
 def validate_batch(s):
-    batch = [('a','AAAA'), ('b','BBBB')]
+    batch = [('a', 'AAAA'), ('b', 'BBBB')]
     s.load_many(batch)
     batch2 = [b for b in s.all()]
     assert ['AAAA', 'BBBB'] == batch2, 'should get all what we loaded'
     ids = [k for k in s.all_ids()]
     assert ['a', 'b'] == ids, 'should get all ids loaded'
 
+
 def validate(s):
     validate_put_get(s)
     validate_batch(s)
-    assert s.backend(),  'should return implementation backend'
+    assert s.backend(), 'should return implementation backend'
 
 
 def compound_factory(name):
@@ -40,7 +41,7 @@ def validate_dataclass(s):
     assert ['foo', 'bar'] == batch2, 'should get all what we loaded'
     ids = sorted([k for k in s.all_ids()])
     assert sorted(['Compound:TODO:foo', 'Compound:TODO:bar']) == ids, 'should get all ids loaded'
-    assert s.backend(),  'should return implementation backend'
+    assert s.backend(), 'should return implementation backend'
 
 
 def test_memory():

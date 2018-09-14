@@ -2,11 +2,11 @@
 """
 store and retrieve anything with an id
 """
-import dataclasses
 import logging
 import sqlite3
 import ujson
 import uuid
+
 
 class KeyValueMemoryStore:
     """ store an id and a json serializable object in sqllite"""
@@ -123,7 +123,6 @@ class KeyValueStore:
         logging.debug('starting insert')
         self.conn.executemany("insert or replace into data(id, json) values(?, ?)", batch)
         logging.debug('done insert')
-
 
 
 class DataClassStore(KeyValueStore):
