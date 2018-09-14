@@ -88,7 +88,7 @@ def transform(
             for line in ins:
                 try:
                     edge = ujson.loads(line)
-                    if 'Compound:TODO' not in edge['gid']:
+                    if 'Compound:' not in edge['gid']:
                         logging.info('Edge {} has no compounds that need transformation. skipping.'.format(file))
                         break
                     # get edge components
