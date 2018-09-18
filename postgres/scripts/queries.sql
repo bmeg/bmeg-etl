@@ -42,11 +42,205 @@ select
       join edge e on (e.label = 'ExpressionOf' and a.from = e.to)
 ;
 
+expression | aliquot | biosample | individual | project
+------------+---------+-----------+------------+---------
+     11688 |   11688 |     11688 |        714 |       1
+(1 row)
 
-select count(distinct v.gid) from vertex as v where v.label = 'Expression'
-data.values.ENSG00000227232
+Time: 169.941 ms
 
-select * from vertex as v where v.label = 'Expression' limit 1;
+
+
+
+select
+  v.gid as "vertex_gid",
+  e.from as "expression",
+  a.from as "aliquot",
+  a.to as "biosample",
+  i.to as "individual",
+  p.to as "project"
+  from edge as a
+    join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
+      join edge p on (p.label = 'InProject' and p.from = i.to)
+      join edge e on (e.label = 'ExpressionOf' and a.from = e.to)
+      join vertex v on (v.label = 'Expression' and v.gid = e.from)
+;
+vertex_gid                   |                   expression                   |                aliquot                 |                biosample                 |      individual       |   p
+roject
+------------------------------------------------+------------------------------------------------+----------------------------------------+------------------------------------------+-----------------------+----
+----------
+Expression:gtex:GTEX-1117F-0226-SM-5GZZ7       | Expression:gtex:GTEX-1117F-0226-SM-5GZZ7       | Aliquot:GTEX-1117F-0226-SM-5GZZ7       | Biosample:GTEX-1117F-0226-SM-5GZZ7       | Individual:GTEX-1117F | Pro
+ject:gtex
+Expression:gtex:GTEX-1117F-0426-SM-5EGHI       | Expression:gtex:GTEX-1117F-0426-SM-5EGHI       | Aliquot:GTEX-1117F-0426-SM-5EGHI       | Biosample:GTEX-1117F-0426-SM-5EGHI       | Individual:GTEX-1117F | Pro
+ject:gtex
+Expression:gtex:GTEX-1117F-0526-SM-5EGHJ       | Expression:gtex:GTEX-1117F-0526-SM-5EGHJ       | Aliquot:GTEX-1117F-0526-SM-5EGHJ       | Biosample:GTEX-1117F-0526-SM-5EGHJ       | Individual:GTEX-1117F | Pro
+ject:gtex....
+Time: 325.977 ms
+
+
+
+select
+  v.gid as "vertex_gid",
+  v.data->'gtex_attributes'->>'AGE' as "age",
+  e.from as "expression",
+  a.from as "aliquot",
+  a.to as "biosample",
+  i.to as "individual",
+  p.to as "project"
+  from edge as a
+    join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
+      join edge p on (p.label = 'InProject' and p.from = i.to)
+      join edge e on (e.label = 'ExpressionOf' and a.from = e.to)
+      join vertex v on (v.label = 'Individual' and v.gid = i.to)
+;
+
+select
+  v.gid as "vertex_gid",
+  v.data->'gtex_attributes'->>'AGE' as "age",
+  e.from as "expression",
+  a.from as "aliquot",
+  a.to as "biosample",
+  i.to as "individual",
+  p.to as "project"
+  from edge as a
+    join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
+      join edge p on (p.label = 'InProject' and p.from = i.to)
+      join edge e on (e.label = 'ExpressionOf' and a.from = e.to)
+      join vertex v on (v.label = 'Individual' and v.gid = i.to)
+  where v.data->'gtex_attributes'->>'AGE' = '60-69'
+  and a.from = 'Aliquot:GTEX-131XF-1426-SM-5BC68'
+;
+
+
+select
+  v.gid as "vertex_gid",
+  v.data->'metric' as "metric",
+  e.to as "expression",
+  a.from as "aliquot",
+  a.to as "biosample",
+  i.to as "individual",
+  p.to as "project"
+  from edge as a
+    join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
+      join edge p on (p.label = 'InProject' and p.from = i.to)
+      join edge e on (e.label = 'ExpressionOf' and a.from = e.to)
+      join vertex v on (v.label = 'Expression' and v.gid = e.from)
+;
+Time: 37637.301 ms
+
+
+select
+  v.gid as "vertex_gid",
+  v.data->'values'->'ENSG00000227232' as "ENSG00000227232",
+  e.to as "expression",
+  a.from as "aliquot",
+  a.to as "biosample",
+  i.to as "individual",
+  p.to as "project"
+  from edge as a
+    join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
+      join edge p on (p.label = 'InProject' and p.from = i.to)
+      join edge e on (e.label = 'ExpressionOf' and a.from = e.to)
+      join vertex v on (v.label = 'Expression' and v.gid = e.from)
+where
+  v.data->'values'->'ENSG00000227232' > '15'::jsonb ;
+;
+Time: 64801.650 ms
+
+
+select
+  v.gid as "vertex_gid",
+  v.data->'values'->'ENSG00000227232' as "ENSG00000227232",
+  e.to as "expression",
+  a.from as "aliquot",
+  a.to as "biosample",
+  i.to as "individual",
+  p.to as "project"
+  from edge as a
+    join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
+      join edge p on (p.label = 'InProject' and p.from = i.to)
+      join edge e on (e.label = 'ExpressionOf' and a.from = e.to)
+      join vertex v on (v.label = 'Expression' and v.gid = e.from)
+where
+  cast (v.data->'values'->>'ENSG00000227232' as float ) > 15 ;
+;
+Time: 61650.050 ms
+
+select
+  v.gid as "vertex_gid",
+  v.data->'values'->'ENSG00000227232' as "ENSG00000227232",
+  e.to as "expression",
+  a.from as "aliquot",
+  a.to as "biosample",
+  i.to as "individual",
+  p.to as "project"
+  from edge as a
+    join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
+      join edge p on (p.label = 'InProject' and p.from = i.to)
+      join edge e on (e.label = 'ExpressionOf' and a.from = e.to)
+      join vertex v on (v.gid = e.from)
+where
+  cast (v.data->'values'->>'ENSG00000227232' as float ) > 15 ;
+  and v.label = 'Expression'
+;
+
+
+select
+  v.gid as "vertex_gid",
+  v.data->'values'->'ENSG00000227232' as "ENSG00000227232",
+  e.to
+  from vertex as v
+    join edge e on (e.label = 'ExpressionOf' and v.gid = e.from)
+where
+  v.label = 'Expression'
+  and
+  cast (v.data->'values'->>'ENSG00000227232' as float ) > 15
+;
+
+select
+  v.gid as "vertex_gid",
+  v.data->'values'->'ENSG00000227232' as "ENSG00000227232"
+  from vertex as v
+where
+  v.label = 'Expression'
+  and
+  cast (v.data->'values'->>'ENSG00000227232' as float ) > 15
+;
+Time: 15608.100 ms
+
+select
+  v.gid as "vertex_gid",
+  v.data->'values'->>'ENSG00000227232' as "ENSG00000227232",
+  e.to as "expression",
+  a.from as "aliquot",
+  a.to as "biosample",
+  i.to as "individual",
+  p.to as "project"
+  from edge as a
+    join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
+      join edge p on (p.label = 'InProject' and p.from = i.to)
+      join edge e on (e.label = 'ExpressionOf' and a.from = e.to)
+      join vertex v on (v.label = 'Expression' and v.gid = e.from)
+;
+Time: 44902.668 ms
+
+
+select
+  v.gid as "vertex_gid",
+  v.data->'values'->'ENSG00000227232' as "ENSG00000227232",
+  e.to as "expression",
+  a.from as "aliquot",
+  a.to as "biosample",
+  i.to as "individual",
+  p.to as "project"
+  from edge as a
+    join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
+      join edge p on (p.label = 'InProject' and p.from = i.to)
+      join edge e on (e.label = 'ExpressionOf' and a.from = e.to)
+      join vertex v on (v.label = 'Expression' and v.gid = e.from)
+;
+46150.486 ms
+
 
 
 select
@@ -62,8 +256,7 @@ from vertex as v
   where v.label = 'Expression' ;
 
 
-CREATE INDEX vertex_ENSG00000227232 ON vertex ((data->'values'->'ENSG00000227232') );
-
+CREATE INDEX vertex_ENSG00000227232 ON vertex (cast (data->'values'->>'ENSG00000227232' as float) );
 
 
 # select gid, v.data->'values'->'ENSG00000227232' as "ENSG00000227232"
@@ -95,4 +288,7 @@ and v.data->'values'->'ENSG00000227232' > '15'::jsonb ;
 
 
 
-CREATE INDEX vertex_data on vertex USING gin (data);
+
+# CREATE INDEX vertex_data on vertex USING gin (data);
+CREATE INDEX
+Time: 5797025.542 ms
