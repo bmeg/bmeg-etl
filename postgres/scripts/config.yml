@@ -1,6 +1,47 @@
 postgres:
     host: database
     user: postgres
-    passwd: password
-    db: test
+    password: password
+    database: test
     port: 5432
+
+ddl: |
+  DROP TABLE IF EXISTS vertex;
+  DROP TABLE IF EXISTS edge;
+
+  CREATE TABLE IF NOT EXISTS  vertex (
+   gid varchar not null,
+   label varchar not null,
+   data jsonb
+  );
+
+  CREATE TABLE IF NOT EXISTS  edge (
+   gid varchar not null,
+   label varchar not null,
+   "from" varchar not null,
+   "to" varchar not null,
+   data jsonb
+  );
+
+indexes: |
+  CREATE INDEX vertex_gid ON vertex (gid);
+  CREATE INDEX vertex_label ON vertex (label);
+  CREATE INDEX edge_label_from_to ON edge (label, "from", "to");
+  CREATE INDEX edge_label_to_from ON edge (label, "to", "from");
+  ANALYZE vertex ;
+  ANALYZE edge ;
+
+
+edge_files: |
+  outputs/gtex/gtex.AliquotFor.Edge.json
+  outputs/gtex/gtex.BiosampleFor.Edge.json
+  outputs/gtex/gtex.ExpressionOf.Edge.json
+  outputs/gtex/gtex.InProject.Edge.json
+
+
+vertex_files: |
+  outputs/gtex/gtex.Expression.Vertex.json
+  outputs/gtex/gtex.Aliquot.Vertex.json
+  outputs/gtex/gtex.Biosample.Vertex.json
+  outputs/gtex/gtex.Individual.Vertex.json
+  outputs/gtex/gtex.Project.Vertex.json
