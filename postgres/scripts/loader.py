@@ -8,55 +8,6 @@ import logging
 import yaml
 import types
 
-
-# # DDL
-# DROP_TABLES = """
-# DROP TABLE IF EXISTS vertex;
-# DROP TABLE IF EXISTS edge;
-# """
-#
-# CREATE_TABLES = """
-# CREATE TABLE IF NOT EXISTS  vertex (
-#  gid varchar not null,
-#  label varchar not null,
-#  data jsonb
-# );
-#
-# CREATE TABLE IF NOT EXISTS  edge (
-#  gid varchar not null,
-#  label varchar not null,
-#  "from" varchar not null,
-#  "to" varchar not null,
-#  data jsonb
-# );
-# """
-#
-# CREATE_INDEXES = """
-# CREATE INDEX vertex_gid ON vertex (gid);
-# CREATE INDEX vertex_label ON vertex (label);
-# CREATE INDEX edge_label_from_to ON edge (label, "from", "to");
-# CREATE INDEX edge_label_to_from ON edge (label, "to", "from");
-# ANALYZE vertex ;
-# ANALYZE edge ;
-# """
-#
-#
-# # list of files for import
-# EDGE_FILES = """
-# outputs/gtex/gtex.AliquotFor.Edge.json
-# outputs/gtex/gtex.BiosampleFor.Edge.json
-# outputs/gtex/gtex.ExpressionOf.Edge.json
-# outputs/gtex/gtex.InProject.Edge.json
-# """.strip().split()
-#
-# VERTEX_FILES = """
-# outputs/gtex/gtex.Aliquot.Vertex.json
-# outputs/gtex/gtex.Biosample.Vertex.json
-# outputs/gtex/gtex.Expression.Vertex.json
-# outputs/gtex/gtex.Individual.Vertex.json
-# outputs/gtex/gtex.Project.Vertex.json
-# """.strip().split()
-
 # log setup
 logging.getLogger().setLevel(logging.INFO)
 
@@ -101,12 +52,12 @@ def gtex_expression_data(row):
 
 def transform(file, row):
     """ transform if necessary """
-    if file == 'outputs/gtex/gtex.Expression.Vertex.json':
-        return gtex_expression_data(row)
+    # if file == 'outputs/gtex/gtex.Expression.Vertex.json':
+    #     return gtex_expression_data(row)
     return row
 
 
-def rows(files, keys_to_delete=['_id'], batch_size=100):
+def rows(files, keys_to_delete=['_id'], batch_size=1000):
     """
     generator: read in all rows from all files,
     remove keys_to_delete before yielding
@@ -143,6 +94,6 @@ logging.info('inserting edges')
 edges.insert_many(rows(config.edge_files), chunk_size=100)
 logging.info('There are {} edges'.format(edges.count()))
 
-# logging.info('creating indexes')
-# execute(pgconn, config.indexes)
-# logging.info('indexes created')
+logging.info('creating indexes')
+execute(pgconn, [config.indexes])
+logging.info('indexes created')
