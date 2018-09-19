@@ -348,6 +348,7 @@ limit 10
 
 
 http://erthalion.info/2017/12/21/advanced-json-benchmarks/
+http://niquola.github.io/blog/postgresql/2014/08/20/pg-jsquery-2014.html
 
 select
   gid,

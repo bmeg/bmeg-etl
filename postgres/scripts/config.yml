@@ -28,17 +28,18 @@ indexes: |
   CREATE INDEX vertex_label ON vertex (label);
   CREATE INDEX edge_label_from_to ON edge (label, "from", "to");
   CREATE INDEX edge_label_to_from ON edge (label, "to", "from");
+  CREATE INDEX vertex_data on vertex USING gin  (data);
   ANALYZE vertex ;
   ANALYZE edge ;
 
-
+#
 edge_files: |
   outputs/gtex/gtex.AliquotFor.Edge.json
   outputs/gtex/gtex.BiosampleFor.Edge.json
-  outputs/gtex/gtex.ExpressionOf.Edge.json
   outputs/gtex/gtex.InProject.Edge.json
+  outputs/gtex/gtex.ExpressionOf.Edge.json
 
-
+#
 vertex_files: |
   outputs/gtex/gtex.Expression.Vertex.json
   outputs/gtex/gtex.Aliquot.Vertex.json

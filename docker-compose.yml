@@ -1,6 +1,8 @@
 # the database
 database:
-  image: postgres:9.6.5-alpine
+  # image: postgres:9.6.5-alpine
+  build:
+    ./postgres/docker
   expose:
     - 5432
   ports:
