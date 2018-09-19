@@ -87,12 +87,29 @@ def group_sorted_alleles(sorted_allele_file):
         yield from_dict(alleles)
 
 
+def valid_filenames(path):
+    """ filter out any we do not want to process """
+    filenames = []
+    for filename in glob.iglob(path, recursive=True):
+        # myvariant download
+        if 'myvariant' in filename:
+            continue
+        # our own output
+        if 'allele' in filename:
+            continue
+        # pseudo alleles
+        if 'MinimalAllele' in filename:
+            continue
+        filenames.append(filename)
+    return filenames
+
+
 def sort_allele_files(path, sorted_allele_file):
     """ sort alleles file_names[] into a file in sorted_allele_file"""
     try:
         logging.debug(path)
         if not os.path.isfile(sorted_allele_file):
-            files = [filename for filename in glob.iglob(path, recursive=True)]
+            files = valid_filenames(path)
             assert len(files) > 0
             files = ' '.join(files)
             cat = 'cat'
@@ -112,7 +129,7 @@ def transform(output_dir,
               allele_store_name='dataclass',
               allele_store_path='/tmp/sqlite.db',
               emitter_name='json',
-              vertex_filename_pattern='**/*.Allele.Vertex.json.gz',
+              vertex_filename_pattern='**/*Allele.Vertex.json.gz',
               myvariantinfo_path=None,
               sorted_allele_file='/tmp/sorted_allele_file.json'):
     """
@@ -259,8 +276,8 @@ def main():  # pragma: no cover
                         default='source/allele/sorted_allele_file.json')
 
     parser.add_argument('--allele_store_name', type=str,
-                        help='name of allele database [memory, sqlite, (mongo, bmeg)]',
-                        default='allele-sqlite')
+                        help='name of allele database [key-val, dataclass, (mongo, bmeg)]',
+                        default='dataclass')
     parser.add_argument('--allele_store_path', type=str,
                         help='path of allele store',
                         default='source/allele/sqlite.db')
