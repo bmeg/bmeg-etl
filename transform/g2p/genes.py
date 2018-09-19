@@ -16,11 +16,11 @@ def gene_gid(symbol):
 def normalize(hit):
     """ return the hit modified replacing 'genes' with create_genes;
     gene gids we haven't seen before """
-    gene_gids = []
+    gene_gids = set([])
     missing_vertexes = []
     for symbol in hit['genes']:
         try:
-            gene_gids.append(gene_gid(symbol))
+            gene_gids.add(gene_gid(symbol))
         except Exception as e:
             logging.debug(e)
             missing_vertexes.append({'target_label': 'Gene', 'data': {'symbol': symbol}})
@@ -28,7 +28,7 @@ def normalize(hit):
         if feature.get('provenance_rule', None) != 'gene_only':
             continue
         try:
-            gene_gids.append(gene_gid(feature['geneSymbol']))
+            gene_gids.add(gene_gid(feature['geneSymbol']))
         except Exception as e:
             logging.debug(e)
             missing_vertexes.append({'target_label': 'Gene', 'data': feature})
