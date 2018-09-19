@@ -64,8 +64,21 @@ def transform(
                         else:
                             phenotype = stored_phenotype
                     else:
-                        # we have a phenotype with a term already
-                        store.put(phenotype.get('name', phenotype.get('term')), phenotype)
+                        if 'MONDO' not in phenotype['term_id']:
+                            # we prefer MONDO
+                            # do we have it already?
+                            stored_phenotype = store.get(phenotype['term'])
+                            if not stored_phenotype:
+                                # nope, fetch it
+                                ontology_terms = normalize(phenotype['term'])
+                                if len(ontology_terms) > 0:
+                                    # hits: set term and id to normalized term
+                                    phenotype['term'] = ontology_terms[0]['label']
+                                    phenotype['term_id'] = ontology_terms[0]['ontology_term']
+
+                    # we have a phenotype with a term already
+                    store.put(phenotype.get('name', phenotype.get('term')), phenotype)
+
                     phenotype = Phenotype.from_dict(phenotype)
                     emitter.emit_vertex(phenotype)
                     phenotype_cache[phenotype_gid] = phenotype
