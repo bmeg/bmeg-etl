@@ -292,3 +292,69 @@ and v.data->'values'->'ENSG00000227232' > '15'::jsonb ;
 # CREATE INDEX vertex_data on vertex USING gin (data);
 CREATE INDEX
 Time: 5797025.542 ms
+
+
+
+
+
+CREATE INDEX vertex_gtex_values ON
+  vertex (
+    cast (data->'values'->>'value' as float),
+    cast (data->'values'->>'name' as varchar)
+  );
+
+
+select
+  gid,
+  data->'values'->1->>'name'
+from vertex as v
+  where v.label = 'Expression'
+limit 1 ;
+
+
+select
+  gid,
+  jsonb_array_elements(data->'values')->>'name'
+from vertex as v
+  where v.label = 'Expression'
+    and v.data->'values'->'value' > '15'::jsonb
+limit 5 ;
+
+
+explain select
+  gid,
+  jsonb_array_elements(data->'values')->>'name',
+  jsonb_array_elements(data->'values')->>'value'
+from vertex as v
+  where v.label = 'Expression'
+    and cast (v.data->'values'->>'value' as float ) > 15 ;
+
+                                                QUERY PLAN
+-----------------------------------------------------------------------------------------------------------
+ Index Scan using vertex_gtex_values on vertex v  (cost=0.29..8.82 rows=100 width=99)
+   Index Cond: ((((data -> 'values'::text) ->> 'value'::text))::double precision > '15'::double precision)
+   Filter: ((label)::text = 'Expression'::text)
+(3 rows)
+
+select
+  gid,
+  jsonb_array_elements(data->'values')->>'name',
+  jsonb_array_elements(data->'values')->>'value'
+from vertex as v
+  where v.label = 'Expression'
+    and cast (v.data->'values'->>'value' as float ) > 9
+limit 10
+    ;
+
+
+http://erthalion.info/2017/12/21/advanced-json-benchmarks/
+
+select
+  gid,
+  jsonb_array_elements(data->'values')->>'name',
+  jsonb_array_elements(data->'values')->>'value',
+  cast (v.data->'values'->>'value' as float )
+from vertex as v
+  where v.label = 'Expression'
+limit 10
+    ;
