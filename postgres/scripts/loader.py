@@ -6,59 +6,54 @@ import dataset
 import ujson
 import logging
 import yaml
-import types
-<<<<<<< 73eec764a4c127838349b34dc794842d0b67eaf7
-=======
 
 
-# # DDL
-# DROP_TABLES = """
-# DROP TABLE IF EXISTS vertex;
-# DROP TABLE IF EXISTS edge;
-# """
-#
-# CREATE_TABLES = """
-# CREATE TABLE IF NOT EXISTS  vertex (
-#  gid varchar not null,
-#  label varchar not null,
-#  data jsonb
-# );
-#
-# CREATE TABLE IF NOT EXISTS  edge (
-#  gid varchar not null,
-#  label varchar not null,
-#  "from" varchar not null,
-#  "to" varchar not null,
-#  data jsonb
-# );
-# """
-#
-# CREATE_INDEXES = """
-# CREATE INDEX vertex_gid ON vertex (gid);
-# CREATE INDEX vertex_label ON vertex (label);
-# CREATE INDEX edge_label_from_to ON edge (label, "from", "to");
-# CREATE INDEX edge_label_to_from ON edge (label, "to", "from");
-# ANALYZE vertex ;
-# ANALYZE edge ;
-# """
-#
-#
-# # list of files for import
-# EDGE_FILES = """
-# outputs/gtex/gtex.AliquotFor.Edge.json
-# outputs/gtex/gtex.BiosampleFor.Edge.json
-# outputs/gtex/gtex.ExpressionOf.Edge.json
-# outputs/gtex/gtex.InProject.Edge.json
-# """.strip().split()
-#
-# VERTEX_FILES = """
-# outputs/gtex/gtex.Aliquot.Vertex.json
-# outputs/gtex/gtex.Biosample.Vertex.json
-# outputs/gtex/gtex.Expression.Vertex.json
-# outputs/gtex/gtex.Individual.Vertex.json
-# outputs/gtex/gtex.Project.Vertex.json
-# """.strip().split()
->>>>>>> move ddl to config
+# DDL
+DROP_TABLES = """
+DROP TABLE IF EXISTS vertex;
+DROP TABLE IF EXISTS edge;
+"""
+
+CREATE_TABLES = """
+CREATE TABLE IF NOT EXISTS  vertex (
+ gid varchar not null,
+ label varchar not null,
+ data jsonb
+);
+
+CREATE TABLE IF NOT EXISTS  edge (
+ gid varchar not null,
+ label varchar not null,
+ "from" varchar not null,
+ "to" varchar not null,
+ data jsonb
+);
+"""
+
+CREATE_INDEXES = """
+CREATE INDEX vertex_gid ON vertex (gid);
+CREATE INDEX edge_label_from_to ON edge (label, "from", "to");
+CREATE INDEX edge_label_to_from ON edge (label, "from", "to");
+ANALYZE vertex ;
+ANALYZE edge ;
+"""
+
+
+# list of files for import
+EDGE_FILES = """
+outputs/gtex/gtex.AliquotFor.Edge.json
+outputs/gtex/gtex.BiosampleFor.Edge.json
+outputs/gtex/gtex.ExpressionOf.Edge.json
+outputs/gtex/gtex.InProject.Edge.json
+""".strip().split()
+
+VERTEX_FILES = """
+outputs/gtex/gtex.Aliquot.Vertex.json
+outputs/gtex/gtex.Biosample.Vertex.json
+outputs/gtex/gtex.Expression.Vertex.json
+outputs/gtex/gtex.Individual.Vertex.json
+outputs/gtex/gtex.Project.Vertex.json
+""".strip().split()
 
 # log setup
 logging.getLogger().setLevel(logging.INFO)
@@ -66,34 +61,25 @@ logging.getLogger().setLevel(logging.INFO)
 
 # connection for dataset high level connection
 # https://dataset.readthedocs.io/en/latest/
-def construct_pg_url(user, password, host, port, database):
-<<<<<<< 73eec764a4c127838349b34dc794842d0b67eaf7
-    if not password:
-        return "postgresql://" + user + '@' + host + ':' + str(port) + '/' + database
-    return "postgresql://" + user + ":" + password + '@' + host + ':' + str(port) + '/' + database
-=======
-    PG_URL = "postgresql://" + user + ":" + password + '@' + host + ':' + str(port) + '/' + database
+# host: database
+# user: postgres
+# passwd: password
+# db: test
+def construct_pg_url(user='postgres', password='password', host='database', port='5432', database='test'):
+    PG_URL = "postgresql://" + user + ":" + password + '@' + host + ':' + port + '/' + database
     return PG_URL
->>>>>>> move ddl to config
 
 
-with open("postgres/scripts/config.yml", 'r') as stream:
+with open("config.yml", 'r') as stream:
     config = yaml.load(stream)
 
-config = types.SimpleNamespace(**config)
-# config.ddl = config.ddl.strip().split()
-# config.indexes = config.indexes.strip().split()
-config.edge_files = config.edge_files.strip().split()
-config.vertex_files = config.vertex_files.strip().split()
-
-pgconn = dataset.Database(url=construct_pg_url(**config.postgres))
+pgconn = dataset.Database(url=construct_pg_url())
 
 
 def execute(pgconn, commands):
     """ exec statement on connection and commit """
     pgconn.begin()
     for command in commands:
-        logging.info(command)
         pgconn.query(command)
     pgconn.commit()
 
@@ -115,19 +101,16 @@ def transform(file, row):
     return row
 
 
-<<<<<<< 73eec764a4c127838349b34dc794842d0b67eaf7
 def rows(files, keys_to_delete=['_id'], batch_size=1000):
-=======
-def rows(files, keys_to_delete=['_id'], batch_size=100):
->>>>>>> move ddl to config
     """
     generator: read in all rows from all files,
     remove keys_to_delete before yielding
     log message every batch_size
     """
+    t = c = 0
     for f in files:
         logging.info('reading {}'.format(f))
-        t = c = 0
+        t = 0
         with open(f) as ins:
             for line in ins:
                 c += 1
@@ -156,12 +139,6 @@ logging.info('inserting edges')
 edges.insert_many(rows(config.edge_files), chunk_size=100)
 logging.info('There are {} edges'.format(edges.count()))
 
-<<<<<<< 73eec764a4c127838349b34dc794842d0b67eaf7
 logging.info('creating indexes')
 execute(pgconn, [config.indexes])
 logging.info('indexes created')
-=======
-# logging.info('creating indexes')
-# execute(pgconn, config.indexes)
-# logging.info('indexes created')
->>>>>>> move ddl to config

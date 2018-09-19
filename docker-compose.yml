@@ -1,20 +1,8 @@
-# # the database
-# database:
-#   # image: postgres:9.6.5-alpine
-#   build:
-#     ./postgres/docker
-#   expose:
-#     - 5432
-#   ports:
-#    - "5432:5432"
-#   environment:
-#     POSTGRES_PASSWORD: password
-#   volumes:
-#     - ./:/src
-#     - ./postgres/data/:/var/lib/postgresql/data/
-
-graph:
-  image: bitnine/agensgraph:v1.3.2
+# the database
+database:
+  # image: postgres:9.6.5-alpine
+  build:
+    ./postgres/docker
   expose:
     - 5432
   ports:
