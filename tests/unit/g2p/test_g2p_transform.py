@@ -70,8 +70,9 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     # test/test.Phenotype.Vertex.json
     phenotype_count = helpers.assert_vertex_file_valid(Phenotype, phenotype_file)
     assert phenotype_count == 215, 'There should be 215 phenotypes'
-    # test/test.PhenotypeOf.Edge.json
-    helpers.assert_edge_file_valid(G2PAssociation, Phenotype, phenotype_edge_file)
+    # test/test.HasPhenotype.Edge.json
+    has_phenotype_count = helpers.assert_edge_file_valid(G2PAssociation, Phenotype, phenotype_edge_file)
+    assert has_phenotype_count == 295, 'There should be 295 has_phenotype edges'
     # test/test.Deadletter.Vertex.json
     helpers.assert_vertex_file_valid(Deadletter, deadletter_file)
     # test/test.MinimalAllele.Vertex.json
