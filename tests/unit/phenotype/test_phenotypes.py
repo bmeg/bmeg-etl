@@ -48,7 +48,7 @@ def validate(helpers, output_dir, emitter_directory, store_path):
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot', 'G2PAssociation'])
     # ensure the store was created
     store = new_store('key-val', path=store_path)
-    assert len([c for c in store.all()]) == 1556, 'store should have 1556 names'
+    assert len([c for c in store.all()]) == 20, 'store should have 1556 names'
 
 
 def test_simple(caplog, helpers, output_dir, emitter_directory, store_path):
