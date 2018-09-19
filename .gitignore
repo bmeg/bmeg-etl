@@ -24,7 +24,6 @@ eggs/
 *.sqlite
 .coverage
 
-/source
 .cache/
 .pytest_cache/
 /outputs
@@ -32,6 +31,8 @@ eggs/
 # ignore everything except markdown documents in source
 source/*/*.*
 !source/*/*.md
+!source/phenotype_enricher/disease_alias.tsv
+
 
 !tests/unit/allele/outputs/*/test.Allele.Vertex.json
 tests/unit/allele/source/myvariantinfo/sqlite.db
