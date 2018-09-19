@@ -7,7 +7,7 @@ import re
 import os
 
 from bmeg.requests import Client
-requests = Client('drug_enricher')
+requests = Client('phenotype_enricher')
 
 
 NOFINDS = []
