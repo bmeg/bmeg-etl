@@ -52,8 +52,8 @@ def gtex_expression_data(row):
 
 def transform(file, row):
     """ transform if necessary """
-    # if file == 'outputs/gtex/gtex.Expression.Vertex.json':
-    #     return gtex_expression_data(row)
+    if file == 'outputs/gtex/gtex.Expression.Vertex.json':
+        return gtex_expression_data(row)
     return row
 
 

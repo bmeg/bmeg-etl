@@ -13,6 +13,17 @@ database:
     - ./:/src
     - ./postgres/data/:/var/lib/postgresql/data/
 
+agensgraph:
+  image: bitnine/agensgraph:v1.3.2
+  expose:
+    - 5433
+  ports:
+   - "5433:5432"
+  volumes:
+    - ./:/src
+#    - ./postgres/agensgraph/:/home/agens/AgensGraph/data
+  # dummy entry point to keep container running
+  command: tail -f /dev/null
 
 development:
   image: python:3.7
@@ -20,5 +31,6 @@ development:
     - ./:/src
   links:
     - database
+    - agensgraph
   # dummy entry point to keep container running
   command: tail -f /dev/null
