@@ -25,7 +25,7 @@ def emitter_path_prefix(request):
 @pytest.fixture
 def myvariantinfo_path(request):
     """ get the full path of the test input """
-    return os.path.join(request.fspath.dirname, 'source/myvariantinfo/biothings_current_old_hg19.json.gz')
+    return os.path.join(request.fspath.dirname, 'source/myvariantinfo/myvariant.info.Allele.Vertex.json.gz')
 
 
 def validate_myvariantinfo_count(allele_file):

@@ -95,7 +95,7 @@ def valid_filenames(path):
         if 'myvariant' in filename:
             continue
         # our own output
-        if 'allele' in filename:
+        if 'allele.' in filename:
             continue
         # pseudo alleles
         if 'MinimalAllele' in filename:
@@ -197,8 +197,10 @@ def transform(output_dir,
             myvariant = {}
             try:
                 myvariant = ujson.loads(line)
+                myvariant = myvariant['data']['annotations']['myvariantinfo']
             except Exception as e:
                 logging.warning(str(e))
+
             if 'hg19' not in myvariant:
                 continue
             if 'vcf' not in myvariant:
@@ -284,7 +286,7 @@ def main():  # pragma: no cover
 
     parser.add_argument('--myvariantinfo_path', type=str,
                         help='path to myvariantinfo json',
-                        default='source/myvariant.info/biothings_current_old_hg19.json.gz')
+                        default='source/myvariant.info/myvariant.info.Allele.Vertex.json.gz')
 
     parser.add_argument('--harvest', dest='harvest', default=False, action='store_true',
                         help="don't transform, just harvest from myvariantinfo")
