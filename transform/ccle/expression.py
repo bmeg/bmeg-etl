@@ -4,12 +4,15 @@ from bmeg.emitter import JSONEmitter
 from bmeg.gct import parse_gct, split_ensembl_id
 
 
-def transform():
+def transform(path="source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct",
+              emitter_prefix="ccle",
+              emitter_directory="outputs/ccle"):
 
-    p = "source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct"
-    emitter = JSONEmitter("ccle")
+    emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
-    for sample, values in parse_gct(p, "outputs/ccle", split_ensembl_id):
+    for sample, values in parse_gct(path, "outputs/ccle", split_ensembl_id):
+        # strip out broad suffix
+        sample = sample.split()[0]
         g = Expression(
             id=sample,
             source="ccle",
