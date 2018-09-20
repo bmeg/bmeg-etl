@@ -3,7 +3,7 @@ import os
 import contextlib
 import pytest
 from transform.ccle.samples import transform
-from bmeg.vertex import Biosample, Aliquot
+from bmeg.vertex import Biosample, Aliquot, Individual, Project
 
 
 @pytest.fixture
@@ -23,8 +23,14 @@ def validate(helpers, emitter_path_prefix, sample_info_file):
     biosample_file = os.path.join(emitter_path_prefix, 'Biosample.Vertex.json')
     aliquot_file = os.path.join(emitter_path_prefix, 'Aliquot.Vertex.json')
     aliquotfor_file = os.path.join(emitter_path_prefix, 'AliquotFor.Edge.json')
+    individual_file = os.path.join(emitter_path_prefix, 'Individual.Vertex.json')
+    project_file = os.path.join(emitter_path_prefix, 'Project.Vertex.json')
+    in_project_file = os.path.join(emitter_path_prefix, 'InProject.Edge.json')
+    biosample_for_file = os.path.join(emitter_path_prefix, 'BiosampleFor.Edge.json')
+    phenotype_file = os.path.join(emitter_path_prefix, 'Phenotype.Vertex.json')
+    phenotype_of_file = os.path.join(emitter_path_prefix, 'PhenotypeOf.Edge.json')
 
-    all_files = [biosample_file, aliquot_file, aliquotfor_file]
+    all_files = [biosample_file, aliquot_file, aliquotfor_file, individual_file, project_file, in_project_file, biosample_for_file, phenotype_file, phenotype_of_file]
     # remove output
     with contextlib.suppress(FileNotFoundError):
         for f in all_files:
@@ -37,6 +43,13 @@ def validate(helpers, emitter_path_prefix, sample_info_file):
     helpers.assert_vertex_file_valid(Biosample, biosample_file)
     # test.Aliquot.Vertex.json
     helpers.assert_vertex_file_valid(Aliquot, aliquot_file)
+    # test.Individual.Vertex.json
+    individual_count = helpers.assert_vertex_file_valid(Individual, individual_file)
+    assert individual_count == 1046, 'expected individual_count'
+    # test.Project.Vertex.json
+    project_count = helpers.assert_vertex_file_valid(Project, project_file)
+    assert project_count == 24, 'expected project_count'
+
     # test.AliquotFor.Edge.json
     helpers.assert_edge_file_valid(Aliquot, Biosample, aliquotfor_file)
     # validate vertex for all edges exist

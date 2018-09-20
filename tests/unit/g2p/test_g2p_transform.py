@@ -55,25 +55,31 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     # create output
     transform(g2p_file, prefix=emitter_path_prefix)
     # test/test.G2PAssociation.Vertex.json
-    helpers.assert_vertex_file_valid(G2PAssociation, association_file)
+    association_count = helpers.assert_vertex_file_valid(G2PAssociation, association_file)
+    assert association_count == 29, 'There should be 29 associations'
     # test/test.HasSupportingReference.Edge.json
     helpers.assert_edge_file_valid(G2PAssociation, Publication, publication_edge_file)
     # test/test.GeneFeatureFor.Edge.json
-    helpers.assert_edge_file_valid(G2PAssociation, Gene, gene_edge_file)
+    gene_count = helpers.assert_edge_file_valid(G2PAssociation, Gene, gene_edge_file)
+    assert 40 == gene_count, 'There should be 40 genes'
     # test/test.AlleleFeatureFor.Edge.json
-    helpers.assert_edge_file_valid(G2PAssociation, Allele, allele_edge_file)
+    allele_count = helpers.assert_edge_file_valid(G2PAssociation, Allele, allele_edge_file)
+    assert 40 == allele_count, 'There should be 40 alleles'
     # test/test.Allele.Vertex.json
     helpers.assert_vertex_file_valid(Allele, allele_file)
     # test/test.Phenotype.Vertex.json
-    helpers.assert_vertex_file_valid(Phenotype, phenotype_file)
-    # test/test.PhenotypeOf.Edge.json
-    helpers.assert_edge_file_valid(G2PAssociation, Phenotype, phenotype_edge_file)
+    phenotype_count = helpers.assert_vertex_file_valid(Phenotype, phenotype_file)
+    assert phenotype_count == 215, 'There should be 215 phenotypes'
+    # test/test.HasPhenotype.Edge.json
+    has_phenotype_count = helpers.assert_edge_file_valid(G2PAssociation, Phenotype, phenotype_edge_file)
+    assert has_phenotype_count == 295, 'There should be 295 has_phenotype edges'
     # test/test.Deadletter.Vertex.json
     helpers.assert_vertex_file_valid(Deadletter, deadletter_file)
     # test/test.MinimalAllele.Vertex.json
     helpers.assert_vertex_file_valid(MinimalAllele, minimal_allele_file)
     # test/test.Environment.Vertex.json
-    helpers.assert_vertex_file_valid(Compound, environment_file)
+    compound_count = helpers.assert_vertex_file_valid(Compound, environment_file)
+    assert compound_count == 47, 'There should be 47 compounds'
     # test/test.MinimalAllele.Vertex.json
     helpers.assert_edge_file_valid(G2PAssociation, MinimalAllele, minimal_allele_edge_file)
     # test/test.HasGene.Edge.json
@@ -99,8 +105,8 @@ def test_genes():
     import transform.g2p.genes
     # reset singleton 'already seen'
     transform.g2p.genes.EXPORTED_GENES = []
-    assert gene_normalize({'genes': ['TP53']}) == ({'genes': ['Gene:ENSG00000141510']}, ['Gene:ENSG00000141510'], []), 'We should have a modified hit and a gene vertex gid'
-    assert gene_normalize({'genes': ['TP53', 'EGFR']}) == ({'genes': ['Gene:ENSG00000141510', 'Gene:ENSG00000146648']}, ['Gene:ENSG00000146648'], []), 'We should have a modified hit and a gene vertex gid only for genes we havent seen'
+    assert gene_normalize({'genes': ['TP53']}) == ({'genes': {'Gene:ENSG00000141510'}}, ['Gene:ENSG00000141510'], []), 'We should have a modified hit and a gene vertex gid'
+    assert gene_normalize({'genes': ['TP53', 'EGFR']}) == ({'genes': {'Gene:ENSG00000141510', 'Gene:ENSG00000146648'}}, ['Gene:ENSG00000146648'], []), 'We should have a modified hit and a gene vertex gid only for genes we havent seen'
 
 
 def test_genes_nofind():

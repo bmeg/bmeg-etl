@@ -57,6 +57,10 @@ def normalize(hit):
             continue
         try:
             a = allele(feature)
+            # skip if we already processed it
+            if a.gid() in [_a.gid() for _a in alleles]:
+                continue
+
             alleles.append(a)
             try:
                 allele_has_gene.append((a.gid(), gene_gid(feature['geneSymbol'])))
@@ -76,14 +80,13 @@ def normalize(hit):
             except Exception:
                 missing_vertexes.append({'target_label': 'Allele', 'data': feature})
 
-    hit['features'] = alleles
+    hit['features'] = [a for a in alleles if a.gid() not in EXPORTED_ALLELES]
     hit['allele_has_gene'] = allele_has_gene
-    hit['minimal_alleles'] = minimal_alleles
+    hit['minimal_alleles'] = [a for a in minimal_alleles if a.gid() not in EXPORTED_ALLELES]
     hit['minimal_allele_has_gene'] = minimal_allele_has_gene
 
-    allele_gids = [a.gid() for a in alleles if a.gid() not in EXPORTED_ALLELES]
+    allele_gids = [a.gid() for a in alleles]
     EXPORTED_ALLELES.extend(list(set(allele_gids)))
-    minimal_allele_gids = [a.gid() for a in minimal_alleles if a.gid() not in EXPORTED_ALLELES]
+    minimal_allele_gids = [a.gid() for a in minimal_alleles]
     EXPORTED_ALLELES.extend(list(set(minimal_allele_gids)))
-
     return (hit, allele_gids, minimal_allele_gids, missing_vertexes)

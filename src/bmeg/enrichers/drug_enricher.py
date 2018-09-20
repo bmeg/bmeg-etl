@@ -220,7 +220,7 @@ def normalize_biothings(name):
                 ontology_term = None
                 source = None
                 if 'pubchem' in hit:
-                    ontology_term = '{}'.format(hit['pubchem']['cid'])
+                    ontology_term = 'CID{}'.format(hit['pubchem']['cid'])
                     source = 'http://rdf.ncbi.nlm.nih.gov/pubchem/compound'
                 if not ontology_term and 'chebi' in hit:
                     ontology_term = hit['chebi']['chebi_id']

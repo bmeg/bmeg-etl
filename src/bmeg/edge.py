@@ -308,3 +308,12 @@ class ResponseTo(Edge):
     ResponseCurve -> Compound
     """
     pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class PhenotypeOf(Edge):
+    """
+    Aliquot -> Phenotype
+    """
+    pass

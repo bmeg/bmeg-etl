@@ -87,12 +87,29 @@ def group_sorted_alleles(sorted_allele_file):
         yield from_dict(alleles)
 
 
+def valid_filenames(path):
+    """ filter out any we do not want to process """
+    filenames = []
+    for filename in glob.iglob(path, recursive=True):
+        # myvariant download
+        if 'myvariant' in filename:
+            continue
+        # our own output
+        if 'allele.' in filename:
+            continue
+        # pseudo alleles
+        if 'MinimalAllele' in filename:
+            continue
+        filenames.append(filename)
+    return filenames
+
+
 def sort_allele_files(path, sorted_allele_file):
     """ sort alleles file_names[] into a file in sorted_allele_file"""
     try:
         logging.debug(path)
         if not os.path.isfile(sorted_allele_file):
-            files = [filename for filename in glob.iglob(path, recursive=True)]
+            files = valid_filenames(path)
             assert len(files) > 0
             files = ' '.join(files)
             cat = 'cat'
@@ -112,7 +129,7 @@ def transform(output_dir,
               allele_store_name='dataclass',
               allele_store_path='/tmp/sqlite.db',
               emitter_name='json',
-              vertex_filename_pattern='**/*.Allele.Vertex.json.gz',
+              vertex_filename_pattern='**/*Allele.Vertex.json.gz',
               myvariantinfo_path=None,
               sorted_allele_file='/tmp/sorted_allele_file.json'):
     """
@@ -180,8 +197,10 @@ def transform(output_dir,
             myvariant = {}
             try:
                 myvariant = ujson.loads(line)
+                myvariant = myvariant['data']['annotations']['myvariantinfo']
             except Exception as e:
                 logging.warning(str(e))
+
             if 'hg19' not in myvariant:
                 continue
             if 'vcf' not in myvariant:
@@ -225,26 +244,25 @@ def transform(output_dir,
 def harvest(allele_store_name, allele_store_path):
     """ read the allele_store, enrich it & write myvariantinfo"""
     logging.info('harvesting')
-    allele_store = new_store(allele_store_name, path=allele_store_path)
+    allele_store = new_store(allele_store_name, path=allele_store_path, clazz=Allele)
     c = t = h = e = 0
     batch_size = 1000
-    with open('source/allele/harvested_myvariantinfo.json', 'w') as outfile:
-        for allele in allele_store.all():
-            myvariantinfo_annotation = None
-            try:
-                allele, myvariantinfo_annotation = enrich(allele)
-            except Exception as exc:
-                logging.debug(str(exc))
-                e += 1
-            c += 1
-            t += 1
-            if myvariantinfo_annotation:
-                h += 1
-                ujson.dump(myvariantinfo_annotation, outfile)
-                outfile.write("\n")
-            if c % batch_size == 0:
-                logging.info('harvesting read: {} myvariant hits: {} errors: {}'.format(t, h, e))
-                c = 0
+    emitter = new_emitter(name='json', directory='source/allele', prefix='harvested.allele')
+    for allele in allele_store.all():
+        myvariantinfo_annotation = None
+        try:
+            allele, myvariantinfo_annotation = enrich(allele)
+        except Exception as exc:
+            logging.debug(str(exc))
+            e += 1
+        c += 1
+        t += 1
+        if myvariantinfo_annotation:
+            h += 1
+            emitter.emit_vertex(allele)
+        if c % batch_size == 0:
+            logging.info('harvesting read: {} myvariant hits: {} errors: {}'.format(t, h, e))
+            c = 0
 
 
 def main():  # pragma: no cover
@@ -259,15 +277,15 @@ def main():  # pragma: no cover
                         default='source/allele/sorted_allele_file.json')
 
     parser.add_argument('--allele_store_name', type=str,
-                        help='name of allele database [memory, sqlite, (mongo, bmeg)]',
-                        default='allele-sqlite')
+                        help='name of allele database [key-val, dataclass, (mongo, bmeg)]',
+                        default='dataclass')
     parser.add_argument('--allele_store_path', type=str,
                         help='path of allele store',
                         default='source/allele/sqlite.db')
 
     parser.add_argument('--myvariantinfo_path', type=str,
                         help='path to myvariantinfo json',
-                        default='source/myvariant.info/biothings_current_old_hg19.json.gz')
+                        default='source/myvariant.info/myvariant.info.Allele.Vertex.json.gz')
 
     parser.add_argument('--harvest', dest='harvest', default=False, action='store_true',
                         help="don't transform, just harvest from myvariantinfo")

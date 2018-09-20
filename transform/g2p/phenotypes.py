@@ -13,11 +13,11 @@ def make_phenotype(term_id, term=None):
 def normalize(hit):
     """ return the hit modified replacing 'phenotypes'
     with phenotype_gids; phenotype_gids we haven't seen before """
-    phenotypes = []
+    phenotypes = set([])
     association = hit['association']
     for phenotype in association.get('phenotypes', []):
-        phenotypes.append(make_phenotype(phenotype['id'], phenotype.get('term', phenotype.get('description', None))))
-    hit['phenotypes'] = phenotypes
-    phenotype_gids = [p.gid() for p in phenotypes if p.gid() not in EXPORTED_PHENOTYPES]
+        phenotypes.add(make_phenotype(phenotype['id'], phenotype.get('term', phenotype.get('description', None))))
+    hit['phenotypes'] = [p for p in phenotypes if p.gid() not in EXPORTED_PHENOTYPES]
+    phenotype_gids = set([p.gid() for p in phenotypes])
     EXPORTED_PHENOTYPES.extend(phenotype_gids)
     return (hit, phenotype_gids)
