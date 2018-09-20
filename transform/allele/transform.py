@@ -244,26 +244,25 @@ def transform(output_dir,
 def harvest(allele_store_name, allele_store_path):
     """ read the allele_store, enrich it & write myvariantinfo"""
     logging.info('harvesting')
-    allele_store = new_store(allele_store_name, path=allele_store_path)
+    allele_store = new_store(allele_store_name, path=allele_store_path, clazz=Allele)
     c = t = h = e = 0
     batch_size = 1000
-    with open('source/allele/harvested_myvariantinfo.json', 'w') as outfile:
-        for allele in allele_store.all():
-            myvariantinfo_annotation = None
-            try:
-                allele, myvariantinfo_annotation = enrich(allele)
-            except Exception as exc:
-                logging.debug(str(exc))
-                e += 1
-            c += 1
-            t += 1
-            if myvariantinfo_annotation:
-                h += 1
-                ujson.dump(myvariantinfo_annotation, outfile)
-                outfile.write("\n")
-            if c % batch_size == 0:
-                logging.info('harvesting read: {} myvariant hits: {} errors: {}'.format(t, h, e))
-                c = 0
+    emitter = new_emitter(name='json', directory='source/allele', prefix='harvested.allele')
+    for allele in allele_store.all():
+        myvariantinfo_annotation = None
+        try:
+            allele, myvariantinfo_annotation = enrich(allele)
+        except Exception as exc:
+            logging.debug(str(exc))
+            e += 1
+        c += 1
+        t += 1
+        if myvariantinfo_annotation:
+            h += 1
+            emitter.emit_vertex(allele)
+        if c % batch_size == 0:
+            logging.info('harvesting read: {} myvariant hits: {} errors: {}'.format(t, h, e))
+            c = 0
 
 
 def main():  # pragma: no cover

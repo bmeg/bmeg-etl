@@ -5,7 +5,7 @@ import contextlib
 import pytest
 import logging
 import json
-from transform.allele.transform import transform, sort_allele_files, group_sorted_alleles, merge
+from transform.allele.transform import transform, sort_allele_files, group_sorted_alleles, merge, harvest
 from bmeg.vertex import Allele, AlleleAnnotations
 from bmeg.ioutils import reader
 
@@ -138,3 +138,8 @@ def test_merge():
     assert allele.annotations.mc3, 'should return an allele.annotations.mc3'
     assert allele.annotations.ccle, 'should return an allele.annotations.ccle'
     assert allele.annotations.myvariantinfo, 'should return an allele.annotations.myvariantinfo'
+
+
+def NO_test_harvest(helpers, output_directory, emitter_path_prefix, myvariantinfo_path):
+    # check using sqllite
+    harvest(allele_store_name='dataclass', allele_store_path='/tmp/sqlite.db')
