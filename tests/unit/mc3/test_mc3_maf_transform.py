@@ -50,7 +50,7 @@ def NO_BARCODE_file(request):
 @pytest.fixture
 def emitter_path_prefix(request):
     """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'test')
+    return os.path.join(request.fspath.dirname, 'test/')
 
 
 @pytest.fixture
@@ -211,11 +211,11 @@ def test_TCGA_GBM(caplog, helpers, TCGA_GBM_file, emitter_path_prefix):
     # harvest aliquots and write it to out emitter path ('test')
     gdc_validate(helpers, emitter_path_prefix, parameters)
     # now transform and validate our maf file, using aliquots we just harvested
-    aliquot_file = '{}.Aliquot.Vertex.json'.format(emitter_path_prefix)
+    aliquot_file = '{}Aliquot.Vertex.json'.format(emitter_path_prefix)
     validate(helpers, TCGA_GBM_file, emitter_path_prefix, aliquot_file)
     # grab the callset we just created
-    callset_file = '{}.Callset.Vertex.json'.format(emitter_path_prefix)
-    callsetfor_file = '{}.CallsetFor.Edge.json'.format(emitter_path_prefix)
+    callset_file = '{}Callset.Vertex.json'.format(emitter_path_prefix)
+    callsetfor_file = '{}CallsetFor.Edge.json'.format(emitter_path_prefix)
     # re-validate a two node graph CallsetFor->Aliquot including the Aliquot into the `graph`
     vertexes, edges = helpers.load_stores([aliquot_file, callsetfor_file, callset_file])
     helpers.assert_edge_has_vertex(vertexes, edges)

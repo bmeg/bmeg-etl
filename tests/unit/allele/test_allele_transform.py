@@ -5,7 +5,7 @@ import contextlib
 import pytest
 import logging
 import json
-from transform.allele.transform import transform, sort_allele_files, group_sorted_alleles, merge
+from transform.allele.transform import transform, sort_allele_files, group_sorted_alleles, merge, harvest
 from bmeg.vertex import Allele, AlleleAnnotations
 from bmeg.ioutils import reader
 
@@ -25,7 +25,7 @@ def emitter_path_prefix(request):
 @pytest.fixture
 def myvariantinfo_path(request):
     """ get the full path of the test input """
-    return os.path.join(request.fspath.dirname, 'source/myvariantinfo/biothings_current_old_hg19.json.gz')
+    return os.path.join(request.fspath.dirname, 'source/myvariantinfo/myvariant.info.Allele.Vertex.json.gz')
 
 
 def validate_myvariantinfo_count(allele_file):
@@ -62,7 +62,7 @@ def validate(helpers, output_directory, emitter_path_prefix, myvariantinfo_path)
     # check using sqllite
     transform(output_directory,
               prefix=emitter_path_prefix,
-              allele_store_name='allele-sqlite',
+              allele_store_name='dataclass',
               allele_store_path='/tmp/sqlite.db',
               vertex_filename_pattern='**/Allele.Vertex.json',
               myvariantinfo_path=myvariantinfo_path)
@@ -138,3 +138,8 @@ def test_merge():
     assert allele.annotations.mc3, 'should return an allele.annotations.mc3'
     assert allele.annotations.ccle, 'should return an allele.annotations.ccle'
     assert allele.annotations.myvariantinfo, 'should return an allele.annotations.myvariantinfo'
+
+
+def NO_test_harvest(helpers, output_directory, emitter_path_prefix, myvariantinfo_path):
+    # check using sqllite
+    harvest(allele_store_name='dataclass', allele_store_path='/tmp/sqlite.db')

@@ -8,7 +8,7 @@ def extract_individual_id(sample_id):
     return "-".join(sample_id.split("-")[:2])
 
 
-emitter = JSONEmitter("gtex")
+emitter = JSONEmitter("gtex", prefix="gtex")
 samples = read_tsv("source/gtex/GTEx_v7_Annotations_SampleAttributesDS.txt")
 individuals = read_tsv("source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.txt")
 

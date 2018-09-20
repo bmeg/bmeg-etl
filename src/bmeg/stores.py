@@ -1,94 +1,95 @@
 
 """
-store and retrieve anything with a gid()
+store and retrieve anything with an id
 """
-from bmeg.vertex import Allele, AlleleAnnotations
-from bmeg.ioutils import reader
-import dataclasses
 import logging
 import sqlite3
-import os.path
-import hashlib
-import json
-from threading import Thread
-from queue import Queue
+import ujson
+import uuid
 
 
-class Memorystore:
+class KeyValueMemoryStore:
+    """ store an id and a json serializable object in sqllite"""
 
     def __init__(self):
         self.key_val = {}
 
-    def get(self, gid):
-        return self.key_val.get(gid, None)
+    def backend(self):
+        """ return the implementation dependent backend"""
+        return self.key_val
 
-    def put(self, obj):
-        self.key_val[obj.gid()] = obj
+    def get(self, id):
+        """ return single obj, none if no match """
+        return self.key_val.get(id, None)
+
+    def put(self, id, obj):
+        """ save obj """
+        self.key_val[id] = obj
+
+    def delete(self, id):
+        """ remove obj """
+        del self.key_val[id]
 
     def all(self):
+        """ yield all """
         for k in self.key_val.keys():
             yield self.key_val[k]
 
+    def all_ids(self):
+        """ yield all ids """
+        for k in self.key_val.keys():
+            yield k
+
     def size(self):
+        """ the number of objects stored """
         return len(self.key_val.keys())
 
-
-class MyVariantTestMemorystore(Memorystore):
-
-    def __init__(self, myvariantinfo_path):
-        super(MyVariantTestMemorystore, self).__init__()
-        self.load(myvariantinfo_path)
-
-    def load(self, myvariantinfo_path):
-        with reader(myvariantinfo_path) as ins:
-            for line in ins:
-                myvariant = json.loads(line)
-                aa = AlleleAnnotations()
-                aa.myvariantinfo = myvariant
-                allele = Allele(
-                    genome='GRCh37',
-                    chromosome=myvariant['chrom'],
-                    start=myvariant['hg19']['start'],
-                    end=myvariant['hg19']['end'],
-                    reference_bases=myvariant['vcf']['ref'],
-                    alternate_bases=myvariant['vcf']['alt'],
-                    annotations=aa
-                )
-                self.put(allele)
+    def load_many(self, batch):
+        """ load a batch of tuples into table. each tuple is (str, obj) """
+        for b in batch:
+            self.put(id=b[0], obj=b[1])
 
 
-class Sqlitestore:
-
-    def __init__(self, path):
+class KeyValueStore:
+    """ store an id and a json serializable object in sqllite"""
+    def __init__(self, path=None, index=False):
+        if not path:
+            path = '/tmp/{}.db'.format(uuid.uuid4())
         self.conn = sqlite3.connect(path)
         # optimize db calls
         self.conn.execute("PRAGMA synchronous = OFF;")
         self.conn.execute("PRAGMA journal_mode = OFF;")
         # create table
         cur = self.conn.cursor()
-        cur.execute("CREATE TABLE IF NOT EXISTS data (gid text, clazz text, json text);")
+        cur.execute("CREATE TABLE IF NOT EXISTS data (id text, json text);")
         self.conn.commit()
+        if index:
+            self.index()
+
+    def backend(self):
+        """ return the implementation dependent backend"""
+        return self.conn
 
     def index(self):
         cur = self.conn.cursor()
-        cur.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_data ON data(gid);")
+        cur.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_data ON data(id);")
         self.conn.commit()
 
-    def get(self, gid):
+    def get(self, id):
         result = None
         cur = self.conn.cursor()
-        cur.execute("select * from data where gid=?", (gid,))
+        cur.execute("select json from data where id=?", (id,))
         t = cur.fetchone()
         if t:
-            result = json.loads(t[2])
+            result = ujson.loads(t[0])
         cur.close()
         return result
 
-    def put(self, obj):
+    def put(self, id, obj):
         cur = self.conn.cursor()
         cur.execute(
-            "insert or replace into data values(?, ?, ?)",
-            (obj.gid(), obj.__class__.__name__, json.dumps(dataclasses.asdict(obj), separators=(',', ':')))
+            "insert or replace into data values(?, ?)",
+            (id, ujson.dumps(obj))
         )
         self.conn.commit()
         cur.close()
@@ -107,169 +108,73 @@ class Sqlitestore:
 
     def all(self):
         cur = self.conn.cursor()
-        for t in cur.execute('SELECT * FROM data ;'):
-            yield json.loads(t[2])
+        for t in cur.execute('SELECT json FROM data ;'):
+            yield ujson.loads(t[0])
 
     def all_ids(self):
         cur = self.conn.cursor()
-        for t in cur.execute('SELECT gid FROM data ;'):
+        for t in cur.execute('SELECT id FROM data ;'):
             yield t[0]
 
+    def load_many(self, batch):
+        """ load a batch of tuples into table. each tuple is (str, json-serializable) """
+        # serialize batch
+        batch = [(i[0], ujson.dumps(i[1])) for i in batch]
+        logging.debug('starting insert')
+        self.conn.executemany("insert or replace into data(id, json) values(?, ?)", batch)
+        logging.debug('done insert')
 
-class AlleleSqlitestore(Sqlitestore):
+
+class DataClassStore(KeyValueStore):
+    """ stores a dataclass, uses gid as id, loads dataobject """
+    def __init__(self, clazz, **kwargs):
+        super().__init__(**kwargs)
+        self.clazz = clazz
 
     def get(self, gid):
-        """ xform dict to Allele"""
-        return Allele.from_dict(super(AlleleSqlitestore, self).get(gid))
+        """ xform dict to dataclass"""
+        obj = super().get(gid)
+        return self.clazz.from_dict(obj)
+
+    def put(self, obj):
+        """ get gid from dataclass"""
+        return super().put(obj.gid(), obj)
 
     def all(self):
-        """ xform dict to Allele"""
-        for allele in super(AlleleSqlitestore, self).all():
-            yield Allele.from_dict(allele)
+        """ xform dict to dataclass"""
+        for obj in super().all():
+            yield self.clazz.from_dict(obj)
 
     def load_many(self, batch):
-        """ load a batch of tuples into table """
-        logging.info('starting insert')
-        self.conn.executemany("insert or replace into data(gid, clazz, json) values(?, ?, ?)", batch)
-        logging.info('done insert')
+        """ load a batch of tuples into table. each tuple is (str, object) """
+        batch = [(b.gid(), b) for b in batch]
+        super().load_many(batch)
 
 
-class MyVariantSqlitestore(Sqlitestore):
-    """ create sqlite.db in same directory as myvariantinfo_path """
-    def __init__(self, myvariantinfo_path):
-        path = '{}/{}'.format(os.path.dirname(myvariantinfo_path), 'sqlite.db')
-        super(MyVariantSqlitestore, self).__init__(path=path)
-        size = self.size()
-        if size == 0:
-            logging.warning('loading. this may take a while {}'.format(path))
-            self.load(myvariantinfo_path)
-        else:
-            logging.info('proceeding. there are {} rows in table'.format(size))
+class DataClassMemoryStore(KeyValueMemoryStore):
+    """ stores a dataclass, uses gid as id, loads dataobject """
+    def __init__(self, clazz):
+        super().__init__()
+        self.clazz = clazz
 
-    def load(self, myvariantinfo_path):
-        """ take myvariant into json, xform to Allele"""
-        def make_gid(cls, genome, chromosome, start, end, reference_bases,
-                     alternate_bases):
-            vid = "%s:%s:%d:%d:%s:%s" % (genome, chromosome,
-                                         start, end, reference_bases,
-                                         alternate_bases)
-            vid = vid.encode('utf-8')
-            vidhash = hashlib.sha1()
-            vidhash.update(vid)
-            vidhash = vidhash.hexdigest()
-            return "%s:%s" % (cls, vidhash)
+    def put(self, obj):
+        """ get gid from dataclass"""
+        return super().put(obj.gid(), obj)
 
-        def reader_worker():
-            t = c = 0
-            batch = []
-            batch_size = 20000
-            with reader(myvariantinfo_path) as ins:
-                for line in ins:
-                    myvariant = json.loads(line)
-                    if 'hg19' not in myvariant:
-                        continue
-                    if 'vcf' not in myvariant:
-                        continue
-                    # aa = AlleleAnnotations()
-                    # aa.myvariantinfo = myvariant
-                    # allele = Allele(
-                        # genome='GRCh37',
-                        # chromosome=myvariant['chrom'],
-                        # start=myvariant['hg19']['start'],
-                        # end=myvariant['hg19']['end'],
-                        # reference_bases=myvariant['vcf']['ref'],
-                        # alternate_bases=myvariant['vcf']['alt'],
-                    #     annotations=aa
-                    # )
-                    # batch.append(
-                    #     (
-                    #         allele.gid(),
-                    #         allele.__class__.__name__,
-                    #         json.dumps(dataclasses.asdict(allele), separators=(',', ':'))
-                    #     )
-                    # )
-                    gid = make_gid(
-                        cls='Allele',
-                        genome='GRCh37',
-                        chromosome=myvariant['chrom'],
-                        start=myvariant['hg19']['start'],
-                        end=myvariant['hg19']['end'],
-                        reference_bases=myvariant['vcf']['ref'],
-                        alternate_bases=myvariant['vcf']['alt'],
-                    )
-                    allele = {
-                        'genome': 'GRCh37',
-                        'chromosome': myvariant['chrom'],
-                        'start': myvariant['hg19']['start'],
-                        'end': myvariant['hg19']['end'],
-                        'reference_bases': myvariant['vcf']['ref'],
-                        'alternate_bases': myvariant['vcf']['alt'],
-                        'annotations': {'myvariantinfo': myvariant}
-                    }
-                    batch.append(
-                        (
-                            gid,
-                            'Allele',
-                            json.dumps(allele, separators=(',', ':'))
-                        )
-                    )
-
-                    c += 1
-                    t += 1
-                    if c % batch_size == 0:
-                        c = 0
-                        logging.info('loaded {}'.format(t))
-                        pending_q.put(batch)
-                        batch = []
-                pending_q.put('DONE')
-                logging.info('loaded {}'.format(t))
-
-        # q to hold messages
-        pending_q = Queue(maxsize=5)
-        logging.debug('created pending_q')
-        # optimize db calls
-        self.conn.execute("PRAGMA synchronous = OFF;")
-        self.conn.execute("PRAGMA journal_mode = OFF;")
-
-        # start worker
-        worker = Thread(target=reader_worker, args=(), name='reader_worker')
-        worker.setDaemon(True)
-        worker.start()
-
-        while True:
-            logging.info('waiting on q')
-            batch = pending_q.get(block=True, timeout=20)
-            if not batch:
-                continue
-            if batch == 'DONE':
-                break
-            logging.info('starting insert')
-            self.conn.executemany("insert into data(gid, clazz, json) values(?, ?, ?)", batch)
-            logging.info('done insert')
-        logging.info('creating index')
-        self.index()
-        logging.info('done creating index')
-
-    def get(self, gid):
-        """ xform dict to Allele"""
-        return Allele.from_dict(super(MyVariantSqlitestore, self).get(gid))
-
-    def all(self, gid):
-        """ xform dict to Allele"""
-        for allele in super(MyVariantSqlitestore, self).all():
-            yield Allele.from_dict(allele)
+    def load_many(self, batch):
+        """ load a batch of tuples into table. each tuple is (str, object) """
+        for b in batch:
+            super().put(id=b.gid(), obj=b)
 
 
 def new_store(name, **kwargs):
     """ create store based on names"""
     if name == 'memory':
-        return Memorystore()
-    if name == 'sqlite':
-        return Sqlitestore()
-    if name == 'myvariantinfo-memory':
-        return MyVariantTestMemorystore(**kwargs)
-    if name == 'myvariantinfo-sqlite':
-        return MyVariantSqlitestore(**kwargs)
-    if name == 'allele-sqlite':
-        return AlleleSqlitestore(**kwargs)
-    assert False, 'no store named {}'.format(name)
+        return KeyValueMemoryStore()
+    if name == 'key-val':
+        return KeyValueStore(**kwargs)
+    if name == 'dataclass':
+        return DataClassStore(**kwargs)
+    if name == 'dataclass-memory':
+        return DataClassMemoryStore(**kwargs)
+    raise NotImplementedError('no store named {}'.format(name))

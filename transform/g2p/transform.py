@@ -90,7 +90,6 @@ def toGraph(normalized_association, emitter):
                           minimal_allele_has_gene[0],
                           minimal_allele_has_gene[1],
                           )
-
     for phenotype in na.vertices['phenotypes']:
         emitter.emit_vertex(phenotype)
     for phenotype_gid in na.phenotypes:
@@ -119,7 +118,7 @@ def transform(input_path, prefix, emitter_class='json'):
 
 
 def main():  # pragma: no cover
-    parser = default_argument_parser()
+    parser = default_argument_parser(prefix_default='g2p')
     parser.add_argument('--input_path', type=str,
                         default='source/g2p/all.json.gz',
                         help='Path to g2p associations for import')

@@ -6,15 +6,20 @@ from bmeg.vertex import Biosample, DrugResponse, DrugResponseMetric
 from bmeg.edge import DrugResponseIn, ResponseTo
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
-from bmeg.enrichers.drug_enricher import enrich
+from bmeg.enrichers.drug_enricher import compound_factory
 import logging
 
 DEFAULT_PREFIX = 'gdsc'
+DEFAULT_DIRECTORY = 'gdsc'
 
 
-def transform(path="source/gdsc/GDSC_AUC.csv", prefix=DEFAULT_PREFIX):
+def transform(
+        path="source/gdsc/GDSC_AUC.csv",
+        emitter_prefix=DEFAULT_PREFIX,
+        emitter_directory=DEFAULT_DIRECTORY,
+):
     logging.info('transform')
-    emitter = JSONEmitter(prefix)
+    emitter = JSONEmitter(prefix=emitter_prefix, directory=emitter_directory)
     r = bmeg.ioutils.read_csv(path)
 
     # Fix up the headers:
@@ -24,7 +29,7 @@ def transform(path="source/gdsc/GDSC_AUC.csv", prefix=DEFAULT_PREFIX):
     # Depmap started a new sample ID type (Broad ID) in order to ensure uniqueness.
     # We're not using Broad IDs yet, so we parse the CCLE sample ID
     # out of the header, and reset the csv reader's fieldnames.
-    rx = re.compile("^(.*) \((.*)\)$")  # noqa W605 invalid escape sequence
+    rx = re.compile("^(.*) \((.*)\)$")
 
     # The first column header is blank.
     replace_with = ["compound_name"]
@@ -45,7 +50,7 @@ def transform(path="source/gdsc/GDSC_AUC.csv", prefix=DEFAULT_PREFIX):
     # Iterate all rows, writing out the expression for different tissue types
     # to separate files.
     c = t = 0
-    compound_cache = {}
+    compound_gids = []
     for row in r:
         c += 1
         t += 1
@@ -72,11 +77,11 @@ def transform(path="source/gdsc/GDSC_AUC.csv", prefix=DEFAULT_PREFIX):
                 Biosample.make_gid(sample),
             )
             # create compound
-            compound = compound_cache.get(row["compound_name"], None)
-            if not compound:
-                compound = enrich(row["compound_name"])
+            compound = compound_factory(name=row["compound_name"])
+            if compound.gid() not in compound_gids:
                 emitter.emit_vertex(compound)
-                compound_cache[row["compound_name"]] = compound
+                compound_gids.append(compound.gid())
+
             # and an edge to it
             emitter.emit_edge(
                 ResponseTo(),
