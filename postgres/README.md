@@ -168,6 +168,12 @@ and v.data->'values'->'ENSG00000227232' > '15'::jsonb ;
   Time: 14799.759 ms
 
 ```
+Note:  this will get easier with postgres 11 (currently in beta)
+
+![image](https://user-images.githubusercontent.com/47808/45837029-33e39e80-bcc3-11e8-89c1-d08090b49548.png)
+
+
+
 
 ### jsonb Indexing
 
