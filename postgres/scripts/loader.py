@@ -61,13 +61,10 @@ logging.getLogger().setLevel(logging.INFO)
 
 # connection for dataset high level connection
 # https://dataset.readthedocs.io/en/latest/
-# host: database
-# user: postgres
-# passwd: password
-# db: test
-def construct_pg_url(user='postgres', password='password', host='database', port='5432', database='test'):
-    PG_URL = "postgresql://" + user + ":" + password + '@' + host + ':' + port + '/' + database
-    return PG_URL
+def construct_pg_url(user, password, host, port, database):
+    if not password:
+        return "postgresql://" + user + '@' + host + ':' + str(port) + '/' + database
+    return "postgresql://" + user + ":" + password + '@' + host + ':' + str(port) + '/' + database
 
 
 with open("config.yml", 'r') as stream:
