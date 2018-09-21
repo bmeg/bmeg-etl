@@ -1,27 +1,27 @@
-# the database
-database:
-  # image: postgres:9.6.5-alpine
-  build:
-    ./postgres/docker
+# # the database
+# database:
+#   # image: postgres:9.6.5-alpine
+#   build:
+#     ./postgres/docker
+#   expose:
+#     - 5432
+#   ports:
+#    - "5432:5432"
+#   environment:
+#     POSTGRES_PASSWORD: password
+#   volumes:
+#     - ./:/src
+#     - ./postgres/data/:/var/lib/postgresql/data/
+
+graph:
+  image: bitnine/agensgraph:v1.3.2
   expose:
     - 5432
   ports:
    - "5432:5432"
-  environment:
-    POSTGRES_PASSWORD: password
   volumes:
     - ./:/src
-    - ./postgres/data/:/var/lib/postgresql/data/
-
-agensgraph:
-  image: bitnine/agensgraph:v1.3.2
-  expose:
-    - 5433
-  ports:
-   - "5433:5432"
-  volumes:
-    - ./:/src
-#    - ./postgres/agensgraph/:/home/agens/AgensGraph/data
+    # - ./postgres/agensgraph/data:/home/agens/AgensGraph/data
   # dummy entry point to keep container running
   command: tail -f /dev/null
 
@@ -30,7 +30,7 @@ development:
   volumes:
     - ./:/src
   links:
-    - database
-    - agensgraph
+    # - database
+    - graph
   # dummy entry point to keep container running
   command: tail -f /dev/null

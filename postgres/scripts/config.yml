@@ -1,8 +1,16 @@
+# postgres:
+#     host: database
+#     user: postgres
+#     password: password
+#     database: test
+#     port: 5432
+
+
 postgres:
-    host: database
-    user: postgres
+    host: graph
+    user: agens
     password: password
-    database: test
+    database: agens
     port: 5432
 
 ddl: |
@@ -33,15 +41,15 @@ indexes: |
   ANALYZE edge ;
 
 #
+# outputs/gtex/gtex.ExpressionOf.Edge.json
 edge_files: |
   outputs/gtex/gtex.AliquotFor.Edge.json
   outputs/gtex/gtex.BiosampleFor.Edge.json
   outputs/gtex/gtex.InProject.Edge.json
-  outputs/gtex/gtex.ExpressionOf.Edge.json
 
 #
+#  outputs/gtex/gtex.Expression.Vertex.json
 vertex_files: |
-  outputs/gtex/gtex.Expression.Vertex.json
   outputs/gtex/gtex.Aliquot.Vertex.json
   outputs/gtex/gtex.Biosample.Vertex.json
   outputs/gtex/gtex.Individual.Vertex.json
