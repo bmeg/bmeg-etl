@@ -108,19 +108,19 @@ execute(pgconn, [config.ddl])
 # connect to table, load it and log count
 
 vextexes = pgconn['bmeg_vertex']
-logging.info('inserting vertexes')
+logging.info('creating vertexes table for loading')
 vextexes.insert_many(rows(config.vertex_files), chunk_size=100)
 logging.info('There are {} vextexes'.format(vextexes.count()))
 
-logging.info('(re) creating vertexes')
+logging.info('creating graph vertexes')
 execute(pgconn, [ddl for ddl in vertex_ddl(config.vertex_files, config.vertex_template)])
 
 edges = pgconn['bmeg_edge']
-logging.info('inserting edges')
+logging.info('creating edge table for loading')
 edges.insert_many(rows(config.edge_files), chunk_size=100)
 logging.info('There are {} edges'.format(edges.count()))
 
-logging.info('(re) creating edges')
+logging.info('creating graph edges')
 execute(pgconn, [ddl for ddl in edge_ddl(config.edge_files, config.edge_template)])
 
 # logging.info('creating indexes')
