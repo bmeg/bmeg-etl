@@ -107,6 +107,7 @@ func check(vertexFiles, edgeFiles []string) error {
 	}
 	log.Debugf("Loaded %d vertices", count)
 
+	notFound := 0
 	count = 0
 	for _, f := range edgeFiles {
     log.Debugf("Loading edges from: %s", f)
@@ -114,12 +115,14 @@ func check(vertexFiles, edgeFiles []string) error {
 			f := xxhash.New()
 			f.Write([]byte(e.From))
 			if !bf.Contains(f) {
-				log.WithFields(log.Fields{"Gid": e.Gid, "From": e.From}).Error("From references a vertex that does not exist")
+				notFound++
+				log.WithFields(log.Fields{"Gid": e.Gid, "From": e.From, "To": e.To, "Label": e.Label}).Error("From does not exist")
 			}
 			t := xxhash.New()
 			t.Write([]byte(e.To))
 			if !bf.Contains(t) {
-				log.WithFields(log.Fields{"Gid": e.Gid, "To": e.To}).Error("To references a vertex that does not exist")
+				notFound++
+				log.WithFields(log.Fields{"Gid": e.Gid, "From": e.From, "To": e.To, "Label": e.Label}).Error("To does not exist")
 			}
 			count++
 			if count%1000 == 0 {
@@ -128,6 +131,7 @@ func check(vertexFiles, edgeFiles []string) error {
 		}
 	}
 	log.Debugf("Checked %d edges", count)
+	log.Debugf("%d From / To references were not found", notFound)
 
 	return nil
 }
