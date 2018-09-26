@@ -1,0 +1,10 @@
+{"_id": "Phenotype:CL:1001575", "gid": "Phenotype:CL:1001575", "label": "Phenotype", "data": {"term_id": "CL:1001575", "term": "Cervix squamous cell"}}
+{"_id": "Phenotype:CPT:1020199", "gid": "Phenotype:CPT:1020199", "label": "Phenotype", "data": {"term_id": "CPT:1020199", "term": "Ph negative ALL"}}
+{"_id": "Phenotype:CSP:2587-4536", "gid": "Phenotype:CSP:2587-4536", "label": "Phenotype", "data": {"term_id": "CSP:2587-4536", "term": "Cervix"}}
+{"_id": "Phenotype:CSP:4008-0011", "gid": "Phenotype:CSP:4008-0011", "label": "Phenotype", "data": {"term_id": "CSP:4008-0011", "term": "B cell lymphoma"}}
+{"_id": "Phenotype:DERMO:0002052", "gid": "Phenotype:DERMO:0002052", "label": "Phenotype", "data": {"term_id": "DERMO:0002052", "term": "Tumour of pancreatic duct"}}
+{"_id": "Phenotype:DOID:0001816", "gid": "Phenotype:DOID:0001816", "label": "Phenotype", "data": {"term_id": "DOID:0001816", "term": "Angiosarcoma;Renal"}}
+{"_id": "Phenotype:DOID:0001816", "gid": "Phenotype:DOID:0001816", "label": "Phenotype", "data": {"term_id": "DOID:0001816", "term": "angiosarcoma"}}
+{"_id": "Phenotype:DOID:0050458", "gid": "Phenotype:DOID:0050458", "label": "Phenotype", "data": {"term_id": "DOID:0050458", "term": "juvenile myelomonocytic leukemia"}}
+{"_id": "Phenotype:DOID:0050523", "gid": "Phenotype:DOID:0050523", "label": "Phenotype", "data": {"term_id": "DOID:0050523", "term": "adult T-cell leukemia"}}
+{"_id": "Phenotype:DOID:0050615", "gid": "Phenotype:DOID:0050615", "label": "Phenotype", "data": {"term_id": "DOID:0050615", "term": "Cancer of respiratory system"}}

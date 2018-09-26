@@ -1,1 +1,0 @@
-https://clinicaltrials.gov/AllPublicXML.zip

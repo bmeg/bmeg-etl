@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import argparse
 import gzip
@@ -6,20 +6,17 @@ import json
 import logging
 import re
 import sys
+from glob import glob
 import xml.sax
 import os
 from ftplib import FTP
-from bmeg.nlp_pb2 import Pubmed
-from google.protobuf import json_format
+
+from bmeg.vertex import Publication
+from bmeg.emitter import JSONEmitter
+
 
 reWord = re.compile(r'\w')
 reSpace = re.compile(r'\s')
-
-
-def message_to_json(message):
-    msg = json_format.MessageToDict(message)
-    # msg['#label'] = message.DESCRIPTOR.name
-    return json.dumps(msg)
 
 
 def ignore(e, v, attrs, **kwds):
@@ -47,14 +44,6 @@ def create_dict_list(e, v, attrs, **kwds):
     return [kwds]
 
 
-def debug_emit(e, v, attrs, **kwds):
-    print json.dumps(kwds)
-
-
-def ignore(k, v, attrs, **kwds):
-    return None
-
-
 def date_extract(e, v, attrs, **kwds):
     # if 'MedlineDate' in kwds:
     #     return kwds['MedlineDate']
@@ -77,22 +66,22 @@ def author_extract(e, v, attrs, **kwds):
 
 def emit_pubmed(e, v, attrs, **kwds):
     # https://www.nlm.nih.gov/bsd/licensee/elements_descriptions.html#status_value
-    if kwds['MedlineCitation']['Status'] in ["MEDLINE", "Pubmed-not-MEDLINE"]:
-        out = Pubmed()
-        out.pmid = kwds['MedlineCitation']['PMID']
-        out.title = kwds['MedlineCitation']['Article']['ArticleTitle']
-        out.date = kwds['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']
+    pmid = kwds['MedlineCitation']['PMID']
+    title = kwds['MedlineCitation']['Article']['ArticleTitle']
+    date = kwds['MedlineCitation']['Article']['Journal']['JournalIssue']['PubDate']
 
-        if 'AuthorList' in kwds['MedlineCitation']['Article']:
-            if 'Author' in  kwds['MedlineCitation']['Article']['AuthorList']:
-                [out.author.append(x) for x in kwds['MedlineCitation']['Article']['AuthorList']['Author']]
-                if kwds['MedlineCitation']['Article']['AuthorList']['CompleteYN'] == 'N':
-                    out.author.append('et al.')
-
-        if 'Abstract' in kwds['MedlineCitation']['Article']:
-            out.abstract = kwds['MedlineCitation']['Article']['Abstract']['AbstractText']
-
-        print message_to_json(out)
+    author = []
+    if 'AuthorList' in kwds['MedlineCitation']['Article']:
+        if 'Author' in kwds['MedlineCitation']['Article']['AuthorList']:
+            [author.append(x) for x in kwds['MedlineCitation']['Article']['AuthorList']['Author']]
+            if kwds['MedlineCitation']['Article']['AuthorList']['CompleteYN'] == 'N':
+                author.append('et al.')
+    abstract = ""
+    if 'Abstract' in kwds['MedlineCitation']['Article']:
+        abstract = kwds['MedlineCitation']['Article']['Abstract']['AbstractText']
+    url = 'https://www.ncbi.nlm.nih.gov/pubmed/{}'.format(pmid)
+    out = Publication(url=url, title=title, abstract=abstract, text="", date=date, author=author, citation=[])
+    e.emit_vertex(out)
 
 
 f_map = [
@@ -128,7 +117,6 @@ class StackLevel:
 
 
 def stack_match(query, elem):
-    match = True
     if len(query) != len(elem):
         return False
     for q, e in zip(query, elem):
@@ -160,12 +148,10 @@ class PubMedHandler(xml.sax.ContentHandler):
         self.buffer += text
 
     def endElement(self, name):
-        found = False
         stack_id = list(i.name for i in self.stack)
         level = self.stack.pop()
         for s, out_name, f in f_map:
             if stack_match(s, stack_id):
-                found = True
                 if out_name is None:
                     out_name = stack_id[-1]
                 v = f(self.record_write, self.buffer, level.attrs, **level.data)
@@ -190,15 +176,15 @@ class PubMedHandler(xml.sax.ContentHandler):
         self.buffer = ""
 
 
-def emit(msg):
-    print msg
-
-
-def parse_pubmed(handle):
-    handler = PubMedHandler(emit)
+def parse_pubmed(handle, emitter):
+    handler = PubMedHandler(emitter)
     parser = xml.sax.make_parser()
     parser.setContentHandler(handler)
     parser.parse(handle)
+
+
+def name_clean(path):
+    return os.path.basename(path).replace(".xml.gz", "")
 
 
 if __name__ == "__main__":
@@ -206,21 +192,24 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-l", action="store_true", default=False)
-    parser.add_argument("-o", "--output", default=sys.stdout)
+    parser.add_argument("-o", "--output", default="pubmed")
+    parser.add_argument("--scan", default="source/pubmed")
     parser.add_argument("files", nargs="*")
     args = parser.parse_args()
-
-    if args.output != sys.stdout:
-        sys.stdout = open(args.output, 'w')
 
     if args.l:
         ftp = FTP('ftp.ncbi.nlm.nih.gov')
         ftp.login()
         for i in ftp.nlst("/pubmed/baseline/*.xml.gz"):
             name = os.path.basename(i)
-            print json.dumps( {"url" : "ftp://ftp.ncbi.nlm.nih.gov%s" % i, "name" : name} )
+            print(json.dumps({"url": "ftp://ftp.ncbi.nlm.nih.gov%s" % i, "name": name}))
         sys.exit(0)
 
+    if len(args.files) == 0:
+        args.files = glob(os.path.join(args.scan, "*.xml.gz"))
+
     for path in args.files:
+        emitter = JSONEmitter(args.output, name_clean(path))
         with gzip.open(path) as handle:
-            parse_pubmed(handle)
+            parse_pubmed(handle, emitter)
+        emitter.close()

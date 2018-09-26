@@ -2,15 +2,16 @@
 
 import re
 import sys
-import json
-from bmeg import phenotype_pb2
-from google.protobuf import json_format
+
+from bmeg.vertex import GeneOntologyTerm
+from bmeg.edge import GeneOntologyIsA
+from bmeg.emitter import JSONEmitter
 
 re_section = re.compile(r'^\[(.*)\]')
 re_field = re.compile(r'^(\w+): (.*)$')
 
-def obo_parse(handle):
 
+def obo_parse(handle):
     rec = None
     for line in handle:
         res = re_section.search(line)
@@ -19,7 +20,7 @@ def obo_parse(handle):
                 yield rec
             rec = None
             if res.group(1) == "Term":
-                rec = {"type":res.group(1)}
+                rec = {"type": res.group(1)}
         else:
             if rec is not None:
                 res = re_field.search(line)
@@ -35,32 +36,46 @@ def obo_parse(handle):
     if rec is not None:
         yield rec
 
+
 def unquote(s):
     res = re.search(r'"(.*)"', s)
     if res:
         return res.group(1)
     return s
 
-def message_to_json(message):
-    msg = json_format.MessageToDict(message, preserving_proto_field_name=True)
-    return json.dumps(msg)
 
 if __name__ == "__main__":
 
+    emitter = JSONEmitter(sys.argv[2])
+
     with open(sys.argv[1]) as handle:
         for rec in obo_parse(handle):
-            go = phenotype_pb2.GeneOntologyTerm()
-            go.id = rec['id'][0]
-            go.name = rec['name'][0]
-            go.namespace = rec['namespace'][0]
-            go.definition = unquote(rec['def'][0])
+            go_id = rec['id'][0]
+            go_name = rec['name'][0]
+            go_namespace = rec['namespace'][0]
+            go_definition = unquote(rec['def'][0])
+            synonym = []
+            is_a = []
+            xref = []
             if 'synonym' in rec:
                 for i in rec['synonym']:
-                    go.synonym.append(unquote(i))
+                    synonym.append(unquote(i))
             if 'is_a' in rec:
                 for i in rec['is_a']:
-                    go.is_a.append(i)
+                    is_a.append(i)
             if 'xref' in rec:
                 for i in rec['xref']:
-                    go.xref.append(i.split(" ")[0])
-            print message_to_json(go)
+                    xref.append(i.split(" ")[0])
+            emitter.emit_vertex(GeneOntologyTerm(
+                go_id=go_id, name=go_name,
+                definition=go_definition, namespace=go_namespace,
+                synonym=synonym, xref=xref
+            ))
+            for i in is_a:
+                emitter.emit_edge(
+                    GeneOntologyIsA(),
+                    from_gid=GeneOntologyTerm.make_gid(go_id),
+                    to_gid=GeneOntologyTerm.make_gid(i)
+                )
+
+    emitter.close()
