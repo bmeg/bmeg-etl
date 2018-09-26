@@ -35,11 +35,12 @@ indexes: |
   ANALYZE bmeg_vertex ;
   ANALYZE bmeg_edge ;
 
+
 edge_files: |
+  outputs/gtex/gtex.ExpressionOf.Edge.json
   outputs/gtex/gtex.AliquotFor.Edge.json
   outputs/gtex/gtex.BiosampleFor.Edge.json
   outputs/gtex/gtex.InProject.Edge.json
-  outputs/gtex/gtex.ExpressionOf.Edge.json
 
 vertex_files: |
   outputs/gtex/gtex.Aliquot.Vertex.json
@@ -50,9 +51,9 @@ vertex_files: |
 
 
 vertex_template: |
-  --- drop and create
+  --- drop and create, without index
   DROP VLABEL IF EXISTS {{ vertex }};
-  CREATE VLABEL {{ vertex }};
+  CREATE VLABEL {{ vertex }} DISABLE INDEX;
   --- view for this vertex
   CREATE VIEW jsonb_{{ vertex }} AS
     select data from bmeg_vertex where label = '{{ vertex }}' ;
@@ -63,6 +64,8 @@ vertex_template: |
   CREATE UNIQUE PROPERTY INDEX ON {{ vertex }} (gid);
   --- drop view
   DROP VIEW jsonb_{{ vertex }};
+  --- reindex
+  REINDEX VLABEL {{ vertex }};
 
 edge_template: |
   --- drop and create
