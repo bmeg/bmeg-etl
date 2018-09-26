@@ -1,15 +1,31 @@
 #!/bin/bash
 
-graph="bmeg-test"
-arachne drop $graph
-arachne create $graph
+if [ "$#" -ne 2 ]; then
+		printf "Illegal number of parameters.\n\n"
+    printf "Usage:\n  load_database.sh <graph> <file_manifest>\n"
+		exit 1
+fi
+
+graph=$1
+file_manifest=$2
+
+grip drop $graph
+grip create $graph
 
 gofast="--numInsertionWorkers 8 --writeConcern 0 --bypassDocumentValidation"
 
-for f in $(ls -1 outputs/*/*.Vertex.json); do
-  mongoimport -d arachnedb -c ${graph}_vertices --type json --file $f $gofast
+for f in $(cat $file_manifest | grep "Vertex"); do
+		if [[ $f =~ \.gz$ ]]; then
+				gunzip -c $f | mongoimport -d grip -c ${graph}_vertices --type json $gofast
+		else
+				mongoimport -d grip -c ${graph}_vertices --type json --file $f $gofast
+		fi		
 done
 
-for f in $(ls -1 outputs/*/*.Edge.json); do
-  mongoimport -d arachnedb -c ${graph}_edges --type json --file $f $gofast
+for f in $(cat $file_manifest | grep "Edge"); do
+		if [[ $f =~ \.gz$ ]]; then
+				gunzip -c $f | mongoimport -d grip -c ${graph}_edges --type json $gofast
+		else
+				mongoimport -d grip -c ${graph}_edges --type json --file $f $gofast
+		fi		
 done
