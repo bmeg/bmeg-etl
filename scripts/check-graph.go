@@ -1,7 +1,7 @@
 package main
 
 import (
-  "bufio"
+	"bufio"
 	"errors"
 	"os"
 	"time"
@@ -14,13 +14,13 @@ import (
 )
 
 var (
-	maxElements uint64  = 100000000
-	probCollide float64 = 0.00000001
-	vertexFiles = []string{}
-  vertexManifest = ""
-	edgeFiles = []string{}
-  edgeManifest = ""
-	verbose   = false
+	maxElements    uint64  = 100000000
+	probCollide    float64 = 0.00000001
+	vertexFiles            = []string{}
+	vertexManifest         = ""
+	edgeFiles              = []string{}
+	edgeManifest           = ""
+	verbose                = false
 )
 
 var rootCmd = &cobra.Command{
@@ -33,26 +33,26 @@ var rootCmd = &cobra.Command{
 			log.SetLevel(log.DebugLevel)
 		}
 
-    if vertexManifest != "" {
-      verts, err := readLines(vertexManifest)
-      if err != nil {
-        return err
-      }
-      vertexFiles = append(vertexFiles, verts...)
-    }
-		if len(vertexFiles) == 0 {      
-      return errors.New("must provide one or more vertex files to load")
-    }
+		if vertexManifest != "" {
+			verts, err := readLines(vertexManifest)
+			if err != nil {
+				return err
+			}
+			vertexFiles = append(vertexFiles, verts...)
+		}
+		if len(vertexFiles) == 0 {
+			return errors.New("must provide one or more vertex files to load")
+		}
 
-    if edgeManifest != "" {
-      edges, err := readLines(edgeManifest)
-      if err != nil {
-        return err
-      }
-      edgeFiles = append(edgeFiles, edges...)
-    }
+		if edgeManifest != "" {
+			edges, err := readLines(edgeManifest)
+			if err != nil {
+				return err
+			}
+			edgeFiles = append(edgeFiles, edges...)
+		}
 		if len(edgeFiles) == 0 {
-        return errors.New("must provide one or more edge files to check")
+			return errors.New("must provide one or more edge files to check")
 		}
 
 		return check(vertexFiles, edgeFiles)
@@ -60,30 +60,30 @@ var rootCmd = &cobra.Command{
 }
 
 func init() {
-  log.SetFormatter(&log.JSONFormatter{TimestampFormat: time.RFC3339})
+	log.SetFormatter(&log.JSONFormatter{TimestampFormat: time.RFC3339})
 	flags := rootCmd.Flags()
 	flags.StringSliceVarP(&vertexFiles, "vertex-file", "v", vertexFiles, "vertex file to load")
-  flags.StringVarP(&vertexManifest, "vertex-manifest", "V", vertexManifest, "vertex file manifest")
+	flags.StringVarP(&vertexManifest, "vertex-manifest", "V", vertexManifest, "vertex file manifest")
 	flags.StringSliceVarP(&edgeFiles, "edge-file", "e", edgeFiles, "edge file to check")
-  flags.StringVarP(&edgeManifest, "edge-manifest", "E", edgeManifest, "edge file manifest")
+	flags.StringVarP(&edgeManifest, "edge-manifest", "E", edgeManifest, "edge file manifest")
 	flags.BoolVar(&verbose, "verbose", verbose, "verbose mode")
 }
 
 // readLines reads a whole file into memory
 // and returns a slice of its lines.
 func readLines(path string) ([]string, error) {
-  file, err := os.Open(path)
-  if err != nil {
-    return nil, err
-  }
-  defer file.Close()
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	defer file.Close()
 
-  var lines []string
-  scanner := bufio.NewScanner(file)
-  for scanner.Scan() {
-    lines = append(lines, scanner.Text())
-  }
-  return lines, scanner.Err()
+	var lines []string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
+	}
+	return lines, scanner.Err()
 }
 
 func check(vertexFiles, edgeFiles []string) error {
@@ -94,7 +94,7 @@ func check(vertexFiles, edgeFiles []string) error {
 
 	count := 0
 	for _, f := range vertexFiles {
-    log.Debugf("Loading vertices from: %s", f)
+		log.Debugf("Loading vertices from: %s", f)
 		for v := range util.StreamVerticesFromFile(f) {
 			h := xxhash.New()
 			h.Write([]byte(v.Gid))
@@ -110,7 +110,7 @@ func check(vertexFiles, edgeFiles []string) error {
 	notFound := 0
 	count = 0
 	for _, f := range edgeFiles {
-    log.Debugf("Loading edges from: %s", f)
+		log.Debugf("Loading edges from: %s", f)
 		for e := range util.StreamEdgesFromFile(f) {
 			f := xxhash.New()
 			f.Write([]byte(e.From))
