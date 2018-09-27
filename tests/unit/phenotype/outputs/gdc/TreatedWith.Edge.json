@@ -1,0 +1,1 @@
+{"_id": "(Individual:df3c1d61-79c1-43e9-971a-8029497ffeab)--TreatedWith->(Compound:TODO:Tamoxifen)", "gid": "(Individual:df3c1d61-79c1-43e9-971a-8029497ffeab)--TreatedWith->(Compound:TODO:Tamoxifen)", "label": "TreatedWith", "from": "Individual:df3c1d61-79c1-43e9-971a-8029497ffeab", "to": "Compound:TODO:Tamoxifen", "data": {}}

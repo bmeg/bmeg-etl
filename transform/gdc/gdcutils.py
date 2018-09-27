@@ -27,6 +27,7 @@ def query_gdc(endpoint, params):
         try:
             req = client.get(URL_BASE + endpoint, params=params)
             data = req.json()
+            logging.warning(data)
             data = data['data']
 
             hits = data.get("hits", [])
@@ -46,3 +47,12 @@ def query_gdc(endpoint, params):
 
 def extract(data, keys):
     return {key: data.get(key) for key in keys}
+
+
+def get_file(file_id, path):
+    """ download a file from gdc, save in path """
+    endpoint = 'data/{}'.format(file_id)
+    req = client.get(URL_BASE + endpoint)
+    with open(path, 'wb') as out:
+        out.write(req.content)
+    return path
