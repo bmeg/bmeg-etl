@@ -135,7 +135,7 @@ class Gene(Vertex):
     start: int
     end: int
     strand: str
-    mygeneinfo: dict
+    genome: str
 
     def gid(self):
         return Gene.make_gid(self.gene_id)
@@ -156,6 +156,7 @@ class Transcript(Vertex):
     start: int
     end: int
     strand: str
+    genome: str
 
     def gid(self):
         return Transcript.make_gid(self.transcript_id)
@@ -176,6 +177,7 @@ class Exon(Vertex):
     start: int
     end: int
     strand: str
+    genome: str
 
     def gid(self):
         return Exon.make_gid(self.exon_id)

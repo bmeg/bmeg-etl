@@ -9,6 +9,9 @@ from bmeg.edge import TranscriptFor, ExonFor
 from bmeg.emitter import JSONEmitter
 
 
+GENOME_BUILD = "GRCh37"
+
+
 def parse_attributes(attrs):
     parsed = {}
     attrs = attrs.split(";")
@@ -80,7 +83,8 @@ for key, attrs in features.items():
                  chromosome=attrs["seqId"],
                  start=attrs["start"],
                  end=attrs["end"],
-                 strand=attrs["strand"])
+                 strand=attrs["strand"],
+                 genome=GENOME_BUILD)
         emitter.emit_vertex(e)
         emitter.emit_edge(ExonFor(),
                           from_gid=e.gid(),
@@ -94,7 +98,8 @@ for key, attrs in features.items():
                            chromosome=attrs["seqId"],
                            start=int(attrs["start"]),
                            end=int(attrs["end"]),
-                           strand=attrs["strand"])
+                           strand=attrs["strand"],
+                           genome=GENOME_BUILD)
             emitter.emit_vertex(t)
             emitter.emit_edge(TranscriptFor(),
                               from_gid=t.gid(),
@@ -110,7 +115,7 @@ for key, attrs in features.items():
                          start=int(attrs["start"]),
                          end=int(attrs["end"]),
                          strand=attrs["strand"],
-                         mygeneinfo={})
+                         genome=GENOME_BUILD)
                 emitter.emit_vertex(g)
                 emitted_genes[gene_id] = True
 
