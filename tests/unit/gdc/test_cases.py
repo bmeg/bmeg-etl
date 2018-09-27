@@ -82,23 +82,3 @@ def test_simple(helpers, emitter_path_prefix):
 
     }
     validate(helpers, emitter_path_prefix, parameters)
-
-
-# def test_drugs(caplog, helpers, emitter_path_prefix):
-#     caplog.log_level = logging.DEBUG
-#     parameters = {
-#         "filters": {
-#             "op": "in",
-#             "content": {
-#                 "field": "cases.submitter_id", "value": ["TCGA-02-0003"]
-#             }
-#         }
-#
-#     }
-#     emitter = JSONEmitter(emitter_path_prefix, '/tmp')
-#     paths = [row for row in drugs(emitter, parameters)]
-#     assert len(paths) == 1, 'Should return 1 path'
-#     print(paths)
-#     path = paths[0]
-#     #assert row['file_name'] == 'nationwidechildrens.org_clinical_drug_gbm.txt'
-#     assert path == '/tmp/2b7065f3-60b6-47df-a189-6f608d6756a3'

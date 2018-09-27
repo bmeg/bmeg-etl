@@ -27,7 +27,6 @@ def query_gdc(endpoint, params):
         try:
             req = client.get(URL_BASE + endpoint, params=params)
             data = req.json()
-            logging.warning(data)
             data = data['data']
 
             hits = data.get("hits", [])

@@ -65,9 +65,7 @@ def compounds(emitter, parameters={}, output_path='/tmp', individual_gids=None):
     {"op":"and","content":[{"op":"in","content":{"field":"files.data_type","value":["Clinical data"]}},{"op":"in","content":{"field":"files.tags","value":["drug"]}}]}
     """)
     if 'filters' in parameters:
-        logging.warning(parameters)
         original_content = parameters['filters']
-        logging.warning(original_content)
         my_filters['content'].append(original_content)
     parameters['filters'] = my_filters
     logging.warning(parameters)
