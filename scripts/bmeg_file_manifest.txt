@@ -15,11 +15,12 @@ outputs/ccle/Project.Vertex.json.gz
 outputs/compound/normalized.Compound.Vertex.json
 outputs/compound/normalized.HasEnvironment.Edge.json
 outputs/compound/normalized.ResponseTo.Edge.json
-outputs/ensembl/ExonFor.Edge.json
-outputs/ensembl/Exon.Vertex.json
-outputs/ensembl/Gene.Vertex.json
-outputs/ensembl/TranscriptFor.Edge.json
-outputs/ensembl/Transcript.Vertex.json
+outputs/compound/normalized.TreatedWith.Edge.json
+outputs/ensembl/ensembl.ExonFor.Edge.json
+outputs/ensembl/ensembl.Exon.Vertex.json
+outputs/ensembl/ensembl.Gene.Vertex.json
+outputs/ensembl/ensembl.TranscriptFor.Edge.json
+outputs/ensembl/ensembl.Transcript.Vertex.json
 outputs/ensembl-protein/ensembl-protein.PFAMAlignment.Edge.json
 outputs/ensembl-protein/ensembl-protein.ProteinFor.Edge.json
 outputs/ensembl-protein/ensembl-protein.Protein.Vertex.json
