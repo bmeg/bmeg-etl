@@ -31,6 +31,7 @@ class CCLE_MAFTransformer(MAFTransformer):
     # callset source
     SOURCE = 'ccle'
     DEFAULT_PREFIX = SOURCE
+    DEFAULT_MAF_FILE = 'source/ccle/CCLE_DepMap_18q3_maf_20180718.txt'
 
     def create_gene_gid(self, line):  # pragma nocover
         """ override, create gene_gid from line """

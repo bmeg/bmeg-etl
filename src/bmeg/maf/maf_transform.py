@@ -86,6 +86,8 @@ def get_value(d, keys, default):
 class MAFTransformer():
     # override the column used for tumor allele
     TUMOR_ALLELE = tumor_allele1
+    # options argument
+    DEFAULT_MAF_FILE = None
 
     def read_maf(self, mafpath, gz, skip=0, harvest=True):
         """ generator for each line in maf """
@@ -229,7 +231,8 @@ def maf_default_argument_parser(transformer):
     """ add our default arguments """
     parser = default_argument_parser(transformer.DEFAULT_PREFIX)
     parser.add_argument('--maf_file', type=str,
-                        help='Path to the maf you want to import')
+                        help='Path to the maf you want to import',
+                        default=transformer.DEFAULT_MAF_FILE)
     parser.add_argument(
         '--skip', type=int,
         help="skip first N lines in MAF",
@@ -238,7 +241,7 @@ def maf_default_argument_parser(transformer):
     return parser
 
 
-def main(transformer):  # pragma: no cover
+def main(transformer, maf_file=None):  # pragma: no cover
     parser = maf_default_argument_parser(transformer)
     # We don't need the first argument, which is the program name
     options = parser.parse_args(sys.argv[1:])

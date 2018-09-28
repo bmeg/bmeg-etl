@@ -6,17 +6,19 @@ from bmeg.enrichers.phenotype_enricher import phenotype_factory
 from pydash import is_blank
 
 
-def transform(path="source/ccle/CCLE_sample_info_file_2012-10-18.txt",
+def transform(path="source/ccle/DepMap-2018q3-celllines.csv",
               prefix="ccle"):
     emitter = JSONEmitter(prefix)
-    reader = bmeg.ioutils.read_tsv(path)
+    reader = bmeg.ioutils.read_csv(path)
 
     # Load sample metadata.
     individual_gids = []
     project_gids = []
     phenotype_gids = []
+    # Broad_ID,CCLE_Name,Aliases,COSMIC_ID,Sanger ID,Primary Disease,Subtype Disease,Gender,Source
+    # ACH-000557,AML193_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE,AML-193,,,Leukemia,,Female,ATCC
     for row in reader:
-        sample_id = row["CCLE name"]
+        sample_id = row["CCLE_Name"]
         b = Biosample(sample_id, ccle_attributes=row)
         emitter.emit_vertex(b)
 
@@ -28,7 +30,7 @@ def transform(path="source/ccle/CCLE_sample_info_file_2012-10-18.txt",
             b.gid(),
         )
 
-        i = Individual(individual_id='CCLE:{}'.format(row["Cell line primary name"]),
+        i = Individual(individual_id='CCLE:{}'.format(sample_id),
                        ccle_attributes={'gender': row.get('Gender', None)})
         if i.gid() not in individual_gids:
             emitter.emit_vertex(i)
@@ -39,7 +41,8 @@ def transform(path="source/ccle/CCLE_sample_info_file_2012-10-18.txt",
             i.gid(),
         )
 
-        p = Project(project_id='CCLE:{}'.format(row["Site Primary"]))
+        project_id = '_'.join(sample_id.split('_')[1:])
+        p = Project(project_id='CCLE:{}'.format(project_id))
         if p.gid() not in project_gids:
             emitter.emit_vertex(p)
             project_gids.append(p.gid())
@@ -49,9 +52,9 @@ def transform(path="source/ccle/CCLE_sample_info_file_2012-10-18.txt",
             p.gid(),
         )
 
-        phenotype_name = row.get('Hist Subtype1', None)
+        phenotype_name = row.get('Subtype Disease', None)
         if not phenotype_name or is_blank(phenotype_name):
-            phenotype_name = row.get('Histology')
+            phenotype_name = row.get('Primary Disease')
         phenotype = phenotype_factory(name=phenotype_name)
         if phenotype.gid() not in phenotype_gids:
             emitter.emit_vertex(phenotype)
