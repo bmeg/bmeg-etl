@@ -93,6 +93,8 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
             assert callset['data']['source'] == 'mc3', 'source should be ccle'
             assert 'Aliquot:' not in callset['data']['tumor_aliquot_id'], 'tumor_aliquot_id should not have Aliquot gid'
             assert 'Aliquot:' not in callset['data']['normal_aliquot_id'], 'normal_aliquot_id should not have Aliquot gid'
+            assert '|' not in callset['data']['call_method'], 'call_method should not have a | separator'
+            assert callset['data']['call_method'] in ["RADIA", "MUTECT", "MUSE", "VARSCANS", "INDELOCATOR", "VARSCANI", "PINDEL", "SOMATICSNIPER"], 'call_method should belong to vocabulary'
 
     # test AlleleCall contents
     with open(allelecall_file, 'r', encoding='utf-8') as f:

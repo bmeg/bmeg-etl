@@ -58,22 +58,14 @@ class MC3_MAFTransformer(MAFTransformer):
         """ create callset from line """
         tumor_aliquot_gid = self.barcode_to_aliquot_id(line['Tumor_Sample_Barcode'])
         normal_aliquot_gid = self.barcode_to_aliquot_id(line['Matched_Norm_Sample_Barcode'])
-        call_method = line['CENTERS']
-        if not call_method:
-            call_method = ''
+        call_methods = line['CENTERS']
+        if not call_methods:
+            call_methods = ''
 
         sample_callsets = []
         sample_calls = []
-        if centerCol in line:
-            for c in line[centerCol].split("|"):
-                callset = Callset(tumor_aliquot_id=tumor_aliquot_gid,
-                                  normal_aliquot_id=normal_aliquot_gid,
-                                  call_method=call_method,
-                                  source=source)
-                sample_callsets.append(callset)
-                sample_calls.append((self.allele_call_maker(allele, line),
-                                     callset.gid()))
-        else:
+        for call_method in call_methods.split("|"):
+            call_method = call_method.replace('*', '')
             callset = Callset(tumor_aliquot_id=tumor_aliquot_gid,
                               normal_aliquot_id=normal_aliquot_gid,
                               call_method=call_method,
