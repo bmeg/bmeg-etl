@@ -58,4 +58,4 @@ def test_alias():
 
 def test_spell_check():
     """ """
-    assert drug_enricher.spell_check('aspiren')[0] == 'aspirin'
+    assert drug_enricher.spell_check('Tamoxiten')[0] == 'tamoxifen'
