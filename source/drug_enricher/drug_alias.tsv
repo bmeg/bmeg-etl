@@ -11,6 +11,7 @@ name	alias
 6 Thiguanine	6-thioguanine
 97212	NO-FIND
 AE 788	NO-FIND
+AKT inhibitor VIII (1)	akt inhibitor
 ATTAC	NO-FIND
 Acctuane	accutane
 Adrimycin	adriamycin
@@ -18,7 +19,6 @@ Agent	NO-FIND
 Almita	NO-FIND
 Amgen	NO-FIND
 Amgen 706	amg 706 amgen
-AKT inhibitor VIII (1)	akt inhibitor
 Armidex	arimidex
 BA4 43	NO-FIND
 BS1 201	NO-FIND
@@ -201,6 +201,7 @@ discido	NO-FIND
 folinian	NO-FIND
 letrozolum	NO-FIND
 metotreksat	NO-FIND
+name	alias
 otherwise	NO-FIND
 paclitaxelum	NO-FIND
 rTRAIL	trail blazers
