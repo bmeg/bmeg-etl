@@ -15,7 +15,7 @@ def emitter_path_prefix(request):
 @pytest.fixture
 def sample_info_file(request):
     """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'source/ccle/CCLE_sample_info_file_2012-10-18.txt')
+    return os.path.join(request.fspath.dirname, 'source/ccle/DepMap-2018q3-celllines.csv')
 
 
 def validate(helpers, emitter_path_prefix, sample_info_file):
@@ -45,10 +45,10 @@ def validate(helpers, emitter_path_prefix, sample_info_file):
     helpers.assert_vertex_file_valid(Aliquot, aliquot_file)
     # test.Individual.Vertex.json
     individual_count = helpers.assert_vertex_file_valid(Individual, individual_file)
-    assert individual_count == 1046, 'expected individual_count'
+    assert individual_count == 9, 'expected individual_count'
     # test.Project.Vertex.json
     project_count = helpers.assert_vertex_file_valid(Project, project_file)
-    assert project_count == 24, 'expected project_count'
+    assert project_count == 6, 'expected project_count'
 
     # test.AliquotFor.Edge.json
     helpers.assert_edge_file_valid(Aliquot, Biosample, aliquotfor_file)
