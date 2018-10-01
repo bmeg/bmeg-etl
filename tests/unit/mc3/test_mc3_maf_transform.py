@@ -204,7 +204,7 @@ def test_TCGA_GBM(caplog, helpers, TCGA_GBM_file, emitter_path_prefix):
         "filters": {
             "op": "in",
             "content": {
-                "field": "submitter_id", "value": ["TCGA-02-0003"]
+                "field": "cases.submitter_id", "value": ["TCGA-02-0003"]
             }
         }
     }

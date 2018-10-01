@@ -13,6 +13,8 @@ Afatinib (2)
 AICA Ribonucleotide
 AKT inhibitor VIII (1)
 Ecotrin
+Tomaxifen
+Tamoxiten
 """.strip().split("\n")
 
 EXPECTED = [
@@ -26,6 +28,8 @@ EXPECTED = [
     [{'ontology_term': 'CID65110', 'source': 'http://rdf.ncbi.nlm.nih.gov/pubchem/compound', 'synonym': 'AICA ribonucleotide'}],
     [{'ontology_term': 'SID319552803', 'source': 'http://rdf.ncbi.nlm.nih.gov/pubchem/substance', 'synonym': 'akt inhibitor'}],
     [{'ontology_term': 'CID2244', 'source': 'http://rdf.ncbi.nlm.nih.gov/pubchem/compound', 'synonym': 'aspirin'}],
+    [{'approved_countries': ['Canada', 'US'], 'ontology_term': 'CID2733526', 'source': 'http://rdf.ncbi.nlm.nih.gov/pubchem/compound', 'synonym': 'Tamoxifen', 'taxonomy': {'class': 'Stilbenes', 'direct-parent': 'Stilbenes', 'kingdom': 'Organic compounds', 'superclass': 'Phenylpropanoids and polyketides'}, 'toxicity': 'Signs observed at the highest doses following studies to ' 'determine LD<sub>50</sub> in animals were respiratory ' 'difficulties and convulsions.'}],
+    [{'approved_countries': ['Canada', 'US'], 'ontology_term': 'CID2733526', 'source': 'http://rdf.ncbi.nlm.nih.gov/pubchem/compound', 'synonym': 'Tamoxifen', 'taxonomy': {'class': 'Stilbenes', 'direct-parent': 'Stilbenes', 'kingdom': 'Organic compounds', 'superclass': 'Phenylpropanoids and polyketides'}, 'toxicity': 'Signs observed at the highest doses following studies to ' 'determine LD<sub>50</sub> in animals were respiratory ' 'difficulties and convulsions.'}],
 ]
 
 
@@ -43,3 +47,15 @@ def test_simple(caplog):
             pprint(actual)
             pprint(expected)
             assert False, 'Failed'
+
+
+def test_alias():
+    assert 'Tomaxifen' in drug_enricher.ALIASES, 'we should have an alias for Tomaxifen'
+    assert drug_enricher.ALIASES['Tomaxifen'] == 'tamoxifen', 'the alias for Tomaxifen should be tamoxifen'
+    assert 'Tamoxiten' in drug_enricher.ALIASES, 'we should have an alias for Tamoxiten'
+    assert drug_enricher.ALIASES['Tamoxiten'] == 'tamoxifen', 'the alias for Tamoxiten should be tamoxifen'
+
+
+def test_spell_check():
+    """ """
+    assert drug_enricher.spell_check('Tamoxiten')[0] == 'tamoxifen'

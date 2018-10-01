@@ -32,7 +32,7 @@ eggs/
 source/*/*.*
 !source/*/*.md
 !source/phenotype_enricher/disease_alias.tsv
-
+!source/drug_enricher/drug_alias.tsv
 
 !tests/unit/allele/outputs/*/test.Allele.Vertex.json
 tests/unit/allele/source/myvariantinfo/sqlite.db

@@ -2,7 +2,7 @@
 
 from bmeg.vertex import Compound
 from bmeg.requests import Client
-
+from bmeg.ioutils import read_tsv
 
 import re
 import logging
@@ -19,6 +19,14 @@ requests = Client('drug_enricher')
 NAME_PART_MIN_LEN = 5
 MIN_BIOTHINGS_SCORE = 8.5
 
+ALIASES = {}
+
+# get aliases
+for line in read_tsv('source/drug_enricher/drug_alias.tsv'):
+    if line['alias'] == 'NO-FIND':
+        NOFINDS.append(line['name'])
+    ALIASES[line['name']] = line['alias']
+
 
 def compound_factory(name):
     """ create a stub compound for downstream normalization """
@@ -33,7 +41,10 @@ def _chunks(l, n):
 
 def _decompose(name):
     """given a name, split into an array of searchable terms"""
-    name = name.decode("utf-8")
+    try:
+        name = name.decode("utf-8")
+    except Exception:
+        pass
     name_parts = re.split('\W+', name)
     no_punct = ' '.join(name_parts).strip()
     name_parts = no_punct.split()
@@ -299,9 +310,17 @@ def normalize(name):
     if name in NOFINDS:
         return []
     try:
-        name = name.encode('utf8')
+        name = name.decode('utf8')
     except Exception:
         pass
+    name = str(name)
+    # do we have a better name?
+    if ALIASES.get(name, None):
+        logging.info('The alias was {}'.format(ALIASES.get(name)))
+    else:
+        logging.info('There was no alias for {}'.format(name))
+    name = ALIASES.get(name, name)
+
     drugs = normalize_biothings(name)
     if len(drugs) == 0:
         # print 'normalize_pubchem', name
@@ -328,3 +347,12 @@ def normalize(name):
             ontology_terms[d['ontology_term']] = d
     # ensure synonym is a str, not bytes
     return list(ontology_terms.values())
+
+
+def spell_check(name):
+    """ see if google knows a better spelling, returns list of suggestions """
+    url = 'http://suggestqueries.google.com/complete/search?client=firefox&q={}'.format(name)
+    r = requests.get(url)
+    spellings = r.json()
+    suggestions = spellings[1]
+    return suggestions

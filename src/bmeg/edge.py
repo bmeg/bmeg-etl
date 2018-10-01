@@ -317,3 +317,12 @@ class PhenotypeOf(Edge):
     Aliquot -> Phenotype
     """
     pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class TreatedWith(Edge):
+    """
+    Individual -> Compound
+    """
+    pass

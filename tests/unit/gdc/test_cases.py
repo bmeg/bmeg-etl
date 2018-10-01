@@ -4,7 +4,7 @@ import contextlib
 import pytest
 import json
 from transform.gdc.cases import transform
-from bmeg.vertex import Biosample, Aliquot, Individual, Project
+from bmeg.vertex import Biosample, Aliquot, Individual, Project, Compound
 from bmeg.emitter import JSONEmitter
 
 
@@ -19,12 +19,15 @@ def validate(helpers, emitter_path_prefix, parameters):
     biosample_file = '{}Biosample.Vertex.json'.format(emitter_path_prefix)
     aliquot_file = '{}Aliquot.Vertex.json'.format(emitter_path_prefix)
     individual_file = '{}Individual.Vertex.json'.format(emitter_path_prefix)
+    compound_file = '{}Compound.Vertex.json'.format(emitter_path_prefix)
 
     biosamplefor_file = '{}BiosampleFor.Edge.json'.format(emitter_path_prefix)
     aliquotfor_file = '{}AliquotFor.Edge.json'.format(emitter_path_prefix)
     inproject_file = '{}InProject.Edge.json'.format(emitter_path_prefix)
+    treatedwith_file = '{}TreatedWith.Edge.json'.format(emitter_path_prefix)
 
-    all_files = [biosample_file, aliquot_file, individual_file, biosamplefor_file, aliquotfor_file, inproject_file]
+    all_files = [biosample_file, aliquot_file, individual_file, biosamplefor_file,
+                 aliquotfor_file, inproject_file, treatedwith_file, compound_file]
     # remove output
     with contextlib.suppress(FileNotFoundError):
         for f in all_files:
@@ -40,12 +43,17 @@ def validate(helpers, emitter_path_prefix, parameters):
     helpers.assert_vertex_file_valid(Aliquot, aliquot_file)
     # test.Individual.Vertex.json
     helpers.assert_vertex_file_valid(Individual, individual_file)
+    # test.Compound.Vertex.json
+    helpers.assert_vertex_file_valid(Compound, compound_file)
     # test.BiosampleFor.Edge.json
     helpers.assert_edge_file_valid(Biosample, Individual, biosamplefor_file)
     # test.AliquotFor.Edge.json
     helpers.assert_edge_file_valid(Aliquot, Biosample, aliquotfor_file)
     # test.InProject.Edge.json
     helpers.assert_edge_file_valid(Individual, Project, inproject_file)
+    # test.TreatedWith.Edge.json
+    helpers.assert_edge_file_valid(Individual, Compound, treatedwith_file)
+
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(
         all_files,
@@ -68,7 +76,7 @@ def test_simple(helpers, emitter_path_prefix):
         "filters": {
             "op": "in",
             "content": {
-                "field": "submitter_id", "value": ["TCGA-02-0003"]
+                "field": "cases.submitter_id", "value": ["TCGA-02-0003"]
             }
         }
 
