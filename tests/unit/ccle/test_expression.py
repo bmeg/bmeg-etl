@@ -15,8 +15,8 @@ def gct_file(request):
 
 def validate(helpers, gct_file, emitter_directory):
     """ run xform and test results"""
-    expression_file = os.path.join(emitter_directory, 'ccle.Expression.Vertex.json')
-    expression_of_file = os.path.join(emitter_directory, 'ccle.ExpressionOf.Edge.json')
+    expression_file = os.path.join(emitter_directory, 'Expression.Vertex.json')
+    expression_of_file = os.path.join(emitter_directory, 'ExpressionOf.Edge.json')
 
     all_files = [expression_file, expression_of_file]
     # remove output
