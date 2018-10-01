@@ -1,6 +1,7 @@
 from bmeg.requests import Client
 import json
 import logging
+import os
 
 URL_BASE = "https://api.gdc.cancer.gov/"
 client = Client("gdc")
@@ -50,6 +51,8 @@ def extract(data, keys):
 
 def get_file(file_id, path):
     """ download a file from gdc, save in path """
+    if os.path.isfile(path):
+        return path
     endpoint = 'data/{}'.format(file_id)
     req = client.get(URL_BASE + endpoint)
     with open(path, 'wb') as out:
