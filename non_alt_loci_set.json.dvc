@@ -1,0 +1,7 @@
+cmd: wget ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/non_alt_loci_set.json
+  --output-document=source/gene_enricher/non_alt_loci_set.json
+md5: bb95a52c7053cd189d11997dc1b0db05
+outs:
+- cache: true
+  md5: 06373d1779ee7f371ced423367ea3144
+  path: source/gene_enricher/non_alt_loci_set.json
