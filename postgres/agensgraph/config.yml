@@ -47,7 +47,7 @@ edge_files: |
 # outputs/gtex/gtex.Project.Vertex.json
 # outputs/gtex/gtex.Expression.Vertex.json
 vertex_files: |
-  outputs/mc3/mc3.Allele.Vertex.json.gz
+  outputs/mc3/Allele.Vertex.json.gz
 
 vertex_template: |
   --- drop and create, without index

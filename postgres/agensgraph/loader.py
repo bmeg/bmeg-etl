@@ -77,7 +77,7 @@ def vertex_ddl(files, vertex_template):
         logging.info('reading {}'.format(f))
         # read first line to get label
         label = None
-        with open(f) as ins:
+        with reader(f) as ins:
             for line in ins:
                 label = ujson.loads(line)['label']
                 break
@@ -93,7 +93,7 @@ def edge_ddl(files, edge_template):
         logging.info('reading {}'.format(f))
         # read first line to get label
         label = from_label = to_label = None
-        with open(f) as ins:
+        with reader(f) as ins:
             for line in ins:
                 label = ujson.loads(line)['label']
                 from_label = ujson.loads(line)['from'].split(':')[0]
