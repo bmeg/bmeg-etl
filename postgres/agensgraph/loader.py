@@ -9,6 +9,7 @@ import yaml
 import types
 from jinja2 import Template
 import os
+from bmeg.ioutils import reader
 
 # log setup
 logging.getLogger().setLevel(logging.INFO)
@@ -26,8 +27,6 @@ with open("{}/config.yml".format(os.path.dirname(os.path.realpath(__file__))), '
     config = yaml.load(stream)
 
 config = types.SimpleNamespace(**config)
-# config.ddl = config.ddl.strip().split()
-# config.indexes = config.indexes.strip().split()
 config.edge_files = config.edge_files.strip().split()
 config.vertex_files = config.vertex_files.strip().split()
 
@@ -52,11 +51,12 @@ def rows(files, batch_size=1000):
     for f in files:
         logging.info('reading {}'.format(f))
         t = c = 0
-        with open(f) as ins:
+        with reader(f) as ins:
             for line in ins:
                 c += 1
                 t += 1
                 obj = ujson.loads(line)
+                # if edge, copy from and to underneath data
                 obj['data']['gid'] = obj['gid']
                 if 'from' in obj:
                     obj['data']['from'] = obj['from']

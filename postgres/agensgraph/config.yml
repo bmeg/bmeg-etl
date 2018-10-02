@@ -27,28 +27,27 @@ ddl: |
   CREATE GRAPH bmeg_graph;
   SET graph_path = bmeg_graph;
 
+# CREATE INDEX vertex_gid ON bmeg_vertex (gid);
+# CREATE INDEX vertex_label ON bmeg_vertex (label);
+# CREATE INDEX edge_label_from_to ON bmeg_edge (label, "from", "to");
+# CREATE INDEX edge_label_to_from ON bmeg_edge (label, "to", "from");
+# ANALYZE bmeg_vertex ;
+# ANALYZE bmeg_edge ;
 indexes: |
-  CREATE INDEX vertex_gid ON bmeg_vertex (gid);
-  CREATE INDEX vertex_label ON bmeg_vertex (label);
-  CREATE INDEX edge_label_from_to ON bmeg_edge (label, "from", "to");
-  CREATE INDEX edge_label_to_from ON bmeg_edge (label, "to", "from");
-  ANALYZE bmeg_vertex ;
-  ANALYZE bmeg_edge ;
 
-
+# outputs/gtex/gtex.ExpressionOf.Edge.json
+# outputs/gtex/gtex.AliquotFor.Edge.json
+# outputs/gtex/gtex.BiosampleFor.Edge.json
+# outputs/gtex/gtex.InProject.Edge.json
 edge_files: |
-  outputs/gtex/gtex.ExpressionOf.Edge.json
-  outputs/gtex/gtex.AliquotFor.Edge.json
-  outputs/gtex/gtex.BiosampleFor.Edge.json
-  outputs/gtex/gtex.InProject.Edge.json
 
+# outputs/gtex/gtex.Aliquot.Vertex.json
+# outputs/gtex/gtex.Biosample.Vertex.json
+# outputs/gtex/gtex.Individual.Vertex.json
+# outputs/gtex/gtex.Project.Vertex.json
+# outputs/gtex/gtex.Expression.Vertex.json
 vertex_files: |
-  outputs/gtex/gtex.Aliquot.Vertex.json
-  outputs/gtex/gtex.Biosample.Vertex.json
-  outputs/gtex/gtex.Individual.Vertex.json
-  outputs/gtex/gtex.Project.Vertex.json
-  outputs/gtex/gtex.Expression.Vertex.json
-
+  outputs/mc3/mc3.Allele.Vertex.json.gz
 
 vertex_template: |
   --- drop and create, without index
@@ -66,6 +65,8 @@ vertex_template: |
   DROP VIEW jsonb_{{ vertex }};
   --- reindex
   REINDEX VLABEL {{ vertex }};
+  --- delete source data
+  TRUNCATE bmeg_vertex CASCADE ;
 
 edge_template: |
   --- drop and create
@@ -82,3 +83,5 @@ edge_template: |
   --- default index ??
   --- drop view
   DROP VIEW jsonb_{{ edge }};
+  --- delete source data
+  TRUNCATE bmeg_edge CASCADE ;
