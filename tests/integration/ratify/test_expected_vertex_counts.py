@@ -6,20 +6,20 @@ a set of very basic queries - simply ensure the counts of label
 from gripql import eq
 
 EXPECTED_COUNTS = {
-    'Individual': 34353,
-    'Biosample': 73830,
-    'Project': 65,
-    'Aliquot': 187411,
+    'Individual': 34980,
+    'Biosample': 74457,
+    'Project': 84,
+    'Aliquot': 188038,
     'DrugResponse': 197690,
     'G2PAssociation': 46573,
-    'Gene': 26998,
+    'Gene': 57905,
     'MinimalAllele': 1318,
-    'Allele': 3984706,
+    'Allele': 4028128,
     'Phenotype': 1413,
     'Exon': 674466,
     'Protein': 107844,
     'PFAMFamily': 16712,
-    'Transcript': 95160,
+    'Transcript': 194318,
 }
 
 

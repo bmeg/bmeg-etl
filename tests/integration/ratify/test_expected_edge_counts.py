@@ -9,13 +9,13 @@ import json
 import logging
 
 EXPECTED_COUNTS = [
-    {'_from': 'Biosample', 'to': 'Individual', 'via': 'BiosampleFor', 'expected_count': 73830, 'expected_time': 22},
-    {'_from': 'Individual', 'to': 'Project', 'via': 'InProject', 'expected_count': 34353, 'expected_time': 11},
-    {'_from': 'Aliquot', 'to': 'Biosample', 'via': 'AliquotFor', 'expected_count': 187411, 'expected_time': 50},
-    {'_from': 'DrugResponse', 'to': 'Biosample', 'via': 'DrugResponseIn', 'expected_count': 169865, 'expected_time': 53},
+    {'_from': 'Biosample', 'to': 'Individual', 'via': 'BiosampleFor', 'expected_count': 74457, 'expected_time': 22},
+    {'_from': 'Individual', 'to': 'Project', 'via': 'InProject', 'expected_count': 34980, 'expected_time': 11},
+    {'_from': 'Aliquot', 'to': 'Biosample', 'via': 'AliquotFor', 'expected_count': 188038, 'expected_time': 50},
+    {'_from': 'DrugResponse', 'to': 'Biosample', 'via': 'DrugResponseIn', 'expected_count': 196365, 'expected_time': 53},
     {'_from': 'Protein', 'to': 'PFAMFamily', 'via': 'PFAMAlignment', 'expected_count': 108729, 'expected_time': 30},
-    {'_from': 'Protein', 'to': 'Transcript', 'via': 'ProteinFor', 'expected_count': 73439, 'expected_time': 29},
-    {'_from': 'Callset', 'to': 'Aliquot', 'via': None, 'expected_count': 276975, 'expected_time': 60},
+    {'_from': 'Protein', 'to': 'Transcript', 'via': 'ProteinFor', 'expected_count': 86344, 'expected_time': 29},
+    {'_from': 'Callset', 'to': 'Aliquot', 'via': None, 'expected_count': 277411, 'expected_time': 60},
     # # ? {'_from': 'Allele', 'to': 'Callset', 'expected_count': 1},
 ]
 
@@ -101,4 +101,4 @@ def test_expected_exon_transcript(V, caplog):
         .count()
     )
     actual_count = list(q)[0]['count']
-    assert actual_count == 2158, 'Expected from:Gene, chromosome:22 to:Transcript expected:2158 actual: {}'.format(actual_count)
+    assert actual_count == 4423, 'Expected from:Gene, chromosome:22 to:Transcript expected:4423 actual: {}'.format(actual_count)
