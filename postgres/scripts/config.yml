@@ -7,10 +7,10 @@
 
 
 postgres:
-    host: graph
-    user: agens
-    password: password
-    database: agens
+    host: localhost
+    user: postgres
+    password: postgres
+    database: bmeg_test
     port: 5432
 
 
@@ -44,14 +44,14 @@ indexes: |
 #
 # outputs/gtex/gtex.ExpressionOf.Edge.json
 edge_files: |
-  outputs/gtex/gtex.AliquotFor.Edge.json
-  outputs/gtex/gtex.BiosampleFor.Edge.json
-  outputs/gtex/gtex.InProject.Edge.json
+  outputs/gtex/gtex.AliquotFor.Edge.json.gz
+  outputs/gtex/gtex.BiosampleFor.Edge.json.gz
+  outputs/gtex/gtex.InProject.Edge.json.gz
 
 #
 #  outputs/gtex/gtex.Expression.Vertex.json
 vertex_files: |
-  outputs/gtex/gtex.Aliquot.Vertex.json
-  outputs/gtex/gtex.Biosample.Vertex.json
-  outputs/gtex/gtex.Individual.Vertex.json
-  outputs/gtex/gtex.Project.Vertex.json
+  outputs/gtex/gtex.Aliquot.Vertex.json.gz
+  outputs/gtex/gtex.Biosample.Vertex.json.gz
+  outputs/gtex/gtex.Individual.Vertex.json.gz
+  outputs/gtex/gtex.Project.Vertex.json.gz
