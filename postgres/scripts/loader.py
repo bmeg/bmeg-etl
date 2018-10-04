@@ -6,55 +6,10 @@ import dataset
 import ujson
 import logging
 import yaml
-import Queue
+from queue import Queue
 import threading
-
-# DDL
-DROP_TABLES = """
-DROP TABLE IF EXISTS vertex;
-DROP TABLE IF EXISTS edge;
-"""
-
-CREATE_TABLES = """
-CREATE TABLE IF NOT EXISTS  vertex (
- gid varchar not null,
- label varchar not null,
- data jsonb
-);
-
-CREATE TABLE IF NOT EXISTS  edge (
- gid varchar not null,
- label varchar not null,
- "from" varchar not null,
- "to" varchar not null,
- data jsonb
-);
-"""
-
-CREATE_INDEXES = """
-CREATE INDEX vertex_gid ON vertex (gid);
-CREATE INDEX edge_label_from_to ON edge (label, "from", "to");
-CREATE INDEX edge_label_to_from ON edge (label, "from", "to");
-ANALYZE vertex ;
-ANALYZE edge ;
-"""
-
-
-# list of files for import
-EDGE_FILES = """
-outputs/gtex/gtex.AliquotFor.Edge.json
-outputs/gtex/gtex.BiosampleFor.Edge.json
-outputs/gtex/gtex.ExpressionOf.Edge.json
-outputs/gtex/gtex.InProject.Edge.json
-""".strip().split()
-
-VERTEX_FILES = """
-outputs/gtex/gtex.Aliquot.Vertex.json
-outputs/gtex/gtex.Biosample.Vertex.json
-outputs/gtex/gtex.Expression.Vertex.json
-outputs/gtex/gtex.Individual.Vertex.json
-outputs/gtex/gtex.Project.Vertex.json
-""".strip().split()
+import os
+import types
 
 # log setup
 logging.getLogger().setLevel(logging.INFO)
@@ -62,16 +17,20 @@ logging.getLogger().setLevel(logging.INFO)
 
 # connection for dataset high level connection
 # https://dataset.readthedocs.io/en/latest/
-def construct_pg_url(user, password, host, port, database):
+def construct_pg_url(user, host, port, database, password=None):
     if not password:
         return "postgresql://" + user + '@' + host + ':' + str(port) + '/' + database
     return "postgresql://" + user + ":" + password + '@' + host + ':' + str(port) + '/' + database
 
 
-with open("postgres/scripts/config.yml", 'r') as stream:
+with open("{}/config.yml".format(os.path.dirname(os.path.realpath(__file__))), 'r') as stream:
     config = yaml.load(stream)
 
-pgconn = dataset.Database(url=construct_pg_url())
+config = types.SimpleNamespace(**config)
+config.edge_files = config.edge_files.strip().split()
+config.vertex_files = config.vertex_files.strip().split()
+
+pgconn = dataset.Database(url=construct_pg_url(**config.postgres))
 
 
 def execute(pgconn, commands):
