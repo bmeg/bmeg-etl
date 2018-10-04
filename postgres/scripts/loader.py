@@ -10,6 +10,7 @@ from queue import Queue
 import threading
 import os
 import types
+from bmeg.ioutils import reader
 
 # log setup
 logging.getLogger().setLevel(logging.INFO)
@@ -68,7 +69,7 @@ def rows(files, keys_to_delete=['_id'], batch_size=1000):
     for f in files:
         logging.info('reading {}'.format(f))
         t = 0
-        with open(f) as ins:
+        with reader(f) as ins:
             for line in ins:
                 c += 1
                 t += 1
