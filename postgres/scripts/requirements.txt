@@ -2,3 +2,5 @@ dataset
 psycopg2-binary
 pyyaml
 ujson
+Jinja2
+
