@@ -86,7 +86,6 @@ def rows(files, keys_to_delete=['_id'], batch_size=1000):
             logging.error(f)
 
 
-
 logging.info('(re) creating tables')
 execute(pgconn, [config.ddl])
 
@@ -107,39 +106,50 @@ def reader_worker(q, files):
     """ write to q from files """
     for row in rows(files):
         q.put(row)
-    # q.put(SENTINEL)
 
 
 # create queues and threads
 vertex_q = Queue(maxsize=1000000)
 edge_q = Queue(maxsize=1000000)
-threads = []
+writer_threads = []
+reader_threads = []
 
 for i in range(10):
     t = threading.Thread(target=writer_worker, args=(vertex_q, 'vertex'))
     t.start()
-    threads.append(t)
+    writer_threads.append(t)
 
 for i in range(10):
     t = threading.Thread(target=writer_worker, args=(edge_q, 'edge'))
     t.start()
-    threads.append(t)
+    writer_threads.append(t)
 
 for vertex_file in config.vertex_files:
     t = threading.Thread(target=reader_worker, args=(vertex_q, [vertex_file]))
     t.start()
-    threads.append(t)
+    reader_threads.append(t)
 
 for edge_file in config.edge_files:
     t = threading.Thread(target=reader_worker, args=(edge_q, [edge_file]))
     t.start()
-    threads.append(t)
+    reader_threads.append(t)
 
 # Blocks until all items in the queue have been gotten and processed.
+logging.info('waiting on queues')
 for q in [vertex_q, edge_q]:
     q.join()
 # block until all tasks are done
-for t in threads:
+logging.info('waiting on reader_threads')
+for t in reader_threads:
+    t.join()
+# block until all reader tasks are done
+for t in reader_threads:
+    # tell writers to exit
+    for q in [vertex_q, edge_q]:
+        q.put(SENTINEL)
+# block until all writer tasks are done
+logging.info('waiting on writer_threads')
+for t in writer_threads:
     t.join()
 
 
