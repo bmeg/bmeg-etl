@@ -31,7 +31,7 @@ config = types.SimpleNamespace(**config)
 config.edge_files = config.edge_files.strip().split()
 config.vertex_files = config.vertex_files.strip().split()
 
-pgconn = dataset.Database(url=construct_pg_url(**config.postgres))
+pgconn = dataset.Database(url=construct_pg_url(**config.postgres), engine_kwargs={'pool_size': 30, 'max_overflow': 20})
 
 
 def execute(pgconn, commands):
@@ -69,17 +69,22 @@ def rows(files, keys_to_delete=['_id'], batch_size=1000):
     for f in files:
         logging.info('reading {}'.format(f))
         t = 0
-        with reader(f) as ins:
-            for line in ins:
-                c += 1
-                t += 1
-                obj = ujson.loads(line)
-                for k in keys_to_delete:
-                    del obj[k]
-                yield transform(f, obj)
-                if c % batch_size == 0:
-                    c = 0
-                    logging.info('loaded {}'.format(t))
+        try:
+            with reader(f) as ins:
+                for line in ins:
+                    c += 1
+                    t += 1
+                    obj = ujson.loads(line)
+                    for k in keys_to_delete:
+                        del obj[k]
+                    yield transform(f, obj)
+                    if c % batch_size == 0:
+                        c = 0
+                        logging.info('loaded {} {}'.format(f, t))
+        except Exception as e:
+            logging.exception(e)
+            logging.error(f)
+
 
 
 logging.info('(re) creating tables')
@@ -92,20 +97,22 @@ SENTINEL = 'XXXXXX'
 
 def writer_worker(q, table_name):
     """ write to table name """
+    logging.info('writer worker started')
     t = pgconn[table_name]
-    t.insert_many(iter(q.get, SENTINEL), chunk_size=100)
+    t.insert_many(iter(q.get, SENTINEL), chunk_size=1000)
+    logging.info('writer worker done')
 
 
 def reader_worker(q, files):
     """ write to q from files """
     for row in rows(files):
         q.put(row)
-    q.put(SENTINEL)
+    # q.put(SENTINEL)
 
 
 # create queues and threads
-vertex_q = Queue(maxsize=10000)
-edge_q = Queue(maxsize=10000)
+vertex_q = Queue(maxsize=1000000)
+edge_q = Queue(maxsize=1000000)
 threads = []
 
 for i in range(10):
