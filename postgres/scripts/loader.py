@@ -31,7 +31,7 @@ config = types.SimpleNamespace(**config)
 config.edge_files = config.edge_files.strip().split()
 config.vertex_files = config.vertex_files.strip().split()
 
-pgconn = dataset.Database(url=construct_pg_url(**config.postgres))
+pgconn = dataset.Database(url=construct_pg_url(**config.postgres), engine_kwargs={'pool_size': 30, 'max_overflow': 20})
 
 
 def execute(pgconn, commands):
@@ -59,7 +59,7 @@ def transform(file, row):
     return row
 
 
-def rows(files, keys_to_delete=['_id'], batch_size=1000):
+def rows(files, keys_to_delete=['_id'], batch_size=10000):
     """
     generator: read in all rows from all files,
     remove keys_to_delete before yielding
@@ -79,7 +79,7 @@ def rows(files, keys_to_delete=['_id'], batch_size=1000):
                 yield transform(f, obj)
                 if c % batch_size == 0:
                     c = 0
-                    logging.info('loaded {}'.format(t))
+                    logging.info('loaded {} {}'.format(f, t))
 
 
 logging.info('(re) creating tables')
@@ -93,7 +93,7 @@ SENTINEL = 'XXXXXX'
 def writer_worker(q, table_name):
     """ write to table name """
     t = pgconn[table_name]
-    t.insert_many(iter(q.get, SENTINEL), chunk_size=100)
+    t.insert_many(iter(q.get, SENTINEL), chunk_size=1000)
 
 
 def reader_worker(q, files):
@@ -104,8 +104,8 @@ def reader_worker(q, files):
 
 
 # create queues and threads
-vertex_q = Queue(maxsize=100)
-edge_q = Queue(maxsize=100)
+vertex_q = Queue(maxsize=10000)
+edge_q = Queue(maxsize=10000)
 threads = []
 
 for i in range(10):
