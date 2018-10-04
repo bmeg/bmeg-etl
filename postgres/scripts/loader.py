@@ -109,8 +109,8 @@ def reader_worker(q, files):
 
 
 # create queues and threads
-vertex_q = Queue(maxsize=1000000)
-edge_q = Queue(maxsize=1000000)
+vertex_q = Queue(maxsize=2000000)
+edge_q = Queue(maxsize=2000000)
 writer_threads = []
 reader_threads = []
 
