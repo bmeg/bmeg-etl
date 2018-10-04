@@ -49,11 +49,12 @@ edge_files: |
   outputs/ccle/BiosampleFor.Edge.json.gz
   outputs/ccle/CallsetFor.Edge.json.gz
   outputs/ccle/InProject.Edge.json.gz
+  outputs/coca/coca.COCAClusterFor.Edge.json
   outputs/compound/normalized.HasEnvironment.Edge.json
   outputs/compound/normalized.ResponseTo.Edge.json
   outputs/compound/normalized.TreatedWith.Edge.json
-  outputs/ensembl/ensembl.ExonFor.Edge.json
-  outputs/ensembl/ensembl.TranscriptFor.Edge.json
+  outputs/ensembl/ExonFor.Edge.json
+  outputs/ensembl/TranscriptFor.Edge.json
   outputs/ensembl-protein/ensembl-protein.PFAMAlignment.Edge.json
   outputs/ensembl-protein/ensembl-protein.ProteinFor.Edge.json
   outputs/ensembl-protein/ensembl-protein.StructureFor.Edge.json
@@ -69,9 +70,9 @@ edge_files: |
   outputs/gdsc/gdsc.DrugResponseIn.Edge.json
   outputs/go/GeneOntologyAnnotation.Edge.json
   outputs/go/GeneOntologyIsA.Edge.json
-  outputs/gtex/gtex.AliquotFor.Edge.json
-  outputs/gtex/gtex.BiosampleFor.Edge.json
-  outputs/gtex/gtex.InProject.Edge.json
+  outputs/gtex/gtex.AliquotFor.Edge.json.gz
+  outputs/gtex/gtex.BiosampleFor.Edge.json.gz
+  outputs/gtex/gtex.InProject.Edge.json.gz
   outputs/mc3/mc3.AlleleCall.Edge.json.gz
   outputs/mc3/mc3.AlleleIn.Edge.json.gz
   outputs/mc3/mc3.CallsetFor.Edge.json.gz
@@ -82,16 +83,17 @@ edge_files: |
 
 
 vertex_files: |
-  outputs/allele/allele.Allele.Vertex.json.gz
+  outputs/allele/Allele.Vertex.json.gz
   outputs/ccle/Aliquot.Vertex.json.gz
   outputs/ccle/Biosample.Vertex.json.gz
   outputs/ccle/Callset.Vertex.json.gz
   outputs/ccle/Individual.Vertex.json.gz
   outputs/ccle/Project.Vertex.json.gz
+  outputs/coca/coca.COCACluster.Vertex.json
   outputs/compound/normalized.Compound.Vertex.json
-  outputs/ensembl/ensembl.Exon.Vertex.json
-  outputs/ensembl/ensembl.Gene.Vertex.json
-  outputs/ensembl/ensembl.Transcript.Vertex.json
+  outputs/ensembl/Exon.Vertex.json
+  outputs/ensembl/Gene.Vertex.json
+  outputs/ensembl/Transcript.Vertex.json
   outputs/ensembl-protein/ensembl-protein.Protein.Vertex.json
   outputs/g2p/Deadletter.Vertex.json.gz
   outputs/g2p/G2PAssociation.Vertex.json.gz
@@ -102,10 +104,10 @@ vertex_files: |
   outputs/gdc/gdc.Project.Vertex.json
   outputs/gdsc/gdsc.DrugResponse.Vertex.json
   outputs/go/GeneOntologyTerm.Vertex.json
-  outputs/gtex/gtex.Aliquot.Vertex.json
-  outputs/gtex/gtex.Biosample.Vertex.json
-  outputs/gtex/gtex.Individual.Vertex.json
-  outputs/gtex/gtex.Project.Vertex.json
+  outputs/gtex/gtex.Aliquot.Vertex.json.gz
+  outputs/gtex/gtex.Biosample.Vertex.json.gz
+  outputs/gtex/gtex.Individual.Vertex.json.gz
+  outputs/gtex/gtex.Project.Vertex.json.gz
   outputs/mc3/mc3.Callset.Vertex.json.gz
   outputs/mc3/mc3.Deadletter.Vertex.json.gz
   outputs/pfam/pfam.PFAMFamily.Vertex.json
@@ -1038,5 +1040,3 @@ vertex_files: |
   outputs/pubmed/pubmed18n0926.Publication.Vertex.json
   outputs/pubmed/pubmed18n0927.Publication.Vertex.json
   outputs/pubmed/pubmed18n0928.Publication.Vertex.json
-
-
