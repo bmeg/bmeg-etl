@@ -59,7 +59,7 @@ def transform(file, row):
     return row
 
 
-def rows(files, keys_to_delete=['_id'], batch_size=1000):
+def rows(files, keys_to_delete=['_id'], batch_size=10000):
     """
     generator: read in all rows from all files,
     remove keys_to_delete before yielding
@@ -67,7 +67,7 @@ def rows(files, keys_to_delete=['_id'], batch_size=1000):
     """
     t = c = 0
     for f in files:
-        logging.info('reading {}'.format(f))
+        # logging.info('reading {}'.format(f))
         t = 0
         try:
             with reader(f) as ins:
@@ -81,6 +81,7 @@ def rows(files, keys_to_delete=['_id'], batch_size=1000):
                     if c % batch_size == 0:
                         c = 0
                         logging.info('loaded {} {}'.format(f, t))
+            logging.info('loaded {}'.format(f))
         except Exception as e:
             logging.exception(e)
             logging.error(f)
