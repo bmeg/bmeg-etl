@@ -359,3 +359,32 @@ from vertex as v
   where v.label = 'Expression'
 limit 10
     ;
+
+
+show sizes
+
+```
+
+    CREATE FUNCTION bmeg() RETURNS TABLE(relation varchar, size varchar)
+        AS $$
+        SELECT nspname || '.' || relname AS "relation",
+            pg_size_pretty(pg_relation_size(C.oid)) AS "size"
+          FROM pg_class C
+          LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
+          WHERE nspname NOT IN ('pg_catalog', 'information_schema',  'pg_toast')
+          ORDER BY pg_relation_size(C.oid) DESC
+          LIMIT 20
+        $$
+        LANGUAGE SQL;
+
+
+        select * from bmeg();
+
+
+        bmeg_test=# select * from bmeg();
+           relation    |  size
+        ---------------+--------
+         public.vertex | 832 MB
+         public.edge   | 753 MB
+        (2 rows)
+```
