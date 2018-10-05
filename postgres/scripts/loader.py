@@ -99,7 +99,7 @@ def writer_worker(q, table_name):
     """ write to table name """
     logging.info('writer worker started')
     t = pgconn[table_name]
-    t.insert_many(iter(q.get, SENTINEL), chunk_size=1000)
+    t.insert_many(iter(q.get, SENTINEL), chunk_size=500)
     logging.info('writer worker done')
 
 
@@ -115,10 +115,10 @@ def reader_worker(qs, files):
 # create queues and threads
 vertex_qs = []
 for i in range(1):
-    vertex_qs.append(Queue(maxsize=2000000))
+    vertex_qs.append(Queue(maxsize=2000))
 edge_qs = []
 for i in range(1):
-    edge_qs.append(Queue(maxsize=2000000))
+    edge_qs.append(Queue(maxsize=2000))
 writer_threads = []
 reader_threads = []
 

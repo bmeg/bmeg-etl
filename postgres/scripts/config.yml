@@ -90,14 +90,14 @@ vertex_files: |
   outputs/ccle/Individual.Vertex.json.gz
   outputs/ccle/Project.Vertex.json.gz
   outputs/coca/coca.COCACluster.Vertex.json
-  outputs/compound/normalized.Compound.Vertex.json
+*  outputs/compound/normalized.Compound.Vertex.json
   outputs/ensembl/Exon.Vertex.json
   outputs/ensembl/Gene.Vertex.json
   outputs/ensembl/Transcript.Vertex.json
   outputs/ensembl-protein/ensembl-protein.Protein.Vertex.json
   outputs/g2p/Deadletter.Vertex.json.gz
-  outputs/g2p/G2PAssociation.Vertex.json.gz
-  outputs/g2p/MinimalAllele.Vertex.json.gz
+*  outputs/g2p/G2PAssociation.Vertex.json.gz
+*  outputs/g2p/MinimalAllele.Vertex.json.gz
   outputs/gdc/Aliquot.Vertex.json
   outputs/gdc/Biosample.Vertex.json
   outputs/gdc/Individual.Vertex.json
@@ -109,9 +109,8 @@ vertex_files: |
   outputs/gtex/gtex.Individual.Vertex.json.gz
   outputs/gtex/gtex.Project.Vertex.json.gz
   outputs/mc3/Callset.Vertex.json.gz
-  outputs/mc3/Deadletter.Vertex.json.gz
   outputs/pfam/pfam.PFAMFamily.Vertex.json
-  outputs/phenotype/normalized.Phenotype.Vertex.json
+* outputs/phenotype/normalized.Phenotype.Vertex.json
 
 
 # outputs/pubmed/pubmed18n0001.Publication.Vertex.json
