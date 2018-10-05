@@ -17,7 +17,15 @@ def normalize(hit):
     association = hit['association']
     for phenotype in association.get('phenotypes', []):
         phenotypes.add(make_phenotype(phenotype['id'], phenotype.get('term', phenotype.get('description', None))))
-    hit['phenotypes'] = [p for p in phenotypes if p.gid() not in EXPORTED_PHENOTYPES]
-    phenotype_gids = set([p.gid() for p in phenotypes])
+    hit['phenotypes'] = []
+    dups = []
+    for p in phenotypes:
+        if p.gid() in EXPORTED_PHENOTYPES:
+            continue
+        if p.gid() in dups:
+            continue
+        hit['phenotypes'].append(p)
+        dups.append(p.gid())
+    phenotype_gids = list(set([p.gid() for p in phenotypes]))
     EXPORTED_PHENOTYPES.extend(phenotype_gids)
     return (hit, phenotype_gids)
