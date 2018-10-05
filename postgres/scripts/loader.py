@@ -102,41 +102,48 @@ def writer_worker(q, table_name):
     logging.info('writer worker done')
 
 
-def reader_worker(q, files):
+def reader_worker(qs, files):
     """ write to q from files """
+    c = 0
     for row in rows(files):
-        q.put(row)
+        c += 1
+        i = c % len(qs)
+        qs[i].put(row)
 
 
 # create queues and threads
-vertex_q = Queue(maxsize=2000000)
-edge_q = Queue(maxsize=2000000)
+vertex_qs = []
+for i in range(10):
+    vertex_qs.append(Queue(maxsize=2000000))
+edge_qs = []
+for i in range(10):
+    edge_qs.append(Queue(maxsize=2000000))
 writer_threads = []
 reader_threads = []
 
-for i in range(10):
+for vertex_q in vertex_qs:
     t = threading.Thread(target=writer_worker, args=(vertex_q, 'vertex'))
     t.start()
     writer_threads.append(t)
 
-for i in range(10):
+for edge_q in edge_qs:
     t = threading.Thread(target=writer_worker, args=(edge_q, 'edge'))
     t.start()
     writer_threads.append(t)
 
 for vertex_file in config.vertex_files:
-    t = threading.Thread(target=reader_worker, args=(vertex_q, [vertex_file]))
+    t = threading.Thread(target=reader_worker, args=(vertex_qs, [vertex_file]))
     t.start()
     reader_threads.append(t)
 
 for edge_file in config.edge_files:
-    t = threading.Thread(target=reader_worker, args=(edge_q, [edge_file]))
+    t = threading.Thread(target=reader_worker, args=(edge_qs, [edge_file]))
     t.start()
     reader_threads.append(t)
 
 # Blocks until all items in the queue have been gotten and processed.
 logging.info('waiting on queues')
-for q in [vertex_q, edge_q]:
+for q in vertex_qs + edge_qs:
     q.join()
 # block until all tasks are done
 logging.info('waiting on reader_threads')
@@ -145,7 +152,7 @@ for t in reader_threads:
 # block until all reader tasks are done
 for t in reader_threads:
     # tell writers to exit
-    for q in [vertex_q, edge_q]:
+    for q in vertex_qs + edge_qs:
         q.put(SENTINEL)
 # block until all writer tasks are done
 logging.info('waiting on writer_threads')
