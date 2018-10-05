@@ -159,6 +159,8 @@ for t in writer_threads:
     t.join()
 
 
-logging.info('creating indexes')
-execute(pgconn, [config.indexes])
-logging.info('indexes created')
+# logging.info('creating indexes')
+# execute(pgconn, [config.indexes])
+# logging.info('indexes created')
+
+logging.info('Done!')
