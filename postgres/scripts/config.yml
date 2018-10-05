@@ -64,18 +64,18 @@ edge_files: |
   outputs/g2p/HasMinimalAlleleFeature.Edge.json.gz
   outputs/g2p/HasSupportingReference.Edge.json.gz
   outputs/g2p/MinimalAlleleIn.Edge.json.gz
-  outputs/gdc/gdc.AliquotFor.Edge.json
-  outputs/gdc/gdc.BiosampleFor.Edge.json
-  outputs/gdc/gdc.InProject.Edge.json
+  outputs/gdc/AliquotFor.Edge.json.gz
+  outputs/gdc/BiosampleFor.Edge.json
+  outputs/gdc/InProject.Edge.json
   outputs/gdsc/gdsc.DrugResponseIn.Edge.json
   outputs/go/GeneOntologyAnnotation.Edge.json
   outputs/go/GeneOntologyIsA.Edge.json
   outputs/gtex/gtex.AliquotFor.Edge.json.gz
   outputs/gtex/gtex.BiosampleFor.Edge.json.gz
   outputs/gtex/gtex.InProject.Edge.json.gz
-  outputs/mc3/mc3.AlleleCall.Edge.json.gz
-  outputs/mc3/mc3.AlleleIn.Edge.json.gz
-  outputs/mc3/mc3.CallsetFor.Edge.json.gz
+  outputs/mc3/AlleleCall.Edge.json.gz
+  outputs/mc3/AlleleIn.Edge.json.gz
+  outputs/mc3/CallsetFor.Edge.json.gz
   outputs/pfam/pfam.GeneOntologyAnnotation.Edge.json
   outputs/pfam/pfam.PFAMClanMember.Edge.json
   outputs/phenotype/normalized.PhenotypeOf.Edge.json
@@ -98,18 +98,18 @@ vertex_files: |
   outputs/g2p/Deadletter.Vertex.json.gz
   outputs/g2p/G2PAssociation.Vertex.json.gz
   outputs/g2p/MinimalAllele.Vertex.json.gz
-  outputs/gdc/gdc.Aliquot.Vertex.json
-  outputs/gdc/gdc.Biosample.Vertex.json
-  outputs/gdc/gdc.Individual.Vertex.json
-  outputs/gdc/gdc.Project.Vertex.json
+  outputs/gdc/Aliquot.Vertex.json
+  outputs/gdc/Biosample.Vertex.json
+  outputs/gdc/Individual.Vertex.json
+  outputs/gdc/Project.Vertex.json
   outputs/gdsc/gdsc.DrugResponse.Vertex.json
   outputs/go/GeneOntologyTerm.Vertex.json
   outputs/gtex/gtex.Aliquot.Vertex.json.gz
   outputs/gtex/gtex.Biosample.Vertex.json.gz
   outputs/gtex/gtex.Individual.Vertex.json.gz
   outputs/gtex/gtex.Project.Vertex.json.gz
-  outputs/mc3/mc3.Callset.Vertex.json.gz
-  outputs/mc3/mc3.Deadletter.Vertex.json.gz
+  outputs/mc3/Callset.Vertex.json.gz
+  outputs/mc3/Deadletter.Vertex.json.gz
   outputs/pfam/pfam.PFAMFamily.Vertex.json
   outputs/phenotype/normalized.Phenotype.Vertex.json
 
