@@ -34,6 +34,7 @@ class Helpers:
                         .format(data_class, vertex_file_path)
         assert os.path.isfile(vertex_file_path), error_message
         c = 0
+        dups = []
         with open(vertex_file_path, 'r', encoding='utf-8') as f:
             for line in f:
                 # should be json
@@ -41,6 +42,8 @@ class Helpers:
                 # should have all vertex keys
                 Helpers.assert_vertex_keys_populated(vertex_dict)
                 Helpers.assert_data_keys_populated(data_class, vertex_dict)
+                assert vertex_dict['gid'] not in dups
+                dups.append(vertex_dict['gid'])
                 c += 1
         return c
 
@@ -53,6 +56,7 @@ class Helpers:
                         .format(from_data_class, to_data_class, edge_file_path)
         assert os.path.isfile(edge_file_path), error_message
         c = 0
+        dups = []
         with open(edge_file_path, 'r', encoding='utf-8') as f:
             for line in f:
                 # should be json
@@ -67,6 +71,8 @@ class Helpers:
 
                 name = str(to_data_class.__name__).split('\\.')[-1]
                 assert name in edge_dict['to'], 'edge.to should contain {}'.format(name)
+                assert edge_dict['gid'] not in dups
+                dups.append(edge_dict['gid'])
                 c += 1
         return c
 

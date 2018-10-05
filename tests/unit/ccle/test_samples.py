@@ -3,7 +3,7 @@ import os
 import contextlib
 import pytest
 from transform.ccle.samples import transform
-from bmeg.vertex import Biosample, Aliquot, Individual, Project
+from bmeg.vertex import Biosample, Aliquot, Individual, Project, Phenotype
 
 
 @pytest.fixture
@@ -52,6 +52,10 @@ def validate(helpers, emitter_path_prefix, sample_info_file):
 
     # test.AliquotFor.Edge.json
     helpers.assert_edge_file_valid(Aliquot, Biosample, aliquotfor_file)
+
+    # test.PhenotypeOf.Edge.json
+    helpers.assert_edge_file_valid(Aliquot, Phenotype, phenotype_of_file)
+
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(all_files)
 

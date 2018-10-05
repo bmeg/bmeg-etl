@@ -19,6 +19,8 @@ from bmeg.vertex import Deadletter
 from bmeg.emitter import new_emitter
 
 files = {}
+ALLELE_HAS_GENE_CACHE = []
+HAS_ENVIRONMENT_CACHE = []
 
 
 def normalizeAssociations(path):
@@ -81,10 +83,14 @@ def toGraph(normalized_association, emitter):
                           )
 
     for allele_has_gene in na.vertices['allele_has_gene']:
+        if allele_has_gene in ALLELE_HAS_GENE_CACHE:
+            continue
         emitter.emit_edge(AlleleIn(),
                           allele_has_gene[0],
                           allele_has_gene[1],
                           )
+        ALLELE_HAS_GENE_CACHE.append(allele_has_gene)
+
     for minimal_allele_has_gene in na.vertices['minimal_allele_has_gene']:
         emitter.emit_edge(MinimalAlleleIn(),
                           minimal_allele_has_gene[0],
@@ -99,11 +105,16 @@ def toGraph(normalized_association, emitter):
                           )
     for environment in na.vertices['environments']:
         emitter.emit_vertex(environment)
+
     for environment_gid in na.environments:
+        if environment_gid in HAS_ENVIRONMENT_CACHE:
+            continue
         emitter.emit_edge(HasEnvironment(),
                           association.gid(),
                           environment_gid
                           )
+        HAS_ENVIRONMENT_CACHE.append(environment_gid)
+
     for missing_vertex in na.missing_vertexes:
         emitter.emit_vertex(Deadletter(**missing_vertex))
 
@@ -111,8 +122,11 @@ def toGraph(normalized_association, emitter):
 def transform(input_path, prefix, emitter_class='json'):
     """ parse the association and write to graph using emitter"""
     emitter = new_emitter(directory=prefix)
-
+    association_cache = []
     for normalized_association in normalizeAssociations(input_path):
+        if normalized_association.association.gid() in association_cache:
+            continue
+        association_cache.append(normalized_association.association.gid())
         toGraph(normalized_association, emitter)
     emitter.close()
 

@@ -20,7 +20,16 @@ def normalize(hit):
     association = hit['association']
     for environment in association.get('environmentalContexts', []):
         compounds.add(compound(environment))
-    hit['environments'] = [compound for compound in compounds if compound.gid() not in EXPORTED_COMPOUNDS]
+
+    hit['environments'] = []
+    dups = []
+    for c in compounds:
+        if c.gid() in EXPORTED_COMPOUNDS:
+            continue
+        if c.gid() in dups:
+            continue
+        hit['environments'].append(c)
+        dups.append(c.gid())
     compound_gids = [compound.gid() for compound in compounds]
     EXPORTED_COMPOUNDS.extend(compound_gids)
     return (hit, compound_gids)

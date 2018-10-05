@@ -33,6 +33,7 @@ def transform(
     logging.info(files)
     store = new_store('key-val', path=store_path, index=True)
     c = t = e = 0
+    dups = []
     for file in files:
         logging.info(file)
         with reader(file) as ins:
@@ -65,8 +66,10 @@ def transform(
                         # we have a compound with a term already
                         store.put(compound['name'], compound)
                     compound = Compound.from_dict(compound)
-                    emitter.emit_vertex(compound)
+                    if compound.gid() not in dups:
+                        emitter.emit_vertex(compound)
                     compound_cache[compound_gid] = compound
+                    dups.append(compound.gid())
                     c += 1
                     t += 1
                 except Exception as exc:
