@@ -114,10 +114,10 @@ def reader_worker(qs, files):
 
 # create queues and threads
 vertex_qs = []
-for i in range(10):
+for i in range(1):
     vertex_qs.append(Queue(maxsize=2000000))
 edge_qs = []
-for i in range(10):
+for i in range(1):
     edge_qs.append(Queue(maxsize=2000000))
 writer_threads = []
 reader_threads = []
@@ -132,15 +132,13 @@ for edge_q in edge_qs:
     t.start()
     writer_threads.append(t)
 
-for vertex_file in config.vertex_files:
-    t = threading.Thread(target=reader_worker, args=(vertex_qs, [vertex_file]))
-    t.start()
-    reader_threads.append(t)
+t = threading.Thread(target=reader_worker, args=(vertex_qs, config.vertex_files))
+t.start()
+reader_threads.append(t)
 
-for edge_file in config.edge_files:
-    t = threading.Thread(target=reader_worker, args=(edge_qs, [edge_file]))
-    t.start()
-    reader_threads.append(t)
+t = threading.Thread(target=reader_worker, args=(edge_qs, config.edge_files))
+t.start()
+reader_threads.append(t)
 
 # Blocks until all items in the queue have been gotten and processed.
 logging.info('waiting on queues')
