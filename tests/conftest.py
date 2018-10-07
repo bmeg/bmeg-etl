@@ -3,6 +3,7 @@ import os
 import json
 import gripql
 import contextlib
+import dataset
 
 
 class Helpers:
@@ -151,3 +152,15 @@ def emitter_directory(request):
 def emitter_prefix(request):
     """ get the full path of the test output """
     return 'test'
+
+
+@pytest.fixture(scope="module")
+def postgres():
+    """ return a connection to the postgres (control w/ BMEG_* env var) """
+    user = os.getenv('BMEG_USER', 'postgres')
+    password = os.getenv('BMEG_PASSWORD', 'postgres')
+    host = os.getenv('BMEG_HOST', '10.96.11.130')
+    port = os.getenv('BMEG_PORT', 5432)
+    database = os.getenv('BMEG_DATABASE', 'bmeg_test')
+    url = "postgresql://" + user + ":" + password + '@' + host + ':' + str(port) + '/' + database
+    return dataset.Database(url=url)
