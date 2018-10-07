@@ -159,7 +159,7 @@ def postgres():
     """ return a connection to the postgres (control w/ BMEG_* env var) """
     user = os.getenv('BMEG_USER', 'postgres')
     password = os.getenv('BMEG_PASSWORD', 'postgres')
-    host = os.getenv('BMEG_HOST', '10.96.11.130')
+    host = os.getenv('BMEG_HOST', 'localhost')
     port = os.getenv('BMEG_PORT', 5432)
     database = os.getenv('BMEG_DATABASE', 'bmeg_test')
     url = "postgresql://" + user + ":" + password + '@' + host + ':' + str(port) + '/' + database

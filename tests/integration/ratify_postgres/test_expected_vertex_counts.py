@@ -23,8 +23,8 @@ EXPECTED_COUNTS = {
 
 def count_label(label, postgres):
     """ count label template query """
-    vextexes = postgres['vertex']
-    return vextexes.count(label=label)
+    sql = "select count(*) from vertex where label = '{}'".format(label)
+    return [x for x in postgres.query(sql)][0]['count'], sql
 
 
 def test_expected_vertex_counts(postgres):
@@ -35,7 +35,7 @@ def test_expected_vertex_counts(postgres):
         actual_count, q = count_label(label, postgres)
         if actual_count != expected_count:
             errors.append(
-                'Expected {} {}, got {} q:{}'.format(expected_count, label, actual_count, q.query)
+                'Expected {} {}, got {} q:{}'.format(expected_count, label, actual_count, q)
             )
     if len(errors) != 0:
         print(errors)
