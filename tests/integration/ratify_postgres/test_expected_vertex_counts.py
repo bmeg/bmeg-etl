@@ -38,5 +38,6 @@ def test_expected_vertex_counts(postgres):
                 'Expected {} {}, got {} q:{}'.format(expected_count, label, actual_count, q)
             )
     if len(errors) != 0:
-        print(errors)
+        for e in errors:
+            print(e)
         assert False, 'Expected no errors'
