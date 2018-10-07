@@ -10,7 +10,7 @@
 ## Out of Scope
 
 * "Bake-off" with mongo
-* Translation and strategies for "graph to sql" query translation (all queries were hand crafted)
+* Translation and strategies for "graph to sql" i.e grip queries query translation (all queries were hand crafted)
 
 ## Results
 
