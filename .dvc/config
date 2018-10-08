@@ -1,0 +1,4 @@
+['remote "bmeg"']
+url = s3://bmeg-dvc
+profile = s3Proxy
+endpointurl = http://10.96.11.20:8080
