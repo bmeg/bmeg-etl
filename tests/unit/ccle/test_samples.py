@@ -48,7 +48,7 @@ def validate(helpers, emitter_path_prefix, sample_info_file):
     assert individual_count == 9, 'expected individual_count'
     # test.Project.Vertex.json
     project_count = helpers.assert_vertex_file_valid(Project, project_file)
-    assert project_count == 6, 'expected project_count'
+    assert project_count == 9, 'expected project_count'
 
     # test.AliquotFor.Edge.json
     helpers.assert_edge_file_valid(Aliquot, Biosample, aliquotfor_file)
