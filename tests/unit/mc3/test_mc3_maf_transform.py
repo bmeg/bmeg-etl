@@ -66,6 +66,7 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
     allelein_file = os.path.join(emitter_path_prefix, 'AlleleIn.Edge.json')
     callsetfor_file = os.path.join(emitter_path_prefix, 'CallsetFor.Edge.json')
     deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json')
+
     all_files = [allele_file, allelecall_file, callset_file, allelein_file, callsetfor_file, deadletter_file]
     # remove output
     with contextlib.suppress(FileNotFoundError):
@@ -93,8 +94,6 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
             assert callset['data']['source'] == 'mc3', 'source should be ccle'
             assert 'Aliquot:' not in callset['data']['tumor_aliquot_id'], 'tumor_aliquot_id should not have Aliquot gid'
             assert 'Aliquot:' not in callset['data']['normal_aliquot_id'], 'normal_aliquot_id should not have Aliquot gid'
-            assert '|' not in callset['data']['call_method'], 'call_method should not have a | separator'
-            assert callset['data']['call_method'] in ["RADIA", "MUTECT", "MUSE", "VARSCANS", "INDELOCATOR", "VARSCANI", "PINDEL", "SOMATICSNIPER"], 'call_method should belong to vocabulary'
 
     # test AlleleCall contents
     with open(allelecall_file, 'r', encoding='utf-8') as f:
@@ -105,6 +104,10 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
             for k in MC3_EXTENSION_CALLSET_KEYS:
                 if k in allelecall['data']['info']:
                     assert allelecall['data']['info'][k], 'empty key %s' % k
+            assert '|' not in allelecall['data']['info']['call_methods'], 'call_method should not have a | separator'
+            allelecall_methods = set(allelecall['data']['info']['call_methods'])
+            possible_allelecall_methods = set(["RADIA", "MUTECT", "MUSE", "VARSCANS", "INDELOCATOR", "VARSCANI", "PINDEL", "SOMATICSNIPER"])
+            assert allelecall_methods < possible_allelecall_methods, 'call_method should belong to vocabulary'
 
     # test Allele contents
     with open(allele_file, 'r', encoding='utf-8') as f:
