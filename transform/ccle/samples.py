@@ -19,6 +19,7 @@ def transform(path="source/ccle/DepMap-2018q3-celllines.csv",
     # ACH-000557,AML193_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE,AML-193,,,Leukemia,,Female,ATCC
     for row in reader:
         sample_id = row["CCLE_Name"]
+        sample_id = sample_id.split('_')[0]
         b = Biosample(sample_id, ccle_attributes=row)
         emitter.emit_vertex(b)
 
