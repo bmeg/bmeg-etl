@@ -8,6 +8,7 @@ from bmeg.edge import AlleleCall
 
 from bmeg.maf.maf_transform import main, get_value, MAFTransformer
 from bmeg.maf.maf_transform import transform as parent_transform
+from transform.ccle.samples import SKIP_RENAME
 
 CCLE_EXTENSION_CALLSET_KEYS = [
     'cDNA_Change', 'Codon_Change', 'Protein_Change',
@@ -51,8 +52,10 @@ class CCLE_MAFTransformer(MAFTransformer):
             'NCIH2869': 'H2869',
             'TTC466': 'TCC466',
         }
-        aliquot_id = barcode.split('_')[0]
-        aliquot_id = xlate.get(aliquot_id, aliquot_id)
+        aliquot_id = barcode
+        if aliquot_id not in SKIP_RENAME:
+            aliquot_id = barcode.split('_')[0]
+            aliquot_id = xlate.get(aliquot_id, aliquot_id)
         return aliquot_id
 
     def create_gene_gid(self, line):  # pragma nocover
