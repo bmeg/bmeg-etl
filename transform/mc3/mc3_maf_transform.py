@@ -34,6 +34,7 @@ class MC3_MAFTransformer(MAFTransformer):
     # callset source
     SOURCE = 'mc3'
     DEFAULT_PREFIX = SOURCE
+    DEFAULT_MAF_FILE = 'source/mc3/mc3.v0.2.8.PUBLIC.maf.gz'
 
     def barcode_to_aliquot_id(self, barcode):
         """ create tcga sample barcode """
