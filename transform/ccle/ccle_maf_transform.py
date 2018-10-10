@@ -8,7 +8,6 @@ from bmeg.edge import AlleleCall
 
 from bmeg.maf.maf_transform import main, get_value, MAFTransformer
 from bmeg.maf.maf_transform import transform as parent_transform
-from transform.ccle.samples import SKIP_RENAME
 
 CCLE_EXTENSION_CALLSET_KEYS = [
     'cDNA_Change', 'Codon_Change', 'Protein_Change',
@@ -23,7 +22,7 @@ CCLE_EXTENSION_MAF_KEYS = [
     'isCOSMIChotspot', 'COSMIChsCnt', 'ExAC_AF', 'WES_AC', 'WGS_AC', 'SangerWES_AC', 'SangerRecalibWES_AC', 'RNAseq_AC', 'HC_AC', 'RD_AC',
 ]
 
-TUMOR_SAMPLE_BARCODE = "Tumor_Sample_Barcode"  # 15
+TUMOR_SAMPLE_BARCODE = "Broad_ID"  # 15
 NORMAL_SAMPLE_BARCODE = "Matched_Norm_Sample_Barcode"  # 16
 
 
@@ -33,30 +32,6 @@ class CCLE_MAFTransformer(MAFTransformer):
     SOURCE = 'ccle'
     DEFAULT_PREFIX = SOURCE
     DEFAULT_MAF_FILE = 'source/ccle/CCLE_DepMap_18q3_maf_20180718.txt'
-
-    def barcode_to_aliquot_id(self, barcode):
-        """ override, decode barcode "127399_SOFT_TISSUE" -> "127399" """
-        # deal with inconsistencies and mispellings
-        xlate = {
-            'NCIH2373': 'H2373',
-            'NCIH2461': 'H2461',
-            'NCIH2591': 'H2591',
-            'NCIH2595': 'H2595',
-            'NCIH2722': 'H2722',
-            'NCIH2731': 'H2731',
-            'NCIH2795': 'H2795',
-            'NCIH2803': 'H2803',
-            'NCIH2804': 'H2804',
-            'NCIH2810': 'H2810',
-            'NCIH2818': 'H2818',
-            'NCIH2869': 'H2869',
-            'TTC466': 'TCC466',
-        }
-        aliquot_id = barcode
-        if aliquot_id not in SKIP_RENAME:
-            aliquot_id = barcode.split('_')[0]
-            aliquot_id = xlate.get(aliquot_id, aliquot_id)
-        return aliquot_id
 
     def create_gene_gid(self, line):  # pragma nocover
         """ override, create gene_gid from line """
