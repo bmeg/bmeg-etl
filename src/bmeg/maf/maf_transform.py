@@ -208,7 +208,6 @@ class MAFTransformer():
                     emitter.emit_edge(AlleleIn(), allele.gid(), gene_gid)
             except Exception as exc:
                 logging.exception(exc)
-                logging.error(str(exc))
                 e += 1
                 emitter.emit_vertex(Deadletter(target_label='Allele', data=line))
 
