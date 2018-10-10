@@ -34,6 +34,7 @@ class MC3_MAFTransformer(MAFTransformer):
     # callset source
     SOURCE = 'mc3'
     DEFAULT_PREFIX = SOURCE
+    DEFAULT_MAF_FILE = 'source/mc3/mc3.v0.2.8.PUBLIC.maf.gz'
 
     def barcode_to_aliquot_id(self, barcode):
         """ create tcga sample barcode """
@@ -101,7 +102,7 @@ def main(transformer=MC3_MAFTransformer()):  # pragma: no cover
     parser = maf_default_argument_parser(transformer)
     parser.add_argument('--gdc_aliquot_path', type=str,
                         help='Path to the directory containing gdc.Aliquot.Vertex.json',
-                        default='outputs/gdc/gdc.Aliquot.Vertex.json')
+                        default='outputs/gdc/Aliquot.Vertex.json')
     # We don't need the first argument, which is the program name
     options = parser.parse_args(sys.argv[1:])
     default_logging(options.loglevel)
