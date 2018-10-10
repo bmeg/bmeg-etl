@@ -35,11 +35,15 @@ ddl: |
 indexes: |
   set maintenance_work_mem = '10GB' ;
   set work_mem = '10GB' ;
+  -- index identifiers
   CREATE INDEX vertex_gid ON vertex (gid);
   CREATE INDEX edge_gid ON edge (gid);
+  -- index vertex types
   CREATE INDEX vertex_label ON vertex (label);
+  -- index edge traversals
   CREATE INDEX edge_label_from_to ON edge (label, "from", "to");
   CREATE INDEX edge_label_to_from ON edge (label, "to", "from");
+  -- index vertex payload
   CREATE INDEX vertex_data on vertex USING gin  (data);
   ANALYZE vertex ;
   ANALYZE edge ;
