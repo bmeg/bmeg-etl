@@ -5,8 +5,6 @@ from bmeg.edge import AliquotFor, BiosampleFor, InProject, PhenotypeOf
 from bmeg.enrichers.phenotype_enricher import phenotype_factory
 from pydash import is_blank
 
-SKIP_RENAME = ['TT_OESOPHAGUS', 'TT_THYROID']
-
 
 def transform(path="source/ccle/DepMap-2018q3-celllines.csv",
               prefix="ccle"):
@@ -20,10 +18,7 @@ def transform(path="source/ccle/DepMap-2018q3-celllines.csv",
     # Broad_ID,CCLE_Name,Aliases,COSMIC_ID,Sanger ID,Primary Disease,Subtype Disease,Gender,Source
     # ACH-000557,AML193_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE,AML-193,,,Leukemia,,Female,ATCC
     for row in reader:
-        sample_id = row["CCLE_Name"]
-        # remove _tissue to aliviate mispellings
-        if sample_id not in SKIP_RENAME:
-            sample_id = sample_id.split('_')[0]
+        sample_id = row["Broad_ID"]
         b = Biosample(sample_id, ccle_attributes=row)
         emitter.emit_vertex(b)
 

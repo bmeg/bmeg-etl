@@ -3,7 +3,6 @@ from bmeg.edge import ExpressionOf
 from bmeg.emitter import JSONEmitter
 from bmeg.gct import parse_gct, split_ensembl_id
 from bmeg.utils import ensure_directory
-from transform.ccle.samples import SKIP_RENAME
 
 
 def transform(path="source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct",
@@ -16,11 +15,8 @@ def transform(path="source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct",
     # at the same time, we need to ensure an output path exists (ie. for travis)
     ensure_directory("outputs/ccle")
     for sample, values in parse_gct(path, "outputs/ccle", split_ensembl_id):
-        # strip out broad suffix  "QGP1_PANCREAS (ACH-000347)" -> "QGP1_PANCREAS"
-        sample = sample.split()[0]
-        # strip off tissue site (data integrity mispellings) "QGP1_PANCREAS" -> "QGP1"
-        if sample not in SKIP_RENAME:
-            sample = sample.split('_')[0]
+        # use broad suffix  "QGP1_PANCREAS (ACH-000347)" -> "ACH-000347"
+        sample = sample.split()[1].replace('(', '').replace(')', '')
         g = Expression(
             id=sample,
             source="ccle",
