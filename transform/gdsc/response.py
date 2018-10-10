@@ -2,7 +2,7 @@ import re
 
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import Biosample, DrugResponse, DrugResponseMetric
+from bmeg.vertex import Aliquot, DrugResponse, DrugResponseMetric
 from bmeg.edge import DrugResponseIn, ResponseTo
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
@@ -11,6 +11,26 @@ import logging
 
 DEFAULT_PREFIX = 'gdsc'
 DEFAULT_DIRECTORY = 'gdsc'
+
+BROAD_LOOKUP = {
+    # missing broad ids
+    "A253_UPPER_AERODIGESTIVE_TRACT": "ACH-000740",
+    "RPMI2650_UPPER_AERODIGESTIVE_TRACT": "ACH-001385",
+    "U698M_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE": "ACH-001680",
+    # incorrect broad ids
+    # GDSC
+    # ACH-001311,HSC2_UPPER_AERODIGESTIVE_TRACT
+    # ACH-001312,HSC3_UPPER_AERODIGESTIVE_TRACT
+    # ACH-001319,SCC25_UPPER_AERODIGESTIVE_TRACT
+    # ACH-001320,SCC4_UPPER_AERODIGESTIVE_TRACT
+    # ACH-001821,EFM19_BREAST
+
+    "HSC2_UPPER_AERODIGESTIVE_TRACT": "ACH-000472",
+    "HSC3_UPPER_AERODIGESTIVE_TRACT": "ACH-000778",
+    "SCC25_UPPER_AERODIGESTIVE_TRACT": "ACH-000188",
+    "SCC4_UPPER_AERODIGESTIVE_TRACT": "ACH-000238",
+    "EFM19_BREAST": "ACH-000330",
+}
 
 
 def transform(
@@ -36,12 +56,14 @@ def transform(
 
     for field in r.fieldnames[1:]:
         m = rx.search(field)
-        # Some don't have a Broad ID.
+        sample_code = None
         if not m:
-            replace_with.append(field)
-            continue
+            # Some don't have a Broad ID.
+            sample_code = BROAD_LOOKUP.get(field, None)
+        else:
+            sample_code = BROAD_LOOKUP.get(m.group(1), m.group(2))
 
-        sample_code = m.group(1)
+        assert sample_code, 'no broad id for {}'.format(field)
         replace_with.append(sample_code)
 
     assert len(replace_with) == len(r.fieldnames)
@@ -74,7 +96,7 @@ def transform(
             emitter.emit_edge(
                 DrugResponseIn(),
                 e.gid(),
-                Biosample.make_gid(sample),
+                Aliquot.make_gid(sample),
             )
             # create compound
             compound = compound_factory(name=row["compound_name"])
