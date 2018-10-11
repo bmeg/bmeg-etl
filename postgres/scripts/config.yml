@@ -73,7 +73,7 @@ edge_files: |
   outputs/g2p/HasMinimalAlleleFeature.Edge.json.gz
   outputs/g2p/HasSupportingReference.Edge.json.gz
   outputs/g2p/MinimalAlleleIn.Edge.json.gz
-  outputs/gdc/AliquotFor.Edge.json.gz
+  outputs/gdc/AliquotFor.Edge.json
   outputs/gdc/BiosampleFor.Edge.json
   outputs/gdc/InProject.Edge.json
   outputs/gdsc/gdsc.DrugResponseIn.Edge.json
