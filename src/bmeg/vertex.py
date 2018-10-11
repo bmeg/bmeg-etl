@@ -28,21 +28,17 @@ class Vertex:
 class Callset(Vertex):
     tumor_aliquot_id: str
     normal_aliquot_id: Union[None, str]
-    call_method: str
     source: str
 
     def gid(self):
         return Callset.make_gid(self.tumor_aliquot_id,
                                 self.normal_aliquot_id,
-                                self.call_method,
                                 self.source)
 
     @classmethod
-    def make_gid(cls, tumor_aliquot_id, normal_aliquot_id,
-                 call_method, source):
-        return GID("%s:%s:%s:%s:%s" % (cls.__name__, source,
-                                       tumor_aliquot_id, normal_aliquot_id,
-                                       call_method))
+    def make_gid(cls, tumor_aliquot_id, normal_aliquot_id, source):
+        return GID("%s:%s:%s:%s" % (cls.__name__, source,
+                                    tumor_aliquot_id, normal_aliquot_id))
 
 
 @enforce_types

@@ -5,6 +5,15 @@ from bmeg.edge import AliquotFor, BiosampleFor, InProject, PhenotypeOf
 from bmeg.enrichers.phenotype_enricher import phenotype_factory
 from pydash import is_blank
 
+PROJECT_CORRECTIONS = {
+    # suffix changes
+    'TESTES': 'TESTIS',
+    'HAEMATOPOIETIC_AND_LYMPHOID': 'HAEMATOPOIETIC_AND_LYMPHOID_TISSUE',
+    # wholesale name changes
+    '[MERGED_TO_ACH-000474]NCIH292_LUNG': 'LUNG',
+    '[MERGED_TO_ACH-000109]H3255_LUNG': 'LUNG'
+}
+
 
 def transform(path="source/ccle/DepMap-2018q3-celllines.csv",
               prefix="ccle"):
@@ -18,7 +27,7 @@ def transform(path="source/ccle/DepMap-2018q3-celllines.csv",
     # Broad_ID,CCLE_Name,Aliases,COSMIC_ID,Sanger ID,Primary Disease,Subtype Disease,Gender,Source
     # ACH-000557,AML193_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE,AML-193,,,Leukemia,,Female,ATCC
     for row in reader:
-        sample_id = row["CCLE_Name"]
+        sample_id = row["Broad_ID"]
         b = Biosample(sample_id, ccle_attributes=row)
         emitter.emit_vertex(b)
 
@@ -41,7 +50,17 @@ def transform(path="source/ccle/DepMap-2018q3-celllines.csv",
             i.gid(),
         )
 
-        project_id = '_'.join(sample_id.split('_')[1:])
+        # first see if we have wholesale name changes
+        project_id = PROJECT_CORRECTIONS.get(row["CCLE_Name"], row["CCLE_Name"])
+        # strip off prefix
+        name_parts = project_id.split('_')
+        name_start = 1
+        if len(name_parts) == 1:
+            name_start = 0
+        project_id = '_'.join(name_parts[name_start:])
+        # suffix name changes
+        project_id = PROJECT_CORRECTIONS.get(project_id, project_id)
+        # create project
         p = Project(project_id='CCLE:{}'.format(project_id))
         if p.gid() not in project_gids:
             emitter.emit_vertex(p)

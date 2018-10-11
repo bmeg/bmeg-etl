@@ -233,7 +233,7 @@ class ExpressionOf(Edge):
 @dataclass(frozen=True)
 class DrugResponseIn(Edge):
     """
-    DrugResponse -> Biosample
+    DrugResponse -> Aliquot
     """
     pass
 

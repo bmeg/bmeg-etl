@@ -35,6 +35,7 @@ def transform(
     store = new_store('key-val', path=store_path, index=True)
     store.index()  # default is no index
     c = t = e = 0
+    dups = []
     for file in files:
         logging.info(file)
         with reader(file) as ins:
@@ -80,7 +81,9 @@ def transform(
                     store.put(phenotype.get('name', phenotype.get('term')), phenotype)
 
                     phenotype = Phenotype.from_dict(phenotype)
-                    emitter.emit_vertex(phenotype)
+                    if phenotype.gid() not in dups:
+                        emitter.emit_vertex(phenotype)
+                    dups.append(phenotype.gid())
                     phenotype_cache[phenotype_gid] = phenotype
                     c += 1
                     t += 1

@@ -22,7 +22,7 @@ CCLE_EXTENSION_MAF_KEYS = [
     'isCOSMIChotspot', 'COSMIChsCnt', 'ExAC_AF', 'WES_AC', 'WGS_AC', 'SangerWES_AC', 'SangerRecalibWES_AC', 'RNAseq_AC', 'HC_AC', 'RD_AC',
 ]
 
-TUMOR_SAMPLE_BARCODE = "Tumor_Sample_Barcode"  # 15
+TUMOR_SAMPLE_BARCODE = "Broad_ID"  # 15
 NORMAL_SAMPLE_BARCODE = "Matched_Norm_Sample_Barcode"  # 16
 
 
@@ -46,24 +46,21 @@ class CCLE_MAFTransformer(MAFTransformer):
     def callset_maker(self, allele, source, centerCol, method, line):
         """ create callset from line """
         aliquot_id = self.barcode_to_aliquot_id(line[TUMOR_SAMPLE_BARCODE])
-        sample_callsets = []
-        sample_calls = []
         callset = Callset(tumor_aliquot_id=aliquot_id,
                           normal_aliquot_id=None,
-                          call_method=method,
                           source=source)
-        sample_callsets.append(callset)
-        sample_calls.append((self.allele_call_maker(allele, line),
-                             callset.gid()))
-        return sample_calls, sample_callsets
+        sample_call = (self.allele_call_maker(allele, line, method), callset.gid())
 
-    def allele_call_maker(self, allele, line=None):
+        return [sample_call], [callset]
+
+    def allele_call_maker(self, allele, line, method):
         """ create call from line """
         info = {}
         for k in CCLE_EXTENSION_CALLSET_KEYS:
             v = get_value(line, k, None)
             if v:
                 info[k] = v
+        info['call_methods'] = [method]
         return AlleleCall(info)
 
     def create_allele_dict(self, line, genome='GRCh37'):

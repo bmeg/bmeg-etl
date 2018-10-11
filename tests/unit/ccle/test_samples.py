@@ -3,7 +3,16 @@ import os
 import contextlib
 import pytest
 from transform.ccle.samples import transform
-from bmeg.vertex import Biosample, Aliquot, Individual, Project
+from bmeg.vertex import Biosample, Aliquot, Individual, Project, Phenotype
+
+EXPECTED_PROJECT_GIDS = [
+    "Project:CCLE:HAEMATOPOIETIC_AND_LYMPHOID_TISSUE",
+    "Project:CCLE:CENTRAL_NERVOUS_SYSTEM",
+    "Project:CCLE:PROSTATE",
+    "Project:CCLE:STOMACH",
+    "Project:CCLE:URINARY_TRACT",
+    "Project:CCLE:SKIN"
+]
 
 
 @pytest.fixture
@@ -48,10 +57,14 @@ def validate(helpers, emitter_path_prefix, sample_info_file):
     assert individual_count == 9, 'expected individual_count'
     # test.Project.Vertex.json
     project_count = helpers.assert_vertex_file_valid(Project, project_file)
-    assert project_count == 6, 'expected project_count'
+    assert project_count == len(EXPECTED_PROJECT_GIDS), 'expected project_count'
 
     # test.AliquotFor.Edge.json
     helpers.assert_edge_file_valid(Aliquot, Biosample, aliquotfor_file)
+
+    # test.PhenotypeOf.Edge.json
+    helpers.assert_edge_file_valid(Aliquot, Phenotype, phenotype_of_file)
+
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(all_files)
 

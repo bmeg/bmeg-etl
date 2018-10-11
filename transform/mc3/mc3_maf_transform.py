@@ -34,6 +34,7 @@ class MC3_MAFTransformer(MAFTransformer):
     # callset source
     SOURCE = 'mc3'
     DEFAULT_PREFIX = SOURCE
+    DEFAULT_MAF_FILE = 'source/mc3/mc3.v0.2.8.PUBLIC.maf.gz'
 
     def barcode_to_aliquot_id(self, barcode):
         """ create tcga sample barcode """
@@ -52,28 +53,22 @@ class MC3_MAFTransformer(MAFTransformer):
         info = {}
         for k in MC3_EXTENSION_CALLSET_KEYS:
             info[k] = get_value(line, k, None)
+        call_methods = line.get('CENTERS', '')
+        call_methods = [call_method.replace('*', '') for call_method in call_methods.split("|")]
+        info['call_methods'] = call_methods
         return AlleleCall(info)
 
     def callset_maker(self, allele, source, centerCol, method, line):
         """ create callset from line """
         tumor_aliquot_gid = self.barcode_to_aliquot_id(line['Tumor_Sample_Barcode'])
         normal_aliquot_gid = self.barcode_to_aliquot_id(line['Matched_Norm_Sample_Barcode'])
-        call_methods = line['CENTERS']
-        if not call_methods:
-            call_methods = ''
 
-        sample_callsets = []
-        sample_calls = []
-        for call_method in call_methods.split("|"):
-            call_method = call_method.replace('*', '')
-            callset = Callset(tumor_aliquot_id=tumor_aliquot_gid,
-                              normal_aliquot_id=normal_aliquot_gid,
-                              call_method=call_method,
-                              source=source)
-            sample_callsets.append(callset)
-            sample_calls.append((self.allele_call_maker(allele, line),
-                                 callset.gid()))
-        return sample_calls, sample_callsets
+        sample_callset = Callset(tumor_aliquot_id=tumor_aliquot_gid,
+                                 normal_aliquot_id=normal_aliquot_gid,
+                                 source=source)
+        sample_call = (self.allele_call_maker(allele, line), sample_callset.gid())
+
+        return [sample_call], [sample_callset]
 
     def create_allele_dict(self, line, genome='GRCh37'):
         ''' return properly named allele dictionary, populated from line'''

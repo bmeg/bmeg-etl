@@ -82,7 +82,7 @@ def normalize(hit):
 
     hit['features'] = [a for a in alleles if a.gid() not in EXPORTED_ALLELES]
     hit['allele_has_gene'] = allele_has_gene
-    hit['minimal_alleles'] = [a for a in minimal_alleles if a.gid() not in EXPORTED_ALLELES]
+    hit['minimal_alleles'] = list(set([a for a in minimal_alleles if a.gid() not in EXPORTED_ALLELES]))
     hit['minimal_allele_has_gene'] = minimal_allele_has_gene
 
     allele_gids = [a.gid() for a in alleles]
