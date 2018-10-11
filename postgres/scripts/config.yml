@@ -104,7 +104,6 @@ vertex_files: |
   outputs/ensembl/Gene.Vertex.json
   outputs/ensembl/Transcript.Vertex.json
   outputs/ensembl-protein/ensembl-protein.Protein.Vertex.json
-  outputs/g2p/Deadletter.Vertex.json.gz
   outputs/g2p/G2PAssociation.Vertex.json.gz
   outputs/g2p/MinimalAllele.Vertex.json.gz
   outputs/gdc/Aliquot.Vertex.json

@@ -153,7 +153,7 @@ def main(dry, drop, index, config, workers=1):
             writer_threads.append(t)
 
         for edge_q in edge_qs:
-            t = threading.Thread(target=writer_worker, args=(edge_q, 'edge'))
+            t = threading.Thread(target=writer_worker, args=(pgconn, edge_q, 'edge'))
             t.start()
             writer_threads.append(t)
 
@@ -199,7 +199,7 @@ def main(dry, drop, index, config, workers=1):
 if __name__ == '__main__':  # pragma: no cover
 
     parser = argparse.ArgumentParser(description="Loads vertexes and edges into postgres")
-    parser.add_argument('--dry', dest='dry', action='store_true', default=True, help="echo commands, don't execute [False]")
+    parser.add_argument('--dry', dest='dry', action='store_true', default=False, help="echo commands, don't execute [False]")
     parser.add_argument('--drop', dest='drop', action='store_true', default=False, help="drop the tables first [False]")
     parser.add_argument('--skip_index', dest='index', action='store_false', default=True, help="index after loading [True]")
     config_path = "{}/config.yml".format(os.path.dirname(os.path.realpath(__file__)))
