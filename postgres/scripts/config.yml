@@ -14,10 +14,12 @@ postgres:
     port: 5432
 
 
-ddl: |
+drop: |
   DROP TABLE IF EXISTS vertex;
   DROP TABLE IF EXISTS edge;
 
+
+ddl: |
   CREATE TABLE IF NOT EXISTS  vertex (
    gid varchar not null,
    label varchar not null,

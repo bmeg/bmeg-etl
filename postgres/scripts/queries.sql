@@ -361,6 +361,12 @@ limit 10
     ;
 
 
+turn off paging
+```
+\pset pager off
+```
+
+
 show sizes
 
 ```
