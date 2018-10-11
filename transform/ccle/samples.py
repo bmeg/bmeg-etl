@@ -41,7 +41,7 @@ def transform(path="source/ccle/DepMap-2018q3-celllines.csv",
             i.gid(),
         )
 
-        project_id = row["CCLE_Name"]
+        project_id = '_'.join(row["CCLE_Name"].split('_')[1:])
         p = Project(project_id='CCLE:{}'.format(project_id))
         if p.gid() not in project_gids:
             emitter.emit_vertex(p)
