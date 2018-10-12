@@ -144,6 +144,10 @@ def main(dry, drop, index, config, workers=1):
         edge_qs = []
         for i in range(1):
             edge_qs.append(Queue(maxsize=2000))
+        matrix_qs = []
+        for i in range(1):
+            matrix_qs.append(Queue(maxsize=2000))
+
         writer_threads = []
         reader_threads = []
 
@@ -157,11 +161,20 @@ def main(dry, drop, index, config, workers=1):
             t.start()
             writer_threads.append(t)
 
+        for matrix_q in matrix_qs:
+            t = threading.Thread(target=writer_worker, args=(pgconn, matrix_q, 'matrix'))
+            t.start()
+            writer_threads.append(t)
+
         t = threading.Thread(target=reader_worker, args=(vertex_qs, config.vertex_files))
         t.start()
         reader_threads.append(t)
 
         t = threading.Thread(target=reader_worker, args=(edge_qs, config.edge_files))
+        t.start()
+        reader_threads.append(t)
+
+        t = threading.Thread(target=reader_worker, args=(matrix_qs, config.matrix_files))
         t.start()
         reader_threads.append(t)
 

@@ -729,6 +729,8 @@ select
             join edge g2p on (g2p.label = 'HasAlleleFeature' and g2p.to = al.from)
               join edge ph on (ph.label = 'HasPhenotype' and g2p.from = ph.from)
               join edge e on (e.label = 'HasEnvironment' and g2p.from = e.from)
+              join vertex g2p_v on (g2p_v.label = 'G2PAssociation' and g2p.from = g2p_v.to)
+
 ;
 
 allele | callset | aliquot | biosample | individual | project | g2p_association | phenotype | environment | treatment
@@ -737,5 +739,141 @@ allele | callset | aliquot | biosample | individual | project | g2p_association 
 (1 row)
 
 Time: 24250.170 ms (00:24.250)
+
+```
+
+
+set maintenance_work_mem = '10GB' ;
+set work_mem = '10GB' ;
+set max_parallel_workers_per_gather = 8 ;
+set effective_io_concurrency = 8 ;
+
+select
+  count(distinct al.from)  as "allele",
+  count(distinct c.to) as "callset",
+  count(distinct a.from) as "aliquot",
+  count(distinct a.to) as "biosample",
+  count(distinct i.to) as "individual",
+  count(distinct p.to) as "project",
+  count(distinct g2p.from) as "g2p_association",
+  count(distinct ph.to) as "phenotype",
+  count(distinct e.to) as "environment",
+  count(distinct t.to) as "treatment",
+  g2p_v.data->'source' as "source"
+  from edge as a
+    join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
+      join edge p on (p.label = 'InProject' and p.from = i.to)
+      join edge t on (t.label = 'TreatedWith' and t.from = i.to)
+        join edge c on (c.label = 'CallsetFor' and a.from = c.to)
+          join edge al on (al.label = 'AlleleCall' and c.from = al.to)
+            join edge g2p on (g2p.label = 'HasAlleleFeature' and g2p.to = al.from)
+              join edge ph on (ph.label = 'HasPhenotype' and g2p.from = ph.from)
+              join edge e on (e.label = 'HasEnvironment' and g2p.from = e.from)
+              join vertex g2p_v on (g2p_v.label = 'G2PAssociation' and g2p.from = g2p_v.gid)
+  GROUP BY
+  g2p_v.data->'source'
+;
+
+
+
+
+"""
+select
+    {SELECT}
+  from edge as a
+  {WHERE}
+  {GROUP_BY}
+  {ORDER_BY}
+;
+""".replace
+
+def Q(q):
+    join = """
+    edge as a
+      join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
+        join edge p on (p.label = 'InProject' and p.from = i.to)
+        join edge t on (t.label = 'TreatedWith' and t.from = i.to)
+          join edge c on (c.label = 'CallsetFor' and a.from = c.to)
+            join edge al on (al.label = 'AlleleCall' and c.from = al.to)
+              join edge g2p on (g2p.label = 'HasAlleleFeature' and g2p.to = al.from)
+                join edge ph on (ph.label = 'HasPhenotype' and g2p.from = ph.from)
+                join edge e on (e.label = 'HasEnvironment' and g2p.from = e.from)
+                join vertex g2p_v on (g2p_v.label = 'G2PAssociation' and g2p.from = g2p_v.gid)
+    """
+    return q.format(join=join)
+
+
+view of raw edge joins
+
+```
+create or replace view alleles
+  as
+  select
+    p.to      as "project_gid",
+    i.to      as "individual_gid",
+    i.from    as "biosample_gid",
+    al.from   as "allele_gid",
+    c.from    as "callset_gid",
+    g2p.from  as "g2passociation_gid",
+    ph.to     as "phenotype_gid",
+    e.to      as "environment_gid",
+    t.to      as "treatment_gid"
+  from
+    edge as a
+      join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
+        join edge p on (p.label = 'InProject' and p.from = i.to)
+        join edge t on (t.label = 'TreatedWith' and t.from = i.to)
+          join edge c on (c.label = 'CallsetFor' and a.from = c.to)
+            join edge al on (al.label = 'AlleleCall' and c.from = al.to)
+              join edge g2p on (g2p.label = 'HasAlleleFeature' and g2p.to = al.from)
+                join edge ph on (ph.label = 'HasPhenotype' and g2p.from = ph.from)
+                join edge e on (e.label = 'HasEnvironment' and g2p.from = e.from)
+                join vertex g2p_v on (g2p_v.label = 'G2PAssociation' and g2p.from = g2p_v.gid)
+;
+
+```
+
+use the edge view to conviently write queries
+
+```
+select
+  g2p.data->>'source' as "source", g2p.data->>'evidence_label' as "evidence_label", count(distinct alleles.allele_gid)
+from
+  alleles
+    join vertex g2p on (g2p.label = 'G2PAssociation' and alleles.g2passociation_gid = g2p.gid )
+group by
+  source, evidence_label;
+
+  source         | evidence_label | count
+  -----------------------+----------------+-------
+  cgi                   | B              |     5
+  cgi                   | C              |    27
+  cgi                   | D              |   128
+  civic                 | C              |     4
+  civic                 | D              |     6
+  jax                   | C              |     2
+  jax                   | D              |    21
+  jax_trials            | D              |     3
+  molecularmatch_trials | B              |     1
+  molecularmatch_trials | C              |     2
+  molecularmatch_trials | D              |     1
+  oncokb                | D              |    15
+  (12 rows)
+
+  Time: 64810.378 ms (01:04.810)
+
+```
+
+binary for jsquery
+```
+https://wiki.postgresql.org/wiki/Apt
+https://www.ubuntuupdates.org/package/postgresql/trusty-pgdg/main/base/postgresql-11-jsquery
+
+
+sudo apt-get update
+sudo apt-get install wget ca-certificates
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+sudo apt-get install postgresql-10-jsquery
 
 ```

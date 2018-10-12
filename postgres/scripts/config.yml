@@ -17,6 +17,7 @@ postgres:
 drop: |
   DROP TABLE IF EXISTS vertex;
   DROP TABLE IF EXISTS edge;
+  DROP TABLE IF EXISTS matrix;
 
 
 ddl: |
@@ -34,6 +35,13 @@ ddl: |
    data jsonb
   );
 
+  CREATE TABLE IF NOT EXISTS  matrix (
+   gid varchar           not null,
+   key varchar           not null,
+   val double precision  not null
+  );
+
+
 indexes: |
   set maintenance_work_mem = '10GB' ;
   set work_mem = '10GB' ;
@@ -47,6 +55,11 @@ indexes: |
   CREATE INDEX edge_label_to_from ON edge (label, "to", "from");
   -- index vertex payload
   CREATE INDEX vertex_data on vertex USING gin  (data);
+  -- index matrix
+  CREATE INDEX matrix_gid_key_val on matrix (gid, key, val);
+  CREATE INDEX matrix_val_key_gid on matrix (val, key, gid);
+  CREATE INDEX matrix_key_val_gid on matrix (key, val, gid);
+  --
   ANALYZE vertex ;
   ANALYZE edge ;
 
@@ -58,6 +71,7 @@ edge_files: |
   outputs/ccle/BiosampleFor.Edge.json.gz
   outputs/ccle/CallsetFor.Edge.json.gz
   outputs/ccle/InProject.Edge.json.gz
+  outputs/ccle/ExpressionOf.Edge.json.gz
   outputs/coca/coca.COCAClusterFor.Edge.json
   outputs/compound/normalized.HasEnvironment.Edge.json
   outputs/compound/normalized.ResponseTo.Edge.json
@@ -119,6 +133,10 @@ vertex_files: |
   outputs/mc3/Callset.Vertex.json.gz
   outputs/pfam/pfam.PFAMFamily.Vertex.json
   outputs/phenotype/normalized.Phenotype.Vertex.json
+
+
+matrix_files: |
+  outputs/ccle/Expression.Vertex.json.gz
 
 
 # outputs/pubmed/pubmed18n0001.Publication.Vertex.json
