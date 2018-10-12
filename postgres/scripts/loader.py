@@ -33,20 +33,12 @@ def execute(pgconn, commands):
     pgconn.commit()
 
 
-def gtex_expression_data(row):
-    """
-    flatten gtex expression data from data.values.ENSG00000223972 = 0.1081
-    to data.values = [ {name:'ENSG00000223972', value:0.1081}, ...]
-    """
-    # row['data']['values'] = [[k,row['data']['values'][k]] for k in row['data']['values'].keys()]
-    row['data']['values'] = [{'name': k, 'value': row['data']['values'][k]} for k in row['data']['values'].keys()]
-    return row
-
-
-def transform(file, row):
+def transform(file, row, keys_to_delete):
     """ transform if necessary """
     # if file == 'outputs/gtex/gtex.Expression.Vertex.json':
     #     return gtex_expression_data(row)
+    for k in keys_to_delete:
+        del row[k]
     return row
 
 
@@ -66,9 +58,7 @@ def rows(files, keys_to_delete=['_id'], batch_size=10000):
                     c += 1
                     t += 1
                     obj = ujson.loads(line)
-                    for k in keys_to_delete:
-                        del obj[k]
-                    yield transform(f, obj)
+                    yield transform(f, obj, keys_to_delete)
                     if c % batch_size == 0:
                         c = 0
                         logging.info('loaded {} {}'.format(f, t))
@@ -78,7 +68,38 @@ def rows(files, keys_to_delete=['_id'], batch_size=10000):
             logging.error(f)
 
 
+def matrix_rows(files, keys_to_delete=['_id'], batch_size=10000):
+    """
+    generator: read in all rows from all files,
+    remove keys_to_delete before yielding
+    log message every batch_size
+    """
+    t = c = 0
+    for f in files:
+        # logging.info('reading {}'.format(f))
+        t = 0
+        try:
+            with reader(f) as ins:
+                for line in ins:
+                    c += 1
+                    t += 1
+                    obj = ujson.loads(line)
+                    for k in keys_to_delete:
+                        del obj[k]
+                    del obj['data']['values']
+                    values = ujson.loads(line)['data']['values']
+                    matrix = [{'expression': obj['gid'], 'name': k, 'value': values[k]} for k in values.keys() if values[k] != 0]
+                    yield obj, matrix
+                    if c % batch_size == 0:
+                        c = 0
+                        logging.info('loaded {} {}'.format(f, t))
+            logging.info('loaded {}'.format(f))
+        except Exception as e:
+            logging.exception(e)
+            logging.error(f)
+
 # connect to table, load it and log count
+
 
 SENTINEL = 'XXXXXX'
 
@@ -91,13 +112,17 @@ def writer_worker(pgconn, q, table_name):
     logging.info('writer worker done')
 
 
-def reader_worker(qs, files):
+def reader_worker(q, files):
     """ write to q from files """
-    c = 0
     for row in rows(files):
-        c += 1
-        i = c % len(qs)
-        qs[i].put(row)
+        q.put(row)
+
+
+def matrix_reader_worker(vertex_q, matrix_q, files):
+    """ write to q from files """
+    for vertex, matrix in matrix_rows(files):
+        vertex_q.put(vertex)
+        matrix_q.put(vertex)
 
 
 def main(dry, drop, index, config, workers=1):
@@ -107,6 +132,7 @@ def main(dry, drop, index, config, workers=1):
     config = types.SimpleNamespace(**config)
     config.edge_files = config.edge_files.strip().split()
     config.vertex_files = config.vertex_files.strip().split()
+    config.matrix_files = config.matrix_files.strip().split()
 
     pgconn = None
     if dry:
@@ -131,56 +157,48 @@ def main(dry, drop, index, config, workers=1):
         execute(pgconn, [config.ddl])
         logging.info('tables created')
 
-    for fname in config.vertex_files + config.edge_files:
+    for fname in config.vertex_files + config.edge_files + config.matrix_files:
         assert os.path.isfile(fname), '{} does not exist'.format(fname)
 
     if dry:
         logging.info('dry run: read from {}'.format(config.vertex_files + config.edge_files))
     else:
         # create queues and threads
-        vertex_qs = []
-        for i in range(1):
-            vertex_qs.append(Queue(maxsize=2000))
-        edge_qs = []
-        for i in range(1):
-            edge_qs.append(Queue(maxsize=2000))
-        matrix_qs = []
-        for i in range(1):
-            matrix_qs.append(Queue(maxsize=2000))
+        vertex_q = Queue(maxsize=2000)
+        edge_q = Queue(maxsize=2000)
+        matrix_q = Queue(maxsize=2000)
+        all_queues = [vertex_q, edge_q, matrix_q]
 
         writer_threads = []
         reader_threads = []
 
-        for vertex_q in vertex_qs:
-            t = threading.Thread(target=writer_worker, args=(pgconn, vertex_q, 'vertex'))
-            t.start()
-            writer_threads.append(t)
+        t = threading.Thread(target=writer_worker, args=(pgconn, vertex_q, 'vertex'))
+        t.start()
+        writer_threads.append(t)
 
-        for edge_q in edge_qs:
-            t = threading.Thread(target=writer_worker, args=(pgconn, edge_q, 'edge'))
-            t.start()
-            writer_threads.append(t)
+        t = threading.Thread(target=writer_worker, args=(pgconn, edge_q, 'edge'))
+        t.start()
+        writer_threads.append(t)
 
-        for matrix_q in matrix_qs:
-            t = threading.Thread(target=writer_worker, args=(pgconn, matrix_q, 'matrix'))
-            t.start()
-            writer_threads.append(t)
+        t = threading.Thread(target=writer_worker, args=(pgconn, matrix_q, 'matrix'))
+        t.start()
+        writer_threads.append(t)
 
-        t = threading.Thread(target=reader_worker, args=(vertex_qs, config.vertex_files))
+        t = threading.Thread(target=reader_worker, args=(vertex_q, config.vertex_files))
         t.start()
         reader_threads.append(t)
 
-        t = threading.Thread(target=reader_worker, args=(edge_qs, config.edge_files))
+        t = threading.Thread(target=reader_worker, args=(edge_q, config.edge_files))
         t.start()
         reader_threads.append(t)
 
-        t = threading.Thread(target=reader_worker, args=(matrix_qs, config.matrix_files))
+        t = threading.Thread(target=reader_worker, args=(vertex_q, matrix_q, config.matrix_files))
         t.start()
         reader_threads.append(t)
 
         # Blocks until all items in the queue have been gotten and processed.
         logging.info('waiting on queues')
-        for q in vertex_qs + edge_qs:
+        for q in all_queues:
             q.join()
         # block until all tasks are done
         logging.info('waiting on reader_threads')
@@ -189,7 +207,7 @@ def main(dry, drop, index, config, workers=1):
         # block until all reader tasks are done
         for t in reader_threads:
             # tell writers to exit
-            for q in vertex_qs + edge_qs:
+            for q in all_queues:
                 q.put(SENTINEL)
         # block until all writer tasks are done
         logging.info('waiting on writer_threads')
