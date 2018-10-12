@@ -122,7 +122,7 @@ def matrix_reader_worker(vertex_q, matrix_q, files):
     """ write to q from files """
     for vertex, matrix in matrix_rows(files):
         vertex_q.put(vertex)
-        matrix_q.put(vertex)
+        matrix_q.put(matrix)
 
 
 def main(dry, drop, index, config, workers=1):
