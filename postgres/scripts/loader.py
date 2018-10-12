@@ -193,7 +193,7 @@ def main(dry, drop, index, config, workers=1):
         t.start()
         reader_threads.append(t)
 
-        t = threading.Thread(target=reader_worker, args=(vertex_q, matrix_q, config.matrix_files))
+        t = threading.Thread(target=matrix_reader_worker, args=(vertex_q, matrix_q, config.matrix_files))
         t.start()
         reader_threads.append(t)
 

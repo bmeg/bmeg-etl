@@ -64,11 +64,12 @@ indexes: |
   CREATE INDEX matrix_key_val_gid on matrix (key, val, gid);
   ANALYZE matrix ;
 
+edge_files: ''
 
-edge_files: |
-  outputs/ccle/ExpressionOf.Edge.json.gz
-  outputs/gtex/gtex.ExpressionOf.Edge.json.gz
 
+# edge_files: |
+#   outputs/ccle/ExpressionOf.Edge.json.gz
+#   outputs/gtex/gtex.ExpressionOf.Edge.json.gz
 # outputs/ccle/AliquotFor.Edge.json.gz
 # outputs/ccle/AlleleCall.Edge.json.gz
 # outputs/ccle/AlleleIn.Edge.json.gz
