@@ -88,7 +88,7 @@ def matrix_rows(files, keys_to_delete=['_id'], batch_size=10000):
                         del obj[k]
                     del obj['data']['values']
                     values = ujson.loads(line)['data']['values']
-                    matrix = [{'expression': obj['gid'], 'name': k, 'value': values[k]} for k in values.keys() if values[k] != 0]
+                    matrix = [{'gid': obj['gid'], 'name': k, 'value': values[k]} for k in values.keys() if values[k] != 0]
                     yield obj, matrix
                     if c % batch_size == 0:
                         c = 0
