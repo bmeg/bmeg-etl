@@ -133,6 +133,7 @@ def main(dry, drop, index, config, workers=1):
     config.edge_files = config.edge_files.strip().split()
     config.vertex_files = config.vertex_files.strip().split()
     config.matrix_files = config.matrix_files.strip().split()
+    all_files = config.vertex_files + config.edge_files + config.matrix_files
 
     pgconn = None
     if dry:
@@ -157,11 +158,11 @@ def main(dry, drop, index, config, workers=1):
         execute(pgconn, [config.ddl])
         logging.info('tables created')
 
-    for fname in config.vertex_files + config.edge_files + config.matrix_files:
+    for fname in all_files:
         assert os.path.isfile(fname), '{} does not exist'.format(fname)
 
     if dry:
-        logging.info('dry run: read from {}'.format(config.vertex_files + config.edge_files))
+        logging.info('dry run: read from {}'.format(all_files))
     else:
         # create queues and threads
         vertex_q = Queue(maxsize=2000)
