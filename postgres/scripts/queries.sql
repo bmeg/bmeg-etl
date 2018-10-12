@@ -626,6 +626,34 @@ select
 ```
 
 
+alleles that exist in a project and exist in g2p
+
+```
+
+select
+  count(distinct al.from)  as "allele",
+  count(distinct c.to) as "callset",
+  count(distinct a.from) as "aliquot",
+  count(distinct a.to) as "biosample",
+  count(distinct i.to) as "individual",
+  count(distinct p.to) as "project",
+  count(distinct g2p.from) as "g2p_association"
+  from edge as a
+    join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
+      join edge p on (p.label = 'InProject' and p.from = i.to)
+        join edge c on (c.label = 'CallsetFor' and a.from = c.to)
+          join edge al on (al.label = 'AlleleCall' and c.from = al.to)
+            join edge g2p on (g2p.label = 'HasAlleleFeature' and g2p.to = al.from)
+;
+
+allele | callset | aliquot | biosample | individual | project | g2p_association
+--------+---------+---------+-----------+------------+---------+-----------------
+  1385 |   12280 |   12280 |     12280 |       6523 |      67 |            8314
+(1 row)
+
+Time: 44967.470 ms (00:44.967)
+
+```
 
 
 
@@ -636,10 +664,78 @@ select
   count(distinct a.to) as "biosample",
   count(distinct i.to) as "individual",
   count(distinct p.to) as "project",
-  count(distinct ass.from) as "g2p_association",  
+  count(distinct g2p.from) as "g2p_association",
+  count(distinct ph.to) as "phenotype"
   from edge as a
     join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
       join edge p on (p.label = 'InProject' and p.from = i.to)
         join edge c on (c.label = 'CallsetFor' and a.from = c.to)
           join edge al on (al.label = 'AlleleCall' and c.from = al.to)
-            join edge ass on (ass.label = 'HasAlleleFeature' and ass.to = al.from)
+            join edge g2p on (g2p.label = 'HasAlleleFeature' and g2p.to = al.from)
+              join edge ph on (ph.label = 'HasPhenotype' and g2p.from = ph.from)
+
+;
+
+```
+select
+  count(distinct al.from)  as "allele",
+  count(distinct c.to) as "callset",
+  count(distinct a.from) as "aliquot",
+  count(distinct a.to) as "biosample",
+  count(distinct i.to) as "individual",
+  count(distinct p.to) as "project",
+  count(distinct g2p.from) as "g2p_association",
+  count(distinct ph.to) as "phenotype",
+  count(distinct e.to) as "environment"
+  from edge as a
+    join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
+      join edge p on (p.label = 'InProject' and p.from = i.to)
+        join edge c on (c.label = 'CallsetFor' and a.from = c.to)
+          join edge al on (al.label = 'AlleleCall' and c.from = al.to)
+            join edge g2p on (g2p.label = 'HasAlleleFeature' and g2p.to = al.from)
+              join edge ph on (ph.label = 'HasPhenotype' and g2p.from = ph.from)
+              join edge e on (e.label = 'HasEnvironment' and g2p.from = e.from)
+;
+allele | callset | aliquot | biosample | individual | project | g2p_association | phenotype | environment
+--------+---------+---------+-----------+------------+---------+-----------------+-----------+-------------
+   372 |    8651 |    8651 |      8651 |       4608 |      63 |             247 |       314 |         289
+(1 row)
+
+Time: 36476.066 ms (00:36.476)
+```
+
+what are the counts of all alleles :
+* that have individuals in projects who have had treatments
+* that are have evidence with a  compound
+
+```
+select
+  count(distinct al.from)  as "allele",
+  count(distinct c.to) as "callset",
+  count(distinct a.from) as "aliquot",
+  count(distinct a.to) as "biosample",
+  count(distinct i.to) as "individual",
+  count(distinct p.to) as "project",
+  count(distinct g2p.from) as "g2p_association",
+  count(distinct ph.to) as "phenotype",
+  count(distinct e.to) as "environment",
+  count(distinct t.to) as "treatment"
+  from edge as a
+    join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
+      join edge p on (p.label = 'InProject' and p.from = i.to)
+      join edge t on (t.label = 'TreatedWith' and t.from = i.to)
+        join edge c on (c.label = 'CallsetFor' and a.from = c.to)
+          join edge al on (al.label = 'AlleleCall' and c.from = al.to)
+            join edge g2p on (g2p.label = 'HasAlleleFeature' and g2p.to = al.from)
+              join edge ph on (ph.label = 'HasPhenotype' and g2p.from = ph.from)
+              join edge e on (e.label = 'HasEnvironment' and g2p.from = e.from)
+;
+
+allele | callset | aliquot | biosample | individual | project | g2p_association | phenotype | environment | treatment
+--------+---------+---------+-----------+------------+---------+-----------------+-----------+-------------+-----------
+   174 |    1878 |    1878 |      1878 |        908 |      19 |             102 |       163 |         115 |       150
+(1 row)
+
+Time: 24250.170 ms (00:24.250)
+
+```

@@ -17,6 +17,7 @@ outputs/coca/coca.COCACluster.Vertex.json
 outputs/compound/normalized.Compound.Vertex.json
 outputs/compound/normalized.HasEnvironment.Edge.json
 outputs/compound/normalized.ResponseTo.Edge.json
+outputs/compound/normalized.TreatedWith.Edge.json
 outputs/ensembl/ExonFor.Edge.json
 outputs/ensembl/Exon.Vertex.json
 outputs/ensembl/Gene.Vertex.json
