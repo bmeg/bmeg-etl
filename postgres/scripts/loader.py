@@ -76,7 +76,7 @@ def matrix_rows(files, keys_to_delete=['_id'], batch_size=10000):
     """
     t = c = 0
     for f in files:
-        # logging.info('reading {}'.format(f))
+        logging.info('reading {}'.format(f))
         t = 0
         try:
             with reader(f) as ins:
@@ -88,11 +88,12 @@ def matrix_rows(files, keys_to_delete=['_id'], batch_size=10000):
                         del obj[k]
                     del obj['data']['values']
                     values = ujson.loads(line)['data']['values']
-                    matrix = [{'gid': obj['gid'], 'name': k, 'value': values[k]} for k in values.keys() if values[k] != 0]
+                    matrix = [{'gid': obj['gid'], 'key': k, 'val': values[k]} for k in values.keys() if values[k] != 0]
+                    logging.info('yielded {}'.format(obj['gid']))
                     yield obj, matrix
                     if c % batch_size == 0:
                         c = 0
-                        logging.info('loaded {} {}'.format(f, t))
+                        logging.info('loading {} {}'.format(f, t))
             logging.info('loaded {}'.format(f))
         except Exception as e:
             logging.exception(e)
@@ -121,6 +122,7 @@ def reader_worker(q, files):
 def matrix_reader_worker(vertex_q, matrix_q, files):
     """ write to q from files """
     for vertex, matrix in matrix_rows(files):
+        print(vertex['gid'], len(matrix))
         vertex_q.put(vertex)
         for item in matrix:
             matrix_q.put(item)

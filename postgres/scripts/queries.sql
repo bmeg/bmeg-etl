@@ -812,8 +812,9 @@ create or replace view alleles
     p.to      as "project_gid",
     i.to      as "individual_gid",
     i.from    as "biosample_gid",
-    al.from   as "allele_gid",
+    c.to      as "aliquot_gid",
     c.from    as "callset_gid",
+    al.from   as "allele_gid",
     g2p.from  as "g2passociation_gid",
     ph.to     as "phenotype_gid",
     e.to      as "environment_gid",
@@ -837,28 +838,30 @@ use the edge view to conviently write queries
 
 ```
 select
-  g2p.data->>'source' as "source", g2p.data->>'evidence_label' as "evidence_label", count(distinct alleles.allele_gid)
+  g2p.data->>'source' as "source",
+  g2p.data->>'evidence_label' as "evidence_label",
+  count(distinct alleles.allele_gid) as "allele_count"
 from
   alleles
     join vertex g2p on (g2p.label = 'G2PAssociation' and alleles.g2passociation_gid = g2p.gid )
 group by
   source, evidence_label;
 
-  source         | evidence_label | count
-  -----------------------+----------------+-------
-  cgi                   | B              |     5
-  cgi                   | C              |    27
-  cgi                   | D              |   128
-  civic                 | C              |     4
-  civic                 | D              |     6
-  jax                   | C              |     2
-  jax                   | D              |    21
-  jax_trials            | D              |     3
-  molecularmatch_trials | B              |     1
-  molecularmatch_trials | C              |     2
-  molecularmatch_trials | D              |     1
-  oncokb                | D              |    15
-  (12 rows)
+  source         | evidence_label | allele_count
+-----------------------+----------------+--------------
+cgi                   | B              |            5
+cgi                   | C              |           27
+cgi                   | D              |          128
+civic                 | C              |            4
+civic                 | D              |            6
+jax                   | C              |            2
+jax                   | D              |           21
+jax_trials            | D              |            3
+molecularmatch_trials | B              |            1
+molecularmatch_trials | C              |            2
+molecularmatch_trials | D              |            1
+oncokb                | D              |           15
+(12 rows)
 
   Time: 64810.378 ms (01:04.810)
 
@@ -866,14 +869,133 @@ group by
 
 binary for jsquery
 ```
-https://wiki.postgresql.org/wiki/Apt
-https://www.ubuntuupdates.org/package/postgresql/trusty-pgdg/main/base/postgresql-11-jsquery
+# https://wiki.postgresql.org/wiki/Apt
+# https://www.ubuntuupdates.org/package/postgresql/trusty-pgdg/main/base/postgresql-11-jsquery
 
 
 sudo apt-get update
-sudo apt-get install wget ca-certificates
+sudo apt-get install -y wget ca-certificates
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
-sudo apt-get install postgresql-10-jsquery
+sudo apt-get install -y postgresql-10-jsquery
 
+```
+
+Use jsquery @@ syntax to find alleles in the vicinity of chr10:35305276
+
+```
+select gid, data->'start' as "start", data->'chromosome' as "chromosome"   from vertex where label = 'Allele' and data @@ 'start ($ > 35305274 AND $ < 35305278) ';
+
+gid                       |  start   | chromosome
+-------------------------------------------------+----------+------------
+Allele:000010b2803f336a076a45db8cc4ccc34a587680 | 35305277 | "10"
+Allele:41f2a16500d995b488a31e4a32f97308ef794149 | 35305277 | "10"
+Allele:b0b64df19182d3fe63d9edc3856f97446126f353 | 35305275 | "10"
+(3 rows)
+
+Time: 0.968 ms
+```
+
+
+select
+  g2p.data->>'source' as "source",
+  g2p.data->>'evidence_label' as "evidence_label",
+  count(distinct alleles.allele_gid) as "allele_count",
+  a.data#>>'{annotations,myvariantinfo,snpeff,ann,0,putative_impact}' as "putative_impact"
+
+from
+  alleles
+    join vertex g2p on (g2p.label = 'G2PAssociation' and alleles.g2passociation_gid = g2p.gid )
+    join vertex a on (a.label = 'Allele' and alleles.allele_gid = a.gid )
+group by
+  source, evidence_label, putative_impact;
+
+
+
+
+
+`Given an Allele, I'd like to find Aliquots, Individuals, Treatments, etc for Genes that are overexpressed`
+
+```
+# select * from matrix where key ='ENSG00000000419' and val > (select avg(val)*4 from matrix where key ='ENSG00000000419') ;
+            gid             |       key       |       val
+----------------------------+-----------------+------------------
+ Expression:ccle:ACH-000530 | ENSG00000000419 | 287.675842285156
+ Expression:ccle:ACH-000277 | ENSG00000000419 |  218.65934753418
+ Expression:ccle:ACH-000050 | ENSG00000000419 | 237.621643066406
+(3 rows)
+
+Time: 20.606 ms
+```
+
+
+
+select * from matrix where  val > (select avg(val)*4 from matrix m where m.key = matrix.key )  limit 1 ;
+
+create table  gene_expression_average  as select key,  avg(val) from matrix group by key  ;
+create index gene_expression_average_idx on gene_expression_average (key) ;
+
+select key, val  from matrix where gid = 'Expression:ccle:ACH-000728' and  val > (select a.avg*4 from gene_expression_average a where a.key = matrix.key )   ;
+select gid  from vertex where label = 'Allele' and data @@ 'annotations.myvariantinfo.snpeff.ann.#.putative_impact = "HIGH"' limit  1;
+
+
+It is very expensive to aggregate from callset->allele->gene
+```
+create or replace view alleles
+  as
+  select
+    p.to      as "project_gid",
+    i.to      as "individual_gid",
+    i.from    as "biosample_gid",
+    al.from   as "allele_gid",
+    c.from    as "callset_gid",
+    g2p.from  as "g2passociation_gid",
+    ph.to     as "phenotype_gid",
+    e.to      as "environment_gid",
+    t.to      as "treatment_gid",
+    g.to      as "gene_gid"
+  from
+    edge as a
+      join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
+        join edge p on (p.label = 'InProject' and p.from = i.to)
+        join edge t on (t.label = 'TreatedWith' and t.from = i.to)
+          join edge c on (c.label = 'CallsetFor' and a.from = c.to)
+            join edge al on (al.label = 'AlleleCall' and c.from = al.to)
+              join edge g on (g.label = 'AlleleIn' and al.from = g.from)
+              join edge g2p on (g2p.label = 'HasAlleleFeature' and g2p.to = al.from)
+                join edge ph on (ph.label = 'HasPhenotype' and g2p.from = ph.from)
+                join edge e on (e.label = 'HasEnvironment' and g2p.from = e.from)
+                join vertex g2p_v on (g2p_v.label = 'G2PAssociation' and g2p.from = g2p_v.gid)
+;
+```
+
+add link to expression
+```
+create or replace view alleles
+  as
+  select
+    p.to      as "project_gid",
+    i.to      as "individual_gid",
+    i.from    as "biosample_gid",
+    c.to      as "aliquot_gid",
+    ex.from   as "expression_gid",
+    c.from    as "callset_gid",
+    al.from   as "allele_gid",
+    g2p.from  as "g2passociation_gid",
+    ph.to     as "phenotype_gid",
+    e.to      as "environment_gid",
+    t.to      as "treatment_gid"
+  from
+    edge as a
+      join edge i on (a.label = 'AliquotFor' and i.from = a.to and i.label = 'BiosampleFor')
+        join edge p on (p.label = 'InProject' and p.from = i.to)
+        join edge t on (t.label = 'TreatedWith' and t.from = i.to)
+          join edge c on (c.label = 'CallsetFor' and a.from = c.to)
+          join edge ex on (ex.label = 'ExpressionOf' and ex.to = c.to)
+            join edge al on (al.label = 'AlleleCall' and c.from = al.to)
+              join edge g2p on (g2p.label = 'HasAlleleFeature' and g2p.to = al.from)
+                join edge ph on (ph.label = 'HasPhenotype' and g2p.from = ph.from)
+                join edge e on (e.label = 'HasEnvironment' and g2p.from = e.from)
+                join vertex g2p_v on (g2p_v.label = 'G2PAssociation' and g2p.from = g2p_v.gid)
+;
 ```
