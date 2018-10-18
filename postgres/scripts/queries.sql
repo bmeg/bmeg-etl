@@ -371,21 +371,21 @@ show sizes
 
 ```
 
-    CREATE OR REPLACE FUNCTION bmeg() RETURNS TABLE(relation varchar, kind varchar, size varchar)
-        AS $$
-        SELECT nspname || '.' || relname AS "relation",
-            relkind as "kind",
-            pg_size_pretty(pg_relation_size(C.oid)) AS "size"
-          FROM pg_class C
-          LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
-          WHERE nspname NOT IN ('pg_catalog', 'information_schema',  'pg_toast')
-          ORDER BY pg_relation_size(C.oid) DESC
-          LIMIT 20
-        $$
-        LANGUAGE SQL;
+CREATE OR REPLACE FUNCTION sizes() RETURNS TABLE(relation varchar, kind varchar, size varchar)
+  AS $$
+  SELECT nspname || '.' || relname AS "relation",
+      relkind || '' as "kind",
+      pg_size_pretty(pg_relation_size(C.oid)) AS "size"
+    FROM pg_class C
+    LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
+    WHERE nspname NOT IN ('pg_catalog', 'information_schema',  'pg_toast')
+    ORDER BY pg_relation_size(C.oid) DESC
+    LIMIT 20
+  $$
+  LANGUAGE SQL;
 
 
-        select * from bmeg();
+select * from sizes();
 
 
         bmeg_test=# select * from bmeg();
@@ -745,8 +745,8 @@ Time: 24250.170 ms (00:24.250)
 
 set maintenance_work_mem = '10GB' ;
 set work_mem = '10GB' ;
-set max_parallel_workers_per_gather = 8 ;
-set effective_io_concurrency = 8 ;
+set max_parallel_workers_per_gather = 12 ;
+set effective_io_concurrency = 12 ;
 
 select
   count(distinct al.from)  as "allele",
@@ -900,15 +900,16 @@ Time: 0.968 ms
 select
   g2p.data->>'source' as "source",
   g2p.data->>'evidence_label' as "evidence_label",
+  alleles.project_gid,
+  count(distinct alleles.aliquot_gid) as "aliquot_count",
   count(distinct alleles.allele_gid) as "allele_count",
   a.data#>>'{annotations,myvariantinfo,snpeff,ann,0,putative_impact}' as "putative_impact"
-
 from
-  alleles
+  alleles  -- edge joins view
     join vertex g2p on (g2p.label = 'G2PAssociation' and alleles.g2passociation_gid = g2p.gid )
     join vertex a on (a.label = 'Allele' and alleles.allele_gid = a.gid )
 group by
-  source, evidence_label, putative_impact;
+  source, evidence_label, project_gid, putative_impact;
 
 
 
@@ -998,4 +999,56 @@ create or replace view alleles
                 join edge e on (e.label = 'HasEnvironment' and g2p.from = e.from)
                 join vertex g2p_v on (g2p_v.label = 'G2PAssociation' and g2p.from = g2p_v.gid)
 ;
+```
+
+
+
+
+
+select
+  alleles.project_gid,
+  g2p.data->>'evidence_label' as "evidence_label",
+  count(distinct alleles.allele_gid) as "allele_count"
+from
+  alleles  -- edge joins view
+    join vertex g2p on (g2p.label = 'G2PAssociation' and alleles.g2passociation_gid = g2p.gid )
+    join vertex a on (a.label = 'Allele' and alleles.allele_gid = a.gid )
+group by
+  project_gid, evidence_label ;
+
+
+
+  select
+    alleles.project_gid,
+    a.data#>>'{annotations,myvariantinfo,snpeff,ann,0,putative_impact}' as "putative_impact",
+    count(distinct alleles.allele_gid) as "allele_count"
+  from
+    alleles  -- edge joins view
+      join vertex a on (a.label = 'Allele' and alleles.allele_gid = a.gid )
+  group by
+    project_gid, putative_impact;
+
+
+use jq and psql to load
+
+```
+# load a vertex
+ head -3  outputs/g2p/Phenotype.Vertex.json  | jq -rc  '"\(.gid)|\(.label)|\(.data)"' | psql -d test -c "copy vertex(gid, label, data) from stdin csv quote '^' delimiter '|' ;"
+# load a vertex first by loading all, except a particular json path
+zcat  outputs/ccle/Expression.Vertex.json.gz      | jq -rc  '.gid as $gid |  .data.values | to_entries  | map( . + {gid: $gid} )[]  | select(.value != 0 )  |  "\(.gid)|\(.key)|\(.value)"  '     | ~/sql -c "copy matrix(gid, key, val) from stdin csv quote '^' delimiter '|' ;"
+# load matrix using gid and data.values transposed ( 1 row per matrix value)
+zcat  outputs/ccle/Expression.Vertex.json.gz  | head -1  \
+    | jq -rc  '.gid as $gid |  .data.values | to_entries  | map( . + {gid: $gid} )[]  | select(.value != 0 )  |  "\(.gid)|\(.key)|\(.value)"  ' \
+    | ~/sql -c "copy matrix(gid, key, val) from stdin csv quote '^' delimiter '|' ;"
+
+
+
+cat  outputs/tcga/tcga.Expression.Vertex.json | \
+  jq -rc  'del(.data.values) | "\(.gid)|\(.label)|\(.data)"' | \
+  ~/sql -c "copy vertex(gid, label, data) from stdin csv quote '^' delimiter '|' ;"  &
+cat  outputs/tcga/tcga.Expression.Vertex.json  \
+    | jq -rc  '.gid as $gid |  .data.values | to_entries  | map( . + {gid: $gid} )[]  | select(.value != 0 )  |  "\(.gid)|\(.key)|\(.value)"  ' \
+    | ~/sql -c "copy matrix(gid, key, val) from stdin csv quote '^' delimiter '|' ;"    &
+
+
 ```

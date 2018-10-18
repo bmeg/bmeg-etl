@@ -14,10 +14,29 @@ postgres:
     port: 5432
 
 
+psql_cmd: psql -d bmeg_test
+
+# read from files, into cmd, pipe to into psql cmd
+commands:
+    - producer: jq -rc '"\(.gid)|\(.label)|\(.data)"'
+      consumer: copy vertex(gid, label, data) from stdin csv quote '^' delimiter '|' ;
+      files: vertex_files
+    - producer: jq -rc '"\(.gid)|\(.label)|\(.from)|\(.to)|\(.data)"'
+      consumer: copy edge(gid, label, "from", "to", data) from stdin csv quote '^' delimiter '|' ;
+      files: edge_files
+    - producer: jq -rc 'del(.data.values) | "\(.gid)|\(.label)|\(.data)"'
+      consumer: copy vertex(gid, label, data) from stdin csv quote '^' delimiter '|' ;
+      files: matrix_files
+    - producer: |
+        jq -rc '.gid as $gid |  .data.values | to_entries  | map( . + {gid: $gid} )[]  | select(.value != 0 )  |  "\(.gid)|\(.key)|\(.value)"  '
+      consumer: copy matrix(gid, key, val) from stdin csv quote '^' delimiter '|' ;
+      files: matrix_files
+
+
 drop: |
-  DROP TABLE IF EXISTS vertex;
-  DROP TABLE IF EXISTS edge;
-  DROP TABLE IF EXISTS matrix;
+  DROP TABLE IF EXISTS vertex CASCADE;
+  DROP TABLE IF EXISTS edge CASCADE;
+  DROP TABLE IF EXISTS matrix CASCADE;
 
 
 ddl: |
@@ -42,104 +61,114 @@ ddl: |
   );
 
 
-# set maintenance_work_mem = '10GB' ;
-# set work_mem = '10GB' ;
-# -- index identifiers
-# CREATE INDEX vertex_gid ON vertex (gid);
-# CREATE INDEX edge_gid ON edge (gid);
-# -- index vertex types
-# CREATE INDEX vertex_label ON vertex (label);
-# -- index edge traversals
-# CREATE INDEX edge_label_from_to ON edge (label, "from", "to");
-# CREATE INDEX edge_label_to_from ON edge (label, "to", "from");
-# -- index vertex payload
-# CREATE INDEX vertex_data on vertex USING gin  (data);
-# --
-# ANALYZE vertex ;
-# ANALYZE edge ;
-indexes: |
-  -- index matrix
-  CREATE INDEX matrix_gid_key_val on matrix (gid, key, val);
-  CREATE INDEX matrix_val_key_gid on matrix (val, key, gid);
-  CREATE INDEX matrix_key_val_gid on matrix (key, val, gid);
-  ANALYZE matrix ;
+indexes:
+  - |
+    -- increase worker memory
+    set maintenance_work_mem = '45 GB' ;
+    set work_mem = '45 GB' ;
+    set max_parallel_workers_per_gather = 10 ;
+    set effective_io_concurrency = 10 ;
+    -- index vertex
+    CREATE INDEX vertex_gid_idx ON vertex (gid);
+    CREATE INDEX vertex_label_idx ON vertex (label);
+    CREATE INDEX vertex_data_idx ON vertex USING gin (data jsonb_path_value_ops);
+    ANALYZE vertex ;
+  - |
+    -- increase worker memory
+    set maintenance_work_mem = '45 GB' ;
+    set work_mem = '45 GB' ;
+    set max_parallel_workers_per_gather = 10 ;
+    set effective_io_concurrency = 10 ;
+    -- index edges
+    CREATE INDEX edge_from_idx ON edge ("from");
+    CREATE INDEX edge_to_idx ON edge ("to");
+    CREATE INDEX edge_label_from_to_idx ON edge (label, "from", "to");
+    CREATE INDEX edge_label_to_from_idx ON edge (label, "to", "from");
+    ANALYZE edge ;
+  - |
+    -- increase worker memory
+    set maintenance_work_mem = '45 GB' ;
+    set work_mem = '45 GB' ;
+    set max_parallel_workers_per_gather = 10 ;
+    set effective_io_concurrency = 10 ;
+    -- index matrix
+    CREATE INDEX matrix_gid_idx on matrix (gid);
+    CREATE INDEX matrix_key_val on matrix (key, val);
+    ANALYZE matrix ;
 
-edge_files: ''
+
+edge_files: |
+  outputs/ccle/ExpressionOf.Edge.json.gz
+  outputs/gtex/gtex.ExpressionOf.Edge.json.gz
+  outputs/ccle/AliquotFor.Edge.json.gz
+  outputs/ccle/AlleleCall.Edge.json.gz
+  outputs/ccle/AlleleIn.Edge.json.gz
+  outputs/ccle/BiosampleFor.Edge.json.gz
+  outputs/ccle/CallsetFor.Edge.json.gz
+  outputs/ccle/InProject.Edge.json.gz
+  outputs/ccle/ExpressionOf.Edge.json.gz
+  outputs/coca/coca.COCAClusterFor.Edge.json
+  outputs/compound/normalized.HasEnvironment.Edge.json
+  outputs/compound/normalized.ResponseTo.Edge.json
+  outputs/compound/normalized.TreatedWith.Edge.json
+  outputs/ensembl/ExonFor.Edge.json
+  outputs/ensembl/TranscriptFor.Edge.json
+  outputs/ensembl-protein/ensembl-protein.PFAMAlignment.Edge.json
+  outputs/ensembl-protein/ensembl-protein.ProteinFor.Edge.json
+  outputs/ensembl-protein/ensembl-protein.StructureFor.Edge.json
+  outputs/g2p/AlleleIn.Edge.json.gz
+  outputs/g2p/HasAlleleFeature.Edge.json.gz
+  outputs/g2p/HasGeneFeature.Edge.json.gz
+  outputs/g2p/HasMinimalAlleleFeature.Edge.json.gz
+  outputs/g2p/HasSupportingReference.Edge.json.gz
+  outputs/g2p/MinimalAlleleIn.Edge.json.gz
+  outputs/gdc/AliquotFor.Edge.json
+  outputs/gdc/BiosampleFor.Edge.json
+  outputs/gdc/InProject.Edge.json
+  outputs/gdsc/gdsc.DrugResponseIn.Edge.json
+  outputs/go/GeneOntologyAnnotation.Edge.json
+  outputs/go/GeneOntologyIsA.Edge.json
+  outputs/gtex/gtex.AliquotFor.Edge.json.gz
+  outputs/gtex/gtex.BiosampleFor.Edge.json.gz
+  outputs/gtex/gtex.InProject.Edge.json.gz
+  outputs/mc3/AlleleCall.Edge.json.gz
+  outputs/mc3/AlleleIn.Edge.json.gz
+  outputs/mc3/CallsetFor.Edge.json.gz
+  outputs/pfam/pfam.GeneOntologyAnnotation.Edge.json
+  outputs/pfam/pfam.PFAMClanMember.Edge.json
+  outputs/phenotype/normalized.PhenotypeOf.Edge.json
+  outputs/phenotype/normalized.HasPhenotype.Edge.json
 
 
-# edge_files: |
-#   outputs/ccle/ExpressionOf.Edge.json.gz
-#   outputs/gtex/gtex.ExpressionOf.Edge.json.gz
-# outputs/ccle/AliquotFor.Edge.json.gz
-# outputs/ccle/AlleleCall.Edge.json.gz
-# outputs/ccle/AlleleIn.Edge.json.gz
-# outputs/ccle/BiosampleFor.Edge.json.gz
-# outputs/ccle/CallsetFor.Edge.json.gz
-# outputs/ccle/InProject.Edge.json.gz
-# outputs/ccle/ExpressionOf.Edge.json.gz
-# outputs/coca/coca.COCAClusterFor.Edge.json
-# outputs/compound/normalized.HasEnvironment.Edge.json
-# outputs/compound/normalized.ResponseTo.Edge.json
-# outputs/compound/normalized.TreatedWith.Edge.json
-# outputs/ensembl/ExonFor.Edge.json
-# outputs/ensembl/TranscriptFor.Edge.json
-# outputs/ensembl-protein/ensembl-protein.PFAMAlignment.Edge.json
-# outputs/ensembl-protein/ensembl-protein.ProteinFor.Edge.json
-# outputs/ensembl-protein/ensembl-protein.StructureFor.Edge.json
-# outputs/g2p/AlleleIn.Edge.json.gz
-# outputs/g2p/HasAlleleFeature.Edge.json.gz
-# outputs/g2p/HasGeneFeature.Edge.json.gz
-# outputs/g2p/HasMinimalAlleleFeature.Edge.json.gz
-# outputs/g2p/HasSupportingReference.Edge.json.gz
-# outputs/g2p/MinimalAlleleIn.Edge.json.gz
-# outputs/gdc/AliquotFor.Edge.json
-# outputs/gdc/BiosampleFor.Edge.json
-# outputs/gdc/InProject.Edge.json
-# outputs/gdsc/gdsc.DrugResponseIn.Edge.json
-# outputs/go/GeneOntologyAnnotation.Edge.json
-# outputs/go/GeneOntologyIsA.Edge.json
-# outputs/gtex/gtex.AliquotFor.Edge.json.gz
-# outputs/gtex/gtex.BiosampleFor.Edge.json.gz
-# outputs/gtex/gtex.InProject.Edge.json.gz
-# outputs/mc3/AlleleCall.Edge.json.gz
-# outputs/mc3/AlleleIn.Edge.json.gz
-# outputs/mc3/CallsetFor.Edge.json.gz
-# outputs/pfam/pfam.GeneOntologyAnnotation.Edge.json
-# outputs/pfam/pfam.PFAMClanMember.Edge.json
-# outputs/phenotype/normalized.PhenotypeOf.Edge.json
-# outputs/phenotype/normalized.HasPhenotype.Edge.json
+vertex_files: |
+  outputs/allele/Allele.Vertex.json.gz
+  outputs/ccle/Aliquot.Vertex.json.gz
+  outputs/ccle/Biosample.Vertex.json.gz
+  outputs/ccle/Callset.Vertex.json.gz
+  outputs/ccle/Individual.Vertex.json.gz
+  outputs/ccle/Project.Vertex.json.gz
+  outputs/coca/coca.COCACluster.Vertex.json
+  outputs/compound/normalized.Compound.Vertex.json
+  outputs/ensembl/Exon.Vertex.json
+  outputs/ensembl/Gene.Vertex.json
+  outputs/ensembl/Transcript.Vertex.json
+  outputs/ensembl-protein/ensembl-protein.Protein.Vertex.json
+  outputs/g2p/G2PAssociation.Vertex.json.gz
+  outputs/g2p/MinimalAllele.Vertex.json.gz
+  outputs/gdc/Aliquot.Vertex.json
+  outputs/gdc/Biosample.Vertex.json
+  outputs/gdc/Individual.Vertex.json
+  outputs/gdc/Project.Vertex.json
+  outputs/gdsc/gdsc.DrugResponse.Vertex.json
+  outputs/go/GeneOntologyTerm.Vertex.json
+  outputs/gtex/gtex.Aliquot.Vertex.json.gz
+  outputs/gtex/gtex.Biosample.Vertex.json.gz
+  outputs/gtex/gtex.Individual.Vertex.json.gz
+  outputs/gtex/gtex.Project.Vertex.json.gz
+  outputs/mc3/Callset.Vertex.json.gz
+  outputs/pfam/pfam.PFAMFamily.Vertex.json
+  outputs/phenotype/normalized.Phenotype.Vertex.json
 
-vertex_files: ''
-
-# vertex_files: |
-# outputs/allele/Allele.Vertex.json.gz
-# outputs/ccle/Aliquot.Vertex.json.gz
-# outputs/ccle/Biosample.Vertex.json.gz
-# outputs/ccle/Callset.Vertex.json.gz
-# outputs/ccle/Individual.Vertex.json.gz
-# outputs/ccle/Project.Vertex.json.gz
-# outputs/coca/coca.COCACluster.Vertex.json
-# outputs/compound/normalized.Compound.Vertex.json
-# outputs/ensembl/Exon.Vertex.json
-# outputs/ensembl/Gene.Vertex.json
-# outputs/ensembl/Transcript.Vertex.json
-# outputs/ensembl-protein/ensembl-protein.Protein.Vertex.json
-# outputs/g2p/G2PAssociation.Vertex.json.gz
-# outputs/g2p/MinimalAllele.Vertex.json.gz
-# outputs/gdc/Aliquot.Vertex.json
-# outputs/gdc/Biosample.Vertex.json
-# outputs/gdc/Individual.Vertex.json
-# outputs/gdc/Project.Vertex.json
-# outputs/gdsc/gdsc.DrugResponse.Vertex.json
-# outputs/go/GeneOntologyTerm.Vertex.json
-# outputs/gtex/gtex.Aliquot.Vertex.json.gz
-# outputs/gtex/gtex.Biosample.Vertex.json.gz
-# outputs/gtex/gtex.Individual.Vertex.json.gz
-# outputs/gtex/gtex.Project.Vertex.json.gz
-# outputs/mc3/Callset.Vertex.json.gz
-# outputs/pfam/pfam.PFAMFamily.Vertex.json
-# outputs/phenotype/normalized.Phenotype.Vertex.json
-#
 
 matrix_files: |
   outputs/ccle/Expression.Vertex.json.gz
