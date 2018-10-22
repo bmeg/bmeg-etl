@@ -50,3 +50,10 @@ postgres/data
 postgres/data
 
 .DS_Store
+
+index_*.txt
+edge_*.txt
+vertex_*.txt
+producer_commands.txt
+setup_commands.txt
+transform_and_load_commands.txt
