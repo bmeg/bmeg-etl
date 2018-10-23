@@ -313,7 +313,7 @@ def normalize(name):
         name = name.decode('utf8')
     except Exception:
         pass
-    name = str(name)
+    name = str(name).strip()
     # do we have a better name?
     if ALIASES.get(name, None):
         logging.info('The alias was {}'.format(ALIASES.get(name)))
