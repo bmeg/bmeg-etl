@@ -1,6 +1,6 @@
 import requests
 
-with open("outputs/pfam/id_list.txt", "w") as fh:
+with open("source/pfam/id_list.txt", "w") as fh:
     handle = requests.get("http://pfam.xfam.org/families?output=text")
     for line in handle.iter_lines():
         line = line.decode()

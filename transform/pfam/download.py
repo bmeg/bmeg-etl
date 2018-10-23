@@ -18,20 +18,22 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-output_dir = "outputs/pfam"
+output_dir = "source/pfam"
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
-if not os.path.exists("outputs/pfam/id_list.txt"):
+if not os.path.exists("source/pfam/id_list.txt"):
     raise Exception("missing ID list. Run transform/pfam/list.py")
 
-ids = open("outputs/pfam/id_list.txt").read().splitlines()
+ids = open("source/pfam/id_list.txt").read().splitlines()
 
 if args.archive:
     tar = tarfile.open(os.path.join(output_dir, "pfam.tar.gz"), "w:gz")
 
 for i in ids:
-    handle = client.get("http://pfam.xfam.org/family?output=xml&acc=%s" % i)
+    url = "http://pfam.xfam.org/family?output=xml&acc=%s" % i
+    print(url)
+    handle = client.get(url)
     txt = handle.text
     f = os.path.join(output_dir, "%s.xml" % (i))
     with open(f, "w") as handle:
