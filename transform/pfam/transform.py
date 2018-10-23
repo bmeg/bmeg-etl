@@ -6,6 +6,7 @@ from xml.dom.minidom import parseString
 from bmeg.vertex import PFAMFamily, PFAMClan, GeneOntologyTerm
 from bmeg.edge import GeneOntologyAnnotation, PFAMClanMember
 from bmeg.emitter import JSONEmitter
+from bmeg.ioutils import read_tsv
 
 
 def getText(nodelist):
@@ -93,9 +94,16 @@ def xml_transform(dom, emit):
 
 emitter = JSONEmitter("pfam")
 
-for f in glob("outputs/pfam/*.xml"):
+for f in glob("source/pfam/*.xml"):
     with open(f) as handle:
         dom = parseString(handle.read())
         xml_transform(dom, emitter)
+
+path = "source/pfam/clans.tsv"
+tsv_in = read_tsv(path)
+for line in tsv_in:
+    # accession	id	description
+    emitter.emit_vertex(PFAMClan.from_dict(line))
+
 
 emitter.close()
