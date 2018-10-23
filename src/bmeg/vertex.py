@@ -258,6 +258,8 @@ class Expression(Vertex):
 @dataclass(frozen=True)
 class PFAMClan(Vertex):
     accession: str
+    id: str
+    description: str
 
     def gid(self):
         return PFAMClan.make_gid(self.accession)
