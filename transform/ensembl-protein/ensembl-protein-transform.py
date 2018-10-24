@@ -11,7 +11,7 @@ from bmeg.emitter import JSONEmitter
 emitter = JSONEmitter("ensembl-protein")
 
 path = "source/ensembl-protein/homo_sapiens.json"
-
+dedup = []
 with open(path) as handle:
     genes = ijson.items(handle, 'genes.item')
     for gene in genes:
@@ -39,4 +39,8 @@ with open(path) as handle:
                                 from_gid=ProteinStructure.make_gid(pdb),
                                 to_gid=prot.gid()
                             )
+                            if pdb in dedup:
+                                continue
+                            emitter.emit_vertex(ProteinStructure(pdb))
+                            dedup.append(pdb)
 emitter.close()

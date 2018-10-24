@@ -204,7 +204,7 @@ class Protein(Vertex):
 @enforce_types
 @dataclass(frozen=True)
 class ProteinStructure(Vertex):
-    pdb_id: str
+    protein_id: str
 
     def gid(self):
         return ProteinStructure.make_gid(self.protein_id)
