@@ -27,6 +27,7 @@ def transform(
     path = '{}/{}'.format(output_dir, edge_names)
     files = [filename for filename in glob.iglob(path, recursive=True) if 'stub' not in filename]
     c = t = e = 0
+    dedup = []
     for file in files:
         logging.info(file)
         with reader(file) as ins:
@@ -34,11 +35,14 @@ def transform(
                 try:
                     edge = ujson.loads(line)
                     if 'Publication:' not in edge['gid']:
-                        logging.info('Edge {} has no publications that need transformation. skipping.'.format(file))
+                        logging.debug('Edge {} has no publications that need transformation. skipping.'.format(file))
                         break
                     # get edge components
                     to = edge['to']
-                    id = to.replace('Publication:', '')
+                    id = to.replace('Publication:', '').strip()
+                    if id in dedup:
+                        continue
+                    dedup.append(id)
                     title = abstract = text = date = author = citation = None
                     publication = Publication(id, title, abstract, text, date, author, citation)
                     emitter.emit_vertex(publication)
