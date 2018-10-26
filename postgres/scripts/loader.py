@@ -29,7 +29,7 @@ def transform_and_load(command, config):
             cat = 'zcat'
         consumer = '{} -c "{}"'.format(psql_cmd, command.consumer.strip().replace('"', '\\"'))
         producer = command.producer.strip()
-        yield '{} {} | head -3 | {} | {}'.format(cat, file, producer, consumer)
+        yield '{} {} | {} | {}'.format(cat, file, producer, consumer)
 
 
 def execute(ddls, psql_cmd):
