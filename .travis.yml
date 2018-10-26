@@ -8,7 +8,7 @@ sudo: true
 install:
   - pip3 install -r dev-requirements.txt
   - pip3 install -e .
-  - curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/non_alt_loci_set.json --output ./source/gene_enricher/non_alt_loci_set.json
+  - curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 https://drive.google.com/file/d/1-E0IEoKizf8taRBjMonDYRHWMwXpb19b/view?usp=sharing --output ./source/gene_enricher/non_alt_loci_set.json
 
 script:
   - flake8 .
