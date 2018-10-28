@@ -7,9 +7,9 @@ from types import SimpleNamespace as SN
 
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
-# from bmeg.vertex import Biosample, Aliquot, Individual, Project
-# from bmeg.edge import AliquotFor, BiosampleFor, InProject, PhenotypeOf
-# from bmeg.enrichers.drug_enricher import compound_factory
+from bmeg.vertex import ParamacalogicalProfile, Aliquot, Biosample, Individual, Project
+from bmeg.edge import ParamacalogicalProfileIn, ResponseTo, AliquotFor, BiosampleFor, InProject
+from bmeg.enrichers.drug_enricher import compound_factory
 
 
 NAMES = {
@@ -91,39 +91,68 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json*',
                 logging.debug('no-match', drug_response.ccle_cell_line_name, drug_response.primary_cell_line_name)
                 missing_cell_lines.append(drug_response.ccle_cell_line_name)
 
-        print('//TODO - use {} {} to create DrugResponseIn,ResponseTo edges {}'.format(sample_id, compound_gids, emitter))
-        # # create drug_response vertex
-        # emitter.emit_vertex(
-        #     DrugResponse(
-        #         compound_name=drug_response.compound,
-        #         sample_id=sample,  # ??
-        #         metric=DrugResponseMetric.AUC, # ??
-        #         value=value, # ??
-        #     )
-        # )
-        # #  and edge to aliquot
-        # emitter.emit_edge(
-        #     DrugResponseIn(),
-        #     e.gid(),
-        #     Aliquot.make_gid(sample),
-        # )
-        #
-        # # create compound
-        # compound = compound_factory(name=drug_response.compound)
-        # if compound.gid() not in compound_gids:
-        #     emitter.emit_vertex(compound)
-        #     compound_gids.append(compound.gid())
-        # # and an edge to it
-        # emitter.emit_edge(
-        #     ResponseTo(),
-        #     e.gid(),
-        #     compound.gid(),
-        # )
-
-    print(drug_response)
+        # create drug_response vertex
+        pharmacalogical_profile = ParamacalogicalProfile(**drug_response.__dict__)
+        emitter.emit_vertex(pharmacalogical_profile)
+        #  and edge to aliquot
+        emitter.emit_edge(
+            ParamacalogicalProfileIn(),
+            pharmacalogical_profile.gid(),
+            Aliquot.make_gid(sample_id),
+        )
+        # create compound
+        compound = compound_factory(name=drug_response.compound)
+        if compound.gid() not in compound_gids:
+            emitter.emit_vertex(compound)
+            compound_gids.append(compound.gid())
+        # and an edge to it
+        emitter.emit_edge(
+            ResponseTo(),
+            pharmacalogical_profile.gid(),
+            compound.gid(),
+        )
 
     # create any missing vertexes
-    assert missing_cell_lines == [], missing_cell_lines
+    individual_gids = project_gids = []
+    for ccle_id in missing_cell_lines:
+        b = Biosample(ccle_id)
+        emitter.emit_vertex(b)
+        a = Aliquot(aliquot_id=ccle_id)
+        emitter.emit_vertex(a)
+        emitter.emit_edge(
+            AliquotFor(),
+            a.gid(),
+            b.gid(),
+        )
+        i = Individual(individual_id='CCLE:{}'.format(ccle_id))
+        if i.gid() not in individual_gids:
+            emitter.emit_vertex(i)
+            individual_gids.append(i.gid())
+        emitter.emit_edge(
+            BiosampleFor(),
+            b.gid(),
+            i.gid(),
+        )
+        # first see if we have wholesale name changes
+        project_id = ccle_id
+        # strip off prefix
+        name_parts = project_id.split('_')
+        name_start = 1
+        if len(name_parts) == 1:
+            name_start = 0
+        project_id = '_'.join(name_parts[name_start:])
+        # create project
+        p = Project(project_id='CCLE:{}'.format(project_id))
+        if p.gid() not in project_gids:
+            emitter.emit_vertex(p)
+            project_gids.append(p.gid())
+        emitter.emit_edge(
+            InProject(),
+            i.gid(),
+            p.gid(),
+        )
+
+    emitter.close()
 
 
 if __name__ == '__main__':  # pragma: no cover
