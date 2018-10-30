@@ -7,9 +7,7 @@ import csv
 from bmeg.ioutils import reader
 import argparse
 
-""" create csv files for neo4j import """
 
-# mapping control characters to blanks
 CONTROL = dict(zip(range(32), ' ' * 32))
 
 
@@ -69,6 +67,8 @@ def to_edge(path):
 
 def keys(path, sample_size=1000):
     """ return [names of keys] and [neo types of keys]"""
+    if 'Expression' in path:
+        sample_size = 1  # no need to read huge, uniform records
     keys = []
     values = []
     py_2_neo = {

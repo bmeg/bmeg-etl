@@ -69,15 +69,14 @@ edge_files: |
   outputs/ccle/BiosampleFor.Edge.json.gz
   outputs/ccle/CallsetFor.Edge.json.gz
   outputs/ccle/InProject.Edge.json.gz
-  outputs/ccle/ExpressionOf.Edge.json.gz
   outputs/compound/normalized.HasEnvironment.Edge.json
   outputs/compound/normalized.ResponseTo.Edge.json
   outputs/compound/normalized.TreatedWith.Edge.json
   outputs/ensembl/ExonFor.Edge.json
   outputs/ensembl/TranscriptFor.Edge.json
-  outputs/ensembl-protein/ensembl-protein.PFAMAlignment.Edge.json
-  outputs/ensembl-protein/ensembl-protein.ProteinFor.Edge.json
-  outputs/ensembl-protein/ensembl-protein.StructureFor.Edge.json
+  outputs/ensembl-protein/PFAMAlignment.Edge.json
+  outputs/ensembl-protein/ProteinFor.Edge.json
+  outputs/ensembl-protein/StructureFor.Edge.json
   outputs/g2p/AlleleIn.Edge.json.gz
   outputs/g2p/HasAlleleFeature.Edge.json.gz
   outputs/g2p/HasGeneFeature.Edge.json.gz
@@ -98,7 +97,39 @@ edge_files: |
   outputs/mc3/CallsetFor.Edge.json.gz
   outputs/phenotype/normalized.PhenotypeOf.Edge.json
   outputs/phenotype/normalized.HasPhenotype.Edge.json
-
+  outputs/tcga/ACC.ExpressionOf.Edge.json.gz
+  outputs/tcga/BLCA.ExpressionOf.Edge.json.gz
+  outputs/tcga/BRCA.ExpressionOf.Edge.json.gz
+  outputs/tcga/CESC.ExpressionOf.Edge.json.gz
+  outputs/tcga/CHOL.ExpressionOf.Edge.json.gz
+  outputs/tcga/COAD.ExpressionOf.Edge.json.gz
+  outputs/tcga/DLBC.ExpressionOf.Edge.json.gz
+  outputs/tcga/ESCA.ExpressionOf.Edge.json.gz
+  outputs/tcga/GBM.ExpressionOf.Edge.json.gz
+  outputs/tcga/HNSC.ExpressionOf.Edge.json.gz
+  outputs/tcga/KICH.ExpressionOf.Edge.json.gz
+  outputs/tcga/KIRC.ExpressionOf.Edge.json.gz
+  outputs/tcga/KIRP.ExpressionOf.Edge.json.gz
+  outputs/tcga/LAML.ExpressionOf.Edge.json.gz
+  outputs/tcga/LGG.ExpressionOf.Edge.json.gz
+  outputs/tcga/LIHC.ExpressionOf.Edge.json.gz
+  outputs/tcga/LUAD.ExpressionOf.Edge.json.gz
+  outputs/tcga/LUSC.ExpressionOf.Edge.json.gz
+  outputs/tcga/MESO.ExpressionOf.Edge.json.gz
+  outputs/tcga/OV.ExpressionOf.Edge.json.gz
+  outputs/tcga/PAAD.ExpressionOf.Edge.json.gz
+  outputs/tcga/PCPG.ExpressionOf.Edge.json.gz
+  outputs/tcga/PRAD.ExpressionOf.Edge.json.gz
+  outputs/tcga/READ.ExpressionOf.Edge.json.gz
+  outputs/tcga/SARC.ExpressionOf.Edge.json.gz
+  outputs/tcga/SKCM.ExpressionOf.Edge.json.gz
+  outputs/tcga/STAD.ExpressionOf.Edge.json.gz
+  outputs/tcga/TGCT.ExpressionOf.Edge.json.gz
+  outputs/tcga/THCA.ExpressionOf.Edge.json.gz
+  outputs/tcga/THYM.ExpressionOf.Edge.json.gz
+  outputs/tcga/UCEC.ExpressionOf.Edge.json.gz
+  outputs/tcga/UCS.ExpressionOf.Edge.json.gz
+  outputs/tcga/UVM.ExpressionOf.Edge.json.gz
 
 # outputs/coca/coca.COCACluster.Vertex.json
 vertex_files: |
@@ -113,7 +144,8 @@ vertex_files: |
   outputs/ensembl/Exon.Vertex.json
   outputs/ensembl/Gene.Vertex.json
   outputs/ensembl/Transcript.Vertex.json
-  outputs/ensembl-protein/ensembl-protein.Protein.Vertex.json
+  outputs/ensembl-protein/Protein.Vertex.json
+  outputs/ensembl-protein/ProteinStructure.Vertex.json
   outputs/g2p/G2PAssociation.Vertex.json.gz
   outputs/g2p/MinimalAllele.Vertex.json.gz
   outputs/gdc/Aliquot.Vertex.json
@@ -135,6 +167,39 @@ vertex_files: |
 matrix_files: |
   outputs/ccle/Expression.Vertex.json.gz
   outputs/gtex/gtex.Expression.Vertex.json.gz
+  outputs/tcga/ACC.Expression.Vertex.json.gz
+  outputs/tcga/BLCA.Expression.Vertex.json.gz
+  outputs/tcga/BRCA.Expression.Vertex.json.gz
+  outputs/tcga/CESC.Expression.Vertex.json.gz
+  outputs/tcga/CHOL.Expression.Vertex.json.gz
+  outputs/tcga/COAD.Expression.Vertex.json.gz
+  outputs/tcga/DLBC.Expression.Vertex.json.gz
+  outputs/tcga/ESCA.Expression.Vertex.json.gz
+  outputs/tcga/GBM.Expression.Vertex.json.gz
+  outputs/tcga/HNSC.Expression.Vertex.json.gz
+  outputs/tcga/KICH.Expression.Vertex.json.gz
+  outputs/tcga/KIRC.Expression.Vertex.json.gz
+  outputs/tcga/KIRP.Expression.Vertex.json.gz
+  outputs/tcga/LAML.Expression.Vertex.json.gz
+  outputs/tcga/LGG.Expression.Vertex.json.gz
+  outputs/tcga/LIHC.Expression.Vertex.json.gz
+  outputs/tcga/LUAD.Expression.Vertex.json.gz
+  outputs/tcga/LUSC.Expression.Vertex.json.gz
+  outputs/tcga/MESO.Expression.Vertex.json.gz
+  outputs/tcga/OV.Expression.Vertex.json.gz
+  outputs/tcga/PAAD.Expression.Vertex.json.gz
+  outputs/tcga/PCPG.Expression.Vertex.json.gz
+  outputs/tcga/PRAD.Expression.Vertex.json.gz
+  outputs/tcga/READ.Expression.Vertex.json.gz
+  outputs/tcga/SARC.Expression.Vertex.json.gz
+  outputs/tcga/SKCM.Expression.Vertex.json.gz
+  outputs/tcga/STAD.Expression.Vertex.json.gz
+  outputs/tcga/TGCT.Expression.Vertex.json.gz
+  outputs/tcga/THCA.Expression.Vertex.json.gz
+  outputs/tcga/THYM.Expression.Vertex.json.gz
+  outputs/tcga/UCEC.Expression.Vertex.json.gz
+  outputs/tcga/UCS.Expression.Vertex.json.gz
+  outputs/tcga/UVM.Expression.Vertex.json.gz
 
 # outputs/pubmed/pubmed18n0001.Publication.Vertex.json
 # outputs/pubmed/pubmed18n0002.Publication.Vertex.json
