@@ -46,3 +46,4 @@ tests/unit/compound/source/compound/sqlite.db
 
 .DS_Store
 tests/unit/*/test/*.json.gz
+neo4j/scripts/*.csv

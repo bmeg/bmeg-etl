@@ -62,6 +62,11 @@ outputs/gdc/Individual.Vertex.json.gz
 outputs/gdc/Project.Vertex.json.gz
 outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz
 outputs/gdsc/gdsc.DrugResponseIn.Edge.json.gz
+outputs/gdc/InProject.Edge.json.gz
+outputs/gdc/Individual.Vertex.json.gz
+outputs/gdc/Project.Vertex.json.gz
+outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz
+outputs/gdsc/gdsc.DrugResponseIn.Edge.json.gz
 outputs/go/GeneOntologyAnnotation.Edge.json.gz
 outputs/go/GeneOntologyIsA.Edge.json.gz
 outputs/go/GeneOntologyTerm.Vertex.json.gz

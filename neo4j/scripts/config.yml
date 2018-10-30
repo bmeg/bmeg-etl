@@ -1,0 +1,57 @@
+# export NEO4J_USERNAME
+# export NEO4J_PASSWORD
+cypher_shell: cypher-shell
+
+vertex_template: |
+  // load a file of json
+  WITH "{{ url }}" AS url
+    // yield each line
+    CALL apoc.load.json(url) YIELD value
+      WITH value {{ limit }}
+        // create a vertex with dynamic label
+        // set its values, filtering out lists and maps (only primitives allowed)
+        CALL apoc.create.node(
+          [value.label],
+          apoc.map.clean(value.data, filter(k IN keys(value.data) WHERE apoc.meta.type(value.data[k]) in ['MAP', 'LIST']), [])
+        ) YIELD node
+        // include the vertex gid
+        SET node.gid = value.gid
+        // return the count of nodes created
+        RETURN count(node) as nodes_created
+  ;
+
+
+edge_template: |
+  // load a file of json
+  WITH "{{ url }}" AS url
+    // yield each line
+    CALL apoc.load.json(url) YIELD value
+      WITH value {{ limit }}
+        MATCH(f{{ from_label }} {gid: value.from})
+        MATCH(t{{ to_label }} {gid: value.to})
+        // create an edge with dynamic label
+        // set its values, filtering out lists and maps (only primitives allowed)
+        CALL apoc.create.relationship(
+          f,
+          value.label,
+          apoc.map.clean(value.data, filter(k IN keys(value.data) WHERE apoc.meta.type(value.data[k]) in ['MAP', 'LIST']), []),
+          t
+        ) YIELD rel
+        // skip the edge gid, no use case
+        // SET rel.gid = value.gid
+        // return the count of relationships created
+        RETURN count(rel) as relationships_created
+  ;
+
+
+drop: |
+  match(n) detach delete(n);
+
+ddl: |
+  // setup ...
+
+
+indexes:
+  - |
+    // index vertex
+    match (n) call apoc.index.addNode(n, ["gid"])  RETURN count(*);
