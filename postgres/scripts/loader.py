@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> sync
 import logging
 import yaml
 import os
@@ -124,6 +127,7 @@ if __name__ == '__main__':  # pragma: no cover
     args = parser.parse_args()
     logging.debug(vars(args))
     main(**vars(args))
+<<<<<<< HEAD
 =======
 import logging
 import yaml
@@ -251,3 +255,5 @@ if __name__ == '__main__':  # pragma: no cover
     logging.debug(vars(args))
     main(**vars(args))
 >>>>>>> initial
+=======
+>>>>>>> sync

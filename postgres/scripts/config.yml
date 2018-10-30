@@ -1,4 +1,7 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> sync
 
 # postgres:
 #     host: database
@@ -1170,6 +1173,7 @@ matrix_files: |
 # outputs/pubmed/pubmed18n0926.Publication.Vertex.json
 # outputs/pubmed/pubmed18n0927.Publication.Vertex.json
 # outputs/pubmed/pubmed18n0928.Publication.Vertex.json
+<<<<<<< HEAD
 =======
 # postgres:
 #     host: database
@@ -2342,3 +2346,5 @@ matrix_files: |
 # outputs/pubmed/pubmed18n0927.Publication.Vertex.json
 # outputs/pubmed/pubmed18n0928.Publication.Vertex.json
 >>>>>>> initial
+=======
+>>>>>>> sync
