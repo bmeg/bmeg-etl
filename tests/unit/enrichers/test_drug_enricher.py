@@ -15,6 +15,8 @@ AKT inhibitor VIII (1)
 Ecotrin
 Tomaxifen
 Tamoxiten
+Abagovomag
+Zometa
 """.strip().split("\n")
 
 EXPECTED = [
@@ -30,6 +32,8 @@ EXPECTED = [
     [{'ontology_term': 'CID2244', 'source': 'http://rdf.ncbi.nlm.nih.gov/pubchem/compound', 'synonym': 'aspirin'}],
     [{'approved_countries': ['Canada', 'US'], 'ontology_term': 'CID2733526', 'source': 'http://rdf.ncbi.nlm.nih.gov/pubchem/compound', 'synonym': 'Tamoxifen', 'taxonomy': {'class': 'Stilbenes', 'direct-parent': 'Stilbenes', 'kingdom': 'Organic compounds', 'superclass': 'Phenylpropanoids and polyketides'}, 'toxicity': 'Signs observed at the highest doses following studies to ' 'determine LD<sub>50</sub> in animals were respiratory ' 'difficulties and convulsions.'}],
     [{'approved_countries': ['Canada', 'US'], 'ontology_term': 'CID2733526', 'source': 'http://rdf.ncbi.nlm.nih.gov/pubchem/compound', 'synonym': 'Tamoxifen', 'taxonomy': {'class': 'Stilbenes', 'direct-parent': 'Stilbenes', 'kingdom': 'Organic compounds', 'superclass': 'Phenylpropanoids and polyketides'}, 'toxicity': 'Signs observed at the highest doses following studies to ' 'determine LD<sub>50</sub> in animals were respiratory ' 'difficulties and convulsions.'}],
+    [{'ontology_term': 'CHEMBL1742981', 'source': 'http://rdf.ebi.ac.uk/terms/chembl', 'synonym': 'Abagovomab', 'usan_stem': 'monoclonal antibodies'}],
+    [{'ontology_term': 'CID68740', 'source': 'http://rdf.ncbi.nlm.nih.gov/pubchem/compound', 'synonym': 'Zoledronic acid'}],
 ]
 
 
@@ -51,9 +55,9 @@ def test_simple(caplog):
 
 def test_alias():
     assert 'Tomaxifen' in drug_enricher.ALIASES, 'we should have an alias for Tomaxifen'
-    assert drug_enricher.ALIASES['Tomaxifen'] == 'tamoxifen', 'the alias for Tomaxifen should be tamoxifen'
+    assert drug_enricher.ALIASES['Tomaxifen'].lower() == 'tamoxifen', 'the alias for Tomaxifen should be tamoxifen'
     assert 'Tamoxiten' in drug_enricher.ALIASES, 'we should have an alias for Tamoxiten'
-    assert drug_enricher.ALIASES['Tamoxiten'] == 'tamoxifen', 'the alias for Tamoxiten should be tamoxifen'
+    assert drug_enricher.ALIASES['Tamoxiten'].lower() == 'tamoxifen', 'the alias for Tamoxiten should be tamoxifen'
 
 
 def test_spell_check():
