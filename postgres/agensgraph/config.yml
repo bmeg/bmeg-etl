@@ -1,0 +1,87 @@
+
+postgres:
+    host: graph
+    user: agens
+    database: agens
+    port: 5432
+
+ddl: |
+  DROP TABLE IF EXISTS bmeg_vertex;
+  DROP TABLE IF EXISTS bmeg_edge;
+
+  CREATE TABLE IF NOT EXISTS  bmeg_vertex (
+   gid varchar not null,
+   label varchar not null,
+   data jsonb
+  );
+
+  CREATE TABLE IF NOT EXISTS  bmeg_edge (
+   gid varchar not null,
+   label varchar not null,
+   "from" varchar not null,
+   "to" varchar not null,
+   data jsonb
+  );
+
+  DROP GRAPH IF EXISTS bmeg_graph  CASCADE;
+  CREATE GRAPH bmeg_graph;
+  SET graph_path = bmeg_graph;
+
+# CREATE INDEX vertex_gid ON bmeg_vertex (gid);
+# CREATE INDEX vertex_label ON bmeg_vertex (label);
+# CREATE INDEX edge_label_from_to ON bmeg_edge (label, "from", "to");
+# CREATE INDEX edge_label_to_from ON bmeg_edge (label, "to", "from");
+# ANALYZE bmeg_vertex ;
+# ANALYZE bmeg_edge ;
+indexes: |
+
+# outputs/gtex/gtex.ExpressionOf.Edge.json
+# outputs/gtex/gtex.AliquotFor.Edge.json
+# outputs/gtex/gtex.BiosampleFor.Edge.json
+# outputs/gtex/gtex.InProject.Edge.json
+edge_files: |
+
+# outputs/gtex/gtex.Aliquot.Vertex.json
+# outputs/gtex/gtex.Biosample.Vertex.json
+# outputs/gtex/gtex.Individual.Vertex.json
+# outputs/gtex/gtex.Project.Vertex.json
+# outputs/gtex/gtex.Expression.Vertex.json
+vertex_files: |
+  outputs/mc3/Allele.Vertex.json.sorted
+
+vertex_template: |
+  --- drop and create, without index
+  DROP VLABEL IF EXISTS {{ vertex }};
+  CREATE VLABEL {{ vertex }} DISABLE INDEX;
+  --- view for this vertex
+  CREATE VIEW jsonb_{{ vertex }} AS
+    select data from bmeg_vertex where label = '{{ vertex }}' ;
+  --- load it
+  LOAD FROM jsonb_{{ vertex }} AS {{ vertex.lower() }}
+  CREATE (a:{{ vertex }} = {{ vertex.lower() }}.data);
+  --- default index
+  CREATE UNIQUE PROPERTY INDEX ON {{ vertex }} (gid);
+  --- drop view
+  DROP VIEW jsonb_{{ vertex }};
+  --- reindex
+  REINDEX VLABEL {{ vertex }};
+  --- delete source data
+  TRUNCATE bmeg_vertex CASCADE ;
+
+edge_template: |
+  --- drop and create
+  DROP ELABEL IF EXISTS {{ edge }};
+  CREATE ELABEL {{ edge }};
+  --- view for this edge
+  CREATE VIEW jsonb_{{ edge }} AS
+    select data from bmeg_edge where label = '{{ edge }}' ;
+  --- load it
+  LOAD FROM jsonb_{{ edge }} AS {{ edge.lower() }}
+  MATCH (a:{{ from_label }}), (b:{{ to_label }})
+  WHERE a.gid = {{ edge.lower() }}.data.from AND b.gid = {{ edge.lower() }}.data.to
+  CREATE (a)-[\:{{ edge }}]->(b);
+  --- default index ??
+  --- drop view
+  DROP VIEW jsonb_{{ edge }};
+  --- delete source data
+  TRUNCATE bmeg_edge CASCADE ;
