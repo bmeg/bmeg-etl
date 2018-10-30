@@ -326,3 +326,12 @@ class TreatedWith(Edge):
     Individual -> Compound
     """
     pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class ParamacalogicalProfileIn(Edge):
+    """
+    ParamacalogicalProfile -> Aliquot
+    """
+    pass
