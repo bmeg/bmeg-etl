@@ -204,7 +204,7 @@ class Protein(Vertex):
 @enforce_types
 @dataclass(frozen=True)
 class ProteinStructure(Vertex):
-    pdb_id: str
+    protein_id: str
 
     def gid(self):
         return ProteinStructure.make_gid(self.protein_id)
@@ -258,6 +258,8 @@ class Expression(Vertex):
 @dataclass(frozen=True)
 class PFAMClan(Vertex):
     accession: str
+    id: str
+    description: str
 
     def gid(self):
         return PFAMClan.make_gid(self.accession)
@@ -510,3 +512,30 @@ class MinimalAllele(Vertex):
         vidhash.update(vid)
         vidhash = vidhash.hexdigest()
         return GID("%s:%s" % (cls.__name__, vidhash))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class ParamacalogicalProfile(Vertex):
+    """ CCLE pharmacalogical-profile
+    """
+    ccle_cell_line_name: Union[None, str] = None
+    primary_cell_line_name: Union[None, str] = None
+    compound: Union[None, str] = None
+    target: Union[None, str] = None
+    doses_um: Union[None, list] = None
+    activity_data_median: Union[None, list] = None
+    activity_sd: Union[None, list] = None
+    num_data: Union[None, float] = None
+    fit_type: Union[None, str] = None
+    ec50_um: Union[None, float] = None
+    ic50_um: Union[None, float] = None
+    a_max: Union[None, float] = None
+    act_area: Union[None, float] = None
+
+    def gid(self):
+        return ParamacalogicalProfile.make_gid(self.ccle_cell_line_name, self.compound, self.target)
+
+    @classmethod
+    def make_gid(cls, ccle_cell_line_name, compound, target):
+        return GID("%s:%s:%s:%s" % (cls.__name__, ccle_cell_line_name, compound, target))
