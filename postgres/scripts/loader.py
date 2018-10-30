@@ -102,11 +102,11 @@ def main(drop, index, config):
         logging.info('wrote {}'.format(path))
 
     logging.info("""
-    Done.  To import, as a database user, run these commands :
+    Done.  To import:
     ```
     bash setup_commands.txt
-    parallel --jobs 10 < transform_and_load_commands.txt
-    parallel --jobs 10 < index_commands.txt
+    parallel --jobs 5 < transform_and_load_commands.txt
+    parallel --jobs 5 < index_commands.txt
     ```
     """)
 
