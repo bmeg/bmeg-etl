@@ -31,13 +31,10 @@ NAMES = {
 
 def transform(biosample_path='outputs/ccle/Biosample.Vertex.json*',
               drug_response_path='source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv',
-              emitter_prefix=None,
+              emitter_prefix='drug_response',
               emitter_directory="ccle"):
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
-    # we create new [Aliquot, Biosample, Individual, Project] vertexes for items not in samples
-    # A separate emitter, with its own prefix is used as to not overwrite existing vertexes and edges created by samples
-    xtra_emitter = JSONEmitter(directory=emitter_directory, prefix='drug_response')
 
     # lookup table of Broad_ID
     samples = {}
@@ -119,19 +116,19 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json*',
     individual_gids = project_gids = []
     for ccle_id in missing_cell_lines:
         b = Biosample(ccle_id)
-        xtra_emitter.emit_vertex(b)
+        emitter.emit_vertex(b)
         a = Aliquot(aliquot_id=ccle_id)
-        xtra_emitter.emit_vertex(a)
-        xtra_emitter.emit_edge(
+        emitter.emit_vertex(a)
+        emitter.emit_edge(
             AliquotFor(),
             a.gid(),
             b.gid(),
         )
         i = Individual(individual_id='CCLE:{}'.format(ccle_id))
         if i.gid() not in individual_gids:
-            xtra_emitter.emit_vertex(i)
+            emitter.emit_vertex(i)
             individual_gids.append(i.gid())
-        xtra_emitter.emit_edge(
+        emitter.emit_edge(
             BiosampleFor(),
             b.gid(),
             i.gid(),
@@ -147,16 +144,16 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json*',
         # create project
         p = Project(project_id='CCLE:{}'.format(project_id))
         if p.gid() not in project_gids:
-            xtra_emitter.emit_vertex(p)
+            emitter.emit_vertex(p)
             project_gids.append(p.gid())
-        xtra_emitter.emit_edge(
+        emitter.emit_edge(
             InProject(),
             i.gid(),
             p.gid(),
         )
 
     emitter.close()
-    xtra_emitter.close()
+    emitter.close()
 
 
 if __name__ == '__main__':  # pragma: no cover

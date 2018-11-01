@@ -20,10 +20,10 @@ def biosample_path(request):
 
 def validate(helpers, emitter_directory, biosample_path, drug_response_path):
     """ run xform and test results"""
-    profile_file = os.path.join(emitter_directory, 'ParamacalogicalProfile.Vertex.json')
-    profile_in_file = os.path.join(emitter_directory, 'ParamacalogicalProfileIn.Edge.json')
-    response_to_file = os.path.join(emitter_directory, 'ResponseTo.Edge.json')
-    compound_file = os.path.join(emitter_directory, 'Compound.Vertex.json')
+    profile_file = os.path.join(emitter_directory, 'drug_response.ParamacalogicalProfile.Vertex.json')
+    profile_in_file = os.path.join(emitter_directory, 'drug_response.ParamacalogicalProfileIn.Edge.json')
+    response_to_file = os.path.join(emitter_directory, 'drug_response.ResponseTo.Edge.json')
+    compound_file = os.path.join(emitter_directory, 'drug_response.Compound.Vertex.json')
 
     all_files = [profile_file, profile_in_file, response_to_file, compound_file]
     # remove output
@@ -33,7 +33,6 @@ def validate(helpers, emitter_directory, biosample_path, drug_response_path):
 
     transform(biosample_path=biosample_path,
               drug_response_path=drug_response_path,
-              emitter_prefix=None,
               emitter_directory=emitter_directory)
     # ratify
     helpers.assert_vertex_file_valid(ParamacalogicalProfile, profile_file)
