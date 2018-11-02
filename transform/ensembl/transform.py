@@ -49,15 +49,13 @@ def get_parent_transcript(parent):
 
 def transform(
     emitter_directory=DEFAULT_DIRECTORY,
-    gff3_path="source/ensembl/Homo_sapiens.GRCh37.87.gff3.gz"
+    gff3_path="source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz"
 ):
-
     """
     Transform the file downloaded from:
-        AS-IS: ftp://ftp.ensembl.org/pub/grch37/update/gff3/homo_sapiens/Homo_sapiens.GRCh37.87.gff3.gz
-        TODO ?: ftp://ftp.ensembl.org/pub/grch37/release-94/gff3/homo_sapiens/Homo_sapiens.GRCh37.87.gff3.gz
+        ftp://ftp.ensembl.org/pub/grch37/release-94/gff3/homo_sapiens/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz
     """
-    emitter = JSONEmitter(emitter_directory)
+    emitter = JSONEmitter(directory=emitter_directory, prefix=None)
 
     inhandle = bmeg.ioutils.reader(gff3_path)
     reader = csv.DictReader(
