@@ -127,7 +127,7 @@ def to_csv_header(path, output=None):
 
 
 def get_output_path(path):
-    return '{}.csv'.format(path)
+    return 'neo4j/scripts/{}.csv'.format(path.replace('/', '.'))
 
 
 def to_csv(path, limit=None, header=False, output=None, header_dict=None):
@@ -138,7 +138,7 @@ def to_csv(path, limit=None, header=False, output=None, header_dict=None):
         fieldnames, decorated_fieldnames = keys(path)
     output_path = output
     if not output:
-        output_path = '{}.header.csv'.format(path)
+        output_path = 'neo4j/scripts/{}.header.csv'.format(path)
     with open(output_path, "w", newline='') as myfile:
         writer = csv.DictWriter(myfile, fieldnames=fieldnames, extrasaction='ignore')
         if header:
@@ -205,7 +205,7 @@ def main(config, limit, input, output):
         headers[label] = {**headers[label], **to_csv_header(path)}
     # write csv header files
     for label in headers.keys():
-        output_path = '{}.header.csv'.format(label)
+        output_path = 'neo4j/scripts/{}.header.csv'.format(label)
         with open(output_path, "w", newline='') as myfile:
             writer = csv.DictWriter(myfile, fieldnames=headers[label].keys())
             writer.writerow(headers[label])
@@ -216,7 +216,7 @@ def main(config, limit, input, output):
         label = get_label(path)
         if label not in vertex_csvs:
             vertex_csvs[label] = []
-            vertex_csvs[label].append('{}.header.csv'.format(label))
+            vertex_csvs[label].append('neo4j/scripts/{}.header.csv'.format(label))
         to_csv_commands.append(to_csv_job(path, limit=limit))
         vertex_csvs[label].append(get_output_path(path))
 
@@ -227,11 +227,11 @@ def main(config, limit, input, output):
         label = get_label(path)
         if label not in edge_csvs:
             edge_csvs[label] = []
-            edge_csvs[label].append('{}.header.csv'.format(label))
+            edge_csvs[label].append('neo4j/scripts/{}.header.csv'.format(label))
         to_csv_commands.append(to_csv_job(path, limit=limit))
         edge_csvs[label].append(get_output_path(path))
 
-    path = 'to_csv_commands.txt'
+    path = 'neo4j/scripts/to_csv_commands.txt'
     with open(path, 'w') as outfile:
         for command in to_csv_commands:
             outfile.write("{}\n".format(command))
@@ -246,8 +246,8 @@ def main(config, limit, input, output):
         edges.append('--relationships:{} {}'.format(key, ','.join(edge_csvs[key])))
 
     cmds = '\n'.join([
-        'parallel --jobs 10 < to_csv_commands.txt',
-        'neo4j-admin import --database test.db \\'
+        'parallel --jobs 10 < neo4j/scripts/to_csv_commands.txt',
+        'sudo --user=neo4j neo4j-admin import --database test.db --ignore-missing-nodes=true --ignore-duplicate-nodes=true --ignore-extra-columns=true --high-io=true \\'
     ])
     logging.info('\n{}\n  {}\n'.format(cmds, ' \\\n  '.join(nodes + edges)))
 
