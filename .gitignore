@@ -45,4 +45,9 @@ tests/unit/compound/source/compound/sqlite.db
 !tests/unit/phenotype/outputs/**/*.*
 
 .DS_Store
+<<<<<<< HEAD
 tests/unit/*/test/*.json.gz
+=======
+
+neo4j/scripts/*.csv
+>>>>>>> ignore generated csv files
