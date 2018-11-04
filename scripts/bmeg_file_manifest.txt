@@ -2,9 +2,12 @@ outputs/allele/Allele.Vertex.json.gz
 outputs/ccle/Aliquot.Vertex.json.gz
 outputs/ccle/AliquotFor.Edge.json.gz
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 outputs/ccle/Allele.Vertex.json.gz
 >>>>>>> read files from manifest
+=======
+>>>>>>> remove unnormalized
 outputs/ccle/AlleleCall.Edge.json.gz
 outputs/ccle/AlleleIn.Edge.json.gz
 outputs/ccle/Biosample.Vertex.json.gz
@@ -12,13 +15,17 @@ outputs/ccle/BiosampleFor.Edge.json.gz
 outputs/ccle/Callset.Vertex.json.gz
 outputs/ccle/CallsetFor.Edge.json.gz
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 outputs/ccle/Compound.Vertex.json.gz
 >>>>>>> read files from manifest
+=======
+>>>>>>> remove unnormalized
 outputs/ccle/Expression.Vertex.json.gz
 outputs/ccle/ExpressionOf.Edge.json.gz
 outputs/ccle/InProject.Edge.json.gz
 outputs/ccle/Individual.Vertex.json.gz
+<<<<<<< HEAD
 <<<<<<< HEAD
 outputs/ccle/Project.Vertex.json.gz
 =======
@@ -27,23 +34,32 @@ outputs/ccle/PhenotypeOf.Edge.json.gz
 outputs/ccle/Project.Vertex.json.gz
 outputs/ccle/ResponseTo.Edge.json.gz
 >>>>>>> read files from manifest
+=======
+outputs/ccle/Project.Vertex.json.gz
+>>>>>>> remove unnormalized
 outputs/ccle/drug_response.Aliquot.Vertex.json.gz
 outputs/ccle/drug_response.AliquotFor.Edge.json.gz
 outputs/ccle/drug_response.Biosample.Vertex.json.gz
 outputs/ccle/drug_response.BiosampleFor.Edge.json.gz
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 outputs/ccle/drug_response.Compound.Vertex.json.gz
 >>>>>>> read files from manifest
+=======
+>>>>>>> remove unnormalized
 outputs/ccle/drug_response.InProject.Edge.json.gz
 outputs/ccle/drug_response.Individual.Vertex.json.gz
 outputs/ccle/drug_response.ParamacalogicalProfile.Vertex.json.gz
 outputs/ccle/drug_response.ParamacalogicalProfileIn.Edge.json.gz
 outputs/ccle/drug_response.Project.Vertex.json.gz
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 outputs/ccle/drug_response.ResponseTo.Edge.json.gz
 >>>>>>> read files from manifest
+=======
+>>>>>>> remove unnormalized
 outputs/ccle/tatlow.Aliquot.Vertex.json.gz
 outputs/ccle/tatlow.AliquotFor.Edge.json.gz
 outputs/ccle/tatlow.Biosample.Vertex.json.gz
@@ -68,6 +84,7 @@ outputs/ensembl/Gene.Vertex.json.gz
 outputs/ensembl/Transcript.Vertex.json.gz
 outputs/ensembl/TranscriptFor.Edge.json.gz
 <<<<<<< HEAD
+<<<<<<< HEAD
 outputs/ensembl/missing.Transcript.Vertex.json.gz
 outputs/g2p/AlleleIn.Edge.json.gz
 =======
@@ -76,23 +93,28 @@ outputs/g2p/AlleleIn.Edge.json.gz
 outputs/g2p/Compound.Vertex.json.gz
 outputs/g2p/Deadletter.Vertex.json.gz
 >>>>>>> read files from manifest
+=======
+outputs/g2p/AlleleIn.Edge.json.gz
+>>>>>>> remove unnormalized
 outputs/g2p/G2PAssociation.Vertex.json.gz
 outputs/g2p/HasAlleleFeature.Edge.json.gz
-outputs/g2p/HasEnvironment.Edge.json.gz
 outputs/g2p/HasGeneFeature.Edge.json.gz
 outputs/g2p/HasMinimalAlleleFeature.Edge.json.gz
-outputs/g2p/HasPhenotype.Edge.json.gz
 outputs/g2p/HasSupportingReference.Edge.json.gz
 outputs/g2p/MinimalAllele.Vertex.json.gz
 outputs/g2p/MinimalAlleleIn.Edge.json.gz
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 outputs/g2p/Phenotype.Vertex.json.gz
 >>>>>>> read files from manifest
+=======
+>>>>>>> remove unnormalized
 outputs/gdc/Aliquot.Vertex.json.gz
 outputs/gdc/AliquotFor.Edge.json.gz
 outputs/gdc/Biosample.Vertex.json.gz
 outputs/gdc/BiosampleFor.Edge.json.gz
+<<<<<<< HEAD
 <<<<<<< HEAD
 outputs/gdc/InProject.Edge.json.gz
 outputs/gdc/Individual.Vertex.json.gz
@@ -101,15 +123,18 @@ outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz
 outputs/gdsc/gdsc.DrugResponseIn.Edge.json.gz
 =======
 outputs/gdc/Compound.Vertex.json.gz
+=======
+>>>>>>> remove unnormalized
 outputs/gdc/InProject.Edge.json.gz
 outputs/gdc/Individual.Vertex.json.gz
 outputs/gdc/Project.Vertex.json.gz
-outputs/gdc/TreatedWith.Edge.json.gz
-outputs/gdsc/gdsc.Compound.Vertex.json.gz
 outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz
 outputs/gdsc/gdsc.DrugResponseIn.Edge.json.gz
+<<<<<<< HEAD
 outputs/gdsc/gdsc.ResponseTo.Edge.json.gz
 >>>>>>> read files from manifest
+=======
+>>>>>>> remove unnormalized
 outputs/go/GeneOntologyAnnotation.Edge.json.gz
 outputs/go/GeneOntologyIsA.Edge.json.gz
 outputs/go/GeneOntologyTerm.Vertex.json.gz
@@ -123,18 +148,24 @@ outputs/gtex/gtex.InProject.Edge.json.gz
 outputs/gtex/gtex.Individual.Vertex.json.gz
 outputs/gtex/gtex.Project.Vertex.json.gz
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 outputs/mc3/Allele.Vertex.json.gz
 >>>>>>> read files from manifest
+=======
+>>>>>>> remove unnormalized
 outputs/mc3/AlleleCall.Edge.json.gz
 outputs/mc3/AlleleIn.Edge.json.gz
 outputs/mc3/Callset.Vertex.json.gz
 outputs/mc3/CallsetFor.Edge.json.gz
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 outputs/mc3/Deadletter.Vertex.json.gz
 outputs/myvariant.info/myvariant.info.Allele.Vertex.json.gz
 >>>>>>> read files from manifest
+=======
+>>>>>>> remove unnormalized
 outputs/pfam/GeneOntologyAnnotation.Edge.json.gz
 outputs/pfam/PFAMClan.Vertex.json.gz
 outputs/pfam/PFAMClanMember.Edge.json.gz
@@ -198,9 +229,12 @@ outputs/tcga/SKCM.ExpressionOf.Edge.json.gz
 outputs/tcga/STAD.Expression.Vertex.json.gz
 outputs/tcga/STAD.ExpressionOf.Edge.json.gz
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 outputs/tcga/TCGA.ExpressionOf.Edge.json.gz
 >>>>>>> read files from manifest
+=======
+>>>>>>> remove unnormalized
 outputs/tcga/TGCT.Expression.Vertex.json.gz
 outputs/tcga/TGCT.ExpressionOf.Edge.json.gz
 outputs/tcga/THCA.Expression.Vertex.json.gz
