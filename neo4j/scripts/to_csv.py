@@ -172,12 +172,15 @@ def main(config, limit, input, output):
 
     with open(config, 'r') as stream:
         config = yaml.load(stream)
-    config['edge_files'] = config['vertex_files'] = config['matrix_files'] = []
+    config['edge_files'] = []
+    config['vertex_files'] = []
+    config['matrix_files'] = []
 
     config = types.SimpleNamespace(**config)
 
     with open('scripts/bmeg_file_manifest.txt', 'r') as stream:
         for line in stream:
+            line = line.strip()
             if 'Edge' in line:
                 config.edge_files.append(line)
             elif 'Expression' in line:
