@@ -156,11 +156,15 @@ def to_csv(path, limit=None, header=False, output=None, header_dict=None):
 def to_csv_job(path, limit=None):
     """ cmd line to transform json to csv """
     output_path = get_output_path(path)
+    comment = ''
+    if os.path.isfile(path):
+        comment = '# '
+
     if limit:
         limit = '--limit {}'.format(limit)
     else:
         limit = ''
-    return 'python neo4j/scripts/to_csv.py --input {} --output {} {}'.format(path, output_path, limit)
+    return '{}python neo4j/scripts/to_csv.py --input {} --output {} {}'.format(comment, path, output_path, limit)
 
 
 def main(config, limit, input, output):
@@ -168,11 +172,18 @@ def main(config, limit, input, output):
 
     with open(config, 'r') as stream:
         config = yaml.load(stream)
+    config['edge_files'] = config['vertex_files'] = config['matrix_files'] = []
 
     config = types.SimpleNamespace(**config)
-    config.edge_files = list(set(config.edge_files.strip().split()))
-    config.vertex_files = list(set(config.vertex_files.strip().split()))
-    config.matrix_files = list(set(config.matrix_files.strip().split()))
+
+    with open('scripts/bmeg_file_manifest.txt', 'r') as stream:
+        for line in stream:
+            if 'Edge' in line:
+                config.edge_files.append(line)
+            elif 'Expression' in line:
+                config.matrix_files.append(line)
+            else:
+                config.vertex_files.append(line)
 
     # input specified, just run and exit
     if input:
