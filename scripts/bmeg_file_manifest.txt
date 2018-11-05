@@ -85,10 +85,14 @@ outputs/ensembl/Transcript.Vertex.json.gz
 outputs/ensembl/TranscriptFor.Edge.json.gz
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 outputs/ensembl/missing.Transcript.Vertex.json.gz
 outputs/g2p/AlleleIn.Edge.json.gz
 =======
 outputs/g2p/Allele.Vertex.json.gz
+=======
+outputs/ensembl/missing.Transcript.Vertex.json.gz
+>>>>>>> add missing Transcripts
 outputs/g2p/AlleleIn.Edge.json.gz
 outputs/g2p/Compound.Vertex.json.gz
 outputs/g2p/Deadletter.Vertex.json.gz
