@@ -157,14 +157,14 @@ def to_csv_job(path, limit=None):
     """ cmd line to transform json to csv """
     output_path = get_output_path(path)
     comment = ''
-    if os.path.isfile(path):
+    if os.path.isfile(output_path):
         comment = '# '
 
     if limit:
         limit = '--limit {}'.format(limit)
     else:
         limit = ''
-    return '{}python neo4j/scripts/to_csv.py --input {} --output {} {}'.format(comment, path, output_path, limit)
+    return '{}python3.7 neo4j/scripts/to_csv.py --input {} --output {} {}'.format(comment, path, output_path, limit)
 
 
 def main(config, limit, input, output):
