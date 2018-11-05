@@ -48,7 +48,8 @@ def get_parent_transcript(parent):
 
 """
 Transform the file downloaded from:
-    ftp://ftp.ensembl.org/pub/grch37/update/gff3/homo_sapiens/Homo_sapiens.GRCh37.87.gff3.gz
+    AS-IS: ftp://ftp.ensembl.org/pub/grch37/update/gff3/homo_sapiens/Homo_sapiens.GRCh37.87.gff3.gz
+    TODO ?: ftp://ftp.ensembl.org/pub/grch37/release-94/gff3/homo_sapiens/Homo_sapiens.GRCh37.87.gff3.gz
 """
 emitter = JSONEmitter("ensembl")
 
