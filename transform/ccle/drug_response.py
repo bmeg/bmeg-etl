@@ -153,7 +153,6 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json*',
         )
 
     emitter.close()
-    emitter.close()
 
 
 if __name__ == '__main__':  # pragma: no cover
