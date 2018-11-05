@@ -100,6 +100,7 @@ indexes:
     CREATE INDEX matrix_gid_idx on matrix (gid);
     CREATE INDEX matrix_key_val on matrix (key, val);
     ANALYZE matrix ;
+<<<<<<< HEAD
 
 
 edge_files: |
@@ -2348,3 +2349,5 @@ matrix_files: |
 >>>>>>> initial
 =======
 >>>>>>> sync
+=======
+>>>>>>> read from manifest
