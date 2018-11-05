@@ -44,6 +44,7 @@ outputs/ensembl/ExonFor.Edge.json.gz
 outputs/ensembl/Gene.Vertex.json.gz
 outputs/ensembl/Transcript.Vertex.json.gz
 outputs/ensembl/TranscriptFor.Edge.json.gz
+outputs/ensembl/missing.Transcript.Vertex.json.gz
 outputs/g2p/AlleleIn.Edge.json.gz
 outputs/g2p/G2PAssociation.Vertex.json.gz
 outputs/g2p/HasAlleleFeature.Edge.json.gz
