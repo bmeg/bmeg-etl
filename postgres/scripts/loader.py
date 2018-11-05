@@ -48,10 +48,21 @@ def main(drop, index, config):
     with open(config, 'r') as stream:
         config = yaml.load(stream)
 
+    config['edge_files'] = []
+    config['vertex_files'] = []
+    config['matrix_files'] = []
+
     config = types.SimpleNamespace(**config)
-    config.edge_files = config.edge_files.strip().split()
-    config.vertex_files = config.vertex_files.strip().split()
-    config.matrix_files = config.matrix_files.strip().split()
+
+    with open('scripts/bmeg_file_manifest.txt', 'r') as stream:
+        for line in stream:
+            line = line.strip()
+            if 'Edge' in line:
+                config.edge_files.append(line)
+            elif 'Expression' in line:
+                config.matrix_files.append(line)
+            else:
+                config.vertex_files.append(line)
 
     # # ensure files exist
     # all_files = config.vertex_files + config.edge_files + config.matrix_files
