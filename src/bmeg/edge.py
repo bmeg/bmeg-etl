@@ -77,15 +77,6 @@ class CNASegmentCall(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class GeneCNAValueCall(Edge):
-    """
-    Gene -> Callset
-    """
-    value: float
-
-
-@enforce_types
-@dataclass(frozen=True)
 class MethlyationProbeValue(Edge):
     """
     MethylationProbe -> Callset
@@ -351,5 +342,15 @@ class Reads(Edge):
 class Writes(Edge):
     """
     Command -> File
+
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class CopyNumberAlterationOf(Edge):
+    """
+    CopyNumberAlteration -> Aliquot
     """
     pass

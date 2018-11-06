@@ -573,3 +573,21 @@ class Command(Vertex):
     @classmethod
     def make_gid(cls, md5):
         return GID("%s:%s" % (cls.__name__, md5))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class CopyNumberAlteration(Vertex):
+    """Gene level copy number alterations
+    """
+    id: str
+    source: str
+    method: str
+    values: dict
+
+    def gid(self):
+        return Expression.make_gid(self.source, self.id)
+
+    @classmethod
+    def make_gid(cls, source, id):
+        return GID("%s:%s:%s" % (cls.__name__, source, id))
