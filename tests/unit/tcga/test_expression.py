@@ -8,19 +8,19 @@ from bmeg.vertex import Expression, Aliquot
 
 @pytest.fixture
 def source_path(request):
-    """ get the full path of the test output """
+    """ get the full path of the test input """
     return os.path.join(request.fspath.dirname, 'source/tcga/expression/transcript-level/TCGA_ACC_tpm.tsv.gz')
 
 
 @pytest.fixture
 def id_map_file(request):
-    """ get the full path of the test output """
+    """ get the full path of the test id map file """
     return os.path.join(request.fspath.dirname, 'source/tcga/expression/transcript-level/TCGA_ID_MAP.csv')
 
 
 @pytest.fixture
 def source_wildcard(request):
-    """ get the full path of the test output """
+    """ get the full path of the test input """
     return os.path.join(request.fspath.dirname, 'source/tcga/expression/transcript-level/*_tpm.tsv.gz')
 
 

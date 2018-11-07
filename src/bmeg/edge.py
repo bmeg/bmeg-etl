@@ -342,7 +342,6 @@ class Reads(Edge):
 class Writes(Edge):
     """
     Command -> File
-
     """
     pass
 

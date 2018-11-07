@@ -61,7 +61,7 @@ def transform(source_path,
 
 
 def make_parallel_workstream(source_path, jobs, dry_run=False):
-    """ equivalent of: ls -1 source/tcga/expression/gistic2-firehose/TCGA-*_all_data_by_genes.txt | parallel --jobs 10 python3.7 transform/tcga/expression.py --source_path """
+    """ equivalent of: ls -1 source/tcga/expression/gistic2-firehose/TCGA-*_all_thresholded.by_genes.txt | parallel --jobs 10 python3.7 transform/tcga/gistic2_cna.py --source_path """
     with open('/tmp/tcga_gistic2_transform.txt', 'w') as outfile:
         for path in glob(source_path):
             outfile.write("{}\n".format(path))
@@ -79,7 +79,7 @@ def make_parallel_workstream(source_path, jobs, dry_run=False):
 
 if __name__ == "__main__":
     parser = default_argument_parser()
-    parser.add_argument("--source_path", default="source/tcga/gistic2-firehose/TCGA-*_all_data_by_genes.txt", help="path to file(s)")
+    parser.add_argument("--source_path", default="source/tcga/gistic2-firehose/*_all_thresholded.by_genes.txt", help="path to file(s)")
     parser.add_argument("--jobs", default=10, help="number of jobs to run in parallel")
     options = parser.parse_args()
     default_logging(options.loglevel)
