@@ -7,7 +7,7 @@ import os
 
 from neo4j import GraphDatabase
 
-driver = GraphDatabase.driver("bolt://10.50.50.229:7687", auth=(os.environ['NEO4J_USERNAME'], os.environ['NEO4J_PASSWORD']))
+driver = GraphDatabase.driver(os.environ.get('NEO4J_URL', "bolt://localhost:7687"), auth=(os.environ['NEO4J_USERNAME'], os.environ['NEO4J_PASSWORD']))
 
 path = '*.dvc'
 
