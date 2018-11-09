@@ -86,7 +86,7 @@ def transform(source_path,
     for aliquot_id, values in collect.items():
         g = Expression(
             id=aliquot_id,
-            source="ccle",
+            source="ccle-tatlow",
             metric=ExpressionMetric.TPM,
             method="Illumina Hiseq",
             values=values,

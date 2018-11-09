@@ -31,7 +31,7 @@ NAMES = {
 
 def transform(biosample_path='outputs/ccle/Biosample.Vertex.json*',
               drug_response_path='source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv',
-              emitter_prefix=None,
+              emitter_prefix='drug_response',
               emitter_directory="ccle"):
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)

@@ -6,7 +6,8 @@ from bmeg.vertex import Protein, PFAMFamily, Transcript, ProteinStructure
 from bmeg.edge import PFAMAlignment, ProteinFor, StructureFor
 from bmeg.emitter import JSONEmitter
 
-# ftp://ftp.ensembl.org/pub/release-93/json/homo_sapiens/homo_sapiens.json
+# AS-IS: ftp://ftp.ensembl.org/pub/release-93/json/homo_sapiens/homo_sapiens.json
+# TODO ?: ftp://ftp.ensembl.org/pub/grch37/release-94/rdf/homo_sapiens.ttl.gz
 
 emitter = JSONEmitter("ensembl-protein")
 
