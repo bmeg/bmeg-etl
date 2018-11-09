@@ -1,6 +1,9 @@
 cmd: wget http://purl.obolibrary.org/obo/go.obo -O source/go/go.obo
-md5: 60bc3199b9b5424e149f070f60780e80
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/go/version.txt
+md5: e7aa34345f5b8f9dc79e21d82e8a8cb5
 outs:
 - cache: true
-  md5: acc07658a609d7ea9ec99e8ec07bdbdf
+  md5: 0f006ae77ea311550c6df2054096927b
   path: source/go/go.obo

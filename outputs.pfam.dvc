@@ -1,4 +1,4 @@
-cmd: python3 transform/pfam/transform.py  ; cd outputs/pfam/ ; gzip *.json
+cmd: python3 transform/pfam/transform.py
 deps:
 - md5: 9f57d29531c058ad641ed81cbea0723d
   path: source/pfam/clans.tsv
@@ -6,7 +6,7 @@ deps:
   path: source/pfam/pfam.tar.gz
 - md5: 54c1197d01d28013bcde897528626688
   path: source/pfam/id_list.txt
-md5: 76280ec5dd39bc7eac97b0bf66f88b34
+md5: 2ae2ef21122f1796b406772e4a2691ff
 outs:
 - cache: true
   md5: e055d958444eafb0e490a91e98aa8185

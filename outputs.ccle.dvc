@@ -1,8 +1,8 @@
-cmd: python3 transform/ccle/samples.py ; cd outputs/ccle/ ; gzip *.json
+cmd: python3 transform/ccle/samples.py
 deps:
 - md5: 3434f25021354ddd60df6307ad29ea79
   path: source/ccle/DepMap-2018q3-celllines.csv
-md5: 0dc8443dc34b082693a16f16264ba065
+md5: 76042047046a2e32ecd8d15007a1000c
 outs:
 - cache: true
   md5: 561324844c53077551083b941982728c

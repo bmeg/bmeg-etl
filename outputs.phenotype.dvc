@@ -1,17 +1,17 @@
-cmd: python3 transform/phenotype/transform.py  ; cd outputs/phenotype/ ; gzip *.json
+cmd: python3 transform/phenotype/transform.py
 deps:
 - md5: 981503cd52ba41f16ab85fcf716b1bee
   path: outputs/ccle/Phenotype.Vertex.json.gz
-- md5: 8a4345357fc6e67b50d994f790007a89
+- md5: 00d41bc8f050a4a8b9a8c7585c9c208c
   path: outputs/g2p/Phenotype.Vertex.json.gz
-md5: 1a7bbaa04322780958cd012e466a0931
+md5: b7fad68d21bc94419393ebef9c5c1731
 outs:
 - cache: true
-  md5: 5374d2910dfd5f90307deae4b90feea5
+  md5: 06abe999eb3457ff11dd92aca9e29c6c
   path: outputs/phenotype/normalized.HasPhenotype.Edge.json.gz
 - cache: true
-  md5: 749c6fd7804d2a5603acb1b56ea9b89c
+  md5: a8b1785fce401e81620e70e9efe8ff67
   path: outputs/phenotype/normalized.Phenotype.Vertex.json.gz
 - cache: true
-  md5: a958e3227d613abf69830d7a2ea4dce6
+  md5: 625c31de0eba5b1e8c283036755dd123
   path: outputs/phenotype/normalized.PhenotypeOf.Edge.json.gz

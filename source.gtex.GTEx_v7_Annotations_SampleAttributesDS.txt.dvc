@@ -1,6 +1,9 @@
 cmd: wget https://storage.googleapis.com/gtex_analysis_v7/annotations/GTEx_v7_Annotations_SampleAttributesDS.txt
   -O source/gtex/GTEx_v7_Annotations_SampleAttributesDS.txt
-md5: d91dcc2a5fa9ab291fd1c2338e7b879f
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/gtex/version.txt
+md5: 11a58aa6be96ece75830b133dde1ebba
 outs:
 - cache: true
   md5: 80f2b89d45843abb0a0dc39d5054530c

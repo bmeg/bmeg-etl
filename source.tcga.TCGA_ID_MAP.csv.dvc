@@ -1,5 +1,8 @@
 cmd: wget https://osf.io/7qpsg/download -O source/tcga/expression/transcript-level/TCGA_ID_MAP.csv
-md5: 43c16d85ee03fa3122f5332a7c012d51
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/tcga/version.txt
+md5: 7b069f3f886eb9771c59e8b9a8abbe10
 outs:
 - cache: true
   md5: 07b930da26e4a06dcf8c9a0faff57be1

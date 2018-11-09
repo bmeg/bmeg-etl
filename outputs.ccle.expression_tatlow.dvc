@@ -1,10 +1,10 @@
-cmd: python3 transform/ccle/expression_tatlow.py  ; cd outputs/ccle/ ; gzip *.json
+cmd: python3 transform/ccle/expression_tatlow.py
 deps:
 - md5: 4fadc5ed3b8008b390fca93278b06b23
   path: source/ccle/expression/CCLE_tpm.tsv.gz
 - md5: 9ccf83393276d56191a88c3d54ef6a5d
   path: outputs/ccle/Biosample.Vertex.json.gz
-md5: 0ffaf0ab8591d29b798288f985881bcb
+md5: cc02d65366172949ba0c2885cb921e74
 outs:
 - cache: true
   md5: ccbe592fb13c2ed858d74b4c5f948e62

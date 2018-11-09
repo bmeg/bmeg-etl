@@ -1,4 +1,4 @@
-cmd: python3 transform/tcga/expression.py ; cd outputs/tcga/ ; gzip *.json
+cmd: python3 transform/tcga/expression.py
 deps:
 - md5: 07b930da26e4a06dcf8c9a0faff57be1
   path: source/tcga/expression/transcript-level/TCGA_ID_MAP.csv
@@ -68,7 +68,7 @@ deps:
   path: source/tcga/expression/transcript-level/TCGA_UCS_tpm.tsv.gz
 - md5: 4ead672bc051010636f79d7afe27fd9e
   path: source/tcga/expression/transcript-level/TCGA_UVM_tpm.tsv.gz
-md5: 7d5a3215bd5d530618499bff2708cc00
+md5: 0a848bc457445e1ee97db18b6680f7d6
 outs:
 - cache: true
   md5: 6db58c0220728443515777ee74eab864

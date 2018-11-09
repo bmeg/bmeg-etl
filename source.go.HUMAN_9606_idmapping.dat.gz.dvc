@@ -1,8 +1,11 @@
 cmd: curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry
   128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/by_organism/HUMAN_9606_idmapping.dat.gz
   --output source/go/HUMAN_9606_idmapping.dat.gz
-md5: d96658006ba62db23a34a8d2d6cf15b9
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/go/version.txt
+md5: 0ede1080a51456e6243865d8a338068b
 outs:
 - cache: true
-  md5: 604a36b03da6b9c1b4078388b4b07136
+  md5: de194db0e7e5f01c29732c9f23dd603c
   path: source/go/HUMAN_9606_idmapping.dat.gz
