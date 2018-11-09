@@ -9,6 +9,16 @@ from tabulate import tabulate
 
 DEFAULT_DIRECTORY = 'meta'
 
+HUGO_HEADER = """
+---
+title: Data Sources
+menu:
+  main:
+    parent: Building Graph
+    weight: 2
+---
+"""
+
 
 def transform(
     source_dir=".",
@@ -24,6 +34,7 @@ def transform(
         emitter_directory = 'outputs/meta'
 
     with open('{}/dvc.md'.format(emitter_directory), 'w') as f:
+        f.write(HUGO_HEADER)
         f.write('# Data Sources Summary\n')
         f.write(tabulate(papers, headers="keys", tablefmt="pipe"))
         f.write('\n')
