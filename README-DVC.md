@@ -203,7 +203,7 @@ dvc run --file source.pfam.clans.tsv.dvc --yes \
   "wget http://pfam.xfam.org/clans?output=text -O source/pfam/clans.tsv"
 #
 dvc run --file source.pfam.tar.gz.dvc --yes \
-  -o transform/pfam/list.py \
+  -d transform/pfam/list.py \
   -o source/pfam/pfam.tar.gz \
   "python3 transform/pfam/download.py --archive ; tar xvfz source/pfam/pfam.tar.gz -C source/pfam"
 #
@@ -220,7 +220,7 @@ dvc run --file source.tcga.tcga-genomics.zip.dvc --yes \
   "wget https://files.osf.io/v1/resources/gqrz9/providers/osfstorage/578518706c613b01f0a8325f/?zip= -O source/tcga/expression/transcript-level/tcga-genomics.zip"
 #
 dvc run --file source.tcga.TCGA_expression_tpm.tsv.gz.dvc --yes \
-  -o source/tcga/expression/transcript-level/tcga-genomics.zip \
+  -d source/tcga/expression/transcript-level/tcga-genomics.zip \
   -o source/tcga/expression/transcript-level/TCGA_ACC_tpm.tsv.gz \
   -o source/tcga/expression/transcript-level/TCGA_BLCA_tpm.tsv.gz \
   -o source/tcga/expression/transcript-level/TCGA_BRCA_tpm.tsv.gz \
@@ -257,8 +257,8 @@ dvc run --file source.tcga.TCGA_expression_tpm.tsv.gz.dvc --yes \
   "unzip -j source/tcga/expression/transcript-level/tcga-genomics.zip *_tpm.tsv.gz -d source/tcga/expression/transcript-level"
 #
 dvc run --file outputs.ccle.maf.dvc --yes \
-  -o source/ccle/CCLE_DepMap_18q3_maf_20180718.txt \
-  -o source/gene_enricher/non_alt_loci_set.json \
+  -d source/ccle/CCLE_DepMap_18q3_maf_20180718.txt \
+  -d source/gene_enricher/non_alt_loci_set.json \
   -o outputs/ccle/Allele.Vertex.json.gz \
   -o outputs/ccle/AlleleCall.Edge.json.gz \
   -o outputs/ccle/AlleleIn.Edge.json.gz \
@@ -267,8 +267,8 @@ dvc run --file outputs.ccle.maf.dvc --yes \
   "python3 transform/ccle/ccle_maf_transform.py ; cd outputs/ccle/ ; gzip *.json"
 #
 dvc run --file outputs.g2p.dvc --yes \
-  -o source/g2p/all.json \
-  -o source/gene_enricher/non_alt_loci_set.json \
+  -d source/g2p/all.json \
+  -d source/gene_enricher/non_alt_loci_set.json \
   -o outputs/g2p/Allele.Vertex.json.gz \
   -o outputs/g2p/AlleleIn.Edge.json.gz \
   -o outputs/g2p/Compound.Vertex.json.gz \
@@ -297,8 +297,8 @@ dvc run --file outputs.gdc.cases.dvc --yes \
   "python3 -m transform.gdc.cases ; cd outputs/gdc/ ; gzip *.json"
 #
 dvc run --file outputs.mc3.dvc --yes \
-  -o outputs/gdc/Aliquot.Vertex.json.gz \
-  -o source/mc3/mc3.v0.2.8.PUBLIC.maf.gz \
+  -d outputs/gdc/Aliquot.Vertex.json.gz \
+  -d source/mc3/mc3.v0.2.8.PUBLIC.maf.gz \
   -o outputs/mc3/Allele.Vertex.json.gz \
   -o outputs/mc3/AlleleCall.Edge.json.gz \
   -o outputs/mc3/AlleleIn.Edge.json.gz \
@@ -308,20 +308,20 @@ dvc run --file outputs.mc3.dvc --yes \
   "python3 transform/mc3/mc3_maf_transform.py ; cd outputs/mc3/ ; gzip *.json"
 #
 dvc run --file outputs.allele.dvc --yes \
-  -o outputs/ccle/Allele.Vertex.json.gz \
-  -o outputs/g2p/Allele.Vertex.json.gz \
-  -o outputs/g2p/MinimalAllele.Vertex.json.gz \
-  -o outputs/mc3/Allele.Vertex.json.gz \
-  -o outputs/myvariant.info/myvariant.info.Allele.Vertex.json.gz \
-  -o source/myvariant.info/biothings_current_old_hg19.json.gz \
-  -o source/myvariant.info/harvested_myvariantinfo.json.gz \
-  -o source/myvariant.info/metadata.fields.json \
-  -o source/myvariant.info/metadata.json \
+  -d outputs/ccle/Allele.Vertex.json.gz \
+  -d outputs/g2p/Allele.Vertex.json.gz \
+  -d outputs/g2p/MinimalAllele.Vertex.json.gz \
+  -d outputs/mc3/Allele.Vertex.json.gz \
+  -d outputs/myvariant.info/myvariant.info.Allele.Vertex.json.gz \
+  -d source/myvariant.info/biothings_current_old_hg19.json.gz \
+  -d source/myvariant.info/harvested_myvariantinfo.json.gz \
+  -d source/myvariant.info/metadata.fields.json \
+  -d source/myvariant.info/metadata.json \
   -o outputs/allele/Allele.Vertex.json.gz \
   "python3 transform/allele/transform.py ; cd outputs/allele/ ; gzip *.json"
 #
 dvc run --file outputs.ccle.dvc --yes \
-  -o source/ccle/DepMap-2018q3-celllines.csv \
+  -d source/ccle/DepMap-2018q3-celllines.csv \
   -o outputs/ccle/Aliquot.Vertex.json.gz \
   -o outputs/ccle/AliquotFor.Edge.json.gz \
   -o outputs/ccle/Biosample.Vertex.json.gz \
@@ -334,14 +334,14 @@ dvc run --file outputs.ccle.dvc --yes \
   "python3 transform/ccle/samples.py ; cd outputs/ccle/ ; gzip *.json"
 #
 dvc run --file outputs.ccle.expression.dvc --yes \
-  -o source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct \
+  -d source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct \
   -o outputs/ccle/Expression.Vertex.json.gz \
   -o outputs/ccle/ExpressionOf.Edge.json.gz \
   "python3 transform/ccle/expression.py  ; cd outputs/ccle/ ; gzip *.json"
 #
 dvc run --file outputs.ccle.drug_response.dvc --yes \
-  -o source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv \
-  -o outputs/ccle/Biosample.Vertex.json.gz \
+  -d source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv \
+  -d outputs/ccle/Biosample.Vertex.json.gz \
   -o outputs/ccle/drug_response.Aliquot.Vertex.json.gz \
   -o outputs/ccle/drug_response.AliquotFor.Edge.json.gz \
   -o outputs/ccle/drug_response.Biosample.Vertex.json.gz \
@@ -356,8 +356,8 @@ dvc run --file outputs.ccle.drug_response.dvc --yes \
   "python3 transform/ccle/drug_response.py  ; cd outputs/ccle/ ; gzip *.json"
 #
 dvc run --file outputs.ccle.expression_tatlow.dvc --yes \
-  -o source/ccle/expression/CCLE_tpm.tsv.gz \
-  -o outputs/ccle/Biosample.Vertex.json.gz \
+  -d source/ccle/expression/CCLE_tpm.tsv.gz \
+  -d outputs/ccle/Biosample.Vertex.json.gz \
   -o outputs/ccle/tatlow.Aliquot.Vertex.json.gz \
   -o outputs/ccle/tatlow.AliquotFor.Edge.json.gz \
   -o outputs/ccle/tatlow.Biosample.Vertex.json.gz \
@@ -370,7 +370,7 @@ dvc run --file outputs.ccle.expression_tatlow.dvc --yes \
   "python3 transform/ccle/expression_tatlow.py  ; cd outputs/ccle/ ; gzip *.json"
 #
 dvc run --file outputs.gdsc.dvc --yes \
-  -o source/gdsc/GDSC_AUC.csv \
+  -d source/gdsc/GDSC_AUC.csv \
   -o outputs/gdsc/gdsc.Compound.Vertex.json.gz \
   -o outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz \
   -o outputs/gdsc/gdsc.DrugResponseIn.Edge.json.gz \
@@ -378,17 +378,17 @@ dvc run --file outputs.gdsc.dvc --yes \
   "python3 transform/gdsc/response.py  ; cd outputs/gdsc/ ; gzip *.json"
 #
 dvc run --file outputs.compound.normalized.dvc --yes \
-  -o source/compound/sqlite.db \
-  -o outputs/ccle/Compound.Vertex.json.gz \
-  -o outputs/ccle/drug_response.Compound.Vertex.json.gz \
-  -o outputs/g2p/Compound.Vertex.json.gz \
-  -o outputs/gdc/Compound.Vertex.json.gz \
-  -o outputs/gdsc/gdsc.Compound.Vertex.json.gz \
-  -o outputs/g2p/HasEnvironment.Edge.json.gz \
-  -o outputs/ccle/ResponseTo.Edge.json.gz \
-  -o outputs/ccle/drug_response.ResponseTo.Edge.json.gz \
-  -o outputs/gdsc/gdsc.ResponseTo.Edge.json.gz \
-  -o outputs/gdc/TreatedWith.Edge.json.gz \
+  -d source/compound/sqlite.db \
+  -d outputs/ccle/Compound.Vertex.json.gz \
+  -d outputs/ccle/drug_response.Compound.Vertex.json.gz \
+  -d outputs/g2p/Compound.Vertex.json.gz \
+  -d outputs/gdc/Compound.Vertex.json.gz \
+  -d outputs/gdsc/gdsc.Compound.Vertex.json.gz \
+  -d outputs/g2p/HasEnvironment.Edge.json.gz \
+  -d outputs/ccle/ResponseTo.Edge.json.gz \
+  -d outputs/ccle/drug_response.ResponseTo.Edge.json.gz \
+  -d outputs/gdsc/gdsc.ResponseTo.Edge.json.gz \
+  -d outputs/gdc/TreatedWith.Edge.json.gz \
   -o outputs/compound/normalized.Compound.Vertex.json.gz \
   -o outputs/compound/normalized.HasEnvironment.Edge.json.gz \
   -o outputs/compound/normalized.ResponseTo.Edge.json.gz \
@@ -396,7 +396,7 @@ dvc run --file outputs.compound.normalized.dvc --yes \
   "python3 transform/compound/transform.py  ; cd outputs/compound/ ; gzip *.json"
 #
 dvc run --file outputs.ensembl-protein.dvc --yes \
-  -o source/ensembl-protein/homo_sapiens.json \
+  -d source/ensembl-protein/homo_sapiens.json \
   -o outputs/ensembl-protein/PFAMAlignment.Edge.json.gz \
   -o outputs/ensembl-protein/Protein.Vertex.json.gz \
   -o outputs/ensembl-protein/ProteinFor.Edge.json.gz \
@@ -405,38 +405,38 @@ dvc run --file outputs.ensembl-protein.dvc --yes \
   " "
 #
 dvc run --file outputs.ensembl.dvc --yes \
-  -o source/ensembl/Homo_sapiens.GRCh37.87.gff3.gz \
+  -d source/ensembl/Homo_sapiens.GRCh37.87.gff3.gz \
   -o outputs/ensembl/Exon.Vertex.json.gz \
   -o outputs/ensembl/ExonFor.Edge.json.gz \
   -o outputs/ensembl/Gene.Vertex.json.gz \
   -o outputs/ensembl/Transcript.Vertex.json.gz \
   -o outputs/ensembl/TranscriptFor.Edge.json.gz \
-  "python3 transform/ensembl/ensembl-transform.py; cd outputs/ensembl/; gzip *.json"
+  "python3 transform/ensembl/transform.py; cd outputs/ensembl/; gzip -f *.json"
 #
 dvc run --file outputs.ensembl.missing_transcripts.dvc --yes \
-  -o source/ensembl/missing_transcript_ids.txt \
+  -d source/ensembl/missing_transcript_ids.txt \
   -o outputs/ensembl/missing.Transcript.Vertex.json.gz \
-  "python3 transform/ensembl/missing_transcripts.py; cd outputs/ensembl ; gzip *.json"
+  "python3 transform/ensembl/missing_transcripts.py; cd outputs/ensembl ; gzip -f *.json"
 #
 dvc run --file outputs.gdc.projects.dvc --yes \
   -o outputs/gdc/Project.Vertex.json.gz \
   "python3 transform/gdc/projects.py ; cd outputs/gdc/ ; gzip *.json"
 #
 dvc run --file outputs.go.gaf2schema.dvc --yes \
-  -o source/go/goa_human.gaf.gz \
-  -o source/go/HUMAN_9606_idmapping.dat.gz \
+  -d source/go/goa_human.gaf.gz \
+  -d source/go/HUMAN_9606_idmapping.dat.gz \
   -o outputs/go/GeneOntologyAnnotation.Edge.json.gz \
   "python3 transform/go/go_gaf2schema.py source/go/goa_human.gaf.gz source/go/HUMAN_9606_idmapping.dat.gz go; cd outputs/go/ ; gzip *.json"
 #
 dvc run --file outputs.go.dvc --yes \
-  -o source/go/go.obo \
+  -d source/go/go.obo \
   -o outputs/go/GeneOntologyIsA.Edge.json.gz \
   -o outputs/go/GeneOntologyTerm.Vertex.json.gz \
   "python3 transform/go/go_obo2schema.py source/go/go.obo ; cd outputs/go/ ; gzip *.json"
 #
 dvc run --file outputs.gtex.dvc --yes \
-  -o source/gtex/GTEx_v7_Annotations_SampleAttributesDS.txt \
-  -o source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.txt \
+  -d source/gtex/GTEx_v7_Annotations_SampleAttributesDS.txt \
+  -d source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.txt \
   -o outputs/gtex/gtex.Aliquot.Vertex.json.gz \
   -o outputs/gtex/gtex.AliquotFor.Edge.json.gz \
   -o outputs/gtex/gtex.Biosample.Vertex.json.gz \
@@ -447,15 +447,15 @@ dvc run --file outputs.gtex.dvc --yes \
   "python3 transform/gtex/samples.py  ; cd outputs/gtex/ ; gzip *.json"
 #
 dvc run --file outputs.gtex.expression.dvc --yes \
-  -o source/gtex/GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_tpm.gct \
+  -d source/gtex/GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_tpm.gct \
   -o outputs/gtex/gtex.Expression.Vertex.json.gz \
   -o outputs/gtex/gtex.ExpressionOf.Edge.json.gz \
   "python3 transform/gtex/expression.py  ; cd outputs/gtex/ ; gzip *.json"
 #
 dvc run --file outputs.pfam.dvc --yes \
-  -o source/pfam/clans.tsv \
-  -o source/pfam/pfam.tar.gz \
-  -o source/pfam/id_list.txt \
+  -d source/pfam/clans.tsv \
+  -d source/pfam/pfam.tar.gz \
+  -d source/pfam/id_list.txt \
   -o outputs/pfam/GeneOntologyAnnotation.Edge.json.gz \
   -o outputs/pfam/PFAMClan.Vertex.json.gz \
   -o outputs/pfam/PFAMClanMember.Edge.json.gz \
@@ -463,53 +463,53 @@ dvc run --file outputs.pfam.dvc --yes \
   "python3 transform/pfam/transform.py  ; cd outputs/pfam/ ; gzip *.json"
 #
 dvc run --file outputs.phenotype.dvc --yes \
-  -o outputs/ccle/Phenotype.Vertex.json.gz \
-  -o outputs/g2p/Phenotype.Vertex.json.gz \
+  -d outputs/ccle/Phenotype.Vertex.json.gz \
+  -d outputs/g2p/Phenotype.Vertex.json.gz \
   -o outputs/phenotype/normalized.HasPhenotype.Edge.json.gz \
   -o outputs/phenotype/normalized.Phenotype.Vertex.json.gz \
   -o outputs/phenotype/normalized.PhenotypeOf.Edge.json.gz \
   "python3 transform/phenotype/transform.py  ; cd outputs/phenotype/ ; gzip *.json"
 #
 dvc run --file outputs.publication.dvc --yes \
-  -o outputs/g2p/HasSupportingReference.Edge.json.gz \
+  -d outputs/g2p/HasSupportingReference.Edge.json.gz \
   -o outputs/publication/stub.Publication.Vertex.json.gz \
   "python3 transform/publication/transform.py ; cd outputs/publication/ ; gzip *.json"
 #
 dvc run --file outputs.tcga.expression.dvc --yes \
-  -o source/tcga/expression/transcript-level/TCGA_ID_MAP.csv \
-  -o source/tcga/expression/transcript-level/TCGA_ACC_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_BLCA_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_BRCA_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_CESC_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_CHOL_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_COAD_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_DLBC_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_ESCA_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_GBM_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_HNSC_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_KICH_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_KIRC_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_KIRP_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_LAML_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_LGG_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_LIHC_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_LUAD_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_LUSC_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_MESO_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_OV_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_PAAD_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_PCPG_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_PRAD_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_READ_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_SARC_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_SKCM_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_STAD_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_TGCT_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_THCA_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_THYM_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_UCEC_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_UCS_tpm.tsv.gz \
-  -o source/tcga/expression/transcript-level/TCGA_UVM_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_ID_MAP.csv \
+  -d source/tcga/expression/transcript-level/TCGA_ACC_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_BLCA_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_BRCA_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_CESC_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_CHOL_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_COAD_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_DLBC_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_ESCA_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_GBM_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_HNSC_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_KICH_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_KIRC_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_KIRP_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_LAML_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_LGG_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_LIHC_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_LUAD_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_LUSC_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_MESO_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_OV_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_PAAD_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_PCPG_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_PRAD_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_READ_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_SARC_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_SKCM_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_STAD_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_TGCT_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_THCA_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_THYM_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_UCEC_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_UCS_tpm.tsv.gz \
+  -d source/tcga/expression/transcript-level/TCGA_UVM_tpm.tsv.gz \
   -o outputs/tcga/ACC.Expression.Vertex.json.gz \
   -o outputs/tcga/ACC.ExpressionOf.Edge.json.gz \
   -o outputs/tcga/BLCA.Expression.Vertex.json.gz \
@@ -580,162 +580,164 @@ dvc run --file outputs.tcga.expression.dvc --yes \
   "python3 transform/tcga/expression.py ; cd outputs/tcga/ ; gzip *.json"
 #
 dvc run --file outputs.bmeg_manifest.dvc --yes \
-  -o outputs/allele/Allele.Vertex.json.gz \
-  -o outputs/ccle/Aliquot.Vertex.json.gz \
-  -o outputs/ccle/AliquotFor.Edge.json.gz \
-  -o outputs/ccle/AlleleCall.Edge.json.gz \
-  -o outputs/ccle/AlleleIn.Edge.json.gz \
-  -o outputs/ccle/Biosample.Vertex.json.gz \
-  -o outputs/ccle/BiosampleFor.Edge.json.gz \
-  -o outputs/ccle/Callset.Vertex.json.gz \
-  -o outputs/ccle/CallsetFor.Edge.json.gz \
-  -o outputs/ccle/Expression.Vertex.json.gz \
-  -o outputs/ccle/ExpressionOf.Edge.json.gz \
-  -o outputs/ccle/InProject.Edge.json.gz \
-  -o outputs/ccle/Individual.Vertex.json.gz \
-  -o outputs/ccle/Project.Vertex.json.gz \
-  -o outputs/ccle/drug_response.Aliquot.Vertex.json.gz \
-  -o outputs/ccle/drug_response.AliquotFor.Edge.json.gz \
-  -o outputs/ccle/drug_response.Biosample.Vertex.json.gz \
-  -o outputs/ccle/drug_response.BiosampleFor.Edge.json.gz \
-  -o outputs/ccle/drug_response.InProject.Edge.json.gz \
-  -o outputs/ccle/drug_response.Individual.Vertex.json.gz \
-  -o outputs/ccle/drug_response.ParamacalogicalProfile.Vertex.json.gz \
-  -o outputs/ccle/drug_response.ParamacalogicalProfileIn.Edge.json.gz \
-  -o outputs/ccle/drug_response.Project.Vertex.json.gz \
-  -o outputs/ccle/tatlow.Aliquot.Vertex.json.gz \
-  -o outputs/ccle/tatlow.AliquotFor.Edge.json.gz \
-  -o outputs/ccle/tatlow.Biosample.Vertex.json.gz \
-  -o outputs/ccle/tatlow.BiosampleFor.Edge.json.gz \
-  -o outputs/ccle/tatlow.Expression.Vertex.json.gz \
-  -o outputs/ccle/tatlow.ExpressionOf.Edge.json.gz \
-  -o outputs/ccle/tatlow.InProject.Edge.json.gz \
-  -o outputs/ccle/tatlow.Individual.Vertex.json.gz \
-  -o outputs/ccle/tatlow.Project.Vertex.json.gz \
-  -o outputs/compound/normalized.Compound.Vertex.json.gz \
-  -o outputs/compound/normalized.HasEnvironment.Edge.json.gz \
-  -o outputs/compound/normalized.ResponseTo.Edge.json.gz \
-  -o outputs/compound/normalized.TreatedWith.Edge.json.gz \
-  -o outputs/ensembl-protein/PFAMAlignment.Edge.json.gz \
-  -o outputs/ensembl-protein/Protein.Vertex.json.gz \
-  -o outputs/ensembl-protein/ProteinFor.Edge.json.gz \
-  -o outputs/ensembl-protein/ProteinStructure.Vertex.json.gz \
-  -o outputs/ensembl-protein/StructureFor.Edge.json.gz \
-  -o outputs/ensembl/Exon.Vertex.json.gz \
-  -o outputs/ensembl/ExonFor.Edge.json.gz \
-  -o outputs/ensembl/Gene.Vertex.json.gz \
-  -o outputs/ensembl/Transcript.Vertex.json.gz \
-  -o outputs/ensembl/TranscriptFor.Edge.json.gz \
-  -o outputs/ensembl/missing.Transcript.Vertex.json.gz \
-  -o outputs/g2p/AlleleIn.Edge.json.gz \
-  -o outputs/g2p/G2PAssociation.Vertex.json.gz \
-  -o outputs/g2p/HasAlleleFeature.Edge.json.gz \
-  -o outputs/g2p/HasGeneFeature.Edge.json.gz \
-  -o outputs/g2p/HasMinimalAlleleFeature.Edge.json.gz \
-  -o outputs/g2p/HasSupportingReference.Edge.json.gz \
-  -o outputs/g2p/MinimalAllele.Vertex.json.gz \
-  -o outputs/g2p/MinimalAlleleIn.Edge.json.gz \
-  -o outputs/gdc/Aliquot.Vertex.json.gz \
-  -o outputs/gdc/AliquotFor.Edge.json.gz \
-  -o outputs/gdc/Biosample.Vertex.json.gz \
-  -o outputs/gdc/BiosampleFor.Edge.json.gz \
-  -o outputs/gdc/InProject.Edge.json.gz \
-  -o outputs/gdc/Individual.Vertex.json.gz \
-  -o outputs/gdc/Project.Vertex.json.gz \
-  -o outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz \
-  -o outputs/gdsc/gdsc.DrugResponseIn.Edge.json.gz \
-  -o outputs/go/GeneOntologyAnnotation.Edge.json.gz \
-  -o outputs/go/GeneOntologyIsA.Edge.json.gz \
-  -o outputs/go/GeneOntologyTerm.Vertex.json.gz \
-  -o outputs/gtex/gtex.Aliquot.Vertex.json.gz \
-  -o outputs/gtex/gtex.AliquotFor.Edge.json.gz \
-  -o outputs/gtex/gtex.Biosample.Vertex.json.gz \
-  -o outputs/gtex/gtex.BiosampleFor.Edge.json.gz \
-  -o outputs/gtex/gtex.Expression.Vertex.json.gz \
-  -o outputs/gtex/gtex.ExpressionOf.Edge.json.gz \
-  -o outputs/gtex/gtex.InProject.Edge.json.gz \
-  -o outputs/gtex/gtex.Individual.Vertex.json.gz \
-  -o outputs/gtex/gtex.Project.Vertex.json.gz \
-  -o outputs/mc3/AlleleCall.Edge.json.gz \
-  -o outputs/mc3/AlleleIn.Edge.json.gz \
-  -o outputs/mc3/Callset.Vertex.json.gz \
-  -o outputs/mc3/CallsetFor.Edge.json.gz \
-  -o outputs/pfam/GeneOntologyAnnotation.Edge.json.gz \
-  -o outputs/pfam/PFAMClan.Vertex.json.gz \
-  -o outputs/pfam/PFAMClanMember.Edge.json.gz \
-  -o outputs/pfam/PFAMFamily.Vertex.json.gz \
-  -o outputs/phenotype/normalized.HasPhenotype.Edge.json.gz \
-  -o outputs/phenotype/normalized.Phenotype.Vertex.json.gz \
-  -o outputs/phenotype/normalized.PhenotypeOf.Edge.json.gz \
-  -o outputs/publication/stub.Publication.Vertex.json.gz \
-  -o outputs/tcga/ACC.Expression.Vertex.json.gz \
-  -o outputs/tcga/ACC.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/BLCA.Expression.Vertex.json.gz \
-  -o outputs/tcga/BLCA.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/BRCA.Expression.Vertex.json.gz \
-  -o outputs/tcga/BRCA.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/CESC.Expression.Vertex.json.gz \
-  -o outputs/tcga/CESC.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/CHOL.Expression.Vertex.json.gz \
-  -o outputs/tcga/CHOL.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/COAD.Expression.Vertex.json.gz \
-  -o outputs/tcga/COAD.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/DLBC.Expression.Vertex.json.gz \
-  -o outputs/tcga/DLBC.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/ESCA.Expression.Vertex.json.gz \
-  -o outputs/tcga/ESCA.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/GBM.Expression.Vertex.json.gz \
-  -o outputs/tcga/GBM.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/HNSC.Expression.Vertex.json.gz \
-  -o outputs/tcga/HNSC.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/KICH.Expression.Vertex.json.gz \
-  -o outputs/tcga/KICH.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/KIRC.Expression.Vertex.json.gz \
-  -o outputs/tcga/KIRC.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/KIRP.Expression.Vertex.json.gz \
-  -o outputs/tcga/KIRP.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/LAML.Expression.Vertex.json.gz \
-  -o outputs/tcga/LAML.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/LGG.Expression.Vertex.json.gz \
-  -o outputs/tcga/LGG.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/LIHC.Expression.Vertex.json.gz \
-  -o outputs/tcga/LIHC.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/LUAD.Expression.Vertex.json.gz \
-  -o outputs/tcga/LUAD.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/LUSC.Expression.Vertex.json.gz \
-  -o outputs/tcga/LUSC.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/MESO.Expression.Vertex.json.gz \
-  -o outputs/tcga/MESO.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/OV.Expression.Vertex.json.gz \
-  -o outputs/tcga/OV.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/PAAD.Expression.Vertex.json.gz \
-  -o outputs/tcga/PAAD.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/PCPG.Expression.Vertex.json.gz \
-  -o outputs/tcga/PCPG.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/PRAD.Expression.Vertex.json.gz \
-  -o outputs/tcga/PRAD.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/READ.Expression.Vertex.json.gz \
-  -o outputs/tcga/READ.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/SARC.Expression.Vertex.json.gz \
-  -o outputs/tcga/SARC.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/SKCM.Expression.Vertex.json.gz \
-  -o outputs/tcga/SKCM.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/STAD.Expression.Vertex.json.gz \
-  -o outputs/tcga/STAD.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/TGCT.Expression.Vertex.json.gz \
-  -o outputs/tcga/TGCT.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/THCA.Expression.Vertex.json.gz \
-  -o outputs/tcga/THCA.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/THYM.Expression.Vertex.json.gz \
-  -o outputs/tcga/THYM.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/UCEC.Expression.Vertex.json.gz \
-  -o outputs/tcga/UCEC.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/UCS.Expression.Vertex.json.gz \
-  -o outputs/tcga/UCS.ExpressionOf.Edge.json.gz \
-  -o outputs/tcga/UVM.Expression.Vertex.json.gz \
-  -o outputs/tcga/UVM.ExpressionOf.Edge.json.gz \
+  -d outputs/allele/Allele.Vertex.json.gz \
+  -d outputs/ccle/Aliquot.Vertex.json.gz \
+  -d outputs/ccle/AliquotFor.Edge.json.gz \
+  -d outputs/ccle/AlleleCall.Edge.json.gz \
+  -d outputs/ccle/AlleleIn.Edge.json.gz \
+  -d outputs/ccle/Biosample.Vertex.json.gz \
+  -d outputs/ccle/BiosampleFor.Edge.json.gz \
+  -d outputs/ccle/Callset.Vertex.json.gz \
+  -d outputs/ccle/CallsetFor.Edge.json.gz \
+  -d outputs/ccle/Expression.Vertex.json.gz \
+  -d outputs/ccle/ExpressionOf.Edge.json.gz \
+  -d outputs/ccle/InProject.Edge.json.gz \
+  -d outputs/ccle/Individual.Vertex.json.gz \
+  -d outputs/ccle/Project.Vertex.json.gz \
+  -d outputs/ccle/drug_response.Aliquot.Vertex.json.gz \
+  -d outputs/ccle/drug_response.AliquotFor.Edge.json.gz \
+  -d outputs/ccle/drug_response.Biosample.Vertex.json.gz \
+  -d outputs/ccle/drug_response.BiosampleFor.Edge.json.gz \
+  -d outputs/ccle/drug_response.InProject.Edge.json.gz \
+  -d outputs/ccle/drug_response.Individual.Vertex.json.gz \
+  -d outputs/ccle/drug_response.ParamacalogicalProfile.Vertex.json.gz \
+  -d outputs/ccle/drug_response.ParamacalogicalProfileIn.Edge.json.gz \
+  -d outputs/ccle/drug_response.Project.Vertex.json.gz \
+  -d outputs/ccle/tatlow.Aliquot.Vertex.json.gz \
+  -d outputs/ccle/tatlow.AliquotFor.Edge.json.gz \
+  -d outputs/ccle/tatlow.Biosample.Vertex.json.gz \
+  -d outputs/ccle/tatlow.BiosampleFor.Edge.json.gz \
+  -d outputs/ccle/tatlow.Expression.Vertex.json.gz \
+  -d outputs/ccle/tatlow.ExpressionOf.Edge.json.gz \
+  -d outputs/ccle/tatlow.InProject.Edge.json.gz \
+  -d outputs/ccle/tatlow.Individual.Vertex.json.gz \
+  -d outputs/ccle/tatlow.Project.Vertex.json.gz \
+  -d outputs/compound/normalized.Compound.Vertex.json.gz \
+  -d outputs/compound/normalized.HasEnvironment.Edge.json.gz \
+  -d outputs/compound/normalized.ResponseTo.Edge.json.gz \
+  -d outputs/compound/normalized.TreatedWith.Edge.json.gz \
+  -d outputs/ensembl-protein/PFAMAlignment.Edge.json.gz \
+  -d outputs/ensembl-protein/Protein.Vertex.json.gz \
+  -d outputs/ensembl-protein/ProteinFor.Edge.json.gz \
+  -d outputs/ensembl-protein/ProteinStructure.Vertex.json.gz \
+  -d outputs/ensembl-protein/StructureFor.Edge.json.gz \
+  -d outputs/ensembl/Exon.Vertex.json.gz \
+  -d outputs/ensembl/ExonFor.Edge.json.gz \
+  -d outputs/ensembl/Gene.Vertex.json.gz \
+  -d outputs/ensembl/Transcript.Vertex.json.gz \
+  -d outputs/ensembl/TranscriptFor.Edge.json.gz \
+  -d outputs/ensembl/missing.Transcript.Vertex.json.gz \
+  -d outputs/g2p/AlleleIn.Edge.json.gz \
+  -d outputs/g2p/G2PAssociation.Vertex.json.gz \
+  -d outputs/g2p/HasAlleleFeature.Edge.json.gz \
+  -d outputs/g2p/HasGeneFeature.Edge.json.gz \
+  -d outputs/g2p/HasMinimalAlleleFeature.Edge.json.gz \
+  -d outputs/g2p/HasSupportingReference.Edge.json.gz \
+  -d outputs/g2p/MinimalAllele.Vertex.json.gz \
+  -d outputs/g2p/MinimalAlleleIn.Edge.json.gz \
+  -d outputs/gdc/Aliquot.Vertex.json.gz \
+  -d outputs/gdc/AliquotFor.Edge.json.gz \
+  -d outputs/gdc/Biosample.Vertex.json.gz \
+  -d outputs/gdc/BiosampleFor.Edge.json.gz \
+  -d outputs/gdc/InProject.Edge.json.gz \
+  -d outputs/gdc/Individual.Vertex.json.gz \
+  -d outputs/gdc/Project.Vertex.json.gz \
+  -d outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz \
+  -d outputs/gdsc/gdsc.DrugResponseIn.Edge.json.gz \
+  -d outputs/go/GeneOntologyAnnotation.Edge.json.gz \
+  -d outputs/go/GeneOntologyIsA.Edge.json.gz \
+  -d outputs/go/GeneOntologyTerm.Vertex.json.gz \
+  -d outputs/gtex/gtex.Aliquot.Vertex.json.gz \
+  -d outputs/gtex/gtex.AliquotFor.Edge.json.gz \
+  -d outputs/gtex/gtex.Biosample.Vertex.json.gz \
+  -d outputs/gtex/gtex.BiosampleFor.Edge.json.gz \
+  -d outputs/gtex/gtex.Expression.Vertex.json.gz \
+  -d outputs/gtex/gtex.ExpressionOf.Edge.json.gz \
+  -d outputs/gtex/gtex.InProject.Edge.json.gz \
+  -d outputs/gtex/gtex.Individual.Vertex.json.gz \
+  -d outputs/gtex/gtex.Project.Vertex.json.gz \
+  -d outputs/mc3/AlleleCall.Edge.json.gz \
+  -d outputs/mc3/AlleleIn.Edge.json.gz \
+  -d outputs/mc3/Callset.Vertex.json.gz \
+  -d outputs/mc3/CallsetFor.Edge.json.gz \
+  -d outputs/pfam/GeneOntologyAnnotation.Edge.json.gz \
+  -d outputs/pfam/PFAMClan.Vertex.json.gz \
+  -d outputs/pfam/PFAMClanMember.Edge.json.gz \
+  -d outputs/pfam/PFAMFamily.Vertex.json.gz \
+  -d outputs/phenotype/normalized.HasPhenotype.Edge.json.gz \
+  -d outputs/phenotype/normalized.Phenotype.Vertex.json.gz \
+  -d outputs/phenotype/normalized.PhenotypeOf.Edge.json.gz \
+  -d outputs/publication/stub.Publication.Vertex.json.gz \
+  -d outputs/tcga/ACC.Expression.Vertex.json.gz \
+  -d outputs/tcga/ACC.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/BLCA.Expression.Vertex.json.gz \
+  -d outputs/tcga/BLCA.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/BRCA.Expression.Vertex.json.gz \
+  -d outputs/tcga/BRCA.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/CESC.Expression.Vertex.json.gz \
+  -d outputs/tcga/CESC.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/CHOL.Expression.Vertex.json.gz \
+  -d outputs/tcga/CHOL.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/COAD.Expression.Vertex.json.gz \
+  -d outputs/tcga/COAD.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/DLBC.Expression.Vertex.json.gz \
+  -d outputs/tcga/DLBC.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/ESCA.Expression.Vertex.json.gz \
+  -d outputs/tcga/ESCA.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/GBM.Expression.Vertex.json.gz \
+  -d outputs/tcga/GBM.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/HNSC.Expression.Vertex.json.gz \
+  -d outputs/tcga/HNSC.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/KICH.Expression.Vertex.json.gz \
+  -d outputs/tcga/KICH.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/KIRC.Expression.Vertex.json.gz \
+  -d outputs/tcga/KIRC.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/KIRP.Expression.Vertex.json.gz \
+  -d outputs/tcga/KIRP.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/LAML.Expression.Vertex.json.gz \
+  -d outputs/tcga/LAML.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/LGG.Expression.Vertex.json.gz \
+  -d outputs/tcga/LGG.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/LIHC.Expression.Vertex.json.gz \
+  -d outputs/tcga/LIHC.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/LUAD.Expression.Vertex.json.gz \
+  -d outputs/tcga/LUAD.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/LUSC.Expression.Vertex.json.gz \
+  -d outputs/tcga/LUSC.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/MESO.Expression.Vertex.json.gz \
+  -d outputs/tcga/MESO.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/OV.Expression.Vertex.json.gz \
+  -d outputs/tcga/OV.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/PAAD.Expression.Vertex.json.gz \
+  -d outputs/tcga/PAAD.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/PCPG.Expression.Vertex.json.gz \
+  -d outputs/tcga/PCPG.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/PRAD.Expression.Vertex.json.gz \
+  -d outputs/tcga/PRAD.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/READ.Expression.Vertex.json.gz \
+  -d outputs/tcga/READ.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/SARC.Expression.Vertex.json.gz \
+  -d outputs/tcga/SARC.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/SKCM.Expression.Vertex.json.gz \
+  -d outputs/tcga/SKCM.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/STAD.Expression.Vertex.json.gz \
+  -d outputs/tcga/STAD.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/TGCT.Expression.Vertex.json.gz \
+  -d outputs/tcga/TGCT.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/THCA.Expression.Vertex.json.gz \
+  -d outputs/tcga/THCA.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/THYM.Expression.Vertex.json.gz \
+  -d outputs/tcga/THYM.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/UCEC.Expression.Vertex.json.gz \
+  -d outputs/tcga/UCEC.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/UCS.Expression.Vertex.json.gz \
+  -d outputs/tcga/UCS.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/UVM.Expression.Vertex.json.gz \
+  -d outputs/tcga/UVM.ExpressionOf.Edge.json.gz \
   -o scripts/bmeg_file_manifest.txt \
   "ls -l scripts/bmeg_file_manifest.txt"
+
+
 ```
 
 
