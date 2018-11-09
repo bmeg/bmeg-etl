@@ -153,6 +153,7 @@ class Transcript(Vertex):
     end: int
     strand: str
     genome: str
+    biotype: str
 
     def gid(self):
         return Transcript.make_gid(self.transcript_id)
