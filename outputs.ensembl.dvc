@@ -1,0 +1,21 @@
+cmd: python3 transform/ensembl/transform.py
+deps:
+- md5: 9165482e57024728ce2d81ce013c72bd
+  path: source/ensembl/Homo_sapiens.GRCh37.87.gff3.gz
+md5: 0996da27745c4510f64a89792c206e40
+outs:
+- cache: true
+  md5: 994535edc5a8d78bcbf4ae3770772bc4
+  path: outputs/ensembl/Exon.Vertex.json.gz
+- cache: true
+  md5: fcdc61a4915f7e77d502c8df3c9b19f3
+  path: outputs/ensembl/ExonFor.Edge.json.gz
+- cache: true
+  md5: 77f39c6296d594cbf501c5938bb36d6e
+  path: outputs/ensembl/Gene.Vertex.json.gz
+- cache: true
+  md5: 814a5d5e24be6974bfc6e76576e28704
+  path: outputs/ensembl/Transcript.Vertex.json.gz
+- cache: true
+  md5: 694dfb463c540e13d98eccbd393e285b
+  path: outputs/ensembl/TranscriptFor.Edge.json.gz

@@ -1,0 +1,7 @@
+cmd: wget https://depmap.org/portal/download/api/download/external?file_name=processed_portal_downloads%2Fsanger-gdsc-545e.1%2FGDSC_AUC.csv
+  -O source/gdsc/GDSC_AUC.csv
+md5: c696cbe716d7e1edb87e8975d9fa901d
+outs:
+- cache: true
+  md5: eef91774a6b4ef37e3a8f341b1a48d0d
+  path: source/gdsc/GDSC_AUC.csv

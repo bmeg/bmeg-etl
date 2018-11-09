@@ -9,6 +9,7 @@ from transform.mc3.mc3_maf_transform import MC3_EXTENSION_CALLSET_KEYS
 from bmeg.maf.maf_transform import STANDARD_MAF_KEYS
 from bmeg.maf.maf_transform import get_value
 from bmeg.vertex import Allele, Callset, Gene, Aliquot
+from bmeg.ioutils import reader
 import os
 import contextlib
 import json
@@ -56,16 +57,16 @@ def emitter_path_prefix(request):
 @pytest.fixture
 def gdc_aliquot_path(request):
     """ get the full path of the test fixture """
-    return os.path.join(request.fspath.dirname, 'outputs/gdc/gdc.Aliquot.Vertex.json')
+    return os.path.join(request.fspath.dirname, 'outputs/gdc/gdc.Aliquot.Vertex.json.gz')
 
 
 def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
-    allele_file = os.path.join(emitter_path_prefix, 'Allele.Vertex.json')
-    allelecall_file = os.path.join(emitter_path_prefix, 'AlleleCall.Edge.json')
-    callset_file = os.path.join(emitter_path_prefix, 'Callset.Vertex.json')
-    allelein_file = os.path.join(emitter_path_prefix, 'AlleleIn.Edge.json')
-    callsetfor_file = os.path.join(emitter_path_prefix, 'CallsetFor.Edge.json')
-    deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json')
+    allele_file = os.path.join(emitter_path_prefix, 'Allele.Vertex.json.gz')
+    allelecall_file = os.path.join(emitter_path_prefix, 'AlleleCall.Edge.json.gz')
+    callset_file = os.path.join(emitter_path_prefix, 'Callset.Vertex.json.gz')
+    allelein_file = os.path.join(emitter_path_prefix, 'AlleleIn.Edge.json.gz')
+    callsetfor_file = os.path.join(emitter_path_prefix, 'CallsetFor.Edge.json.gz')
+    deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json.gz')
 
     all_files = [allele_file, allelecall_file, callset_file, allelein_file, callsetfor_file, deadletter_file]
     # remove output
@@ -86,7 +87,7 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
     # test/test.CallsetFor.Edge.json
     helpers.assert_edge_file_valid(Callset, Aliquot, callsetfor_file)
 
-    with open(callset_file, 'r', encoding='utf-8') as f:
+    with reader(callset_file) as f:
         for line in f:
             # should be json
             callset = json.loads(line)
@@ -96,7 +97,7 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
             assert 'Aliquot:' not in callset['data']['normal_aliquot_id'], 'normal_aliquot_id should not have Aliquot gid'
 
     # test AlleleCall contents
-    with open(allelecall_file, 'r', encoding='utf-8') as f:
+    with reader(allelecall_file) as f:
         for line in f:
             # should be json
             allelecall = json.loads(line)
@@ -110,7 +111,7 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
             assert allelecall_methods < possible_allelecall_methods, 'call_method should belong to vocabulary'
 
     # test Allele contents
-    with open(allele_file, 'r', encoding='utf-8') as f:
+    with reader(allele_file) as f:
         for line in f:
             # should be json
             allele = json.loads(line)
@@ -124,7 +125,7 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
                     assert allele['data']['annotations']['mc3'][k], 'empty key %s' % k
 
     # check callset
-    with open(callset_file, 'r', encoding='utf-8') as f:
+    with reader(callset_file) as f:
         for line in f:
             # should be json
             callset = json.loads(line)
@@ -133,7 +134,7 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
             assert callset['data']['tumor_aliquot_id'] != callset['data']['normal_aliquot_id'], 'tumor should not equal normal'
 
     # check callsetfor
-    with open(callsetfor_file, 'r', encoding='utf-8') as f:
+    with reader(callsetfor_file) as f:
         for line in f:
             # should be json
             callsetfor = json.loads(line)
@@ -172,8 +173,8 @@ def test_NO_REF_ALT(helpers, NO_REF_ALT_file, emitter_path_prefix, gdc_aliquot_p
     """ no start """
     with pytest.raises(AssertionError):
         validate(helpers, NO_REF_ALT_file, emitter_path_prefix, gdc_aliquot_path)
-    deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json')
-    with open(deadletter_file, 'r', encoding='utf-8') as f:
+    deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json.gz')
+    with reader(deadletter_file) as f:
         c = 0
         for line in f:
             json.loads(line)
@@ -185,8 +186,8 @@ def test_NO_BARCODE(helpers, NO_BARCODE_file, emitter_path_prefix, gdc_aliquot_p
     """ no start """
     with pytest.raises(AssertionError):
         validate(helpers, NO_BARCODE_file, emitter_path_prefix, gdc_aliquot_path)
-    deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json')
-    with open(deadletter_file, 'r', encoding='utf-8') as f:
+    deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json.gz')
+    with reader(deadletter_file) as f:
         c = 0
         for line in f:
             json.loads(line)
@@ -216,11 +217,11 @@ def test_TCGA_GBM(caplog, helpers, TCGA_GBM_file, emitter_path_prefix):
     # harvest aliquots and write it to out emitter path ('test')
     gdc_validate(helpers, emitter_path_prefix, parameters)
     # now transform and validate our maf file, using aliquots we just harvested
-    aliquot_file = '{}Aliquot.Vertex.json'.format(emitter_path_prefix)
+    aliquot_file = '{}Aliquot.Vertex.json.gz'.format(emitter_path_prefix)
     validate(helpers, TCGA_GBM_file, emitter_path_prefix, aliquot_file)
     # grab the callset we just created
-    callset_file = '{}Callset.Vertex.json'.format(emitter_path_prefix)
-    callsetfor_file = '{}CallsetFor.Edge.json'.format(emitter_path_prefix)
+    callset_file = '{}Callset.Vertex.json.gz'.format(emitter_path_prefix)
+    callsetfor_file = '{}CallsetFor.Edge.json.gz'.format(emitter_path_prefix)
     # re-validate a two node graph CallsetFor->Aliquot including the Aliquot into the `graph`
     vertexes, edges = helpers.load_stores([aliquot_file, callsetfor_file, callset_file])
     helpers.assert_edge_has_vertex(vertexes, edges)

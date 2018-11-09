@@ -1,0 +1,10 @@
+cmd: python3 transform/pfam/download.py --archive ; tar xvfz source/pfam/pfam.tar.gz
+  -C source/pfam
+deps:
+- md5: 5c128eba3f4c268249fa3c1a3132352f
+  path: transform/pfam/list.py
+md5: c313d65df794468dac133a5bf4abf5cf
+outs:
+- cache: true
+  md5: a53d9ebefc301f232e345c167e9627cf
+  path: source/pfam/pfam.tar.gz

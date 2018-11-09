@@ -5,6 +5,7 @@ import pytest
 from transform.ccle.expression import transform
 from bmeg.vertex import Expression, Aliquot
 import json
+from bmeg.ioutils import reader
 
 
 @pytest.fixture
@@ -15,8 +16,8 @@ def gct_file(request):
 
 def validate(helpers, gct_file, emitter_directory):
     """ run xform and test results"""
-    expression_file = os.path.join(emitter_directory, 'Expression.Vertex.json')
-    expression_of_file = os.path.join(emitter_directory, 'ExpressionOf.Edge.json')
+    expression_file = os.path.join(emitter_directory, 'Expression.Vertex.json.gz')
+    expression_of_file = os.path.join(emitter_directory, 'ExpressionOf.Edge.json.gz')
 
     all_files = [expression_file, expression_of_file]
     # remove output
@@ -31,7 +32,8 @@ def validate(helpers, gct_file, emitter_directory):
     helpers.assert_edge_file_valid(Expression, Aliquot, expression_of_file)
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot'])
     # ensure broad ids not used for aliquot
-    with open(expression_of_file, 'r', encoding='utf-8') as f:
+
+    with reader(expression_of_file) as f:
         for line in f:
             obj = json.loads(line)
             assert len(obj['to'].split()) == 1, 'Broad ids should not be in Aliquot id'

@@ -9,8 +9,8 @@ from bmeg.vertex import Compound, DrugResponse
 from bmeg.stores import new_store
 
 ALL_FILES = """
-normalized.Compound.Vertex.json
-normalized.ResponseTo.Edge.json
+normalized.Compound.Vertex.json.gz
+normalized.ResponseTo.Edge.json.gz
 """.strip().split()
 
 

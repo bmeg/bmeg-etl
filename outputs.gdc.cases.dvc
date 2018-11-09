@@ -1,0 +1,27 @@
+cmd: python3 -m transform.gdc.cases ; cd outputs/gdc/ ; gzip *.json
+md5: 8c1220a3139a41255bf8f481b28eeb3b
+outs:
+- cache: true
+  md5: 1773485cc014d9057a66d80c31911cc5
+  path: outputs/gdc/Aliquot.Vertex.json.gz
+- cache: true
+  md5: b3492ab9e5a9928fe50861537a3c7f65
+  path: outputs/gdc/AliquotFor.Edge.json.gz
+- cache: true
+  md5: 5531181b07f88d1e1e1178e2bc78aeeb
+  path: outputs/gdc/Biosample.Vertex.json.gz
+- cache: true
+  md5: 1b6276234cfc8e11cab2bbfcbe9cc32b
+  path: outputs/gdc/BiosampleFor.Edge.json.gz
+- cache: true
+  md5: 7c3ce48d8f8563947c09ba24af5aae62
+  path: outputs/gdc/Compound.Vertex.json.gz
+- cache: true
+  md5: eb4f123f7bea27dbf14f155ec1a75f93
+  path: outputs/gdc/InProject.Edge.json.gz
+- cache: true
+  md5: 98f2008a47417b2a909aacbe1a7d20a9
+  path: outputs/gdc/Individual.Vertex.json.gz
+- cache: true
+  md5: 50f4669ef11a41a675132ad29b8171ee
+  path: outputs/gdc/TreatedWith.Edge.json.gz

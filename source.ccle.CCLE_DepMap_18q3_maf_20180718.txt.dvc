@@ -1,0 +1,7 @@
+cmd: wget https://data.broadinstitute.org/ccle/CCLE_DepMap_18q3_maf_20180718.txt -O
+  source/ccle/CCLE_DepMap_18q3_maf_20180718.txt
+md5: b24504b505185a5deee635ff6e567cc2
+outs:
+- cache: true
+  md5: ce843abcbc98fc858559718dc67a34ce
+  path: source/ccle/CCLE_DepMap_18q3_maf_20180718.txt

@@ -9,9 +9,9 @@ from bmeg.vertex import Phenotype, Aliquot, G2PAssociation
 from bmeg.stores import new_store
 
 ALL_FILES = """
-normalized.Phenotype.Vertex.json
-normalized.PhenotypeOf.Edge.json
-normalized.HasPhenotype.Edge.json
+normalized.Phenotype.Vertex.json.gz
+normalized.PhenotypeOf.Edge.json.gz
+normalized.HasPhenotype.Edge.json.gz
 """.strip().split()
 
 

@@ -5,6 +5,7 @@ import sys
 import typing
 import dataclasses
 from datetime import datetime
+import gzip
 
 from bmeg.edge import Edge
 from bmeg.gid import GID
@@ -147,7 +148,7 @@ class FileHandler:
 
     This is an internal helper.
     """
-    def __init__(self, directory, prefix, extension, mode="w"):
+    def __init__(self, directory, prefix, extension, mode="w", compresslevel=1):
         self.prefix = prefix
         self.directory = directory
         ensure_directory("outputs", self.directory)
@@ -155,6 +156,7 @@ class FileHandler:
         self.extension = extension
         self.mode = mode
         self.handles = {}
+        self.compresslevel = compresslevel
         atexit.register(self.close)
 
     def __getitem__(self, obj):
@@ -175,7 +177,11 @@ class FileHandler:
         if fname in self.handles:
             return self.handles[fname]
         else:
-            fh = open(fname, self.mode)
+            if self.compresslevel:
+                self.mode = "wt"
+                fh = gzip.open(fname + '.gz', self.mode, compresslevel=self.compresslevel)
+            else:
+                fh = open(fname, self.mode)
             self.handles[fname] = fh
             return fh
 

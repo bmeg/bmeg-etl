@@ -1,0 +1,29 @@
+cmd: python3 transform/gtex/samples.py  ; cd outputs/gtex/ ; gzip *.json
+deps:
+- md5: 80f2b89d45843abb0a0dc39d5054530c
+  path: source/gtex/GTEx_v7_Annotations_SampleAttributesDS.txt
+- md5: 73d9180f604c17e6c211ca1694dc9ff7
+  path: source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.txt
+md5: 17271d1bc6b8b11a07e5200ceee61466
+outs:
+- cache: true
+  md5: 2dab8135b44ea8bc00efdf1b629525a1
+  path: outputs/gtex/gtex.Aliquot.Vertex.json.gz
+- cache: true
+  md5: f72ece189dfab1259576608467c013f7
+  path: outputs/gtex/gtex.AliquotFor.Edge.json.gz
+- cache: true
+  md5: 2cafdd08901116e9fa97f45d7934d43c
+  path: outputs/gtex/gtex.Biosample.Vertex.json.gz
+- cache: true
+  md5: 2eb47fa2221008f74906e83f8ab80e9f
+  path: outputs/gtex/gtex.BiosampleFor.Edge.json.gz
+- cache: true
+  md5: 567b8a854dc25d8426f6761d4c1bee53
+  path: outputs/gtex/gtex.InProject.Edge.json.gz
+- cache: true
+  md5: 61c3584162f576794c6a15ea33ae718d
+  path: outputs/gtex/gtex.Individual.Vertex.json.gz
+- cache: true
+  md5: 7ecbf01d1b4b0427a3c3334aeb354c5d
+  path: outputs/gtex/gtex.Project.Vertex.json.gz

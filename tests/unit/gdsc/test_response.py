@@ -5,6 +5,7 @@ import pytest
 import json
 from transform.gdsc.response import transform, BROAD_LOOKUP
 from bmeg.vertex import Compound, DrugResponse, Aliquot
+from bmeg.ioutils import reader
 
 
 @pytest.fixture
@@ -14,10 +15,10 @@ def GDSC_AUC_file(request):
 
 
 ALL_FILES = """
-Compound.Vertex.json
-DrugResponse.Vertex.json
-DrugResponseIn.Edge.json
-ResponseTo.Edge.json
+Compound.Vertex.json.gz
+DrugResponse.Vertex.json.gz
+DrugResponseIn.Edge.json.gz
+ResponseTo.Edge.json.gz
 """.strip().split()
 
 
@@ -48,7 +49,7 @@ def validate(helpers, GDSC_AUC_file, emitter_directory, emitter_prefix):
 
     # test BioSample edges
     aliquot_ids = set()
-    with open(drug_response_ins, 'r', encoding='utf-8') as f:
+    with reader(drug_response_ins) as f:
         for line in f:
             drug_response_in = json.loads(line)
             assert 'ACH-' in drug_response_in['to'], 'should use broad_ids'

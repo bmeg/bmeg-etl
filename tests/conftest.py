@@ -3,6 +3,7 @@ import os
 import json
 import gripql
 import contextlib
+import bmeg.ioutils
 
 
 class Helpers:
@@ -35,7 +36,7 @@ class Helpers:
         assert os.path.isfile(vertex_file_path), error_message
         c = 0
         dups = []
-        with open(vertex_file_path, 'r', encoding='utf-8') as f:
+        with bmeg.ioutils.reader(vertex_file_path) as f:
             for line in f:
                 # should be json
                 vertex_dict = json.loads(line)
@@ -57,7 +58,7 @@ class Helpers:
         assert os.path.isfile(edge_file_path), error_message
         c = 0
         dups = []
-        with open(edge_file_path, 'r', encoding='utf-8') as f:
+        with bmeg.ioutils.reader(edge_file_path) as f:
             for line in f:
                 # should be json
                 edge_dict = json.loads(line)
@@ -83,7 +84,7 @@ class Helpers:
         edges = {}
         for graph_file_path in graph_file_paths:
             with contextlib.suppress(FileNotFoundError):
-                with open(graph_file_path, 'r', encoding='utf-8') as f:
+                with bmeg.ioutils.reader(graph_file_path) as f:
                     store = vertices
                     if 'Edge' in graph_file_path:
                         store = edges

@@ -1,0 +1,21 @@
+cmd: ' '
+deps:
+- md5: a716f3864b3883ef8b4a29adebc29533
+  path: source/ensembl-protein/homo_sapiens.json
+md5: fb1a5c75b2a0feaa7d6f1163990a4746
+outs:
+- cache: true
+  md5: 1c734e6b59897e6960913a3cf7151c38
+  path: outputs/ensembl-protein/PFAMAlignment.Edge.json.gz
+- cache: true
+  md5: e153fdaf3cc4455e57aa76a41a44f3f8
+  path: outputs/ensembl-protein/Protein.Vertex.json.gz
+- cache: true
+  md5: 4f2a939d0763ee24d44e1ec0acab80d6
+  path: outputs/ensembl-protein/ProteinFor.Edge.json.gz
+- cache: true
+  md5: ce6d426b7857350c2a132a8e9a402501
+  path: outputs/ensembl-protein/ProteinStructure.Vertex.json.gz
+- cache: true
+  md5: 2eb979497fa030b9c99132f4e2848cc9
+  path: outputs/ensembl-protein/StructureFor.Edge.json.gz

@@ -1,0 +1,7 @@
+cmd: wget https://storage.googleapis.com/gtex_analysis_v7/annotations/GTEx_v7_Annotations_SubjectPhenotypesDS.txt
+  -O source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.txt
+md5: 4433c8e6a044bd83f07172a85964a259
+outs:
+- cache: true
+  md5: 73d9180f604c17e6c211ca1694dc9ff7
+  path: source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.txt
