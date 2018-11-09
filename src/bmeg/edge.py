@@ -335,3 +335,21 @@ class ParamacalogicalProfileIn(Edge):
     ParamacalogicalProfile -> Aliquot
     """
     pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Reads(Edge):
+    """
+    Command -> File
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Writes(Edge):
+    """
+    Command -> File
+    """
+    pass
