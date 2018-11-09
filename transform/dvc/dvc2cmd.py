@@ -77,7 +77,7 @@ def transform():
             print('#')
             print('dvc run --file {} --yes \\'.format(filename))
             for dep in dvc.get('deps', []):
-                print('  -o {} \\'.format(dep['path']))
+                print('  -d {} \\'.format(dep['path']))
             for out in dvc.get('outs', []):
                 print('  -o {} \\'.format(out['path']))
             print('  "{}"'.format(dvc['cmd']))

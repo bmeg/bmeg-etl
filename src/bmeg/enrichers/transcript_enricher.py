@@ -42,5 +42,6 @@ def normalize(ensembl_transcript_id):
         start=response['start'],
         end=response['end'],
         strand=strand,
-        genome=response['assembly_name']
+        genome=response['assembly_name'],
+        biotype=response['biotype']
     )

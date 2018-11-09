@@ -153,6 +153,7 @@ class Transcript(Vertex):
     end: int
     strand: str
     genome: str
+    biotype: str
 
     def gid(self):
         return Transcript.make_gid(self.transcript_id)
@@ -539,3 +540,36 @@ class ParamacalogicalProfile(Vertex):
     @classmethod
     def make_gid(cls, ccle_cell_line_name, compound, target):
         return GID("%s:%s:%s:%s" % (cls.__name__, ccle_cell_line_name, compound, target))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class File(Vertex):
+    """ a storage object
+    """
+    md5: str
+    path: str
+
+    def gid(self):
+        return File.make_gid(self.md5)
+
+    @classmethod
+    def make_gid(cls, md5):
+        return GID("%s:%s" % (cls.__name__, md5))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Command(Vertex):
+    """ a storage object
+    """
+    md5: str
+    cmd: str
+    filename: str
+
+    def gid(self):
+        return Command.make_gid(self.md5)
+
+    @classmethod
+    def make_gid(cls, md5):
+        return GID("%s:%s" % (cls.__name__, md5))
