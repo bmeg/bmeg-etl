@@ -1,4 +1,3 @@
-
 import os
 import contextlib
 import pytest
@@ -18,7 +17,13 @@ def source_wildcard(request):
     return os.path.join(request.fspath.dirname, 'source/tcga/gistic2-firehose/*_all_thresholded.by_genes.txt')
 
 
-def validate(helpers, source_path, emitter_directory):
+@pytest.fixture
+def aliquot_source_path(request):
+    """ get the full path of the test aliquot input """
+    return os.path.join(request.fspath.dirname, 'source/tcga/gistic2-firehose/Aliquot.Vertex.json.gz')
+
+
+def validate(helpers, source_path, aliquot_source_path, emitter_directory):
     """ run xform and test results"""
     cna_file = os.path.join(emitter_directory, 'TCGA-ACC.CopyNumberAlteration.Vertex.json')
     cna_of_file = os.path.join(emitter_directory, 'TCGA-ACC.CopyNumberAlterationOf.Edge.json')
@@ -30,16 +35,19 @@ def validate(helpers, source_path, emitter_directory):
             os.remove(f)
 
     # create output
-    transform(source_path=source_path, emitter_directory=emitter_directory)
+    transform(source_path=source_path,
+              aliquot_path=aliquot_source_path,
+              emitter_directory=emitter_directory)
+
     # ratify
     helpers.assert_vertex_file_valid(CopyNumberAlteration, cna_file)
     helpers.assert_edge_file_valid(CopyNumberAlteration, Aliquot, cna_of_file)
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot'])
 
 
-def test_simple(helpers, source_path, emitter_directory):
+def test_simple(helpers, source_path, aliquot_source_path, emitter_directory):
     """ just run validate"""
-    validate(helpers, source_path, emitter_directory)
+    validate(helpers, source_path, aliquot_source_path, emitter_directory)
 
 
 def test_make_parallel_workstream(source_wildcard):
