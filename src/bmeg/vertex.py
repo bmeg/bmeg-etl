@@ -586,7 +586,7 @@ class CopyNumberAlteration(Vertex):
     values: dict
 
     def gid(self):
-        return Expression.make_gid(self.source, self.id)
+        return CopyNumberAlteration.make_gid(self.source, self.id)
 
     @classmethod
     def make_gid(cls, source, id):

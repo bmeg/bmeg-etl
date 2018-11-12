@@ -2,6 +2,8 @@ from collections import defaultdict
 import csv
 from glob import glob
 import os.path
+import gzip
+import json
 import logging
 import subprocess
 import sys
@@ -15,13 +17,24 @@ from bmeg.util.logging import default_logging
 
 
 def transform(source_path,
-              emitter_directory="tcga"):
+              aliquot_path="outputs/gdc/Aliquot.Vertex.json.gz",
+              emitter_directory="tcga",
+              source="tcga",
+              method="gistic2"):
 
     # check if we are doing one file at time
     p, file_name = os.path.split(source_path)
     prefix = file_name.split('_')[0]
     emitter = JSONEmitter(directory=emitter_directory, prefix=prefix)
     logging.debug('individual file prefix {}'.format(prefix))
+
+    aliquot_lookup = {}
+    with gzip.open(aliquot_path) as handle:
+        for line in handle:
+            a = json.loads(line)
+            barcode = a["data"]["gdc_attributes"]["submitter_id"]
+            gdc_id = a["data"]["gdc_attributes"]["aliquot_id"]
+            aliquot_lookup[barcode] = gdc_id
 
     reader = csv.reader(open(source_path, "rt"), delimiter="\t")
     header = next(reader)
@@ -39,21 +52,23 @@ def transform(source_path,
             symbol = ensembl_id
         except Exception as e:
             logging.warning(str(e))
+            continue  # do we want to drop these data?
 
         for aliquot_id, val in zip(samples, row[3:]):
             collect[aliquot_id][symbol] = val
 
-    for aliquot_id, values in collect.items():
-        g = CopyNumberAlteration(
+    for aliquot_barcode, values in collect.items():
+        aliquot_id = aliquot_lookup[aliquot_barcode]
+        cna = CopyNumberAlteration(
             id=aliquot_id,
-            source="tcga",
-            method="Gistic2",
+            source=source,
+            method=method,
             values=values,
         )
-        emitter.emit_vertex(g)
+        emitter.emit_vertex(cna)
         emitter.emit_edge(
             CopyNumberAlterationOf(),
-            from_gid=g.gid(),
+            from_gid=cna.gid(),
             to_gid=Aliquot.make_gid(aliquot_id)
         )
 
