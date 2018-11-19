@@ -577,6 +577,111 @@ dvc run --file outputs.tcga.expression.dvc --yes \
   -o outputs/tcga/UVM.ExpressionOf.Edge.json.gz \
   "python3 transform/tcga/expression.py"
 #
+dvc run --file outputs.tcga.gistic2cna.dvc --yes \
+  -d source/tcga/gistic2-firehose/TCGA-ACC_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-BLCA_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-BRCA_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-CESC_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-CHOL_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-COAD_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-DLBC_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-ESCA_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-GBM_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-HNSC_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-KICH_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-KIRC_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-KIRP_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-LAML_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-LGG_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-LIHC_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-LUAD_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-LUSC_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-MESO_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-OV_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-PAAD_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-PCPG_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-PRAD_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-READ_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-SARC_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-SKCM_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-STAD_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-TGCT_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-THCA_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-THYM_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-UCEC_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-UCS_all_thresholded.by_genes.txt \
+  -d source/tcga/gistic2-firehose/TCGA-UVM_all_thresholded.by_genes.txt \
+  -d outputs/gdc/Aliquot.Vertex.json.gz \
+  -o outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json \
+  -o outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json \
+  -o outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-BLCA.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-BLCA.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-BRCA.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-BRCA.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-CESC.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-CESC.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-CHOL.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-CHOL.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-COAD.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-COAD.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-DLBC.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-DLBC.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-ESCA.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-ESCA.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-GBM.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-GBM.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-HNSC.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-HNSC.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-KICH.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-KICH.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-KIRC.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-KIRC.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-KIRP.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-KIRP.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-LAML.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-LAML.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-LGG.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-LGG.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-LIHC.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-LIHC.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-LUAD.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-LUAD.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-LUSC.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-LUSC.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-MESO.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-MESO.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-OV.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-OV.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-PAAD.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-PAAD.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-PCPG.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-PCPG.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-PRAD.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-PRAD.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-READ.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-READ.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-SARC.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-SARC.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-SKCM.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-SKCM.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-STAD.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-STAD.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-TGCT.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-TGCT.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-THCA.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-THCA.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-THYM.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-THYM.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-UCEC.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-UCEC.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-UCS.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-UCS.CopyNumberAlterationOf.Edge.json.gz \
+  -o outputs/tcga/TCGA-UVM.CopyNumberAlteration.Vertex.json.gz \
+  -o outputs/tcga/TCGA-UVM.CopyNumberAlterationOf.Edge.json.gz \
+  "python3 transform/tcga/gistic2_cna.py"
+#
 dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/allele/Allele.Vertex.json.gz \
   -d outputs/ccle/Aliquot.Vertex.json.gz \
@@ -732,10 +837,76 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/tcga/UCS.ExpressionOf.Edge.json.gz \
   -d outputs/tcga/UVM.Expression.Vertex.json.gz \
   -d outputs/tcga/UVM.ExpressionOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json \
+  -d outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json \
+  -d outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-BLCA.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-BLCA.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-BRCA.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-BRCA.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-CESC.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-CESC.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-CHOL.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-CHOL.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-COAD.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-COAD.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-DLBC.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-DLBC.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-ESCA.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-ESCA.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-GBM.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-GBM.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-HNSC.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-HNSC.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-KICH.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-KICH.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-KIRC.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-KIRC.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-KIRP.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-KIRP.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-LAML.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-LAML.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-LGG.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-LGG.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-LIHC.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-LIHC.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-LUAD.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-LUAD.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-LUSC.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-LUSC.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-MESO.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-MESO.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-dV.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-dV.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-PAAD.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-PAAD.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-PCPG.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-PCPG.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-PRAD.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-PRAD.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-READ.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-READ.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-SARC.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-SARC.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-SKCM.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-SKCM.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-STAD.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-STAD.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-TGCT.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-TGCT.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-THCA.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-THCA.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-THYM.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-THYM.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-UCEC.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-UCEC.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-UCS.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-UCS.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-UVM.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-UVM.CopyNumberAlterationOf.Edge.json.gz \
   -o scripts/bmeg_file_manifest.txt \
   "python3 transform/dvc/bmeg_file_manifest.py"
-
-
 ```
 
 
