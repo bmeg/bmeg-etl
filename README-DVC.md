@@ -71,37 +71,35 @@ Example
 ```
 # retrieve data from foreign source
 dvc run \
-  -o source/gene_enricher/non_alt_loci_set.json \
-  curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 \
-    --retry 128 --ftp-ssl --disable-epsv --ftp-pasv \
-    ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/non_alt_loci_set.json \
-    --output source/gene_enricher/non_alt_loci_set.json
+  -o source/gene_enricher/hgnc_complete_set.json \
+  --file source.gene_enricher.hgnc_complete_set.json.dvc \
+  --yes \
+  curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/hgnc_complete_set.json --output source/gene_enricher/hgnc_complete_set.json
 
 # commit DVC's record to github
-git add .gitignore non_alt_loci_set.json.dvc
-git commit -m "add non_alt_loci_set to DVC"
+git add .gitignore source.gene_enricher.hgnc_complete_set.json.dvc
+git commit -m "add hgnc_complete_set to DVC"
 
 # commit the data to DVC's remote
 $ dvc push
 Preparing to push data to s3://bmeg/dvc
 [##############################] 100% Collecting information
-[##############################] 100% source/gene_enricher/non_alt_loci_set.json
+[##############################] 100% source/gene_enricher/hgnc_complete_set.json
 
 # view the remote repository
 $ mc ls -r  bmeg/bmeg/dvc
 [2018-10-30 18:32:15 UTC]  29MiB f4/843dade6933b9879654417c6d93c1b
 
 # note that the file name ~ the md5 hash
-$ cat non_alt_loci_set.json.dvc
+$ cat source.gene_enricher.hgnc_complete_set.json.dvc
 cmd: curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry
-  128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/non_alt_loci_set.json
-  --output source/gene_enricher/non_alt_loci_set.json
-md5: 94a1d782df156ed945c3db8271ab07ef
+  128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/hgnc_complete_set.json
+  --output source/gene_enricher/hgnc_complete_set.json
+md5: 361717476a2235fe752e4c52c774caa1
 outs:
 - cache: true
-  md5: f4843dade6933b9879654417c6d93c1b
-  path: source/gene_enricher/non_alt_loci_set.json
-
+  md5: 8300e43e6513e8e0a696a952ad28b1f5
+  path: source/gene_enricher/hgnc_complete_set.json
 ```
 
 Provenance
@@ -116,9 +114,11 @@ dvc run --file source.ccle.CCLE_DepMap_18q3_maf_20180718.txt.dvc --yes \
   -o source/ccle/CCLE_DepMap_18q3_maf_20180718.txt \
   "wget https://data.broadinstitute.org/ccle/CCLE_DepMap_18q3_maf_20180718.txt -O source/ccle/CCLE_DepMap_18q3_maf_20180718.txt"
 #
-dvc run --file source.gene_enricher.non_alt_loci_set.json.dvc --yes \
-  -o source/gene_enricher/non_alt_loci_set.json \
-  "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/non_alt_loci_set.json --output source/gene_enricher/non_alt_loci_set.json"
+dvc run \
+  -o source/gene_enricher/hgnc_complete_set.json \
+  --file source.gene_enricher.hgnc_complete_set.json.dvc \
+  --yes \
+  "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/hgnc_complete_set.json --output source/gene_enricher/hgnc_complete_set.json"
 #
 dvc run --file source.g2p.all.dvc --yes \
   -o source/g2p/all.json \
