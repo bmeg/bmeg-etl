@@ -1,0 +1,23 @@
+cmd: python3 transform/ccle/ccle_maf_transform.py ; cd outputs/ccle/ ; gzip *.json
+deps:
+- md5: ce843abcbc98fc858559718dc67a34ce
+  path: source/ccle/CCLE_DepMap_18q3_maf_20180718.txt
+- md5: f4843dade6933b9879654417c6d93c1b
+  path: source/gene_enricher/non_alt_loci_set.json
+md5: ec520f0751aad463c2f4d1eaea1e112e
+outs:
+- cache: true
+  md5: 117e27c0df175985e23acf6da4f919ec
+  path: outputs/ccle/Allele.Vertex.json.gz
+- cache: true
+  md5: 8a94531a3250fa7f03efaeab39bae9f0
+  path: outputs/ccle/AlleleCall.Edge.json.gz
+- cache: true
+  md5: 84cb13d58f262ec41a5227fae7cebb71
+  path: outputs/ccle/AlleleIn.Edge.json.gz
+- cache: true
+  md5: 7bd176f2fd55e8b80b7443ea3f972da6
+  path: outputs/ccle/Callset.Vertex.json.gz
+- cache: true
+  md5: 570def37cd5739efee6065b4fc3848b3
+  path: outputs/ccle/CallsetFor.Edge.json.gz

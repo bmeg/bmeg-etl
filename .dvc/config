@@ -1,0 +1,8 @@
+['remote "minio"']
+url = s3://bmeg/dvc
+endpointurl = https://minio.compbio.ohsu.edu
+[core]
+remote = minio
+['remote "source"']
+url = s3://bmeg/source
+endpointurl = https://minio.compbio.ohsu.edu

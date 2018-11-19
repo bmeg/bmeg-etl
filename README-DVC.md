@@ -12,10 +12,8 @@ Note: All dvc files are maintained in the zip file dvc-graph.zip.  This is due t
 
  * each transformer is it's own command, executed with CWD at the project root
  * `dvc run` captures state in a separate \*.dvc file
- * therefore, there are N > 50 files at the root level of the project
- * to maintain project hygene, we store the files in a zip rather than individually
+ * therefore, there are quite a few files at the root level of the project
 
-Before use simply `unzip dvc-graph.zip`
 
 
 
@@ -264,7 +262,7 @@ dvc run --file outputs.ccle.maf.dvc --yes \
   -o outputs/ccle/AlleleIn.Edge.json.gz \
   -o outputs/ccle/Callset.Vertex.json.gz \
   -o outputs/ccle/CallsetFor.Edge.json.gz \
-  "python3 transform/ccle/ccle_maf_transform.py ; cd outputs/ccle/ ; gzip *.json"
+  "python3 transform/ccle/ccle_maf_transform.py"
 #
 dvc run --file outputs.g2p.dvc --yes \
   -d source/g2p/all.json \
@@ -283,7 +281,7 @@ dvc run --file outputs.g2p.dvc --yes \
   -o outputs/g2p/MinimalAllele.Vertex.json.gz \
   -o outputs/g2p/MinimalAlleleIn.Edge.json.gz \
   -o outputs/g2p/Phenotype.Vertex.json.gz \
-  "python3 transform/g2p/transform.py  ; cd outputs/g2p/ ; gzip *.json"
+  "python3 transform/g2p/transform.py"
 #
 dvc run --file outputs.gdc.cases.dvc --yes \
   -o outputs/gdc/Aliquot.Vertex.json.gz \
@@ -294,7 +292,7 @@ dvc run --file outputs.gdc.cases.dvc --yes \
   -o outputs/gdc/InProject.Edge.json.gz \
   -o outputs/gdc/Individual.Vertex.json.gz \
   -o outputs/gdc/TreatedWith.Edge.json.gz \
-  "python3 -m transform.gdc.cases ; cd outputs/gdc/ ; gzip *.json"
+  "python3 -m transform.gdc.cases"
 #
 dvc run --file outputs.mc3.dvc --yes \
   -d outputs/gdc/Aliquot.Vertex.json.gz \
@@ -305,7 +303,7 @@ dvc run --file outputs.mc3.dvc --yes \
   -o outputs/mc3/Callset.Vertex.json.gz \
   -o outputs/mc3/CallsetFor.Edge.json.gz \
   -o outputs/mc3/Deadletter.Vertex.json.gz \
-  "python3 transform/mc3/mc3_maf_transform.py ; cd outputs/mc3/ ; gzip *.json"
+  "python3 transform/mc3/mc3_maf_transform.py"
 #
 dvc run --file outputs.allele.dvc --yes \
   -d outputs/ccle/Allele.Vertex.json.gz \
@@ -318,7 +316,7 @@ dvc run --file outputs.allele.dvc --yes \
   -d source/myvariant.info/metadata.fields.json \
   -d source/myvariant.info/metadata.json \
   -o outputs/allele/Allele.Vertex.json.gz \
-  "python3 transform/allele/transform.py ; cd outputs/allele/ ; gzip *.json"
+  "python3 transform/allele/transform.py"
 #
 dvc run --file outputs.ccle.dvc --yes \
   -d source/ccle/DepMap-2018q3-celllines.csv \
@@ -331,13 +329,13 @@ dvc run --file outputs.ccle.dvc --yes \
   -o outputs/ccle/Phenotype.Vertex.json.gz \
   -o outputs/ccle/PhenotypeOf.Edge.json.gz \
   -o outputs/ccle/Project.Vertex.json.gz \
-  "python3 transform/ccle/samples.py ; cd outputs/ccle/ ; gzip *.json"
+  "python3 transform/ccle/samples.py"
 #
 dvc run --file outputs.ccle.expression.dvc --yes \
   -d source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct \
   -o outputs/ccle/Expression.Vertex.json.gz \
   -o outputs/ccle/ExpressionOf.Edge.json.gz \
-  "python3 transform/ccle/expression.py  ; cd outputs/ccle/ ; gzip *.json"
+  "python3 transform/ccle/expression.py"
 #
 dvc run --file outputs.ccle.drug_response.dvc --yes \
   -d source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv \
@@ -353,7 +351,7 @@ dvc run --file outputs.ccle.drug_response.dvc --yes \
   -o outputs/ccle/drug_response.ParamacalogicalProfileIn.Edge.json.gz \
   -o outputs/ccle/drug_response.Project.Vertex.json.gz \
   -o outputs/ccle/drug_response.ResponseTo.Edge.json.gz \
-  "python3 transform/ccle/drug_response.py  ; cd outputs/ccle/ ; gzip *.json"
+  "python3 transform/ccle/drug_response.py"
 #
 dvc run --file outputs.ccle.expression_tatlow.dvc --yes \
   -d source/ccle/expression/CCLE_tpm.tsv.gz \
@@ -367,7 +365,7 @@ dvc run --file outputs.ccle.expression_tatlow.dvc --yes \
   -o outputs/ccle/tatlow.InProject.Edge.json.gz \
   -o outputs/ccle/tatlow.Individual.Vertex.json.gz \
   -o outputs/ccle/tatlow.Project.Vertex.json.gz \
-  "python3 transform/ccle/expression_tatlow.py  ; cd outputs/ccle/ ; gzip *.json"
+  "python3 transform/ccle/expression_tatlow.py"
 #
 dvc run --file outputs.gdsc.dvc --yes \
   -d source/gdsc/GDSC_AUC.csv \
@@ -375,7 +373,7 @@ dvc run --file outputs.gdsc.dvc --yes \
   -o outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz \
   -o outputs/gdsc/gdsc.DrugResponseIn.Edge.json.gz \
   -o outputs/gdsc/gdsc.ResponseTo.Edge.json.gz \
-  "python3 transform/gdsc/response.py  ; cd outputs/gdsc/ ; gzip *.json"
+  "python3 transform/gdsc/response.py"
 #
 dvc run --file outputs.compound.normalized.dvc --yes \
   -d source/compound/sqlite.db \
@@ -393,7 +391,7 @@ dvc run --file outputs.compound.normalized.dvc --yes \
   -o outputs/compound/normalized.HasEnvironment.Edge.json.gz \
   -o outputs/compound/normalized.ResponseTo.Edge.json.gz \
   -o outputs/compound/normalized.TreatedWith.Edge.json.gz \
-  "python3 transform/compound/transform.py  ; cd outputs/compound/ ; gzip *.json"
+  "python3 transform/compound/transform.py"
 #
 dvc run --file outputs.ensembl-protein.dvc --yes \
   -d source/ensembl-protein/homo_sapiens.json \
@@ -402,7 +400,7 @@ dvc run --file outputs.ensembl-protein.dvc --yes \
   -o outputs/ensembl-protein/ProteinFor.Edge.json.gz \
   -o outputs/ensembl-protein/ProteinStructure.Vertex.json.gz \
   -o outputs/ensembl-protein/StructureFor.Edge.json.gz \
-  " "
+  "python3 transform/ensembl/ensembl-transform.py"
 #
 dvc run --file outputs.ensembl.dvc --yes \
   -d source/ensembl/Homo_sapiens.GRCh37.87.gff3.gz \
@@ -411,28 +409,28 @@ dvc run --file outputs.ensembl.dvc --yes \
   -o outputs/ensembl/Gene.Vertex.json.gz \
   -o outputs/ensembl/Transcript.Vertex.json.gz \
   -o outputs/ensembl/TranscriptFor.Edge.json.gz \
-  "python3 transform/ensembl/transform.py; cd outputs/ensembl/; gzip -f *.json"
+  "python3 transform/ensembl/transform.py"
 #
 dvc run --file outputs.ensembl.missing_transcripts.dvc --yes \
   -d source/ensembl/missing_transcript_ids.txt \
   -o outputs/ensembl/missing.Transcript.Vertex.json.gz \
-  "python3 transform/ensembl/missing_transcripts.py; cd outputs/ensembl ; gzip -f *.json"
+  "python3 transform/ensembl/missing_transcripts.py"
 #
 dvc run --file outputs.gdc.projects.dvc --yes \
   -o outputs/gdc/Project.Vertex.json.gz \
-  "python3 transform/gdc/projects.py ; cd outputs/gdc/ ; gzip *.json"
+  "python3 transform/gdc/projects.py"
 #
 dvc run --file outputs.go.gaf2schema.dvc --yes \
   -d source/go/goa_human.gaf.gz \
   -d source/go/HUMAN_9606_idmapping.dat.gz \
   -o outputs/go/GeneOntologyAnnotation.Edge.json.gz \
-  "python3 transform/go/go_gaf2schema.py source/go/goa_human.gaf.gz source/go/HUMAN_9606_idmapping.dat.gz go; cd outputs/go/ ; gzip *.json"
+  "python3 transform/go/go_gaf2schema.py source/go/goa_human.gaf.gz source/go/HUMAN_9606_idmapping.dat.gz go"
 #
 dvc run --file outputs.go.dvc --yes \
   -d source/go/go.obo \
   -o outputs/go/GeneOntologyIsA.Edge.json.gz \
   -o outputs/go/GeneOntologyTerm.Vertex.json.gz \
-  "python3 transform/go/go_obo2schema.py source/go/go.obo ; cd outputs/go/ ; gzip *.json"
+  "python3 transform/go/go_obo2schema.py source/go/go.obo"
 #
 dvc run --file outputs.gtex.dvc --yes \
   -d source/gtex/GTEx_v7_Annotations_SampleAttributesDS.txt \
@@ -444,13 +442,13 @@ dvc run --file outputs.gtex.dvc --yes \
   -o outputs/gtex/gtex.InProject.Edge.json.gz \
   -o outputs/gtex/gtex.Individual.Vertex.json.gz \
   -o outputs/gtex/gtex.Project.Vertex.json.gz \
-  "python3 transform/gtex/samples.py  ; cd outputs/gtex/ ; gzip *.json"
+  "python3 transform/gtex/samples.py"
 #
 dvc run --file outputs.gtex.expression.dvc --yes \
   -d source/gtex/GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_tpm.gct \
   -o outputs/gtex/gtex.Expression.Vertex.json.gz \
   -o outputs/gtex/gtex.ExpressionOf.Edge.json.gz \
-  "python3 transform/gtex/expression.py  ; cd outputs/gtex/ ; gzip *.json"
+  "python3 transform/gtex/expression.py"
 #
 dvc run --file outputs.pfam.dvc --yes \
   -d source/pfam/clans.tsv \
@@ -460,7 +458,7 @@ dvc run --file outputs.pfam.dvc --yes \
   -o outputs/pfam/PFAMClan.Vertex.json.gz \
   -o outputs/pfam/PFAMClanMember.Edge.json.gz \
   -o outputs/pfam/PFAMFamily.Vertex.json.gz \
-  "python3 transform/pfam/transform.py  ; cd outputs/pfam/ ; gzip *.json"
+  "python3 transform/pfam/transform.py"
 #
 dvc run --file outputs.phenotype.dvc --yes \
   -d outputs/ccle/Phenotype.Vertex.json.gz \
@@ -468,12 +466,12 @@ dvc run --file outputs.phenotype.dvc --yes \
   -o outputs/phenotype/normalized.HasPhenotype.Edge.json.gz \
   -o outputs/phenotype/normalized.Phenotype.Vertex.json.gz \
   -o outputs/phenotype/normalized.PhenotypeOf.Edge.json.gz \
-  "python3 transform/phenotype/transform.py  ; cd outputs/phenotype/ ; gzip *.json"
+  "python3 transform/phenotype/transform.py"
 #
 dvc run --file outputs.publication.dvc --yes \
   -d outputs/g2p/HasSupportingReference.Edge.json.gz \
   -o outputs/publication/stub.Publication.Vertex.json.gz \
-  "python3 transform/publication/transform.py ; cd outputs/publication/ ; gzip *.json"
+  "python3 transform/publication/transform.py"
 #
 dvc run --file outputs.tcga.expression.dvc --yes \
   -d source/tcga/expression/transcript-level/TCGA_ID_MAP.csv \
@@ -577,7 +575,7 @@ dvc run --file outputs.tcga.expression.dvc --yes \
   -o outputs/tcga/UCS.ExpressionOf.Edge.json.gz \
   -o outputs/tcga/UVM.Expression.Vertex.json.gz \
   -o outputs/tcga/UVM.ExpressionOf.Edge.json.gz \
-  "python3 transform/tcga/expression.py ; cd outputs/tcga/ ; gzip *.json"
+  "python3 transform/tcga/expression.py"
 #
 dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/allele/Allele.Vertex.json.gz \
@@ -735,7 +733,7 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/tcga/UVM.Expression.Vertex.json.gz \
   -d outputs/tcga/UVM.ExpressionOf.Edge.json.gz \
   -o scripts/bmeg_file_manifest.txt \
-  "ls -l scripts/bmeg_file_manifest.txt"
+  "python3 transform/dvc/bmeg_file_manifest.py"
 
 
 ```

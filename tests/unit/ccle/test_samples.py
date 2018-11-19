@@ -29,15 +29,15 @@ def sample_info_file(request):
 
 def validate(helpers, emitter_path_prefix, sample_info_file):
     """ run xform and test results"""
-    biosample_file = os.path.join(emitter_path_prefix, 'Biosample.Vertex.json')
-    aliquot_file = os.path.join(emitter_path_prefix, 'Aliquot.Vertex.json')
-    aliquotfor_file = os.path.join(emitter_path_prefix, 'AliquotFor.Edge.json')
-    individual_file = os.path.join(emitter_path_prefix, 'Individual.Vertex.json')
-    project_file = os.path.join(emitter_path_prefix, 'Project.Vertex.json')
-    in_project_file = os.path.join(emitter_path_prefix, 'InProject.Edge.json')
-    biosample_for_file = os.path.join(emitter_path_prefix, 'BiosampleFor.Edge.json')
-    phenotype_file = os.path.join(emitter_path_prefix, 'Phenotype.Vertex.json')
-    phenotype_of_file = os.path.join(emitter_path_prefix, 'PhenotypeOf.Edge.json')
+    biosample_file = os.path.join(emitter_path_prefix, 'Biosample.Vertex.json.gz')
+    aliquot_file = os.path.join(emitter_path_prefix, 'Aliquot.Vertex.json.gz')
+    aliquotfor_file = os.path.join(emitter_path_prefix, 'AliquotFor.Edge.json.gz')
+    individual_file = os.path.join(emitter_path_prefix, 'Individual.Vertex.json.gz')
+    project_file = os.path.join(emitter_path_prefix, 'Project.Vertex.json.gz')
+    in_project_file = os.path.join(emitter_path_prefix, 'InProject.Edge.json.gz')
+    biosample_for_file = os.path.join(emitter_path_prefix, 'BiosampleFor.Edge.json.gz')
+    phenotype_file = os.path.join(emitter_path_prefix, 'Phenotype.Vertex.json.gz')
+    phenotype_of_file = os.path.join(emitter_path_prefix, 'PhenotypeOf.Edge.json.gz')
 
     all_files = [biosample_file, aliquot_file, aliquotfor_file, individual_file, project_file, in_project_file, biosample_for_file, phenotype_file, phenotype_of_file]
     # remove output

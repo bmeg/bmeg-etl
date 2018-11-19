@@ -24,7 +24,7 @@ def emitter_path_prefix(request):
 
 
 def validate(pubmed_file, emitter_path_prefix):
-    publication_file = os.path.join(emitter_path_prefix, 'Publication.Vertex.json')
+    publication_file = os.path.join(emitter_path_prefix, 'Publication.Vertex.json.gz')
     # remove output
     with contextlib.suppress(FileNotFoundError):
         os.remove(publication_file)

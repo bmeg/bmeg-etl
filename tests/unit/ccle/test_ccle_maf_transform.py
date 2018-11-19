@@ -5,6 +5,7 @@ import transform.ccle.ccle_maf_transform as ccle_maf_transform
 from transform.ccle.ccle_maf_transform import CCLE_EXTENSION_CALLSET_KEYS, CCLE_EXTENSION_MAF_KEYS
 from bmeg.vertex import Allele, Callset, Gene, Aliquot
 from bmeg.maf.maf_transform import STANDARD_MAF_KEYS
+from bmeg.ioutils import reader
 
 import os
 import contextlib
@@ -24,11 +25,11 @@ def emitter_path_prefix(request):
 
 
 def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
-    allele_file = os.path.join(emitter_path_prefix, 'Allele.Vertex.json')
-    allelecall_file = os.path.join(emitter_path_prefix, 'AlleleCall.Edge.json')
-    callset_file = os.path.join(emitter_path_prefix, 'Callset.Vertex.json')
-    allelein_file = os.path.join(emitter_path_prefix, 'AlleleIn.Edge.json')
-    callsetfor_file = os.path.join(emitter_path_prefix, 'CallsetFor.Edge.json')
+    allele_file = os.path.join(emitter_path_prefix, 'Allele.Vertex.json.gz')
+    allelecall_file = os.path.join(emitter_path_prefix, 'AlleleCall.Edge.json.gz')
+    callset_file = os.path.join(emitter_path_prefix, 'Callset.Vertex.json.gz')
+    allelein_file = os.path.join(emitter_path_prefix, 'AlleleIn.Edge.json.gz')
+    callsetfor_file = os.path.join(emitter_path_prefix, 'CallsetFor.Edge.json.gz')
     all_files = [allele_file, allelecall_file, callset_file, allelein_file, callsetfor_file]
 
     # remove output
@@ -49,7 +50,7 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
     # test/test.CallsetFor.Edge.json
     helpers.assert_edge_file_valid(Callset, Aliquot, callsetfor_file)
 
-    with open(callset_file, 'r', encoding='utf-8') as f:
+    with reader(callset_file) as f:
         for line in f:
             # should be json
             callset = json.loads(line)
@@ -59,7 +60,7 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
             assert 'Aliquot' not in callset['data']['tumor_aliquot_id'], 'tumor_aliquot_id should not have Aliquot gid'
 
     # test AlleleCall contents
-    with open(allelecall_file, 'r', encoding='utf-8') as f:
+    with reader(allelecall_file) as f:
         for line in f:
             # should be json
             allelecall = json.loads(line)
@@ -69,7 +70,7 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
                     assert allelecall['data']['info'][k], 'empty key %s' % k
 
     # test Allele contents
-    with open(allele_file, 'r', encoding='utf-8') as f:
+    with reader(allele_file) as f:
         for line in f:
             # should be json
             allele = json.loads(line)

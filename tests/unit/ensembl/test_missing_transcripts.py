@@ -15,5 +15,5 @@ def test_simple(emitter_directory, missing_transcript_ids_filename, helpers):
     transform(output_dir=emitter_directory,
               prefix='missing',
               missing_transcript_ids_filename=missing_transcript_ids_filename)
-    transcript_count = helpers.assert_vertex_file_valid(Transcript, '{}/missing.Transcript.Vertex.json'.format(emitter_directory))
+    transcript_count = helpers.assert_vertex_file_valid(Transcript, '{}/missing.Transcript.Vertex.json.gz'.format(emitter_directory))
     assert transcript_count == 3

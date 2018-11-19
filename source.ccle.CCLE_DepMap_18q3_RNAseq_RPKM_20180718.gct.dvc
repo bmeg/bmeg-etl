@@ -1,0 +1,7 @@
+cmd: wget https://data.broadinstitute.org/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct
+  -O source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct
+md5: 708b26a015d03ee844e134cfff74743a
+outs:
+- cache: true
+  md5: 1c4711bb30e668d5f387e1819bae99ef
+  path: source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct

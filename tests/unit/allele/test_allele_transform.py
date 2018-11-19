@@ -30,7 +30,8 @@ def myvariantinfo_path(request):
 
 def validate_myvariantinfo_count(allele_file):
     myvariantinfo_count = 0
-    with open(allele_file, 'r', encoding='utf-8') as f:
+
+    with reader(allele_file) as f:
         for line in f:
             # should be json
             allele = json.loads(line)
@@ -41,7 +42,7 @@ def validate_myvariantinfo_count(allele_file):
 
 
 def validate(helpers, output_directory, emitter_path_prefix, myvariantinfo_path):
-    allele_file = os.path.join(emitter_path_prefix, 'Allele.Vertex.json')
+    allele_file = os.path.join(emitter_path_prefix, 'Allele.Vertex.json.gz')
     # remove output
     with contextlib.suppress(FileNotFoundError):
         os.remove(allele_file)

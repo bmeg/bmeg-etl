@@ -6,6 +6,7 @@ from bmeg.edge import AlleleCall
 from bmeg.maf.maf_transform import get_value, MAFTransformer, maf_default_argument_parser
 from bmeg.emitter import new_emitter
 from bmeg.util.logging import default_logging
+from bmeg.ioutils import reader
 import json
 import sys
 import logging
@@ -88,7 +89,7 @@ def transform(mafpath, prefix, gdc_aliquot_path, source=MC3_MAFTransformer.SOURC
 
     # ensure that we have a lookup from CCLE native barcode to gdc derived uuid
     global ALIQUOT_CONVERSION_TABLE
-    with open(gdc_aliquot_path, 'r', encoding='utf-8') as f:
+    with reader(gdc_aliquot_path) as f:
         for line in f:
             aliquot = json.loads(line)
             ALIQUOT_CONVERSION_TABLE[aliquot['data']['gdc_attributes']['submitter_id']] = aliquot['data']['aliquot_id']

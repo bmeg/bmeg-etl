@@ -1,0 +1,8 @@
+deps:
+- etag: 00000000000000000000000000000000-1
+  path: remote://source/myvariant.info/harvested_myvariantinfo.json.gz
+md5: 728fb80bcccf172d89389330cb58a932
+outs:
+- cache: true
+  md5: 08ec6eb40ad76b48210aa0e939ae7aa1
+  path: source/myvariant.info/harvested_myvariantinfo.json.gz

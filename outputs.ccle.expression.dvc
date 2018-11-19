@@ -1,0 +1,12 @@
+cmd: python3 transform/ccle/expression.py  ; cd outputs/ccle/ ; gzip *.json
+deps:
+- md5: 1c4711bb30e668d5f387e1819bae99ef
+  path: source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct
+md5: 8693c682987c0ed479a23c563510d0b3
+outs:
+- cache: true
+  md5: ec4b589e6e13a5d74094be8a1c4604a1
+  path: outputs/ccle/Expression.Vertex.json.gz
+- cache: true
+  md5: d8b12d571587e9010179bfc99091eb0b
+  path: outputs/ccle/ExpressionOf.Edge.json.gz

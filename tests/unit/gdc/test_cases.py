@@ -6,6 +6,7 @@ import json
 from transform.gdc.cases import transform
 from bmeg.vertex import Biosample, Aliquot, Individual, Project, Compound
 from bmeg.emitter import JSONEmitter
+from bmeg.ioutils import reader
 
 
 @pytest.fixture
@@ -16,15 +17,15 @@ def emitter_path_prefix(request):
 
 def validate(helpers, emitter_path_prefix, parameters):
     """ run xform and test results"""
-    biosample_file = '{}Biosample.Vertex.json'.format(emitter_path_prefix)
-    aliquot_file = '{}Aliquot.Vertex.json'.format(emitter_path_prefix)
-    individual_file = '{}Individual.Vertex.json'.format(emitter_path_prefix)
-    compound_file = '{}Compound.Vertex.json'.format(emitter_path_prefix)
+    biosample_file = '{}Biosample.Vertex.json.gz'.format(emitter_path_prefix)
+    aliquot_file = '{}Aliquot.Vertex.json.gz'.format(emitter_path_prefix)
+    individual_file = '{}Individual.Vertex.json.gz'.format(emitter_path_prefix)
+    compound_file = '{}Compound.Vertex.json.gz'.format(emitter_path_prefix)
 
-    biosamplefor_file = '{}BiosampleFor.Edge.json'.format(emitter_path_prefix)
-    aliquotfor_file = '{}AliquotFor.Edge.json'.format(emitter_path_prefix)
-    inproject_file = '{}InProject.Edge.json'.format(emitter_path_prefix)
-    treatedwith_file = '{}TreatedWith.Edge.json'.format(emitter_path_prefix)
+    biosamplefor_file = '{}BiosampleFor.Edge.json.gz'.format(emitter_path_prefix)
+    aliquotfor_file = '{}AliquotFor.Edge.json.gz'.format(emitter_path_prefix)
+    inproject_file = '{}InProject.Edge.json.gz'.format(emitter_path_prefix)
+    treatedwith_file = '{}TreatedWith.Edge.json.gz'.format(emitter_path_prefix)
 
     all_files = [biosample_file, aliquot_file, individual_file, biosamplefor_file,
                  aliquotfor_file, inproject_file, treatedwith_file, compound_file]
@@ -61,7 +62,7 @@ def validate(helpers, emitter_path_prefix, parameters):
     )
 
     # test Aliquot contents
-    with open(aliquot_file, 'r', encoding='utf-8') as f:
+    with reader(aliquot_file) as f:
         for line in f:
             # should be json
             aliquot = json.loads(line)

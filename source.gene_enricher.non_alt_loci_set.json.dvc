@@ -1,0 +1,8 @@
+cmd: curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry
+  128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/non_alt_loci_set.json
+  --output source/gene_enricher/non_alt_loci_set.json
+md5: 94a1d782df156ed945c3db8271ab07ef
+outs:
+- cache: true
+  md5: f4843dade6933b9879654417c6d93c1b
+  path: source/gene_enricher/non_alt_loci_set.json

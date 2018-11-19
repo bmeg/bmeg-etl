@@ -1,0 +1,8 @@
+cmd: curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry
+  128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ensembl.org/pub/grch37/release-91/gff3/homo_sapiens/Homo_sapiens.GRCh37.87.gff3.gz
+  --output source/ensembl/Homo_sapiens.GRCh37.87.gff3.gz
+md5: 551c25932dc4dae554efc918696b814a
+outs:
+- cache: true
+  md5: 9165482e57024728ce2d81ce013c72bd
+  path: source/ensembl/Homo_sapiens.GRCh37.87.gff3.gz

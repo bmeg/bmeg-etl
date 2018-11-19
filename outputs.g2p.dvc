@@ -1,0 +1,50 @@
+cmd: python3 transform/g2p/transform.py  ; cd outputs/g2p/ ; gzip *.json
+deps:
+- md5: 3c0d06dafbb4c9c4a18abd750d1e810a
+  path: source/g2p/all.json
+- md5: f4843dade6933b9879654417c6d93c1b
+  path: source/gene_enricher/non_alt_loci_set.json
+md5: 45ab30072cd5e11ff41fabd92dec8498
+outs:
+- cache: true
+  md5: 78ee1229c3e7641daa9ab843d56b963f
+  path: outputs/g2p/Allele.Vertex.json.gz
+- cache: true
+  md5: 6917baa794adceee672db39ebeb7060a
+  path: outputs/g2p/AlleleIn.Edge.json.gz
+- cache: true
+  md5: 5a30bc186f8785c4b541e7edf63ac7d4
+  path: outputs/g2p/Compound.Vertex.json.gz
+- cache: true
+  md5: 24fc788c90734b6fb97184b3fcbabf25
+  path: outputs/g2p/Deadletter.Vertex.json.gz
+- cache: true
+  md5: 47d0c395f388e7297bf7f1d68cb5f8d7
+  path: outputs/g2p/G2PAssociation.Vertex.json.gz
+- cache: true
+  md5: 8b83da84890d33a5d43683afcdda0012
+  path: outputs/g2p/HasAlleleFeature.Edge.json.gz
+- cache: true
+  md5: 283f9a7fec04697b31124513e125e3b1
+  path: outputs/g2p/HasEnvironment.Edge.json.gz
+- cache: true
+  md5: ae94e184d4a6a391595fc6bb89958333
+  path: outputs/g2p/HasGeneFeature.Edge.json.gz
+- cache: true
+  md5: e104d735b23729830a95baff20bfe267
+  path: outputs/g2p/HasMinimalAlleleFeature.Edge.json.gz
+- cache: true
+  md5: 6477b7788e02426cd184f3939e97012e
+  path: outputs/g2p/HasPhenotype.Edge.json.gz
+- cache: true
+  md5: 362ce8c9baabd4c2ada94d5b3eebe32e
+  path: outputs/g2p/HasSupportingReference.Edge.json.gz
+- cache: true
+  md5: 9c5b6377d120103a5a8e841a7b94ff4c
+  path: outputs/g2p/MinimalAllele.Vertex.json.gz
+- cache: true
+  md5: eecb388f931fb8ce6cc3fd1afe4f456f
+  path: outputs/g2p/MinimalAlleleIn.Edge.json.gz
+- cache: true
+  md5: 8a4345357fc6e67b50d994f790007a89
+  path: outputs/g2p/Phenotype.Vertex.json.gz

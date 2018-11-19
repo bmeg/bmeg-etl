@@ -1,0 +1,6 @@
+cmd: curl https://s3-us-west-2.amazonaws.com/g2p-0.10/all.json --output source/g2p/all.json
+md5: b0544c1ddb0a16feba065fcc93ffb112
+outs:
+- cache: true
+  md5: 3c0d06dafbb4c9c4a18abd750d1e810a
+  path: source/g2p/all.json
