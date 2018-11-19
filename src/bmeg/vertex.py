@@ -85,24 +85,6 @@ class Allele(Vertex):
 
 @enforce_types
 @dataclass(frozen=True)
-class CNASegment(Vertex):
-    genome: str
-    chromosome: str
-    start: int
-    end: int
-
-    def gid(self):
-        return CNASegment.make_gid(self.genome, self.chromosome,
-                                   self.start, self.end)
-
-    @classmethod
-    def make_gid(cls, callset_id, genome, chromosome, start, end):
-        return GID("%s:%s:%s:%d:%d" % (cls.__name__, callset_id, genome, start,
-                                       end))
-
-
-@enforce_types
-@dataclass(frozen=True)
 class MethylationProbe(Vertex):
     genome: str
     chromosome: str

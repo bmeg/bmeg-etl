@@ -58,23 +58,6 @@ class AlleleCall(Edge):
     info: dict = None
 
 
-@dataclass(frozen=True)
-class CNASegmentOverlaps(Edge):
-    """
-    CNASegment -> Gene
-    """
-    pass
-
-
-@enforce_types
-@dataclass(frozen=True)
-class CNASegmentCall(Edge):
-    """
-    CNASegment -> Callset
-    """
-    value: float
-
-
 @enforce_types
 @dataclass(frozen=True)
 class MethlyationProbeValue(Edge):
