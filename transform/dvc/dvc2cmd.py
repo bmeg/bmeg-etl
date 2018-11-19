@@ -5,7 +5,7 @@ import yaml
 # dvc pipeline show outputs.bmeg_manifest.dvc | grep source
 SOURCE_COMMANDS = """
 source.ccle.CCLE_DepMap_18q3_maf_20180718.txt.dvc
-source.gene_enricher.non_alt_loci_set.json.dvc
+source.gene_enricher.hgnc_complete_set.json.dvc
 source.g2p.all.dvc
 source.mc3.v0.2.8.PUBLIC.maf.gz.dvc
 source.myvariants.biothings_current_old_hg19.json.gz.dvc
