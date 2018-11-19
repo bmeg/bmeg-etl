@@ -168,9 +168,9 @@ dvc run --file source.ensembl-protein.homo_sapiens.json.dvc --yes \
   -o source/ensembl-protein/homo_sapiens.json \
   "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ensembl.org/pub/release-93/json/homo_sapiens/homo_sapiens.json --output source/ensembl-protein/homo_sapiens.json"
 #
-dvc run --file source.ensembl.Homo_sapiens.GRCh37.87.gff3.gz.dvc --yes \
-  -o source/ensembl/Homo_sapiens.GRCh37.87.gff3.gz \
-  "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ensembl.org/pub/grch37/release-91/gff3/homo_sapiens/Homo_sapiens.GRCh37.87.gff3.gz --output source/ensembl/Homo_sapiens.GRCh37.87.gff3.gz"
+dvc run --file source.ensembl.Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz.dvc --yes \
+  -o source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz \
+  "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ensembl.org/pub/grch37/release-94/gff3/homo_sapiens/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz --output source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz"
 #
 dvc run --file source.goa_human.gaf.gz.dvc --yes \
   -o source/go/goa_human.gaf.gz \
