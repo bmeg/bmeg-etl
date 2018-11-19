@@ -5,8 +5,9 @@ def test_simple():
     """ straightforward """
     tp53 = gene_enricher.get_gene('TP53')
     assert(tp53), 'Should exist'
-    assert tp53 == [{'symbol': u'TP53', 'entrez_id': u'7157',
-                    'ensembl_gene_id': u'ENSG00000141510'}]
+    assert tp53 == {'symbol': u'TP53', 'entrez_id': u'7157',
+                    'ensembl_gene_id': u'ENSG00000141510',
+                    'hgnc_id': 'HGNC:11998'}
 
 
 def test_ambiguous():
