@@ -1,13 +1,5 @@
-"""
-Bulk download legacy (hg19) data from the GDC
-
-Edited on 2018-07-24 by Adam Struck
-"""
-
 import argparse
 import json
-import os
-import re
 import requests
 import sys
 
@@ -17,28 +9,24 @@ from uuid import uuid4
 
 URL_BASE = "https://api.gdc.cancer.gov/legacy/"
 
-TYPE_MAP = {
-    "expression": "Gene expression quantification",
-    "cna": "Copy number segmentation",
-    "methylation": "Methylation beta value",
-    "clinical": "Clinical Supplement",
-    "biospecimen": "Biospecimen Supplement"
-}
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("data_type")
-    parser.add_argument("project_id")
-    parser.add_argument("output_name")
+    parser.add_argument(
+        "--platform",
+        choices=["Illumina Human Methylation 450",
+                 "Illumina Human Methylation 27"],
+        default="Illumina Human Methylation 450",
+        help="download data from which methylation platform"
+    )
     parser.add_argument(
         "--manifest-only",
-        type=bool,
         default=False,
         action="store_true",
         help="write file manifest, but do not download the files"
     )
     args = parser.parse_args()
-    args.output_name = os.path.basename(args.output_name)
+    output_name = "source/tcga/methylation/" + args.platform.replace(" ", "")
 
     query = {
         "op": "and",
@@ -48,49 +36,30 @@ if __name__ == "__main__":
                 "content": {
                     "field": "data_type",
                     "value": [
-                        TYPE_MAP[args.data_type]
+                        "Methylation beta value"
                     ]
                 }
             },
             {
                 "op": "=",
                 "content": {
-                    "field": "cases.project.project_id",
+                    "field": "cases.project.program.name",
                     "value": [
-                        args.project_id
+                        "TCGA"
+                    ]
+                }
+            },
+            {
+                "op": "=",
+                "content": {
+                    "field": "platform",
+                    "value": [
+                        args.platform
                     ]
                 }
             }
         ]
     }
-
-    # Need these filters for cnv data
-    # exlcude hg18 probes
-    # exclude files with germline cnvs
-    if args.data_type == "cnv":
-        query["content"].append({
-            "op": "exclude",
-            "content": {
-                "field": "tags",
-                "value": [
-                    "hg18",
-                    "allcnv"
-                ]
-            }
-        })
-
-    # Need this filter for methylation data
-    if args.data_type == "methylation":
-        query["content"].append({
-            "op": "in",
-            "content": {
-                "field": "platform",
-                "value": [
-                    "Illumina Human Methylation 450",
-                    "Illumina Human Methylation 27"
-                ]
-            }
-        })
 
     data = {}
     id_map = {}
@@ -98,10 +67,11 @@ if __name__ == "__main__":
     params['filters'] = json.dumps(query)
     params['expand'] = "cases.samples,cases.project"
 
-    print('creating file manifest...')
+    print('querying GDC API...')
 
     while 'size' not in params or \
           data['pagination']['page'] < data['pagination']['pages']:
+
         params['size'] = 1000
         req = requests.get(URL_BASE + "files", params=params)
         data = req.json()['data']
@@ -120,8 +90,11 @@ if __name__ == "__main__":
         params['from'] = data['pagination']['from'] + \
             data['pagination']['count']
 
+        print('processed page', data['pagination']['page'])
+
     print('creating file manifest...')
-    with open(args.output_name + ".map", "w") as handle:
+    output_manifest = output_name + ".map"
+    with open(output_manifest, "w") as handle:
         handle.write("file_id\tproject_id\tsample_id\n")
         for k, v in id_map.items():
             handle.write("%s\t%s\t%s\n" %
@@ -144,7 +117,7 @@ if __name__ == "__main__":
                           data=json.dumps({"ids": ids}),
                           headers=headers,
                           stream=True)
-        path = args.output_name + "-" + str(index)
+        path = output_name + "-" + str(index)
         paths.append(path)
         with open(path, 'wb') as f:
             for chunk in r.iter_content(1024):
@@ -162,9 +135,9 @@ if __name__ == "__main__":
         call(["rm", "-f", path])
         call(["mv", archive + "/MANIFEST.txt", manifest + "/" + str(index)])
 
-    output_name = re.sub("\.tar\.gz$", "", args.output_name) + ".tar.gz"
+    output_archive = output_name + ".tar.gz"
     call("cat" + manifest + "/* > " + archive + "/MANIFEST.txt", shell=True)
-    tar = "cd " + archive + " && " + "tar czvf ../" + output_name + \
+    tar = "cd " + archive + " && " + "tar czvf ../" + output_archive + \
         " . && cd .."
     call(tar, shell=True)
     call(["rm", "-rf", archive])
