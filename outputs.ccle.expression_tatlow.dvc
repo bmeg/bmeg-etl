@@ -4,32 +4,34 @@ deps:
   path: source/ccle/expression/CCLE_tpm.tsv.gz
 - md5: 9ccf83393276d56191a88c3d54ef6a5d
   path: outputs/ccle/Biosample.Vertex.json.gz
-md5: cc02d65366172949ba0c2885cb921e74
+- md5: 07b930da26e4a06dcf8c9a0faff57be1
+  path: source/tcga/expression/transcript-level/TCGA_ID_MAP.csv
+md5: eb0fc383ea1151c160b3156428331336
 outs:
 - cache: true
-  md5: ccbe592fb13c2ed858d74b4c5f948e62
+  md5: 7adb9cf76899d31b3d31b495c1321cb8
   path: outputs/ccle/tatlow.Aliquot.Vertex.json.gz
 - cache: true
-  md5: 5d42ceaf4724569587889a1976cb0e66
+  md5: d0332a458de6513a130cf57f4febebc7
   path: outputs/ccle/tatlow.AliquotFor.Edge.json.gz
 - cache: true
-  md5: fc803030a830b84b86232f0dd15d1d16
+  md5: 1c294bacc62ff6ba4ba34811e889ff17
   path: outputs/ccle/tatlow.Biosample.Vertex.json.gz
 - cache: true
-  md5: 84f6b60125002b023e95e9cee99c62b0
+  md5: 67baebc9b8406ec9d6d1bebb60bc4d35
   path: outputs/ccle/tatlow.BiosampleFor.Edge.json.gz
 - cache: true
-  md5: 37ef8d24f8b032a18d82efb1549a26e3
+  md5: fc0ed0d017d2d5fcb2d3a5ff18c9dca5
   path: outputs/ccle/tatlow.Expression.Vertex.json.gz
 - cache: true
-  md5: 5bbb9f88e0a98ecf560f14e85d417900
+  md5: 4f3249327e430a7ca08365cbdc4dca73
   path: outputs/ccle/tatlow.ExpressionOf.Edge.json.gz
 - cache: true
-  md5: fe45addaa9a90a8c1cc2501bb717cd8d
+  md5: a5a1d10cc19067836c8f473fa7a93ad5
   path: outputs/ccle/tatlow.InProject.Edge.json.gz
 - cache: true
-  md5: 787ef5669508d4049c1c19f4285fa111
+  md5: e12b1cc3bbb5bd9cb21fe38c1beafc9b
   path: outputs/ccle/tatlow.Individual.Vertex.json.gz
 - cache: true
-  md5: 63f5d209c6174345b5a2ee7c14ff8478
+  md5: b7cf54d28fe8a7892ce504dfa7c8abde
   path: outputs/ccle/tatlow.Project.Vertex.json.gz
