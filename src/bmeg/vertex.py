@@ -2,7 +2,7 @@ from dataclasses import dataclass, asdict
 from enum import Enum
 import hashlib
 from typing import Union
-#from dacite import from_dict as dacite_from_dict
+from dacite import from_dict as dacite_from_dict
 from bmeg.gid import GID
 from bmeg.utils import enforce_types
 
