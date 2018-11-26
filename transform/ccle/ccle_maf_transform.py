@@ -37,8 +37,8 @@ class CCLE_MAFTransformer(MAFTransformer):
         """ override, create gene_gid from line """
         symbol = line.get('Hugo_Symbol', None)
         try:
-            genes = gene_enricher.get_gene(symbol)
-            ensembl_id = genes[0]['ensembl_gene_id']
+            gene = gene_enricher.get_gene(symbol)
+            ensembl_id = gene['ensembl_gene_id']
             return Gene.make_gid(gene_id=ensembl_id)
         except Exception as e:
             logging.warning(str(e))

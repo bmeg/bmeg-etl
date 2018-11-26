@@ -9,8 +9,8 @@ EXPORTED_GENES = []
 def gene_gid(symbol):
     """ return gene gid """
     symbol = symbol.replace('Wild-Type', '').strip()
-    genes = gene_enricher.get_gene(symbol)
-    return Gene.make_gid(gene_id=genes[0]['ensembl_gene_id'])
+    gene = gene_enricher.get_gene(symbol)
+    return Gene.make_gid(gene_id=gene['ensembl_gene_id'])
 
 
 def normalize(hit):
