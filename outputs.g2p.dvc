@@ -1,50 +1,50 @@
-cmd: python3 transform/g2p/transform.py  ; cd outputs/g2p/ ; gzip *.json
+cmd: python3 -m transform.g2p.transform
 deps:
 - md5: 3c0d06dafbb4c9c4a18abd750d1e810a
   path: source/g2p/all.json
-- md5: f4843dade6933b9879654417c6d93c1b
+- md5: fcd28c797f14cfd627f5d8850b86041b
   path: source/gene_enricher/non_alt_loci_set.json
-md5: 45ab30072cd5e11ff41fabd92dec8498
+md5: 3dc062ef78acd0b86813e7555bbb3d7c
 outs:
 - cache: true
-  md5: 78ee1229c3e7641daa9ab843d56b963f
+  md5: ae640da3e7019249402c141b43af7608
   path: outputs/g2p/Allele.Vertex.json.gz
 - cache: true
-  md5: 6917baa794adceee672db39ebeb7060a
+  md5: 38ed9819fe77ab953337432c6b890d8f
   path: outputs/g2p/AlleleIn.Edge.json.gz
 - cache: true
-  md5: 5a30bc186f8785c4b541e7edf63ac7d4
+  md5: 6b33c1bab01e44f73908422d1088c524
   path: outputs/g2p/Compound.Vertex.json.gz
 - cache: true
-  md5: 24fc788c90734b6fb97184b3fcbabf25
+  md5: 070340715e9f9aa3fe90b5fdcb5a7fa3
   path: outputs/g2p/Deadletter.Vertex.json.gz
 - cache: true
-  md5: 47d0c395f388e7297bf7f1d68cb5f8d7
+  md5: 005be48a8f9961d4c130b3e0847367ec
   path: outputs/g2p/G2PAssociation.Vertex.json.gz
 - cache: true
-  md5: 8b83da84890d33a5d43683afcdda0012
+  md5: cfab808c1f806889524a80c822ac649a
   path: outputs/g2p/HasAlleleFeature.Edge.json.gz
 - cache: true
-  md5: 283f9a7fec04697b31124513e125e3b1
+  md5: 3ef0717e04e36e7a9cbd97b3ad558f3b
   path: outputs/g2p/HasEnvironment.Edge.json.gz
 - cache: true
-  md5: ae94e184d4a6a391595fc6bb89958333
+  md5: ac3207d7dedffad5c5a73c349655eb35
   path: outputs/g2p/HasGeneFeature.Edge.json.gz
 - cache: true
-  md5: e104d735b23729830a95baff20bfe267
+  md5: 64aaa8910f8ff6d95cc726a3a3084636
   path: outputs/g2p/HasMinimalAlleleFeature.Edge.json.gz
 - cache: true
-  md5: 6477b7788e02426cd184f3939e97012e
+  md5: b1c88810788578cab0144d5850438ebd
   path: outputs/g2p/HasPhenotype.Edge.json.gz
 - cache: true
-  md5: 362ce8c9baabd4c2ada94d5b3eebe32e
+  md5: 21c61f756f8404c816608cf23c0ab382
   path: outputs/g2p/HasSupportingReference.Edge.json.gz
 - cache: true
-  md5: 9c5b6377d120103a5a8e841a7b94ff4c
+  md5: 08b0caf635ecd0ea0afd1ee704ec3471
   path: outputs/g2p/MinimalAllele.Vertex.json.gz
 - cache: true
-  md5: eecb388f931fb8ce6cc3fd1afe4f456f
+  md5: a6783bbf1b1f4fab82d4ef5444175a22
   path: outputs/g2p/MinimalAlleleIn.Edge.json.gz
 - cache: true
-  md5: 8a4345357fc6e67b50d994f790007a89
+  md5: 00d41bc8f050a4a8b9a8c7585c9c208c
   path: outputs/g2p/Phenotype.Vertex.json.gz

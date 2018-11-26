@@ -103,7 +103,7 @@ def main(transformer=MC3_MAFTransformer()):  # pragma: no cover
     parser = maf_default_argument_parser(transformer)
     parser.add_argument('--gdc_aliquot_path', type=str,
                         help='Path to the directory containing gdc.Aliquot.Vertex.json',
-                        default='outputs/gdc/Aliquot.Vertex.json')
+                        default='outputs/gdc/Aliquot.Vertex.json.gz')
     # We don't need the first argument, which is the program name
     options = parser.parse_args(sys.argv[1:])
     default_logging(options.loglevel)

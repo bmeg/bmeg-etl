@@ -1,13 +1,12 @@
-cmd: python3 transform/go/go_obo2schema.py source/go/go.obo ; cd outputs/go/ ; gzip
-  *.json
+cmd: python3 transform/go/go_obo2schema.py source/go/go.obo go
 deps:
-- md5: acc07658a609d7ea9ec99e8ec07bdbdf
+- md5: 0f006ae77ea311550c6df2054096927b
   path: source/go/go.obo
-md5: 7bfc43b028fc66c38dfb2451d816aa7c
+md5: c0e77f2a2679fe478fca1af617b86671
 outs:
 - cache: true
-  md5: 710aa3cbe609112346cff7b0707cc18a
+  md5: 1c6050b2f013ade7fbc317856d505b94
   path: outputs/go/GeneOntologyIsA.Edge.json.gz
 - cache: true
-  md5: 328097d3b89fdc8023dcea5ec95b1736
+  md5: cbf1a74319e4c51dd3548bba0869bbb2
   path: outputs/go/GeneOntologyTerm.Vertex.json.gz

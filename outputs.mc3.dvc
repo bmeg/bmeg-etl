@@ -1,26 +1,26 @@
-cmd: python3 transform/mc3/mc3_maf_transform.py ; cd outputs/mc3/ ; gzip *.json
+cmd: python3 transform/mc3/mc3_maf_transform.py
 deps:
-- md5: 1773485cc014d9057a66d80c31911cc5
+- md5: 4610cfe31a6d1b220ed51701e8d267a3
   path: outputs/gdc/Aliquot.Vertex.json.gz
 - md5: 639ad8f8386e98dacc22e439188aa8fa
   path: source/mc3/mc3.v0.2.8.PUBLIC.maf.gz
-md5: 8b12b2bae91ff15696eb54ea48a0274c
+md5: 7def4c60fb220531aff6ff19590fd434
 outs:
 - cache: true
-  md5: 7efae12491d3d38e26fb83ae5712c468
+  md5: 377bf2c736ad8d1f0a7f71ee48149bad
   path: outputs/mc3/Allele.Vertex.json.gz
 - cache: true
-  md5: b7533d90ee95524e80fd786331333730
+  md5: e2fa564cc0e08f89e46c8f7ae5a6df37
   path: outputs/mc3/AlleleCall.Edge.json.gz
 - cache: true
-  md5: 7b6717ebf3813c626bdf751a81d7646a
+  md5: 012137b2c69d2ff642c9a62273ba0c06
   path: outputs/mc3/AlleleIn.Edge.json.gz
 - cache: true
-  md5: 76ac237cc81ee0b0362b7325bf3bc5a7
+  md5: 14168e016f3d7dcc978db5db266f3fac
   path: outputs/mc3/Callset.Vertex.json.gz
 - cache: true
-  md5: 8da655105011b5882d1b1fec1a6d2142
+  md5: 30ef5d18a330065222f2501667fad155
   path: outputs/mc3/CallsetFor.Edge.json.gz
 - cache: true
-  md5: 2c4558597c4d20e447cc79816a54b098
+  md5: 84cee74fba2ea0085e02d8daca7598d1
   path: outputs/mc3/Deadletter.Vertex.json.gz

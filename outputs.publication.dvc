@@ -1,9 +1,9 @@
-cmd: python3 transform/publication/transform.py ; cd outputs/publication/ ; gzip *.json
+cmd: python3 transform/publication/transform.py
 deps:
-- md5: 362ce8c9baabd4c2ada94d5b3eebe32e
+- md5: 21c61f756f8404c816608cf23c0ab382
   path: outputs/g2p/HasSupportingReference.Edge.json.gz
-md5: 1e8f364dffd67b3708c9ff0dd89c8edd
+md5: e0d7ae7b56aa969271f9cfa3a6e91b37
 outs:
 - cache: true
-  md5: 3dbaf4dbf2400915c845feb9813dc862
+  md5: 5b9ec100d852dd910d5364a009f5494d
   path: outputs/publication/stub.Publication.Vertex.json.gz

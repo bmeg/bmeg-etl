@@ -1,5 +1,8 @@
-cmd: python transform/pfam/list.py -O source/pfam/id_list.txt
-md5: b59bb205a362eff2a3e0bcbe898b8a6c
+cmd: python3 transform/pfam/list.py -O source/pfam/id_list.txt
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/pfam/version.txt
+md5: 17eaa5adf579f89d5dabf9a1b49c18ba
 outs:
 - cache: true
   md5: 54c1197d01d28013bcde897528626688

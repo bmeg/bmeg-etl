@@ -21,8 +21,8 @@ def transform(
     emitter_name="json",
     output_dir="outputs",
     emitter_directory=DEFAULT_DIRECTORY,
-    vertex_names="**/*Compound.Vertex.json",
-    edge_names="**/*.Edge.json",
+    vertex_names="**/*Compound.Vertex.json*",
+    edge_names="**/*.Edge.json*",
     store_path="source/compound/sqlite.db"
 ):
     batch_size = 1000
@@ -123,7 +123,7 @@ def transform(
                     logging.info('transforming read: {} errors: {}'.format(t, e))
                     c = 0
         logging.info('transforming read: {} errors: {}'.format(t, e))
-        emitter.close()
+    emitter.close()
 
 
 if __name__ == '__main__':  # pragma: no cover

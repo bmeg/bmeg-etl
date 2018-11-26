@@ -1,5 +1,8 @@
 cmd: wget http://pfam.xfam.org/clans?output=text -O source/pfam/clans.tsv
-md5: 76d1740d2886b1bef41319fc5468adf4
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/pfam/version.txt
+md5: f159df1d9614142c3a85de3d791f318f
 outs:
 - cache: true
   md5: 9f57d29531c058ad641ed81cbea0723d

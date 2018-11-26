@@ -101,8 +101,9 @@ class KeyValueStore:
             result = cur.execute("select MAX(_ROWID_) from data LIMIT 1;").fetchone()[0]
             cur.close()
         except Exception:
-            pass
+            logging.info('could not read max(_rowid_)', exc_info=True)
         if not result:
+            logging.info('max(_rowid_) returned null')
             result = 0
         return result
 

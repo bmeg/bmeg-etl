@@ -1,8 +1,8 @@
-cmd: python3 transform/ccle/expression.py  ; cd outputs/ccle/ ; gzip *.json
+cmd: python3 transform/ccle/expression.py
 deps:
 - md5: 1c4711bb30e668d5f387e1819bae99ef
   path: source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct
-md5: 8693c682987c0ed479a23c563510d0b3
+md5: f90e9bc8e501f2ef834ff5c0f5613ebf
 outs:
 - cache: true
   md5: ec4b589e6e13a5d74094be8a1c4604a1

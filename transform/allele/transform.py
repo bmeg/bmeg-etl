@@ -73,6 +73,7 @@ def from_dict(allele_dicts):
 
 def group_sorted_alleles(sorted_allele_file):
     """ yield an array of data records with the same gid"""
+    print('group_sorted_alleles', sorted_allele_file)
     with reader(sorted_allele_file) as ins:
         data = ujson.loads(ins.readline())
         _id = data['_id']
@@ -147,8 +148,10 @@ def transform(output_dir,
     # * load memory gid_cache[gid] (used to control enrichment)
     path = '{}/{}'.format(output_dir, vertex_filename_pattern)
     logging.info('checking {}'.format(path))
+    print('allele_store_path', allele_store_path)
     sorted_allele_file = sort_allele_files(path, sorted_allele_file)
     allele_store = new_store(allele_store_name, path=allele_store_path, clazz=Allele)
+    print('allele_store.size()', allele_store.size())
     c = 0
     t = 0
     batch_size = 20000
@@ -285,7 +288,7 @@ def main():  # pragma: no cover
 
     parser.add_argument('--myvariantinfo_path', type=str,
                         help='path to myvariantinfo json',
-                        default='source/myvariant.info/myvariant.info.Allele.Vertex.json.gz')
+                        default='outputs/myvariant.info/myvariant.info.Allele.Vertex.json.gz')
 
     parser.add_argument('--harvest', dest='harvest', default=False, action='store_true',
                         help="don't transform, just harvest from myvariantinfo")

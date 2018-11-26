@@ -1,8 +1,8 @@
-cmd: python3 transform/gdsc/response.py  ; cd outputs/gdsc/ ; gzip *.json
+cmd: python3 transform/gdsc/response.py
 deps:
 - md5: eef91774a6b4ef37e3a8f341b1a48d0d
   path: source/gdsc/GDSC_AUC.csv
-md5: 9972ccaf79ffbf009fc0e8a870375bfe
+md5: 90f30688bafa7e5524e6f377711a3742
 outs:
 - cache: true
   md5: ab6de1610d49d2abfdcfd9f86e2abc42

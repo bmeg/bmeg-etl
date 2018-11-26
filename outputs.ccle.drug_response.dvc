@@ -1,10 +1,10 @@
-cmd: python3 transform/ccle/drug_response.py  ; cd outputs/ccle/ ; gzip *.json
+cmd: python3 transform/ccle/drug_response.py
 deps:
 - md5: 917f411573d5e68f9d61234e9e1bb539
   path: source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv
 - md5: 9ccf83393276d56191a88c3d54ef6a5d
   path: outputs/ccle/Biosample.Vertex.json.gz
-md5: 1190775ab8f7c44d4768a2678aedb2ba
+md5: d84db1036a2d1ced7b43dd81f4a1b8fa
 outs:
 - cache: true
   md5: 968e423960ecd5dd66ea1d34b27bfe2d

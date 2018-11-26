@@ -1,18 +1,18 @@
-cmd: python3 transform/compound/transform.py  ; cd outputs/compound/ ; gzip *.json
+cmd: python3 transform/compound/transform.py
 deps:
-- md5: 6801067188f5d9aa27c87f7af45a720c
+- md5: eb07faa4c3753cda39b8ff081c8318c4
   path: source/compound/sqlite.db
 - md5: 43eb1673c4caa0d190a0e2f526c6e9ff
   path: outputs/ccle/Compound.Vertex.json.gz
 - md5: 8d3ee56bd71150f3e6ee34bf4386659c
   path: outputs/ccle/drug_response.Compound.Vertex.json.gz
-- md5: 5a30bc186f8785c4b541e7edf63ac7d4
+- md5: 6b33c1bab01e44f73908422d1088c524
   path: outputs/g2p/Compound.Vertex.json.gz
-- md5: 7c3ce48d8f8563947c09ba24af5aae62
+- md5: 74152804c381c4d7e8088459dda6397f
   path: outputs/gdc/Compound.Vertex.json.gz
 - md5: ab6de1610d49d2abfdcfd9f86e2abc42
   path: outputs/gdsc/gdsc.Compound.Vertex.json.gz
-- md5: 283f9a7fec04697b31124513e125e3b1
+- md5: 3ef0717e04e36e7a9cbd97b3ad558f3b
   path: outputs/g2p/HasEnvironment.Edge.json.gz
 - md5: 704673c076ab59666a9f1232f99a097b
   path: outputs/ccle/ResponseTo.Edge.json.gz
@@ -20,19 +20,19 @@ deps:
   path: outputs/ccle/drug_response.ResponseTo.Edge.json.gz
 - md5: 8765c9b5a4393ee8a157e40db07f44c5
   path: outputs/gdsc/gdsc.ResponseTo.Edge.json.gz
-- md5: 50f4669ef11a41a675132ad29b8171ee
+- md5: 408258d91483d415f703a3c612828c6a
   path: outputs/gdc/TreatedWith.Edge.json.gz
-md5: faa23edd34d2b0d02a889465a87a5e58
+md5: 0eca97a7116333bd5ffd29e09ea21ec4
 outs:
 - cache: true
-  md5: 04f87ea9ccdee813451a1a283c8e7f02
+  md5: 013c83ebd9e4d58bed3531d1a2f19538
   path: outputs/compound/normalized.Compound.Vertex.json.gz
 - cache: true
-  md5: 1d006ede34ef1f580099ec0ac48fefb4
+  md5: 4fa3c17445b6a4d809146290bf5ab53b
   path: outputs/compound/normalized.HasEnvironment.Edge.json.gz
 - cache: true
-  md5: 023c2cf046e20311a3b6712ac3104350
+  md5: 039cb498d8b0e94a1d913cd036ebd2f1
   path: outputs/compound/normalized.ResponseTo.Edge.json.gz
 - cache: true
-  md5: 01c736f12de9ff3ddbb837744432a7f7
+  md5: 801d9fdba78fdc715f175ade80c97ec4
   path: outputs/compound/normalized.TreatedWith.Edge.json.gz

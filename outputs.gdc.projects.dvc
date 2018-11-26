@@ -1,6 +1,9 @@
-cmd: python3 transform/gdc/projects.py ; cd outputs/gdc/ ; gzip *.json
-md5: d0a89cd233b86f324f26b0ed19035430
+cmd: python3 transform/gdc/projects.py
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/gdc/version.txt
+md5: 47c0e86a4d29fd7339313afaf439acc7
 outs:
 - cache: true
-  md5: c97e83a4abf3661d8443ea2590c99d38
+  md5: 80c8b7eaa88a02cf13be1c247e5cdb69
   path: outputs/gdc/Project.Vertex.json.gz
