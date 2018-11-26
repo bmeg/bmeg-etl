@@ -2,7 +2,7 @@ from dataclasses import dataclass, asdict
 from enum import Enum
 import hashlib
 from typing import Union
-from dacite import from_dict as dacite_from_dict
+#from dacite import from_dict as dacite_from_dict
 from bmeg.gid import GID
 from bmeg.utils import enforce_types
 
@@ -315,11 +315,14 @@ class Biosample(Vertex):
         return GID("%s:%s" % (cls.__name__, biosample_id))
 
 
+
 @enforce_types
 @dataclass(frozen=True)
+#One portion of a sample that has been analyzed
 class Aliquot(Vertex):
     aliquot_id: str
-    gdc_attributes: Union[None, dict] = None
+    # Data extracted from NCI GDC system
+    gdc_attributes: Union[None, dict] = None #some other comments
 
     def gid(self):
         return Aliquot.make_gid(self.aliquot_id)

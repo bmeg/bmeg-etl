@@ -2,7 +2,7 @@ from dataclasses import dataclass
 
 from bmeg.gid import GID
 from bmeg.utils import enforce_types
-from dacite import from_dict as dacite_from_dict
+# from dacite import from_dict as dacite_from_dict
 
 
 @enforce_types
