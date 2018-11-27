@@ -18,7 +18,7 @@ source.ccle.CCLE_NP24.2009_Drug_data_2015.02.24.csv.dvc
 source.ccle.CCLE_tpm.tsv.gz.dvc
 source.gdsc.GDSC_AUC.csv.dvc
 source.ensembl-protein.homo_sapiens.json.dvc
-source.ensembl.Homo_sapiens.GRCh37.87.gff3.gz.dvc
+source.ensembl.Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz.dvc
 source.goa_human.gaf.gz.dvc
 source.go.HUMAN_9606_idmapping.dat.gz.dvc
 source.go.obo.dvc
