@@ -1,7 +1,0 @@
-for f in transform/*; do
-    if [ -d ${f} ]; then
-      if [[ $f != transform/__*__ ]]; then
-         ( cd $f && python -m pytest  --cov=.)
-      fi
-    fi
-done

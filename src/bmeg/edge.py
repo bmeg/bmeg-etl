@@ -58,32 +58,6 @@ class AlleleCall(Edge):
     info: dict = None
 
 
-@dataclass(frozen=True)
-class CNASegmentOverlaps(Edge):
-    """
-    CNASegment -> Gene
-    """
-    pass
-
-
-@enforce_types
-@dataclass(frozen=True)
-class CNASegmentCall(Edge):
-    """
-    CNASegment -> Callset
-    """
-    value: float
-
-
-@enforce_types
-@dataclass(frozen=True)
-class GeneCNAValueCall(Edge):
-    """
-    Gene -> Callset
-    """
-    value: float
-
-
 @enforce_types
 @dataclass(frozen=True)
 class MethlyationProbeValue(Edge):
@@ -351,5 +325,14 @@ class Reads(Edge):
 class Writes(Edge):
     """
     Command -> File
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class CopyNumberAlterationOf(Edge):
+    """
+    CopyNumberAlteration -> Aliquot
     """
     pass

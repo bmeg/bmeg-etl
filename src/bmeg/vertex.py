@@ -85,24 +85,6 @@ class Allele(Vertex):
 
 @enforce_types
 @dataclass(frozen=True)
-class CNASegment(Vertex):
-    genome: str
-    chromosome: str
-    start: int
-    end: int
-
-    def gid(self):
-        return CNASegment.make_gid(self.genome, self.chromosome,
-                                   self.start, self.end)
-
-    @classmethod
-    def make_gid(cls, callset_id, genome, chromosome, start, end):
-        return GID("%s:%s:%s:%d:%d" % (cls.__name__, callset_id, genome, start,
-                                       end))
-
-
-@enforce_types
-@dataclass(frozen=True)
 class MethylationProbe(Vertex):
     genome: str
     chromosome: str
@@ -573,3 +555,21 @@ class Command(Vertex):
     @classmethod
     def make_gid(cls, md5):
         return GID("%s:%s" % (cls.__name__, md5))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class CopyNumberAlteration(Vertex):
+    """Gene level copy number alterations
+    """
+    id: str
+    source: str
+    method: str
+    values: dict
+
+    def gid(self):
+        return CopyNumberAlteration.make_gid(self.source, self.id)
+
+    @classmethod
+    def make_gid(cls, source, id):
+        return GID("%s:%s:%s" % (cls.__name__, source, id))

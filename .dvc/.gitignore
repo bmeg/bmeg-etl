@@ -12,3 +12,11 @@ lock
 config.local
 updater
 cache
+/state
+/lock
+/config.local
+/updater
+/updater.lock
+/state-journal
+/state-wal
+/cache
