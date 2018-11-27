@@ -1,10 +1,10 @@
 cmd: python3 transform/allele/transform.py
 deps:
-- md5: 9655a563e184563d19d54a151cad2790
+- md5: 9fe7ab68a0e77600875c264c5bd12873
   path: outputs/ccle/Allele.Vertex.json.gz
-- md5: ae640da3e7019249402c141b43af7608
+- md5: 866543f77eebca9e1eae9c465f917daa
   path: outputs/g2p/Allele.Vertex.json.gz
-- md5: 08b0caf635ecd0ea0afd1ee704ec3471
+- md5: b0e1593ede53579826eb96dab4148165
   path: outputs/g2p/MinimalAllele.Vertex.json.gz
 - md5: 377bf2c736ad8d1f0a7f71ee48149bad
   path: outputs/mc3/Allele.Vertex.json.gz
@@ -18,8 +18,8 @@ deps:
   path: source/myvariant.info/metadata.fields.json
 - md5: e684d344d13e70a33a5605327a789360
   path: source/myvariant.info/metadata.json
-md5: 4c8f0f7b37e58ec199647e8facd7d27b
+md5: 33f9ceef9a09fa8f34e9a371bf25768d
 outs:
 - cache: true
-  md5: 61835e12df1251a33e01b1277fc07ac2
+  md5: 2ed09d4c4237d298a69941c5722b72f1
   path: outputs/allele/Allele.Vertex.json.gz
