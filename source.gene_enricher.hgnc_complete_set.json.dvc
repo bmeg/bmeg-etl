@@ -1,8 +1,11 @@
 cmd: curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry
   128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/hgnc_complete_set.json
   --output source/gene_enricher/hgnc_complete_set.json
-md5: 361717476a2235fe752e4c52c774caa1
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/gene_enricher/version.txt
+md5: 1bada0b72fb7d4b523a0b9cbea3ef49f
 outs:
 - cache: true
-  md5: 8300e43e6513e8e0a696a952ad28b1f5
+  md5: cc3abedb40a6795c34b739a6df2b140e
   path: source/gene_enricher/hgnc_complete_set.json

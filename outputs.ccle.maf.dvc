@@ -2,22 +2,22 @@ cmd: python3 transform/ccle/ccle_maf_transform.py
 deps:
 - md5: ce843abcbc98fc858559718dc67a34ce
   path: source/ccle/CCLE_DepMap_18q3_maf_20180718.txt
-- md5: fcd28c797f14cfd627f5d8850b86041b
-  path: source/gene_enricher/non_alt_loci_set.json
-md5: 735b6d7a34c01135b6a85bcb60d3f233
+- md5: cc3abedb40a6795c34b739a6df2b140e
+  path: source/gene_enricher/hgnc_complete_set.json
+md5: f4c8bbed827865e208f29f625a5da302
 outs:
 - cache: true
-  md5: 9655a563e184563d19d54a151cad2790
+  md5: 9fe7ab68a0e77600875c264c5bd12873
   path: outputs/ccle/Allele.Vertex.json.gz
 - cache: true
-  md5: ffa50606a2cd2242e81589e624ec3d59
+  md5: c4e81c8a7796a7b84da82d79860e20dc
   path: outputs/ccle/AlleleCall.Edge.json.gz
 - cache: true
-  md5: 239a804b1ed7e4c77be9f7eefc043143
+  md5: bb38a605fe4326766a0e1bbcc4c10741
   path: outputs/ccle/AlleleIn.Edge.json.gz
 - cache: true
-  md5: 279387e5b2f951adece8127ba3a54d31
+  md5: d4af39103d738ff5f1cf6b192cc14fcb
   path: outputs/ccle/Callset.Vertex.json.gz
 - cache: true
-  md5: 2e7b661e3a7874b1aff088acd9922564
+  md5: 4f927e03ecc7f02fb7062e27d7393ce1
   path: outputs/ccle/CallsetFor.Edge.json.gz
