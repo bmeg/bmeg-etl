@@ -877,8 +877,8 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/tcga/TCGA-LUSC.CopyNumberAlterationOf.Edge.json.gz \
   -d outputs/tcga/TCGA-MESO.CopyNumberAlteration.Vertex.json.gz \
   -d outputs/tcga/TCGA-MESO.CopyNumberAlterationOf.Edge.json.gz \
-  -d outputs/tcga/TCGA-dV.CopyNumberAlteration.Vertex.json.gz \
-  -d outputs/tcga/TCGA-dV.CopyNumberAlterationOf.Edge.json.gz \
+  -d outputs/tcga/TCGA-OV.CopyNumberAlteration.Vertex.json.gz \
+  -d outputs/tcga/TCGA-OV.CopyNumberAlterationOf.Edge.json.gz \
   -d outputs/tcga/TCGA-PAAD.CopyNumberAlteration.Vertex.json.gz \
   -d outputs/tcga/TCGA-PAAD.CopyNumberAlterationOf.Edge.json.gz \
   -d outputs/tcga/TCGA-PCPG.CopyNumberAlteration.Vertex.json.gz \
