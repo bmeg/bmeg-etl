@@ -19,20 +19,19 @@ psql_cmd: psql -d bmeg_test
 
 # read from files, into cmd, pipe to into psql cmd
 commands:
-    - producer: jq -rc '"\(.gid)|\(.label)|\(.data)"'
-      consumer: copy vertex(gid, label, data) from stdin csv quote '^' delimiter '|' ;
+    - producer: jq -rc '"\(.gid)\t\(.label)\t\(.data)"'
+      consumer: copy vertex(gid, label, data) from stdin with delimiter E'\t' ;
       files: vertex_files
-    - producer: jq -rc '"\(.gid)|\(.label)|\(.from)|\(.to)|\(.data)"'
-      consumer: copy edge(gid, label, "from", "to", data) from stdin csv quote '^' delimiter '|' ;
+    - producer: jq -rc '"\(.gid)\t\(.label)\t\(.from)\t\(.to)\t\(.data)"'
+      consumer: copy edge(gid, label, "from", "to", data) from stdin  with delimiter E'\t' ;
       files: edge_files
-    - producer: jq -rc 'del(.data.values) | "\(.gid)|\(.label)|\(.data)"'
-      consumer: copy vertex(gid, label, data) from stdin csv quote '^' delimiter '|' ;
+    - producer: jq -rc 'del(.data.values) | "\(.gid)\t\(.label)\t\(.data)"'
+      consumer: copy vertex(gid, label, data) from stdin  with delimiter E'\t' ;
       files: matrix_files
     - producer: |
-        jq -rc '.gid as $gid |  .data.values | to_entries  | map( . + {gid: $gid} )[]  | select(.value != 0 )  |  "\(.gid)|\(.key)|\(.value)"  '
-      consumer: copy matrix(gid, key, val) from stdin csv quote '^' delimiter '|' ;
+        jq -rc '.gid as $gid |  .data.values | to_entries  | map( . + {gid: $gid} )[]  | select(.value != 0 )  |  "\(.gid)\t\(.key)\t\(.value)"  '
+      consumer: copy matrix(gid, key, val) from stdin  with delimiter E'\t' ;
       files: matrix_files
-
 
 drop: |
   DROP TABLE IF EXISTS vertex CASCADE;
