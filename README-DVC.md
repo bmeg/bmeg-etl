@@ -209,9 +209,8 @@ dvc run --file source.pfam.id_list.txt.dvc --yes \
   -o source/pfam/id_list.txt \
   "python transform/pfam/list.py -O source/pfam/id_list.txt"
 #
-dvc run --file source.tcga.methylation.IlluminaHumanMethylation450.tsv --yes \
-  -o source/tcga/methylation/IlluminaHumanMethylation450.tsv \
-  -d source/tcga/methylation/IlluminaHumanMethylation450.tar.gz \
+dvc run --file source.tcga.methylation.IlluminaHumanMethylation450.tsv.gz.dvc --yes \
+  -o source/tcga/methylation/IlluminaHumanMethylation450.tsv.gz \
   "python3 transform/tcga/download_methylation.py && transform/tcga/generate_methylation_matrix.sh"
 #
 dvc run --file source.tcga.TCGA_ID_MAP.csv.dvc --yes \

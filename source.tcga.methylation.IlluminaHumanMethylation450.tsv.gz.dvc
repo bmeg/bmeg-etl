@@ -1,0 +1,6 @@
+cmd: python3 transform/tcga/download_methylation.py && transform/tcga/generate_methylation_matrix.sh
+md5: 4aa49dfc5cf4d9cb6df66ca7fe59b1d5
+outs:
+- cache: true
+  md5: 47d232086990c04c0f366e4f1faad723
+  path: source/tcga/methylation/IlluminaHumanMethylation450.tsv.gz
