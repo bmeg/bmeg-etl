@@ -62,6 +62,6 @@ def get_gene(identifier):
             return genes[0]
     if genes is None:
         raise ValueError(
-            'gene reference does not exist {}'.format(identifier))  # noqa
+            "gene reference does not exist: '{}'".format(identifier))  # noqa
     raise ValueError(
-        'gene reference refers to multiple genes {}'.format(identifier))  # noqa
+        "gene reference refers to multiple genes: '{}'".format(identifier))  # noqa

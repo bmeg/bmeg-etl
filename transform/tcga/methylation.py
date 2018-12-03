@@ -9,6 +9,7 @@ import bmeg.enrichers.gene_enricher as gene_enricher
 from bmeg.vertex import Methylation, MethylationProbe, Aliquot, Gene
 from bmeg.edge import MethylationOf, MethylationProbeFor
 from bmeg.emitter import JSONEmitter
+from bmeg.stores import KeyValueStore
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
 
@@ -27,30 +28,34 @@ def transform(source_path,
 
     # check if we are doing one file at time
     p, file_name = os.path.split(source_path)
-    prefix = file_name.split('.')[0]
+    prefix = file_name.split(".")[0]
     emitter = JSONEmitter(directory=emitter_directory, prefix=prefix)
 
     reader = csv.reader(gzip.open(source_path, "rt"), delimiter="\t")
     header = next(reader)
     samples = header[1:-3]
 
-    # collect methylation for all aliquots and transcripts
-    collect = defaultdict(dict)
-
     probe_id_idx = 0
     gene_symbol_idx = -3
     chromosome_idx = -2
     coordinate_idx = -1
 
+    # collect methylation for all aliquots and transcripts
+    db = KeyValueStore(path='outputs/tcga/methylation.db')
+
     for row in reader:
         probe_id = row[probe_id_idx]
-        symbol = row[gene_symbol_idx]
-        try:
-            genes = gene_enricher.get_gene(symbol)
-            ensembl_id = genes[0]['ensembl_gene_id']
-            symbol = ensembl_id
-        except Exception as e:
-            logging.warning(str(e))
+        symbol = row[gene_symbol_idx].split(";")[0]
+        if symbol:
+            try:
+                gene = gene_enricher.get_gene(symbol)
+                ensembl_id = gene["ensembl_gene_id"]
+                symbol = ensembl_id
+            except Exception as e:
+                logging.warning(str(e))
+
+        if symbol is None:
+            symbol = ""
 
         p = MethylationProbe(
             id=probe_id,
@@ -60,30 +65,33 @@ def transform(source_path,
         )
         emitter.emit_vertex(p)
 
-        try:
+        if symbol.startswith("ENSG"):
             emitter.emit_edge(
                 MethylationProbeFor(),
                 from_gid=p.gid(),
                 to_gid=Gene.make_gid(symbol)
             )
-        except Exception as e:
-            logging.warning(str(e))
 
+        collect = defaultdict(dict)
         for aliquot_barcode, beta_val in zip(samples, row[1:-3]):
+            # http://gdac.broadinstitute.org/runs/sampleReports/latest/SKCM_Notifications.html
+            if aliquot_barcode == "TCGA-XV-AB01-01A-12D-A408-05":
+                aliquot_barcode = "TCGA-XV-AB01-06A-12D-A408-05"
             aliquot_id = aliquot_lookup[aliquot_barcode]
-            if beta_val == 'NA':
+            if beta_val == "NA":
                 bval = None
             else:
                 bval = float(beta_val)
             collect[aliquot_id][probe_id] = bval
+        db.put(aliquot_id, collect[aliquot_id])
 
-    for aliquot_id, values in collect.items():
+    for aliquot_id in db.all_ids():
         m = Methylation(
             id=aliquot_id,
             source="tcga",
             metric="Methylation beta value",
             method=prefix,
-            values=values,
+            values=db.get(aliquot_id),
         )
         emitter.emit_vertex(m)
         emitter.emit_edge(

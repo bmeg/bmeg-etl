@@ -213,6 +213,15 @@ dvc run --file source.tcga.methylation.IlluminaHumanMethylation450.tsv.gz.dvc --
   -o source/tcga/methylation/IlluminaHumanMethylation450.tsv.gz \
   "python3 transform/tcga/download_methylation.py && transform/tcga/generate_methylation_matrix.sh"
 #
+dvc run --file outputs.tcga.IlluminaHumanMethylation450.dvc --yes \
+  -d source/tcga/methylation/IlluminaHumanMethylation450.tsv.gz \
+  -d outputs/gdc/Aliquot.Vertex.json.gz \
+  -o outputs/tcga/Methylation.Vertex.json.gz \
+  -o outputs/tcga/MethylationProbe.Vertex.json.gz \
+  -o outputs/tcga/MethylatioOf.Edge.json.gz \
+  -o outputs/tcga/MethylatioProbeFor.Edge.json.gz \
+  "python3 transform/tcga/methylation.py"
+#
 dvc run --file source.tcga.TCGA_ID_MAP.csv.dvc --yes \
   -o source/tcga/expression/transcript-level/TCGA_ID_MAP.csv \
   "wget https://osf.io/7qpsg/download -O source/tcga/expression/transcript-level/TCGA_ID_MAP.csv"
