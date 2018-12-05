@@ -216,10 +216,10 @@ dvc run --file source.tcga.methylation.IlluminaHumanMethylation450.tsv.gz.dvc --
 dvc run --file outputs.tcga.IlluminaHumanMethylation450.dvc --yes \
   -d source/tcga/methylation/IlluminaHumanMethylation450.tsv.gz \
   -d outputs/gdc/Aliquot.Vertex.json.gz \
-  -o outputs/tcga/Methylation.Vertex.json.gz \
-  -o outputs/tcga/MethylationProbe.Vertex.json.gz \
-  -o outputs/tcga/MethylatioOf.Edge.json.gz \
-  -o outputs/tcga/MethylatioProbeFor.Edge.json.gz \
+  -o outputs/tcga/IlluminaHumanMethylation450.Methylation.Vertex.json.gz \
+  -o outputs/tcga/IlluminaHumanMethylation450.MethylationProbe.Vertex.json.gz \
+  -o outputs/tcga/IlluminaHumanMethylation450.MethylatioOf.Edge.json.gz \
+  -o outputs/tcga/IlluminaHumanMethylation450.MethylatioProbeFor.Edge.json.gz \
   "python3 transform/tcga/methylation.py"
 #
 dvc run --file source.tcga.TCGA_ID_MAP.csv.dvc --yes \
@@ -951,7 +951,10 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/tcga/TCGA-UCS.CopyNumberAlterationOf.Edge.json.gz \
   -d outputs/tcga/TCGA-UVM.CopyNumberAlteration.Vertex.json.gz \
   -d outputs/tcga/TCGA-UVM.CopyNumberAlterationOf.Edge.json.gz \
-  -o source/meta/bmeg_file_manifest.txt \
+  -d outputs/tcga/IlluminaHumanMethylation450.Methylation.Vertex.json.gz \
+  -d outputs/tcga/IlluminaHumanMethylation450.MethylationProbe.Vertex.json.gz \
+  -d outputs/tcga/IlluminaHumanMethylation450.MethylationOf.Edge.json.gz \
+  -d outputs/tcga/IlluminaHumanMethylation450.MethylationProbeFor.Edge.json.gz \
   "python3 transform/dvc/bmeg_file_manifest.py"
 
 

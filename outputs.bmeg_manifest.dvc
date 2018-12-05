@@ -440,8 +440,12 @@ deps:
   path: outputs/tcga/TCGA-UVM.CopyNumberAlteration.Vertex.json.gz
 - md5: 85222d955d58957366f390dbce707978
   path: outputs/tcga/TCGA-UVM.CopyNumberAlterationOf.Edge.json.gz
-md5: c00b57ad01ea5491d51260ec5bdfe7a2
-outs:
-- cache: true
-  md5: f171c8a269fa4d124c4733f2a5940cae
-  path: outputs/meta/bmeg_file_manifest.txt
+- md5: 57dc67de141e14b95d24b4e3d1ced371
+  path: outputs/tcga/IlluminaHumanMethylation450.Methylation.Vertex.json.gz
+- md5: a508bfcffe0612e1ecb0700c713bd491
+  path: outputs/tcga/IlluminaHumanMethylation450.MethylationProbe.Vertex.json.gz
+- md5: 86ca3231c0a3bfcaa353a612525955d6
+  path: outputs/tcga/IlluminaHumanMethylation450.MethylationOf.Edge.json.gz
+- md5: bbb8688dbd69e05a8c9e7b3e6dd0ca14
+  path: outputs/tcga/IlluminaHumanMethylation450.MethylationProbeFor.Edge.json.gz
+md5: 20a09744f6bba744dff5cbef4536ddea
