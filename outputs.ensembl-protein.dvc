@@ -1,0 +1,21 @@
+cmd: python3 transform/ensembl-protein/ensembl-protein-transform.py
+deps:
+- md5: a716f3864b3883ef8b4a29adebc29533
+  path: source/ensembl-protein/homo_sapiens.json
+md5: efe64eeb9093077e6208af29b8b8d352
+outs:
+- cache: true
+  md5: ecccae14f67ddf9cdc6a777874143c03
+  path: outputs/ensembl-protein/PFAMAlignment.Edge.json.gz
+- cache: true
+  md5: 25ad2b98b8f3066f00c449c95b40da1f
+  path: outputs/ensembl-protein/Protein.Vertex.json.gz
+- cache: true
+  md5: 32425c24ac1c5aa91c42ac382449b08f
+  path: outputs/ensembl-protein/ProteinFor.Edge.json.gz
+- cache: true
+  md5: 0f59e1b39e065651ce5e7e86c27decd8
+  path: outputs/ensembl-protein/ProteinStructure.Vertex.json.gz
+- cache: true
+  md5: 1b189fd844104658af22f06b3db37863
+  path: outputs/ensembl-protein/StructureFor.Edge.json.gz

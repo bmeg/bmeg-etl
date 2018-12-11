@@ -166,7 +166,7 @@ dvc run --file source.gdsc.GDSC_AUC.csv.dvc --yes \
 #
 dvc run --file source.ensembl-protein.homo_sapiens.json.dvc --yes \
   -o source/ensembl-protein/homo_sapiens.json \
-  "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ensembl.org/pub/release-93/json/homo_sapiens/homo_sapiens.json --output source/ensembl-protein/homo_sapiens.json"
+  "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 360 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ensembl.org/pub/release-93/json/homo_sapiens/homo_sapiens.json --output source/ensembl-protein/homo_sapiens.json"
 #
 dvc run --file source.ensembl.Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz.dvc --yes \
   -o source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz \
@@ -400,7 +400,7 @@ dvc run --file outputs.ensembl-protein.dvc --yes \
   -o outputs/ensembl-protein/ProteinFor.Edge.json.gz \
   -o outputs/ensembl-protein/ProteinStructure.Vertex.json.gz \
   -o outputs/ensembl-protein/StructureFor.Edge.json.gz \
-  "python3 transform/ensembl/ensembl-transform.py"
+  "python3 transform/ensembl-protein/ensembl-protein-transform.py"
 #
 dvc run --file outputs.ensembl.dvc --yes \
   -d source/ensembl/Homo_sapiens.GRCh37.87.gff3.gz \
