@@ -47,8 +47,8 @@ def transform(source_path,
         feature_ids = row[0].split("|")
         symbol = feature_ids[0]
         try:
-            genes = gene_enricher.get_gene(symbol)
-            ensembl_id = genes[0]['ensembl_gene_id']
+            gene = gene_enricher.get_gene(symbol)
+            ensembl_id = gene['ensembl_gene_id']
             symbol = ensembl_id
         except Exception as e:
             logging.warning(str(e))
@@ -71,7 +71,6 @@ def transform(source_path,
             from_gid=cna.gid(),
             to_gid=Aliquot.make_gid(aliquot_id)
         )
-
     emitter.close()
 
 
