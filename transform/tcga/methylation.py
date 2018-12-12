@@ -16,6 +16,7 @@ from bmeg.util.logging import default_logging
 
 def transform(source_path,
               aliquot_path="outputs/gdc/Aliquot.Vertex.json.gz",
+              kvstore_path="outputs/tcga/methylation.db",
               emitter_directory="tcga"):
 
     aliquot_lookup = {}
@@ -41,7 +42,8 @@ def transform(source_path,
     coordinate_idx = -1
 
     # collect methylation for all aliquots and transcripts
-    db = KeyValueStore(path='outputs/tcga/methylation.db')
+    db = KeyValueStore(path=kvstore_path)
+    db.index()
 
     for row in reader:
         probe_id = row[probe_id_idx]
@@ -72,7 +74,6 @@ def transform(source_path,
                 to_gid=Gene.make_gid(symbol)
             )
 
-        collect = defaultdict(dict)
         for aliquot_barcode, beta_val in zip(samples, row[1:-3]):
             # http://gdac.broadinstitute.org/runs/sampleReports/latest/SKCM_Notifications.html
             if aliquot_barcode == "TCGA-XV-AB01-01A-12D-A408-05":
@@ -82,8 +83,11 @@ def transform(source_path,
                 bval = None
             else:
                 bval = float(beta_val)
-            collect[aliquot_id][probe_id] = bval
-        db.put(aliquot_id, collect[aliquot_id])
+            vals = db.get(aliquot_id)
+            if not vals:
+                vals = {}
+            vals[probe_id] = bval
+            db.put(aliquot_id, vals)
 
     for aliquot_id in db.all_ids():
         m = Methylation(

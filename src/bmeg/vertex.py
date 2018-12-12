@@ -605,7 +605,7 @@ class Methylation(Vertex):
 @dataclass(frozen=True)
 class MethylationProbe(Vertex):
     id: str
-    target: str
+    target: Union[None, str]
     chromosome: str
     position: int
 
