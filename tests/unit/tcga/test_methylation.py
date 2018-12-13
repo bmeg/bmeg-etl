@@ -42,8 +42,8 @@ def validate(helpers, source_path, aliquot_source_path, emitter_directory):
     helpers.assert_edge_file_valid(Methylation, Aliquot, methylation_of_file)
     helpers.assert_vertex_file_valid(MethylationProbe, methylation_probe_file)
     helpers.assert_edge_file_valid(MethylationProbe, Gene, methylation_probe_for_file)
-    # TODO: not sure what to do here since not all MethylationProbes connect to genes
-    helpers.assert_edge_joins_valid([methylation_file, methylation_of_file], exclude_labels=['Aliquot', 'Gene'])
+    all_files = [methylation_probe_file, methylation_probe_for_file, methylation_file, methylation_of_file]
+    helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot', 'Gene', 'MethylationProbe'])
 
 
 def test_simple(helpers, source_path, aliquot_source_path, emitter_directory):
