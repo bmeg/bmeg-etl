@@ -122,7 +122,9 @@ class Gene(Vertex):
     def make_gid(cls, gene_id):
         if not gene_id.startswith("ENSG"):
             raise ValueError("not an emsembl gene id")
-        return GID("%s:%s" % (cls.__name__, gene_id))
+        if gene_id.count(".") != 0:
+            raise ValueError("version numbers not allowed")
+        return GID("%s" % (gene_id))
 
 
 @enforce_types
@@ -144,7 +146,9 @@ class Transcript(Vertex):
     def make_gid(cls, transcript_id):
         if not transcript_id.startswith("ENST"):
             raise ValueError("not an emsembl transcript id")
-        return GID("%s:%s" % (cls.__name__, transcript_id))
+        if transcript_id.count(".") != 0:
+            raise ValueError("version numbers not allowed")
+        return GID("%s" % (transcript_id))
 
 
 @enforce_types
@@ -165,7 +169,9 @@ class Exon(Vertex):
     def make_gid(cls, exon_id):
         if not exon_id.startswith("ENSE"):
             raise ValueError("not an emsembl exon id")
-        return GID("%s:%s" % (cls.__name__, exon_id))
+        if exon_id.count(".") != 0:
+            raise ValueError("version numbers not allowed: %s" % (exon_id))
+        return GID("%s" % (exon_id))
 
 
 @enforce_types
@@ -181,7 +187,9 @@ class Protein(Vertex):
     def make_gid(cls, protein_id):
         if not protein_id.startswith("ENSP"):
             raise ValueError("not an emsembl protein id")
-        return GID("%s:%s" % (cls.__name__, protein_id))
+        if protein_id.count(".") == 0:
+            raise ValueError("version numbers not allowed")
+        return GID("%s" % (protein_id))
 
 
 @enforce_types
