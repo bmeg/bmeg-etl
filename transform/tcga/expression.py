@@ -73,7 +73,7 @@ def transform(source_path,
                 geneValues[gene] = geneValues.get(gene, 0) + v
 
         gg = Expression(
-            id=aliquot_id,
+            id=aliquot_id + "_gene",
             source="tcga",
             metric=ExpressionMetric.GENE_TPM,
             method="Illumina Hiseq",
