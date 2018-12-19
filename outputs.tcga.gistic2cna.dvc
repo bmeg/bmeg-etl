@@ -66,211 +66,205 @@ deps:
   path: source/tcga/gistic2-firehose/TCGA-UCS_all_thresholded.by_genes.txt
 - md5: d010c6e51ed5d276fa2d1d7a06eb01b7
   path: source/tcga/gistic2-firehose/TCGA-UVM_all_thresholded.by_genes.txt
-- md5: 1773485cc014d9057a66d80c31911cc5
+- md5: 4610cfe31a6d1b220ed51701e8d267a3
   path: outputs/gdc/Aliquot.Vertex.json.gz
-md5: 3e31de9794cc1df65cd01255bb953ed6
+md5: af68cd0e8a81a7c96a748e7d9055726c
 outs:
 - cache: true
-  md5: 351b7225441a45a88dc2b89b9be94c2c
-  path: outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json
-- cache: true
-  md5: d99490356b48d72e62556fd7c3471cb7
+  md5: eb869fafc48d8476f91175ff5381d858
   path: outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 1dc3ddcebd7185200844e8fc980a40c8
-  path: outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json
-- cache: true
-  md5: 5bf0299eee8488abb12188abe419c5f8
+  md5: ce9cfd1818014fb1425856d90bb375a5
   path: outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: b27e006e080d38763b179521d0b1ede9
+  md5: 41d0ae4615f2f0b537962846cfef4465
   path: outputs/tcga/TCGA-BLCA.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: c357445f5d9547c57ba6a50fb8211243
+  md5: b259435c3d4211dcb1a14434df5a5437
   path: outputs/tcga/TCGA-BLCA.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: f4d0869d2d80e0cd5e9d6e31ec426850
+  md5: 590fcc58cd5b85ec11c8228ab0c93e0d
   path: outputs/tcga/TCGA-BRCA.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: a4052b9072c9c1e94c86715e2a043554
+  md5: 211d8365394d7151d35b3e8500c4d27d
   path: outputs/tcga/TCGA-BRCA.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 5d2bd62c3f8b55af437bddc3815e4431
+  md5: 8e645630f1cc7774768eb60223bf0962
   path: outputs/tcga/TCGA-CESC.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: b450e99d5a16e2c330003d63910fa19a
+  md5: c3d1748e8dcae0613539942acd6be264
   path: outputs/tcga/TCGA-CESC.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 711fdaa35b812b01f4dd238f44607526
+  md5: e3320fe6e6ed2f96f2e5fd18e5e108bb
   path: outputs/tcga/TCGA-CHOL.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 9a016c35e68da7b1b68a9a4723c44525
+  md5: 4871ac90c12c4424592eda158d769c4f
   path: outputs/tcga/TCGA-CHOL.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 66f420f54a0a10157efc03023c56006f
+  md5: 40a63b4bb3bf634e46751b5a66491b1c
   path: outputs/tcga/TCGA-COAD.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 4abccc837d68dbd857aebb54bf74f4f0
+  md5: 6570191ce94affd9d2f5373fd4ef1846
   path: outputs/tcga/TCGA-COAD.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: e62e2271c3b99d6f4de88593d76c6237
+  md5: 8737c15bddbdef1e795b8b9c321a8782
   path: outputs/tcga/TCGA-DLBC.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: c0e44c7a477d4e4e2361eef25e824585
+  md5: f18c357b665835350010409fcba1e007
   path: outputs/tcga/TCGA-DLBC.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 485f4b470f6b20ee26250b31489c4bcf
+  md5: 0a1f22a5af1438c65355d63e01e0619f
   path: outputs/tcga/TCGA-ESCA.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 9bdc0f37441834e8cef04c524b4bc6f3
+  md5: 5540ae73a7d5bc8c2a44a249fe7a66b3
   path: outputs/tcga/TCGA-ESCA.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 01bdfd7abc2d18abe6b3b0bc4e329a83
+  md5: 74679a58a52e1df5de6789112e0ccf9e
   path: outputs/tcga/TCGA-GBM.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: c78085c560e44ccad95331a058a7587d
+  md5: cc9488a57ff425718baf4f8a2b34d455
   path: outputs/tcga/TCGA-GBM.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 4467d2330a7df882c336e080883413e6
+  md5: e92fa510061e5ce64e93631f287eb011
   path: outputs/tcga/TCGA-HNSC.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 969bf9088cc569d37d954e4dd596383b
+  md5: e6b1e1e82d0e3d165a29a0f756fba56a
   path: outputs/tcga/TCGA-HNSC.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 9264946d39f9887d65f70c1f0e486392
+  md5: 898f9ba80b1ac12627772960bd7c2303
   path: outputs/tcga/TCGA-KICH.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 2264729030607eb6c4132c8c6ce05dd0
+  md5: a4cc6dcf75cbb0d5314c40e8be251c7e
   path: outputs/tcga/TCGA-KICH.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: ebc9dfe45053b4e76ca90b7eed2a9528
+  md5: bcc20e2d95cca200b62fba2d004a8699
   path: outputs/tcga/TCGA-KIRC.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: c20499fd00bf6a4c7da6209775d94601
+  md5: c0f3a4311be80beb2dec37ef5b5e3a89
   path: outputs/tcga/TCGA-KIRC.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: f90b4976cc11511fe47ae5f7a7ad0b42
+  md5: a57f063bc84387f04bbccec173ed0366
   path: outputs/tcga/TCGA-KIRP.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: eb21f1e7da8bc65e443ea74da6573b4a
+  md5: e9b0f089708ac0bbe543f81f514905cd
   path: outputs/tcga/TCGA-KIRP.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 4768cb7e994a62f8cb35ed8223f5eecf
+  md5: c463d5f5a39a1b9e2f325c1bb6c80e61
   path: outputs/tcga/TCGA-LAML.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 59b6b7e586c139c7d718b64fa277e698
+  md5: 219cf4dc8be48ec48a50c228646353ab
   path: outputs/tcga/TCGA-LAML.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 43761100d3219f3ef0d6b6f485d2f272
+  md5: 1d702b23213cce0b94433d60be963be9
   path: outputs/tcga/TCGA-LGG.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 8e4d224e1d7ab00bcba1b2b9ef03fa81
+  md5: 5d8143d70eca6eb6d72c4e0eaf1805fb
   path: outputs/tcga/TCGA-LGG.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 2d3a2d470e585f57ae4d0a1359c63295
+  md5: bf476cea5b0a34a74318bcb6780fc580
   path: outputs/tcga/TCGA-LIHC.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 114a22a5b7e9cf047bf53c04d7b74963
+  md5: 33cc41276dd59e78f8f5a3e12156c467
   path: outputs/tcga/TCGA-LIHC.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 650ae5a0f213c6c1f510d783b4089eca
+  md5: 970dfb2c818835f1aa84c4cc410733e9
   path: outputs/tcga/TCGA-LUAD.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 7a24c023523f05b1c9af54cf5f111630
+  md5: 8a0ed15d5ee8c49713cea547e5af256b
   path: outputs/tcga/TCGA-LUAD.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 1d5707b1f2c7f20a146c69134ea5c220
+  md5: c2174c068fe76503ece819476b8fc13c
   path: outputs/tcga/TCGA-LUSC.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: acd08c6546d5ebb8ddcd909e15241fa5
+  md5: ef53c69a89a25d04a448ecfa16d37444
   path: outputs/tcga/TCGA-LUSC.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 5e837416e77b030fb0a337c652f8b736
+  md5: 3ceeebb167351388c2c57ebf1bff5c4f
   path: outputs/tcga/TCGA-MESO.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 6ca1895c73593be802db1fee8ba7f5a0
+  md5: 47bc68b5a0c880e3ff1f1af76a761af1
   path: outputs/tcga/TCGA-MESO.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: fa86325035e9e638b88b803039e4b79a
+  md5: 1f03b9e415f9a18ea438e1c513d3738a
   path: outputs/tcga/TCGA-OV.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: e80bd2342bc31dd4b47e472a86d37909
+  md5: 60b7e3f9c8b1d0583fb940897589358b
   path: outputs/tcga/TCGA-OV.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 88fe1d8ce143d11284ed66a54a921084
+  md5: 359e82336df3b2aac02c1e839443bc9e
   path: outputs/tcga/TCGA-PAAD.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 45656c7274c67aedd12ad7dde21e77eb
+  md5: 1ffcd17228475d3b6b1d57e3246b7f13
   path: outputs/tcga/TCGA-PAAD.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 926a2710aa6ddcaaeb0a047e607712da
+  md5: c85cb1ee5d0b7512cb11b99a1f956af5
   path: outputs/tcga/TCGA-PCPG.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 881a082adf9e76b6986bbf6b71e0b032
+  md5: 42cbc70492cadf40a46b18e3a8559311
   path: outputs/tcga/TCGA-PCPG.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 704f2a6786730e6e82dd1250af67ac8a
+  md5: 0eed3ac1aa03847395bcc91d797d3c68
   path: outputs/tcga/TCGA-PRAD.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: d9781a7eb978ab39ba26dfd0610b1624
+  md5: 90a2ce057fea1798c75bfc6cee4f37b1
   path: outputs/tcga/TCGA-PRAD.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: f6e4560ececfa5c2972e631dfd2291a3
+  md5: 4a76285ec62c534f463194a3e1835ca1
   path: outputs/tcga/TCGA-READ.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 7079539ca1515bcc1a552cfed9668d1b
+  md5: c0e05df3ea1c5c60cbf24329df3bb41e
   path: outputs/tcga/TCGA-READ.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: c4ef009182c7dbf18327b6c79b7d3737
+  md5: aa30550607fa023bb8c30162ef46ee16
   path: outputs/tcga/TCGA-SARC.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 1be2a4306d0384087c61f11dd035b359
+  md5: bf2da496c0dbfbd2179a5a8eec82cbef
   path: outputs/tcga/TCGA-SARC.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 6bead8d4d303172e13b9bc261dc8d8a8
+  md5: 01ce30af66856f0a0cae0d505d8cb06b
   path: outputs/tcga/TCGA-SKCM.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 13aaee5509b61d68c6788eb38b6e6991
+  md5: 2c9b3e897c65941bec3444ee25c868a1
   path: outputs/tcga/TCGA-SKCM.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 4f206898eefc4cea3fa3c50ae6cac408
+  md5: c4de0be865edd4f798e95c91423ef009
   path: outputs/tcga/TCGA-STAD.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: eaad9c0df4e738af57177788b4c2c0c1
+  md5: 0834f72bd7b71d03ed8c51e5dfdce27a
   path: outputs/tcga/TCGA-STAD.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: df9b04424c458edb28d22c6965b7889c
+  md5: ddebbb21c7b0c0bfc154902162a4dd77
   path: outputs/tcga/TCGA-TGCT.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: be6f80931095406013d02ce8040a6ef2
+  md5: c007e974c94fbb98c4be3dac82eac2dc
   path: outputs/tcga/TCGA-TGCT.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 9da2378b0ad1c2ee53e5622dca741d0a
+  md5: b2c80601eb2f4862a4bdfba8a7402d1c
   path: outputs/tcga/TCGA-THCA.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 08dbed6cfc9edc090981c5bacd6ed4fc
+  md5: 905bf8aa0346009cdeaf9b893353599d
   path: outputs/tcga/TCGA-THCA.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: b8c8c283e4c3e66f9c91c40c6a6e28de
+  md5: a2f51ad12f216faa175789c2a3048a4c
   path: outputs/tcga/TCGA-THYM.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: a8cca462a301ff0263f79d6580ce801a
+  md5: f524dd40dd57a5ae134639c23068e96d
   path: outputs/tcga/TCGA-THYM.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: d9f2d5eea279bff925118b0e4ef7c32c
+  md5: 5bd3e3a0ba2a72de5ef7d23d1db81cc3
   path: outputs/tcga/TCGA-UCEC.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 47d8e05bb5b536a7900f598b91fbc874
+  md5: adba3d2a95c0ea3ee794bf73ddbff65d
   path: outputs/tcga/TCGA-UCEC.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 021586708f8702c1ab13d7fdf3b28235
+  md5: 88a00fa910535e99f8e3e641c8d6e387
   path: outputs/tcga/TCGA-UCS.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 86e2d201717bf9a7e025cd4f587ab467
+  md5: 18c08b1da1405b0f4943f0857143ddd1
   path: outputs/tcga/TCGA-UCS.CopyNumberAlterationOf.Edge.json.gz
 - cache: true
-  md5: 3ba733eb0e3a17a8b6676f6486a23d3c
+  md5: 42aea17f412ba9e8ae23340dd72438fe
   path: outputs/tcga/TCGA-UVM.CopyNumberAlteration.Vertex.json.gz
 - cache: true
-  md5: 961e411146c0574719f39de9e223f48d
+  md5: 2d914a46f1efa72818cceb7621ec2d91
   path: outputs/tcga/TCGA-UVM.CopyNumberAlterationOf.Edge.json.gz

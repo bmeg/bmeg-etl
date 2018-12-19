@@ -1,7 +1,8 @@
-cmd: curl --verbose --progress-bar --ipv4 --connect-timeout 8 --retry 128 --ftp-ssl
-  --disable-epsv --ftp-pasv ftp://ftp.ensembl.org/pub/release-93/json/homo_sapiens/homo_sapiens.json
-  --output source/ensembl-protein/homo_sapiens.json
-md5: 3e441320edbb617962b3e41010f2601b
+cmd: transform/ensembl-protein/curl-homo_sapien.sh
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/ensembl-protein/version.txt
+md5: 40072bc7e94e0b0e3203647b0974e953
 outs:
 - cache: true
   md5: a716f3864b3883ef8b4a29adebc29533
