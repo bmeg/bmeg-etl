@@ -8,7 +8,7 @@ from bmeg.vertex import Methylation, MethylationProbe, Aliquot, Gene
 @pytest.fixture
 def source_path(request):
     """ get the full path of the test input """
-    return os.path.join(request.fspath.dirname, 'source/tcga/methylation/IlluminaHumanMethylation450.tsv.gz')
+    return os.path.join(request.fspath.dirname, 'source/tcga/methylation/IlluminaHumanMethylation450.tar.gz')
 
 
 @pytest.fixture
