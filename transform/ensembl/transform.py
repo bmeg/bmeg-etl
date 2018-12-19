@@ -75,55 +75,65 @@ def transform(
         attrs["end"] = int(line["end"])
         attrs["strand"] = line["strand"]
 
-        if attrs["feature_id"] is not None and attrs["feature_id"] not in features:
-            features[attrs["feature_id"]] = attrs
+        if attrs["feature_id"] is not None:
+            if attrs["feature_id"] not in features:
+                features[attrs["feature_id"]] = [attrs]
+            else:
+                features[attrs["feature_id"]].append(attrs)
 
     emitted_genes = {}
     emitted_transcripts = {}
-    for key, attrs in features.items():
-        if attrs["type"] == "exon":
-            transcript_id = get_parent_transcript(attrs["Parent"])
+    for key, aset in features.items():
+        if aset[0]["type"] == "exon":
+            transcripts = []
+            for attrs in aset:
+                transcript_id = get_parent_transcript(attrs["Parent"])
+                transcripts.append(transcript_id)
+            attrs = aset[0]
             e = Exon(exon_id=attrs["exon_id"],
-                     transcript_id=transcript_id,
+                     transcript_id=transcripts,
                      chromosome=attrs["seqId"],
                      start=attrs["start"],
                      end=attrs["end"],
                      strand=attrs["strand"],
                      genome=GENOME_BUILD)
             emitter.emit_vertex(e)
-            emitter.emit_edge(ExonFor(),
-                              from_gid=e.gid(),
-                              to_gid=Transcript.make_gid(transcript_id))
+            
+            for transcript_id in transcripts:
+                emitter.emit_edge(ExonFor(),
+                                  from_gid=e.gid(),
+                                  to_gid=Transcript.make_gid(transcript_id))
 
-            if transcript_id not in emitted_transcripts:
-                attrs = features[transcript_id]
-                gene_id = get_parent_gene(attrs["Parent"])
-                t = Transcript(transcript_id=attrs["transcript_id"],
-                               gene_id=gene_id,
-                               chromosome=attrs["seqId"],
-                               start=int(attrs["start"]),
-                               end=int(attrs["end"]),
-                               strand=attrs["strand"],
-                               biotype=attrs["type"],
-                               genome=GENOME_BUILD)
-                emitter.emit_vertex(t)
-                emitter.emit_edge(TranscriptFor(),
-                                  from_gid=t.gid(),
-                                  to_gid=Gene.make_gid(gene_id))
-                emitted_transcripts[transcript_id] = True
+                if transcript_id not in emitted_transcripts:
+                    for attrs in features[transcript_id]:
+                        gene_id = get_parent_gene(attrs["Parent"])
+                        t = Transcript(transcript_id=attrs["transcript_id"],
+                                       gene_id=gene_id,
+                                       chromosome=attrs["seqId"],
+                                       start=int(attrs["start"]),
+                                       end=int(attrs["end"]),
+                                       strand=attrs["strand"],
+                                       biotype=attrs["type"],
+                                       genome=GENOME_BUILD)
+                        emitter.emit_vertex(t)
+                        emitter.emit_edge(TranscriptFor(),
+                                          from_gid=t.gid(),
+                                          to_gid=Gene.make_gid(gene_id))
+                        emitted_transcripts[transcript_id] = True
 
-                if gene_id not in emitted_genes:
-                    attrs = features[gene_id]
-                    g = Gene(gene_id=attrs["gene_id"],
-                             symbol=attrs["Name"],
-                             description=attrs.get("description", ""),
-                             chromosome=attrs["seqId"],
-                             start=int(attrs["start"]),
-                             end=int(attrs["end"]),
-                             strand=attrs["strand"],
-                             genome=GENOME_BUILD)
-                    emitter.emit_vertex(g)
-                    emitted_genes[gene_id] = True
+                        if gene_id not in emitted_genes:
+                            for attrs in features[gene_id]:
+                                g = Gene(gene_id=attrs["gene_id"],
+                                         symbol=attrs["Name"],
+                                         description=attrs.get("description", ""),
+                                         chromosome=attrs["seqId"],
+                                         start=int(attrs["start"]),
+                                         end=int(attrs["end"]),
+                                         strand=attrs["strand"],
+                                         genome=GENOME_BUILD)
+                                emitter.emit_vertex(g)
+                                emitted_genes[gene_id] = True
+
 
     emitter.close()
 

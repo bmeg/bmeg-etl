@@ -151,7 +151,7 @@ class Transcript(Vertex):
 @dataclass(frozen=True)
 class Exon(Vertex):
     exon_id: str
-    transcript_id: str
+    transcript_id: list
     chromosome: str
     start: int
     end: int
