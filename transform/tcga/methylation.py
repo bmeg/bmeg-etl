@@ -121,7 +121,11 @@ def transform(source_path,
 
 if __name__ == "__main__":
     parser = default_argument_parser()
-    parser.add_argument("--source_path", default="source/tcga/methylation/IlluminaHumanMethylation450.tar.gz", help="path to methylation tarbar")
+    parser.add_argument(
+        "--source_path", 
+        default="source/tcga/methylation/IlluminaHumanMethylation450.tar.gz", 
+        help="path to methylation tarbar"
+    )
     options = parser.parse_args()
     default_logging(options.loglevel)
     transform(source_path=options.source_path)
