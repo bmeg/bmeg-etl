@@ -104,6 +104,9 @@ class Helpers:
             if label in exclude_labels:
                 continue
             _to = edge['to']
+            # skip gene entries, kind of a hack
+            if _to.startswith("ENS"):
+                continue
             label = _to.split(':')[0]
             if label in exclude_labels:
                 continue
