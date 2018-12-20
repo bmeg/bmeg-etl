@@ -12,12 +12,29 @@ DEFAULT_DIRECTORY = 'meta'
 HUGO_HEADER = """
 ---
 title: Data Sources
+sidebar: true
 menu:
   main:
     parent: Building Graph
     weight: 2
 ---
 """
+
+def cardify(papers):
+    """create a 'card' for each paper."""
+    papers.sort(key=lambda item: (len(item['comment']), item))
+    lines = []
+    lines.append('{{% card-container %}}')
+    for paper in papers:
+        source = paper['path'].replace('source/','').replace('/*','')
+        lines.append('{{{{% card title="{}" %}}}}'.format(source))
+        lines.append(paper['comment'])
+        for publication in paper['publications'].split(','):
+            lines.append('[paper]({})'.format(publication))
+        lines.append('{{% /card %}}')
+
+    lines.append('{{% /card-container %}}')
+    return '\n'.join(lines)
 
 
 def transform(
@@ -36,7 +53,8 @@ def transform(
     with open('{}/dvc.md'.format(emitter_directory), 'w') as f:
         f.write(HUGO_HEADER)
         f.write('# Data Sources Summary\n')
-        f.write(tabulate(papers, headers="keys", tablefmt="pipe"))
+        #f.write(tabulate(papers, headers="keys", tablefmt="pipe"))
+        f.write(cardify(papers))
         f.write('\n')
 
         path = '{}/source*.dvc'.format(source_dir)
@@ -81,3 +99,4 @@ def transform(
 
 if __name__ == '__main__':
     transform()
+
