@@ -612,9 +612,7 @@ dvc run --file outputs.tcga.gistic2cna.dvc --yes \
   -d source/tcga/gistic2-firehose/TCGA-UCS_all_thresholded.by_genes.txt \
   -d source/tcga/gistic2-firehose/TCGA-UVM_all_thresholded.by_genes.txt \
   -d outputs/gdc/Aliquot.Vertex.json.gz \
-  -o outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json \
   -o outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json.gz \
-  -o outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json \
   -o outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json.gz \
   -o outputs/tcga/TCGA-BLCA.CopyNumberAlteration.Vertex.json.gz \
   -o outputs/tcga/TCGA-BLCA.CopyNumberAlterationOf.Edge.json.gz \
@@ -837,9 +835,7 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/tcga/UCS.ExpressionOf.Edge.json.gz \
   -d outputs/tcga/UVM.Expression.Vertex.json.gz \
   -d outputs/tcga/UVM.ExpressionOf.Edge.json.gz \
-  -d outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json \
   -d outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json.gz \
-  -d outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json \
   -d outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json.gz \
   -d outputs/tcga/TCGA-BLCA.CopyNumberAlteration.Vertex.json.gz \
   -d outputs/tcga/TCGA-BLCA.CopyNumberAlterationOf.Edge.json.gz \
@@ -905,7 +901,6 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/tcga/TCGA-UCS.CopyNumberAlterationOf.Edge.json.gz \
   -d outputs/tcga/TCGA-UVM.CopyNumberAlteration.Vertex.json.gz \
   -d outputs/tcga/TCGA-UVM.CopyNumberAlterationOf.Edge.json.gz \
-  -o scripts/bmeg_file_manifest.txt \
   "python3 transform/dvc/bmeg_file_manifest.py"
 ```
 
