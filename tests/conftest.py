@@ -17,7 +17,7 @@ class Helpers:
             # skip if union(None, ...)
             if 'typing.Union' in str(field.type) and 'NoneType' in str(field.type):
                 continue
-            assert vertex_dict['data'][k], 'empty key %s' % k
+            assert vertex_dict['data'][k] is not None, 'empty key %s' % k
 
     @staticmethod
     def assert_vertex_keys_populated(vertex_dict):
@@ -70,8 +70,9 @@ class Helpers:
                         found = True
                 assert found, 'edge.from should contain {} {}'.format(from_data_class, edge_dict['from'])
 
-                name = str(to_data_class.__name__).split('\\.')[-1]
-                assert name in edge_dict['to'], 'edge.to should contain {}'.format(name)
+                # NOTE: this is an old requirement
+                # name = str(to_data_class.__name__).split('\\.')[-1]
+                # assert name in edge_dict['to'], 'edge.to should contain {}'.format(name)
                 assert edge_dict['gid'] not in dups
                 dups.append(edge_dict['gid'])
                 c += 1
@@ -103,6 +104,9 @@ class Helpers:
             if label in exclude_labels:
                 continue
             _to = edge['to']
+            # skip gene entries, kind of a hack
+            if _to.startswith("ENS"):
+                continue
             label = _to.split(':')[0]
             if label in exclude_labels:
                 continue

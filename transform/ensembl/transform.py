@@ -98,7 +98,7 @@ def transform(
                      strand=attrs["strand"],
                      genome=GENOME_BUILD)
             emitter.emit_vertex(e)
-            
+
             for transcript_id in transcripts:
                 emitter.emit_edge(ExonFor(),
                                   from_gid=e.gid(),
@@ -133,8 +133,6 @@ def transform(
                                          genome=GENOME_BUILD)
                                 emitter.emit_vertex(g)
                                 emitted_genes[gene_id] = True
-
-
     emitter.close()
 
 
