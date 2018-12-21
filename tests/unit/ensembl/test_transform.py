@@ -15,6 +15,7 @@ def test_simple(emitter_directory, gff3_path, helpers):
     transform(gff3_path=gff3_path, emitter_directory=emitter_directory)
     transcript_count = helpers.assert_vertex_file_valid(Transcript, '{}/Transcript.Vertex.json.gz'.format(emitter_directory))
     exon_count = helpers.assert_vertex_file_valid(Transcript, '{}/Exon.Vertex.json.gz'.format(emitter_directory))
+    gene_count = helpers.assert_vertex_file_valid(Transcript, '{}/Gene.Vertex.json.gz'.format(emitter_directory))
     assert transcript_count == 211
     assert exon_count == 843
-    assert gene_id == 81
+    assert gene_count == 81
