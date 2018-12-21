@@ -1,0 +1,9 @@
+cmd: gunzip -c  outputs/ensembl/TranscriptFor.Edge.json.gz | jq -r '"\(.from)\t\(.to)"' > source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.trans_gene.tsv
+md5: 8bffacb3f27d9d3347f6197b2094718b
+outs:
+- cache: true
+  md5: 1b0de10a07a5f6c4e58431ba811fe41c
+  path: Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.trans_gene.tsv
+deps:
+- md5: d1a931669255307e40fdd540c3353021
+  path: outputs/ensembl/TranscriptFor.Edge.json.gz

@@ -1,5 +1,7 @@
 cmd: python3 transform/tcga/expression.py
 deps:
+- md5: 1b0de10a07a5f6c4e58431ba811fe41c
+  path: source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.trans_gene.tsv
 - md5: 07b930da26e4a06dcf8c9a0faff57be1
   path: source/tcga/expression/transcript-level/TCGA_ID_MAP.csv
 - md5: 15525092ad0e0598b95b874c9660bf6c
