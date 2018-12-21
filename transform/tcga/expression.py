@@ -31,7 +31,7 @@ def transform(source_path,
     id_map = {row["CGHubAnalysisID"]: row["Aliquot_id"].lower() for row in r}
 
     r = csv.reader(open(gene_map_file), delimiter="\t")
-    gene_map = {row[0] : row[1] for row in r}
+    gene_map = {row[0]: row[1] for row in r}
 
     reader = csv.reader(gzip.open(source_path, "rt"), delimiter="\t")
     header = next(reader)
@@ -67,7 +67,7 @@ def transform(source_path,
         geneValues = {}
         for k, v in values.items():
             if k not in gene_map:
-                logging.info("%s=%f not found in mapping" % (k,v))
+                logging.info("%s=%f not found in mapping" % (k, v))
             else:
                 gene = gene_map[k]
                 geneValues[gene] = geneValues.get(gene, 0) + v
