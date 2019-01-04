@@ -2,7 +2,7 @@
 
 import pytest
 import transform.ccle.ccle_maf_transform as ccle_maf_transform
-from transform.ccle.ccle_maf_transform import CCLE_EXTENSION_CALLSET_KEYS, CCLE_EXTENSION_MAF_KEYS
+from transform.ccle.ccle_maf_transform import CCLE_EXTENSION_CALLSET_KEYS
 from bmeg.vertex import Allele, Callset, Gene, Aliquot
 from bmeg.maf.maf_transform import STANDARD_MAF_KEYS
 from bmeg.ioutils import reader
