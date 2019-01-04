@@ -20,13 +20,14 @@ menu:
 ---
 """
 
+
 def cardify(papers):
     """create a 'card' for each paper."""
     papers.sort(key=lambda item: (len(item['comment']), item))
     lines = []
     lines.append('{{% card-container %}}')
     for paper in papers:
-        source = paper['path'].replace('source/','').replace('/*','')
+        source = paper['path'].replace('source/', '').replace('/*', '')
         lines.append('{{{{% card title="{}" %}}}}'.format(source))
         lines.append(paper['comment'])
         for publication in paper['publications'].split(','):
@@ -53,7 +54,7 @@ def transform(
     with open('{}/dvc.md'.format(emitter_directory), 'w') as f:
         f.write(HUGO_HEADER)
         f.write('# Data Sources Summary\n')
-        #f.write(tabulate(papers, headers="keys", tablefmt="pipe"))
+        # f.write(tabulate(papers, headers="keys", tablefmt="pipe"))
         f.write(cardify(papers))
         f.write('\n')
 
@@ -99,4 +100,3 @@ def transform(
 
 if __name__ == '__main__':
     transform()
-
