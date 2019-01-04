@@ -3,7 +3,7 @@ import time
 import hashlib
 import shutil
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex  import Compound
+from bmeg.vertex import Compound
 
 
 def test_gzip_emitter_md5():
@@ -14,7 +14,7 @@ def test_gzip_emitter_md5():
     emitter = JSONEmitter(path1)
     emitter.emit_vertex(compound)
     emitter.close()
-    time.sleep( 1 )
+    time.sleep(1)
     path2 = _path(_dir(), 'test2')
     emitter = JSONEmitter(path2)
     emitter.emit_vertex(compound)
