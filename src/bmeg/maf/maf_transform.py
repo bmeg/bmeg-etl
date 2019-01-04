@@ -5,7 +5,7 @@ import csv
 import gzip
 import sys
 
-from bmeg.vertex import Allele, AlleleAnnotations, Deadletter, Aliquot
+from bmeg.vertex import Allele, Deadletter, Aliquot
 from bmeg.edge import CallsetFor, AlleleIn
 from bmeg.emitter import new_emitter
 from bmeg.util.cli import default_argument_parser
@@ -19,10 +19,10 @@ from itertools import islice
 
 
 STANDARD_MAF_KEYS = {
-    'Hugo_Symbol' : 'hugo_symbol',
-    'Transcript_ID' : 'ensembl_transcript',
-    'Variant_Classification' : 'effect',
-    'Variant_Type' : 'type',
+    'Hugo_Symbol': 'hugo_symbol',
+    'Transcript_ID': 'ensembl_transcript',
+    'Variant_Classification': 'effect',
+    'Variant_Type': 'type',
 }
 
 # center = 2
@@ -31,7 +31,7 @@ CHROMOSOME = "Chromosome"  # 4
 START = ["Start_Position", "Start_position"]  # 5
 END = ["End_Position", "End_position"]  # 6
 
-STRAND = "Strand" # strand = 7
+STRAND = "Strand"  # strand = 7
 VARIANT_TYPE = "Variant_Type"  # 9
 REFERENCE_ALLELE = "Reference_Allele"  # 10
 tumor_allele1 = "Tumor_Seq_Allele1"  # 11
@@ -128,7 +128,6 @@ class MAFTransformer():
             if value:
                 record[data_key] = value
         return record
-
 
     def allele_maker(self, line):
         """ worker task to create and/or harvest allele from line """
