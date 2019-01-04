@@ -5,25 +5,10 @@ DVC
 See:
 
 * [Configure DVC](https://dvc.org/doc/get-started/configure)
-* AWS CLI with CEPH
-
-```
-Once  you've got the awscli package installed and the "aws" utility in your PATH, you'll want to do two things to get S3 operations to work.
-
-First, create a section in your ~/.aws/credentials file to hold your user keys (which will be sent to you individually in a separate message). In the example below, the profile will be named "ceph."
-
-[ceph]
-aws_access_key_id = 12345678901234567890
-aws_secret_access_key = 1234567890123456789012345678901234567890
-
-Second, and this is optional but I suggest it, create a shell alias. In my example, I call it "cephos" (Ceph Object Store). Make sure the profile argument matches the name in your AWS credentials file.
-
-alias cephos="aws --profile=ceph --endpoint=https://ceph.acc.ohsu.edu"
-
-```
+* [AWS CLI with Minio Server](https://docs.minio.io/docs/aws-cli-with-minio.html)
 
 
-Note: All dvc files are maintained at the project root.  This is due to:
+Note: All dvc files are maintained in the zip file dvc-graph.zip.  This is due to:
 
  * each transformer is it's own command, executed with CWD at the project root
  * `dvc run` captures state in a separate \*.dvc file
@@ -36,25 +21,48 @@ Setup
 -----
 
 ```
+# until DNS setup, make sure minio.compbio.ohsu.edu is known
+sudo sh -c "echo 10.50.50.118 minio.compbio.ohsu.edu >> /etc/hosts"
 
+# see minio install for credentials
+# cat /mnt/minio/.minio.sys/config/config.json  | jq .credential
 
-# install and configure aws, see above
+# install and configure aws
+$ sudo apt  install awscli
+$ pip install awscli
+$ aws configure
+AWS Access Key ID [None]: KKKKKKKKKKK
+AWS Secret Access Key [None]: SSSSSSS
+Default region name [None]: us-east-1
+Default output format [None]:
 # test
-$ cephos s3 ls --recursive s3://bmeg/dvc  | wc -l
-654
+aws --endpoint-url https://minio.compbio.ohsu.edu s3 ls
+2018-10-29 22:28:14 bmeg
+
+
+# Setting up minio client
+# linux
+# install in home directory
+cd
+wget https://dl.minio.io/client/mc/release/linux-amd64/mc
+chmod +x mc
+alias mc=~/mc
+mc version
+# update your config ... vi ~/.mc/config.json
+# test
+$ mc ls -r  bmeg/bmeg/dvc | head -5
+[2018-10-31 00:19:19 UTC] 1.2MiB 07/b930da26e4a06dcf8c9a0faff57be1
+[2018-10-31 17:53:28 UTC] 2.6GiB 08/ec6eb40ad76b48210aa0e939ae7aa1
+[2018-10-31 00:03:17 UTC] 222MiB 10/a14a8b317a34784e5b3e62c3fa387a
+[2018-10-30 23:59:22 UTC]  38MiB 15/525092ad0e0598b95b874c9660bf6c
+[2018-10-30 20:23:28 UTC] 809MiB 1c/4711bb30e668d5f387e1819bae99ef
+
+# macOS see brew install
 
 # dvc already installed and initialized
-# config should be ...
-$ cat .dvc/config
-# aws default credentials should point at ceph
-['remote "ceph"']
-url = s3://bmeg/dvc
-endpointurl = https://ceph.acc.ohsu.edu
-[core]
-remote = ceph
-['remote "source"']
-url = s3://bmeg/source
-endpointurl = https://ceph.acc.ohsu.edu
+# add our remote
+dvc remote add -d minio s3://bmeg/dvc
+dvc remote modify minio endpointurl https://minio.compbio.ohsu.edu
 ```
 
 Example
@@ -62,12 +70,11 @@ Example
 
 ```
 # retrieve data from foreign source
-dvc run --file source.gene_enricher.hgnc_complete_set.json.dvc --yes \
-  -d source/gene_enricher/version.txt \
+dvc run \
   -o source/gene_enricher/hgnc_complete_set.json \
-  "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/hgnc_complete_set.json --output source/gene_enricher/hgnc_complete_set.json"
-
-
+  --file source.gene_enricher.hgnc_complete_set.json.dvc \
+  --yes \
+  curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/hgnc_complete_set.json --output source/gene_enricher/hgnc_complete_set.json
 
 # commit DVC's record to github
 git add .gitignore source.gene_enricher.hgnc_complete_set.json.dvc
@@ -79,50 +86,43 @@ Preparing to push data to s3://bmeg/dvc
 [##############################] 100% Collecting information
 [##############################] 100% source/gene_enricher/hgnc_complete_set.json
 
-# determine md5 hash and view the remote repository
+# view the remote repository
+$ mc ls -r  bmeg/bmeg/dvc
+[2018-10-30 18:32:15 UTC]  29MiB f4/843dade6933b9879654417c6d93c1b
 
+# note that the file name ~ the md5 hash
 $ cat source.gene_enricher.hgnc_complete_set.json.dvc
 cmd: curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry
   128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/hgnc_complete_set.json
   --output source/gene_enricher/hgnc_complete_set.json
-deps:
-- md5: 6808ca805661622ad65ae014a4b2a094
-  path: source/gene_enricher/version.txt
-md5: 1bada0b72fb7d4b523a0b9cbea3ef49f
+md5: 361717476a2235fe752e4c52c774caa1
 outs:
 - cache: true
-  md5: cc3abedb40a6795c34b739a6df2b140e
+  md5: 8300e43e6513e8e0a696a952ad28b1f5
   path: source/gene_enricher/hgnc_complete_set.json
-
-$ cephos s3 ls s3://bmeg/dvc/cc/3abedb40a6795c34b739a6df2b140e
-2018-12-18 21:50:34   31267685 3abedb40a6795c34b739a6df2b140e
-
-# note that the file name ~ the md5 hash
 ```
 
 Provenance
 ------
 
 The dvc files were created using the following commands.
-To recreate this section, run `transform/dvc/dvc-provenance.sh`
+To recreate this section, run `python transform/dvc/dvc2cmd.py`
 
 ```
-
 #
 dvc run --file source.ccle.CCLE_DepMap_18q3_maf_20180718.txt.dvc --yes \
-  -d source/ccle/version.txt \
   -o source/ccle/CCLE_DepMap_18q3_maf_20180718.txt \
   "wget https://data.broadinstitute.org/ccle/CCLE_DepMap_18q3_maf_20180718.txt -O source/ccle/CCLE_DepMap_18q3_maf_20180718.txt"
 #
-dvc run --file source.gene_enricher.hgnc_complete_set.json.dvc --yes \
-  -d source/gene_enricher/version.txt \
+dvc run \
   -o source/gene_enricher/hgnc_complete_set.json \
+  --file source.gene_enricher.hgnc_complete_set.json.dvc \
+  --yes \
   "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/hgnc_complete_set.json --output source/gene_enricher/hgnc_complete_set.json"
 #
 dvc run --file source.g2p.all.dvc --yes \
-  -d source/g2p/version.txt \
   -o source/g2p/all.json \
-  "curl https://s3-us-west-2.amazonaws.com/g2p-0.11/all.json | gzip > source/g2p/all.json.gz"
+  "curl https://s3-us-west-2.amazonaws.com/g2p-0.10/all.json --output source/g2p/all.json"
 #
 dvc import --file source.mc3.v0.2.8.PUBLIC.maf.gz.dvc --yes \
  remote://source/mc3/mc3.v0.2.8.PUBLIC.maf.gz\
@@ -145,77 +145,58 @@ dvc import --file source.myvariant.info.metadata.json.dvc --yes \
  source/myvariant.info/metadata.json
 #
 dvc run --file source.ccle.DepMap-2018q3-celllines.csv.dvc --yes \
-  -d source/ccle/version.txt \
   -o source/ccle/DepMap-2018q3-celllines.csv \
   "wget https://depmap.org/portal/download/api/download/external?file_name=processed_portal_downloads%2Fdepmap-public-2018q3-cell-line-metadata-0bd2.2%2FDepMap-2018q3-celllines.csv -O source/ccle/DepMap-2018q3-celllines.csv"
 #
 dvc run --file source.ccle.CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct.dvc --yes \
-  -d source/ccle/version.txt \
   -o source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct \
   "wget https://data.broadinstitute.org/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct -O source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct"
 #
 dvc run --file source.ccle.CCLE_NP24.2009_Drug_data_2015.02.24.csv.dvc --yes \
-  -d source/ccle/version.txt \
   -o source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv \
   "wget https://data.broadinstitute.org/ccle_legacy_data/pharmacological_profiling/CCLE_NP24.2009_Drug_data_2015.02.24.csv -O source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv"
 #
 dvc run --file source.ccle.CCLE_tpm.tsv.gz.dvc --yes \
-  -d source/ccle/version.txt \
   -o source/ccle/expression/CCLE_tpm.tsv.gz \
   "wget https://osf.io/brkh6/download -O source/ccle/expression/CCLE_tpm.tsv.gz"
 #
-dvc run --file source.tcga.TCGA_ID_MAP.csv.dvc --yes \
-  -d source/tcga/version.txt \
-  -o source/tcga/expression/transcript-level/TCGA_ID_MAP.csv \
-  "wget https://osf.io/7qpsg/download -O source/tcga/expression/transcript-level/TCGA_ID_MAP.csv"
-#
 dvc run --file source.gdsc.GDSC_AUC.csv.dvc --yes \
-  -d source/gdsc/version.txt \
   -o source/gdsc/GDSC_AUC.csv \
   "wget https://depmap.org/portal/download/api/download/external?file_name=processed_portal_downloads%2Fsanger-gdsc-545e.1%2FGDSC_AUC.csv -O source/gdsc/GDSC_AUC.csv"
 #
 dvc run --file source.ensembl-protein.homo_sapiens.json.dvc --yes \
-  -d source/ensembl-protein/version.txt \
   -o source/ensembl-protein/homo_sapiens.json \
-  "transform/ensembl-protein/curl-homo_sapien.sh"
+  "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 360 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ensembl.org/pub/release-93/json/homo_sapiens/homo_sapiens.json --output source/ensembl-protein/homo_sapiens.json"
 #
 dvc run --file source.ensembl.Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz.dvc --yes \
-  -d source/ensembl/version.txt \
   -o source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz \
   "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ensembl.org/pub/grch37/release-94/gff3/homo_sapiens/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz --output source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz"
 #
 dvc run --file source.goa_human.gaf.gz.dvc --yes \
-  -d source/go/version.txt \
   -o source/go/goa_human.gaf.gz \
   "wget http://www.geneontology.org/gene-associations/goa_human.gaf.gz -O source/go/goa_human.gaf.gz"
 #
 dvc run --file source.go.HUMAN_9606_idmapping.dat.gz.dvc --yes \
-  -d source/go/version.txt \
   -o source/go/HUMAN_9606_idmapping.dat.gz \
   "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/by_organism/HUMAN_9606_idmapping.dat.gz --output source/go/HUMAN_9606_idmapping.dat.gz"
 #
 dvc run --file source.go.obo.dvc --yes \
-  -d source/go/version.txt \
   -o source/go/go.obo \
   "wget http://purl.obolibrary.org/obo/go.obo -O source/go/go.obo"
 #
 dvc run --file source.gtex.GTEx_v7_Annotations_SampleAttributesDS.txt.dvc --yes \
-  -d source/gtex/version.txt \
   -o source/gtex/GTEx_v7_Annotations_SampleAttributesDS.txt \
   "wget https://storage.googleapis.com/gtex_analysis_v7/annotations/GTEx_v7_Annotations_SampleAttributesDS.txt -O source/gtex/GTEx_v7_Annotations_SampleAttributesDS.txt"
 #
 dvc run --file source.gtex.GTEx_v7_Annotations_SubjectPhenotypesDS.txt.dvc --yes \
-  -d source/gtex/version.txt \
   -o source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.txt \
   "wget https://storage.googleapis.com/gtex_analysis_v7/annotations/GTEx_v7_Annotations_SubjectPhenotypesDS.txt -O source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.txt"
 #
 dvc run --file source.gtex.GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_tpm.gct.dvc --yes \
-  -d source/gtex/version.txt \
   -o source/gtex/GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_tpm.gct \
   "wget https://storage.googleapis.com/gtex_analysis_v7/rna_seq_data/GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_tpm.gct.gz -O source/gtex/GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_tpm.gct"
 #
 dvc run --file source.pfam.clans.tsv.dvc --yes \
-  -d source/pfam/version.txt \
   -o source/pfam/clans.tsv \
   "wget http://pfam.xfam.org/clans?output=text -O source/pfam/clans.tsv"
 #
@@ -225,12 +206,14 @@ dvc run --file source.pfam.tar.gz.dvc --yes \
   "python3 transform/pfam/download.py --archive ; tar xvfz source/pfam/pfam.tar.gz -C source/pfam"
 #
 dvc run --file source.pfam.id_list.txt.dvc --yes \
-  -d source/pfam/version.txt \
   -o source/pfam/id_list.txt \
-  "python3 transform/pfam/list.py -O source/pfam/id_list.txt"
+  "python transform/pfam/list.py -O source/pfam/id_list.txt"
+#
+dvc run --file source.tcga.TCGA_ID_MAP.csv.dvc --yes \
+  -o source/tcga/expression/transcript-level/TCGA_ID_MAP.csv \
+  "wget https://osf.io/7qpsg/download -O source/tcga/expression/transcript-level/TCGA_ID_MAP.csv"
 #
 dvc run --file source.tcga.tcga-genomics.zip.dvc --yes \
-  -d source/tcga/version.txt \
   -o source/tcga/expression/transcript-level/tcga-genomics.zip \
   "wget https://files.osf.io/v1/resources/gqrz9/providers/osfstorage/578518706c613b01f0a8325f/?zip= -O source/tcga/expression/transcript-level/tcga-genomics.zip"
 #
@@ -273,7 +256,7 @@ dvc run --file source.tcga.TCGA_expression_tpm.tsv.gz.dvc --yes \
 #
 dvc run --file outputs.ccle.maf.dvc --yes \
   -d source/ccle/CCLE_DepMap_18q3_maf_20180718.txt \
-  -d source/gene_enricher/hgnc_complete_set.json \
+  -d source/gene_enricher/non_alt_loci_set.json \
   -o outputs/ccle/Allele.Vertex.json.gz \
   -o outputs/ccle/AlleleCall.Edge.json.gz \
   -o outputs/ccle/AlleleIn.Edge.json.gz \
@@ -283,7 +266,7 @@ dvc run --file outputs.ccle.maf.dvc --yes \
 #
 dvc run --file outputs.g2p.dvc --yes \
   -d source/g2p/all.json \
-  -d source/gene_enricher/hgnc_complete_set.json \
+  -d source/gene_enricher/non_alt_loci_set.json \
   -o outputs/g2p/Allele.Vertex.json.gz \
   -o outputs/g2p/AlleleIn.Edge.json.gz \
   -o outputs/g2p/Compound.Vertex.json.gz \
@@ -298,10 +281,9 @@ dvc run --file outputs.g2p.dvc --yes \
   -o outputs/g2p/MinimalAllele.Vertex.json.gz \
   -o outputs/g2p/MinimalAlleleIn.Edge.json.gz \
   -o outputs/g2p/Phenotype.Vertex.json.gz \
-  "python3 -m transform.g2p.transform"
+  "python3 transform/g2p/transform.py"
 #
 dvc run --file outputs.gdc.cases.dvc --yes \
-  -d source/gdc/version.txt \
   -o outputs/gdc/Aliquot.Vertex.json.gz \
   -o outputs/gdc/AliquotFor.Edge.json.gz \
   -o outputs/gdc/Biosample.Vertex.json.gz \
@@ -374,7 +356,6 @@ dvc run --file outputs.ccle.drug_response.dvc --yes \
 dvc run --file outputs.ccle.expression_tatlow.dvc --yes \
   -d source/ccle/expression/CCLE_tpm.tsv.gz \
   -d outputs/ccle/Biosample.Vertex.json.gz \
-  -d source/tcga/expression/transcript-level/TCGA_ID_MAP.csv \
   -o outputs/ccle/tatlow.Aliquot.Vertex.json.gz \
   -o outputs/ccle/tatlow.AliquotFor.Edge.json.gz \
   -o outputs/ccle/tatlow.Biosample.Vertex.json.gz \
@@ -422,7 +403,7 @@ dvc run --file outputs.ensembl-protein.dvc --yes \
   "python3 transform/ensembl-protein/ensembl-protein-transform.py"
 #
 dvc run --file outputs.ensembl.dvc --yes \
-  -d source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz \
+  -d source/ensembl/Homo_sapiens.GRCh37.87.gff3.gz \
   -o outputs/ensembl/Exon.Vertex.json.gz \
   -o outputs/ensembl/ExonFor.Edge.json.gz \
   -o outputs/ensembl/Gene.Vertex.json.gz \
@@ -436,7 +417,6 @@ dvc run --file outputs.ensembl.missing_transcripts.dvc --yes \
   "python3 transform/ensembl/missing_transcripts.py"
 #
 dvc run --file outputs.gdc.projects.dvc --yes \
-  -d source/gdc/version.txt \
   -o outputs/gdc/Project.Vertex.json.gz \
   "python3 transform/gdc/projects.py"
 #
@@ -450,7 +430,7 @@ dvc run --file outputs.go.dvc --yes \
   -d source/go/go.obo \
   -o outputs/go/GeneOntologyIsA.Edge.json.gz \
   -o outputs/go/GeneOntologyTerm.Vertex.json.gz \
-  "python3 transform/go/go_obo2schema.py source/go/go.obo go"
+  "python3 transform/go/go_obo2schema.py source/go/go.obo"
 #
 dvc run --file outputs.gtex.dvc --yes \
   -d source/gtex/GTEx_v7_Annotations_SampleAttributesDS.txt \
@@ -582,6 +562,7 @@ dvc run --file outputs.tcga.expression.dvc --yes \
   -o outputs/tcga/SKCM.ExpressionOf.Edge.json.gz \
   -o outputs/tcga/STAD.Expression.Vertex.json.gz \
   -o outputs/tcga/STAD.ExpressionOf.Edge.json.gz \
+  -o outputs/tcga/TCGA.ExpressionOf.Edge.json.gz \
   -o outputs/tcga/TGCT.Expression.Vertex.json.gz \
   -o outputs/tcga/TGCT.ExpressionOf.Edge.json.gz \
   -o outputs/tcga/THCA.Expression.Vertex.json.gz \
