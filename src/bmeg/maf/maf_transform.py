@@ -85,10 +85,11 @@ class MAFTransformer():
             inhandle = gzip.open(mafpath, mode='rt')
         else:
             inhandle = open(mafpath)
-        reader = csv.DictReader(inhandle, delimiter="\t")
-        if skip > 0:
-            logging.info('skipping: {}'.format(skip))
-        reader = islice(reader, skip, None)
+
+        logging.info('skipping {}'.format(skip))
+        inh = islice(inhandle, skip, None)
+        reader = csv.DictReader(inh, delimiter="\t")
+
         for line in reader:
             yield line
         inhandle.close()
