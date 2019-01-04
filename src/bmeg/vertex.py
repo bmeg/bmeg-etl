@@ -57,9 +57,11 @@ class Allele(Vertex):
     chromosome: str
     start: int
     end: int
+    strand: str
     reference_bases: str
     alternate_bases: str
-    annotations: AlleleAnnotations
+    hugo_symbol: str
+    ensembl_transcript: str
     type: Union[None, str] = None
     effect: Union[None, str] = None
 
