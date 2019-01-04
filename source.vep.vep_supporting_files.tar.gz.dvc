@@ -1,0 +1,9 @@
+cmd: curl -o source/vep/vep_supporting_files.tar.gz https://api.gdc.cancer.gov/data/008517e9-0853-4e1e-aaf6-66a50bb8cf61
+deps:
+- md5: 9a183ead5f52c5dbe6d26327048ca0bc
+  path: source/vep/version.txt
+md5: 0c61af842b8f2f2260384775d9e0c8f2
+outs:
+- cache: true
+  md5: d52cdea3ec6ed3593b065fd641f60e9b
+  path: source/vep/vep_supporting_files.tar.gz
