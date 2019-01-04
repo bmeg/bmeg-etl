@@ -18,30 +18,20 @@ from more_itertools import chunked
 from itertools import islice
 
 
-STANDARD_MAF_KEYS = [
-    'Hugo_Symbol',
-    'Entrez_Gene_Id',
-    'Center',
-    'NCBI_Build',
-    'Chromosome',
-    'Start_Position',
-    'End_Position',
-    'Strand',
-    'Variant_Classification',
-    'Variant_Type',
-    'Reference_Allele',
-    'Tumor_Seq_Allele1',
-    'Tumor_Seq_Allele2',
-    'dbSNP_RS',
-    'dbSNP_Val_Status',
-    'Tumor_Sample_Barcode']
+STANDARD_MAF_KEYS = {
+    'Hugo_Symbol' : 'hugo_symbol',
+    'Transcript_ID' : 'ensembl_transcript',
+    'Variant_Classification' : 'effect',
+    'Variant_Type' : 'type',
+}
 
 # center = 2
 # ncbi_build = 3
 CHROMOSOME = "Chromosome"  # 4
 START = ["Start_Position", "Start_position"]  # 5
 END = ["End_Position", "End_position"]  # 6
-# strand = 7
+
+STRAND = "Strand" # strand = 7
 VARIANT_TYPE = "Variant_Type"  # 9
 REFERENCE_ALLELE = "Reference_Allele"  # 10
 tumor_allele1 = "Tumor_Seq_Allele1"  # 11
@@ -123,21 +113,21 @@ class MAFTransformer():
     def create_allele_dict(self, line, genome='GRCh37'):
         ''' return properly named allele dictionary, populated from line'''
         # collect CURIES that apply to allele
-        annotations = {}
-        for key in STANDARD_MAF_KEYS:
-            value = line.get(key, None)
-            if value:
-                annotations[key] = value
-        allele_annotations = AlleleAnnotations(maf=annotations)
-        return {
+        record = {
             'genome': genome,
             'chromosome': line[CHROMOSOME],
             'start': int(get_value(line, START, None)),
             'end': int(get_value(line, END, None)),
             'reference_bases': line[REFERENCE_ALLELE],
             'alternate_bases': line[self.TUMOR_ALLELE],
-            'annotations': allele_annotations,
+            'strand': line[STRAND]
         }
+        for key, data_key in STANDARD_MAF_KEYS.items():
+            value = line.get(key, None)
+            if value:
+                record[data_key] = value
+        return record
+
 
     def allele_maker(self, line):
         """ worker task to create and/or harvest allele from line """
@@ -186,7 +176,7 @@ class MAFTransformer():
                 for call_tuple in call_tuples:
                     call = call_tuple[0]
                     callset_gid = call_tuple[1]
-                    emitter.emit_edge(call, allele.gid(), callset_gid)
+                    emitter.emit_edge(call, callset_gid, allele.gid())
                 # many callsets can be created, emit only uniques
                 for callset in callsets:
                     if callset.gid not in my_callsets_ids:

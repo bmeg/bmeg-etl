@@ -49,13 +49,24 @@ class AlleleIn(Edge):
     """
     pass
 
-
+@enforce_types
 @dataclass(frozen=True)
 class AlleleCall(Edge):
     """
-    Allele -> Callset
+    Callset -> Allele
     """
-    info: dict = None
+    ref: str
+    alt: str
+    t_depth: int
+    t_ref_count: int
+    t_alt_count: int
+    n_depth: int
+    n_ref_count: int
+    n_alt_count: int
+    filter: str
+    methods: list
+    ensembl_transcript: str
+    ensembl_gene: str
 
 
 @enforce_types
