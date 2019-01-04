@@ -49,6 +49,7 @@ class AlleleIn(Edge):
     """
     pass
 
+
 @enforce_types
 @dataclass(frozen=True)
 class AlleleCall(Edge):

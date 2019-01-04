@@ -20,20 +20,20 @@ MC3_EXTENSION_MAF_KEYS = [
 ]
 
 MC3_EXTENSION_CALLSET_INT_KEYS = {
-    't_depth' : 't_depth',
-    't_ref_count' : 't_ref_count',
-    't_alt_count' : 't_alt_count',
-    'n_depth' : 'n_depth',
-    'n_ref_count' : 'n_ref_count',
-    'n_alt_count' : 'n_alt_count'
+    't_depth': 't_depth',
+    't_ref_count': 't_ref_count',
+    't_alt_count': 't_alt_count',
+    'n_depth': 'n_depth',
+    'n_ref_count': 'n_ref_count',
+    'n_alt_count': 'n_alt_count'
 }
 
 MC3_EXTENSION_CALLSET_KEYS = {
-    'Reference_Allele' : 'ref',
-    'Tumor_Seq_Allele1' : 'alt',
-    'FILTER' : 'filter',
+    'Reference_Allele': 'ref',
+    'Tumor_Seq_Allele1': 'alt',
+    'FILTER': 'filter',
     'Gene': 'ensembl_gene',
-    'Transcript_ID' : 'ensembl_transcript'
+    'Transcript_ID': 'ensembl_transcript'
 }
 
 ALIQUOT_CONVERSION_TABLE = {}
@@ -83,7 +83,6 @@ class MC3_MAFTransformer(MAFTransformer):
         sample_call = (self.allele_call_maker(allele, line), sample_callset.gid())
 
         return [sample_call], [sample_callset]
-
 
 
 def transform(mafpath, prefix, gdc_aliquot_path, source=MC3_MAFTransformer.SOURCE, emitter_name='json', skip=0, transformer=MC3_MAFTransformer()):
