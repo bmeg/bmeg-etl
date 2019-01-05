@@ -61,7 +61,7 @@ class Allele(Vertex):
     reference_bases: str
     alternate_bases: str
     hugo_symbol: str
-    ensembl_transcript: str
+    ensembl_transcript: Union[None, str] = None
     type: Union[None, str] = None
     effect: Union[None, str] = None
 
@@ -123,7 +123,7 @@ class Gene(Vertex):
     @classmethod
     def make_gid(cls, gene_id):
         if not gene_id.startswith("ENSG"):
-            raise ValueError("not an emsembl gene id")
+            raise ValueError("not an emsembl gene id {}".format(gene_id))
         if gene_id.count(".") != 0:
             raise ValueError("version numbers not allowed")
         return GID("%s" % (gene_id))

@@ -1,11 +1,12 @@
 """ test maf_transform """
 
 import pytest
-import transform.ccle.ccle_maf_transform as ccle_maf_transform
+from transform.ccle.ccle_maf_transform import CCLE_MAFTransformer
 from transform.ccle.ccle_maf_transform import CCLE_EXTENSION_CALLSET_KEYS
 from bmeg.vertex import Allele, Callset, Gene, Aliquot
 from bmeg.maf.maf_transform import STANDARD_MAF_KEYS
 from bmeg.ioutils import reader
+from bmeg.emitter import new_emitter
 
 import os
 import contextlib
@@ -37,7 +38,12 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
         for f in all_files:
             os.remove(f)
     # create output
-    ccle_maf_transform.transform(maf_file, emitter_path_prefix)
+    emitter = new_emitter(name="json", directory=emitter_path_prefix)
+    CCLE_MAFTransformer().maf_convert(
+        skip=1,
+        emitter=emitter,
+        mafpath=maf_file,
+        source="CCLE")
 
     # test/test.Allele.Vertex.json
     helpers.assert_vertex_file_valid(Allele, allele_file)
@@ -79,10 +85,6 @@ def validate(helpers, maf_file, emitter_path_prefix, harvest=True, filter=[]):
             for k in STANDARD_MAF_KEYS:
                 if k in allele['data']['annotations']['maf']:
                     assert allele['data']['annotations']['maf'][k], 'empty key %s' % k
-            # optional keys, if set should be non null
-            for k in CCLE_EXTENSION_MAF_KEYS:
-                if k in allele['data']['annotations']['ccle']:
-                    assert allele['data']['annotations']['ccle'][k], 'empty key %s' % k
 
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(

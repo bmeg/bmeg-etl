@@ -1,25 +1,15 @@
-cmd: python3 transform/allele/transform.py
+cmd: transform/allele/transform.sh
 deps:
-- md5: 9fe7ab68a0e77600875c264c5bd12873
+- md5: 19057ab994c6ff98cde70977bb682480
   path: outputs/ccle/Allele.Vertex.json.gz
-- md5: 866543f77eebca9e1eae9c465f917daa
+- md5: ac98325d9279fdc4a43f660fb341072e
   path: outputs/g2p/Allele.Vertex.json.gz
-- md5: b0e1593ede53579826eb96dab4148165
+- md5: a1f28461c2c4b6c646e50032af8835d8
   path: outputs/g2p/MinimalAllele.Vertex.json.gz
-- md5: 377bf2c736ad8d1f0a7f71ee48149bad
+- md5: 779fa7c7aef6a8ddd5adddd807b07a3f
   path: outputs/mc3/Allele.Vertex.json.gz
-- md5: 862a4fbfdda7010f6f87f31eaed0a1c1
-  path: outputs/myvariant.info/myvariant.info.Allele.Vertex.json.gz
-- md5: c390251bd07b4220eb4bf824a5240b08
-  path: source/myvariant.info/biothings_current_old_hg19.json.gz
-- md5: 08ec6eb40ad76b48210aa0e939ae7aa1
-  path: source/myvariant.info/harvested_myvariantinfo.json.gz
-- md5: a9468ae548c1f99ebaeb3d25a961fddd
-  path: source/myvariant.info/metadata.fields.json
-- md5: e684d344d13e70a33a5605327a789360
-  path: source/myvariant.info/metadata.json
-md5: 33f9ceef9a09fa8f34e9a371bf25768d
+md5: 49e40700829d2ba8e83408ea0c1d70ac
 outs:
 - cache: true
-  md5: 2ed09d4c4237d298a69941c5722b72f1
+  md5: 1d78fe030127fa82ba2aea693fd36e5a
   path: outputs/allele/Allele.Vertex.json.gz
