@@ -63,10 +63,12 @@ class CCLE_MAFTransformer(MAFTransformer):
             "t_alt_count": 0,
             "n_ref_count": 0,
             "n_alt_count": 0,
-            "methods": ["ccle"]
+            "methods": ["ccle"],
         }
         for k, kn in CCLE_EXTENSION_CALLSET_KEYS.items():
             info[kn] = get_value(line, k, None)
+        if info['filter'] is None:
+            info['filter'] = 'PASS'
         # for k, kn in CCLE_EXTENSION_CALLSET_INT_KEYS.items():
         #     info[kn] = int(get_value(line, k, None))
         return AlleleCall(**info)

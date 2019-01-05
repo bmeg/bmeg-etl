@@ -229,18 +229,16 @@ def transform(output_dir,
     # Step three:
     # * emit all alleles
     logging.info('emitting')
-    c = t = m = 0
+    c = t = 0
     for allele in allele_store.all():
-        if not allele.annotations.myvariantinfo:
-            m += 1
         emitter.emit_vertex(allele)
         c += 1
         t += 1
         if c % batch_size == 0:
-            logging.info('emitting written: {} myvariant misses: {}'.format(t, m))
+            logging.info('emitting written: {}'.format(t))
             c = 0
 
-    logging.info('emitting written: {} myvariant misses: {}'.format(t, m))
+    logging.info('emitting written: {}'.format(t))
     emitter.close()
 
 
