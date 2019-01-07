@@ -78,6 +78,7 @@ if __name__ == '__main__':  # pragma: no cover
     transformer = CCLE_MAFTransformer()
     emitter = new_emitter(name="json", directory="ccle")
     for f in glob("source/ccle/mafs/*/vep.maf"):
+        print(f)
         transformer.maf_convert(
             skip=1,
             emitter=emitter,

@@ -1,11 +1,14 @@
 cmd: ' ./tools/run_vcfdir2maf.sh source/ccle/vcfs source/ccle/mafs'
 deps:
-- md5: 7268eafb0f87eac2411e18a06e467e23.dir
-  path: source/ccle/vcfs
-- md5: d52cdea3ec6ed3593b065fd641f60e9b
-  path: source/vep/vep_supporting_files.tar.gz
-md5: fb82c83334c0702073de91d8f696bb14
+- md5: d8c14baffab9a2f2a699b0b952226cd1
+  path: source/ccle/vcfs/127399_SOFT_TISSUE_vs_NORMAL.vcf
+- md5: 5cd33709589b5e6e989269a91d6de11b
+  path: source/ccle/vcfs/ZR7530_BREAST_vs_NORMAL.vcf
+md5: 0f8d899c67c8309f0c52bc3eae9fe6ea
 outs:
 - cache: true
-  md5: 9e6a8f334d8a6beb0648ddda4ab6648a.dir
-  path: source/ccle/mafs
+  md5: 4c4e7f3f6bba263e9c6825b04236ddc5
+  path: source/ccle/mafs/127399_SOFT_TISSUE_vs_NORMAL/vep.maf
+- cache: true
+  md5: 3e766672875cb72384c3c2c5d26e5fa8
+  path: source/ccle/mafs/ZR7530_BREAST_vs_NORMAL/vep.maf
