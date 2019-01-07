@@ -2,10 +2,13 @@ cmd: ' ./tools/run_maf2mcf.sh source/ccle/CCLE_DepMap_18q3_maf_20180718.txt sour
 deps:
 - md5: ce843abcbc98fc858559718dc67a34ce
   path: source/ccle/CCLE_DepMap_18q3_maf_20180718.txt
-- md5: d52cdea3ec6ed3593b065fd641f60e9b
+- md5: 0fd43c43a0aca790b98b5455283446e7
   path: source/vep/vep_supporting_files.tar.gz
-md5: 2165208e650c6c335871dd8b0a0cbd86
+md5: 98a3d908a71f895b31d97a9209dfcd00
 outs:
 - cache: true
-  md5: 7268eafb0f87eac2411e18a06e467e23.dir
-  path: source/ccle/vcfs
+  md5: d8c14baffab9a2f2a699b0b952226cd1
+  path: source/ccle/vcfs/127399_SOFT_TISSUE_vs_NORMAL.vcf
+- cache: true
+  md5: 5cd33709589b5e6e989269a91d6de11b
+  path: source/ccle/vcfs/ZR7530_BREAST_vs_NORMAL.vcf

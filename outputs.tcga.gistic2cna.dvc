@@ -66,9 +66,9 @@ deps:
   path: source/tcga/gistic2-firehose/TCGA-UCS_all_thresholded.by_genes.txt
 - md5: d010c6e51ed5d276fa2d1d7a06eb01b7
   path: source/tcga/gistic2-firehose/TCGA-UVM_all_thresholded.by_genes.txt
-- md5: 4610cfe31a6d1b220ed51701e8d267a3
+- md5: c65784990987a166671b2c9c10464d9c
   path: outputs/gdc/Aliquot.Vertex.json.gz
-md5: 1261c4fd11dce34f25bf7affabd903ad
+md5: d10ef22be8cee2ceedea792a04ef0f8b
 outs:
 - cache: true
   md5: 8ca67be6488b17f8991789eb80ca10f2
