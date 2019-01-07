@@ -1,0 +1,5 @@
+md5: 1f9c7b42d2c3a2b9ce4a286c76ec5ccc
+outs:
+- cache: true
+  md5: b27c1c94960f44252d4138c85d2f1e73.dir
+  path: mafs
