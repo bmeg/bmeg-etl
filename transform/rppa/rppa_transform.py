@@ -28,7 +28,9 @@ def transform(source_path,
     mapped_features = []
     for f in feature_ids:
         # TODO need to map antibody ids to proteins
-        protein_id = protein_enricher.get_protein(f)
+        # Below goes from antibody --> gene symbol...
+        # https://doi.org/10.1371/journal.pone.0188016.s004 --> journal.pone.0188016.s004.xlsx
+        gene_symbol = antibody2genesymbol[f]
         mapped_features.append(protein_id)
 
     for row in reader:
