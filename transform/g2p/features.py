@@ -67,9 +67,7 @@ def normalize(hit):
                 allele_has_gene.append((a.gid(), gene_gid(feature['geneSymbol'])))
             except Exception:
                 missing_vertexes.append({'target_label': 'Gene', 'data': feature})
-        except Exception as e:
-            if 'start' in feature:
-                print('>>could not create allele from {}'.format(str(e)))
+        except Exception:
             try:
                 a = minimal_allele(feature)
                 minimal_alleles.append(a)
