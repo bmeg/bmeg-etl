@@ -114,6 +114,10 @@ dvc run --file source.ccle.CCLE_DepMap_18q3_maf_20180718.txt.dvc --yes \
   -o source/ccle/CCLE_DepMap_18q3_maf_20180718.txt \
   "wget https://data.broadinstitute.org/ccle/CCLE_DepMap_18q3_maf_20180718.txt -O source/ccle/CCLE_DepMap_18q3_maf_20180718.txt"
 #
+dvc run --file source.rppa.TCGA-PANCAN32-L4.csv.dvc --yes \
+  -o source/rppa/TCGA-PANCAN32-L4.csv \
+  "wget https://tcpaportal.org/tcpa/download/TCGA-PANCAN32-L4.zip -O source/rppa/TCGA-PANCAN32-L4.zip && unzip -j source/rppa/TCGA-PANCAN32-L4.zip -d source/rppa/ && rm source/rppa/TCGA-PANCAN32-L4.zip"
+#
 dvc run \
   -o source/gene_enricher/hgnc_complete_set.json \
   --file source.gene_enricher.hgnc_complete_set.json.dvc \

@@ -1,0 +1,7 @@
+cmd: wget https://tcpaportal.org/tcpa/download/TCGA-PANCAN32-L4.zip -O source/rppa/TCGA-PANCAN32-L4.zip
+  && unzip -j source/rppa/TCGA-PANCAN32-L4.zip -d source/rppa/ && rm source/rppa/TCGA-PANCAN32-L4.zip
+md5: 8b7eaeb067ff76da1eb6234a7efd1af0
+outs:
+- cache: true
+  md5: 1a349a53fd9e6de576b9b24bf2485847
+  path: source/rppa/TCGA-PANCAN32-L4.csv
