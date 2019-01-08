@@ -23,6 +23,7 @@ STANDARD_MAF_KEYS = {
     'Transcript_ID': 'ensembl_transcript',
     'Variant_Classification': 'effect',
     'Variant_Type': 'type',
+    'dbSNP_RS': 'dbSNP_RS'
 }
 
 # center = 2
@@ -85,7 +86,7 @@ class MAFTransformer():
             inhandle = gzip.open(mafpath, mode='rt')
         else:
             inhandle = open(mafpath)
-
+        self.current_path = mafpath
         logging.info('skipping {}'.format(skip))
         inh = islice(inhandle, skip, None)
         reader = csv.DictReader(inh, delimiter="\t")

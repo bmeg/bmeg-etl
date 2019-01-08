@@ -64,6 +64,7 @@ class Allele(Vertex):
     ensembl_transcript: Union[None, str] = None
     type: Union[None, str] = None
     effect: Union[None, str] = None
+    dbSNP_RS: Union[None, str] = None
 
     def gid(self):
         return Allele.make_gid(self.genome, self.chromosome, self.start,
