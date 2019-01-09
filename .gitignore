@@ -30,6 +30,7 @@ eggs/
 
 # ignore everything except markdown documents in source
 source/*/*.*
+!source/*/version.txt
 !source/*/*.md
 !source/*/*.dvc
 !source/*/.gitignore
