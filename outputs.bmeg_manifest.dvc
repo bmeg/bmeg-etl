@@ -440,4 +440,8 @@ deps:
   path: outputs/tcga/TCGA-UVM.CopyNumberAlteration.Vertex.json.gz
 - md5: 85222d955d58957366f390dbce707978
   path: outputs/tcga/TCGA-UVM.CopyNumberAlterationOf.Edge.json.gz
-md5: e93ca756c0da74359df2637b16aa3344
+md5: c00b57ad01ea5491d51260ec5bdfe7a2
+outs:
+- cache: true
+  md5: f171c8a269fa4d124c4733f2a5940cae
+  path: outputs/meta/bmeg_file_manifest.txt
