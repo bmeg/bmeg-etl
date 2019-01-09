@@ -1,7 +1,5 @@
 cmd: python3 transform/compound/transform.py
 deps:
-- md5: 3c2ba9562a3074f5ad9cd3eb77736641
-  path: source/compound/sqlite.db
 - md5: 43eb1673c4caa0d190a0e2f526c6e9ff
   path: outputs/ccle/Compound.Vertex.json.gz
 - md5: 8d3ee56bd71150f3e6ee34bf4386659c
@@ -22,7 +20,7 @@ deps:
   path: outputs/gdsc/gdsc.ResponseTo.Edge.json.gz
 - md5: a95f32b3a9b7abac8896df765e9a7057
   path: outputs/gdc/TreatedWith.Edge.json.gz
-md5: c9337df6be5936da1503c35cd92da390
+md5: dae457b5f1555dfb050a6815c95d02d8
 outs:
 - cache: true
   md5: eeb178927d93c1ff9889b2e784a48dbe
@@ -36,3 +34,6 @@ outs:
 - cache: true
   md5: de1eae6065a8760ae9273ef296f18231
   path: outputs/compound/normalized.TreatedWith.Edge.json.gz
+- cache: true
+  md5: a818df010093ecaca8ff0bfe55954e07
+  path: source/compound/sqlite.db
