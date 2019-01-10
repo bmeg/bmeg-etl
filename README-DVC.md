@@ -577,6 +577,43 @@ dvc run --file outputs.tcga.expression.dvc --yes \
   -o outputs/tcga/UVM.ExpressionOf.Edge.json.gz \
   "python3 transform/tcga/expression.py"
 #
+dvc run --file source.tcga.gistic2-firehose.gistic2cna.dvc --yes \
+  -d source/tcga/gistic2-firehose/version.txt \
+  -o source/tcga/gistic2-firehose/TCGA-ACC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-BLCA_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-BRCA_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-CESC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-CHOL_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-COAD_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-DLBC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-ESCA_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-GBM_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-HNSC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-KICH_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-KIRC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-KIRP_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-LAML_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-LGG_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-LIHC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-LUAD_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-LUSC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-MESO_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-OV_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-PAAD_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-PCPG_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-PRAD_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-READ_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-SARC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-SKCM_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-STAD_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-TGCT_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-THCA_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-THYM_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-UCEC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-UCS_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-UVM_all_thresholded.by_genes.txt \
+  "bash transform/tcga/download_gistic2_cna.sh"
+#
 dvc run --file outputs.tcga.gistic2cna.dvc --yes \
   -d source/tcga/gistic2-firehose/TCGA-ACC_all_thresholded.by_genes.txt \
   -d source/tcga/gistic2-firehose/TCGA-BLCA_all_thresholded.by_genes.txt \
