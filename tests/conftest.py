@@ -17,7 +17,7 @@ class Helpers:
             # skip if union(None, ...)
             if 'typing.Union' in str(field.type) and 'NoneType' in str(field.type):
                 continue
-            assert vertex_dict['data'][k], 'empty key %s' % k
+            assert vertex_dict['data'][k] is not None, 'empty key %s' % k
 
     @staticmethod
     def assert_vertex_keys_populated(vertex_dict):
