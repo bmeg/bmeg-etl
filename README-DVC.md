@@ -376,7 +376,6 @@ dvc run --file outputs.gdsc.dvc --yes \
   "python3 transform/gdsc/response.py"
 #
 dvc run --file outputs.compound.normalized.dvc --yes \
-  -d source/compound/sqlite.db \
   -d outputs/ccle/Compound.Vertex.json.gz \
   -d outputs/ccle/drug_response.Compound.Vertex.json.gz \
   -d outputs/g2p/Compound.Vertex.json.gz \
@@ -391,6 +390,7 @@ dvc run --file outputs.compound.normalized.dvc --yes \
   -o outputs/compound/normalized.HasEnvironment.Edge.json.gz \
   -o outputs/compound/normalized.ResponseTo.Edge.json.gz \
   -o outputs/compound/normalized.TreatedWith.Edge.json.gz \
+  -o source/compound/sqlite.db \
   "python3 transform/compound/transform.py"
 #
 dvc run --file outputs.ensembl-protein.dvc --yes \
@@ -901,7 +901,40 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/tcga/TCGA-UCS.CopyNumberAlterationOf.Edge.json.gz \
   -d outputs/tcga/TCGA-UVM.CopyNumberAlteration.Vertex.json.gz \
   -d outputs/tcga/TCGA-UVM.CopyNumberAlterationOf.Edge.json.gz \
+  -o source/meta/bmeg_file_manifest.txt \
   "python3 transform/dvc/bmeg_file_manifest.py"
+
+
+dvc run \
+  --file source.ccle.vcfs.dvc --yes \
+  -d source/ccle/CCLE_DepMap_18q3_maf_20180718.txt \
+  -d source/vep/vep_supporting_files.tar.gz \
+  -o source/ccle/vcfs/ \
+  ./tools/run_maf2mcf.sh source/ccle/CCLE_DepMap_18q3_maf_20180718.txt source/ccle/vcfs  
+
+dvc run \
+  --file source.ccle.mafs.dvc  --yes \
+  -d source/ccle/vcfs/  \
+  -o source/ccle/mafs/ \
+  ./tools/run_vcfdir2maf.sh source/ccle/vcfs source/ccle/mafs
+
+dvc run \
+  --file outputs.meta.md.dvc --yes \
+  -d outputs/meta/bmeg_file_manifest.txt \
+  -o outputs/meta/dvc.md \
+  python3 transform/dvc/dvc2md.py
+
+dvc run \
+  --file outputs.meta.commands.dvc --yes \
+  -d outputs/meta/bmeg_file_manifest.txt \
+  -o outputs/meta/Command.Vertex.json.gz \
+  -o outputs/meta/File.Vertex.json.gz \
+  -o outputs/meta/Reads.Edge.json.gz \
+  -o outputs/meta/Writes.Edge.json.gz \
+  python3 transform/dvc/transform.py
+
+
+
 ```
 
 
