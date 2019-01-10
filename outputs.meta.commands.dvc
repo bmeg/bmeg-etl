@@ -1,18 +1,18 @@
-cmd: python3 transform/dvc/transform.py
+cmd: ' python3 transform/dvc/transform.py'
 deps:
-- md5: 5183b5a7a078392637030f5a8876cbf7
-  path: dvc-graph.zip
-md5: 74471d67d2d1f2b2520c5a19c0fda299
+- md5: f171c8a269fa4d124c4733f2a5940cae
+  path: outputs/meta/bmeg_file_manifest.txt
+md5: 36cefd7d4a8a7c5255803479e338f4bf
 outs:
 - cache: true
-  md5: 0643d229d123e34674746be0add36ba8
+  md5: b5d826baa07382feb366252f626a7248
   path: outputs/meta/Command.Vertex.json.gz
 - cache: true
-  md5: a3819fae30f519094ad56aae610ae360
+  md5: 9deebb6dc2b3615f548f9404238d74ee
   path: outputs/meta/File.Vertex.json.gz
 - cache: true
-  md5: 6034d830de4e390c791d7d89d64531c7
+  md5: 7f940b5f7fadf5475665c646591b5db9
   path: outputs/meta/Reads.Edge.json.gz
 - cache: true
-  md5: f26aa388f6c2a06fb5bb05472dc6dfc2
+  md5: 609f09c80c4916c533e78e2a0fc1c7fe
   path: outputs/meta/Writes.Edge.json.gz
