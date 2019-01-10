@@ -19,11 +19,22 @@ MC3_EXTENSION_MAF_KEYS = [
     'SYMBOL', 'SYMBOL_SOURCE', 'HGNC_ID', 'BIOTYPE', 'CANONICAL', 'CCDS', 'ENSP', 'SWISSPROT', 'TREMBL', 'UNIPARC', 'RefSeq', 'SIFT', 'PolyPhen', 'EXON', 'INTRON', 'DOMAINS', 'GMAF', 'AFR_MAF', 'AMR_MAF', 'ASN_MAF', 'EAS_MAF', 'EUR_MAF', 'SAS_MAF', 'AA_MAF', 'EA_MAF', 'CLIN_SIG', 'SOMATIC', 'PUBMED', 'MOTIF_NAME', 'MOTIF_POS', 'HIGH_INF_POS', 'MOTIF_SCORE_CHANGE', 'IMPACT', 'PICK', 'VARIANT_CLASS', 'TSL', 'HGVS_OFFSET', 'PHENO', 'MINIMISED', 'ExAC_AF', 'ExAC_AF_AFR', 'ExAC_AF_AMR', 'ExAC_AF_EAS', 'ExAC_AF_FIN', 'ExAC_AF_NFE', 'ExAC_AF_OTH', 'ExAC_AF_SAS', 'GENE_PHENO', 'FILTER', 'COSMIC', 'CENTERS', 'CONTEXT', 'DBVS', 'NCALLERS'
 ]
 
-MC3_EXTENSION_CALLSET_KEYS = [
-    't_depth', 't_ref_count', 't_alt_count', 'n_depth', 'n_ref_count', 'n_alt_count', 'FILTER',
-    'Match_Norm_Seq_Allele1', 'Match_Norm_Seq_Allele2',
-    'Tumor_Seq_Allele1', 'Tumor_Seq_Allele2',
-]
+MC3_EXTENSION_CALLSET_INT_KEYS = {
+    't_depth': 't_depth',
+    't_ref_count': 't_ref_count',
+    't_alt_count': 't_alt_count',
+    'n_depth': 'n_depth',
+    'n_ref_count': 'n_ref_count',
+    'n_alt_count': 'n_alt_count'
+}
+
+MC3_EXTENSION_CALLSET_KEYS = {
+    'Reference_Allele': 'ref',
+    'Tumor_Seq_Allele1': 'alt',
+    'FILTER': 'filter',
+    'Gene': 'ensembl_gene',
+    'Transcript_ID': 'ensembl_transcript'
+}
 
 ALIQUOT_CONVERSION_TABLE = {}
 
@@ -52,12 +63,14 @@ class MC3_MAFTransformer(MAFTransformer):
     def allele_call_maker(self, allele, line=None):
         """ create call from line """
         info = {}
-        for k in MC3_EXTENSION_CALLSET_KEYS:
-            info[k] = get_value(line, k, None)
+        for k, kn in MC3_EXTENSION_CALLSET_KEYS.items():
+            info[kn] = get_value(line, k, None)
+        for k, kn in MC3_EXTENSION_CALLSET_INT_KEYS.items():
+            info[kn] = int(get_value(line, k, None))
         call_methods = line.get('CENTERS', '')
         call_methods = [call_method.replace('*', '') for call_method in call_methods.split("|")]
-        info['call_methods'] = call_methods
-        return AlleleCall(info)
+        info['methods'] = call_methods
+        return AlleleCall(**info)
 
     def callset_maker(self, allele, source, centerCol, method, line):
         """ create callset from line """
@@ -70,18 +83,6 @@ class MC3_MAFTransformer(MAFTransformer):
         sample_call = (self.allele_call_maker(allele, line), sample_callset.gid())
 
         return [sample_call], [sample_callset]
-
-    def create_allele_dict(self, line, genome='GRCh37'):
-        ''' return properly named allele dictionary, populated from line'''
-        allele_dict = super(MC3_MAFTransformer, self).create_allele_dict(line, genome)
-        annotations = {}
-        for key in MC3_EXTENSION_MAF_KEYS:
-            value = line.get(key, None)
-            if value:
-                annotations[key] = value
-
-        allele_dict['annotations'].mc3 = annotations
-        return allele_dict
 
 
 def transform(mafpath, prefix, gdc_aliquot_path, source=MC3_MAFTransformer.SOURCE, emitter_name='json', skip=0, transformer=MC3_MAFTransformer()):

@@ -24,7 +24,7 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     association_file = os.path.join(emitter_path_prefix, 'G2PAssociation.Vertex.json.gz')
     publication_edge_file = os.path.join(emitter_path_prefix, 'HasSupportingReference.Edge.json.gz')
     gene_edge_file = os.path.join(emitter_path_prefix, 'HasGeneFeature.Edge.json.gz')
-    allele_edge_file = os.path.join(emitter_path_prefix, 'HasAlleleFeature.Edge.json.gz')
+    allele_edge_file = os.path.join(emitter_path_prefix, 'HasGeneFeature.Edge.json.gz')
     allele_file = os.path.join(emitter_path_prefix, 'Allele.Vertex.json.gz')
     phenotype_file = os.path.join(emitter_path_prefix, 'Phenotype.Vertex.json.gz')
     phenotype_edge_file = os.path.join(emitter_path_prefix, 'HasPhenotype.Edge.json.gz')
@@ -105,8 +105,8 @@ def test_genes():
     import transform.g2p.genes
     # reset singleton 'already seen'
     transform.g2p.genes.EXPORTED_GENES = []
-    assert gene_normalize({'genes': ['TP53']}) == ({'genes': {'Gene:ENSG00000141510'}}, ['Gene:ENSG00000141510'], []), 'We should have a modified hit and a gene vertex gid'
-    assert gene_normalize({'genes': ['TP53', 'EGFR']}) == ({'genes': {'Gene:ENSG00000141510', 'Gene:ENSG00000146648'}}, ['Gene:ENSG00000146648'], []), 'We should have a modified hit and a gene vertex gid only for genes we havent seen'
+    assert gene_normalize({'genes': ['TP53']}) == ({'genes': {'ENSG00000141510'}}, ['ENSG00000141510'], []), 'We should have a modified hit and a gene vertex gid'
+    assert gene_normalize({'genes': ['TP53', 'EGFR']}) == ({'genes': {'ENSG00000141510', 'ENSG00000146648'}}, ['ENSG00000146648'], []), 'We should have a modified hit and a gene vertex gid only for genes we havent seen'
 
 
 def test_genes_nofind():

@@ -1,8 +1,9 @@
-['remote "minio"']
+# aws default credentials should point at ceph
+['remote "ceph"']
 url = s3://bmeg/dvc
-endpointurl = https://minio.compbio.ohsu.edu
+endpointurl = https://ceph.acc.ohsu.edu
 [core]
-remote = minio
+remote = ceph
 ['remote "source"']
 url = s3://bmeg/source
-endpointurl = https://minio.compbio.ohsu.edu
+endpointurl = https://ceph.acc.ohsu.edu

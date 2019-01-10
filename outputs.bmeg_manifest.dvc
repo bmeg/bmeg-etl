@@ -1,22 +1,22 @@
 cmd: python3 transform/dvc/bmeg_file_manifest.py
 deps:
-- md5: 2ed09d4c4237d298a69941c5722b72f1
+- md5: 1d78fe030127fa82ba2aea693fd36e5a
   path: outputs/allele/Allele.Vertex.json.gz
 - md5: 561324844c53077551083b941982728c
   path: outputs/ccle/Aliquot.Vertex.json.gz
 - md5: 801a6ec57b66194d5270cc0fb901a243
   path: outputs/ccle/AliquotFor.Edge.json.gz
-- md5: c4e81c8a7796a7b84da82d79860e20dc
+- md5: 63db8a4b460f6ef4bbf5d9dac3904745
   path: outputs/ccle/AlleleCall.Edge.json.gz
-- md5: bb38a605fe4326766a0e1bbcc4c10741
+- md5: 49a8b1bff65826bae5f3d376a027c164
   path: outputs/ccle/AlleleIn.Edge.json.gz
 - md5: 9ccf83393276d56191a88c3d54ef6a5d
   path: outputs/ccle/Biosample.Vertex.json.gz
 - md5: 548ea9afe67678a2fd1ba618476715a2
   path: outputs/ccle/BiosampleFor.Edge.json.gz
-- md5: d4af39103d738ff5f1cf6b192cc14fcb
+- md5: 9530c1bd19ec1f0207a0bcec1e5a63fb
   path: outputs/ccle/Callset.Vertex.json.gz
-- md5: 4f927e03ecc7f02fb7062e27d7393ce1
+- md5: c296405b4e63f2e1abde3f6156ca8249
   path: outputs/ccle/CallsetFor.Edge.json.gz
 - md5: ec4b589e6e13a5d74094be8a1c4604a1
   path: outputs/ccle/Expression.Vertex.json.gz
@@ -64,23 +64,23 @@ deps:
   path: outputs/ccle/tatlow.Individual.Vertex.json.gz
 - md5: b7cf54d28fe8a7892ce504dfa7c8abde
   path: outputs/ccle/tatlow.Project.Vertex.json.gz
-- md5: 83212aa781060c245f5ef2b8b20c8f00
+- md5: eeb178927d93c1ff9889b2e784a48dbe
   path: outputs/compound/normalized.Compound.Vertex.json.gz
-- md5: 4fd4268a2a746cf44a1dbbb7fd940302
+- md5: 221374092af560edd88cb2d6b247dae4
   path: outputs/compound/normalized.HasEnvironment.Edge.json.gz
-- md5: 3cedc4289f9aaf3881ed87ce7d49e396
+- md5: 61019eb8db7f5da8078b4d8230b0e3b5
   path: outputs/compound/normalized.ResponseTo.Edge.json.gz
-- md5: a68b265e6c749514a00f707d6e383e7d
+- md5: de1eae6065a8760ae9273ef296f18231
   path: outputs/compound/normalized.TreatedWith.Edge.json.gz
-- md5: 1c734e6b59897e6960913a3cf7151c38
+- md5: ecccae14f67ddf9cdc6a777874143c03
   path: outputs/ensembl-protein/PFAMAlignment.Edge.json.gz
-- md5: e153fdaf3cc4455e57aa76a41a44f3f8
+- md5: 25ad2b98b8f3066f00c449c95b40da1f
   path: outputs/ensembl-protein/Protein.Vertex.json.gz
-- md5: 4f2a939d0763ee24d44e1ec0acab80d6
+- md5: 32425c24ac1c5aa91c42ac382449b08f
   path: outputs/ensembl-protein/ProteinFor.Edge.json.gz
-- md5: ce6d426b7857350c2a132a8e9a402501
+- md5: 0f59e1b39e065651ce5e7e86c27decd8
   path: outputs/ensembl-protein/ProteinStructure.Vertex.json.gz
-- md5: 2eb979497fa030b9c99132f4e2848cc9
+- md5: 1b189fd844104658af22f06b3db37863
   path: outputs/ensembl-protein/StructureFor.Edge.json.gz
 - md5: cc64ec09bd2189807e1d0274693440aa
   path: outputs/ensembl/Exon.Vertex.json.gz
@@ -94,33 +94,33 @@ deps:
   path: outputs/ensembl/TranscriptFor.Edge.json.gz
 - md5: a4a4b5c4208110cbbf82498a5e37321d
   path: outputs/ensembl/missing.Transcript.Vertex.json.gz
-- md5: 89700656fdf36045c3e67c54e315ebf1
+- md5: 18a55d71ce80493e9098a868b06ea541
   path: outputs/g2p/AlleleIn.Edge.json.gz
-- md5: 70d71bc441dd7f2aaceab8923dfebe4e
+- md5: df35501caec93f039e3b9b495cf8f984
   path: outputs/g2p/G2PAssociation.Vertex.json.gz
-- md5: 798cad69b4fe6729232986e27c3dc725
+- md5: e8371bd830d8fdb0ccf226ad20d8df8f
   path: outputs/g2p/HasAlleleFeature.Edge.json.gz
-- md5: 27ad577ae71817be9fd50f67c8bd9a87
+- md5: 8893d922b0ebd0e61dcc8378726a69fd
   path: outputs/g2p/HasGeneFeature.Edge.json.gz
-- md5: 9aa53699b3383b7f548c60a679eec26d
+- md5: cdf861a3eb09e37b96671823a1d52b8d
   path: outputs/g2p/HasMinimalAlleleFeature.Edge.json.gz
-- md5: 0ac0aa7e8fac312e99cd635aeafc7395
+- md5: cc4a6489bcbd88fa5bdd78d683fc7f02
   path: outputs/g2p/HasSupportingReference.Edge.json.gz
-- md5: b0e1593ede53579826eb96dab4148165
+- md5: a1f28461c2c4b6c646e50032af8835d8
   path: outputs/g2p/MinimalAllele.Vertex.json.gz
-- md5: 1f7696d0e6f6f47908d5f89e9938765a
+- md5: d715ac8ba46852db6a5799e6deb79e7d
   path: outputs/g2p/MinimalAlleleIn.Edge.json.gz
-- md5: 4610cfe31a6d1b220ed51701e8d267a3
+- md5: c65784990987a166671b2c9c10464d9c
   path: outputs/gdc/Aliquot.Vertex.json.gz
-- md5: 196b52eede87107aec6ac082a89a5ee5
+- md5: e7cb018ef61ee6141a48d9581b780cfc
   path: outputs/gdc/AliquotFor.Edge.json.gz
-- md5: 28640d448942d20f7b55c5ed7950b7ab
+- md5: 9de4707e5e05f85d4277b4f51bbbec70
   path: outputs/gdc/Biosample.Vertex.json.gz
-- md5: 8bd4910568626084014eac0e753102a7
+- md5: 65c61ff9cff4dc14cdafb2add712e9dc
   path: outputs/gdc/BiosampleFor.Edge.json.gz
-- md5: b7f79e0be47dfd678d887305ac342f26
+- md5: 0de970a113109c39bc6dd0d4b1cd89cb
   path: outputs/gdc/InProject.Edge.json.gz
-- md5: 66ac6d68825daeba311b526975ea258d
+- md5: 0ccea20df8e7ff5ab9efadefe552737a
   path: outputs/gdc/Individual.Vertex.json.gz
 - md5: 80c8b7eaa88a02cf13be1c247e5cdb69
   path: outputs/gdc/Project.Vertex.json.gz
@@ -152,13 +152,13 @@ deps:
   path: outputs/gtex/gtex.Individual.Vertex.json.gz
 - md5: 7ecbf01d1b4b0427a3c3334aeb354c5d
   path: outputs/gtex/gtex.Project.Vertex.json.gz
-- md5: e2fa564cc0e08f89e46c8f7ae5a6df37
+- md5: 2f27ecc2d4c9885191858e2081fc0a4f
   path: outputs/mc3/AlleleCall.Edge.json.gz
-- md5: 012137b2c69d2ff642c9a62273ba0c06
+- md5: f1a46551903a8ee2d20ef781a582ac2e
   path: outputs/mc3/AlleleIn.Edge.json.gz
-- md5: 14168e016f3d7dcc978db5db266f3fac
+- md5: c0fe74ce61454301202bcccd07e46ac6
   path: outputs/mc3/Callset.Vertex.json.gz
-- md5: 30ef5d18a330065222f2501667fad155
+- md5: f9b05ece6cec86e18708f5a072512e2e
   path: outputs/mc3/CallsetFor.Edge.json.gz
 - md5: e055d958444eafb0e490a91e98aa8185
   path: outputs/pfam/GeneOntologyAnnotation.Edge.json.gz
@@ -168,13 +168,13 @@ deps:
   path: outputs/pfam/PFAMClanMember.Edge.json.gz
 - md5: 2b181f45b6e94dc996cf4d940bb8963f
   path: outputs/pfam/PFAMFamily.Vertex.json.gz
-- md5: ea81a22e82b387771e1865c8d2c11c54
+- md5: 2513ab0809ad3dc0d5122ebff43dfa78
   path: outputs/phenotype/normalized.HasPhenotype.Edge.json.gz
-- md5: 2fcd2596e6ed3d7ac3a76ec41e7e2862
+- md5: 1bbeec66c698da4a5eea8e587cc55b79
   path: outputs/phenotype/normalized.Phenotype.Vertex.json.gz
-- md5: 7be5b042ff9a96967ffaa52c0ed40075
+- md5: c10167e678ccf4fd5e3a0537915c867f
   path: outputs/phenotype/normalized.PhenotypeOf.Edge.json.gz
-- md5: 9f94953b500cd10963ec39b08f3626fb
+- md5: e2893cf16f4dfb72cd30cf40b5def431
   path: outputs/publication/stub.Publication.Vertex.json.gz
 - md5: d52ce08b355b2a2a9bf228e11569e795
   path: outputs/tcga/ACC.Expression.Vertex.json.gz
@@ -308,140 +308,140 @@ deps:
   path: outputs/tcga/UVM.Expression.Vertex.json.gz
 - md5: 0abcb1595fab9c96d58d6baccd9ed65a
   path: outputs/tcga/UVM.ExpressionOf.Edge.json.gz
-- md5: 351b7225441a45a88dc2b89b9be94c2c
-  path: outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json
-- md5: d99490356b48d72e62556fd7c3471cb7
+- md5: 8ca67be6488b17f8991789eb80ca10f2
   path: outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json.gz
-- md5: 1dc3ddcebd7185200844e8fc980a40c8
-  path: outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json
-- md5: 5bf0299eee8488abb12188abe419c5f8
+- md5: 141cddf5d9c9785a09a66cb9c4920e8a
   path: outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json.gz
-- md5: b27e006e080d38763b179521d0b1ede9
+- md5: 87baa094c50eb71d7324e95e897167e6
   path: outputs/tcga/TCGA-BLCA.CopyNumberAlteration.Vertex.json.gz
-- md5: c357445f5d9547c57ba6a50fb8211243
+- md5: f874355ad34902fe60072c0b13babce2
   path: outputs/tcga/TCGA-BLCA.CopyNumberAlterationOf.Edge.json.gz
-- md5: f4d0869d2d80e0cd5e9d6e31ec426850
+- md5: b4c009a17c01e4b62ed8bbf96c105687
   path: outputs/tcga/TCGA-BRCA.CopyNumberAlteration.Vertex.json.gz
-- md5: a4052b9072c9c1e94c86715e2a043554
+- md5: 66ef5d69539351350a5c10775a0bba13
   path: outputs/tcga/TCGA-BRCA.CopyNumberAlterationOf.Edge.json.gz
-- md5: 5d2bd62c3f8b55af437bddc3815e4431
+- md5: d4583985114c60979aa80d657cc12d88
   path: outputs/tcga/TCGA-CESC.CopyNumberAlteration.Vertex.json.gz
-- md5: b450e99d5a16e2c330003d63910fa19a
+- md5: bac4cdd3262a20faeef19377756d4430
   path: outputs/tcga/TCGA-CESC.CopyNumberAlterationOf.Edge.json.gz
-- md5: 711fdaa35b812b01f4dd238f44607526
+- md5: 8949a04309297c318b7a1d66c0d9f290
   path: outputs/tcga/TCGA-CHOL.CopyNumberAlteration.Vertex.json.gz
-- md5: 9a016c35e68da7b1b68a9a4723c44525
+- md5: e4ceeb931e0e80c5be792dfd38899642
   path: outputs/tcga/TCGA-CHOL.CopyNumberAlterationOf.Edge.json.gz
-- md5: 66f420f54a0a10157efc03023c56006f
+- md5: 5993a73db4725d2f7e0c618e5c487223
   path: outputs/tcga/TCGA-COAD.CopyNumberAlteration.Vertex.json.gz
-- md5: 4abccc837d68dbd857aebb54bf74f4f0
+- md5: 790718f60908015860f9e9d5d3a7fdcd
   path: outputs/tcga/TCGA-COAD.CopyNumberAlterationOf.Edge.json.gz
-- md5: e62e2271c3b99d6f4de88593d76c6237
+- md5: cf3f1a178a7ea515230867eca126b6f6
   path: outputs/tcga/TCGA-DLBC.CopyNumberAlteration.Vertex.json.gz
-- md5: c0e44c7a477d4e4e2361eef25e824585
+- md5: b5d11be4d6363f8328aa8a2c1bacd30c
   path: outputs/tcga/TCGA-DLBC.CopyNumberAlterationOf.Edge.json.gz
-- md5: 485f4b470f6b20ee26250b31489c4bcf
+- md5: e4c91fc2175c2e42ca348d88f7da89fc
   path: outputs/tcga/TCGA-ESCA.CopyNumberAlteration.Vertex.json.gz
-- md5: 9bdc0f37441834e8cef04c524b4bc6f3
+- md5: 10f62d38c4de444d285f57781caad743
   path: outputs/tcga/TCGA-ESCA.CopyNumberAlterationOf.Edge.json.gz
-- md5: 01bdfd7abc2d18abe6b3b0bc4e329a83
+- md5: 045934b2c0af48e59c8b73dab9bef5e6
   path: outputs/tcga/TCGA-GBM.CopyNumberAlteration.Vertex.json.gz
-- md5: c78085c560e44ccad95331a058a7587d
+- md5: 87a52cd75d5e480f6617706341b8759a
   path: outputs/tcga/TCGA-GBM.CopyNumberAlterationOf.Edge.json.gz
-- md5: 4467d2330a7df882c336e080883413e6
+- md5: 5b4e5a6e6cf2500ab97afe1516c1daba
   path: outputs/tcga/TCGA-HNSC.CopyNumberAlteration.Vertex.json.gz
-- md5: 969bf9088cc569d37d954e4dd596383b
+- md5: 14fcb3f6329aa6cccfa556152a64c4d8
   path: outputs/tcga/TCGA-HNSC.CopyNumberAlterationOf.Edge.json.gz
-- md5: 9264946d39f9887d65f70c1f0e486392
+- md5: 5fd54d0edd16d3601812a08335c03751
   path: outputs/tcga/TCGA-KICH.CopyNumberAlteration.Vertex.json.gz
-- md5: 2264729030607eb6c4132c8c6ce05dd0
+- md5: 9ab3319895da85c23acb79be9b58753a
   path: outputs/tcga/TCGA-KICH.CopyNumberAlterationOf.Edge.json.gz
-- md5: ebc9dfe45053b4e76ca90b7eed2a9528
+- md5: df845b3f981a5fbd7ffd45af96e05a54
   path: outputs/tcga/TCGA-KIRC.CopyNumberAlteration.Vertex.json.gz
-- md5: c20499fd00bf6a4c7da6209775d94601
+- md5: daf2261f6036b8b275da535681880f82
   path: outputs/tcga/TCGA-KIRC.CopyNumberAlterationOf.Edge.json.gz
-- md5: f90b4976cc11511fe47ae5f7a7ad0b42
+- md5: 894b09f9904718c5a29171b30bbf7222
   path: outputs/tcga/TCGA-KIRP.CopyNumberAlteration.Vertex.json.gz
-- md5: eb21f1e7da8bc65e443ea74da6573b4a
+- md5: 24089830879246bf649294bdac031d7a
   path: outputs/tcga/TCGA-KIRP.CopyNumberAlterationOf.Edge.json.gz
-- md5: 4768cb7e994a62f8cb35ed8223f5eecf
+- md5: 9dd9d45c638ef1599c90f697ecd0182e
   path: outputs/tcga/TCGA-LAML.CopyNumberAlteration.Vertex.json.gz
-- md5: 59b6b7e586c139c7d718b64fa277e698
+- md5: a2ac107973aabed6166f926854476953
   path: outputs/tcga/TCGA-LAML.CopyNumberAlterationOf.Edge.json.gz
-- md5: 43761100d3219f3ef0d6b6f485d2f272
+- md5: 186f21a8039ff8dc1c02017ea64fd21c
   path: outputs/tcga/TCGA-LGG.CopyNumberAlteration.Vertex.json.gz
-- md5: 8e4d224e1d7ab00bcba1b2b9ef03fa81
+- md5: e486010e4ea06da8cfce939c063a0355
   path: outputs/tcga/TCGA-LGG.CopyNumberAlterationOf.Edge.json.gz
-- md5: 2d3a2d470e585f57ae4d0a1359c63295
+- md5: c7748d10a6d0f8c3afc91e64bf44d6d7
   path: outputs/tcga/TCGA-LIHC.CopyNumberAlteration.Vertex.json.gz
-- md5: 114a22a5b7e9cf047bf53c04d7b74963
+- md5: 9f9ffa64d3dbde641e5fe01e91f540df
   path: outputs/tcga/TCGA-LIHC.CopyNumberAlterationOf.Edge.json.gz
-- md5: 650ae5a0f213c6c1f510d783b4089eca
+- md5: 5a1d7bb080b00fef6bafae845a987cba
   path: outputs/tcga/TCGA-LUAD.CopyNumberAlteration.Vertex.json.gz
-- md5: 7a24c023523f05b1c9af54cf5f111630
+- md5: 78bf432d85afcf13353e4bec164e37e1
   path: outputs/tcga/TCGA-LUAD.CopyNumberAlterationOf.Edge.json.gz
-- md5: 1d5707b1f2c7f20a146c69134ea5c220
+- md5: 17e83f24831020170c9f1b7b83b14276
   path: outputs/tcga/TCGA-LUSC.CopyNumberAlteration.Vertex.json.gz
-- md5: acd08c6546d5ebb8ddcd909e15241fa5
+- md5: c70e83f0bce583d9b38bc0cdee0d1714
   path: outputs/tcga/TCGA-LUSC.CopyNumberAlterationOf.Edge.json.gz
-- md5: 5e837416e77b030fb0a337c652f8b736
+- md5: 6a77a2b4985c90b7cd4d3048711c8e60
   path: outputs/tcga/TCGA-MESO.CopyNumberAlteration.Vertex.json.gz
-- md5: 6ca1895c73593be802db1fee8ba7f5a0
+- md5: 3999c89c957f6e7af3fa87609d70034d
   path: outputs/tcga/TCGA-MESO.CopyNumberAlterationOf.Edge.json.gz
-- md5: fa86325035e9e638b88b803039e4b79a
+- md5: ebd6d090bcf31f53e8a543575e24ff93
   path: outputs/tcga/TCGA-OV.CopyNumberAlteration.Vertex.json.gz
-- md5: e80bd2342bc31dd4b47e472a86d37909
+- md5: 48a03a2ae69730e6965986576bfd0381
   path: outputs/tcga/TCGA-OV.CopyNumberAlterationOf.Edge.json.gz
-- md5: 88fe1d8ce143d11284ed66a54a921084
+- md5: 54441004bbb95eba165f8bb7f4dd079d
   path: outputs/tcga/TCGA-PAAD.CopyNumberAlteration.Vertex.json.gz
-- md5: 45656c7274c67aedd12ad7dde21e77eb
+- md5: 4aadce9026392fc3e3c65a66fdfe9843
   path: outputs/tcga/TCGA-PAAD.CopyNumberAlterationOf.Edge.json.gz
-- md5: 926a2710aa6ddcaaeb0a047e607712da
+- md5: 750372304c40cf0d097a4e28d567b2a9
   path: outputs/tcga/TCGA-PCPG.CopyNumberAlteration.Vertex.json.gz
-- md5: 881a082adf9e76b6986bbf6b71e0b032
+- md5: 3db3c467a2401e61647b2794aae1b604
   path: outputs/tcga/TCGA-PCPG.CopyNumberAlterationOf.Edge.json.gz
-- md5: 704f2a6786730e6e82dd1250af67ac8a
+- md5: 694703494a2d3f9f52abe4d165a87938
   path: outputs/tcga/TCGA-PRAD.CopyNumberAlteration.Vertex.json.gz
-- md5: d9781a7eb978ab39ba26dfd0610b1624
+- md5: 2cba25c9801335641acd1b30075b546f
   path: outputs/tcga/TCGA-PRAD.CopyNumberAlterationOf.Edge.json.gz
-- md5: f6e4560ececfa5c2972e631dfd2291a3
+- md5: 501f64c3923480d4b524e57c5de024c8
   path: outputs/tcga/TCGA-READ.CopyNumberAlteration.Vertex.json.gz
-- md5: 7079539ca1515bcc1a552cfed9668d1b
+- md5: 1b3b1f1fa36a4719f67ff23a04480621
   path: outputs/tcga/TCGA-READ.CopyNumberAlterationOf.Edge.json.gz
-- md5: c4ef009182c7dbf18327b6c79b7d3737
+- md5: 0c4ec7dfa9ecef8ecf087948c10f4f72
   path: outputs/tcga/TCGA-SARC.CopyNumberAlteration.Vertex.json.gz
-- md5: 1be2a4306d0384087c61f11dd035b359
+- md5: 55e0b43467f85d4d8ab7c7323282652d
   path: outputs/tcga/TCGA-SARC.CopyNumberAlterationOf.Edge.json.gz
-- md5: 6bead8d4d303172e13b9bc261dc8d8a8
+- md5: d75be067b82bb52ea1343f79691e6fd7
   path: outputs/tcga/TCGA-SKCM.CopyNumberAlteration.Vertex.json.gz
-- md5: 13aaee5509b61d68c6788eb38b6e6991
+- md5: de01b4bcdabeeb6f785922a577086213
   path: outputs/tcga/TCGA-SKCM.CopyNumberAlterationOf.Edge.json.gz
-- md5: 4f206898eefc4cea3fa3c50ae6cac408
+- md5: 9f4d57cb035b5a4eae2f9c141f767445
   path: outputs/tcga/TCGA-STAD.CopyNumberAlteration.Vertex.json.gz
-- md5: eaad9c0df4e738af57177788b4c2c0c1
+- md5: 779f019362f8e662030169c5c02b23d4
   path: outputs/tcga/TCGA-STAD.CopyNumberAlterationOf.Edge.json.gz
-- md5: df9b04424c458edb28d22c6965b7889c
+- md5: 546beb69bfc5640db33094d59e109e40
   path: outputs/tcga/TCGA-TGCT.CopyNumberAlteration.Vertex.json.gz
-- md5: be6f80931095406013d02ce8040a6ef2
+- md5: e78a6f5ff25af6331d23b0964a457125
   path: outputs/tcga/TCGA-TGCT.CopyNumberAlterationOf.Edge.json.gz
-- md5: 9da2378b0ad1c2ee53e5622dca741d0a
+- md5: 69e5c0c3d5377f436282779fde7bb6a7
   path: outputs/tcga/TCGA-THCA.CopyNumberAlteration.Vertex.json.gz
-- md5: 08dbed6cfc9edc090981c5bacd6ed4fc
+- md5: 046e0d65655adaf153fcba204453df42
   path: outputs/tcga/TCGA-THCA.CopyNumberAlterationOf.Edge.json.gz
-- md5: b8c8c283e4c3e66f9c91c40c6a6e28de
+- md5: 5df6342b36eba53b8cc3bf06a218e1b6
   path: outputs/tcga/TCGA-THYM.CopyNumberAlteration.Vertex.json.gz
-- md5: a8cca462a301ff0263f79d6580ce801a
+- md5: 56d17076046c37979b029a842f97dec4
   path: outputs/tcga/TCGA-THYM.CopyNumberAlterationOf.Edge.json.gz
-- md5: d9f2d5eea279bff925118b0e4ef7c32c
+- md5: 06a1615c18078ec9f7a0c78f72dae6e3
   path: outputs/tcga/TCGA-UCEC.CopyNumberAlteration.Vertex.json.gz
-- md5: 47d8e05bb5b536a7900f598b91fbc874
+- md5: d6f9db8f8d5a517a9e763a192b1b2678
   path: outputs/tcga/TCGA-UCEC.CopyNumberAlterationOf.Edge.json.gz
-- md5: 021586708f8702c1ab13d7fdf3b28235
+- md5: 48afe3f7051a6698f70ceffbdfd5a20c
   path: outputs/tcga/TCGA-UCS.CopyNumberAlteration.Vertex.json.gz
-- md5: 86e2d201717bf9a7e025cd4f587ab467
+- md5: a52358288896413f0ca95845d5b40b77
   path: outputs/tcga/TCGA-UCS.CopyNumberAlterationOf.Edge.json.gz
-- md5: 3ba733eb0e3a17a8b6676f6486a23d3c
+- md5: b1873b10188396c95f155bf856b3906b
   path: outputs/tcga/TCGA-UVM.CopyNumberAlteration.Vertex.json.gz
-- md5: 961e411146c0574719f39de9e223f48d
+- md5: 85222d955d58957366f390dbce707978
   path: outputs/tcga/TCGA-UVM.CopyNumberAlterationOf.Edge.json.gz
-md5: eb9d7ebcf0fc097776d75f2a0a3bba39
+md5: c00b57ad01ea5491d51260ec5bdfe7a2
+outs:
+- cache: true
+  md5: f171c8a269fa4d124c4733f2a5940cae
+  path: outputs/meta/bmeg_file_manifest.txt

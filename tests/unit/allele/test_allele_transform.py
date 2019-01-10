@@ -5,8 +5,8 @@ import contextlib
 import pytest
 import logging
 import json
-from transform.allele.transform import transform, sort_allele_files, group_sorted_alleles, merge, harvest
-from bmeg.vertex import Allele, AlleleAnnotations
+from transform.allele.transform import transform, sort_allele_files
+from bmeg.vertex import Allele
 from bmeg.ioutils import reader
 
 
@@ -54,7 +54,7 @@ def validate(helpers, output_directory, emitter_path_prefix, myvariantinfo_path)
               myvariantinfo_path=myvariantinfo_path)
     # test/test.Allele.Vertex.json
     helpers.assert_vertex_file_valid(Allele, allele_file)
-    validate_myvariantinfo_count(allele_file)
+    # validate_myvariantinfo_count(allele_file)
 
     # remove output
     with contextlib.suppress(FileNotFoundError):
@@ -63,14 +63,11 @@ def validate(helpers, output_directory, emitter_path_prefix, myvariantinfo_path)
     # check using sqllite
     transform(output_directory,
               prefix=emitter_path_prefix,
-              allele_store_name='dataclass',
-              allele_store_path='/tmp/sqlite.db',
-              vertex_filename_pattern='**/Allele.Vertex.json',
-              myvariantinfo_path=myvariantinfo_path)
+              vertex_filename_pattern='**/Allele.Vertex.json')
 
     # test/Allele.Vertex.json
     helpers.assert_vertex_file_valid(Allele, allele_file)
-    validate_myvariantinfo_count(allele_file)
+    # validate_myvariantinfo_count(allele_file)
 
 
 def test_simple(caplog, helpers, output_directory, emitter_path_prefix, myvariantinfo_path):
@@ -103,44 +100,46 @@ def test_sort_allele_files(output_directory):
             _id = data['_id']
 
 
-def test_group_sorted_alleles(output_directory):
-    """ ensure that allele files are sorted """
-    sorted_allele_file = '/tmp/sorted_allele_file.json'
-    with contextlib.suppress(FileNotFoundError):
-        os.remove(sorted_allele_file)
-    path = '{}/{}'.format(output_directory, '**/Allele.Vertex.json')
-    sorted_allele_file = sort_allele_files(path, sorted_allele_file)
-    t = 0
-    uniq_ids = []
-    for alleles in group_sorted_alleles(sorted_allele_file):
-        assert len(alleles) > 0, 'should be at least one allele'
-        ids = set([allele.gid() for allele in alleles])
-        assert len(ids) == 1, 'all alleles should have the same id'
-        t += len(alleles)
-        _id = list(ids)[0]
-        assert _id not in uniq_ids, 'we should not have seen this id before'
-        uniq_ids.append(_id)
-    assert t == 274, 'there should be 274 alleles'
+# no longer necessary - running through VEP
+# def test_group_sorted_alleles(output_directory):
+#     """ ensure that allele files are sorted """
+#     sorted_allele_file = '/tmp/sorted_allele_file.json'
+#     with contextlib.suppress(FileNotFoundError):
+#         os.remove(sorted_allele_file)
+#     path = '{}/{}'.format(output_directory, '**/Allele.Vertex.json')
+#     sorted_allele_file = sort_allele_files(path, sorted_allele_file)
+#     t = 0
+#     uniq_ids = []
+#     for alleles in group_sorted_alleles(sorted_allele_file):
+#         assert len(alleles) > 0, 'should be at least one allele'
+#         ids = set([allele.gid() for allele in alleles])
+#         assert len(ids) == 1, 'all alleles should have the same id'
+#         t += len(alleles)
+#         _id = list(ids)[0]
+#         assert _id not in uniq_ids, 'we should not have seen this id before'
+#         uniq_ids.append(_id)
+#     assert t == 8, 'there should be 8 alleles'
 
 
-def test_merge():
-    """ merge works """
-    alleles = [
-        Allele(genome='G', chromosome='1', start=1, end=2, reference_bases='A', alternate_bases='G', annotations=AlleleAnnotations()),
-        Allele(genome='G', chromosome='1', start=1, end=2, reference_bases='A', alternate_bases='G', annotations=AlleleAnnotations(maf={'a': "A"})),
-        Allele(genome='G', chromosome='1', start=1, end=2, reference_bases='A', alternate_bases='G', annotations=AlleleAnnotations(mc3={'a': "B"})),
-        Allele(genome='G', chromosome='1', start=1, end=2, reference_bases='A', alternate_bases='G', annotations=AlleleAnnotations(ccle={'a': "C"})),
-        Allele(genome='G', chromosome='1', start=1, end=2, reference_bases='A', alternate_bases='G', annotations=AlleleAnnotations(myvariantinfo={'a': "D"})),
-    ]
-    allele = merge(alleles)
-    assert allele, 'should return an allele'
-    assert allele.annotations, 'should return an allele.annotations'
-    assert allele.annotations.maf, 'should return an allele.annotations.maf'
-    assert allele.annotations.mc3, 'should return an allele.annotations.mc3'
-    assert allele.annotations.ccle, 'should return an allele.annotations.ccle'
-    assert allele.annotations.myvariantinfo, 'should return an allele.annotations.myvariantinfo'
+# no longer necessary - running through VEP
+# def test_merge():
+#     """ merge works """
+#     alleles = [
+#         Allele(genome='G', chromosome='1', start=1, end=2, reference_bases='A', alternate_bases='G', annotations=AlleleAnnotations()),
+#         Allele(genome='G', chromosome='1', start=1, end=2, reference_bases='A', alternate_bases='G', annotations=AlleleAnnotations(maf={'a': "A"})),
+#         Allele(genome='G', chromosome='1', start=1, end=2, reference_bases='A', alternate_bases='G', annotations=AlleleAnnotations(mc3={'a': "B"})),
+#         Allele(genome='G', chromosome='1', start=1, end=2, reference_bases='A', alternate_bases='G', annotations=AlleleAnnotations(ccle={'a': "C"})),
+#         Allele(genome='G', chromosome='1', start=1, end=2, reference_bases='A', alternate_bases='G', annotations=AlleleAnnotations(myvariantinfo={'a': "D"})),
+#     ]
+#     allele = merge(alleles)
+#     assert allele, 'should return an allele'
+#     assert allele.annotations, 'should return an allele.annotations'
+#     assert allele.annotations.maf, 'should return an allele.annotations.maf'
+#     assert allele.annotations.mc3, 'should return an allele.annotations.mc3'
+#     assert allele.annotations.ccle, 'should return an allele.annotations.ccle'
+#     assert allele.annotations.myvariantinfo, 'should return an allele.annotations.myvariantinfo'
 
 
-def NO_test_harvest(helpers, output_directory, emitter_path_prefix, myvariantinfo_path):
-    # check using sqllite
-    harvest(allele_store_name='dataclass', allele_store_path='/tmp/sqlite.db')
+# def test_harvest(helpers, output_directory, emitter_path_prefix, myvariantinfo_path):
+#     # check using sqllite
+#     harvest(allele_store_name='dataclass', allele_store_path='/tmp/sqlite.db')

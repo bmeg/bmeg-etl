@@ -1,9 +1,9 @@
-cmd: python3 transform/dvc/dvc2md.py
+cmd: ' python3 transform/dvc/dvc2md.py'
 deps:
-- md5: f54a29c5d47a10a257aac6b8253eb007
-  path: dvc-graph.zip
-md5: 49ea2372c7c76f9fe2f8638a6253fe50
+- md5: f171c8a269fa4d124c4733f2a5940cae
+  path: outputs/meta/bmeg_file_manifest.txt
+md5: e34d573a3d1ce3320e648213e1ebd540
 outs:
 - cache: true
-  md5: b97e36b2354df540698d02fe20497a8e
+  md5: a60d98a77d052b82ab074d37633c484f
   path: outputs/meta/dvc.md

@@ -1,0 +1,9 @@
+cmd: transform/vep/get_supportingfiles.sh
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/vep/version.txt
+md5: 7b055be758254ea17559fa28d4a0cad6
+outs:
+- cache: true
+  md5: 0fd43c43a0aca790b98b5455283446e7
+  path: source/vep/vep_supporting_files.tar.gz

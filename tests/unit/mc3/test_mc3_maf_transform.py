@@ -4,7 +4,6 @@
 
 import pytest
 import transform.mc3.mc3_maf_transform as mc3_maf_transform
-from transform.mc3.mc3_maf_transform import MC3_EXTENSION_MAF_KEYS
 from transform.mc3.mc3_maf_transform import MC3_EXTENSION_CALLSET_KEYS
 from bmeg.maf.maf_transform import STANDARD_MAF_KEYS
 from bmeg.maf.maf_transform import get_value
@@ -81,7 +80,7 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
     # test.Callset.Vertex.json
     helpers.assert_vertex_file_valid(Callset, callset_file)
     # test/test.AlleleCall.Edge.json
-    helpers.assert_edge_file_valid(Allele, Callset, allelecall_file)
+    helpers.assert_edge_file_valid(Callset, Allele, allelecall_file)
     # test/test.AlleleIn.Edge.json
     helpers.assert_edge_file_valid(Allele, Gene, allelein_file)
     # test/test.CallsetFor.Edge.json
@@ -103,10 +102,10 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
             allelecall = json.loads(line)
             # optional keys, if set should be non null
             for k in MC3_EXTENSION_CALLSET_KEYS:
-                if k in allelecall['data']['info']:
-                    assert allelecall['data']['info'][k], 'empty key %s' % k
-            assert '|' not in allelecall['data']['info']['call_methods'], 'call_method should not have a | separator'
-            allelecall_methods = set(allelecall['data']['info']['call_methods'])
+                if k in allelecall['data']:
+                    assert allelecall['data'][k], 'empty key %s' % k
+            assert '|' not in allelecall['data']['methods'], 'call_method should not have a | separator'
+            allelecall_methods = set(allelecall['data']['methods'])
             possible_allelecall_methods = set(["RADIA", "MUTECT", "MUSE", "VARSCANS", "INDELOCATOR", "VARSCANI", "PINDEL", "SOMATICSNIPER"])
             assert allelecall_methods < possible_allelecall_methods, 'call_method should belong to vocabulary'
 
@@ -117,12 +116,8 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
             allele = json.loads(line)
             assert allele['data']['reference_bases'] != allele['data']['alternate_bases'], 'reference should not equal alternate'
             for k in STANDARD_MAF_KEYS:
-                if k in allele['data']['annotations']['maf']:
-                    assert allele['data']['annotations']['maf'][k], 'empty key %s' % k
-            # optional keys, if set should be non null
-            for k in MC3_EXTENSION_MAF_KEYS:
-                if k in allele['data']['annotations']['mc3']:
-                    assert allele['data']['annotations']['mc3'][k], 'empty key %s' % k
+                if k in allele['data']:
+                    assert allele['data'][k], 'empty key %s' % k
 
     # check callset
     with reader(callset_file) as f:
