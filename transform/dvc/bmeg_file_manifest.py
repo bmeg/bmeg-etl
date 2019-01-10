@@ -7,4 +7,3 @@ with open(filename, 'r') as stream:
         fobj.write('\n'.join([d['path'] for d in dvc['deps']]))
     with open('scripts/bmeg_file_manifest.txt', 'w+') as fobj:
         fobj.write('\n'.join([d['path'] for d in dvc['deps']]))
-
