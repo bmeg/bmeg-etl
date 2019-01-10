@@ -1,7 +1,7 @@
 deps:
-- etag: 00000000000000000000000000000000-1
+- etag: a9468ae548c1f99ebaeb3d25a961fddd
   path: remote://source/myvariant.info/metadata.fields.json
-md5: d00d3e40dd9474c6b19f8f9c8c0c1a70
+md5: af936d0328110b9f3f1546ad3b9a5347
 outs:
 - cache: true
   md5: a9468ae548c1f99ebaeb3d25a961fddd

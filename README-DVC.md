@@ -376,7 +376,6 @@ dvc run --file outputs.gdsc.dvc --yes \
   "python3 transform/gdsc/response.py"
 #
 dvc run --file outputs.compound.normalized.dvc --yes \
-  -d source/compound/sqlite.db \
   -d outputs/ccle/Compound.Vertex.json.gz \
   -d outputs/ccle/drug_response.Compound.Vertex.json.gz \
   -d outputs/g2p/Compound.Vertex.json.gz \
@@ -391,6 +390,7 @@ dvc run --file outputs.compound.normalized.dvc --yes \
   -o outputs/compound/normalized.HasEnvironment.Edge.json.gz \
   -o outputs/compound/normalized.ResponseTo.Edge.json.gz \
   -o outputs/compound/normalized.TreatedWith.Edge.json.gz \
+  -o source/compound/sqlite.db \
   "python3 transform/compound/transform.py"
 #
 dvc run --file outputs.ensembl-protein.dvc --yes \
@@ -577,6 +577,43 @@ dvc run --file outputs.tcga.expression.dvc --yes \
   -o outputs/tcga/UVM.ExpressionOf.Edge.json.gz \
   "python3 transform/tcga/expression.py"
 #
+dvc run --file source.tcga.gistic2-firehose.gistic2cna.dvc --yes \
+  -d source/tcga/gistic2-firehose/version.txt \
+  -o source/tcga/gistic2-firehose/TCGA-ACC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-BLCA_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-BRCA_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-CESC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-CHOL_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-COAD_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-DLBC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-ESCA_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-GBM_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-HNSC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-KICH_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-KIRC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-KIRP_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-LAML_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-LGG_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-LIHC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-LUAD_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-LUSC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-MESO_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-OV_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-PAAD_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-PCPG_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-PRAD_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-READ_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-SARC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-SKCM_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-STAD_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-TGCT_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-THCA_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-THYM_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-UCEC_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-UCS_all_thresholded.by_genes.txt \
+  -o source/tcga/gistic2-firehose/TCGA-UVM_all_thresholded.by_genes.txt \
+  "bash transform/tcga/download_gistic2_cna.sh"
+#
 dvc run --file outputs.tcga.gistic2cna.dvc --yes \
   -d source/tcga/gistic2-firehose/TCGA-ACC_all_thresholded.by_genes.txt \
   -d source/tcga/gistic2-firehose/TCGA-BLCA_all_thresholded.by_genes.txt \
@@ -612,9 +649,7 @@ dvc run --file outputs.tcga.gistic2cna.dvc --yes \
   -d source/tcga/gistic2-firehose/TCGA-UCS_all_thresholded.by_genes.txt \
   -d source/tcga/gistic2-firehose/TCGA-UVM_all_thresholded.by_genes.txt \
   -d outputs/gdc/Aliquot.Vertex.json.gz \
-  -o outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json \
   -o outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json.gz \
-  -o outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json \
   -o outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json.gz \
   -o outputs/tcga/TCGA-BLCA.CopyNumberAlteration.Vertex.json.gz \
   -o outputs/tcga/TCGA-BLCA.CopyNumberAlterationOf.Edge.json.gz \
@@ -837,9 +872,7 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/tcga/UCS.ExpressionOf.Edge.json.gz \
   -d outputs/tcga/UVM.Expression.Vertex.json.gz \
   -d outputs/tcga/UVM.ExpressionOf.Edge.json.gz \
-  -d outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json \
   -d outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json.gz \
-  -d outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json \
   -d outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json.gz \
   -d outputs/tcga/TCGA-BLCA.CopyNumberAlteration.Vertex.json.gz \
   -d outputs/tcga/TCGA-BLCA.CopyNumberAlterationOf.Edge.json.gz \
@@ -905,8 +938,40 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/tcga/TCGA-UCS.CopyNumberAlterationOf.Edge.json.gz \
   -d outputs/tcga/TCGA-UVM.CopyNumberAlteration.Vertex.json.gz \
   -d outputs/tcga/TCGA-UVM.CopyNumberAlterationOf.Edge.json.gz \
-  -o scripts/bmeg_file_manifest.txt \
+  -o source/meta/bmeg_file_manifest.txt \
   "python3 transform/dvc/bmeg_file_manifest.py"
+
+
+dvc run \
+  --file source.ccle.vcfs.dvc --yes \
+  -d source/ccle/CCLE_DepMap_18q3_maf_20180718.txt \
+  -d source/vep/vep_supporting_files.tar.gz \
+  -o source/ccle/vcfs/ \
+  ./tools/run_maf2mcf.sh source/ccle/CCLE_DepMap_18q3_maf_20180718.txt source/ccle/vcfs  
+
+dvc run \
+  --file source.ccle.mafs.dvc  --yes \
+  -d source/ccle/vcfs/  \
+  -o source/ccle/mafs/ \
+  ./tools/run_vcfdir2maf.sh source/ccle/vcfs source/ccle/mafs
+
+dvc run \
+  --file outputs.meta.md.dvc --yes \
+  -d outputs/meta/bmeg_file_manifest.txt \
+  -o outputs/meta/dvc.md \
+  python3 transform/dvc/dvc2md.py
+
+dvc run \
+  --file outputs.meta.commands.dvc --yes \
+  -d outputs/meta/bmeg_file_manifest.txt \
+  -o outputs/meta/Command.Vertex.json.gz \
+  -o outputs/meta/File.Vertex.json.gz \
+  -o outputs/meta/Reads.Edge.json.gz \
+  -o outputs/meta/Writes.Edge.json.gz \
+  python3 transform/dvc/transform.py
+
+
+
 ```
 
 

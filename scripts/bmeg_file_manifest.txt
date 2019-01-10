@@ -152,9 +152,7 @@ outputs/tcga/UCS.Expression.Vertex.json.gz
 outputs/tcga/UCS.ExpressionOf.Edge.json.gz
 outputs/tcga/UVM.Expression.Vertex.json.gz
 outputs/tcga/UVM.ExpressionOf.Edge.json.gz
-outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json
 outputs/tcga/TCGA-ACC.CopyNumberAlteration.Vertex.json.gz
-outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json
 outputs/tcga/TCGA-ACC.CopyNumberAlterationOf.Edge.json.gz
 outputs/tcga/TCGA-BLCA.CopyNumberAlteration.Vertex.json.gz
 outputs/tcga/TCGA-BLCA.CopyNumberAlterationOf.Edge.json.gz

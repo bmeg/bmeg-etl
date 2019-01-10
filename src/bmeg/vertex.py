@@ -57,11 +57,14 @@ class Allele(Vertex):
     chromosome: str
     start: int
     end: int
+    strand: str
     reference_bases: str
     alternate_bases: str
-    annotations: AlleleAnnotations
+    hugo_symbol: str
+    ensembl_transcript: Union[None, str] = None
     type: Union[None, str] = None
     effect: Union[None, str] = None
+    dbSNP_RS: Union[None, str] = None
 
     def gid(self):
         return Allele.make_gid(self.genome, self.chromosome, self.start,
@@ -121,7 +124,7 @@ class Gene(Vertex):
     @classmethod
     def make_gid(cls, gene_id):
         if not gene_id.startswith("ENSG"):
-            raise ValueError("not an emsembl gene id")
+            raise ValueError("not an emsembl gene id {}".format(gene_id))
         if gene_id.count(".") != 0:
             raise ValueError("version numbers not allowed")
         return GID("%s" % (gene_id))

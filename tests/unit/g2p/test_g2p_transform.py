@@ -24,7 +24,7 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     association_file = os.path.join(emitter_path_prefix, 'G2PAssociation.Vertex.json.gz')
     publication_edge_file = os.path.join(emitter_path_prefix, 'HasSupportingReference.Edge.json.gz')
     gene_edge_file = os.path.join(emitter_path_prefix, 'HasGeneFeature.Edge.json.gz')
-    allele_edge_file = os.path.join(emitter_path_prefix, 'HasAlleleFeature.Edge.json.gz')
+    allele_edge_file = os.path.join(emitter_path_prefix, 'HasGeneFeature.Edge.json.gz')
     allele_file = os.path.join(emitter_path_prefix, 'Allele.Vertex.json.gz')
     phenotype_file = os.path.join(emitter_path_prefix, 'Phenotype.Vertex.json.gz')
     phenotype_edge_file = os.path.join(emitter_path_prefix, 'HasPhenotype.Edge.json.gz')

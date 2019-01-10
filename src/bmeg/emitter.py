@@ -41,14 +41,22 @@ class JSONEmitter:
     def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
         d = self.emitter.emit_edge(obj, from_gid, to_gid)
         fh = self.handles[obj]
-        json.dump(d, fh)
-        fh.write(os.linesep)
+        if self.handles.compresslevel > 0:
+            fh.write(json.dumps(d).encode())
+            fh.write(os.linesep.encode())
+        else:
+            fh.write(json.dumps(d))
+            fh.write(os.linesep)
 
     def emit_vertex(self, obj: Vertex):
         d = self.emitter.emit_vertex(obj)
         fh = self.handles[obj]
-        json.dump(d, fh)
-        fh.write(os.linesep)
+        if self.handles.compresslevel > 0:
+            fh.write(json.dumps(d).encode())
+            fh.write(os.linesep.encode())
+        else:
+            fh.write(json.dumps(d))
+            fh.write(os.linesep)
 
 
 class Rate:
@@ -178,8 +186,13 @@ class FileHandler:
             return self.handles[fname]
         else:
             if self.compresslevel:
-                self.mode = "wt"
-                fh = gzip.open(fname + '.gz', self.mode, compresslevel=self.compresslevel)
+                self.mode = "wb"
+                fh = gzip.GzipFile(
+                    filename='',
+                    compresslevel=self.compresslevel,
+                    fileobj=open(fname + '.gz', mode=self.mode),
+                    mtime=0
+                )
             else:
                 fh = open(fname, self.mode)
             self.handles[fname] = fh

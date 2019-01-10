@@ -1,5 +1,5 @@
 
-from bmeg.vertex import Allele, MinimalAllele, AlleleAnnotations
+from bmeg.vertex import Allele, MinimalAllele
 import bmeg.enrichers.gene_enricher as gene_enricher
 from bmeg.vertex import Gene
 import re
@@ -24,7 +24,8 @@ def allele(feature):
         'end': feature['end'],
         'reference_bases': feature.get('ref', None),
         'alternate_bases': feature.get('alt', None),
-        'annotations': AlleleAnnotations()
+        'strand': '+',
+        'hugo_symbol': feature.get('geneSymbol', None),
     }
 
     return Allele(**params)

@@ -2,29 +2,29 @@ cmd: python3 -m transform.gdc.cases
 deps:
 - md5: 6808ca805661622ad65ae014a4b2a094
   path: source/gdc/version.txt
-md5: 5965177d8a73d788878e9ff505d4d387
+md5: d7f5112db9a9b834067eccb11376d2bc
 outs:
 - cache: true
-  md5: 4610cfe31a6d1b220ed51701e8d267a3
+  md5: c65784990987a166671b2c9c10464d9c
   path: outputs/gdc/Aliquot.Vertex.json.gz
 - cache: true
-  md5: 196b52eede87107aec6ac082a89a5ee5
+  md5: e7cb018ef61ee6141a48d9581b780cfc
   path: outputs/gdc/AliquotFor.Edge.json.gz
 - cache: true
-  md5: 28640d448942d20f7b55c5ed7950b7ab
+  md5: 9de4707e5e05f85d4277b4f51bbbec70
   path: outputs/gdc/Biosample.Vertex.json.gz
 - cache: true
-  md5: 8bd4910568626084014eac0e753102a7
+  md5: 65c61ff9cff4dc14cdafb2add712e9dc
   path: outputs/gdc/BiosampleFor.Edge.json.gz
 - cache: true
-  md5: 74152804c381c4d7e8088459dda6397f
+  md5: 8360b8e15d784273c0c3b77eee498896
   path: outputs/gdc/Compound.Vertex.json.gz
 - cache: true
-  md5: b7f79e0be47dfd678d887305ac342f26
+  md5: 0de970a113109c39bc6dd0d4b1cd89cb
   path: outputs/gdc/InProject.Edge.json.gz
 - cache: true
-  md5: 66ac6d68825daeba311b526975ea258d
+  md5: 0ccea20df8e7ff5ab9efadefe552737a
   path: outputs/gdc/Individual.Vertex.json.gz
 - cache: true
-  md5: 408258d91483d415f703a3c612828c6a
+  md5: a95f32b3a9b7abac8896df765e9a7057
   path: outputs/gdc/TreatedWith.Edge.json.gz
