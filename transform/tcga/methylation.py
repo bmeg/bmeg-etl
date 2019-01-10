@@ -15,7 +15,6 @@ from bmeg.util.logging import default_logging
 
 def transform(source_path,
               aliquot_path="outputs/gdc/Aliquot.Vertex.json.gz",
-              kvstore_path="outputs/tcga/methylation.db",
               emitter_directory="tcga"):
 
     logging.debug("building aliquot lookup...")
