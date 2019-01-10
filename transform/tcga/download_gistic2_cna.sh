@@ -1,6 +1,6 @@
 #!/bin/bash
 
-./transform/tcga/external_scripts/firehose_get -tasks gistic analyses latest
+./transform/tcga/external_scripts/firehose_get -b -tasks gistic analyses latest
 
 mkdir -p source/tcga/gistic2-firehose/tmp/
 

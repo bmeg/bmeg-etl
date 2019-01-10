@@ -1,8 +1,8 @@
 cmd: bash transform/tcga/download_gistic2_cna.sh
 deps:
-- md5: d41d8cd98f00b204e9800998ecf8427e
+- md5: 6808ca805661622ad65ae014a4b2a094
   path: source/tcga/gistic2-firehose/version.txt
-md5: 53e3701ca47ed31cdf96f7f798e85a26
+md5: 6353d177669dd2df3d7c54bbe76e07e3
 outs:
 - cache: true
   md5: 7ed8a66d681969f38829d8a8794aafb7
