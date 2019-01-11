@@ -120,6 +120,8 @@ class Helpers:
         tos = [edges[gid]['to'] for gid in edges.keys()]
         for vertex_gid in vertices.keys():
             label = vertex_gid.split(':')[0]
+            if label in exclude_labels:
+                continue
             if label == 'Deadletter':
                 continue
             assert vertex_gid in froms or vertex_gid in tos, 'could not find {} in edge'.format(vertex_gid)

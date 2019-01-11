@@ -88,22 +88,20 @@ class Allele(Vertex):
 
 @enforce_types
 @dataclass(frozen=True)
-class MethylationProbe(Vertex):
+class CNASegment(Vertex):
     genome: str
     chromosome: str
     start: int
     end: int
-    probe_id: str
 
     def gid(self):
-        return MethylationProbe.make_gid(self.genome, self.chromosome,
-                                         self.start, self.end,
-                                         self.probe_id)
+        return CNASegment.make_gid(self.genome, self.chromosome,
+                                   self.start, self.end)
 
     @classmethod
-    def make_gid(cls, genome, chromosome, start, end, probe_id):
-        return GID("%s:%s:%d:%d:%s" % (cls.__name__, genome, start, end,
-                                       probe_id))
+    def make_gid(cls, callset_id, genome, chromosome, start, end):
+        return GID("%s:%s:%s:%d:%d" % (cls.__name__, callset_id, genome, start,
+                                       end))
 
 
 @enforce_types
@@ -584,3 +582,36 @@ class CopyNumberAlteration(Vertex):
     @classmethod
     def make_gid(cls, source, id):
         return GID("%s:%s:%s" % (cls.__name__, source, id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Methylation(Vertex):
+    id: str
+    source: str
+    metric: str
+    method: str
+    values: dict
+
+    def gid(self):
+        return Methylation.make_gid(self.source, self.id)
+
+    @classmethod
+    def make_gid(cls, source, id):
+        return GID("%s:%s:%s" % (cls.__name__, source, id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class MethylationProbe(Vertex):
+    id: str
+    target: Union[None, str]
+    chromosome: str
+    position: int
+
+    def gid(self):
+        return MethylationProbe.make_gid(self.id)
+
+    @classmethod
+    def make_gid(cls, id):
+        return GID("%s:%s" % (cls.__name__, id))
