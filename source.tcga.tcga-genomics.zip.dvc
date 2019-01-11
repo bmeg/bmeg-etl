@@ -3,8 +3,8 @@ cmd: wget https://files.osf.io/v1/resources/gqrz9/providers/osfstorage/578518706
 deps:
 - md5: 6808ca805661622ad65ae014a4b2a094
   path: source/tcga/version.txt
-md5: fc830e7590af9b87a91ec5750729bf2a
+md5: eb64e86b3f6bb62b3dc6b9deb02a61b5
 outs:
 - cache: true
-  md5: 6aa89c7570814d2c300a6a316b3db92b
+  md5: 117ba2556dca3904ea8201311386d9a0
   path: source/tcga/expression/transcript-level/tcga-genomics.zip
