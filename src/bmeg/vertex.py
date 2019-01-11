@@ -386,17 +386,26 @@ class DrugResponseMetric(str, Enum):
 @enforce_types
 @dataclass(frozen=True)
 class DrugResponse(Vertex):
-    compound_name: str
+    source: str
     sample_id: str
-    metric: DrugResponseMetric
-    value: Union[None, float]
+    compound_id: str
+
+    doses_um: Union[None, list] = None
+    activity_data_median: Union[None, list] = None
+    activity_sd: Union[None, list] = None
+    num_data: Union[None, float] = None
+    fit_type: Union[None, str] = None
+    ec50: Union[None, float] = None
+    ic50: Union[None, float] = None
+    amax: Union[None, float] = None
+    act_area: Union[None, float] = None
 
     def gid(self):
-        return DrugResponse.make_gid(self.compound_name, self.sample_id)
+        return DrugResponse.make_gid(self.source, self.sample_id, self.compound_id)
 
     @classmethod
-    def make_gid(cls, compound_name, sample_id):
-        return GID("%s:%s:%s" % (cls.__name__, compound_name, sample_id))
+    def make_gid(cls, source, sample_id, compound_id):
+        return GID("%s:%s:%s:%s" % (cls.__name__, source, sample_id, compound_id))
 
 
 @enforce_types
@@ -528,33 +537,6 @@ class MinimalAllele(Vertex):
         vidhash.update(vid)
         vidhash = vidhash.hexdigest()
         return GID("%s:%s" % (cls.__name__, vidhash))
-
-
-@enforce_types
-@dataclass(frozen=True)
-class ParamacalogicalProfile(Vertex):
-    """ CCLE pharmacalogical-profile
-    """
-    ccle_cell_line_name: Union[None, str] = None
-    primary_cell_line_name: Union[None, str] = None
-    compound: Union[None, str] = None
-    target: Union[None, str] = None
-    doses_um: Union[None, list] = None
-    activity_data_median: Union[None, list] = None
-    activity_sd: Union[None, list] = None
-    num_data: Union[None, float] = None
-    fit_type: Union[None, str] = None
-    ec50_um: Union[None, float] = None
-    ic50_um: Union[None, float] = None
-    a_max: Union[None, float] = None
-    act_area: Union[None, float] = None
-
-    def gid(self):
-        return ParamacalogicalProfile.make_gid(self.ccle_cell_line_name, self.compound, self.target)
-
-    @classmethod
-    def make_gid(cls, ccle_cell_line_name, compound, target):
-        return GID("%s:%s:%s:%s" % (cls.__name__, ccle_cell_line_name, compound, target))
 
 
 @enforce_types

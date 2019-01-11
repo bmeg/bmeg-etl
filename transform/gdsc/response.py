@@ -2,8 +2,8 @@ import re
 
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import Aliquot, DrugResponse, DrugResponseMetric
-from bmeg.edge import DrugResponseIn, ResponseTo
+from bmeg.vertex import Aliquot, DrugResponse
+from bmeg.edge import ResponseIn, ResponseTo
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
 from bmeg.enrichers.drug_enricher import compound_factory
@@ -52,7 +52,7 @@ def transform(
     rx = re.compile("^(.*) \((.*)\)$")
 
     # The first column header is blank.
-    replace_with = ["compound_name"]
+    replace_with = ["compound_id"]
 
     for field in r.fieldnames[1:]:
         m = rx.search(field)
@@ -78,7 +78,7 @@ def transform(
         t += 1
         for key, raw_value in row.items():
             # Skip the first column
-            if key == "compound_name":
+            if key == "compound_id":
                 continue
 
             sample = key
@@ -87,19 +87,19 @@ def transform(
                 value = float(raw_value)
 
             e = DrugResponse(
-                compound_name=row["compound_name"],
+                compound_id=row["compound_id"],
                 sample_id=sample,
-                metric=DrugResponseMetric.AUC,
-                value=value,
+                act_area=value,
+                source="GDCS",
             )
             emitter.emit_vertex(e)
             emitter.emit_edge(
-                DrugResponseIn(),
+                ResponseIn(),
                 e.gid(),
                 Aliquot.make_gid(sample),
             )
             # create compound
-            compound = compound_factory(name=row["compound_name"])
+            compound = compound_factory(name=row["compound_id"])
             if compound.gid() not in compound_gids:
                 emitter.emit_vertex(compound)
                 compound_gids.append(compound.gid())

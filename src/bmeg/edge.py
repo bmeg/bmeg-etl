@@ -226,9 +226,18 @@ class TranscriptExpressionOf(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class DrugResponseIn(Edge):
+class ResponseIn(Edge):
     """
     DrugResponse -> Aliquot
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class ResponseTo(Edge):
+    """
+    DrugResponse -> Compound
     """
     pass
 
@@ -298,15 +307,6 @@ class MinimalAlleleIn(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class ResponseTo(Edge):
-    """
-    ResponseCurve -> Compound
-    """
-    pass
-
-
-@enforce_types
-@dataclass(frozen=True)
 class PhenotypeOf(Edge):
     """
     Aliquot -> Phenotype
@@ -319,15 +319,6 @@ class PhenotypeOf(Edge):
 class TreatedWith(Edge):
     """
     Individual -> Compound
-    """
-    pass
-
-
-@enforce_types
-@dataclass(frozen=True)
-class ParamacalogicalProfileIn(Edge):
-    """
-    ParamacalogicalProfile -> Aliquot
     """
     pass
 
