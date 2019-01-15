@@ -9,7 +9,7 @@ fi
 graph=$1
 file_manifest=$2
 
-for f in $(cat $file_manifest | grep "Vertex"); do
+for f in $(cat $file_manifest); do
 		if [ ! -f $f ]; then
 				echo "file $f does not exist!"
 				exit 1
