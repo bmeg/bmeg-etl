@@ -209,17 +209,18 @@ dvc run --file source.pfam.id_list.txt.dvc --yes \
   -o source/pfam/id_list.txt \
   "python transform/pfam/list.py -O source/pfam/id_list.txt"
 #
-dvc run --file source.tcga.methylation.IlluminaHumanMethylation450.tsv.gz.dvc --yes \
-  -o source/tcga/methylation/IlluminaHumanMethylation450.tsv.gz \
-  "python3 transform/tcga/download_methylation.py && transform/tcga/generate_methylation_matrix.sh"
+dvc run --file source.tcga.methylation.IlluminaHumanMethylation450.tar.gz.dvc --yes \
+  -d source/tcga/methylation/version.txt \
+  -o source/tcga/methylation/IlluminaHumanMethylation450.tar.gz \
+  "python3 transform/tcga/download_methylation.py"
 #
 dvc run --file outputs.tcga.IlluminaHumanMethylation450.dvc --yes \
-  -d source/tcga/methylation/IlluminaHumanMethylation450.tsv.gz \
+  -d source/tcga/methylation/IlluminaHumanMethylation450.tar.gz \
   -d outputs/gdc/Aliquot.Vertex.json.gz \
   -o outputs/tcga/IlluminaHumanMethylation450.Methylation.Vertex.json.gz \
   -o outputs/tcga/IlluminaHumanMethylation450.MethylationProbe.Vertex.json.gz \
-  -o outputs/tcga/IlluminaHumanMethylation450.MethylatioOf.Edge.json.gz \
-  -o outputs/tcga/IlluminaHumanMethylation450.MethylatioProbeFor.Edge.json.gz \
+  -o outputs/tcga/IlluminaHumanMethylation450.MethylationOf.Edge.json.gz \
+  -o outputs/tcga/IlluminaHumanMethylation450.MethylationProbeFor.Edge.json.gz \
   "python3 transform/tcga/methylation.py"
 #
 dvc run --file source.tcga.TCGA_ID_MAP.csv.dvc --yes \

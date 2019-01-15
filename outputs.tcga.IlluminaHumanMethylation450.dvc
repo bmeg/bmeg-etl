@@ -1,20 +1,20 @@
-cmd: python3 transform/tcga/methylation.py -d
+cmd: python3 transform/tcga/methylation.py
 deps:
 - md5: c3e5ab440c94c37a676767a6afa685de
   path: source/tcga/methylation/IlluminaHumanMethylation450.tar.gz
-- md5: 4610cfe31a6d1b220ed51701e8d267a3
+- md5: c65784990987a166671b2c9c10464d9c
   path: outputs/gdc/Aliquot.Vertex.json.gz
-md5: b6707431eff5f5c6c7a8006ba9f47d49
+md5: d5989b9da49c99d02bef964b0e3d9451
 outs:
 - cache: true
-  md5: cc9c05dbbee931ec2f4d7263c3efa0af
+  md5: 857efae737e7af6c0fa5cec2ab5852c9
   path: outputs/tcga/IlluminaHumanMethylation450.Methylation.Vertex.json.gz
 - cache: true
-  md5: eb51ab80ea740525b10a1c009bc475a2
+  md5: eb93aecf5ad62068307e7370de562d5c
   path: outputs/tcga/IlluminaHumanMethylation450.MethylationProbe.Vertex.json.gz
 - cache: true
-  md5: 7ef830c1a08c84ecc5e67a132da28267
+  md5: bcb88317f0e2198a44b2305a9085d25f
   path: outputs/tcga/IlluminaHumanMethylation450.MethylationOf.Edge.json.gz
 - cache: true
-  md5: 81bcc1dfcc649efeb346616fdfe381ec
+  md5: ad08f05fe654bcd0f95b03ba9b006262
   path: outputs/tcga/IlluminaHumanMethylation450.MethylationProbeFor.Edge.json.gz

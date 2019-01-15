@@ -218,3 +218,7 @@ outputs/tcga/TCGA-UCS.CopyNumberAlteration.Vertex.json.gz
 outputs/tcga/TCGA-UCS.CopyNumberAlterationOf.Edge.json.gz
 outputs/tcga/TCGA-UVM.CopyNumberAlteration.Vertex.json.gz
 outputs/tcga/TCGA-UVM.CopyNumberAlterationOf.Edge.json.gz
+outputs/tcga/IlluminaHumanMethylation450.Methylation.Vertex.json.gz
+outputs/tcga/IlluminaHumanMethylation450.MethylationProbe.Vertex.json.gz
+outputs/tcga/IlluminaHumanMethylation450.MethylationOf.Edge.json.gz
+outputs/tcga/IlluminaHumanMethylation450.MethylationProbeFor.Edge.json.gz
