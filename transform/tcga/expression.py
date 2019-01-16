@@ -7,8 +7,8 @@ import logging
 import subprocess
 import sys
 
-from bmeg.vertex import Expression, Aliquot, ExpressionMetric
-from bmeg.edge import ExpressionOf
+from bmeg.vertex import TranscriptExpression, GeneExpression, Aliquot, ExpressionMetric
+from bmeg.edge import GeneExpressionOf, TranscriptExpressionOf
 from bmeg.emitter import JSONEmitter
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
@@ -23,7 +23,6 @@ def transform(source_path,
     p, file_name = os.path.split(source_path)
     prefix = file_name.split('_')[1]
     emitter = JSONEmitter(directory=emitter_directory, prefix=prefix)
-    emitter_gene = JSONEmitter(directory=emitter_directory, prefix=prefix + "_gene")
     logging.debug('individual file prefix {}'.format(prefix))
 
     # Map CGHub analysis IDs to GDC Aliquot IDs
@@ -50,7 +49,7 @@ def transform(source_path,
             collect[aliquot_id][transcript_id] = expr
 
     for aliquot_id, values in collect.items():
-        g = Expression(
+        g = TranscriptExpression(
             id=aliquot_id,
             source="tcga",
             metric=ExpressionMetric.TPM,
@@ -59,7 +58,7 @@ def transform(source_path,
         )
         emitter.emit_vertex(g)
         emitter.emit_edge(
-            ExpressionOf(),
+            TranscriptExpressionOf(),
             from_gid=g.gid(),
             to_gid=Aliquot.make_gid(aliquot_id)
         )
@@ -72,22 +71,22 @@ def transform(source_path,
                 gene = gene_map[k]
                 geneValues[gene] = geneValues.get(gene, 0) + v
 
-        gg = Expression(
+        gg = GeneExpression(
             id=aliquot_id + "_gene",
             source="tcga",
             metric=ExpressionMetric.GENE_TPM,
             method="Illumina Hiseq",
             values=geneValues,
         )
-        emitter_gene.emit_vertex(gg)
-        emitter_gene.emit_edge(
-            ExpressionOf(),
+        emitter.emit_vertex(gg)
+        emitter.emit_edge(
+            GeneExpressionOf(),
             from_gid=gg.gid(),
             to_gid=Aliquot.make_gid(aliquot_id)
         )
 
     emitter.close()
-    emitter_gene.close()
+
 
 
 def make_parallel_workstream(source_path, jobs, dry_run=False):
@@ -110,7 +109,7 @@ def make_parallel_workstream(source_path, jobs, dry_run=False):
 if __name__ == "__main__":
     parser = default_argument_parser()
     parser.add_argument("--source_path", default="source/tcga/expression/transcript-level/*_tpm.tsv.gz", help="path to file(s)")
-    parser.add_argument("--jobs", default=10, help="number of jobs to run in parallel")
+    parser.add_argument("--jobs", default=2, help="number of jobs to run in parallel")
     options = parser.parse_args()
     default_logging(options.loglevel)
     if '*' in options.source_path:

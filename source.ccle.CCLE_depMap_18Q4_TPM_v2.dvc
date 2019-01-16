@@ -1,0 +1,9 @@
+cmd: ' curl -L -o source/ccle/CCLE_depMap_18Q4_TPM_v2.csv https://depmap.org/portal/download/api/download/external?file_name=ccle%2Fdepmap-rnaseq-expression-data-ccd0.9%2FCCLE_depMap_18Q4_TPM_v2.csv'
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/ccle/version.txt
+md5: d97a1cb3ed851eb633d007856bf594fb
+outs:
+- cache: true
+  md5: 3bcfe7226807240529a5f6aa3a6e98c0
+  path: source/ccle/CCLE_depMap_18Q4_TPM_v2.csv
