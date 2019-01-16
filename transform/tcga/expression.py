@@ -88,7 +88,6 @@ def transform(source_path,
     emitter.close()
 
 
-
 def make_parallel_workstream(source_path, jobs, dry_run=False):
     """ equivalent of: ls -1 source/tcga/expression/transcript-level/TCGA_*_tpm.tsv.gz | parallel --jobs 10 python3.7 transform/tcga/expression.py --source_path """
     with open('/tmp/tcga_expression_transform.txt', 'w') as outfile:

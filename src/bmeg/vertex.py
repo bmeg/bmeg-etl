@@ -247,6 +247,7 @@ class Expression(Vertex):
     def make_gid(cls, source, id):
         return GID("%s:%s:%s" % (cls.__name__, source, id))
 
+
 @enforce_types
 @dataclass(frozen=True)
 class TranscriptExpression(Expression):
@@ -257,6 +258,7 @@ class TranscriptExpression(Expression):
     @classmethod
     def make_gid(cls, source, id):
         return GID("%s:%s:%s" % (cls.__name__, source, id))
+
 
 @enforce_types
 @dataclass(frozen=True)
@@ -269,7 +271,7 @@ class GeneExpression(Expression):
     def make_gid(cls, source, id):
         return GID("%s:%s:%s" % (cls.__name__, source, id))
 
-    
+
 @enforce_types
 @dataclass(frozen=True)
 class PFAMClan(Vertex):

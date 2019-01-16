@@ -4,6 +4,7 @@ import os
 import struct
 import gzip
 
+
 def default_gene_func(name, description):
     return name
 

@@ -7,9 +7,10 @@ from bmeg.utils import ensure_directory
 import re
 import pandas
 
+
 def transform_rpkm(path="source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct",
-              emitter_prefix=None,
-              emitter_directory="ccle"):
+                   emitter_prefix=None,
+                   emitter_directory="ccle"):
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
@@ -19,7 +20,7 @@ def transform_rpkm(path="source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct",
     for sample, values in parse_gct(path, "outputs/ccle", split_ensembl_id):
         # use broad suffix  "QGP1_PANCREAS (ACH-000347)" -> "ACH-000347"
         sample = sample.split()[1].replace('(', '').replace(')', '')
-        g = Expression(
+        g = GeneExpression(
             id=sample,
             source="ccle",
             metric=ExpressionMetric.RPKM,
@@ -28,7 +29,7 @@ def transform_rpkm(path="source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct",
         )
         emitter.emit_vertex(g)
         emitter.emit_edge(
-            ExpressionOf(),
+            GeneExpressionOf(),
             from_gid=g.gid(),
             to_gid=Aliquot.make_gid(sample)
         )
@@ -37,8 +38,8 @@ def transform_rpkm(path="source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct",
 
 
 def transform_tpm(path="source/ccle/CCLE_depMap_18Q4_TPM_v2.csv",
-              emitter_prefix=None,
-              emitter_directory="ccle"):
+                  emitter_prefix=None,
+                  emitter_directory="ccle"):
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
@@ -64,6 +65,7 @@ def transform_tpm(path="source/ccle/CCLE_depMap_18Q4_TPM_v2.csv",
         )
 
     emitter.close()
+
 
 if __name__ == '__main__':  # pragma: no cover
     transform_tpm()
