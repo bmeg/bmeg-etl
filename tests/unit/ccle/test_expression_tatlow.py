@@ -3,7 +3,7 @@ import os
 import contextlib
 import pytest
 from transform.ccle.expression_tatlow import transform
-from bmeg.vertex import Expression, Aliquot, Biosample, Individual, Project
+from bmeg.vertex import TranscriptExpression, Aliquot, Biosample, Individual, Project
 
 
 @pytest.fixture
@@ -20,8 +20,8 @@ def biosample_path(request):
 
 def validate(helpers, ccle_tpm, biosample_path, emitter_directory):
     """ run xform and test results"""
-    expression_file = os.path.join(emitter_directory, 'tatlow.Expression.Vertex.json.gz')
-    expression_of_file = os.path.join(emitter_directory, 'tatlow.ExpressionOf.Edge.json.gz')
+    expression_file = os.path.join(emitter_directory, 'tatlow.TranscriptExpression.Vertex.json.gz')
+    expression_of_file = os.path.join(emitter_directory, 'tatlow.TranscriptExpressionOf.Edge.json.gz')
     all_files = [expression_file, expression_of_file]
     # remove output
     with contextlib.suppress(FileNotFoundError):

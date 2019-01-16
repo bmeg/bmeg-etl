@@ -2,8 +2,8 @@
 import os
 import contextlib
 import pytest
-from transform.ccle.expression import transform
-from bmeg.vertex import Expression, Aliquot
+from transform.ccle.expression import transform_tpm
+from bmeg.vertex import GeneExpression, Aliquot
 import json
 from bmeg.ioutils import reader
 
@@ -16,8 +16,8 @@ def gct_file(request):
 
 def validate(helpers, gct_file, emitter_directory):
     """ run xform and test results"""
-    expression_file = os.path.join(emitter_directory, 'Expression.Vertex.json.gz')
-    expression_of_file = os.path.join(emitter_directory, 'ExpressionOf.Edge.json.gz')
+    expression_file = os.path.join(emitter_directory, 'GeneExpression.Vertex.json.gz')
+    expression_of_file = os.path.join(emitter_directory, 'GeneExpressionOf.Edge.json.gz')
 
     all_files = [expression_file, expression_of_file]
     # remove output
@@ -28,8 +28,8 @@ def validate(helpers, gct_file, emitter_directory):
     # create output
     transform(path=gct_file, emitter_directory=emitter_directory)
     # ratify
-    helpers.assert_vertex_file_valid(Expression, expression_file)
-    helpers.assert_edge_file_valid(Expression, Aliquot, expression_of_file)
+    helpers.assert_vertex_file_valid(GeneExpression, expression_file)
+    helpers.assert_edge_file_valid(GeneExpression, Aliquot, expression_of_file)
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot'])
     # ensure broad ids not used for aliquot
 

@@ -32,8 +32,8 @@ def source_wildcard(request):
 
 def validate(helpers, source_path, id_map_file, gene_map_file, emitter_directory):
     """ run xform and test results"""
-    expression_file = os.path.join(emitter_directory, 'ACC.Expression.Vertex.json.gz')
-    expression_of_file = os.path.join(emitter_directory, 'ACC.ExpressionOf.Edge.json.gz')
+    expression_file = os.path.join(emitter_directory, 'ACC.TranscriptExpression.Vertex.json.gz')
+    expression_of_file = os.path.join(emitter_directory, 'ACC.TranscriptExpressionOf.Edge.json.gz')
 
     all_files = [expression_file, expression_of_file]
     # remove output
