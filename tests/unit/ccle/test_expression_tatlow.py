@@ -31,8 +31,8 @@ def validate(helpers, ccle_tpm, biosample_path, emitter_directory):
     # create output
     transform(source_path=ccle_tpm, biosample_path=biosample_path, emitter_directory=emitter_directory)
     # ratify
-    helpers.assert_vertex_file_valid(Expression, expression_file)
-    helpers.assert_edge_file_valid(Expression, Aliquot, expression_of_file)
+    helpers.assert_vertex_file_valid(TranscriptExpression, expression_file)
+    helpers.assert_edge_file_valid(TranscriptExpression, Aliquot, expression_of_file)
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot'])
 
     # test extra cell lines
