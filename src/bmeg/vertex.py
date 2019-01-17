@@ -190,7 +190,7 @@ class Protein(Vertex):
     def make_gid(cls, protein_id):
         if not protein_id.startswith("ENSP"):
             raise ValueError("not an emsembl protein id")
-        if protein_id.count(".") == 0:
+        if protein_id.count(".") != 0:
             raise ValueError("version numbers not allowed")
         return GID("%s" % (protein_id))
 

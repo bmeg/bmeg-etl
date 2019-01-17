@@ -20,12 +20,12 @@ with open(path) as handle:
             if 'translations' in transcript:
                 for translation in transcript['translations']:
                     if translation['id'].startswith("ENSP"):
-                        prot = Protein(protein_id=translation['id'], transcript_id=transcript['id'])
+                        prot = Protein(protein_id=translation['id'].split(".")[0], transcript_id=transcript['id'].split(".")[0])
                         emitter.emit_vertex(prot)
                         emitter.emit_edge(
                             ProteinFor(),
                             from_gid=prot.gid(),
-                            to_gid=Transcript.make_gid(transcript['id'])
+                            to_gid=Transcript.make_gid(transcript['id'].split(".")[0])
                         )
                         for feature in translation['protein_features']:
                             if feature.get('dbname', "") == "Pfam":
