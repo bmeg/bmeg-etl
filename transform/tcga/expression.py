@@ -7,8 +7,8 @@ import logging
 import subprocess
 import sys
 
-from bmeg.vertex import Expression, Aliquot, ExpressionMetric
-from bmeg.edge import ExpressionOf
+from bmeg.vertex import TranscriptExpression, GeneExpression, Aliquot, ExpressionMetric
+from bmeg.edge import GeneExpressionOf, TranscriptExpressionOf
 from bmeg.emitter import JSONEmitter
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
@@ -16,6 +16,7 @@ from bmeg.util.logging import default_logging
 
 def transform(source_path,
               id_map_file="source/tcga/expression/transcript-level/TCGA_ID_MAP.csv",
+              gene_map_file="source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.trans_gene.tsv",
               emitter_directory="tcga"):
 
     # check if we are doing one file at time
@@ -28,6 +29,9 @@ def transform(source_path,
     r = csv.DictReader(open(id_map_file))
     id_map = {row["CGHubAnalysisID"]: row["Aliquot_id"].lower() for row in r}
 
+    r = csv.reader(open(gene_map_file), delimiter="\t")
+    gene_map = {row[0]: row[1] for row in r}
+
     reader = csv.reader(gzip.open(source_path, "rt"), delimiter="\t")
     header = next(reader)
     samples = header[1:]
@@ -37,7 +41,7 @@ def transform(source_path,
 
     for row in reader:
         feature_ids = row[0].split("|")
-        transcript_id = feature_ids[0]
+        transcript_id = feature_ids[0].split(".")[0]
 
         for cghub_id, raw_expr in zip(samples, row[1:]):
             expr = float(raw_expr)
@@ -45,7 +49,7 @@ def transform(source_path,
             collect[aliquot_id][transcript_id] = expr
 
     for aliquot_id, values in collect.items():
-        g = Expression(
+        g = TranscriptExpression(
             id=aliquot_id,
             source="tcga",
             metric=ExpressionMetric.TPM,
@@ -54,8 +58,30 @@ def transform(source_path,
         )
         emitter.emit_vertex(g)
         emitter.emit_edge(
-            ExpressionOf(),
+            TranscriptExpressionOf(),
             from_gid=g.gid(),
+            to_gid=Aliquot.make_gid(aliquot_id)
+        )
+
+        geneValues = {}
+        for k, v in values.items():
+            if k not in gene_map:
+                logging.info("%s=%f not found in mapping" % (k, v))
+            else:
+                gene = gene_map[k]
+                geneValues[gene] = geneValues.get(gene, 0) + v
+
+        gg = GeneExpression(
+            id=aliquot_id + "_gene",
+            source="tcga",
+            metric=ExpressionMetric.GENE_TPM,
+            method="Illumina Hiseq",
+            values=geneValues,
+        )
+        emitter.emit_vertex(gg)
+        emitter.emit_edge(
+            GeneExpressionOf(),
+            from_gid=gg.gid(),
             to_gid=Aliquot.make_gid(aliquot_id)
         )
 
@@ -82,7 +108,7 @@ def make_parallel_workstream(source_path, jobs, dry_run=False):
 if __name__ == "__main__":
     parser = default_argument_parser()
     parser.add_argument("--source_path", default="source/tcga/expression/transcript-level/*_tpm.tsv.gz", help="path to file(s)")
-    parser.add_argument("--jobs", default=10, help="number of jobs to run in parallel")
+    parser.add_argument("--jobs", default=2, help="number of jobs to run in parallel")
     options = parser.parse_args()
     default_logging(options.loglevel)
     if '*' in options.source_path:

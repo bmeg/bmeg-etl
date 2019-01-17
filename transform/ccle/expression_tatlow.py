@@ -5,8 +5,8 @@ import gzip
 from types import SimpleNamespace as SN
 import ujson
 
-from bmeg.vertex import Expression, Aliquot, ExpressionMetric, Biosample, Individual, Project
-from bmeg.edge import ExpressionOf, AliquotFor, InProject, BiosampleFor
+from bmeg.vertex import TranscriptExpression, Aliquot, ExpressionMetric, Biosample, Individual, Project
+from bmeg.edge import TranscriptExpressionOf, AliquotFor, InProject, BiosampleFor
 from bmeg.emitter import JSONEmitter
 import bmeg.ioutils
 from bmeg.util.logging import default_logging
@@ -84,7 +84,7 @@ def transform(source_path,
 
     # render the expression values
     for aliquot_id, values in collect.items():
-        g = Expression(
+        g = TranscriptExpression(
             id=aliquot_id,
             source="ccle-tatlow",
             metric=ExpressionMetric.TPM,
@@ -93,7 +93,7 @@ def transform(source_path,
         )
         emitter.emit_vertex(g)
         emitter.emit_edge(
-            ExpressionOf(),
+            TranscriptExpressionOf(),
             from_gid=g.gid(),
             to_gid=Aliquot.make_gid(aliquot_id)
         )

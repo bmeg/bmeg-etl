@@ -2,6 +2,7 @@ from array import array
 import csv
 import os
 import struct
+import gzip
 
 
 def default_gene_func(name, description):
@@ -28,7 +29,10 @@ def parse_gct(path, output_dir, gene_func=default_gene_func):
     # Expression values take 4 bytes.
     cell_bytesize = 4
 
-    reader = csv.reader(open(path), delimiter="\t")
+    if path.endswith(".gz"):
+        reader = csv.reader(gzip.open(path, "rt"), delimiter="\t")
+    else:
+        reader = csv.reader(open(path), delimiter="\t")
 
     # Skip the version and shape headers.
     next(reader)

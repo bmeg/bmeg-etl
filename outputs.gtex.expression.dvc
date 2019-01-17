@@ -1,12 +1,12 @@
 cmd: python3 transform/gtex/expression.py
 deps:
 - md5: e027506deca6a62f50e316561c6cb8cb
-  path: source/gtex/GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_tpm.gct
-md5: 56045238548024d13dc060fdc67d0497
+  path: source/gtex/GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_tpm.gct.gz
+md5: fe3d78c04e2c0916945a1f6180206fe9
 outs:
 - cache: true
-  md5: 5d974c1dd90ca8d3152fcfa8b7c83954
-  path: outputs/gtex/gtex.Expression.Vertex.json.gz
+  md5: e37ad9c0f4d2d5853a5cb96348ef629f
+  path: outputs/gtex/GeneExpression.Vertex.json.gz
 - cache: true
-  md5: d865d032eeccaac3d8b97c8f5e7cf97d
-  path: outputs/gtex/gtex.ExpressionOf.Edge.json.gz
+  md5: 09e3c8d467f6ed3d97e491ebd28ac025
+  path: outputs/gtex/GeneExpressionOf.Edge.json.gz

@@ -208,9 +208,18 @@ class AliquotFor(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class ExpressionOf(Edge):
+class GeneExpressionOf(Edge):
     """
     GeneExpression -> Aliquot
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class TranscriptExpressionOf(Edge):
+    """
+    TranscriptExpression -> Aliquot
     """
     pass
 

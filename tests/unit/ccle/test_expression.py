@@ -2,22 +2,22 @@
 import os
 import contextlib
 import pytest
-from transform.ccle.expression import transform
-from bmeg.vertex import Expression, Aliquot
+from transform.ccle.expression import transform_tpm
+from bmeg.vertex import GeneExpression, Aliquot
 import json
 from bmeg.ioutils import reader
 
 
 @pytest.fixture
-def gct_file(request):
+def tpm_file(request):
     """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct')
+    return os.path.join(request.fspath.dirname, 'source/ccle/CCLE_depMap_18Q4_TPM_v2.csv')
 
 
-def validate(helpers, gct_file, emitter_directory):
+def validate(helpers, tpm_file, emitter_directory):
     """ run xform and test results"""
-    expression_file = os.path.join(emitter_directory, 'Expression.Vertex.json.gz')
-    expression_of_file = os.path.join(emitter_directory, 'ExpressionOf.Edge.json.gz')
+    expression_file = os.path.join(emitter_directory, 'GeneExpression.Vertex.json.gz')
+    expression_of_file = os.path.join(emitter_directory, 'GeneExpressionOf.Edge.json.gz')
 
     all_files = [expression_file, expression_of_file]
     # remove output
@@ -26,10 +26,10 @@ def validate(helpers, gct_file, emitter_directory):
             os.remove(f)
 
     # create output
-    transform(path=gct_file, emitter_directory=emitter_directory)
+    transform_tpm(path=tpm_file, emitter_directory=emitter_directory)
     # ratify
-    helpers.assert_vertex_file_valid(Expression, expression_file)
-    helpers.assert_edge_file_valid(Expression, Aliquot, expression_of_file)
+    helpers.assert_vertex_file_valid(GeneExpression, expression_file)
+    helpers.assert_edge_file_valid(GeneExpression, Aliquot, expression_of_file)
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot'])
     # ensure broad ids not used for aliquot
 
@@ -39,6 +39,6 @@ def validate(helpers, gct_file, emitter_directory):
             assert len(obj['to'].split()) == 1, 'Broad ids should not be in Aliquot id'
 
 
-def test_simple(helpers, gct_file, emitter_directory):
+def test_simple(helpers, tpm_file, emitter_directory):
     """ just run validate"""
-    validate(helpers, gct_file, emitter_directory)
+    validate(helpers, tpm_file, emitter_directory)

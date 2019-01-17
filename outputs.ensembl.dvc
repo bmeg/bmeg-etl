@@ -2,20 +2,20 @@ cmd: python3 transform/ensembl/transform.py
 deps:
 - md5: 24cfb0003e76c88c0df30f512fa3c148
   path: source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz
-md5: 86ce6f5914824788d860d8aae9ce8430
+md5: 2bbb8321542b053f188007096148a121
 outs:
 - cache: true
-  md5: cc64ec09bd2189807e1d0274693440aa
+  md5: f2f9e48c8528e41a8634978cff51d757
   path: outputs/ensembl/Exon.Vertex.json.gz
 - cache: true
-  md5: 73d6896c013c48e95ea29927cb4272a1
+  md5: 67c42eac66ee32fedc4f74a03a757c24
   path: outputs/ensembl/ExonFor.Edge.json.gz
 - cache: true
-  md5: 0650d978aaaf94fb524c242a3d627269
+  md5: c114a0c26f3d62e54982583d49a4dcab
   path: outputs/ensembl/Gene.Vertex.json.gz
 - cache: true
-  md5: 76c71521056904148416c9a1ac742631
+  md5: f15b2c80bc2b211220d08c92da11970a
   path: outputs/ensembl/Transcript.Vertex.json.gz
 - cache: true
-  md5: c60f5a6f1ca8f2c26bfe2447b6997cf1
+  md5: d53861b06ab11a807f3e801f07a24e9b
   path: outputs/ensembl/TranscriptFor.Edge.json.gz

@@ -188,7 +188,7 @@ class Protein(Vertex):
     def make_gid(cls, protein_id):
         if not protein_id.startswith("ENSP"):
             raise ValueError("not an emsembl protein id")
-        if protein_id.count(".") == 0:
+        if protein_id.count(".") != 0:
             raise ValueError("version numbers not allowed")
         return GID("%s" % (protein_id))
 
@@ -240,6 +240,30 @@ class Expression(Vertex):
 
     def gid(self):
         return Expression.make_gid(self.source, self.id)
+
+    @classmethod
+    def make_gid(cls, source, id):
+        return GID("%s:%s:%s" % (cls.__name__, source, id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class TranscriptExpression(Expression):
+
+    def gid(self):
+        return TranscriptExpression.make_gid(self.source, self.id)
+
+    @classmethod
+    def make_gid(cls, source, id):
+        return GID("%s:%s:%s" % (cls.__name__, source, id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class GeneExpression(Expression):
+
+    def gid(self):
+        return GeneExpression.make_gid(self.source, self.id)
 
     @classmethod
     def make_gid(cls, source, id):

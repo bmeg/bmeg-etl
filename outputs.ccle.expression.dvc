@@ -1,12 +1,12 @@
 cmd: python3 transform/ccle/expression.py
 deps:
-- md5: 1c4711bb30e668d5f387e1819bae99ef
-  path: source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct
-md5: f90e9bc8e501f2ef834ff5c0f5613ebf
+- md5: 3bcfe7226807240529a5f6aa3a6e98c0
+  path: source/ccle/CCLE_depMap_18Q4_TPM_v2.csv
+md5: 70eed1c4e69abda0bb5fea50ec06de26
 outs:
 - cache: true
-  md5: ec4b589e6e13a5d74094be8a1c4604a1
-  path: outputs/ccle/Expression.Vertex.json.gz
+  md5: 3abe364ab43fcd13097f5fee88c5977a
+  path: outputs/ccle/GeneExpression.Vertex.json.gz
 - cache: true
-  md5: d8b12d571587e9010179bfc99091eb0b
-  path: outputs/ccle/ExpressionOf.Edge.json.gz
+  md5: 7b853de110174e0bde81dd70588d504f
+  path: outputs/ccle/GeneExpressionOf.Edge.json.gz
