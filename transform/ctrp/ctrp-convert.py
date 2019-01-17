@@ -3,7 +3,10 @@
 import os
 import sys
 import pandas
-from bmeg.vertex import DrugResponse
+from bmeg.vertex import DrugResponse, Aliquot
+from bmeg.edge import ResponseIn, ResponseTo
+
+from bmeg.enrichers.drug_enricher import compound_factory
 
 from bmeg.emitter import JSONEmitter
 
@@ -50,6 +53,18 @@ for i, row in response_df.iterrows():
     dr = DrugResponse(sample_id=ccl_name, compound_id=cpd_name, source="CTRP",
                       act_area=auc, ec50=ec50, doses_um=list(conc),
                       activity_data_median=list(resp))
+    compound = compound_factory(name=cpd_name)
     emitter.emit_vertex(dr)
+    emitter.emit_edge(
+        ResponseIn(),
+        dr.gid(),
+        Aliquot.make_gid(ccl_name)
+    )
+    emitter.emit_edge(
+        ResponseTo(),
+        dr.gid(),
+        compound.gid()
+    )
+
 
 emitter.close()
