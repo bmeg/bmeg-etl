@@ -12,6 +12,14 @@ from bmeg.emitter import JSONEmitter
 
 data_dir = sys.argv[1]
 
+base_dir = os.path.dirname(__file__)
+
+ccl_table_path = os.path.join(base_dir, "ctrp-cellline.table")
+ccl_table = {}
+with open(ccl_table_path) as handle:
+    for line in handle:
+        row = line.rstrip().split("\t")
+        ccl_table[row[0]] = row[1]
 
 metadrugPath = os.path.join(data_dir, "v20.meta.per_compound.txt")
 metacelllinePath = os.path.join(data_dir, "v20.meta.per_cell_line.txt")
@@ -41,6 +49,8 @@ for i, row in response_df.iterrows():
     cpd_id = row['master_cpd_id']
     ccl_id = metaexperiment_df.loc[exp_id]['master_ccl_id']
     ccl_name = ccl_df.loc[ccl_id]['ccl_name']
+    if ccl_name in ccl_table:
+        ccl_name = ccl_table[ccl_name]
     cpd_name = compound_df.loc[cpd_id]['cpd_name']
     auc = row['area_under_curve']
     ec50 = row['apparent_ec50_umol']

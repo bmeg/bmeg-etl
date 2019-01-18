@@ -1,0 +1,15 @@
+cmd: ./transform/ctrp/run-ctrp-convert.sh
+deps:
+- md5: 958de018822ff698aa3371aad206115b
+  path: source/ctrp/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
+md5: ed23bfb7c25c95c43891e3acd2eb1898
+outs:
+- cache: true
+  md5: 921f5d192a1ca8c52d4c148dd7ccedf0
+  path: outputs/ctrp/DrugResponse.Vertex.json.gz
+- cache: true
+  md5: c5a9414e83de403c7a4a1fb5e18563ed
+  path: outputs/ctrp/ResponseIn.Edge.json.gz
+- cache: true
+  md5: e9492103663601e83d420760462ae94c
+  path: outputs/ctrp/ResponseTo.Edge.json.gz

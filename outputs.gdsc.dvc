@@ -2,17 +2,17 @@ cmd: python3 transform/gdsc/response.py
 deps:
 - md5: eef91774a6b4ef37e3a8f341b1a48d0d
   path: source/gdsc/GDSC_AUC.csv
-md5: 90f30688bafa7e5524e6f377711a3742
+md5: 30fadc05627d47fe17927909ac4c6e28
 outs:
 - cache: true
-  md5: ab6de1610d49d2abfdcfd9f86e2abc42
+  md5: cef2bf0d7f24e6393239983cbc52ee45
   path: outputs/gdsc/gdsc.Compound.Vertex.json.gz
 - cache: true
-  md5: d4a217e546b97d5d72a96cfc91ef3e6c
+  md5: 5fb5220f0ff057046fab1c1e1ef07989
   path: outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz
 - cache: true
-  md5: ba4c0afdefbd64c9da24579bb6189fa0
-  path: outputs/gdsc/gdsc.DrugResponseIn.Edge.json.gz
+  md5: 6a723c4793a2790cccc51273c9f32da8
+  path: outputs/gdsc/gdsc.ResponseIn.Edge.json.gz
 - cache: true
-  md5: 8765c9b5a4393ee8a157e40db07f44c5
+  md5: ca895b4056bda95d8b7aee6638aa0991
   path: outputs/gdsc/gdsc.ResponseTo.Edge.json.gz
