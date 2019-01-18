@@ -17,7 +17,7 @@ def GDSC_AUC_file(request):
 ALL_FILES = """
 Compound.Vertex.json.gz
 DrugResponse.Vertex.json.gz
-DrugResponseIn.Edge.json.gz
+ResponseIn.Edge.json.gz
 ResponseTo.Edge.json.gz
 """.strip().split()
 
