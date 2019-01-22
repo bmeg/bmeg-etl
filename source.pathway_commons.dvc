@@ -1,0 +1,9 @@
+cmd: ' curl -o source/pathway_commons/PathwayCommons10.All.BIOPAX.owl.gz http://www.pathwaycommons.org/archives/PC2/v10/PathwayCommons10.All.BIOPAX.owl.gz'
+deps:
+- md5: d41d8cd98f00b204e9800998ecf8427e
+  path: source/pathway_commons/version
+md5: 03bf6942a31e636fc768ff6b35c1086a
+outs:
+- cache: true
+  md5: 5678579014a1721824696e66a21e9c7f
+  path: source/pathway_commons/PathwayCommons10.All.BIOPAX.owl.gz
