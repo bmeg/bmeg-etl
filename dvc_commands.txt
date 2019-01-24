@@ -2272,6 +2272,11 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/ccle/Aliquot.Vertex.json.gz \
   -d outputs/ccle/Biosample.Vertex.json.gz \
   -d outputs/ccle/Callset.Vertex.json.gz \
+  -d outputs/ccle/drug_response.Aliquot.Vertex.json.gz \
+  -d outputs/ccle/drug_response.Biosample.Vertex.json.gz \
+  -d outputs/ccle/drug_response.Individual.Vertex.json.gz \
+  -d outputs/ccle/drug_response.ParamacalogicalProfile.Vertex.json.gz \
+  -d outputs/ccle/drug_response.Project.Vertex.json.gz \
   -d outputs/ccle/GeneExpression.Vertex.json.gz \
   -d outputs/ccle/Individual.Vertex.json.gz \
   -d outputs/ccle/Phenotype.Vertex.json.gz \
@@ -2417,6 +2422,10 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/ccle/AlleleIn.Edge.json.gz \
   -d outputs/ccle/BiosampleFor.Edge.json.gz \
   -d outputs/ccle/CallsetFor.Edge.json.gz \
+  -d outputs/ccle/drug_response.AliquotFor.Edge.json.gz \
+  -d outputs/ccle/drug_response.BiosampleFor.Edge.json.gz \
+  -d outputs/ccle/drug_response.InProject.Edge.json.gz \
+  -d outputs/ccle/drug_response.ParamacalogicalProfileIn.Edge.json.gz \
   -d outputs/ccle/GeneExpressionOf.Edge.json.gz \
   -d outputs/ccle/InProject.Edge.json.gz \
   -d outputs/ccle/PhenotypeOf.Edge.json.gz \
