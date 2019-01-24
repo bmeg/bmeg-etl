@@ -13,7 +13,6 @@ EXCEPTIONS=(
 		"outputs/g2p/Allele.Vertex.json.gz"
 		"outputs/g2p/Compound.Vertex.json.gz"
 		"outputs/g2p/HasEnvironment.Edge.json.gz"
-		"outputs/g2p/MinimalAllele.Vertex.json.gz"
 		"outputs/gdc/Compound.Vertex.json.gz"
 		"outputs/gdc/TreatedWith.Edge.json.gz"
 		"outputs/gdsc/gdsc.Compound.Vertex.json.gz"

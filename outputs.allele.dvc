@@ -4,12 +4,10 @@ deps:
   path: outputs/ccle/Allele.Vertex.json.gz
 - md5: ac98325d9279fdc4a43f660fb341072e
   path: outputs/g2p/Allele.Vertex.json.gz
-- md5: a1f28461c2c4b6c646e50032af8835d8
-  path: outputs/g2p/MinimalAllele.Vertex.json.gz
 - md5: 779fa7c7aef6a8ddd5adddd807b07a3f
   path: outputs/mc3/Allele.Vertex.json.gz
-md5: 49e40700829d2ba8e83408ea0c1d70ac
+md5: e7d38e0b69e1e2f05ec5e1dafbac378e
 outs:
 - cache: true
-  md5: 1d78fe030127fa82ba2aea693fd36e5a
+  md5: d5e8df3ca1f44aae9690fcaaec39c747
   path: outputs/allele/Allele.Vertex.json.gz
