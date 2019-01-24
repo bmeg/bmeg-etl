@@ -2,6 +2,11 @@ outputs/allele/Allele.Vertex.json.gz
 outputs/ccle/Aliquot.Vertex.json.gz
 outputs/ccle/Biosample.Vertex.json.gz
 outputs/ccle/Callset.Vertex.json.gz
+outputs/ccle/drug_response.Aliquot.Vertex.json.gz
+outputs/ccle/drug_response.Biosample.Vertex.json.gz
+outputs/ccle/drug_response.Individual.Vertex.json.gz
+outputs/ccle/drug_response.ParamacalogicalProfile.Vertex.json.gz
+outputs/ccle/drug_response.Project.Vertex.json.gz
 outputs/ccle/GeneExpression.Vertex.json.gz
 outputs/ccle/Individual.Vertex.json.gz
 outputs/ccle/Phenotype.Vertex.json.gz
@@ -20,6 +25,7 @@ outputs/ensembl-protein/Protein.Vertex.json.gz
 outputs/ensembl/Transcript.Vertex.json.gz
 outputs/g2p/Deadletter.Vertex.json.gz
 outputs/g2p/G2PAssociation.Vertex.json.gz
+outputs/g2p/MinimalAllele.Vertex.json.gz
 outputs/g2p/Phenotype.Vertex.json.gz
 outputs/gdc/Aliquot.Vertex.json.gz
 outputs/gdc/Biosample.Vertex.json.gz
@@ -147,6 +153,10 @@ outputs/ccle/AlleleCall.Edge.json.gz
 outputs/ccle/AlleleIn.Edge.json.gz
 outputs/ccle/BiosampleFor.Edge.json.gz
 outputs/ccle/CallsetFor.Edge.json.gz
+outputs/ccle/drug_response.AliquotFor.Edge.json.gz
+outputs/ccle/drug_response.BiosampleFor.Edge.json.gz
+outputs/ccle/drug_response.InProject.Edge.json.gz
+outputs/ccle/drug_response.ParamacalogicalProfileIn.Edge.json.gz
 outputs/ccle/GeneExpressionOf.Edge.json.gz
 outputs/ccle/InProject.Edge.json.gz
 outputs/ccle/PhenotypeOf.Edge.json.gz

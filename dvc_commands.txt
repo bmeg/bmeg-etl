@@ -2295,6 +2295,7 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/ensembl/Transcript.Vertex.json.gz \
   -d outputs/g2p/Deadletter.Vertex.json.gz \
   -d outputs/g2p/G2PAssociation.Vertex.json.gz \
+  -d outputs/g2p/MinimalAllele.Vertex.json.gz \
   -d outputs/g2p/Phenotype.Vertex.json.gz \
   -d outputs/gdc/Aliquot.Vertex.json.gz \
   -d outputs/gdc/Biosample.Vertex.json.gz \
@@ -2574,7 +2575,6 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
 dvc run --file outputs.allele.dvc --yes \
   -d outputs/ccle/Allele.Vertex.json.gz \
   -d outputs/g2p/Allele.Vertex.json.gz \
-  -d outputs/g2p/MinimalAllele.Vertex.json.gz \
   -d outputs/mc3/Allele.Vertex.json.gz \
   -o outputs/allele/Allele.Vertex.json.gz \
   "transform/allele/transform.sh"
