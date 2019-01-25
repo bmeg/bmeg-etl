@@ -1,0 +1,12 @@
+cmd: ' grip rdf --dump --gzip outputs-pc/pathway-commons source/pathway_commons/PathwayCommons10.All.BIOPAX.owl.gz'
+deps:
+- md5: 5678579014a1721824696e66a21e9c7f
+  path: source/pathway_commons/PathwayCommons10.All.BIOPAX.owl.gz
+md5: 1db3fd8d879472e7568c99a589bb74b9
+outs:
+- cache: true
+  md5: 315c30f413a262cb2146643925ab5ac0
+  path: outputs-pc/pathway-commons.edge.json
+- cache: true
+  md5: e9929e1961a31238c9f7b23647c0d21a
+  path: outputs-pc/pathway-commons.vertex.json
