@@ -10,6 +10,7 @@ EXCEPTIONS=(
 		"outputs/ccle/Allele.Vertex.json.gz"
 		"outputs/ccle/drug_response.Compound.Vertex.json.gz"
 		"outputs/ccle/drug_response.ResponseTo.Edge.json.gz"
+		"outputs/ctrp/ResponseTo.Edge.json.gz"
 		"outputs/g2p/Allele.Vertex.json.gz"
 		"outputs/g2p/Compound.Vertex.json.gz"
 		"outputs/g2p/HasEnvironment.Edge.json.gz"

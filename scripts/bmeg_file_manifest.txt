@@ -4,8 +4,8 @@ outputs/ccle/Biosample.Vertex.json.gz
 outputs/ccle/Callset.Vertex.json.gz
 outputs/ccle/drug_response.Aliquot.Vertex.json.gz
 outputs/ccle/drug_response.Biosample.Vertex.json.gz
+outputs/ccle/drug_response.DrugResponse.Vertex.json.gz
 outputs/ccle/drug_response.Individual.Vertex.json.gz
-outputs/ccle/drug_response.ParamacalogicalProfile.Vertex.json.gz
 outputs/ccle/drug_response.Project.Vertex.json.gz
 outputs/ccle/GeneExpression.Vertex.json.gz
 outputs/ccle/Individual.Vertex.json.gz
@@ -17,6 +17,7 @@ outputs/ccle/tatlow.Individual.Vertex.json.gz
 outputs/ccle/tatlow.Project.Vertex.json.gz
 outputs/ccle/tatlow.TranscriptExpression.Vertex.json.gz
 outputs/compound/normalized.Compound.Vertex.json.gz
+outputs/ctrp/DrugResponse.Vertex.json.gz
 outputs/ensembl/Exon.Vertex.json.gz
 outputs/ensembl/Gene.Vertex.json.gz
 outputs/ensembl/missing.Transcript.Vertex.json.gz
@@ -156,7 +157,7 @@ outputs/ccle/CallsetFor.Edge.json.gz
 outputs/ccle/drug_response.AliquotFor.Edge.json.gz
 outputs/ccle/drug_response.BiosampleFor.Edge.json.gz
 outputs/ccle/drug_response.InProject.Edge.json.gz
-outputs/ccle/drug_response.ParamacalogicalProfileIn.Edge.json.gz
+outputs/ccle/drug_response.ResponseIn.Edge.json.gz
 outputs/ccle/GeneExpressionOf.Edge.json.gz
 outputs/ccle/InProject.Edge.json.gz
 outputs/ccle/PhenotypeOf.Edge.json.gz
@@ -167,6 +168,8 @@ outputs/ccle/tatlow.TranscriptExpressionOf.Edge.json.gz
 outputs/compound/normalized.HasEnvironment.Edge.json.gz
 outputs/compound/normalized.ResponseTo.Edge.json.gz
 outputs/compound/normalized.TreatedWith.Edge.json.gz
+outputs/ctrp/ResponseIn.Edge.json.gz
+outputs/ctrp/ResponseTo.Edge.json.gz
 outputs/ensembl/ExonFor.Edge.json.gz
 outputs/ensembl-protein/PFAMAlignment.Edge.json.gz
 outputs/ensembl-protein/ProteinFor.Edge.json.gz
@@ -182,7 +185,7 @@ outputs/g2p/MinimalAlleleIn.Edge.json.gz
 outputs/gdc/AliquotFor.Edge.json.gz
 outputs/gdc/BiosampleFor.Edge.json.gz
 outputs/gdc/InProject.Edge.json.gz
-outputs/gdsc/gdsc.DrugResponseIn.Edge.json.gz
+outputs/gdsc/gdsc.ResponseIn.Edge.json.gz
 outputs/go/GeneOntologyAnnotation.Edge.json.gz
 outputs/go/GeneOntologyIsA.Edge.json.gz
 outputs/gtex/GeneExpressionOf.Edge.json.gz
