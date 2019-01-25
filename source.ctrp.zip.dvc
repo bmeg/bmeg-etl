@@ -1,0 +1,9 @@
+cmd: ' curl -o source/ctrp/CTRPv2.0_2015_ctd2_ExpandedDataset.zip ftp://anonymous:guest@caftpd.nci.nih.gov/pub/OCG-DCC/CTD2/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/CTRPv2.0_2015_ctd2_ExpandedDataset.zip'
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/ctrp/version.txt
+md5: 0029e8f35957dd9524dad2f56338c5ba
+outs:
+- cache: true
+  md5: 958de018822ff698aa3371aad206115b
+  path: source/ctrp/CTRPv2.0_2015_ctd2_ExpandedDataset.zip

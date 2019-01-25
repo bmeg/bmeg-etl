@@ -8,15 +8,15 @@ deps:
   path: outputs/ccle/Biosample.Vertex.json.gz
 - md5: 9530c1bd19ec1f0207a0bcec1e5a63fb
   path: outputs/ccle/Callset.Vertex.json.gz
-- md5: 968e423960ecd5dd66ea1d34b27bfe2d
+- md5: 1a9b12a4fad57cba63e419535a20f898
   path: outputs/ccle/drug_response.Aliquot.Vertex.json.gz
-- md5: db5816ddc5cb86dc60b3f319f92751dc
+- md5: 037582d17719f309d881f945784b95e0
   path: outputs/ccle/drug_response.Biosample.Vertex.json.gz
-- md5: f0677cb2ebb2f14c8ae18484ca8c6076
+- md5: da3f9bee814b8f60c49545d80416e240
+  path: outputs/ccle/drug_response.DrugResponse.Vertex.json.gz
+- md5: b650bd0efadc0a481d07a06d7464ad06
   path: outputs/ccle/drug_response.Individual.Vertex.json.gz
-- md5: 59ad12f6216f4b48a21f5605a160f255
-  path: outputs/ccle/drug_response.ParamacalogicalProfile.Vertex.json.gz
-- md5: 53c61c8641724985fd1ddfb580a463ea
+- md5: cbd3a6fee1c0943973841d5ce620b19e
   path: outputs/ccle/drug_response.Project.Vertex.json.gz
 - md5: 3abe364ab43fcd13097f5fee88c5977a
   path: outputs/ccle/GeneExpression.Vertex.json.gz
@@ -36,8 +36,10 @@ deps:
   path: outputs/ccle/tatlow.Project.Vertex.json.gz
 - md5: 65af28f3951325352319bc8bb2428fb7
   path: outputs/ccle/tatlow.TranscriptExpression.Vertex.json.gz
-- md5: eeb178927d93c1ff9889b2e784a48dbe
+- md5: 058d5b05cbd43bad927a90b9ff253005
   path: outputs/compound/normalized.Compound.Vertex.json.gz
+- md5: 921f5d192a1ca8c52d4c148dd7ccedf0
+  path: outputs/ctrp/DrugResponse.Vertex.json.gz
 - md5: f2f9e48c8528e41a8634978cff51d757
   path: outputs/ensembl/Exon.Vertex.json.gz
 - md5: c114a0c26f3d62e54982583d49a4dcab
@@ -66,7 +68,7 @@ deps:
   path: outputs/gdc/Individual.Vertex.json.gz
 - md5: 80c8b7eaa88a02cf13be1c247e5cdb69
   path: outputs/gdc/Project.Vertex.json.gz
-- md5: d4a217e546b97d5d72a96cfc91ef3e6c
+- md5: 5fb5220f0ff057046fab1c1e1ef07989
   path: outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz
 - md5: 07b26fea58ef2b4c2ed509af34af1175
   path: outputs/go/GeneOntologyTerm.Vertex.json.gz
@@ -310,14 +312,14 @@ deps:
   path: outputs/ccle/BiosampleFor.Edge.json.gz
 - md5: c296405b4e63f2e1abde3f6156ca8249
   path: outputs/ccle/CallsetFor.Edge.json.gz
-- md5: 63c2fa88c29a2bca107a85519d732bf3
+- md5: 6faeea72ca0d901e91e2d1bd303fc43f
   path: outputs/ccle/drug_response.AliquotFor.Edge.json.gz
-- md5: b513792dd9e9f10a4b38ff689a1e6d38
+- md5: 542f7c424bce9be0690b6e6d0da20b38
   path: outputs/ccle/drug_response.BiosampleFor.Edge.json.gz
-- md5: de38dedf7d138a34f55b6755d1dba90a
+- md5: c1ab9d1e477fb2a1588c28519c4ed11b
   path: outputs/ccle/drug_response.InProject.Edge.json.gz
-- md5: 33dd700b0cee7d666df2f7af9f26e149
-  path: outputs/ccle/drug_response.ParamacalogicalProfileIn.Edge.json.gz
+- md5: c95ade6b808f949e5a12b4787f47259a
+  path: outputs/ccle/drug_response.ResponseIn.Edge.json.gz
 - md5: 7b853de110174e0bde81dd70588d504f
   path: outputs/ccle/GeneExpressionOf.Edge.json.gz
 - md5: 2496362e88b12d1c014c76142b9d88ac
@@ -334,10 +336,12 @@ deps:
   path: outputs/ccle/tatlow.TranscriptExpressionOf.Edge.json.gz
 - md5: 221374092af560edd88cb2d6b247dae4
   path: outputs/compound/normalized.HasEnvironment.Edge.json.gz
-- md5: 61019eb8db7f5da8078b4d8230b0e3b5
+- md5: e0e0f375a711ab49003451c0edad2c5f
   path: outputs/compound/normalized.ResponseTo.Edge.json.gz
 - md5: de1eae6065a8760ae9273ef296f18231
   path: outputs/compound/normalized.TreatedWith.Edge.json.gz
+- md5: c5a9414e83de403c7a4a1fb5e18563ed
+  path: outputs/ctrp/ResponseIn.Edge.json.gz
 - md5: 67c42eac66ee32fedc4f74a03a757c24
   path: outputs/ensembl/ExonFor.Edge.json.gz
 - md5: 3e4ca315ff85be97f9a64cf84f6710e4
@@ -368,8 +372,8 @@ deps:
   path: outputs/gdc/BiosampleFor.Edge.json.gz
 - md5: 0de970a113109c39bc6dd0d4b1cd89cb
   path: outputs/gdc/InProject.Edge.json.gz
-- md5: ba4c0afdefbd64c9da24579bb6189fa0
-  path: outputs/gdsc/gdsc.DrugResponseIn.Edge.json.gz
+- md5: 6a723c4793a2790cccc51273c9f32da8
+  path: outputs/gdsc/gdsc.ResponseIn.Edge.json.gz
 - md5: dc541a52fe6a06d2a06aa82f481bb31f
   path: outputs/go/GeneOntologyAnnotation.Edge.json.gz
 - md5: 8c0044b23cbd2f67673dc559c2905abd
@@ -604,4 +608,4 @@ deps:
   path: outputs/tcga/UVM.GeneExpressionOf.Edge.json.gz
 - md5: 9b65fee3ef320a61e678417c8eedb400
   path: outputs/tcga/UVM.TranscriptExpressionOf.Edge.json.gz
-md5: ed7a055eb397e8254f36dfbe30b82414
+md5: 121ad9998ede57a1c676ea4c94d9d80d
