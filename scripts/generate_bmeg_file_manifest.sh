@@ -7,7 +7,7 @@ EDGE_FILES=(outputs/**/*.Edge.json.gz)
 FILES=(${VERTEX_FILES[@]} ${EDGE_FILES[@]})
 
 EXCEPTIONS=(
-		"outputs/ccle/Allele.Vertex.json.gz"
+		"outputs/ccle/maf.Allele.Vertex.json.gz"
 		"outputs/ccle/drug_response.Compound.Vertex.json.gz"
 		"outputs/ccle/drug_response.ResponseTo.Edge.json.gz"
 		"outputs/ctrp/ResponseTo.Edge.json.gz"

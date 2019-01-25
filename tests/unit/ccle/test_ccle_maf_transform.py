@@ -3,7 +3,7 @@
 import pytest
 from transform.ccle.ccle_maf_transform import transform
 from transform.ccle.ccle_maf_transform import CCLE_EXTENSION_CALLSET_KEYS
-from bmeg.vertex import Allele, Callset, Gene, Aliquot
+from bmeg.vertex import Allele, Callset, Gene, Aliquot, Biosample, Individual, Project
 from bmeg.maf.maf_transform import STANDARD_MAF_KEYS
 from bmeg.ioutils import reader
 
@@ -15,7 +15,7 @@ import json
 @pytest.fixture
 def maf_file(request):
     """ get the full path of the test fixture """
-    return os.path.join(request.fspath.dirname, 'source/ccle/mafs/CAL62_THYROID_vs_NORMAL/vcf.maf')
+    return os.path.join(request.fspath.dirname, 'source/ccle/mafs/*/vep.maf')
 
 
 @pytest.fixture
@@ -31,11 +31,18 @@ def ccle_biosample_path(request):
 
 
 def validate(helpers, maf_file, emitter_path_prefix, ccle_biosample_path):
-    allele_file = os.path.join(emitter_path_prefix, 'Allele.Vertex.json.gz')
-    allelecall_file = os.path.join(emitter_path_prefix, 'AlleleCall.Edge.json.gz')
-    callset_file = os.path.join(emitter_path_prefix, 'Callset.Vertex.json.gz')
-    allelein_file = os.path.join(emitter_path_prefix, 'AlleleIn.Edge.json.gz')
-    callsetfor_file = os.path.join(emitter_path_prefix, 'CallsetFor.Edge.json.gz')
+    allele_file = os.path.join(emitter_path_prefix, 'maf.Allele.Vertex.json.gz')
+    allelecall_file = os.path.join(emitter_path_prefix, 'maf.AlleleCall.Edge.json.gz')
+    callset_file = os.path.join(emitter_path_prefix, 'maf.Callset.Vertex.json.gz')
+    allelein_file = os.path.join(emitter_path_prefix, 'maf.AlleleIn.Edge.json.gz')
+    callsetfor_file = os.path.join(emitter_path_prefix, 'maf.CallsetFor.Edge.json.gz')
+    aliquot_file = os.path.join(emitter_path_prefix, 'maf.Aliquot.Vertex.json.gz')
+    aliquotfor_file = os.path.join(emitter_path_prefix, 'maf.AliquotFor.Edge.json.gz')
+    biosample_file = os.path.join(emitter_path_prefix, 'maf.Biosample.Vertex.json.gz')
+    biosamplefor_file = os.path.join(emitter_path_prefix, 'maf.BiosampleFor.Edge.json.gz')
+    individual_file = os.path.join(emitter_path_prefix, 'maf.Individual.Vertex.json.gz')
+    project_file = os.path.join(emitter_path_prefix, 'maf.Project.Vertex.json.gz')
+    inproject_file = os.path.join(emitter_path_prefix, 'maf.InProject.Edge.json.gz')
     all_files = [allele_file, allelecall_file, callset_file, allelein_file, callsetfor_file]
 
     # remove output
@@ -48,16 +55,30 @@ def validate(helpers, maf_file, emitter_path_prefix, ccle_biosample_path):
         ccle_biosample_path=ccle_biosample_path,
         emitter_directory=emitter_path_prefix)
 
-    # test/test.Allele.Vertex.json
+    # test/maf.Allele.Vertex.json
     helpers.assert_vertex_file_valid(Allele, allele_file)
-    # test.Callset.Vertex.json
+    # test/maf.Callset.Vertex.json
     callset_count = helpers.assert_vertex_file_valid(Callset, callset_file)
-    # test/test.AlleleIn.Edge.json
+    # test/maf.AlleleIn.Edge.json
     helpers.assert_edge_file_valid(Allele, Gene, allelein_file)
-    # test/test.AlleleCall.Edge.json
+    # test/maf.AlleleCall.Edge.json
     helpers.assert_edge_file_valid(Callset, Allele, allelecall_file)
-    # test/test.CallsetFor.Edge.json
+    # test/maf.CallsetFor.Edge.json
     helpers.assert_edge_file_valid(Callset, Aliquot, callsetfor_file)
+    # test/maf.Aliquot.Vertex.json
+    helpers.assert_vertex_file_valid(Aliquot, aliquot_file)
+    # test/maf.AliquotFor.Edge.json
+    helpers.assert_edge_file_valid(Aliquot, Biosample, aliquotfor_file)
+    # test/maf.Biosample.Vertex.json
+    helpers.assert_vertex_file_valid(Biosample, biosample_file)
+    # test/maf.BiosampleFor.Edge.json
+    helpers.assert_edge_file_valid(Biosample, Individual, biosamplefor_file)
+    # test/maf.Individual.Vertex.json
+    helpers.assert_vertex_file_valid(Individual, individual_file)
+    # test/maf.Project.Vertex.json
+    helpers.assert_vertex_file_valid(Project, project_file)
+    # test/maf.InProject.Edge.json
+    helpers.assert_edge_file_valid(Individual, Project, inproject_file)
 
     assert callset_count > 0, 'There should be at least one callset'
     with reader(callset_file) as f:

@@ -3,8 +3,8 @@
 
 from glob import glob
 import json
-from bmeg.vertex import Callset, Gene
-from bmeg.edge import AlleleCall
+from bmeg.vertex import Callset, Gene, Aliquot, Biosample, Individual, Project
+from bmeg.edge import AlleleCall, AliquotFor, InProject, BiosampleFor
 from bmeg.emitter import new_emitter
 from bmeg.ioutils import reader
 from bmeg.maf.maf_transform import get_value, MAFTransformer
@@ -30,6 +30,7 @@ TUMOR_SAMPLE_BARCODE = "Tumor_Sample_Barcode"  # 15
 NORMAL_SAMPLE_BARCODE = "Matched_Norm_Sample_Barcode"  # 16
 
 BIOSAMPLE_CONVERSION_TABLE = {}
+MISSING_CELL_LINES = {}
 
 
 class CCLE_MAFTransformer(MAFTransformer):
@@ -49,9 +50,17 @@ class CCLE_MAFTransformer(MAFTransformer):
     def barcode_to_aliquot_id(self, barcode):
         """ create ccle sample barcode """
         global BIOSAMPLE_CONVERSION_TABLE
+        global MISSING_CELL_LINES
         ccle_name_from_path = self.current_path.split('/')[-2]
         ccle_name_from_path = ccle_name_from_path.replace('_vs_NORMAL', '')
-        return BIOSAMPLE_CONVERSION_TABLE[ccle_name_from_path]
+        if ccle_name_from_path in BIOSAMPLE_CONVERSION_TABLE:
+            return BIOSAMPLE_CONVERSION_TABLE[ccle_name_from_path]
+        else:
+            aliquot_id = MISSING_CELL_LINES.get(ccle_name_from_path, None)
+            if not aliquot_id:
+                aliquot_id = ccle_name_from_path
+                MISSING_CELL_LINES[aliquot_id] = aliquot_id
+            return aliquot_id
 
     def callset_maker(self, allele, source, centerCol, method, line):
         """ create callset from line """
@@ -83,27 +92,71 @@ class CCLE_MAFTransformer(MAFTransformer):
         return AlleleCall(**info)
 
 
-def transform(mafpath, ccle_biosample_path, emitter_directory):
+def transform(mafpath, ccle_biosample_path, emitter_directory="ccle", emitter_prefix="maf"):
     """ entry point """
 
     # ensure that we have a lookup from CCLE native barcode to gdc derived uuid
     global BIOSAMPLE_CONVERSION_TABLE
+    global MISSING_CELL_LINES
     with reader(ccle_biosample_path) as f:
         for line in f:
             biosample = json.loads(line)
             BIOSAMPLE_CONVERSION_TABLE[biosample['data']['ccle_attributes']['CCLE_Name']] = biosample['data']['biosample_id']
     transformer = CCLE_MAFTransformer()
-    emitter = new_emitter(name="json", directory=emitter_directory)
+    emitter = new_emitter(name="json", directory=emitter_directory, prefix=emitter_prefix)
     for f in glob(mafpath):
         transformer.maf_convert(
             skip=1,
             emitter=emitter,
             mafpath=f,
             source="ccle")
+
+    # render missing cell lines
+    individual_gids = project_gids = []
+    for ccle_id, aliquot_id in MISSING_CELL_LINES.items():
+        b = Biosample(aliquot_id)
+        emitter.emit_vertex(b)
+
+        a = Aliquot(aliquot_id=aliquot_id)
+        emitter.emit_vertex(a)
+        emitter.emit_edge(
+            AliquotFor(),
+            a.gid(),
+            b.gid(),
+        )
+
+        i = Individual(individual_id='CCLE:{}'.format(aliquot_id))
+        if i.gid() not in individual_gids:
+            emitter.emit_vertex(i)
+            individual_gids.append(i.gid())
+        emitter.emit_edge(
+            BiosampleFor(),
+            b.gid(),
+            i.gid(),
+        )
+
+        # first see if we have wholesale name changes
+        project_id = ccle_id
+        # strip off prefix
+        name_parts = project_id.split('_')
+        name_start = 1
+        if len(name_parts) == 1:
+            name_start = 0
+        project_id = '_'.join(name_parts[name_start:])
+        # create project
+        p = Project(project_id='CCLE:{}'.format(project_id))
+        if p.gid() not in project_gids:
+            emitter.emit_vertex(p)
+            project_gids.append(p.gid())
+        emitter.emit_edge(
+            InProject(),
+            i.gid(),
+            p.gid(),
+        )
+
     emitter.close()
 
 
 if __name__ == '__main__':  # pragma: no cover
-    transform("source/ccle/mafs/*/vep.maf",
-              "outputs/ccle/Biosample.Vertex.json.gz",
-              "ccle")
+    transform(mafpath="source/ccle/mafs/*/vep.maf",
+              ccle_biosample_path="outputs/ccle/Biosample.Vertex.json.gz")
