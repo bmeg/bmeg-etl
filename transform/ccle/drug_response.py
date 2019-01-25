@@ -6,8 +6,8 @@ from types import SimpleNamespace as SN
 
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import DrugResponse, Aliquot  # , Biosample, Individual, Project
-from bmeg.edge import ResponseIn, ResponseTo  # , AliquotFor, BiosampleFor, InProject
+from bmeg.vertex import DrugResponse, Aliquot, Biosample, Individual, Project
+from bmeg.edge import ResponseIn, ResponseTo, AliquotFor, BiosampleFor, InProject
 from bmeg.enrichers.drug_enricher import compound_factory
 
 
@@ -54,6 +54,7 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json*',
     floats = ['amax', 'act_area', 'ec50', 'ic50', 'num_data']
     compound_gids = []
     # read the drug response csv
+    missing_cell_lines = {}
     for line in input_stream:
         # map the names to snake case
         mline = {"source": "CCLE"}
@@ -72,15 +73,22 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json*',
                 mline[v] = line[k]
         drug_response = SN(**mline)
 
-        sample_id = drug_response.sample_id
+        # if no match, we will need to create project->individual->biosample->aliquot
+        if drug_response.sample_id in samples:
+            drug_response.sample_id = samples[drug_response.sample_id]
+        else:
+            sample_id = missing_cell_lines.get(drug_response.sample_id, None)
+            if not sample_id:
+                missing_cell_lines[drug_response.sample_id] = drug_response.sample_id
+
         # create drug_response vertex
-        pharmacalogical_profile = DrugResponse(**drug_response.__dict__)
-        emitter.emit_vertex(pharmacalogical_profile)
+        drug_resp = DrugResponse(**drug_response.__dict__)
+        emitter.emit_vertex(drug_resp)
         #  and edge to aliquot
         emitter.emit_edge(
             ResponseIn(),
-            pharmacalogical_profile.gid(),
-            Aliquot.make_gid(sample_id),
+            drug_resp.gid(),
+            Aliquot.make_gid(drug_response.sample_id),
         )
         # create compound
         compound = compound_factory(name=drug_response.compound_id)
@@ -90,11 +98,10 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json*',
         # and an edge to it
         emitter.emit_edge(
             ResponseTo(),
-            pharmacalogical_profile.gid(),
+            drug_resp.gid(),
             compound.gid(),
         )
 
-    """
     # create any missing vertexes
     individual_gids = project_gids = []
     for ccle_id in missing_cell_lines:
@@ -134,7 +141,6 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json*',
             i.gid(),
             p.gid(),
         )
-    """
 
     emitter.close()
 
