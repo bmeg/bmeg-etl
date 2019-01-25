@@ -15,19 +15,19 @@ PROJECT_CORRECTIONS = {
 }
 
 
-def transform(path="source/ccle/DepMap-2018q3-celllines.csv",
+def transform(path="source/ccle/DepMap-2018q4-celllines.csv",
               prefix="ccle"):
-    emitter = JSONEmitter(prefix)
+    emitter = JSONEmitter(directory=prefix)
     reader = bmeg.ioutils.read_csv(path)
 
     # Load sample metadata.
     individual_gids = []
     project_gids = []
     phenotype_gids = []
-    # Broad_ID,CCLE_Name,Aliases,COSMIC_ID,Sanger ID,Primary Disease,Subtype Disease,Gender,Source
-    # ACH-000557,AML193_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE,AML-193,,,Leukemia,,Female,ATCC
+    # DepMap_ID,CCLE_Name,Aliases,COSMIC_ID,Sanger ID,Primary Disease,Subtype Disease,Gender,Source
+    # ACH-000001,NIHOVCAR3_OVARY,NIH:OVCAR-3;OVCAR3,905933,2201,Ovarian Cancer,"Adenocarcinoma, high grade serous",Female,ATCC
     for row in reader:
-        sample_id = row["Broad_ID"]
+        sample_id = row["DepMap_ID"]
         b = Biosample(sample_id, ccle_attributes=row)
         emitter.emit_vertex(b)
 

@@ -188,10 +188,10 @@ dvc run --file source.ccle.mafs.dvc --yes \
   -o source/ccle/mafs \
   " ./tools/run_vcfdir2maf.sh source/ccle/vcfs source/ccle/mafs"
 #
-dvc run --file source.ccle.DepMap-2018q3-celllines.csv.dvc --yes \
+dvc run --file source.ccle.DepMap-2018q4-celllines.csv.dvc --yes \
   -d source/ccle/version.txt \
-  -o source/ccle/DepMap-2018q3-celllines.csv \
-  "wget https://depmap.org/portal/download/api/download/external?file_name=processed_portal_downloads%2Fdepmap-public-2018q3-cell-line-metadata-0bd2.2%2FDepMap-2018q3-celllines.csv -O source/ccle/DepMap-2018q3-celllines.csv"
+  -o source/ccle/DepMap-2018q4-celllines.csv \
+  "wget https://depmap.org/portal/download/api/download/external?file_name=processed_portal_downloads%2Fdepmap-public-cell-line-metadata-183e.1%2FDepMap-2018q4-celllines.csv -O source/ccle/DepMap-2018q4-celllines.csv"
 #
 dvc run --file source.ccle.CCLE_tpm.tsv.gz.dvc --yes \
   -d source/ccle/version.txt \
@@ -2221,11 +2221,19 @@ dvc run --file outputs.ccle.maf.dvc --yes \
   -d source/ccle/mafs/PACADD161_PANCREAS_vs_NORMAL/vep.maf \
   -d source/ccle/mafs/COLO201_LARGE_INTESTINE_vs_NORMAL/vep.maf \
   -d source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
-  -o outputs/ccle/Allele.Vertex.json.gz \
-  -o outputs/ccle/AlleleCall.Edge.json.gz \
-  -o outputs/ccle/AlleleIn.Edge.json.gz \
-  -o outputs/ccle/Callset.Vertex.json.gz \
-  -o outputs/ccle/CallsetFor.Edge.json.gz \
+  -o outputs/ccle/maf.Allele.Vertex.json.gz \
+  -o outputs/ccle/maf.AlleleCall.Edge.json.gz \
+  -o outputs/ccle/maf.AlleleIn.Edge.json.gz \
+  -o outputs/ccle/maf.Callset.Vertex.json.gz \
+  -o outputs/ccle/maf.CallsetFor.Edge.json.gz \
+  -o outputs/ccle/maf.AliquotFor.Edge.json.gz \
+  -o outputs/ccle/maf.Aliquot.Vertex.json.gz \
+  -o outputs/ccle/maf.BiosampleFor.Edge.json.gz \
+  -o outputs/ccle/maf.Biosample.Vertex.json.gz \
+  -o outputs/ccle/maf.Deadletter.Vertex.json.gz \
+  -o outputs/ccle/maf.Individual.Vertex.json.gz \
+  -o outputs/ccle/maf.InProject.Edge.json.gz \
+  -o outputs/ccle/maf.Project.Vertex.json.gz \
   "transform/ccle/ccle_maf_transform.sh"
 #
 dvc run --file outputs.ccle.expression_tatlow.dvc --yes \
@@ -2250,7 +2258,7 @@ dvc run --file outputs.ccle.expression.dvc --yes \
   "python3 transform/ccle/expression.py"
 #
 dvc run --file outputs.ccle.dvc --yes \
-  -d source/ccle/DepMap-2018q3-celllines.csv \
+  -d source/ccle/DepMap-2018q4-celllines.csv \
   -o outputs/ccle/Aliquot.Vertex.json.gz \
   -o outputs/ccle/AliquotFor.Edge.json.gz \
   -o outputs/ccle/Biosample.Vertex.json.gz \
@@ -2281,7 +2289,6 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/allele/Allele.Vertex.json.gz \
   -d outputs/ccle/Aliquot.Vertex.json.gz \
   -d outputs/ccle/Biosample.Vertex.json.gz \
-  -d outputs/ccle/Callset.Vertex.json.gz \
   -d outputs/ccle/drug_response.Aliquot.Vertex.json.gz \
   -d outputs/ccle/drug_response.Biosample.Vertex.json.gz \
   -d outputs/ccle/drug_response.DrugResponse.Vertex.json.gz \
@@ -2289,6 +2296,12 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/ccle/drug_response.Project.Vertex.json.gz \
   -d outputs/ccle/GeneExpression.Vertex.json.gz \
   -d outputs/ccle/Individual.Vertex.json.gz \
+  -d outputs/ccle/maf.Aliquot.Vertex.json.gz \
+  -d outputs/ccle/maf.Biosample.Vertex.json.gz \
+  -d outputs/ccle/maf.Callset.Vertex.json.gz \
+  -d outputs/ccle/maf.Deadletter.Vertex.json.gz \
+  -d outputs/ccle/maf.Individual.Vertex.json.gz \
+  -d outputs/ccle/maf.Project.Vertex.json.gz \
   -d outputs/ccle/Phenotype.Vertex.json.gz \
   -d outputs/ccle/Project.Vertex.json.gz \
   -d outputs/ccle/tatlow.Aliquot.Vertex.json.gz \
@@ -2430,16 +2443,19 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/tcga/UVM.GeneExpression.Vertex.json.gz \
   -d outputs/tcga/UVM.TranscriptExpression.Vertex.json.gz \
   -d outputs/ccle/AliquotFor.Edge.json.gz \
-  -d outputs/ccle/AlleleCall.Edge.json.gz \
-  -d outputs/ccle/AlleleIn.Edge.json.gz \
   -d outputs/ccle/BiosampleFor.Edge.json.gz \
-  -d outputs/ccle/CallsetFor.Edge.json.gz \
   -d outputs/ccle/drug_response.AliquotFor.Edge.json.gz \
   -d outputs/ccle/drug_response.BiosampleFor.Edge.json.gz \
   -d outputs/ccle/drug_response.InProject.Edge.json.gz \
   -d outputs/ccle/drug_response.ResponseIn.Edge.json.gz \
   -d outputs/ccle/GeneExpressionOf.Edge.json.gz \
   -d outputs/ccle/InProject.Edge.json.gz \
+  -d outputs/ccle/maf.AliquotFor.Edge.json.gz \
+  -d outputs/ccle/maf.AlleleCall.Edge.json.gz \
+  -d outputs/ccle/maf.AlleleIn.Edge.json.gz \
+  -d outputs/ccle/maf.BiosampleFor.Edge.json.gz \
+  -d outputs/ccle/maf.CallsetFor.Edge.json.gz \
+  -d outputs/ccle/maf.InProject.Edge.json.gz \
   -d outputs/ccle/PhenotypeOf.Edge.json.gz \
   -d outputs/ccle/tatlow.AliquotFor.Edge.json.gz \
   -d outputs/ccle/tatlow.BiosampleFor.Edge.json.gz \
@@ -2585,7 +2601,7 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   "python3 transform/dvc/bmeg_file_manifest.py"
 #
 dvc run --file outputs.allele.dvc --yes \
-  -d outputs/ccle/Allele.Vertex.json.gz \
+  -d outputs/ccle/maf.Allele.Vertex.json.gz \
   -d outputs/g2p/Allele.Vertex.json.gz \
   -d outputs/mc3/Allele.Vertex.json.gz \
   -o outputs/allele/Allele.Vertex.json.gz \

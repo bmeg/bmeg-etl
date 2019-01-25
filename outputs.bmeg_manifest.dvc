@@ -1,13 +1,11 @@
 cmd: python3 transform/dvc/bmeg_file_manifest.py
 deps:
-- md5: d5e8df3ca1f44aae9690fcaaec39c747
+- md5: a92d500251f95dc98b4d15a5b05c443e
   path: outputs/allele/Allele.Vertex.json.gz
-- md5: 561324844c53077551083b941982728c
+- md5: 9499f47f8cc33c79cf48c1799776905e
   path: outputs/ccle/Aliquot.Vertex.json.gz
-- md5: 9ccf83393276d56191a88c3d54ef6a5d
+- md5: 42322cba51e626d48b89369540a8d665
   path: outputs/ccle/Biosample.Vertex.json.gz
-- md5: 9530c1bd19ec1f0207a0bcec1e5a63fb
-  path: outputs/ccle/Callset.Vertex.json.gz
 - md5: 1a9b12a4fad57cba63e419535a20f898
   path: outputs/ccle/drug_response.Aliquot.Vertex.json.gz
 - md5: 037582d17719f309d881f945784b95e0
@@ -20,11 +18,23 @@ deps:
   path: outputs/ccle/drug_response.Project.Vertex.json.gz
 - md5: 3abe364ab43fcd13097f5fee88c5977a
   path: outputs/ccle/GeneExpression.Vertex.json.gz
-- md5: 035c9602cfa22fa60954175beba44dc4
+- md5: aab978643a46c0f7b24e2619ea07d458
   path: outputs/ccle/Individual.Vertex.json.gz
-- md5: 981503cd52ba41f16ab85fcf716b1bee
+- md5: d1fef0e9cda71a3cecfe93ecbfef9730
+  path: outputs/ccle/maf.Aliquot.Vertex.json.gz
+- md5: 7c7c7d376640ca4eea97d0c4db2d528a
+  path: outputs/ccle/maf.Biosample.Vertex.json.gz
+- md5: dba859df2702220ac5106ca852e1a6b3
+  path: outputs/ccle/maf.Callset.Vertex.json.gz
+- md5: 31860168a855a6f1dabcb6aa106c39d6
+  path: outputs/ccle/maf.Deadletter.Vertex.json.gz
+- md5: c64424c59f462458f39cb12e64d0497f
+  path: outputs/ccle/maf.Individual.Vertex.json.gz
+- md5: 4e7ac428a557de3488eee6597fdedf08
+  path: outputs/ccle/maf.Project.Vertex.json.gz
+- md5: bcb95cf6dfdb04448f15af60072c5d80
   path: outputs/ccle/Phenotype.Vertex.json.gz
-- md5: 8b4407d6a9450a49b782b63141f08f42
+- md5: 85845fa1f1346836e5a79bcc77a65d70
   path: outputs/ccle/Project.Vertex.json.gz
 - md5: 121138fde45d9a79c07b457ede3e0bed
   path: outputs/ccle/tatlow.Aliquot.Vertex.json.gz
@@ -302,16 +312,10 @@ deps:
   path: outputs/tcga/UVM.GeneExpression.Vertex.json.gz
 - md5: 7152a729d53c23c8499ef38b74a8028f
   path: outputs/tcga/UVM.TranscriptExpression.Vertex.json.gz
-- md5: 801a6ec57b66194d5270cc0fb901a243
+- md5: 56bb1d63ab4ec69e5de17bbcfd88c90b
   path: outputs/ccle/AliquotFor.Edge.json.gz
-- md5: 63db8a4b460f6ef4bbf5d9dac3904745
-  path: outputs/ccle/AlleleCall.Edge.json.gz
-- md5: 49a8b1bff65826bae5f3d376a027c164
-  path: outputs/ccle/AlleleIn.Edge.json.gz
-- md5: 548ea9afe67678a2fd1ba618476715a2
+- md5: e2e89f9fb2eaac4444c564ed3e9c9d1f
   path: outputs/ccle/BiosampleFor.Edge.json.gz
-- md5: c296405b4e63f2e1abde3f6156ca8249
-  path: outputs/ccle/CallsetFor.Edge.json.gz
 - md5: 6faeea72ca0d901e91e2d1bd303fc43f
   path: outputs/ccle/drug_response.AliquotFor.Edge.json.gz
 - md5: 542f7c424bce9be0690b6e6d0da20b38
@@ -322,9 +326,21 @@ deps:
   path: outputs/ccle/drug_response.ResponseIn.Edge.json.gz
 - md5: 7b853de110174e0bde81dd70588d504f
   path: outputs/ccle/GeneExpressionOf.Edge.json.gz
-- md5: 2496362e88b12d1c014c76142b9d88ac
+- md5: 9fdd89041b93a6ec0eae0dcd62c3a175
   path: outputs/ccle/InProject.Edge.json.gz
-- md5: f90311eb69fe6574396bdca36c33cfb1
+- md5: 9dda5c69588ef0d3df915ce01723cfa1
+  path: outputs/ccle/maf.AliquotFor.Edge.json.gz
+- md5: f23896444096b3b6062997a9349d5231
+  path: outputs/ccle/maf.AlleleCall.Edge.json.gz
+- md5: 2960a8d45957614d277ad5d06e45a715
+  path: outputs/ccle/maf.AlleleIn.Edge.json.gz
+- md5: ec4d3dae48334663e3f95c93c3cd637c
+  path: outputs/ccle/maf.BiosampleFor.Edge.json.gz
+- md5: 3f6be8bfe5366e1021e46103ea8e7552
+  path: outputs/ccle/maf.CallsetFor.Edge.json.gz
+- md5: 6b44133c24f0d08865b32abb99b2ba94
+  path: outputs/ccle/maf.InProject.Edge.json.gz
+- md5: 88c6a6095ecc42a2974e5181568bd401
   path: outputs/ccle/PhenotypeOf.Edge.json.gz
 - md5: a7c6b0eb0e03bea9573f2e0928f7c061
   path: outputs/ccle/tatlow.AliquotFor.Edge.json.gz
@@ -608,4 +624,4 @@ deps:
   path: outputs/tcga/UVM.GeneExpressionOf.Edge.json.gz
 - md5: 9b65fee3ef320a61e678417c8eedb400
   path: outputs/tcga/UVM.TranscriptExpressionOf.Edge.json.gz
-md5: 121ad9998ede57a1c676ea4c94d9d80d
+md5: 87ac9870cad6ab681ac72c95bf7f5955

@@ -169,7 +169,6 @@ outputs/compound/normalized.HasEnvironment.Edge.json.gz
 outputs/compound/normalized.ResponseTo.Edge.json.gz
 outputs/compound/normalized.TreatedWith.Edge.json.gz
 outputs/ctrp/ResponseIn.Edge.json.gz
-outputs/ctrp/ResponseTo.Edge.json.gz
 outputs/ensembl/ExonFor.Edge.json.gz
 outputs/ensembl-protein/PFAMAlignment.Edge.json.gz
 outputs/ensembl-protein/ProteinFor.Edge.json.gz
