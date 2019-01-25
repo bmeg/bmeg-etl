@@ -6,12 +6,13 @@ from transform.ccle.samples import transform
 from bmeg.vertex import Biosample, Aliquot, Individual, Project, Phenotype
 
 EXPECTED_PROJECT_GIDS = [
-    "Project:CCLE:HAEMATOPOIETIC_AND_LYMPHOID_TISSUE",
-    "Project:CCLE:CENTRAL_NERVOUS_SYSTEM",
+    "Project:CCLE:SOFT_TISSUE",
     "Project:CCLE:PROSTATE",
-    "Project:CCLE:STOMACH",
-    "Project:CCLE:URINARY_TRACT",
-    "Project:CCLE:SKIN"
+    "Project:CCLE:KIDNEY",
+    "Project:CCLE:ENDOMETRIUM",
+    "Project:CCLE:THYROID",
+    "Project:CCLE:FIBROBLAST",
+    "Project:CCLE:LUNG"
 ]
 
 
@@ -24,7 +25,7 @@ def emitter_path_prefix(request):
 @pytest.fixture
 def sample_info_file(request):
     """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'source/ccle/DepMap-2018q3-celllines.csv')
+    return os.path.join(request.fspath.dirname, 'source/ccle/DepMap-2018q4-celllines.csv')
 
 
 def validate(helpers, emitter_path_prefix, sample_info_file):
