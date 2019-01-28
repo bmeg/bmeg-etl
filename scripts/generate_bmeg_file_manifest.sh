@@ -10,6 +10,7 @@ EXCEPTIONS=(
 		"outputs/ccle/maf.Allele.Vertex.json.gz"
 		"outputs/ccle/drug_response.Compound.Vertex.json.gz"
 		"outputs/ccle/drug_response.ResponseTo.Edge.json.gz"
+		"outputs/ctrp/Compound.Vertex.json.gz"
 		"outputs/ctrp/ResponseTo.Edge.json.gz"
 		"outputs/g2p/Allele.Vertex.json.gz"
 		"outputs/g2p/Compound.Vertex.json.gz"
@@ -27,7 +28,7 @@ EXCEPTIONS=(
 
 echo "generating DVC command..."
 
-DVC_CMD="dvc run --file outputs.bmeg_manifest.dvc --yes "
+DVC_CMD="dvc run --file outputs.bmeg_manifest.dvc --yes --ignore-build-cache"
 
 for f in ${FILES[@]}; do
 		if [[ ! " ${EXCEPTIONS[@]} " =~ " ${f} " ]]; then

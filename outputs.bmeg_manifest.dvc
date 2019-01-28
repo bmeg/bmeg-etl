@@ -46,7 +46,7 @@ deps:
   path: outputs/ccle/tatlow.Project.Vertex.json.gz
 - md5: 65af28f3951325352319bc8bb2428fb7
   path: outputs/ccle/tatlow.TranscriptExpression.Vertex.json.gz
-- md5: 058d5b05cbd43bad927a90b9ff253005
+- md5: d4568248a7cecbf7e6b6f95989988cc1
   path: outputs/compound/normalized.Compound.Vertex.json.gz
 - md5: 921f5d192a1ca8c52d4c148dd7ccedf0
   path: outputs/ctrp/DrugResponse.Vertex.json.gz
@@ -350,11 +350,11 @@ deps:
   path: outputs/ccle/tatlow.InProject.Edge.json.gz
 - md5: e289f5e82034fe10acfe43116711a42c
   path: outputs/ccle/tatlow.TranscriptExpressionOf.Edge.json.gz
-- md5: 221374092af560edd88cb2d6b247dae4
+- md5: 1f912ccbeda577d79a3660b6acb33907
   path: outputs/compound/normalized.HasEnvironment.Edge.json.gz
-- md5: e0e0f375a711ab49003451c0edad2c5f
+- md5: 38c36c99b6265c2f606039dd6890da99
   path: outputs/compound/normalized.ResponseTo.Edge.json.gz
-- md5: de1eae6065a8760ae9273ef296f18231
+- md5: be318ccdfd78acc6d0d873f44860d0e4
   path: outputs/compound/normalized.TreatedWith.Edge.json.gz
 - md5: c5a9414e83de403c7a4a1fb5e18563ed
   path: outputs/ctrp/ResponseIn.Edge.json.gz
@@ -624,4 +624,4 @@ deps:
   path: outputs/tcga/UVM.GeneExpressionOf.Edge.json.gz
 - md5: 9b65fee3ef320a61e678417c8eedb400
   path: outputs/tcga/UVM.TranscriptExpressionOf.Edge.json.gz
-md5: 87ac9870cad6ab681ac72c95bf7f5955
+md5: 4cec5af5660f574b5e1c216db7383667

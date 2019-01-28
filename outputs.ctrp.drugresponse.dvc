@@ -2,8 +2,11 @@ cmd: ./transform/ctrp/run-ctrp-convert.sh
 deps:
 - md5: 958de018822ff698aa3371aad206115b
   path: source/ctrp/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
-md5: ed23bfb7c25c95c43891e3acd2eb1898
+md5: 004db9c3569537d0a43fad79c49cf419
 outs:
+- cache: true
+  md5: 61d4237a9a2ed74cc684c2b417c7144f
+  path: outputs/ctrp/Compound.Vertex.json.gz
 - cache: true
   md5: 921f5d192a1ca8c52d4c148dd7ccedf0
   path: outputs/ctrp/DrugResponse.Vertex.json.gz
