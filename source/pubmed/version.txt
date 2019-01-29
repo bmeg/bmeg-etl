@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 0.0
+=======
+Fri Jan 25 11:56:15 PST 2019
+>>>>>>> 1396b28... Adding in some config files
