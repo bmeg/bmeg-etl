@@ -628,6 +628,7 @@ dvc run --file outputs.ensembl.dvc --yes \
 #
 dvc run --file outputs.ctrp.drugresponse.dvc --yes \
   -d source/ctrp/CTRPv2.0_2015_ctd2_ExpandedDataset.zip \
+  -o outputs/ctrp/Compound.Vertex.json.gz \
   -o outputs/ctrp/DrugResponse.Vertex.json.gz \
   -o outputs/ctrp/ResponseIn.Edge.json.gz \
   -o outputs/ctrp/ResponseTo.Edge.json.gz \
@@ -638,10 +639,11 @@ dvc run --file outputs.compound.normalized.dvc --yes \
   -d outputs/g2p/Compound.Vertex.json.gz \
   -d outputs/gdc/Compound.Vertex.json.gz \
   -d outputs/gdsc/gdsc.Compound.Vertex.json.gz \
-  -d outputs/g2p/HasEnvironment.Edge.json.gz \
+  -d outputs/ctrp/Compound.Vertex.json.gz \
   -d outputs/ccle/drug_response.ResponseTo.Edge.json.gz \
   -d outputs/ctrp/ResponseTo.Edge.json.gz \
   -d outputs/gdsc/gdsc.ResponseTo.Edge.json.gz \
+  -d outputs/g2p/HasEnvironment.Edge.json.gz \
   -d outputs/gdc/TreatedWith.Edge.json.gz \
   -o outputs/compound/normalized.Compound.Vertex.json.gz \
   -o outputs/compound/normalized.HasEnvironment.Edge.json.gz \
