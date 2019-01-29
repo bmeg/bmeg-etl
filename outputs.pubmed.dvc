@@ -1,0 +1,9 @@
+cmd: ' ./transform/pubmed/pubmed.py -o pubmed --scan source/pubmed/baseline/'
+deps:
+- md5: cd7f54a498d233fdf2710af816ca06b7.dir
+  path: source/pubmed/baseline
+md5: 447dd9d7edd1f062f9bc614dde29e293
+outs:
+- cache: true
+  md5: 6921a0ee5d27e436b582fc3a0b232338.dir
+  path: outputs/pubmed
