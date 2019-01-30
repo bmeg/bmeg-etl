@@ -122,7 +122,7 @@ class Gene(Vertex):
     @classmethod
     def make_gid(cls, gene_id):
         if not gene_id.startswith("ENSG"):
-            raise ValueError("not an emsembl gene id {}".format(gene_id))
+            raise ValueError("not an emsembl gene id: {}".format(gene_id))
         if gene_id.count(".") != 0:
             raise ValueError("version numbers not allowed")
         return GID("%s" % (gene_id))
@@ -146,7 +146,7 @@ class Transcript(Vertex):
     @classmethod
     def make_gid(cls, transcript_id):
         if not transcript_id.startswith("ENST"):
-            raise ValueError("not an emsembl transcript id")
+            raise ValueError("not an emsembl transcript id: {}".format(transcript_id))
         if transcript_id.count(".") != 0:
             raise ValueError("version numbers not allowed")
         return GID("%s" % (transcript_id))
@@ -169,7 +169,7 @@ class Exon(Vertex):
     @classmethod
     def make_gid(cls, exon_id):
         if not exon_id.startswith("ENSE"):
-            raise ValueError("not an emsembl exon id")
+            raise ValueError("not an emsembl exon id: {}".format(exon_id))
         if exon_id.count(".") != 0:
             raise ValueError("version numbers not allowed: %s" % (exon_id))
         return GID("%s" % (exon_id))
@@ -180,6 +180,8 @@ class Exon(Vertex):
 class Protein(Vertex):
     protein_id: str
     transcript_id: str
+    genome: str
+    uniprot_id: Union[None, str] = None
 
     def gid(self):
         return Protein.make_gid(self.protein_id)
@@ -187,7 +189,7 @@ class Protein(Vertex):
     @classmethod
     def make_gid(cls, protein_id):
         if not protein_id.startswith("ENSP"):
-            raise ValueError("not an emsembl protein id")
+            raise ValueError("not an emsembl protein id: {}".format(protein_id))
         if protein_id.count(".") != 0:
             raise ValueError("version numbers not allowed")
         return GID("%s" % (protein_id))

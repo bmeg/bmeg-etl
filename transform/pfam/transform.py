@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 from glob import glob
 
 from xml.dom.minidom import parseString

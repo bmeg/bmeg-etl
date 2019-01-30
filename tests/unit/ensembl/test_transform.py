@@ -11,11 +11,18 @@ def gff3_path(request):
 
 
 def test_simple(emitter_directory, gff3_path, helpers):
-    """ get the missing transcripts """
+    exon_file = '{}/Exon.Vertex.json.gz'.format(emitter_directory)
+    exonfor_file = '{}/ExonFor.Edge.json.gz'.format(emitter_directory)
+    transcript_file = '{}/Transcript.Vertex.json.gz'.format(emitter_directory)
+    transcriptfor_file = '{}/TranscriptFor.Edge.json.gz'.format(emitter_directory)
+    gene_file = '{}/Gene.Vertex.json.gz'.format(emitter_directory)
+
     transform(gff3_path=gff3_path, emitter_directory=emitter_directory)
-    transcript_count = helpers.assert_vertex_file_valid(Transcript, '{}/Transcript.Vertex.json.gz'.format(emitter_directory))
-    exon_count = helpers.assert_vertex_file_valid(Exon, '{}/Exon.Vertex.json.gz'.format(emitter_directory))
-    gene_count = helpers.assert_vertex_file_valid(Gene, '{}/Gene.Vertex.json.gz'.format(emitter_directory))
-    assert transcript_count == 211
+
+    exon_count = helpers.assert_vertex_file_valid(Exon, exon_file)
+    transcript_count = helpers.assert_vertex_file_valid(Transcript, transcript_file)
+    gene_count = helpers.assert_vertex_file_valid(Gene, gene_file)
     assert exon_count == 624  # there are 843 entry lines, but 624 unique ids
+    assert transcript_count == 211
     assert gene_count == 81
+    helpers.assert_edge_joins_valid([exon_file, transcript_file, gene_file, exonfor_file, transcriptfor_file])
