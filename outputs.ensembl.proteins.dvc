@@ -1,0 +1,12 @@
+cmd: python3 transform/ensembl/proteins.py
+deps:
+- md5: 020ecb8e355c0999f19c0dbd2ae50756
+  path: source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz
+md5: da52ef4729d583e4240d38cdf50f6b2e
+outs:
+- cache: true
+  md5: 997224f95b00f5067d048c30e7e19005
+  path: outputs/ensembl/Protein.Vertex.json.gz
+- cache: true
+  md5: a027bbdc76dffe92d79dd26f20248e24
+  path: outputs/ensembl/ProteinFor.Edge.json.gz
