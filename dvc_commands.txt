@@ -172,10 +172,14 @@ dvc run --file source.ensembl.Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.g
   -o source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz \
   "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ensembl.org/pub/grch37/release-94/gff3/homo_sapiens/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz --output source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz"
 #
-dvc run --file source.ctrp.zip.dvc --yes \
+dvc run --file source.ctrp.dvc --yes \
   -d source/ctrp/version.txt \
-  -o source/ctrp/CTRPv2.0_2015_ctd2_ExpandedDataset.zip \
-  " curl -o source/ctrp/CTRPv2.0_2015_ctd2_ExpandedDataset.zip ftp://anonymous:guest@caftpd.nci.nih.gov/pub/OCG-DCC/CTD2/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/CTRPv2.0_2015_ctd2_ExpandedDataset.zip"
+  -o source/ctrp/v20.meta.per_compound.txt \
+  -o source/ctrp/v20.meta.per_cell_line.txt \
+  -o source/ctrp/v20.data.curves_post_qc.txt \
+  -o source/ctrp/v20.meta.per_experiment.txt \
+  -o source/ctrp/v20.data.per_cpd_post_qc.txt \
+  "curl -o source/ctrp/CTRPv2.0_2015_ctd2_ExpandedDataset.zip ftp://anonymous:guest@caftpd.nci.nih.gov/pub/OCG-DCC/CTD2/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/CTRPv2.0_2015_ctd2_ExpandedDataset.zip && unzip -d source/ctrp/ source/ctrp/CTRPv2.0_2015_ctd2_ExpandedDataset.zip && rm source/ctrp/CTRPv2.0_2015_ctd2_ExpandedDataset.zip"
 #
 dvc run --file source.ccle.vcfs.dvc --yes \
   -d source/ccle/CCLE_DepMap_18q3_maf_20180718.txt \
@@ -627,12 +631,23 @@ dvc run --file outputs.ensembl.dvc --yes \
   "python3 transform/ensembl/transform.py"
 #
 dvc run --file outputs.ctrp.drugresponse.dvc --yes \
-  -d source/ctrp/CTRPv2.0_2015_ctd2_ExpandedDataset.zip \
-  -o outputs/ctrp/Compound.Vertex.json.gz \
-  -o outputs/ctrp/DrugResponse.Vertex.json.gz \
-  -o outputs/ctrp/ResponseIn.Edge.json.gz \
-  -o outputs/ctrp/ResponseTo.Edge.json.gz \
-  "./transform/ctrp/run-ctrp-convert.sh"
+  -d source/ctrp/v20.meta.per_compound.txt \
+  -d source/ctrp/v20.meta.per_cell_line.txt \
+  -d source/ctrp/v20.data.curves_post_qc.txt \
+  -d source/ctrp/v20.meta.per_experiment.txt \
+  -d source/ctrp/v20.data.per_cpd_post_qc.txt \
+  -o outputs/ctrp/ctrp.Compound.Vertex.json.gz \
+  -o outputs/ctrp/ctrp.DrugResponse.Vertex.json.gz \
+  -o outputs/ctrp/ctrp.ResponseIn.Edge.json.gz \
+  -o outputs/ctrp/ctrp.ResponseTo.Edge.json.gz \
+  -o outputs/ctrp/ctrp.AliquotFor.Edge.json.gz \
+  -o outputs/ctrp/ctrp.Aliquot.Vertex.json.gz \
+  -o outputs/ctrp/ctrp.BiosampleFor.Edge.json.gz \
+  -o outputs/ctrp/ctrp.Biosample.Vertex.json.gz \
+  -o outputs/ctrp/ctrp.Individual.Vertex.json.gz \
+  -o outputs/ctrp/ctrp.InProject.Edge.json.gz \
+  -o outputs/ctrp/ctrp.Project.Vertex.json.gz \
+  "python ./transform/ctrp/transform.py"
 #
 dvc run --file outputs.compound.normalized.dvc --yes \
   -d outputs/ccle/drug_response.Compound.Vertex.json.gz \
@@ -2312,7 +2327,11 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/ccle/tatlow.Project.Vertex.json.gz \
   -d outputs/ccle/tatlow.TranscriptExpression.Vertex.json.gz \
   -d outputs/compound/normalized.Compound.Vertex.json.gz \
-  -d outputs/ctrp/DrugResponse.Vertex.json.gz \
+  -d outputs/ctrp/ctrp.Aliquot.Vertex.json.gz \
+  -d outputs/ctrp/ctrp.Biosample.Vertex.json.gz \
+  -d outputs/ctrp/ctrp.DrugResponse.Vertex.json.gz \
+  -d outputs/ctrp/ctrp.Individual.Vertex.json.gz \
+  -d outputs/ctrp/ctrp.Project.Vertex.json.gz \
   -d outputs/ensembl/Exon.Vertex.json.gz \
   -d outputs/ensembl/Gene.Vertex.json.gz \
   -d outputs/ensembl/missing.Transcript.Vertex.json.gz \
@@ -2466,7 +2485,10 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/compound/normalized.HasEnvironment.Edge.json.gz \
   -d outputs/compound/normalized.ResponseTo.Edge.json.gz \
   -d outputs/compound/normalized.TreatedWith.Edge.json.gz \
-  -d outputs/ctrp/ResponseIn.Edge.json.gz \
+  -d outputs/ctrp/ctrp.AliquotFor.Edge.json.gz \
+  -d outputs/ctrp/ctrp.BiosampleFor.Edge.json.gz \
+  -d outputs/ctrp/ctrp.InProject.Edge.json.gz \
+  -d outputs/ctrp/ctrp.ResponseIn.Edge.json.gz \
   -d outputs/ensembl/ExonFor.Edge.json.gz \
   -d outputs/ensembl-protein/PFAMAlignment.Edge.json.gz \
   -d outputs/ensembl-protein/ProteinFor.Edge.json.gz \

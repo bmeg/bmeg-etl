@@ -1,23 +1,19 @@
 from collections import defaultdict
 import csv
-from glob import iglob
 import gzip
-from types import SimpleNamespace as SN
-import ujson
 
-from bmeg.vertex import TranscriptExpression, Aliquot, ExpressionMetric, Biosample, Individual, Project
-from bmeg.edge import TranscriptExpressionOf, AliquotFor, InProject, BiosampleFor
+from bmeg.vertex import TranscriptExpression, Aliquot, ExpressionMetric
+from bmeg.edge import TranscriptExpressionOf
 from bmeg.emitter import JSONEmitter
-import bmeg.ioutils
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
+from bmeg.ccle import build_ccle2depmap_conversion_table, missing_ccle_cellline_factory
 
 
 def transform(source_path,
-              id_map_file="source/tcga/expression/transcript-level/TCGA_ID_MAP.csv",
               emitter_directory="ccle",
               prefix='tatlow',
-              biosample_path='outputs/ccle/Biosample.Vertex.json*'):
+              biosample_path='outputs/ccle/Biosample.Vertex.json.gz'):
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=prefix)
 
@@ -26,32 +22,21 @@ def transform(source_path,
     samples = header[1:]
 
     # lookup table of Broad_ID
-    bio_samples = {}
-    for path in iglob(biosample_path):  # match .json or .json.gz
-        input_stream = bmeg.ioutils.reader(path)
-        for line in input_stream:
-            biosample = SN(**ujson.loads(line))
-            ccle_attributes = SN(**biosample.data['ccle_attributes'])
-            # mangle the lookup keys
-            bio_samples[ccle_attributes.CCLE_Name.lower()] = ccle_attributes.Broad_ID
-            bio_samples[ccle_attributes.CCLE_Name.split('_')[0].lower()] = ccle_attributes.Broad_ID
-            bio_samples[ccle_attributes.Aliases.lower()] = ccle_attributes.Broad_ID
-        break
-    assert len(bio_samples.keys()), 'No biosamples found, does {} exist?'.format(biosample_path)
+    bio_samples = build_ccle2depmap_conversion_table(biosample_path)
 
     # collect expression for all aliquots and transcripts
     collect = defaultdict(dict)
-    missing_cell_lines = {}
+    missing_cell_lines = []
     for row in reader:
         feature_ids = row[0].split("|")
         transcript_id = feature_ids[0]
 
         for cghub_id, raw_expr in zip(samples, row[1:]):
             expr = float(raw_expr)
+            ccle_id = cghub_id.split('.')[1]
             # match to existing biosample/aliquot
             aliquot_id = None
             # mangle the lookup keys
-            ccle_id = cghub_id.split('.')[1]
             keys = [
                 ccle_id,  # G20460.COR-L24.2  -> COR-L24
                 ccle_id.split('_')[0],  # G20460.COR-L24_FOO.2  -> COR-L24
@@ -67,7 +52,7 @@ def transform(source_path,
                 keys.append('TE{}T'.format(ccle_id.split('_')[1]))
             if ccle_id.startswith("TO_"):
                 keys.append('TO{}T'.format(ccle_id.split('_')[1]))
-            keys = [k.lower() for k in keys]
+            keys = [k.upper() for k in keys]
             for k in keys:
                 if k in bio_samples:
                     aliquot_id = bio_samples[k]
@@ -75,11 +60,10 @@ def transform(source_path,
 
             # if no match, we will need to create project->individual->biosample->aliquot
             if not aliquot_id:
-                aliquot_id = missing_cell_lines.get(ccle_id, None)
-                if not aliquot_id:
-                    aliquot_id = ccle_id
-                    missing_cell_lines[ccle_id] = aliquot_id
-            # if we matched, collect it for output
+                aliquot_id = ccle_id
+                if ccle_id not in missing_cell_lines:
+                    missing_cell_lines.append(ccle_id)
+
             collect[aliquot_id][transcript_id] = expr
 
     # render the expression values
@@ -98,48 +82,11 @@ def transform(source_path,
             to_gid=Aliquot.make_gid(aliquot_id)
         )
 
-    # render missing cell lines
-    individual_gids = project_gids = []
-    for ccle_id, aliquot_id in missing_cell_lines.items():
-        b = Biosample(aliquot_id)
-        emitter.emit_vertex(b)
-
-        a = Aliquot(aliquot_id=aliquot_id)
-        emitter.emit_vertex(a)
-        emitter.emit_edge(
-            AliquotFor(),
-            a.gid(),
-            b.gid(),
-        )
-
-        i = Individual(individual_id='CCLE:{}'.format(aliquot_id))
-        if i.gid() not in individual_gids:
-            emitter.emit_vertex(i)
-            individual_gids.append(i.gid())
-        emitter.emit_edge(
-            BiosampleFor(),
-            b.gid(),
-            i.gid(),
-        )
-
-        # first see if we have wholesale name changes
-        project_id = ccle_id
-        # strip off prefix
-        name_parts = project_id.split('_')
-        name_start = 1
-        if len(name_parts) == 1:
-            name_start = 0
-        project_id = '_'.join(name_parts[name_start:])
-        # create project
-        p = Project(project_id='CCLE:{}'.format(project_id))
-        if p.gid() not in project_gids:
-            emitter.emit_vertex(p)
-            project_gids.append(p.gid())
-        emitter.emit_edge(
-            InProject(),
-            i.gid(),
-            p.gid(),
-        )
+    # generate project, individual, biosample, aliquot for missing cell lines
+    missing_ccle_cellline_factory(emitter=emitter,
+                                  source="CCLE",
+                                  missing_ids=missing_cell_lines,
+                                  project_id="CCLE:UNKNOWN")
 
     emitter.close()
 
