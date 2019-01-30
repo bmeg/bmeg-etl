@@ -15,12 +15,10 @@ def transform(protein_table_path='source/ensembl/Homo_sapiens.GRCh37.85.uniprot.
     emitter = JSONEmitter(directory=emitter_directory, prefix=None)
     inhandle = bmeg.ioutils.reader(protein_table_path)
     reader = csv.DictReader(inhandle, delimiter="\t")
+    emitted_proteins = []
     for line in reader:
         transcript_id = line['transcript_stable_id']
         protein_id = line['protein_stable_id']
-        if protein_id == "-":
-            continue
-
         uniprot_id = None
         if line['info_type'] == 'DIRECT':
             uniprot_id = line['xref']
@@ -28,16 +26,18 @@ def transform(protein_table_path='source/ensembl/Homo_sapiens.GRCh37.85.uniprot.
             if line['source_identity'] == 100:
                 uniprot_id = line['xref']
 
-        p = Protein(protein_id=protein_id,
-                    transcript_id=transcript_id,
-                    uniprot_id=uniprot_id,
-                    genome=GENOME_BUILD)
-        emitter.emit_vertex(p)
-        emitter.emit_edge(
-            ProteinFor(),
-            from_gid=p.gid(),
-            to_gid=Transcript.make_gid(transcript_id)
-        )
+        if protein_id != "-" and protein_id not in emitted_proteins:
+            p = Protein(protein_id=protein_id,
+                        transcript_id=transcript_id,
+                        uniprot_id=uniprot_id,
+                        genome=GENOME_BUILD)
+            emitter.emit_vertex(p)
+            emitter.emit_edge(
+                ProteinFor(),
+                from_gid=p.gid(),
+                to_gid=Transcript.make_gid(transcript_id)
+            )
+            emitted_proteins.append(protein_id)
 
     emitter.close()
 

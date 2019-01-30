@@ -1,9 +1,0 @@
-cmd: transform/ensembl-protein/curl-homo_sapien.sh
-deps:
-- md5: 6808ca805661622ad65ae014a4b2a094
-  path: source/ensembl-protein/version.txt
-md5: 40072bc7e94e0b0e3203647b0974e953
-outs:
-- cache: true
-  md5: a716f3864b3883ef8b4a29adebc29533
-  path: source/ensembl-protein/homo_sapiens.json
