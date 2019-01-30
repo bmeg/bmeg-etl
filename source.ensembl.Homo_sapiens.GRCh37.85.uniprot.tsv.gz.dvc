@@ -1,0 +1,11 @@
+cmd: curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry
+  128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ensembl.org/pub/grch37/current/tsv/homo_sapiens/Homo_sapiens.GRCh37.85.uniprot.tsv.gz
+  --output source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/ensembl/version.txt
+md5: 2f1a06283fb93c6412795bac08d91840
+outs:
+- cache: true
+  md5: 020ecb8e355c0999f19c0dbd2ae50756
+  path: source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz

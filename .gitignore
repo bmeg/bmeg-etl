@@ -29,11 +29,11 @@ eggs/
 /outputs
 
 # ignore everything except markdown documents in source
-source/*/*.*
+source/**/*.*
 !source/*/version.txt
-!source/*/*.md
-!source/*/*.dvc
-!source/*/.gitignore
+!source/**/*.md
+!source/**/*.dvc
+!source/**/.gitignore
 !source/phenotype_enricher/disease_alias.tsv
 !source/drug_enricher/drug_alias.tsv
 tests/unit/allele/source/myvariantinfo/sqlite.db
