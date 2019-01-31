@@ -62,8 +62,6 @@ deps:
   path: outputs/ensembl/Exon.Vertex.json.gz
 - md5: c114a0c26f3d62e54982583d49a4dcab
   path: outputs/ensembl/Gene.Vertex.json.gz
-- md5: a4a4b5c4208110cbbf82498a5e37321d
-  path: outputs/ensembl/missing.Transcript.Vertex.json.gz
 - md5: ed6fa2a8857069c293926cd6dc4429e2
   path: outputs/ensembl/Protein.Vertex.json.gz
 - md5: f15b2c80bc2b211220d08c92da11970a
@@ -2582,4 +2580,4 @@ deps:
   path: outputs/tcga/UVM.GeneExpressionOf.Edge.json.gz
 - md5: 9b65fee3ef320a61e678417c8eedb400
   path: outputs/tcga/UVM.TranscriptExpressionOf.Edge.json.gz
-md5: 92ba878803ac602921a5912360d4e8e2
+md5: 568cd074a20a7e87908322375be6a1a3
