@@ -3140,44 +3140,44 @@ deps:
   path: source/ccle/mafs/COLO201_LARGE_INTESTINE_vs_NORMAL/vep.maf
 - md5: a339758e2a8edb9152251c24eaeceadd
   path: source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf
-md5: 390731f4b17c19e6a07570ad2fbb7fe6
+md5: 26af6fa6f77f1bdca6c21d3510badbe1
 outs:
 - cache: true
   md5: a06b8088b3d6a8b54d3deabc364ace81
   path: outputs/ccle/maf.Allele.Vertex.json.gz
 - cache: true
-  md5: f23896444096b3b6062997a9349d5231
+  md5: 0a8fca7e09689f0f20ef696a4e650796
   path: outputs/ccle/maf.AlleleCall.Edge.json.gz
 - cache: true
   md5: 2960a8d45957614d277ad5d06e45a715
   path: outputs/ccle/maf.AlleleIn.Edge.json.gz
 - cache: true
-  md5: dba859df2702220ac5106ca852e1a6b3
+  md5: 7fcc37212c55949285b49404b33d8114
   path: outputs/ccle/maf.Callset.Vertex.json.gz
 - cache: true
-  md5: 3f6be8bfe5366e1021e46103ea8e7552
+  md5: 1a1c04d62e4c696b345e8e0d09051352
   path: outputs/ccle/maf.CallsetFor.Edge.json.gz
 - cache: true
-  md5: 9dda5c69588ef0d3df915ce01723cfa1
+  md5: 13d9e6fe4541d0580844324dd76d3ea8
   path: outputs/ccle/maf.AliquotFor.Edge.json.gz
 - cache: true
-  md5: d1fef0e9cda71a3cecfe93ecbfef9730
+  md5: ba9027c05d1fdcf2577f8b43d9fee85e
   path: outputs/ccle/maf.Aliquot.Vertex.json.gz
 - cache: true
-  md5: ec4d3dae48334663e3f95c93c3cd637c
+  md5: ff30e4a4b291f0fede52453b674190a7
   path: outputs/ccle/maf.BiosampleFor.Edge.json.gz
 - cache: true
-  md5: 7c7c7d376640ca4eea97d0c4db2d528a
+  md5: 57be52164f15c9bbf4f840a1d53b56ec
   path: outputs/ccle/maf.Biosample.Vertex.json.gz
 - cache: true
   md5: 31860168a855a6f1dabcb6aa106c39d6
   path: outputs/ccle/maf.Deadletter.Vertex.json.gz
 - cache: true
-  md5: c64424c59f462458f39cb12e64d0497f
+  md5: a7be4bdf97f7a8854491117e7550b449
   path: outputs/ccle/maf.Individual.Vertex.json.gz
 - cache: true
-  md5: 6b44133c24f0d08865b32abb99b2ba94
+  md5: 41150e9a465ef6eb7acba0b60fe8f669
   path: outputs/ccle/maf.InProject.Edge.json.gz
 - cache: true
-  md5: 4e7ac428a557de3488eee6597fdedf08
+  md5: cc4f61b47a0df8900bc82089b6d1f18a
   path: outputs/ccle/maf.Project.Vertex.json.gz

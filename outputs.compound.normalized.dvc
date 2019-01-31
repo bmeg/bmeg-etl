@@ -8,30 +8,32 @@ deps:
   path: outputs/gdc/Compound.Vertex.json.gz
 - md5: cef2bf0d7f24e6393239983cbc52ee45
   path: outputs/gdsc/gdsc.Compound.Vertex.json.gz
-- md5: cc49d873c4455fc7a8a6f5c4301a38e2
-  path: outputs/g2p/HasEnvironment.Edge.json.gz
-- md5: 36fddbcc2e15c793e8879982d1d43da5
+- md5: 61d4237a9a2ed74cc684c2b417c7144f
+  path: outputs/ctrp/ctrp.Compound.Vertex.json.gz
+- md5: a476f08778c6e13e3017fd790e8f5b4c
   path: outputs/ccle/drug_response.ResponseTo.Edge.json.gz
-- md5: e9492103663601e83d420760462ae94c
-  path: outputs/ctrp/ResponseTo.Edge.json.gz
+- md5: 5440600007b405bbb28d83b5e945926b
+  path: outputs/ctrp/ctrp.ResponseTo.Edge.json.gz
 - md5: ca895b4056bda95d8b7aee6638aa0991
   path: outputs/gdsc/gdsc.ResponseTo.Edge.json.gz
+- md5: cc49d873c4455fc7a8a6f5c4301a38e2
+  path: outputs/g2p/HasEnvironment.Edge.json.gz
 - md5: a95f32b3a9b7abac8896df765e9a7057
   path: outputs/gdc/TreatedWith.Edge.json.gz
-md5: 090a0c446e1860ce9263d8248ca0a7b1
+md5: 3c3a19d3adc2f3627f15d534a9e2383a
 outs:
 - cache: true
-  md5: 058d5b05cbd43bad927a90b9ff253005
+  md5: d4568248a7cecbf7e6b6f95989988cc1
   path: outputs/compound/normalized.Compound.Vertex.json.gz
 - cache: true
-  md5: 221374092af560edd88cb2d6b247dae4
+  md5: 1f912ccbeda577d79a3660b6acb33907
   path: outputs/compound/normalized.HasEnvironment.Edge.json.gz
 - cache: true
-  md5: e0e0f375a711ab49003451c0edad2c5f
+  md5: d9e5fa41843a95da981ad4e3541150e6
   path: outputs/compound/normalized.ResponseTo.Edge.json.gz
 - cache: true
-  md5: de1eae6065a8760ae9273ef296f18231
+  md5: be318ccdfd78acc6d0d873f44860d0e4
   path: outputs/compound/normalized.TreatedWith.Edge.json.gz
 - cache: true
-  md5: a15a5e8e0c3c8006f6d146bab662a9f7
+  md5: 7008b178bfdf0f74034e49ef639daf8d
   path: source/compound/sqlite.db

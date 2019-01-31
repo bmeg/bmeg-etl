@@ -1,14 +1,13 @@
 """ match drug response data to aliquot """
 
-import glob
-import ujson
 from types import SimpleNamespace as SN
 
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import DrugResponse, Aliquot, Biosample, Individual, Project
-from bmeg.edge import ResponseIn, ResponseTo, AliquotFor, BiosampleFor, InProject
+from bmeg.vertex import DrugResponse, Aliquot
+from bmeg.edge import ResponseIn, ResponseTo
 from bmeg.enrichers.drug_enricher import compound_factory
+from bmeg.ccle import build_ccle2depmap_conversion_table, missing_ccle_cellline_factory
 
 
 NAMES = {
@@ -28,33 +27,22 @@ NAMES = {
 }
 
 
-def transform(biosample_path='outputs/ccle/Biosample.Vertex.json*',
+def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
               drug_response_path='source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv',
               emitter_prefix='drug_response',
               emitter_directory="ccle"):
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
-    # lookup table of Broad_ID
-    samples = {}
-    for path in glob.iglob(biosample_path):  # match .json or .json.gz
-        input_stream = bmeg.ioutils.reader(path)
-        for line in input_stream:
-            biosample = SN(**ujson.loads(line))
-            ccle_attributes = SN(**biosample.data['ccle_attributes'])
-            # mangle the lookup keys
-            samples[ccle_attributes.CCLE_Name] = ccle_attributes.Broad_ID
-            samples[ccle_attributes.CCLE_Name.split('_')[0]] = ccle_attributes.Broad_ID
-            samples[ccle_attributes.Aliases] = ccle_attributes.Broad_ID
-        break
-    assert len(samples.keys()), 'No biosamples found, does {} exist?'.format(biosample_path)
+    # lookup table to convert to DepMap_IDs
+    samples = build_ccle2depmap_conversion_table(biosample_path)
 
     # input and map
     input_stream = bmeg.ioutils.read_csv(drug_response_path)
     floats = ['amax', 'act_area', 'ec50', 'ic50', 'num_data']
     compound_gids = []
     # read the drug response csv
-    missing_cell_lines = {}
+    missing_cell_lines = []
     for line in input_stream:
         # map the names to snake case
         mline = {"source": "CCLE"}
@@ -76,10 +64,11 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json*',
         # if no match, we will need to create project->individual->biosample->aliquot
         if drug_response.sample_id in samples:
             drug_response.sample_id = samples[drug_response.sample_id]
+        elif drug_response.sample_id.split("_")[0] in samples:
+            drug_response.sample_id = samples[drug_response.sample_id.split("_")[0]]
         else:
-            sample_id = missing_cell_lines.get(drug_response.sample_id, None)
-            if not sample_id:
-                missing_cell_lines[drug_response.sample_id] = drug_response.sample_id
+            if drug_response.sample_id not in missing_cell_lines:
+                missing_cell_lines.append(drug_response.sample_id)
 
         # create drug_response vertex
         drug_resp = DrugResponse(**drug_response.__dict__)
@@ -102,45 +91,10 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json*',
             compound.gid(),
         )
 
-    # create any missing vertexes
-    individual_gids = project_gids = []
-    for ccle_id in missing_cell_lines:
-        b = Biosample(ccle_id)
-        emitter.emit_vertex(b)
-        a = Aliquot(aliquot_id=ccle_id)
-        emitter.emit_vertex(a)
-        emitter.emit_edge(
-            AliquotFor(),
-            a.gid(),
-            b.gid(),
-        )
-        i = Individual(individual_id='CCLE:{}'.format(ccle_id))
-        if i.gid() not in individual_gids:
-            emitter.emit_vertex(i)
-            individual_gids.append(i.gid())
-        emitter.emit_edge(
-            BiosampleFor(),
-            b.gid(),
-            i.gid(),
-        )
-        # first see if we have wholesale name changes
-        project_id = ccle_id
-        # strip off prefix
-        name_parts = project_id.split('_')
-        name_start = 1
-        if len(name_parts) == 1:
-            name_start = 0
-        project_id = '_'.join(name_parts[name_start:])
-        # create project
-        p = Project(project_id='CCLE:{}'.format(project_id))
-        if p.gid() not in project_gids:
-            emitter.emit_vertex(p)
-            project_gids.append(p.gid())
-        emitter.emit_edge(
-            InProject(),
-            i.gid(),
-            p.gid(),
-        )
+    # generate project, individual, biosample, aliquot for missing cell lines
+    missing_ccle_cellline_factory(emitter=emitter,
+                                  source="CCLE",
+                                  missing_ids=missing_cell_lines)
 
     emitter.close()
 

@@ -2,12 +2,12 @@
 """ transform a maf file into vertexs[variant, allele]   """
 
 from glob import glob
-import json
-from bmeg.vertex import Callset, Gene, Aliquot, Biosample, Individual, Project
-from bmeg.edge import AlleleCall, AliquotFor, InProject, BiosampleFor
+from bmeg.vertex import Callset, Gene
+from bmeg.edge import AlleleCall
 from bmeg.emitter import new_emitter
-from bmeg.ioutils import reader
 from bmeg.maf.maf_transform import get_value, MAFTransformer
+from bmeg.ccle import build_ccle2depmap_conversion_table, missing_ccle_cellline_factory
+
 
 CCLE_EXTENSION_CALLSET_INT_KEYS = {
     # 't_depth' : 't_depth',
@@ -30,7 +30,7 @@ TUMOR_SAMPLE_BARCODE = "Tumor_Sample_Barcode"  # 15
 NORMAL_SAMPLE_BARCODE = "Matched_Norm_Sample_Barcode"  # 16
 
 BIOSAMPLE_CONVERSION_TABLE = {}
-MISSING_CELL_LINES = {}
+MISSING_CELL_LINES = []
 
 
 class CCLE_MAFTransformer(MAFTransformer):
@@ -55,12 +55,12 @@ class CCLE_MAFTransformer(MAFTransformer):
         ccle_name_from_path = ccle_name_from_path.replace('_vs_NORMAL', '')
         if ccle_name_from_path in BIOSAMPLE_CONVERSION_TABLE:
             return BIOSAMPLE_CONVERSION_TABLE[ccle_name_from_path]
+        elif ccle_name_from_path.split("_")[0] in BIOSAMPLE_CONVERSION_TABLE:
+            return BIOSAMPLE_CONVERSION_TABLE[ccle_name_from_path.split("_")[0]]
         else:
-            aliquot_id = MISSING_CELL_LINES.get(ccle_name_from_path, None)
-            if not aliquot_id:
-                aliquot_id = ccle_name_from_path
-                MISSING_CELL_LINES[aliquot_id] = aliquot_id
-            return aliquot_id
+            if ccle_name_from_path not in MISSING_CELL_LINES:
+                MISSING_CELL_LINES.append(ccle_name_from_path)
+            return ccle_name_from_path
 
     def callset_maker(self, allele, source, centerCol, method, line):
         """ create callset from line """
@@ -95,15 +95,16 @@ class CCLE_MAFTransformer(MAFTransformer):
 def transform(mafpath, ccle_biosample_path, emitter_directory="ccle", emitter_prefix="maf"):
     """ entry point """
 
-    # ensure that we have a lookup from CCLE native barcode to gdc derived uuid
+    # ensure that we have a lookup from CCLE native id to depmap id
     global BIOSAMPLE_CONVERSION_TABLE
     global MISSING_CELL_LINES
-    with reader(ccle_biosample_path) as f:
-        for line in f:
-            biosample = json.loads(line)
-            BIOSAMPLE_CONVERSION_TABLE[biosample['data']['ccle_attributes']['CCLE_Name']] = biosample['data']['biosample_id']
+    BIOSAMPLE_CONVERSION_TABLE = build_ccle2depmap_conversion_table(ccle_biosample_path)
+
     transformer = CCLE_MAFTransformer()
-    emitter = new_emitter(name="json", directory=emitter_directory, prefix=emitter_prefix)
+    emitter = new_emitter(name="json",
+                          directory=emitter_directory,
+                          prefix=emitter_prefix)
+
     for f in glob(mafpath):
         transformer.maf_convert(
             skip=1,
@@ -111,48 +112,10 @@ def transform(mafpath, ccle_biosample_path, emitter_directory="ccle", emitter_pr
             mafpath=f,
             source="ccle")
 
-    # render missing cell lines
-    individual_gids = project_gids = []
-    for ccle_id, aliquot_id in MISSING_CELL_LINES.items():
-        b = Biosample(aliquot_id)
-        emitter.emit_vertex(b)
-
-        a = Aliquot(aliquot_id=aliquot_id)
-        emitter.emit_vertex(a)
-        emitter.emit_edge(
-            AliquotFor(),
-            a.gid(),
-            b.gid(),
-        )
-
-        i = Individual(individual_id='CCLE:{}'.format(aliquot_id))
-        if i.gid() not in individual_gids:
-            emitter.emit_vertex(i)
-            individual_gids.append(i.gid())
-        emitter.emit_edge(
-            BiosampleFor(),
-            b.gid(),
-            i.gid(),
-        )
-
-        # first see if we have wholesale name changes
-        project_id = ccle_id
-        # strip off prefix
-        name_parts = project_id.split('_')
-        name_start = 1
-        if len(name_parts) == 1:
-            name_start = 0
-        project_id = '_'.join(name_parts[name_start:])
-        # create project
-        p = Project(project_id='CCLE:{}'.format(project_id))
-        if p.gid() not in project_gids:
-            emitter.emit_vertex(p)
-            project_gids.append(p.gid())
-        emitter.emit_edge(
-            InProject(),
-            i.gid(),
-            p.gid(),
-        )
+    # generate project, individual, biosample, aliquot for missing cell lines
+    missing_ccle_cellline_factory(emitter=emitter,
+                                  source="CCLE",
+                                  missing_ids=MISSING_CELL_LINES)
 
     emitter.close()
 
