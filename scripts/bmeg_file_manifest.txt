@@ -22,7 +22,11 @@ outputs/ccle/tatlow.Individual.Vertex.json.gz
 outputs/ccle/tatlow.Project.Vertex.json.gz
 outputs/ccle/tatlow.TranscriptExpression.Vertex.json.gz
 outputs/compound/normalized.Compound.Vertex.json.gz
-outputs/ctrp/DrugResponse.Vertex.json.gz
+outputs/ctrp/ctrp.Aliquot.Vertex.json.gz
+outputs/ctrp/ctrp.Biosample.Vertex.json.gz
+outputs/ctrp/ctrp.DrugResponse.Vertex.json.gz
+outputs/ctrp/ctrp.Individual.Vertex.json.gz
+outputs/ctrp/ctrp.Project.Vertex.json.gz
 outputs/ensembl/Exon.Vertex.json.gz
 outputs/ensembl/Gene.Vertex.json.gz
 outputs/ensembl/missing.Transcript.Vertex.json.gz
@@ -1148,8 +1152,10 @@ outputs/ccle/tatlow.TranscriptExpressionOf.Edge.json.gz
 outputs/compound/normalized.HasEnvironment.Edge.json.gz
 outputs/compound/normalized.ResponseTo.Edge.json.gz
 outputs/compound/normalized.TreatedWith.Edge.json.gz
-outputs/ctrp/ResponseIn.Edge.json.gz
-outputs/ctrp/ResponseTo.Edge.json.gz
+outputs/ctrp/ctrp.AliquotFor.Edge.json.gz
+outputs/ctrp/ctrp.BiosampleFor.Edge.json.gz
+outputs/ctrp/ctrp.InProject.Edge.json.gz
+outputs/ctrp/ctrp.ResponseIn.Edge.json.gz
 outputs/ensembl/ExonFor.Edge.json.gz
 outputs/ensembl/ProteinFor.Edge.json.gz
 outputs/ensembl/TranscriptFor.Edge.json.gz
