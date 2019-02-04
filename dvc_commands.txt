@@ -2363,7 +2363,6 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/gtex/GeneExpression.Vertex.json.gz \
   -d outputs/gtex/gtex.Aliquot.Vertex.json.gz \
   -d outputs/gtex/gtex.Biosample.Vertex.json.gz \
-  -d outputs/gtex/gtex.Expression.Vertex.json.gz \
   -d outputs/gtex/gtex.Individual.Vertex.json.gz \
   -d outputs/gtex/gtex.Project.Vertex.json.gz \
   -d outputs/mc3/Callset.Vertex.json.gz \
@@ -3345,10 +3344,8 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/pubmed/pubmed19n0970.Publication.Vertex.json.gz \
   -d outputs/pubmed/pubmed19n0971.Publication.Vertex.json.gz \
   -d outputs/pubmed/pubmed19n0972.Publication.Vertex.json.gz \
-  -d outputs/tcga/ACC.Expression.Vertex.json.gz \
   -d outputs/tcga/ACC.GeneExpression.Vertex.json.gz \
   -d outputs/tcga/ACC.TranscriptExpression.Vertex.json.gz \
-  -d outputs/tcga/BLCA.Expression.Vertex.json.gz \
   -d outputs/tcga/BLCA.GeneExpression.Vertex.json.gz \
   -d outputs/tcga/BLCA.TranscriptExpression.Vertex.json.gz \
   -d outputs/tcga/BRCA.GeneExpression.Vertex.json.gz \
@@ -3487,13 +3484,13 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/gdc/AliquotFor.Edge.json.gz \
   -d outputs/gdc/BiosampleFor.Edge.json.gz \
   -d outputs/gdc/InProject.Edge.json.gz \
+  -d outputs/gdsc/gdsc.DrugResponseIn.Edge.json.gz \
   -d outputs/gdsc/gdsc.ResponseIn.Edge.json.gz \
   -d outputs/go/GeneOntologyAnnotation.Edge.json.gz \
   -d outputs/go/GeneOntologyIsA.Edge.json.gz \
   -d outputs/gtex/GeneExpressionOf.Edge.json.gz \
   -d outputs/gtex/gtex.AliquotFor.Edge.json.gz \
   -d outputs/gtex/gtex.BiosampleFor.Edge.json.gz \
-  -d outputs/gtex/gtex.ExpressionOf.Edge.json.gz \
   -d outputs/gtex/gtex.InProject.Edge.json.gz \
   -d outputs/mc3/AlleleCall.Edge.json.gz \
   -d outputs/mc3/AlleleIn.Edge.json.gz \
@@ -3504,10 +3501,8 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/pfam/StructureFor.Edge.json.gz \
   -d outputs/phenotype/normalized.HasPhenotype.Edge.json.gz \
   -d outputs/phenotype/normalized.PhenotypeOf.Edge.json.gz \
-  -d outputs/tcga/ACC.ExpressionOf.Edge.json.gz \
   -d outputs/tcga/ACC.GeneExpressionOf.Edge.json.gz \
   -d outputs/tcga/ACC.TranscriptExpressionOf.Edge.json.gz \
-  -d outputs/tcga/BLCA.ExpressionOf.Edge.json.gz \
   -d outputs/tcga/BLCA.GeneExpressionOf.Edge.json.gz \
   -d outputs/tcga/BLCA.TranscriptExpressionOf.Edge.json.gz \
   -d outputs/tcga/BRCA.GeneExpressionOf.Edge.json.gz \
