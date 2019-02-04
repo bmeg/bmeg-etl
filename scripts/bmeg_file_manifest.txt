@@ -45,7 +45,6 @@ outputs/go/GeneOntologyTerm.Vertex.json.gz
 outputs/gtex/GeneExpression.Vertex.json.gz
 outputs/gtex/gtex.Aliquot.Vertex.json.gz
 outputs/gtex/gtex.Biosample.Vertex.json.gz
-outputs/gtex/gtex.Expression.Vertex.json.gz
 outputs/gtex/gtex.Individual.Vertex.json.gz
 outputs/gtex/gtex.Project.Vertex.json.gz
 outputs/mc3/Callset.Vertex.json.gz
@@ -1027,10 +1026,8 @@ outputs/pubmed/pubmed19n0969.Publication.Vertex.json.gz
 outputs/pubmed/pubmed19n0970.Publication.Vertex.json.gz
 outputs/pubmed/pubmed19n0971.Publication.Vertex.json.gz
 outputs/pubmed/pubmed19n0972.Publication.Vertex.json.gz
-outputs/tcga/ACC.Expression.Vertex.json.gz
 outputs/tcga/ACC.GeneExpression.Vertex.json.gz
 outputs/tcga/ACC.TranscriptExpression.Vertex.json.gz
-outputs/tcga/BLCA.Expression.Vertex.json.gz
 outputs/tcga/BLCA.GeneExpression.Vertex.json.gz
 outputs/tcga/BLCA.TranscriptExpression.Vertex.json.gz
 outputs/tcga/BRCA.GeneExpression.Vertex.json.gz
@@ -1169,13 +1166,13 @@ outputs/g2p/MinimalAlleleIn.Edge.json.gz
 outputs/gdc/AliquotFor.Edge.json.gz
 outputs/gdc/BiosampleFor.Edge.json.gz
 outputs/gdc/InProject.Edge.json.gz
+outputs/gdsc/gdsc.DrugResponseIn.Edge.json.gz
 outputs/gdsc/gdsc.ResponseIn.Edge.json.gz
 outputs/go/GeneOntologyAnnotation.Edge.json.gz
 outputs/go/GeneOntologyIsA.Edge.json.gz
 outputs/gtex/GeneExpressionOf.Edge.json.gz
 outputs/gtex/gtex.AliquotFor.Edge.json.gz
 outputs/gtex/gtex.BiosampleFor.Edge.json.gz
-outputs/gtex/gtex.ExpressionOf.Edge.json.gz
 outputs/gtex/gtex.InProject.Edge.json.gz
 outputs/mc3/AlleleCall.Edge.json.gz
 outputs/mc3/AlleleIn.Edge.json.gz
@@ -1186,10 +1183,8 @@ outputs/pfam/PFAMClanMember.Edge.json.gz
 outputs/pfam/StructureFor.Edge.json.gz
 outputs/phenotype/normalized.HasPhenotype.Edge.json.gz
 outputs/phenotype/normalized.PhenotypeOf.Edge.json.gz
-outputs/tcga/ACC.ExpressionOf.Edge.json.gz
 outputs/tcga/ACC.GeneExpressionOf.Edge.json.gz
 outputs/tcga/ACC.TranscriptExpressionOf.Edge.json.gz
-outputs/tcga/BLCA.ExpressionOf.Edge.json.gz
 outputs/tcga/BLCA.GeneExpressionOf.Edge.json.gz
 outputs/tcga/BLCA.TranscriptExpressionOf.Edge.json.gz
 outputs/tcga/BRCA.GeneExpressionOf.Edge.json.gz
