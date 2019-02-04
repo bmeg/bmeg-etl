@@ -29,7 +29,6 @@ outputs/ctrp/ctrp.Individual.Vertex.json.gz
 outputs/ctrp/ctrp.Project.Vertex.json.gz
 outputs/ensembl/Exon.Vertex.json.gz
 outputs/ensembl/Gene.Vertex.json.gz
-outputs/ensembl/missing.Transcript.Vertex.json.gz
 outputs/ensembl/Protein.Vertex.json.gz
 outputs/ensembl/Transcript.Vertex.json.gz
 outputs/g2p/Deadletter.Vertex.json.gz
