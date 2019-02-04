@@ -1,9 +1,0 @@
-cmd: python3 transform/ensembl/missing_transcripts.py
-deps:
-- md5: 53e66aa923260719fae7d478ca212087
-  path: source/ensembl/missing_transcript_ids.txt
-md5: 812e6f9ef5290fb70ad6528d707dddca
-outs:
-- cache: true
-  md5: a4a4b5c4208110cbbf82498a5e37321d
-  path: outputs/ensembl/missing.Transcript.Vertex.json.gz
