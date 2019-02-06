@@ -1165,7 +1165,6 @@ outputs/g2p/MinimalAlleleIn.Edge.json.gz
 outputs/gdc/AliquotFor.Edge.json.gz
 outputs/gdc/BiosampleFor.Edge.json.gz
 outputs/gdc/InProject.Edge.json.gz
-outputs/gdsc/gdsc.DrugResponseIn.Edge.json.gz
 outputs/gdsc/gdsc.ResponseIn.Edge.json.gz
 outputs/go/GeneOntologyAnnotation.Edge.json.gz
 outputs/go/GeneOntologyIsA.Edge.json.gz

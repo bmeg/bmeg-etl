@@ -3484,7 +3484,6 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/gdc/AliquotFor.Edge.json.gz \
   -d outputs/gdc/BiosampleFor.Edge.json.gz \
   -d outputs/gdc/InProject.Edge.json.gz \
-  -d outputs/gdsc/gdsc.DrugResponseIn.Edge.json.gz \
   -d outputs/gdsc/gdsc.ResponseIn.Edge.json.gz \
   -d outputs/go/GeneOntologyAnnotation.Edge.json.gz \
   -d outputs/go/GeneOntologyIsA.Edge.json.gz \
