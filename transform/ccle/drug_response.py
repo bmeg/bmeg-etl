@@ -77,7 +77,7 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
         emitter.emit_edge(
             ResponseIn(),
             drug_resp.gid(),
-            Aliquot.make_gid('CCLE:{}'.format(drug_response.sample_id)),
+            Aliquot.make_gid(drug_response.sample_id),
         )
         # create compound
         compound = compound_factory(name=drug_response.compound_id)
@@ -93,7 +93,6 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
 
     # generate project, individual, biosample, aliquot for missing cell lines
     missing_ccle_cellline_factory(emitter=emitter,
-                                  source="CCLE",
                                   missing_ids=missing_cell_lines)
 
     emitter.close()

@@ -28,7 +28,6 @@ def transform(path="source/ccle/DepMap-2018q4-celllines.csv",
     # ACH-000001,NIHOVCAR3_OVARY,NIH:OVCAR-3;OVCAR3,905933,2201,Ovarian Cancer,"Adenocarcinoma, high grade serous",Female,ATCC
     for row in reader:
         sample_id = row["DepMap_ID"]
-        sample_id = 'CCLE:{}'.format(sample_id)
         b = Biosample(biosample_id=sample_id,
                       ccle_attributes=row)
         emitter.emit_vertex(b)

@@ -35,12 +35,10 @@ def build_ccle2depmap_conversion_table(ccle_biosample_path="outputs/ccle/Biosamp
     return samples
 
 
-def missing_ccle_cellline_factory(emitter, source, missing_ids, project_id=""):
+def missing_ccle_cellline_factory(emitter, missing_ids, project_id=""):
     """ create stub aliquot, biosample, indiviudal, project and their edges """
     if not (isinstance(emitter, JSONEmitter) or isinstance(emitter, DebugEmitter)):
         raise TypeError("expected emitter to be an emitter")
-    if not isinstance(source, str):
-        raise TypeError("expected source to be a string")
     if not isinstance(project_id, str):
         raise TypeError("expected project_id to be a string")
     if isinstance(missing_ids, str):
@@ -60,9 +58,7 @@ def missing_ccle_cellline_factory(emitter, source, missing_ids, project_id=""):
             name_start = 1
             if len(name_parts) == 1:
                 name_start = 0
-            project = '{}:{}'.format(source, '_'.join(name_parts[name_start:]))
-
-        aliquot_id = '{}:{}'.format(source, aliquot_id)
+            project = 'CCLE:{}'.format('_'.join(name_parts[name_start:]))
 
         p = Project(project_id=project)
         if p.gid() not in project_gids:
