@@ -349,6 +349,7 @@ class CopyNumberAlterationOf(Edge):
     """
     pass
 
+
 @enforce_types
 @dataclass(frozen=True)
 class DerivedFrom(Edge):
