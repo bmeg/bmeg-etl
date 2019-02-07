@@ -29,7 +29,7 @@ def transform(source_path,
     missing_cell_lines = []
     for row in reader:
         feature_ids = row[0].split("|")
-        transcript_id = feature_ids[0]
+        transcript_id = feature_ids[0].split(".")[0]
 
         for cghub_id, raw_expr in zip(samples, row[1:]):
             expr = float(raw_expr)
@@ -84,7 +84,6 @@ def transform(source_path,
 
     # generate project, individual, biosample, aliquot for missing cell lines
     missing_ccle_cellline_factory(emitter=emitter,
-                                  source="CCLE",
                                   missing_ids=missing_cell_lines,
                                   project_id="CCLE:UNKNOWN")
 

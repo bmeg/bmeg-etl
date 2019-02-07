@@ -20,7 +20,7 @@ deps:
   path: outputs/g2p/HasEnvironment.Edge.json.gz
 - md5: a95f32b3a9b7abac8896df765e9a7057
   path: outputs/gdc/TreatedWith.Edge.json.gz
-md5: 3c3a19d3adc2f3627f15d534a9e2383a
+md5: 54548ec3877703575a31c864ab277039
 outs:
 - cache: true
   md5: d4568248a7cecbf7e6b6f95989988cc1
@@ -35,5 +35,5 @@ outs:
   md5: be318ccdfd78acc6d0d873f44860d0e4
   path: outputs/compound/normalized.TreatedWith.Edge.json.gz
 - cache: true
-  md5: 7008b178bfdf0f74034e49ef639daf8d
+  md5: a8a0e75775cb4a1ea859c41173eeca41
   path: source/compound/sqlite.db

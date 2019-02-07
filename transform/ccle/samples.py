@@ -28,7 +28,8 @@ def transform(path="source/ccle/DepMap-2018q4-celllines.csv",
     # ACH-000001,NIHOVCAR3_OVARY,NIH:OVCAR-3;OVCAR3,905933,2201,Ovarian Cancer,"Adenocarcinoma, high grade serous",Female,ATCC
     for row in reader:
         sample_id = row["DepMap_ID"]
-        b = Biosample(sample_id, ccle_attributes=row)
+        b = Biosample(biosample_id=sample_id,
+                      ccle_attributes=row)
         emitter.emit_vertex(b)
 
         a = Aliquot(aliquot_id=sample_id)
@@ -39,7 +40,7 @@ def transform(path="source/ccle/DepMap-2018q4-celllines.csv",
             b.gid(),
         )
 
-        i = Individual(individual_id='CCLE:{}'.format(sample_id),
+        i = Individual(individual_id=sample_id,
                        ccle_attributes={'gender': row.get('Gender', None)})
         if i.gid() not in individual_gids:
             emitter.emit_vertex(i)
