@@ -9,7 +9,7 @@ from bmeg.maf.maf_transform import MAFTransformer
 from bmeg.ccle import build_ccle2depmap_conversion_table
 import yaml
 import os
-
+import re
 
 TUMOR_SAMPLE_BARCODE = "Tumor_Sample_Barcode"  # 15
 NORMAL_SAMPLE_BARCODE = "Matched_Norm_Sample_Barcode"  # 16
@@ -58,15 +58,19 @@ def transform(mafpath, ccle_biosample_path, dvc_file, emitter_directory="ccle", 
     for f in glob(mafpath):
         transformer.current_path = f
         aliquot_id = transformer.barcode_to_aliquot_id(None)
-        md5sum = md5s.get(f, None)
+        relative_path = re.sub(r".*source/", "source/", f)
+        md5sum = md5s.get(relative_path, None)
         path = None
+        file_size = None
         if md5sum:
             path = 's3://bmeg/dvc/{}/{}'.format(md5sum[:2], md5sum[2:])
             file_size = os.path.getsize(f)
-        file_dict = {'name': f, 'md5': md5sum, 'path': path, 'size': file_size}
-        file = File(**file_dict)
-        emitter.emit_vertex(file)
-        emitter.emit_edge(DerivedFrom(), file.gid(), Aliquot.make_gid(aliquot_id))
+            file_dict = {'name': f, 'md5': md5sum, 'path': path, 'size': file_size}
+            file = File(**file_dict)
+            emitter.emit_vertex(file)
+            emitter.emit_edge(DerivedFrom(), file.gid(), Aliquot.make_gid(aliquot_id))
+        else:
+            print(f)
 
     emitter.close()
 
