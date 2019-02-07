@@ -1,0 +1,12 @@
+cmd: ' python3 transform/ccle/ccle_gen3_file_transform.py'
+deps:
+- md5: b27c1c94960f44252d4138c85d2f1e73.dir
+  path: source/ccle/mafs
+md5: e28fde4fd8d6ffeca964b3ac102826d1
+outs:
+- cache: true
+  md5: 880feef3065963fdbfe9e5da14ff3fa0
+  path: outputs/ccle/File.Vertex.json.gz
+- cache: true
+  md5: 138d37f1067650386e4d56278a54d451
+  path: outputs/ccle/DerivedFrom.Edge.json.gz

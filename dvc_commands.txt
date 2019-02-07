@@ -2316,6 +2316,12 @@ dvc run --file outputs.ccle.drug_response.dvc --yes \
   -o outputs/ccle/drug_response.Project.Vertex.json.gz \
   "python3 transform/ccle/drug_response.py"
 #
+dvc run --file outputs.ccle.files.dvc --yes \
+  -d source/ccle/mafs \
+  -o outputs/ccle/File.Vertex.json.gz \
+  -o outputs/ccle/DerivedFrom.Edge.json.gz \
+  python3 transform/ccle/ccle_gen3_file_transform.py
+#
 dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/allele/Allele.Vertex.json.gz \
   -d outputs/ccle/Aliquot.Vertex.json.gz \
