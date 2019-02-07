@@ -17,6 +17,7 @@ def summarize_output(path, emit_ids):
     input_stream = bmeg.ioutils.reader(path)
     for line in input_stream:
         err = SN(**ujson.loads(line))
+        elabel = err.Label
         if err.msg == "From does not exist":
             label = err.From.split(":")[0]
             gid = err.From
@@ -34,10 +35,14 @@ def summarize_output(path, emit_ids):
             label = "Gene"
 
         if label not in labels:
-            labels[label] = [gid]
+            labels[label] = {}
+            labels[label][elabel] = [gid]
         else:
-            if gid not in labels[label]:
-                labels[label].append(gid)
+            if elabel not in labels[label]:
+                labels[label][elabel] = [gid]
+            else:
+                if gid not in labels[label][elabel]:
+                    labels[label][elabel].append(gid)
 
     if emit_ids:
         print(ujson.dumps(labels))
@@ -45,7 +50,9 @@ def summarize_output(path, emit_ids):
 
     labelCounts = {}
     for k, v in labels.items():
-        labelCounts[k] = len(v)
+        labelCounts[k] = {}
+        for ek, ev in v.items():
+            labelCounts[k][ek] = len(ev)
     print(ujson.dumps(labelCounts))
     return
 
