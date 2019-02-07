@@ -6,31 +6,31 @@ deps:
   path: outputs/ccle/Biosample.Vertex.json.gz
 - md5: 07b930da26e4a06dcf8c9a0faff57be1
   path: source/tcga/expression/transcript-level/TCGA_ID_MAP.csv
-md5: fd8cef18548a909485266ca3787f350b
+md5: e999edb87c6284ecc77c667bded23561
 outs:
 - cache: true
-  md5: 5a96e51e8d61be78c8da3a6ac4f0f895
+  md5: 82954c355a556fa4b8490d24197a7b46
   path: outputs/ccle/tatlow.Aliquot.Vertex.json.gz
 - cache: true
-  md5: 8ec6c5ca96ff177991ef3ea5190b9742
+  md5: 4438ae63a834f2d6e682b5a4c21582d3
   path: outputs/ccle/tatlow.AliquotFor.Edge.json.gz
 - cache: true
-  md5: c2900cf8c05cb9c72be74828743d24c4
+  md5: bacc8ae56e502099725d566378110031
   path: outputs/ccle/tatlow.Biosample.Vertex.json.gz
 - cache: true
-  md5: c3292e457d71ead0c490cd8fc42bcac8
+  md5: 9b160d521864b9220264481ad2fb9ccc
   path: outputs/ccle/tatlow.BiosampleFor.Edge.json.gz
 - cache: true
-  md5: fc947c304b7e38ee88c3d4718521b443
+  md5: 1012330624f64dd52697069e469f71c2
   path: outputs/ccle/tatlow.TranscriptExpression.Vertex.json.gz
 - cache: true
   md5: 220fc5197689fad89ad1b52fdd55d130
   path: outputs/ccle/tatlow.TranscriptExpressionOf.Edge.json.gz
 - cache: true
-  md5: deaf5fdd777e1cd71c015f98c90b87cf
+  md5: 6f8fab41ea9ec81fb07f7f508d7b180e
   path: outputs/ccle/tatlow.InProject.Edge.json.gz
 - cache: true
-  md5: 1bfd9cc9affb2686dcf2a849b39a3dcf
+  md5: ca5d20eb01b8cacf40065edfc25e8de7
   path: outputs/ccle/tatlow.Individual.Vertex.json.gz
 - cache: true
   md5: 26d21447bcbd3e59909c82d3293ae3fe
