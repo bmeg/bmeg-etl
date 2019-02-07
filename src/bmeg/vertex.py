@@ -548,6 +548,8 @@ class File(Vertex):
     """
     md5: str
     path: str
+    size: Union[None, int] = None
+    name: Union[None, str] = None
 
     def gid(self):
         return File.make_gid(self.md5)

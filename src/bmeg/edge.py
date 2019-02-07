@@ -348,3 +348,11 @@ class CopyNumberAlterationOf(Edge):
     CopyNumberAlteration -> Aliquot
     """
     pass
+
+@enforce_types
+@dataclass(frozen=True)
+class DerivedFrom(Edge):
+    """
+    Aliquot -> File
+    """
+    pass
