@@ -78,7 +78,6 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
 
     # generate project, individual, biosample, aliquot for missing cell lines
     missing_ccle_cellline_factory(emitter=emitter,
-                                  source="CTRP",
                                   missing_ids=missing_cell_lines,
                                   project_id="CCLE:UNKNOWN")
 
