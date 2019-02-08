@@ -368,6 +368,20 @@ class GeneOntologyTerm(Vertex):
 
 @enforce_types
 @dataclass(frozen=True)
+class Program(Vertex):
+    program_id: str
+    gdc_attributes: Union[None, dict] = None
+
+    def gid(self):
+        return Program.make_gid(self.program_id)
+
+    @classmethod
+    def make_gid(cls, program_id):
+        return GID("%s:%s" % (cls.__name__, program_id))
+
+
+@enforce_types
+@dataclass(frozen=True)
 class Project(Vertex):
     project_id: str
     gdc_attributes: Union[None, dict] = None

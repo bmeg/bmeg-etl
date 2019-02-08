@@ -156,6 +156,6 @@ def transform(emitter, parameters={}):
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    emitter = JSONEmitter("gdc")
+    emitter = JSONEmitter(directory="gdc")
     transform(emitter)
     emitter.close()

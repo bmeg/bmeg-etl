@@ -135,15 +135,6 @@ class COCAClusterFor(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class BiosampleFor(Edge):
-    """
-    Biosample -> Individual
-    """
-    pass
-
-
-@enforce_types
-@dataclass(frozen=True)
 class CallsetFor(Edge):
     """
     Callset -> Biosample
@@ -170,9 +161,38 @@ class PFAMAlignment(Edge):
     end: int
 
 
+@enforce_types
+@dataclass(frozen=True)
+class InProgram(Edge):
+    """
+    Project -> Program
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
 class InProject(Edge):
     """
     Individual -> Project
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class BiosampleFor(Edge):
+    """
+    Biosample -> Individual
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class AliquotFor(Edge):
+    """
+    Aliquot -> Biosample
     """
     pass
 
@@ -193,15 +213,6 @@ class GeneOntologyAnnotation(Edge):
 class GeneOntologyIsA(Edge):
     """
     GenoOntologyTerm -> GenoOntologyTerm
-    """
-    pass
-
-
-@enforce_types
-@dataclass(frozen=True)
-class AliquotFor(Edge):
-    """
-    Aliquot -> Biosample
     """
     pass
 
