@@ -4,10 +4,10 @@ from types import SimpleNamespace as SN
 
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import DrugResponse, Aliquot
-from bmeg.edge import ResponseIn, ResponseTo
+from bmeg.vertex import DrugResponse, Aliquot, Individual, Project, Program
+from bmeg.edge import ResponseIn, ResponseTo, InProject, InProgram
 from bmeg.enrichers.drug_enricher import compound_factory
-from bmeg.ccle import build_ccle2depmap_conversion_table, missing_ccle_cellline_factory
+from bmeg.ccle import build_ccle2depmap_conversion_table, build_project_lookup, missing_ccle_cellline_factory
 
 
 NAMES = {
@@ -33,9 +33,13 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
               emitter_directory="ccle"):
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
+    prog = Program(program_id="CCLE")
+    emitter.emit_vertex(prog)
 
     # lookup table to convert to DepMap_IDs
     samples = build_ccle2depmap_conversion_table(biosample_path)
+    # lookup projects
+    projects = build_project_lookup(biosample_path)
 
     # input and map
     input_stream = bmeg.ioutils.read_csv(drug_response_path)
@@ -43,6 +47,8 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
     compound_gids = []
     # read the drug response csv
     missing_cell_lines = []
+    individual_gids = []
+    project_gids = []
     for line in input_stream:
         # map the names to snake case
         mline = {"source": "CCLE"}
@@ -61,14 +67,38 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
                 mline[v] = line[k]
         drug_response = SN(**mline)
 
+        sample_id = drug_response.sample_id
         # if no match, we will need to create project->individual->biosample->aliquot
-        if drug_response.sample_id in samples:
-            drug_response.sample_id = samples[drug_response.sample_id]
-        elif drug_response.sample_id.split("_")[0] in samples:
-            drug_response.sample_id = samples[drug_response.sample_id.split("_")[0]]
+        if sample_id in samples:
+            drug_response.sample_id = samples[sample_id]
+        elif sample_id.split("_")[0] in samples:
+            drug_response.sample_id = samples[sample_id.split("_")[0]]
         else:
-            if drug_response.sample_id not in missing_cell_lines:
-                missing_cell_lines.append(drug_response.sample_id)
+            if sample_id not in missing_cell_lines:
+                missing_cell_lines.append(sample_id)
+
+        # Create project and link to individual and program
+        project_id = "CCLE_Unkown"
+        if sample_id in projects:
+            project_id = "CCLE_{}".format(projects[sample_id])
+        elif "_".join(sample_id.split("_")[1:]) in projects:
+            project_id = "CCLE_{}".format(projects["_".join(sample_id.split("_")[1:])])
+        proj = Project(project_id)
+        if Individual.make_gid(sample_id) not in individual_gids:
+            emitter.emit_edge(
+                InProject(),
+                Individual.make_gid(sample_id),
+                proj.gid(),
+            )
+            individual_gids.append(Individual.make_gid(sample_id))
+        if proj.gid() not in project_gids:
+            emitter.emit_vertex(proj)
+            emitter.emit_edge(
+                InProgram(),
+                proj.gid(),
+                prog.gid()
+            )
+            project_gids.append(proj.gid())
 
         # create drug_response vertex
         drug_resp = DrugResponse(**drug_response.__dict__)
@@ -93,7 +123,10 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
 
     # generate project, individual, biosample, aliquot for missing cell lines
     missing_ccle_cellline_factory(emitter=emitter,
-                                  missing_ids=missing_cell_lines)
+                                  missing_ids=missing_cell_lines,
+                                  project_prefix="CCLE",
+                                  individual_gids=individual_gids,
+                                  project_gids=project_gids)
 
     emitter.close()
 

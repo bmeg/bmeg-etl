@@ -85,7 +85,7 @@ def transform(source_path,
     # generate project, individual, biosample, aliquot for missing cell lines
     missing_ccle_cellline_factory(emitter=emitter,
                                   missing_ids=missing_cell_lines,
-                                  project_id="CCLE:UNKNOWN")
+                                  project_id="DepMap_Unknown")
 
     emitter.close()
 

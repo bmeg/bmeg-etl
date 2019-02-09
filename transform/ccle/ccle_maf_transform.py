@@ -114,7 +114,8 @@ def transform(mafpath, ccle_biosample_path, emitter_directory="ccle", emitter_pr
 
     # generate project, individual, biosample, aliquot for missing cell lines
     missing_ccle_cellline_factory(emitter=emitter,
-                                  missing_ids=MISSING_CELL_LINES)
+                                  missing_ids=MISSING_CELL_LINES,
+                                  project_prefix="DepMap")
 
     emitter.close()
 

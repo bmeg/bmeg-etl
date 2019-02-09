@@ -1,18 +1,9 @@
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import Biosample, Aliquot, Individual, Project
-from bmeg.edge import AliquotFor, BiosampleFor, InProject, PhenotypeOf
+from bmeg.vertex import Biosample, Aliquot, Individual, Project, Program
+from bmeg.edge import AliquotFor, BiosampleFor, InProject, InProgram, PhenotypeOf
 from bmeg.enrichers.phenotype_enricher import phenotype_factory
 from pydash import is_blank
-
-PROJECT_CORRECTIONS = {
-    # suffix changes
-    'TESTES': 'TESTIS',
-    'HAEMATOPOIETIC_AND_LYMPHOID': 'HAEMATOPOIETIC_AND_LYMPHOID_TISSUE',
-    # wholesale name changes
-    '[MERGED_TO_ACH-000474]NCIH292_LUNG': 'LUNG',
-    '[MERGED_TO_ACH-000109]H3255_LUNG': 'LUNG'
-}
 
 
 def transform(path="source/ccle/DepMap-2018q4-celllines.csv",
@@ -24,6 +15,8 @@ def transform(path="source/ccle/DepMap-2018q4-celllines.csv",
     individual_gids = []
     project_gids = []
     phenotype_gids = []
+    prog = Program(program_id="DepMap")
+    emitter.emit_vertex(prog)
     # DepMap_ID,CCLE_Name,Aliases,COSMIC_ID,Sanger ID,Primary Disease,Subtype Disease,Gender,Source
     # ACH-000001,NIHOVCAR3_OVARY,NIH:OVCAR-3;OVCAR3,905933,2201,Ovarian Cancer,"Adenocarcinoma, high grade serous",Female,ATCC
     for row in reader:
@@ -37,7 +30,7 @@ def transform(path="source/ccle/DepMap-2018q4-celllines.csv",
         emitter.emit_edge(
             AliquotFor(),
             a.gid(),
-            b.gid(),
+            b.gid()
         )
 
         i = Individual(individual_id=sample_id,
@@ -48,28 +41,24 @@ def transform(path="source/ccle/DepMap-2018q4-celllines.csv",
         emitter.emit_edge(
             BiosampleFor(),
             b.gid(),
-            i.gid(),
+            i.gid()
         )
 
-        # first see if we have wholesale name changes
-        project_id = PROJECT_CORRECTIONS.get(row["CCLE_Name"], row["CCLE_Name"])
-        # strip off prefix
-        name_parts = project_id.split('_')
-        name_start = 1
-        if len(name_parts) == 1:
-            name_start = 0
-        project_id = '_'.join(name_parts[name_start:])
-        # suffix name changes
-        project_id = PROJECT_CORRECTIONS.get(project_id, project_id)
+        project_id = "DepMap_{}".format("_".join(row["Primary Disease"].split()))
         # create project
-        p = Project(project_id='CCLE:{}'.format(project_id))
-        if p.gid() not in project_gids:
-            emitter.emit_vertex(p)
-            project_gids.append(p.gid())
+        proj = Project(project_id=project_id)
+        if proj.gid() not in project_gids:
+            emitter.emit_vertex(proj)
+            emitter.emit_edge(
+                InProgram(),
+                proj.gid(),
+                prog.gid()
+            )
+            project_gids.append(proj.gid())
         emitter.emit_edge(
             InProject(),
             i.gid(),
-            p.gid(),
+            proj.gid()
         )
 
         phenotype_name = row.get('Subtype Disease', None)
