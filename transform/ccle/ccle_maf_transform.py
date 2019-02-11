@@ -92,8 +92,10 @@ class CCLE_MAFTransformer(MAFTransformer):
         return AlleleCall(**info)
 
 
-def transform(mafpath, ccle_biosample_path, emitter_directory="ccle", emitter_prefix="maf"):
-    """ entry point """
+def transform(mafpath,
+              ccle_biosample_path,
+              emitter_directory="ccle",
+              emitter_prefix="maf"):
 
     # ensure that we have a lookup from CCLE native id to depmap id
     global BIOSAMPLE_CONVERSION_TABLE

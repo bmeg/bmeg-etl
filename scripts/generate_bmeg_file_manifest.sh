@@ -56,4 +56,5 @@ DVC_CMD+=" \"python3 transform/dvc/bmeg_file_manifest.py\""
 
 echo "running DVC..."
 echo $DVC_CMD
+echo $DVC_CMD | bash &> /dev/null
 echo $DVC_CMD | bash

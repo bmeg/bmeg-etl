@@ -1,9 +1,9 @@
 import pandas
-from bmeg.vertex import DrugResponse, Aliquot
-from bmeg.edge import ResponseIn, ResponseTo
+from bmeg.vertex import DrugResponse, Aliquot, Individual, Project, Program
+from bmeg.edge import ResponseIn, ResponseTo, InProject, InProgram
 from bmeg.enrichers.drug_enricher import compound_factory
 from bmeg.emitter import JSONEmitter
-from bmeg.ccle import build_ccle2depmap_conversion_table, missing_ccle_cellline_factory
+from bmeg.ccle import build_ccle2depmap_conversion_table, build_project_lookup, missing_ccle_cellline_factory
 
 
 def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
@@ -16,7 +16,14 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
               emitter_directory='ctrp'):
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
+
+    prog = Program(program_id="CTRP")
+    emitter.emit_vertex(prog)
+
+    # lookup table to convert CCLE names to DepMap_IDs
     ccle_id_lookup = build_ccle2depmap_conversion_table(biosample_path)
+    # lookup table for projects
+    projects = build_project_lookup(biosample_path)
 
     compound_df = pandas.read_table(metadrugPath)
     compound_df = compound_df.set_index("master_cpd_id")
@@ -38,6 +45,8 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
     curve_df = curve_df.set_index(["experiment_id", "master_cpd_id"])
 
     missing_cell_lines = []
+    individual_gids = []
+    project_gids = []
     for i, row in response_df.iterrows():
         exp_id = row['experiment_id']
         cpd_id = row['master_cpd_id']
@@ -50,6 +59,27 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
         else:
             if ccl_name not in missing_cell_lines:
                 missing_cell_lines.append(ccl_name)
+
+        # Create project and link to individual and program
+        project_id = "CTRP_Unkown"
+        if ccl_name in projects:
+            project_id = "CTRP_{}".format(projects[ccl_name])
+        proj = Project(project_id)
+        if Individual.make_gid(ccl_name) not in individual_gids:
+            emitter.emit_edge(
+                InProject(),
+                Individual.make_gid(ccl_name),
+                proj.gid(),
+            )
+            individual_gids.append(Individual.make_gid(ccl_name))
+        if proj.gid() not in project_gids:
+            emitter.emit_vertex(proj)
+            emitter.emit_edge(
+                InProgram(),
+                proj.gid(),
+                prog.gid()
+            )
+            project_gids.append(proj.gid())
 
         cpd_name = compound_df.loc[cpd_id]['cpd_name']
         auc = row['area_under_curve']
@@ -79,7 +109,9 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
     # generate project, individual, biosample, aliquot for missing cell lines
     missing_ccle_cellline_factory(emitter=emitter,
                                   missing_ids=missing_cell_lines,
-                                  project_id="CCLE:UNKNOWN")
+                                  project_id="CTRP_Unknown",
+                                  individual_gids=individual_gids,
+                                  project_gids=project_gids)
 
     emitter.close()
 

@@ -1,4 +1,4 @@
-cmd: transform/ccle/ccle_maf_transform.sh
+cmd: python3 transform/ccle/ccle_maf_transform.py
 deps:
 - md5: cc3abedb40a6795c34b739a6df2b140e
   path: source/gene_enricher/hgnc_complete_set.json
@@ -3140,7 +3140,9 @@ deps:
   path: source/ccle/mafs/COLO201_LARGE_INTESTINE_vs_NORMAL/vep.maf
 - md5: a339758e2a8edb9152251c24eaeceadd
   path: source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf
-md5: 5490ca0b0337e51dcaf590f1234056c1
+- md5: 42322cba51e626d48b89369540a8d665
+  path: outputs/ccle/Biosample.Vertex.json.gz
+md5: 5759793c0991dacf6db5682c59178248
 outs:
 - cache: true
   md5: a06b8088b3d6a8b54d3deabc364ace81
@@ -3176,8 +3178,8 @@ outs:
   md5: a30ce420656026739514bc836ff84705
   path: outputs/ccle/maf.Individual.Vertex.json.gz
 - cache: true
-  md5: 22dfb2568f116a954bfdc2c2e0cf58d9
+  md5: 2b54da4250a3f7d755094949b33cf0f4
   path: outputs/ccle/maf.InProject.Edge.json.gz
 - cache: true
-  md5: cc4f61b47a0df8900bc82089b6d1f18a
+  md5: c92ccd2e86632c733fd589caee5cd132
   path: outputs/ccle/maf.Project.Vertex.json.gz

@@ -5,7 +5,9 @@ outputs/ccle/drug_response.BiosampleFor.Edge.json.gz
 outputs/ccle/drug_response.Biosample.Vertex.json.gz
 outputs/ccle/drug_response.DrugResponse.Vertex.json.gz
 outputs/ccle/drug_response.Individual.Vertex.json.gz
+outputs/ccle/drug_response.InProgram.Edge.json.gz
 outputs/ccle/drug_response.InProject.Edge.json.gz
+outputs/ccle/drug_response.Program.Vertex.json.gz
 outputs/ccle/drug_response.Project.Vertex.json.gz
 outputs/ccle/drug_response.ResponseIn.Edge.json.gz
 outputs/ccle/AliquotFor.Edge.json.gz
@@ -13,9 +15,11 @@ outputs/ccle/Aliquot.Vertex.json.gz
 outputs/ccle/BiosampleFor.Edge.json.gz
 outputs/ccle/Biosample.Vertex.json.gz
 outputs/ccle/Individual.Vertex.json.gz
+outputs/ccle/InProgram.Edge.json.gz
 outputs/ccle/InProject.Edge.json.gz
 outputs/ccle/PhenotypeOf.Edge.json.gz
 outputs/ccle/Phenotype.Vertex.json.gz
+outputs/ccle/Program.Vertex.json.gz
 outputs/ccle/Project.Vertex.json.gz
 outputs/ccle/GeneExpressionOf.Edge.json.gz
 outputs/ccle/GeneExpression.Vertex.json.gz
@@ -29,6 +33,7 @@ outputs/ccle/tatlow.InProject.Edge.json.gz
 outputs/ccle/tatlow.Project.Vertex.json.gz
 outputs/ccle/tatlow.TranscriptExpressionOf.Edge.json.gz
 outputs/ccle/tatlow.TranscriptExpression.Vertex.json.gz
+outputs/ccle/Biosample.Vertex.json.gz
 outputs/ccle/maf.AliquotFor.Edge.json.gz
 outputs/ccle/maf.Aliquot.Vertex.json.gz
 outputs/ccle/maf.AlleleCall.Edge.json.gz
@@ -51,7 +56,9 @@ outputs/ctrp/ctrp.BiosampleFor.Edge.json.gz
 outputs/ctrp/ctrp.Biosample.Vertex.json.gz
 outputs/ctrp/ctrp.DrugResponse.Vertex.json.gz
 outputs/ctrp/ctrp.Individual.Vertex.json.gz
+outputs/ctrp/ctrp.InProgram.Edge.json.gz
 outputs/ctrp/ctrp.InProject.Edge.json.gz
+outputs/ctrp/ctrp.Program.Vertex.json.gz
 outputs/ctrp/ctrp.Project.Vertex.json.gz
 outputs/ctrp/ctrp.ResponseIn.Edge.json.gz
 outputs/ensembl/ExonFor.Edge.json.gz
@@ -78,7 +85,10 @@ outputs/gdc/BiosampleFor.Edge.json.gz
 outputs/gdc/Biosample.Vertex.json.gz
 outputs/gdc/Individual.Vertex.json.gz
 outputs/gdc/InProject.Edge.json.gz
+outputs/gdc/InProgram.Edge.json.gz
+outputs/gdc/Program.Vertex.json.gz
 outputs/gdc/Project.Vertex.json.gz
+outputs/ccle/Biosample.Vertex.json.gz
 outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz
 outputs/gdsc/gdsc.ResponseIn.Edge.json.gz
 outputs/go/GeneOntologyIsA.Edge.json.gz

@@ -587,6 +587,7 @@ dvc run --file outputs.go.dvc --yes \
 #
 dvc run --file outputs.gdsc.dvc --yes \
   -d source/gdsc/GDSC_AUC.csv \
+  -d outputs/ccle/Biosample.Vertex.json.gz \
   -o outputs/gdsc/gdsc.Compound.Vertex.json.gz \
   -o outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz \
   -o outputs/gdsc/gdsc.ResponseIn.Edge.json.gz \
@@ -596,7 +597,9 @@ dvc run --file outputs.gdsc.dvc --yes \
 dvc run --file outputs.gdc.projects.dvc --yes \
   -d source/gdc/version.txt \
   -o outputs/gdc/Project.Vertex.json.gz \
-  "python3 transform/gdc/projects.py"
+  -o outputs/gdc/Program.Vertex.json.gz \
+  -o outputs/gdc/InProgram.Edge.json.gz \
+  "python3 -m transform.gdc.projects"
 #
 dvc run --file outputs.gdc.cases.dvc --yes \
   -d source/gdc/version.txt \
@@ -661,6 +664,8 @@ dvc run --file outputs.ctrp.drugresponse.dvc --yes \
   -o outputs/ctrp/ctrp.Individual.Vertex.json.gz \
   -o outputs/ctrp/ctrp.InProject.Edge.json.gz \
   -o outputs/ctrp/ctrp.Project.Vertex.json.gz \
+  -o outputs/ctrp/ctrp.InProgram.Edge.json.gz \
+  -o outputs/ctrp/ctrp.Program.Vertex.json.gz \
   "python ./transform/ctrp/transform.py"
 #
 dvc run --file outputs.compound.normalized.dvc --yes \
@@ -2252,6 +2257,7 @@ dvc run --file outputs.ccle.maf.dvc --yes \
   -d source/ccle/mafs/PACADD161_PANCREAS_vs_NORMAL/vep.maf \
   -d source/ccle/mafs/COLO201_LARGE_INTESTINE_vs_NORMAL/vep.maf \
   -d source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d outputs/ccle/Biosample.Vertex.json.gz \
   -o outputs/ccle/maf.Allele.Vertex.json.gz \
   -o outputs/ccle/maf.AlleleCall.Edge.json.gz \
   -o outputs/ccle/maf.AlleleIn.Edge.json.gz \
@@ -2265,7 +2271,7 @@ dvc run --file outputs.ccle.maf.dvc --yes \
   -o outputs/ccle/maf.Individual.Vertex.json.gz \
   -o outputs/ccle/maf.InProject.Edge.json.gz \
   -o outputs/ccle/maf.Project.Vertex.json.gz \
-  "transform/ccle/ccle_maf_transform.sh"
+  "python3 transform/ccle/ccle_maf_transform.py"
 #
 dvc run --file outputs.ccle.expression_tatlow.dvc --yes \
   -d source/ccle/expression/CCLE_tpm.tsv.gz \
@@ -2294,11 +2300,13 @@ dvc run --file outputs.ccle.dvc --yes \
   -o outputs/ccle/AliquotFor.Edge.json.gz \
   -o outputs/ccle/Biosample.Vertex.json.gz \
   -o outputs/ccle/BiosampleFor.Edge.json.gz \
-  -o outputs/ccle/InProject.Edge.json.gz \
   -o outputs/ccle/Individual.Vertex.json.gz \
+  -o outputs/ccle/InProject.Edge.json.gz \
+  -o outputs/ccle/Project.Vertex.json.gz \
+  -o outputs/ccle/InProgram.Edge.json.gz \
+  -o outputs/ccle/Program.Vertex.json.gz \
   -o outputs/ccle/Phenotype.Vertex.json.gz \
   -o outputs/ccle/PhenotypeOf.Edge.json.gz \
-  -o outputs/ccle/Project.Vertex.json.gz \
   "python3 transform/ccle/samples.py"
 #
 dvc run --file outputs.ccle.drug_response.dvc --yes \
@@ -2314,6 +2322,8 @@ dvc run --file outputs.ccle.drug_response.dvc --yes \
   -o outputs/ccle/drug_response.Individual.Vertex.json.gz \
   -o outputs/ccle/drug_response.InProject.Edge.json.gz \
   -o outputs/ccle/drug_response.Project.Vertex.json.gz \
+  -o outputs/ccle/drug_response.InProgram.Edge.json.gz \
+  -o outputs/ccle/drug_response.Program.Vertex.json.gz \
   "python3 transform/ccle/drug_response.py"
 #
 dvc run --file outputs.bmeg_manifest.dvc --yes \
@@ -2324,7 +2334,9 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/ccle/drug_response.Biosample.Vertex.json.gz \
   -d outputs/ccle/drug_response.DrugResponse.Vertex.json.gz \
   -d outputs/ccle/drug_response.Individual.Vertex.json.gz \
+  -d outputs/ccle/drug_response.InProgram.Edge.json.gz \
   -d outputs/ccle/drug_response.InProject.Edge.json.gz \
+  -d outputs/ccle/drug_response.Program.Vertex.json.gz \
   -d outputs/ccle/drug_response.Project.Vertex.json.gz \
   -d outputs/ccle/drug_response.ResponseIn.Edge.json.gz \
   -d outputs/ccle/AliquotFor.Edge.json.gz \
@@ -2332,9 +2344,11 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/ccle/BiosampleFor.Edge.json.gz \
   -d outputs/ccle/Biosample.Vertex.json.gz \
   -d outputs/ccle/Individual.Vertex.json.gz \
+  -d outputs/ccle/InProgram.Edge.json.gz \
   -d outputs/ccle/InProject.Edge.json.gz \
   -d outputs/ccle/PhenotypeOf.Edge.json.gz \
   -d outputs/ccle/Phenotype.Vertex.json.gz \
+  -d outputs/ccle/Program.Vertex.json.gz \
   -d outputs/ccle/Project.Vertex.json.gz \
   -d outputs/ccle/GeneExpressionOf.Edge.json.gz \
   -d outputs/ccle/GeneExpression.Vertex.json.gz \
@@ -2348,6 +2362,7 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/ccle/tatlow.Project.Vertex.json.gz \
   -d outputs/ccle/tatlow.TranscriptExpressionOf.Edge.json.gz \
   -d outputs/ccle/tatlow.TranscriptExpression.Vertex.json.gz \
+  -d outputs/ccle/Biosample.Vertex.json.gz \
   -d outputs/ccle/maf.AliquotFor.Edge.json.gz \
   -d outputs/ccle/maf.Aliquot.Vertex.json.gz \
   -d outputs/ccle/maf.AlleleCall.Edge.json.gz \
@@ -2370,7 +2385,9 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/ctrp/ctrp.Biosample.Vertex.json.gz \
   -d outputs/ctrp/ctrp.DrugResponse.Vertex.json.gz \
   -d outputs/ctrp/ctrp.Individual.Vertex.json.gz \
+  -d outputs/ctrp/ctrp.InProgram.Edge.json.gz \
   -d outputs/ctrp/ctrp.InProject.Edge.json.gz \
+  -d outputs/ctrp/ctrp.Program.Vertex.json.gz \
   -d outputs/ctrp/ctrp.Project.Vertex.json.gz \
   -d outputs/ctrp/ctrp.ResponseIn.Edge.json.gz \
   -d outputs/ensembl/ExonFor.Edge.json.gz \
@@ -2397,7 +2414,10 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/gdc/Biosample.Vertex.json.gz \
   -d outputs/gdc/Individual.Vertex.json.gz \
   -d outputs/gdc/InProject.Edge.json.gz \
+  -d outputs/gdc/InProgram.Edge.json.gz \
+  -d outputs/gdc/Program.Vertex.json.gz \
   -d outputs/gdc/Project.Vertex.json.gz \
+  -d outputs/ccle/Biosample.Vertex.json.gz \
   -d outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz \
   -d outputs/gdsc/gdsc.ResponseIn.Edge.json.gz \
   -d outputs/go/GeneOntologyIsA.Edge.json.gz \

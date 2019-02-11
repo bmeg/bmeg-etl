@@ -36,9 +36,9 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
     prog = Program(program_id="CCLE")
     emitter.emit_vertex(prog)
 
-    # lookup table to convert to DepMap_IDs
+    # lookup table to convert CCLE names to DepMap_IDs
     samples = build_ccle2depmap_conversion_table(biosample_path)
-    # lookup projects
+    # lookup table for projects
     projects = build_project_lookup(biosample_path)
 
     # input and map

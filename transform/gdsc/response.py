@@ -2,8 +2,9 @@ import re
 
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import Aliquot, DrugResponse
-from bmeg.edge import ResponseIn, ResponseTo
+from bmeg.ccle import build_project_lookup
+from bmeg.vertex import Aliquot, DrugResponse, Individual, Project, Program
+from bmeg.edge import ResponseIn, ResponseTo, InProject, InProgram
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
 from bmeg.enrichers.drug_enricher import compound_factory
@@ -35,11 +36,19 @@ BROAD_LOOKUP = {
 
 def transform(
         path="source/gdsc/GDSC_AUC.csv",
+        biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
         emitter_prefix=DEFAULT_PREFIX,
         emitter_directory=DEFAULT_DIRECTORY,
 ):
     logging.info('transform')
     emitter = JSONEmitter(prefix=emitter_prefix, directory=emitter_directory)
+
+    prog = Program(program_id="GDSC")
+    emitter.emit_vertex(prog)
+
+    # lookup table for projects
+    projects = build_project_lookup(biosample_path)
+
     r = bmeg.ioutils.read_csv(path)
 
     # Fix up the headers:
@@ -71,17 +80,40 @@ def transform(
 
     # Iterate all rows, writing out the expression for different tissue types
     # to separate files.
-    c = t = 0
+    c = 0
     compound_gids = []
+    individual_gids = []
+    project_gids = []
     for row in r:
         c += 1
-        t += 1
         for key, raw_value in row.items():
             # Skip the first column
             if key == "compound_id":
                 continue
 
             sample = key
+
+            # Create project and link to individual and program
+            project_id = "GDSC_Unkown"
+            if sample in projects:
+                project_id = "GDSC_{}".format(projects[sample])
+            proj = Project(project_id)
+            if Individual.make_gid(sample) not in individual_gids:
+                emitter.emit_edge(
+                    InProject(),
+                    Individual.make_gid(sample),
+                    proj.gid(),
+                )
+                individual_gids.append(Individual.make_gid(sample))
+            if proj.gid() not in project_gids:
+                emitter.emit_vertex(proj)
+                emitter.emit_edge(
+                    InProgram(),
+                    proj.gid(),
+                    prog.gid()
+                )
+                project_gids.append(proj.gid())
+
             value = None
             if raw_value != "NA":
                 value = float(raw_value)
@@ -111,9 +143,8 @@ def transform(
                 compound.gid(),
             )
 
-            if c % 10 == 0:
-                logging.info('imported {}'.format(t))
-                c = 0
+        if c % 10 == 0:
+            logging.info('imported {}'.format(c))
 
     emitter.close()
 
