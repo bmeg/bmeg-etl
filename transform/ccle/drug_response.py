@@ -70,13 +70,14 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
         sample_id = drug_response.sample_id
         # if no match, we will need to create project->individual->biosample->aliquot
         if sample_id in samples:
-            drug_response.sample_id = samples[sample_id]
+            sample_id = samples[sample_id]
         elif sample_id.split("_")[0] in samples:
-            drug_response.sample_id = samples[sample_id.split("_")[0]]
+            sample_id = samples[sample_id.split("_")[0]]
         else:
             if sample_id not in missing_cell_lines:
                 missing_cell_lines.append(sample_id)
 
+        drug_response.sample_id = sample_id
         # Create project and link to individual and program
         project_id = "CCLE_Unkown"
         if sample_id in projects:

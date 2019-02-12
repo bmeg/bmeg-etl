@@ -111,7 +111,7 @@ outs:
 Provenance
 ------
 
-To generate [bmeg_file_manifest.txt](scripts/bmeg_file_manifest.txt) run `bash scripts/generate_bmeg_file_manifest.sh`.
+To generate [bmeg_file_manifest.txt](scripts/bmeg_file_manifest.txt) run `python scripts/generate_bmeg_file_manifest.py`.
 
 The dvc files were created using the commands in [dvc_commands.txt](dvc_commands.txt)
 To recreate this file, run `bash scripts/generate_dvc_commands.sh`.

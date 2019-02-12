@@ -2,7 +2,9 @@ cmd: python3 transform/ccle/drug_response.py
 deps:
 - md5: 917f411573d5e68f9d61234e9e1bb539
   path: source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv
-md5: 6405f2e2929ab46239f995fab4fcebab
+- md5: 42322cba51e626d48b89369540a8d665
+  path: outputs/ccle/Biosample.Vertex.json.gz
+md5: 4aadde8b11650937c8aae34c77c42b67
 outs:
 - cache: true
   md5: 600526ae5bed66376d5f073dca2bf5cc
@@ -32,13 +34,13 @@ outs:
   md5: 67c58901533cde6107569d60af81f660
   path: outputs/ccle/drug_response.Individual.Vertex.json.gz
 - cache: true
-  md5: 42c4aef64b256a3eb3e53f70f0c96fe0
+  md5: 7d15b29f7f1da6cac5fdac9635e423b6
   path: outputs/ccle/drug_response.InProject.Edge.json.gz
 - cache: true
-  md5: 0b9b0338bbaf8fd390c52995941def4c
+  md5: 8eeaf055eb35863f3946d1ca9bc911c9
   path: outputs/ccle/drug_response.Project.Vertex.json.gz
 - cache: true
-  md5: 7e9d8cd5fd589b49134a568b35beb46d
+  md5: eb1c9c50025e823c4c4cfc3e2c1bd6eb
   path: outputs/ccle/drug_response.InProgram.Edge.json.gz
 - cache: true
   md5: 538e806d32fa92be619fdf84af5376c2
