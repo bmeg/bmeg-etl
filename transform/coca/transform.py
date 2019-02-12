@@ -1,6 +1,6 @@
 import pandas as pd
 
-from bmeg.vertex import COCACluster, Individual
+from bmeg.vertex import COCACluster, Case
 from bmeg.edge import COCAClusterFor
 from bmeg.emitter import JSONEmitter
 from bmeg.utils import get_tcga_individual_barcode
@@ -21,7 +21,7 @@ df = pd.read_excel("source/coca/1-s2.0-S0092867418303027-mmc6.xlsx",
 
 coca_clusters = {}
 for index, row in df.iterrows():
-    individual_id = get_tcga_individual_barcode(row["Sample ID"])
+    case_id = get_tcga_individual_barcode(row["Sample ID"])
     cluster_id = str(row["iCluster"])
     if cluster_id not in coca_clusters:
         # TODO add edge from each coca cluster to the pubmed vertex that
@@ -31,6 +31,6 @@ for index, row in df.iterrows():
         emitter.emit_vertex(coca)
     emitter.emit_edge(COCAClusterFor(),
                       from_gid=COCACluster.make_gid(cluster_id),
-                      to_gid=Individual.make_gid(individual_id))
+                      to_gid=Case.make_gid(case_id))
 
 emitter.close()

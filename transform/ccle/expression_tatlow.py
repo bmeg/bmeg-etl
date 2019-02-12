@@ -58,7 +58,7 @@ def transform(source_path,
                     aliquot_id = bio_samples[k]
                     break
 
-            # if no match, we will need to create project->individual->biosample->aliquot
+            # if no match, we will need to create project->case->biosample->aliquot
             if not aliquot_id:
                 aliquot_id = ccle_id
                 if ccle_id not in missing_cell_lines:
@@ -82,7 +82,7 @@ def transform(source_path,
             to_gid=Aliquot.make_gid(aliquot_id)
         )
 
-    # generate project, individual, biosample, aliquot for missing cell lines
+    # generate project, case, biosample, aliquot for missing cell lines
     missing_ccle_cellline_factory(emitter=emitter,
                                   missing_ids=missing_cell_lines,
                                   project_id="DepMap_Unknown")

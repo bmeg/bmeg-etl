@@ -1,6 +1,6 @@
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import Biosample, Aliquot, Individual, Project, Program
+from bmeg.vertex import Biosample, Aliquot, Case, Project, Program
 from bmeg.edge import AliquotFor, BiosampleFor, InProject, InProgram, PhenotypeOf
 from bmeg.enrichers.phenotype_enricher import phenotype_factory
 from pydash import is_blank
@@ -12,7 +12,7 @@ def transform(path="source/ccle/DepMap-2018q4-celllines.csv",
     reader = bmeg.ioutils.read_csv(path)
 
     # Load sample metadata.
-    individual_gids = []
+    case_gids = []
     project_gids = []
     phenotype_gids = []
     prog = Program(program_id="DepMap")
@@ -33,11 +33,11 @@ def transform(path="source/ccle/DepMap-2018q4-celllines.csv",
             b.gid()
         )
 
-        i = Individual(individual_id=sample_id,
-                       ccle_attributes={'gender': row.get('Gender', None)})
-        if i.gid() not in individual_gids:
+        i = Case(case_id=sample_id,
+                 ccle_attributes={'gender': row.get('Gender', None)})
+        if i.gid() not in case_gids:
             emitter.emit_vertex(i)
-            individual_gids.append(i.gid())
+            case_gids.append(i.gid())
         emitter.emit_edge(
             BiosampleFor(),
             b.gid(),

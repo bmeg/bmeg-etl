@@ -3142,7 +3142,7 @@ deps:
   path: source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf
 - md5: 42322cba51e626d48b89369540a8d665
   path: outputs/ccle/Biosample.Vertex.json.gz
-md5: 5759793c0991dacf6db5682c59178248
+md5: 9a1028a9299a5dce3b967a85917889b3
 outs:
 - cache: true
   md5: a06b8088b3d6a8b54d3deabc364ace81
@@ -3166,7 +3166,7 @@ outs:
   md5: 0ba4233585b69eb076339cd2f994dd8d
   path: outputs/ccle/maf.Aliquot.Vertex.json.gz
 - cache: true
-  md5: 3834ed16c2674b686720ac9ebdf3c4ce
+  md5: 7975471db5aefd74fec9fd4f849fe899
   path: outputs/ccle/maf.BiosampleFor.Edge.json.gz
 - cache: true
   md5: bf4582d4d7bb5e6045c481df97142d4d
@@ -3175,10 +3175,10 @@ outs:
   md5: 31860168a855a6f1dabcb6aa106c39d6
   path: outputs/ccle/maf.Deadletter.Vertex.json.gz
 - cache: true
-  md5: a30ce420656026739514bc836ff84705
-  path: outputs/ccle/maf.Individual.Vertex.json.gz
+  md5: 505eab7969aff3ab36e1938e4cc494a6
+  path: outputs/ccle/maf.Case.Vertex.json.gz
 - cache: true
-  md5: 2b54da4250a3f7d755094949b33cf0f4
+  md5: 0d2155078977b9397ebfc541983aa03c
   path: outputs/ccle/maf.InProject.Edge.json.gz
 - cache: true
   md5: c92ccd2e86632c733fd589caee5cd132

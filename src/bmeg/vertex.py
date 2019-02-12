@@ -302,18 +302,18 @@ class COCACluster(Vertex):
 
 @enforce_types
 @dataclass(frozen=True)
-class Individual(Vertex):
-    individual_id: str
+class Case(Vertex):
+    case_id: str
     gdc_attributes: Union[None, dict] = None
     gtex_attributes: Union[None, dict] = None
     ccle_attributes: Union[None, dict] = None
 
     def gid(self):
-        return Individual.make_gid(self.individual_id)
+        return Case.make_gid(self.case_id)
 
     @classmethod
-    def make_gid(cls, individual_id):
-        return GID("%s:%s" % (cls.__name__, individual_id))
+    def make_gid(cls, case_id):
+        return GID("%s:%s" % (cls.__name__, case_id))
 
 
 @enforce_types

@@ -128,7 +128,7 @@ class StructureFor(Edge):
 @dataclass(frozen=True)
 class COCAClusterFor(Edge):
     """
-    COCACluster -> Individual
+    COCACluster -> Case
     """
     pass
 
@@ -174,7 +174,7 @@ class InProgram(Edge):
 @dataclass(frozen=True)
 class InProject(Edge):
     """
-    Individual -> Project
+    Case -> Project
     """
     pass
 
@@ -183,7 +183,7 @@ class InProject(Edge):
 @dataclass(frozen=True)
 class BiosampleFor(Edge):
     """
-    Biosample -> Individual
+    Biosample -> Case
     """
     pass
 
@@ -329,7 +329,7 @@ class PhenotypeOf(Edge):
 @dataclass(frozen=True)
 class TreatedWith(Edge):
     """
-    Individual -> Compound
+    Case -> Compound
     """
     pass
 

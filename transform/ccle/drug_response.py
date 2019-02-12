@@ -4,7 +4,7 @@ from types import SimpleNamespace as SN
 
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import DrugResponse, Aliquot, Individual, Project, Program
+from bmeg.vertex import DrugResponse, Aliquot, Case, Project, Program
 from bmeg.edge import ResponseIn, ResponseTo, InProject, InProgram
 from bmeg.enrichers.drug_enricher import compound_factory
 from bmeg.ccle import build_ccle2depmap_conversion_table, build_project_lookup, missing_ccle_cellline_factory
@@ -47,7 +47,7 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
     compound_gids = []
     # read the drug response csv
     missing_cell_lines = []
-    individual_gids = []
+    case_gids = []
     project_gids = []
     for line in input_stream:
         # map the names to snake case
@@ -68,7 +68,7 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
         drug_response = SN(**mline)
 
         sample_id = drug_response.sample_id
-        # if no match, we will need to create project->individual->biosample->aliquot
+        # if no match, we will need to create project->case->biosample->aliquot
         if sample_id in samples:
             sample_id = samples[sample_id]
         elif sample_id.split("_")[0] in samples:
@@ -78,20 +78,13 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
                 missing_cell_lines.append(sample_id)
 
         drug_response.sample_id = sample_id
-        # Create project and link to individual and program
+        # Create project and link to case and program
         project_id = "CCLE_Unkown"
         if sample_id in projects:
             project_id = "CCLE_{}".format(projects[sample_id])
         elif "_".join(sample_id.split("_")[1:]) in projects:
             project_id = "CCLE_{}".format(projects["_".join(sample_id.split("_")[1:])])
         proj = Project(project_id)
-        if Individual.make_gid(sample_id) not in individual_gids:
-            emitter.emit_edge(
-                InProject(),
-                Individual.make_gid(sample_id),
-                proj.gid(),
-            )
-            individual_gids.append(Individual.make_gid(sample_id))
         if proj.gid() not in project_gids:
             emitter.emit_vertex(proj)
             emitter.emit_edge(
@@ -100,6 +93,13 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
                 prog.gid()
             )
             project_gids.append(proj.gid())
+        if Case.make_gid(sample_id) not in case_gids and sample_id not in missing_cell_lines:
+            emitter.emit_edge(
+                InProject(),
+                Case.make_gid(sample_id),
+                proj.gid(),
+            )
+            case_gids.append(Case.make_gid(sample_id))
 
         # create drug_response vertex
         drug_resp = DrugResponse(**drug_response.__dict__)
@@ -122,12 +122,12 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
             compound.gid(),
         )
 
-    # generate project, individual, biosample, aliquot for missing cell lines
+    # generate project, case, biosample, aliquot for missing cell lines
     missing_ccle_cellline_factory(emitter=emitter,
                                   missing_ids=missing_cell_lines,
                                   project_prefix="CCLE",
-                                  individual_gids=individual_gids,
-                                  project_gids=project_gids)
+                                  project_gids=project_gids,
+                                  project_lookup=projects)
 
     emitter.close()
 

@@ -3,7 +3,7 @@ import os
 import pytest
 import contextlib
 from transform.ctrp.transform import transform
-from bmeg.vertex import DrugResponse, Aliquot, Compound, Biosample, Individual, Project
+from bmeg.vertex import DrugResponse, Aliquot, Compound, Biosample, Case, Project, Program
 
 
 @pytest.fixture
@@ -70,15 +70,16 @@ def validate(helpers, emitter_directory, biosample_path, metadrugPath,
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot'])
     # missing vertexes
     for f in ['ctrp.Aliquot.Vertex.json.gz', 'ctrp.Biosample.Vertex.json.gz',
-              'ctrp.Individual.Vertex.json.gz', 'ctrp.Project.Vertex.json.gz']:
+              'ctrp.Case.Vertex.json.gz', 'ctrp.Project.Vertex.json.gz',
+              'ctrp.Program.Vertex.json.gz']:
         v = eval(f.split('.')[1])
         f = os.path.join(emitter_directory, f)
         helpers.assert_vertex_file_valid(v, f)
     # missing edges
     for f, v1, v2 in [('ctrp.AliquotFor.Edge.json.gz', Aliquot, Biosample),
-                      ('ctrp.BiosampleFor.Edge.json.gz',
-                       Biosample, Individual),
-                      ('ctrp.InProject.Edge.json.gz', Individual, Project)]:
+                      ('ctrp.BiosampleFor.Edge.json.gz', Biosample, Case),
+                      ('ctrp.InProject.Edge.json.gz', Case, Project),
+                      ('ctrp.InProgram.Edge.json.gz', Project, Program)]:
         f = os.path.join(emitter_directory, f)
         helpers.assert_edge_file_valid(v1, v2, f)
 

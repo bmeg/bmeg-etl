@@ -3,7 +3,7 @@ import os
 import contextlib
 import pytest
 from transform.ccle.expression_tatlow import transform
-from bmeg.vertex import TranscriptExpression, Aliquot, Biosample, Individual, Project
+from bmeg.vertex import TranscriptExpression, Aliquot, Biosample, Case, Project
 
 
 @pytest.fixture
@@ -37,12 +37,12 @@ def validate(helpers, ccle_tpm, biosample_path, emitter_directory):
 
     # test extra cell lines
     helpers.assert_vertex_file_valid(Aliquot, os.path.join(emitter_directory, 'tatlow.Aliquot.Vertex.json.gz'))
-    helpers.assert_vertex_file_valid(Individual, os.path.join(emitter_directory, 'tatlow.Individual.Vertex.json.gz'))
+    helpers.assert_vertex_file_valid(Case, os.path.join(emitter_directory, 'tatlow.Case.Vertex.json.gz'))
     helpers.assert_vertex_file_valid(Project, os.path.join(emitter_directory, 'tatlow.Project.Vertex.json.gz'))
 
     helpers.assert_edge_file_valid(Aliquot, Biosample, os.path.join(emitter_directory, 'tatlow.AliquotFor.Edge.json.gz'))
-    helpers.assert_edge_file_valid(Biosample, Individual, os.path.join(emitter_directory, 'tatlow.BiosampleFor.Edge.json.gz'))
-    helpers.assert_edge_file_valid(Individual, Project, os.path.join(emitter_directory, 'tatlow.InProject.Edge.json.gz'))
+    helpers.assert_edge_file_valid(Biosample, Case, os.path.join(emitter_directory, 'tatlow.BiosampleFor.Edge.json.gz'))
+    helpers.assert_edge_file_valid(Case, Project, os.path.join(emitter_directory, 'tatlow.InProject.Edge.json.gz'))
 
 
 def test_simple(helpers, ccle_tpm, biosample_path, emitter_directory):

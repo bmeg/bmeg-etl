@@ -6,7 +6,7 @@ from bmeg.vertex import Callset, Gene
 from bmeg.edge import AlleleCall
 from bmeg.emitter import new_emitter
 from bmeg.maf.maf_transform import get_value, MAFTransformer
-from bmeg.ccle import build_ccle2depmap_conversion_table, missing_ccle_cellline_factory
+from bmeg.ccle import build_ccle2depmap_conversion_table, build_project_lookup, missing_ccle_cellline_factory
 
 
 CCLE_EXTENSION_CALLSET_INT_KEYS = {
@@ -114,10 +114,11 @@ def transform(mafpath,
             mafpath=f,
             source="ccle")
 
-    # generate project, individual, biosample, aliquot for missing cell lines
+    # generate project, case, biosample, aliquot for missing cell lines
     missing_ccle_cellline_factory(emitter=emitter,
                                   missing_ids=MISSING_CELL_LINES,
-                                  project_prefix="DepMap")
+                                  project_prefix="DepMap",
+                                  project_lookup=build_project_lookup(ccle_biosample_path))
 
     emitter.close()
 

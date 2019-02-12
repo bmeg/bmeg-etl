@@ -3,7 +3,7 @@ import re
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
 from bmeg.ccle import build_project_lookup
-from bmeg.vertex import Aliquot, DrugResponse, Individual, Project, Program
+from bmeg.vertex import Aliquot, DrugResponse, Case, Project, Program
 from bmeg.edge import ResponseIn, ResponseTo, InProject, InProgram
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
@@ -82,7 +82,7 @@ def transform(
     # to separate files.
     c = 0
     compound_gids = []
-    individual_gids = []
+    case_gids = []
     project_gids = []
     for row in r:
         c += 1
@@ -93,18 +93,18 @@ def transform(
 
             sample = key
 
-            # Create project and link to individual and program
+            # Create project and link to case and program
             project_id = "GDSC_Unkown"
             if sample in projects:
                 project_id = "GDSC_{}".format(projects[sample])
             proj = Project(project_id)
-            if Individual.make_gid(sample) not in individual_gids:
+            if Case.make_gid(sample) not in case_gids:
                 emitter.emit_edge(
                     InProject(),
-                    Individual.make_gid(sample),
+                    Case.make_gid(sample),
                     proj.gid(),
                 )
-                individual_gids.append(Individual.make_gid(sample))
+                case_gids.append(Case.make_gid(sample))
             if proj.gid() not in project_gids:
                 emitter.emit_vertex(proj)
                 emitter.emit_edge(

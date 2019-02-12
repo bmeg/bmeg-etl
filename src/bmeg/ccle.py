@@ -2,7 +2,7 @@ import ujson
 from types import SimpleNamespace as SN
 
 import bmeg.ioutils
-from bmeg.vertex import Aliquot, Biosample, Individual, Project
+from bmeg.vertex import Aliquot, Biosample, Case, Project
 from bmeg.edge import AliquotFor, BiosampleFor, InProject
 from bmeg.emitter import JSONEmitter, DebugEmitter
 
@@ -63,8 +63,9 @@ def build_ccle2depmap_conversion_table(ccle_biosample_path="outputs/ccle/Biosamp
 
 
 def missing_ccle_cellline_factory(emitter, missing_ids,
-                                  project_gids=[], individual_gids=[],
-                                  project_prefix="", project_id=""):
+                                  project_gids=[],
+                                  project_prefix="", project_id="",
+                                  project_lookup={}):
     """ create stub aliquot, biosample, indiviudal, project and their edges """
     if not (isinstance(emitter, JSONEmitter) or isinstance(emitter, DebugEmitter)):
         raise TypeError("expected emitter to be an emitter")
@@ -74,8 +75,6 @@ def missing_ccle_cellline_factory(emitter, missing_ids,
         pass
     else:
         raise TypeError("expected missing_ids to be a list or string")
-    if not isinstance(individual_gids, list):
-        raise TypeError("expected individual_gids to be a list of strings")
     if not isinstance(project_gids, list):
         raise TypeError("expected project_gids to be a list of strings")
     if not isinstance(project_prefix, str):
@@ -83,16 +82,15 @@ def missing_ccle_cellline_factory(emitter, missing_ids,
     if not isinstance(project_id, str):
         raise TypeError("expected project_id to be a string")
 
-    projects = build_project_lookup()
     for aliquot_id in missing_ids:
         project = project_id
         if not project:
             project = aliquot_id
             alias = "_".join(project.split('_')[1:])
-            if project in projects:
-                project = projects[project]
-            elif alias in projects:
-                project = projects[alias]
+            if project in project_lookup:
+                project = project_lookup[project]
+            elif alias in project_lookup:
+                project = project_lookup[alias]
             else:
                 project = "Unknown"
 
@@ -104,15 +102,13 @@ def missing_ccle_cellline_factory(emitter, missing_ids,
             emitter.emit_vertex(p)
             project_gids.append(p.gid())
 
-        i = Individual(individual_id=aliquot_id)
-        if i.gid() not in individual_gids:
-            emitter.emit_vertex(i)
-            emitter.emit_edge(
-                InProject(),
-                i.gid(),
-                p.gid(),
-            )
-            individual_gids.append(i.gid())
+        i = Case(case_id=aliquot_id)
+        emitter.emit_vertex(i)
+        emitter.emit_edge(
+            InProject(),
+            i.gid(),
+            p.gid(),
+        )
 
         b = Biosample(biosample_id=aliquot_id)
         emitter.emit_vertex(b)

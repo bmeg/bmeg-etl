@@ -4,7 +4,7 @@ deps:
   path: source/gdsc/GDSC_AUC.csv
 - md5: 42322cba51e626d48b89369540a8d665
   path: outputs/ccle/Biosample.Vertex.json.gz
-md5: 3a3d5a71a2ac11a8ef31596a3c4c390e
+md5: ebc3320fd2d96d80140675f2ebf8ab74
 outs:
 - cache: true
   md5: cef2bf0d7f24e6393239983cbc52ee45
@@ -18,3 +18,15 @@ outs:
 - cache: true
   md5: ca895b4056bda95d8b7aee6638aa0991
   path: outputs/gdsc/gdsc.ResponseTo.Edge.json.gz
+- cache: true
+  md5: 1491201f10f6099b04a1d192b26d7efd
+  path: outputs/gdsc/gdsc.Project.Vertex.json.gz
+- cache: true
+  md5: 05542db109ae94423d2ae1d0734facc7
+  path: outputs/gdsc/gdsc.InProject.Edge.json.gz
+- cache: true
+  md5: 5873bef4f4591a5a5275396148bd5690
+  path: outputs/gdsc/gdsc.Program.Vertex.json.gz
+- cache: true
+  md5: be97264d9f4156e443af1bf0a074e868
+  path: outputs/gdsc/gdsc.InProgram.Edge.json.gz
