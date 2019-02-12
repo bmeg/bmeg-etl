@@ -568,9 +568,11 @@ dvc run --file outputs.gtex.dvc --yes \
   -o outputs/gtex/gtex.AliquotFor.Edge.json.gz \
   -o outputs/gtex/gtex.Biosample.Vertex.json.gz \
   -o outputs/gtex/gtex.BiosampleFor.Edge.json.gz \
+  -o outputs/gtex/gtex.Case.Vertex.json.gz \
   -o outputs/gtex/gtex.InProject.Edge.json.gz \
-  -o outputs/gtex/gtex.Individual.Vertex.json.gz \
   -o outputs/gtex/gtex.Project.Vertex.json.gz \
+  -o outputs/gtex/gtex.InProgram.Edge.json.gz \
+  -o outputs/gtex/gtex.Program.Vertex.json.gz \
   "python3 transform/gtex/samples.py"
 #
 dvc run --file outputs.go.gaf2schema.dvc --yes \
@@ -592,6 +594,10 @@ dvc run --file outputs.gdsc.dvc --yes \
   -o outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz \
   -o outputs/gdsc/gdsc.ResponseIn.Edge.json.gz \
   -o outputs/gdsc/gdsc.ResponseTo.Edge.json.gz \
+  -o outputs/gdsc/gdsc.Project.Vertex.json.gz \
+  -o outputs/gdsc/gdsc.InProject.Edge.json.gz \
+  -o outputs/gdsc/gdsc.Program.Vertex.json.gz \
+  -o outputs/gdsc/gdsc.InProgram.Edge.json.gz \
   "python3 transform/gdsc/response.py"
 #
 dvc run --file outputs.gdc.projects.dvc --yes \
@@ -609,7 +615,7 @@ dvc run --file outputs.gdc.cases.dvc --yes \
   -o outputs/gdc/BiosampleFor.Edge.json.gz \
   -o outputs/gdc/Compound.Vertex.json.gz \
   -o outputs/gdc/InProject.Edge.json.gz \
-  -o outputs/gdc/Individual.Vertex.json.gz \
+  -o outputs/gdc/Case.Vertex.json.gz \
   -o outputs/gdc/TreatedWith.Edge.json.gz \
   "python3 -m transform.gdc.cases"
 #
@@ -653,6 +659,7 @@ dvc run --file outputs.ctrp.drugresponse.dvc --yes \
   -d source/ctrp/v20.data.curves_post_qc.txt \
   -d source/ctrp/v20.meta.per_experiment.txt \
   -d source/ctrp/v20.data.per_cpd_post_qc.txt \
+  -d outputs/ccle/Biosample.Vertex.json.gz \
   -o outputs/ctrp/ctrp.Compound.Vertex.json.gz \
   -o outputs/ctrp/ctrp.DrugResponse.Vertex.json.gz \
   -o outputs/ctrp/ctrp.ResponseIn.Edge.json.gz \
@@ -661,7 +668,7 @@ dvc run --file outputs.ctrp.drugresponse.dvc --yes \
   -o outputs/ctrp/ctrp.Aliquot.Vertex.json.gz \
   -o outputs/ctrp/ctrp.BiosampleFor.Edge.json.gz \
   -o outputs/ctrp/ctrp.Biosample.Vertex.json.gz \
-  -o outputs/ctrp/ctrp.Individual.Vertex.json.gz \
+  -o outputs/ctrp/ctrp.Case.Vertex.json.gz \
   -o outputs/ctrp/ctrp.InProject.Edge.json.gz \
   -o outputs/ctrp/ctrp.Project.Vertex.json.gz \
   -o outputs/ctrp/ctrp.InProgram.Edge.json.gz \
@@ -2268,7 +2275,7 @@ dvc run --file outputs.ccle.maf.dvc --yes \
   -o outputs/ccle/maf.BiosampleFor.Edge.json.gz \
   -o outputs/ccle/maf.Biosample.Vertex.json.gz \
   -o outputs/ccle/maf.Deadletter.Vertex.json.gz \
-  -o outputs/ccle/maf.Individual.Vertex.json.gz \
+  -o outputs/ccle/maf.Case.Vertex.json.gz \
   -o outputs/ccle/maf.InProject.Edge.json.gz \
   -o outputs/ccle/maf.Project.Vertex.json.gz \
   "python3 transform/ccle/ccle_maf_transform.py"
@@ -2284,7 +2291,7 @@ dvc run --file outputs.ccle.expression_tatlow.dvc --yes \
   -o outputs/ccle/tatlow.TranscriptExpression.Vertex.json.gz \
   -o outputs/ccle/tatlow.TranscriptExpressionOf.Edge.json.gz \
   -o outputs/ccle/tatlow.InProject.Edge.json.gz \
-  -o outputs/ccle/tatlow.Individual.Vertex.json.gz \
+  -o outputs/ccle/tatlow.Case.Vertex.json.gz \
   -o outputs/ccle/tatlow.Project.Vertex.json.gz \
   "python3 transform/ccle/expression_tatlow.py"
 #
@@ -2300,7 +2307,7 @@ dvc run --file outputs.ccle.dvc --yes \
   -o outputs/ccle/AliquotFor.Edge.json.gz \
   -o outputs/ccle/Biosample.Vertex.json.gz \
   -o outputs/ccle/BiosampleFor.Edge.json.gz \
-  -o outputs/ccle/Individual.Vertex.json.gz \
+  -o outputs/ccle/Case.Vertex.json.gz \
   -o outputs/ccle/InProject.Edge.json.gz \
   -o outputs/ccle/Project.Vertex.json.gz \
   -o outputs/ccle/InProgram.Edge.json.gz \
@@ -2320,7 +2327,7 @@ dvc run --file outputs.ccle.drug_response.dvc --yes \
   -o outputs/ccle/drug_response.Aliquot.Vertex.json.gz \
   -o outputs/ccle/drug_response.BiosampleFor.Edge.json.gz \
   -o outputs/ccle/drug_response.Biosample.Vertex.json.gz \
-  -o outputs/ccle/drug_response.Individual.Vertex.json.gz \
+  -o outputs/ccle/drug_response.Case.Vertex.json.gz \
   -o outputs/ccle/drug_response.InProject.Edge.json.gz \
   -o outputs/ccle/drug_response.Project.Vertex.json.gz \
   -o outputs/ccle/drug_response.InProgram.Edge.json.gz \
@@ -2333,11 +2340,11 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/ccle/AliquotFor.Edge.json.gz \
   -d outputs/ccle/Biosample.Vertex.json.gz \
   -d outputs/ccle/BiosampleFor.Edge.json.gz \
+  -d outputs/ccle/Case.Vertex.json.gz \
   -d outputs/ccle/GeneExpression.Vertex.json.gz \
   -d outputs/ccle/GeneExpressionOf.Edge.json.gz \
   -d outputs/ccle/InProgram.Edge.json.gz \
   -d outputs/ccle/InProject.Edge.json.gz \
-  -d outputs/ccle/Individual.Vertex.json.gz \
   -d outputs/ccle/Phenotype.Vertex.json.gz \
   -d outputs/ccle/PhenotypeOf.Edge.json.gz \
   -d outputs/ccle/Program.Vertex.json.gz \
@@ -2346,10 +2353,10 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/ccle/drug_response.AliquotFor.Edge.json.gz \
   -d outputs/ccle/drug_response.Biosample.Vertex.json.gz \
   -d outputs/ccle/drug_response.BiosampleFor.Edge.json.gz \
+  -d outputs/ccle/drug_response.Case.Vertex.json.gz \
   -d outputs/ccle/drug_response.DrugResponse.Vertex.json.gz \
   -d outputs/ccle/drug_response.InProgram.Edge.json.gz \
   -d outputs/ccle/drug_response.InProject.Edge.json.gz \
-  -d outputs/ccle/drug_response.Individual.Vertex.json.gz \
   -d outputs/ccle/drug_response.Program.Vertex.json.gz \
   -d outputs/ccle/drug_response.Project.Vertex.json.gz \
   -d outputs/ccle/drug_response.ResponseIn.Edge.json.gz \
@@ -2361,16 +2368,16 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/ccle/maf.BiosampleFor.Edge.json.gz \
   -d outputs/ccle/maf.Callset.Vertex.json.gz \
   -d outputs/ccle/maf.CallsetFor.Edge.json.gz \
+  -d outputs/ccle/maf.Case.Vertex.json.gz \
   -d outputs/ccle/maf.Deadletter.Vertex.json.gz \
   -d outputs/ccle/maf.InProject.Edge.json.gz \
-  -d outputs/ccle/maf.Individual.Vertex.json.gz \
   -d outputs/ccle/maf.Project.Vertex.json.gz \
   -d outputs/ccle/tatlow.Aliquot.Vertex.json.gz \
   -d outputs/ccle/tatlow.AliquotFor.Edge.json.gz \
   -d outputs/ccle/tatlow.Biosample.Vertex.json.gz \
   -d outputs/ccle/tatlow.BiosampleFor.Edge.json.gz \
+  -d outputs/ccle/tatlow.Case.Vertex.json.gz \
   -d outputs/ccle/tatlow.InProject.Edge.json.gz \
-  -d outputs/ccle/tatlow.Individual.Vertex.json.gz \
   -d outputs/ccle/tatlow.Project.Vertex.json.gz \
   -d outputs/ccle/tatlow.TranscriptExpression.Vertex.json.gz \
   -d outputs/ccle/tatlow.TranscriptExpressionOf.Edge.json.gz \
@@ -2382,10 +2389,10 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/ctrp/ctrp.AliquotFor.Edge.json.gz \
   -d outputs/ctrp/ctrp.Biosample.Vertex.json.gz \
   -d outputs/ctrp/ctrp.BiosampleFor.Edge.json.gz \
+  -d outputs/ctrp/ctrp.Case.Vertex.json.gz \
   -d outputs/ctrp/ctrp.DrugResponse.Vertex.json.gz \
   -d outputs/ctrp/ctrp.InProgram.Edge.json.gz \
   -d outputs/ctrp/ctrp.InProject.Edge.json.gz \
-  -d outputs/ctrp/ctrp.Individual.Vertex.json.gz \
   -d outputs/ctrp/ctrp.Program.Vertex.json.gz \
   -d outputs/ctrp/ctrp.Project.Vertex.json.gz \
   -d outputs/ctrp/ctrp.ResponseIn.Edge.json.gz \
@@ -2411,12 +2418,16 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/gdc/AliquotFor.Edge.json.gz \
   -d outputs/gdc/Biosample.Vertex.json.gz \
   -d outputs/gdc/BiosampleFor.Edge.json.gz \
+  -d outputs/gdc/Case.Vertex.json.gz \
   -d outputs/gdc/InProgram.Edge.json.gz \
   -d outputs/gdc/InProject.Edge.json.gz \
-  -d outputs/gdc/Individual.Vertex.json.gz \
   -d outputs/gdc/Program.Vertex.json.gz \
   -d outputs/gdc/Project.Vertex.json.gz \
   -d outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz \
+  -d outputs/gdsc/gdsc.InProgram.Edge.json.gz \
+  -d outputs/gdsc/gdsc.InProject.Edge.json.gz \
+  -d outputs/gdsc/gdsc.Program.Vertex.json.gz \
+  -d outputs/gdsc/gdsc.Project.Vertex.json.gz \
   -d outputs/gdsc/gdsc.ResponseIn.Edge.json.gz \
   -d outputs/go/GeneOntologyAnnotation.Edge.json.gz \
   -d outputs/go/GeneOntologyIsA.Edge.json.gz \
@@ -2427,8 +2438,10 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/gtex/gtex.AliquotFor.Edge.json.gz \
   -d outputs/gtex/gtex.Biosample.Vertex.json.gz \
   -d outputs/gtex/gtex.BiosampleFor.Edge.json.gz \
+  -d outputs/gtex/gtex.Case.Vertex.json.gz \
+  -d outputs/gtex/gtex.InProgram.Edge.json.gz \
   -d outputs/gtex/gtex.InProject.Edge.json.gz \
-  -d outputs/gtex/gtex.Individual.Vertex.json.gz \
+  -d outputs/gtex/gtex.Program.Vertex.json.gz \
   -d outputs/gtex/gtex.Project.Vertex.json.gz \
   -d outputs/mc3/AlleleCall.Edge.json.gz \
   -d outputs/mc3/AlleleIn.Edge.json.gz \
