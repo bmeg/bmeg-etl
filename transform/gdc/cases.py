@@ -4,9 +4,9 @@ https://gdc.cancer.gov/
 """
 
 from bmeg.util.cli import default_argument_parser
-from bmeg.edge import InProject, BiosampleFor, AliquotFor, TreatedWith
+from bmeg.edge import InProject, SampleFor, AliquotFor, TreatedWith
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import Case, Biosample, Project, Aliquot
+from bmeg.vertex import Case, Sample, Project, Aliquot
 from bmeg.ioutils import read_tsv
 from transform.gdc.gdcutils import extract, query_gdc, get_file
 from bmeg.enrichers.drug_enricher import compound_factory
@@ -105,18 +105,18 @@ def compounds(emitter, parameters={}, output_path='/tmp', case_gids=None):
 
 def transform(emitter, parameters={}):
     # Crawl all cases, samples, aliquots to generate
-    # BMEG Cases, Biosamples, and Aliquots.
+    # BMEG Cases, Samples, and Aliquots.
     parameters['expand'] = expand_case_fields
     case_gids = []
     for row in query_gdc("cases", parameters):
-        i = Case(row["id"], extract(row, keep_case_fields))
-        emitter.emit_vertex(i)
-        case_gid = i.gid()
+        c = Case(row["id"], extract(row, keep_case_fields))
+        emitter.emit_vertex(c)
+        case_gid = c.gid()
         case_gids.append(case_gid)
         emitter.emit_edge(
             InProject(),
             case_gid,
-            Project.make_gid(i.gdc_attributes["project"]["project_id"]),
+            Project.make_gid(c.gdc_attributes["project"]["project_id"]),
         )
 
         for sample in row.get("samples", []):
@@ -124,13 +124,13 @@ def transform(emitter, parameters={}):
                 sample,
                 ["tumor_descriptor", "sample_type", "submitter_id"],
             )
-            b = Biosample(sample["sample_id"], sample_fields)
-            emitter.emit_vertex(b)
+            s = Sample(sample["sample_id"], sample_fields)
+            emitter.emit_vertex(s)
 
             emitter.emit_edge(
-                BiosampleFor(),
-                b.gid(),
-                i.gid(),
+                SampleFor(),
+                s.gid(),
+                c.gid(),
             )
 
             for portion in sample.get("portions", []):
@@ -148,7 +148,7 @@ def transform(emitter, parameters={}):
                         emitter.emit_edge(
                             AliquotFor(),
                             a.gid(),
-                            b.gid(),
+                            s.gid(),
                         )
     # now use the file endpoint to get compounds
     compounds(emitter, parameters, case_gids=case_gids)

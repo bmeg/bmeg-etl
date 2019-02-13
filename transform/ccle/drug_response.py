@@ -27,7 +27,7 @@ NAMES = {
 }
 
 
-def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
+def transform(sample_path='outputs/ccle/Sample.Vertex.json.gz',
               drug_response_path='source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv',
               emitter_prefix='drug_response',
               emitter_directory="ccle"):
@@ -37,9 +37,9 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
     emitter.emit_vertex(prog)
 
     # lookup table to convert CCLE names to DepMap_IDs
-    samples = build_ccle2depmap_conversion_table(biosample_path)
+    samples = build_ccle2depmap_conversion_table(sample_path)
     # lookup table for projects
-    projects = build_project_lookup(biosample_path)
+    projects = build_project_lookup(sample_path)
 
     # input and map
     input_stream = bmeg.ioutils.read_csv(drug_response_path)
@@ -68,7 +68,7 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
         drug_response = SN(**mline)
 
         sample_id = drug_response.sample_id
-        # if no match, we will need to create project->case->biosample->aliquot
+        # if no match, we will need to create project->case->sample->aliquot
         if sample_id in samples:
             sample_id = samples[sample_id]
         elif sample_id.split("_")[0] in samples:
@@ -122,7 +122,7 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
             compound.gid(),
         )
 
-    # generate project, case, biosample, aliquot for missing cell lines
+    # generate project, case, sample, aliquot for missing cell lines
     missing_ccle_cellline_factory(emitter=emitter,
                                   missing_ids=missing_cell_lines,
                                   project_prefix="CCLE",

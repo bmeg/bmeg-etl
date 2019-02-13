@@ -318,18 +318,18 @@ class Case(Vertex):
 
 @enforce_types
 @dataclass(frozen=True)
-class Biosample(Vertex):
-    biosample_id: str
+class Sample(Vertex):
+    sample_id: str
     gdc_attributes: Union[None, dict] = None
     ccle_attributes: Union[None, dict] = None
     gtex_attributes: Union[None, dict] = None
 
     def gid(self):
-        return Biosample.make_gid(self.biosample_id)
+        return Sample.make_gid(self.sample_id)
 
     @classmethod
-    def make_gid(cls, biosample_id):
-        return GID("%s:%s" % (cls.__name__, biosample_id))
+    def make_gid(cls, sample_id):
+        return GID("%s:%s" % (cls.__name__, sample_id))
 
 
 @enforce_types

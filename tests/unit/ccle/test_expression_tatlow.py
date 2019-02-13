@@ -3,7 +3,7 @@ import os
 import contextlib
 import pytest
 from transform.ccle.expression_tatlow import transform
-from bmeg.vertex import TranscriptExpression, Aliquot, Biosample, Case, Project
+from bmeg.vertex import TranscriptExpression, Aliquot, Sample, Case, Project
 
 
 @pytest.fixture
@@ -13,12 +13,12 @@ def ccle_tpm(request):
 
 
 @pytest.fixture
-def biosample_path(request):
+def sample_path(request):
     """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'outputs/ccle/Biosample.Vertex.json.gz')
+    return os.path.join(request.fspath.dirname, 'outputs/ccle/Sample.Vertex.json.gz')
 
 
-def validate(helpers, ccle_tpm, biosample_path, emitter_directory):
+def validate(helpers, ccle_tpm, sample_path, emitter_directory):
     """ run xform and test results"""
     expression_file = os.path.join(emitter_directory, 'tatlow.TranscriptExpression.Vertex.json.gz')
     expression_of_file = os.path.join(emitter_directory, 'tatlow.TranscriptExpressionOf.Edge.json.gz')
@@ -29,7 +29,7 @@ def validate(helpers, ccle_tpm, biosample_path, emitter_directory):
             os.remove(f)
 
     # create output
-    transform(source_path=ccle_tpm, biosample_path=biosample_path, emitter_directory=emitter_directory)
+    transform(source_path=ccle_tpm, sample_path=sample_path, emitter_directory=emitter_directory)
     # ratify
     helpers.assert_vertex_file_valid(TranscriptExpression, expression_file)
     helpers.assert_edge_file_valid(TranscriptExpression, Aliquot, expression_of_file)
@@ -40,11 +40,11 @@ def validate(helpers, ccle_tpm, biosample_path, emitter_directory):
     helpers.assert_vertex_file_valid(Case, os.path.join(emitter_directory, 'tatlow.Case.Vertex.json.gz'))
     helpers.assert_vertex_file_valid(Project, os.path.join(emitter_directory, 'tatlow.Project.Vertex.json.gz'))
 
-    helpers.assert_edge_file_valid(Aliquot, Biosample, os.path.join(emitter_directory, 'tatlow.AliquotFor.Edge.json.gz'))
-    helpers.assert_edge_file_valid(Biosample, Case, os.path.join(emitter_directory, 'tatlow.BiosampleFor.Edge.json.gz'))
+    helpers.assert_edge_file_valid(Aliquot, Sample, os.path.join(emitter_directory, 'tatlow.AliquotFor.Edge.json.gz'))
+    helpers.assert_edge_file_valid(Sample, Case, os.path.join(emitter_directory, 'tatlow.SampleFor.Edge.json.gz'))
     helpers.assert_edge_file_valid(Case, Project, os.path.join(emitter_directory, 'tatlow.InProject.Edge.json.gz'))
 
 
-def test_simple(helpers, ccle_tpm, biosample_path, emitter_directory):
+def test_simple(helpers, ccle_tpm, sample_path, emitter_directory):
     """ just run validate"""
-    validate(helpers, ccle_tpm, biosample_path, emitter_directory)
+    validate(helpers, ccle_tpm, sample_path, emitter_directory)

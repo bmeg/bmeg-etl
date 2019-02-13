@@ -3140,9 +3140,9 @@ deps:
   path: source/ccle/mafs/COLO201_LARGE_INTESTINE_vs_NORMAL/vep.maf
 - md5: a339758e2a8edb9152251c24eaeceadd
   path: source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf
-- md5: 42322cba51e626d48b89369540a8d665
-  path: outputs/ccle/Biosample.Vertex.json.gz
-md5: 9a1028a9299a5dce3b967a85917889b3
+- md5: 9909dd770481cea740e1db0983cfbf80
+  path: outputs/ccle/Sample.Vertex.json.gz
+md5: f47df82cdec1c20ce7c4de72ca293203
 outs:
 - cache: true
   md5: a06b8088b3d6a8b54d3deabc364ace81
@@ -3160,17 +3160,17 @@ outs:
   md5: 1a1c04d62e4c696b345e8e0d09051352
   path: outputs/ccle/maf.CallsetFor.Edge.json.gz
 - cache: true
-  md5: 0d86676acb8efc127808aabdcb1d1281
+  md5: 0d25b271f196a66926ebf77461f1e7f8
   path: outputs/ccle/maf.AliquotFor.Edge.json.gz
 - cache: true
   md5: 0ba4233585b69eb076339cd2f994dd8d
   path: outputs/ccle/maf.Aliquot.Vertex.json.gz
 - cache: true
-  md5: 7975471db5aefd74fec9fd4f849fe899
-  path: outputs/ccle/maf.BiosampleFor.Edge.json.gz
+  md5: a53b33a0a062d4a9606c37c73d233067
+  path: outputs/ccle/maf.SampleFor.Edge.json.gz
 - cache: true
-  md5: bf4582d4d7bb5e6045c481df97142d4d
-  path: outputs/ccle/maf.Biosample.Vertex.json.gz
+  md5: e5db027be0ab8145727fbe9c0781322e
+  path: outputs/ccle/maf.Sample.Vertex.json.gz
 - cache: true
   md5: 31860168a855a6f1dabcb6aa106c39d6
   path: outputs/ccle/maf.Deadletter.Vertex.json.gz

@@ -137,7 +137,7 @@ class COCAClusterFor(Edge):
 @dataclass(frozen=True)
 class CallsetFor(Edge):
     """
-    Callset -> Biosample
+    Callset -> Sample
     """
     pass
 
@@ -181,9 +181,9 @@ class InProject(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class BiosampleFor(Edge):
+class SampleFor(Edge):
     """
-    Biosample -> Case
+    Sample -> Case
     """
     pass
 
@@ -192,7 +192,7 @@ class BiosampleFor(Edge):
 @dataclass(frozen=True)
 class AliquotFor(Edge):
     """
-    Aliquot -> Biosample
+    Aliquot -> Sample
     """
     pass
 

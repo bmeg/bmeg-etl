@@ -15,8 +15,8 @@ def GDSC_AUC_file(request):
 
 
 @pytest.fixture
-def biosample_path(request):
-    return os.path.join(request.fspath.dirname, 'outputs/ccle/Biosample.Vertex.json.gz')
+def sample_path(request):
+    return os.path.join(request.fspath.dirname, 'outputs/ccle/Sample.Vertex.json.gz')
 
 
 ALL_FILES = """
@@ -29,7 +29,7 @@ InProject.Edge.json.gz
 """.strip().split()
 
 
-def validate(helpers, GDSC_AUC_file, emitter_directory, emitter_prefix, biosample_path):
+def validate(helpers, GDSC_AUC_file, emitter_directory, emitter_prefix, sample_path):
 
     all_files = ['{}/{}.{}'.format(emitter_directory, emitter_prefix, f) for f in ALL_FILES]
     # remove output
@@ -38,7 +38,7 @@ def validate(helpers, GDSC_AUC_file, emitter_directory, emitter_prefix, biosampl
             os.remove(f)
 
     # create output
-    transform(path=GDSC_AUC_file, emitter_directory=emitter_directory, emitter_prefix=emitter_prefix, biosample_path=biosample_path)
+    transform(path=GDSC_AUC_file, emitter_directory=emitter_directory, emitter_prefix=emitter_prefix, sample_path=sample_path)
 
     compounds = all_files[0]
     drug_responses = all_files[1]
@@ -58,7 +58,7 @@ def validate(helpers, GDSC_AUC_file, emitter_directory, emitter_prefix, biosampl
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot', 'Case'])
 
-    # test BioSample edges
+    # test Sample edges
     aliquot_ids = set()
     with reader(drug_response_ins) as f:
         for line in f:
@@ -69,8 +69,8 @@ def validate(helpers, GDSC_AUC_file, emitter_directory, emitter_prefix, biosampl
         assert 'Aliquot:{}'.format(BROAD_LOOKUP[k]) in aliquot_ids, 'should remap {} to {}'.format(k, BROAD_LOOKUP[k])
 
 
-def test_simple(helpers, GDSC_AUC_file, emitter_directory, emitter_prefix, biosample_path):
-    validate(helpers, GDSC_AUC_file, emitter_directory, emitter_prefix, biosample_path)
+def test_simple(helpers, GDSC_AUC_file, emitter_directory, emitter_prefix, sample_path):
+    validate(helpers, GDSC_AUC_file, emitter_directory, emitter_prefix, sample_path)
 
 
 def test_BROAD_LOOKUP(helpers):

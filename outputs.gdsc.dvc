@@ -2,9 +2,9 @@ cmd: python3 transform/gdsc/response.py
 deps:
 - md5: eef91774a6b4ef37e3a8f341b1a48d0d
   path: source/gdsc/GDSC_AUC.csv
-- md5: 42322cba51e626d48b89369540a8d665
-  path: outputs/ccle/Biosample.Vertex.json.gz
-md5: ebc3320fd2d96d80140675f2ebf8ab74
+- md5: 9909dd770481cea740e1db0983cfbf80
+  path: outputs/ccle/Sample.Vertex.json.gz
+md5: 0de434b71dd97cc6e60a802bfb39a1b6
 outs:
 - cache: true
   md5: cef2bf0d7f24e6393239983cbc52ee45

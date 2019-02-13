@@ -2,20 +2,20 @@ cmd: python3 transform/ccle/samples.py
 deps:
 - md5: b4cf38f5366ef8b58e7db826f872e0d4
   path: source/ccle/DepMap-2018q4-celllines.csv
-md5: 4d432062f24793c2edd4bba6106a4239
+md5: 815a241a1e4c564640317097555f53e7
 outs:
 - cache: true
   md5: 9499f47f8cc33c79cf48c1799776905e
   path: outputs/ccle/Aliquot.Vertex.json.gz
 - cache: true
-  md5: 56bb1d63ab4ec69e5de17bbcfd88c90b
+  md5: 484ba288601db239b17b9e3363f48cba
   path: outputs/ccle/AliquotFor.Edge.json.gz
 - cache: true
-  md5: 42322cba51e626d48b89369540a8d665
-  path: outputs/ccle/Biosample.Vertex.json.gz
+  md5: 9909dd770481cea740e1db0983cfbf80
+  path: outputs/ccle/Sample.Vertex.json.gz
 - cache: true
-  md5: d1529cc51e743e3397b464fa10184ca7
-  path: outputs/ccle/BiosampleFor.Edge.json.gz
+  md5: 54597ce80e241a4678266cdd44374027
+  path: outputs/ccle/SampleFor.Edge.json.gz
 - cache: true
   md5: 7a05f11efc9fce44fdda461d121d9c00
   path: outputs/ccle/Case.Vertex.json.gz

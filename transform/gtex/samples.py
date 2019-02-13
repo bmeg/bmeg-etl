@@ -1,7 +1,7 @@
 from bmeg.emitter import JSONEmitter
 from bmeg.ioutils import read_tsv
-from bmeg.vertex import Aliquot, Biosample, Case, Project, Program
-from bmeg.edge import AliquotFor, BiosampleFor, InProject, InProgram
+from bmeg.vertex import Aliquot, Sample, Case, Project, Program
+from bmeg.edge import AliquotFor, SampleFor, InProject, InProgram
 
 
 def extract_case_id(sample_id):
@@ -43,14 +43,14 @@ for row in samples:
         p.gid(),
     )
 
-    b = Biosample(
+    s = Sample(
         sample_id,
         gtex_attributes=row,
     )
-    emitter.emit_vertex(b)
+    emitter.emit_vertex(s)
     emitter.emit_edge(
-        BiosampleFor(),
-        b.gid(),
+        SampleFor(),
+        s.gid(),
         Case.make_gid(case_id),
     )
 
@@ -59,7 +59,7 @@ for row in samples:
     emitter.emit_edge(
         AliquotFor(),
         a.gid(),
-        b.gid(),
+        s.gid(),
     )
 
 

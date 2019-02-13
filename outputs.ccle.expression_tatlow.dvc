@@ -2,24 +2,24 @@ cmd: python3 transform/ccle/expression_tatlow.py
 deps:
 - md5: 4fadc5ed3b8008b390fca93278b06b23
   path: source/ccle/expression/CCLE_tpm.tsv.gz
-- md5: 42322cba51e626d48b89369540a8d665
-  path: outputs/ccle/Biosample.Vertex.json.gz
+- md5: 9909dd770481cea740e1db0983cfbf80
+  path: outputs/ccle/Sample.Vertex.json.gz
 - md5: 07b930da26e4a06dcf8c9a0faff57be1
   path: source/tcga/expression/transcript-level/TCGA_ID_MAP.csv
-md5: 28317c4ece4a9f3d49f09e6e06a9eb31
+md5: 8834991628320b33d9b7883b18044eef
 outs:
 - cache: true
   md5: 82954c355a556fa4b8490d24197a7b46
   path: outputs/ccle/tatlow.Aliquot.Vertex.json.gz
 - cache: true
-  md5: 4438ae63a834f2d6e682b5a4c21582d3
+  md5: 000878611a40e38c21ce0b4b22cb80a6
   path: outputs/ccle/tatlow.AliquotFor.Edge.json.gz
 - cache: true
-  md5: bacc8ae56e502099725d566378110031
-  path: outputs/ccle/tatlow.Biosample.Vertex.json.gz
+  md5: bff4c434864300a9032f48a7c623ff47
+  path: outputs/ccle/tatlow.Sample.Vertex.json.gz
 - cache: true
-  md5: 29ab05f1e211f3a81677764150ae649d
-  path: outputs/ccle/tatlow.BiosampleFor.Edge.json.gz
+  md5: 4d74a8cdeff91c2a219e63255a36c985
+  path: outputs/ccle/tatlow.SampleFor.Edge.json.gz
 - cache: true
   md5: 1012330624f64dd52697069e469f71c2
   path: outputs/ccle/tatlow.TranscriptExpression.Vertex.json.gz

@@ -6,7 +6,7 @@ from bmeg.emitter import JSONEmitter
 from bmeg.ccle import build_ccle2depmap_conversion_table, build_project_lookup, missing_ccle_cellline_factory
 
 
-def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
+def transform(sample_path='outputs/ccle/Sample.Vertex.json.gz',
               metadrugPath='source/ctrp/v20.meta.per_compound.txt',
               metacelllinePath="source/ctrp/v20.meta.per_cell_line.txt",
               responsePath="source/ctrp/v20.data.curves_post_qc.txt",
@@ -21,9 +21,9 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
     emitter.emit_vertex(prog)
 
     # lookup table to convert CCLE names to DepMap_IDs
-    ccle_id_lookup = build_ccle2depmap_conversion_table(biosample_path)
+    ccle_id_lookup = build_ccle2depmap_conversion_table(sample_path)
     # lookup table for projects
-    projects = build_project_lookup(biosample_path)
+    projects = build_project_lookup(sample_path)
 
     compound_df = pandas.read_table(metadrugPath)
     compound_df = compound_df.set_index("master_cpd_id")
@@ -106,7 +106,7 @@ def transform(biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
             compound.gid()
         )
 
-    # generate project, case, biosample, aliquot for missing cell lines
+    # generate project, case, sample, aliquot for missing cell lines
     missing_ccle_cellline_factory(emitter=emitter,
                                   missing_ids=missing_cell_lines,
                                   project_id="CTRP_Unknown",

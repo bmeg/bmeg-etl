@@ -152,7 +152,7 @@ class FileHandler:
     """
     FileHandler helps manage a set of file handles, indexed by a key.
     This is used by emitters to write to a set of files, such as
-    Biosample.Vertex.json, Individual.Vertex.json, etc.
+    Sample.Vertex.json, Case.Vertex.json, etc.
 
     This is an internal helper.
     """

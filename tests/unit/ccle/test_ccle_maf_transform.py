@@ -3,7 +3,7 @@
 import pytest
 from transform.ccle.ccle_maf_transform import transform
 from transform.ccle.ccle_maf_transform import CCLE_EXTENSION_CALLSET_KEYS
-from bmeg.vertex import Allele, Callset, Gene, Aliquot, Biosample, Case, Project
+from bmeg.vertex import Allele, Callset, Gene, Aliquot, Sample, Case, Project
 from bmeg.maf.maf_transform import STANDARD_MAF_KEYS
 from bmeg.ioutils import reader
 
@@ -25,12 +25,12 @@ def emitter_path_prefix(request):
 
 
 @pytest.fixture
-def ccle_biosample_path(request):
+def ccle_sample_path(request):
     """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'outputs/ccle/Biosample.Vertex.json.gz')
+    return os.path.join(request.fspath.dirname, 'outputs/ccle/Sample.Vertex.json.gz')
 
 
-def validate(helpers, maf_file, emitter_path_prefix, ccle_biosample_path):
+def validate(helpers, maf_file, emitter_path_prefix, ccle_sample_path):
     allele_file = os.path.join(emitter_path_prefix, 'maf.Allele.Vertex.json.gz')
     allelecall_file = os.path.join(emitter_path_prefix, 'maf.AlleleCall.Edge.json.gz')
     callset_file = os.path.join(emitter_path_prefix, 'maf.Callset.Vertex.json.gz')
@@ -38,8 +38,8 @@ def validate(helpers, maf_file, emitter_path_prefix, ccle_biosample_path):
     callsetfor_file = os.path.join(emitter_path_prefix, 'maf.CallsetFor.Edge.json.gz')
     aliquot_file = os.path.join(emitter_path_prefix, 'maf.Aliquot.Vertex.json.gz')
     aliquotfor_file = os.path.join(emitter_path_prefix, 'maf.AliquotFor.Edge.json.gz')
-    biosample_file = os.path.join(emitter_path_prefix, 'maf.Biosample.Vertex.json.gz')
-    biosamplefor_file = os.path.join(emitter_path_prefix, 'maf.BiosampleFor.Edge.json.gz')
+    sample_file = os.path.join(emitter_path_prefix, 'maf.Sample.Vertex.json.gz')
+    samplefor_file = os.path.join(emitter_path_prefix, 'maf.SampleFor.Edge.json.gz')
     case_file = os.path.join(emitter_path_prefix, 'maf.Case.Vertex.json.gz')
     project_file = os.path.join(emitter_path_prefix, 'maf.Project.Vertex.json.gz')
     inproject_file = os.path.join(emitter_path_prefix, 'maf.InProject.Edge.json.gz')
@@ -52,7 +52,7 @@ def validate(helpers, maf_file, emitter_path_prefix, ccle_biosample_path):
     # create output
     transform(
         mafpath=maf_file,
-        ccle_biosample_path=ccle_biosample_path,
+        ccle_sample_path=ccle_sample_path,
         emitter_directory=emitter_path_prefix)
 
     # test/maf.Allele.Vertex.json
@@ -68,11 +68,11 @@ def validate(helpers, maf_file, emitter_path_prefix, ccle_biosample_path):
     # test/maf.Aliquot.Vertex.json
     helpers.assert_vertex_file_valid(Aliquot, aliquot_file)
     # test/maf.AliquotFor.Edge.json
-    helpers.assert_edge_file_valid(Aliquot, Biosample, aliquotfor_file)
-    # test/maf.Biosample.Vertex.json
-    helpers.assert_vertex_file_valid(Biosample, biosample_file)
-    # test/maf.BiosampleFor.Edge.json
-    helpers.assert_edge_file_valid(Biosample, Case, biosamplefor_file)
+    helpers.assert_edge_file_valid(Aliquot, Sample, aliquotfor_file)
+    # test/maf.Sample.Vertex.json
+    helpers.assert_vertex_file_valid(Sample, sample_file)
+    # test/maf.SampleFor.Edge.json
+    helpers.assert_edge_file_valid(Sample, Case, samplefor_file)
     # test/maf.Case.Vertex.json
     helpers.assert_vertex_file_valid(Case, case_file)
     # test/maf.Project.Vertex.json
@@ -122,6 +122,6 @@ def validate(helpers, maf_file, emitter_path_prefix, ccle_biosample_path):
     )
 
 
-def test_simple(helpers, maf_file, emitter_path_prefix, ccle_biosample_path):
+def test_simple(helpers, maf_file, emitter_path_prefix, ccle_sample_path):
     """ simple test """
-    validate(helpers, maf_file, emitter_path_prefix, ccle_biosample_path)
+    validate(helpers, maf_file, emitter_path_prefix, ccle_sample_path)

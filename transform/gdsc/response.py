@@ -36,7 +36,7 @@ BROAD_LOOKUP = {
 
 def transform(
         path="source/gdsc/GDSC_AUC.csv",
-        biosample_path='outputs/ccle/Biosample.Vertex.json.gz',
+        sample_path='outputs/ccle/Sample.Vertex.json.gz',
         emitter_prefix=DEFAULT_PREFIX,
         emitter_directory=DEFAULT_DIRECTORY,
 ):
@@ -47,7 +47,7 @@ def transform(
     emitter.emit_vertex(prog)
 
     # lookup table for projects
-    projects = build_project_lookup(biosample_path)
+    projects = build_project_lookup(sample_path)
 
     r = bmeg.ioutils.read_csv(path)
 

@@ -2,17 +2,17 @@ import ujson
 from types import SimpleNamespace as SN
 
 import bmeg.ioutils
-from bmeg.vertex import Aliquot, Biosample, Case, Project
-from bmeg.edge import AliquotFor, BiosampleFor, InProject
+from bmeg.vertex import Aliquot, Sample, Case, Project
+from bmeg.edge import AliquotFor, SampleFor, InProject
 from bmeg.emitter import JSONEmitter, DebugEmitter
 
 
-def build_project_lookup(ccle_biosample_path="outputs/ccle/Biosample.Vertex.json.gz"):
+def build_project_lookup(ccle_sample_path="outputs/ccle/Sample.Vertex.json.gz"):
     projects = {}
-    input_stream = bmeg.ioutils.reader(ccle_biosample_path)
+    input_stream = bmeg.ioutils.reader(ccle_sample_path)
     for line in input_stream:
-        biosample = SN(**ujson.loads(line))
-        ccle_attributes = biosample.data['ccle_attributes']
+        sample = SN(**ujson.loads(line))
+        ccle_attributes = sample.data['ccle_attributes']
         project_id = "_".join(ccle_attributes['Primary Disease'].split())
         aliquot_id = ccle_attributes['CCLE_Name']
         name_parts = aliquot_id.split('_')
@@ -24,17 +24,17 @@ def build_project_lookup(ccle_biosample_path="outputs/ccle/Biosample.Vertex.json
         projects[ccle_attributes['DepMap_ID']] = project_id
         projects[project_id] = project_id
         projects[alias] = project_id
-    assert len(projects.keys()), 'No projects found, does {} exist?'.format(ccle_biosample_path)
+    assert len(projects.keys()), 'No projects found, does {} exist?'.format(ccle_sample_path)
     return projects
 
 
-def build_ccle2depmap_conversion_table(ccle_biosample_path="outputs/ccle/Biosample.Vertex.json.gz"):
+def build_ccle2depmap_conversion_table(ccle_sample_path="outputs/ccle/Sample.Vertex.json.gz"):
     """create lookup table of CCLE_Name and Aliases to DepMap_ID"""
     samples = {}
-    input_stream = bmeg.ioutils.reader(ccle_biosample_path)
+    input_stream = bmeg.ioutils.reader(ccle_sample_path)
     for line in input_stream:
-        biosample = SN(**ujson.loads(line))
-        ccle_attributes = SN(**biosample.data['ccle_attributes'])
+        sample = SN(**ujson.loads(line))
+        ccle_attributes = SN(**sample.data['ccle_attributes'])
 
         samples[ccle_attributes.DepMap_ID] = ccle_attributes.DepMap_ID
         samples[ccle_attributes.CCLE_Name] = ccle_attributes.DepMap_ID
@@ -58,7 +58,7 @@ def build_ccle2depmap_conversion_table(ccle_biosample_path="outputs/ccle/Biosamp
             if a not in blacklisted_aliases:
                 samples[a] = ccle_attributes.DepMap_ID
 
-    assert len(samples.keys()), 'Failed to create CCLE name to DepMap ID lookup, does {} exist?'.format(ccle_biosample_path)
+    assert len(samples.keys()), 'Failed to create CCLE name to DepMap ID lookup, does {} exist?'.format(ccle_sample_path)
     return samples
 
 
@@ -66,7 +66,7 @@ def missing_ccle_cellline_factory(emitter, missing_ids,
                                   project_gids=[],
                                   project_prefix="", project_id="",
                                   project_lookup={}):
-    """ create stub aliquot, biosample, indiviudal, project and their edges """
+    """ create stub aliquot, sample, indiviudal, project and their edges """
     if not (isinstance(emitter, JSONEmitter) or isinstance(emitter, DebugEmitter)):
         raise TypeError("expected emitter to be an emitter")
     if isinstance(missing_ids, str):
@@ -102,20 +102,20 @@ def missing_ccle_cellline_factory(emitter, missing_ids,
             emitter.emit_vertex(p)
             project_gids.append(p.gid())
 
-        i = Case(case_id=aliquot_id)
-        emitter.emit_vertex(i)
+        c = Case(case_id=aliquot_id)
+        emitter.emit_vertex(c)
         emitter.emit_edge(
             InProject(),
-            i.gid(),
+            c.gid(),
             p.gid(),
         )
 
-        b = Biosample(biosample_id=aliquot_id)
-        emitter.emit_vertex(b)
+        s = Sample(sample_id=aliquot_id)
+        emitter.emit_vertex(s)
         emitter.emit_edge(
-            BiosampleFor(),
-            b.gid(),
-            i.gid(),
+            SampleFor(),
+            s.gid(),
+            c.gid(),
         )
 
         a = Aliquot(aliquot_id=aliquot_id)
@@ -123,7 +123,7 @@ def missing_ccle_cellline_factory(emitter, missing_ids,
         emitter.emit_edge(
             AliquotFor(),
             a.gid(),
-            b.gid(),
+            s.gid(),
         )
 
     return

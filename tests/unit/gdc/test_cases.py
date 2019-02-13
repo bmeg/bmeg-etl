@@ -4,7 +4,7 @@ import contextlib
 import pytest
 import json
 from transform.gdc.cases import transform
-from bmeg.vertex import Biosample, Aliquot, Case, Project, Compound
+from bmeg.vertex import Sample, Aliquot, Case, Project, Compound
 from bmeg.emitter import JSONEmitter
 from bmeg.ioutils import reader
 
@@ -17,17 +17,17 @@ def emitter_path_prefix(request):
 
 def validate(helpers, emitter_path_prefix, parameters):
     """ run xform and test results"""
-    biosample_file = '{}Biosample.Vertex.json.gz'.format(emitter_path_prefix)
+    sample_file = '{}Sample.Vertex.json.gz'.format(emitter_path_prefix)
     aliquot_file = '{}Aliquot.Vertex.json.gz'.format(emitter_path_prefix)
     case_file = '{}Case.Vertex.json.gz'.format(emitter_path_prefix)
     compound_file = '{}Compound.Vertex.json.gz'.format(emitter_path_prefix)
 
-    biosamplefor_file = '{}BiosampleFor.Edge.json.gz'.format(emitter_path_prefix)
+    samplefor_file = '{}SampleFor.Edge.json.gz'.format(emitter_path_prefix)
     aliquotfor_file = '{}AliquotFor.Edge.json.gz'.format(emitter_path_prefix)
     inproject_file = '{}InProject.Edge.json.gz'.format(emitter_path_prefix)
     treatedwith_file = '{}TreatedWith.Edge.json.gz'.format(emitter_path_prefix)
 
-    all_files = [biosample_file, aliquot_file, case_file, biosamplefor_file,
+    all_files = [sample_file, aliquot_file, case_file, samplefor_file,
                  aliquotfor_file, inproject_file, treatedwith_file, compound_file]
     # remove output
     with contextlib.suppress(FileNotFoundError):
@@ -39,17 +39,17 @@ def validate(helpers, emitter_path_prefix, parameters):
     transform(emitter, parameters)
     emitter.close()
     # test.Allele.Vertex.json
-    helpers.assert_vertex_file_valid(Biosample, biosample_file)
+    helpers.assert_vertex_file_valid(Sample, sample_file)
     # test.Aliquot.Vertex.json
     helpers.assert_vertex_file_valid(Aliquot, aliquot_file)
     # test.Case.Vertex.json
     helpers.assert_vertex_file_valid(Case, case_file)
     # test.Compound.Vertex.json
     helpers.assert_vertex_file_valid(Compound, compound_file)
-    # test.BiosampleFor.Edge.json
-    helpers.assert_edge_file_valid(Biosample, Case, biosamplefor_file)
+    # test.SampleFor.Edge.json
+    helpers.assert_edge_file_valid(Sample, Case, samplefor_file)
     # test.AliquotFor.Edge.json
-    helpers.assert_edge_file_valid(Aliquot, Biosample, aliquotfor_file)
+    helpers.assert_edge_file_valid(Aliquot, Sample, aliquotfor_file)
     # test.InProject.Edge.json
     helpers.assert_edge_file_valid(Case, Project, inproject_file)
     # test.TreatedWith.Edge.json

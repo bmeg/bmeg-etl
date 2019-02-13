@@ -1,7 +1,7 @@
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import Biosample, Aliquot, Case, Project, Program
-from bmeg.edge import AliquotFor, BiosampleFor, InProject, InProgram, PhenotypeOf
+from bmeg.vertex import Sample, Aliquot, Case, Project, Program
+from bmeg.edge import AliquotFor, SampleFor, InProject, InProgram, PhenotypeOf
 from bmeg.enrichers.phenotype_enricher import phenotype_factory
 from pydash import is_blank
 
@@ -21,16 +21,16 @@ def transform(path="source/ccle/DepMap-2018q4-celllines.csv",
     # ACH-000001,NIHOVCAR3_OVARY,NIH:OVCAR-3;OVCAR3,905933,2201,Ovarian Cancer,"Adenocarcinoma, high grade serous",Female,ATCC
     for row in reader:
         sample_id = row["DepMap_ID"]
-        b = Biosample(biosample_id=sample_id,
-                      ccle_attributes=row)
-        emitter.emit_vertex(b)
+        s = Sample(sample_id=sample_id,
+                   ccle_attributes=row)
+        emitter.emit_vertex(s)
 
         a = Aliquot(aliquot_id=sample_id)
         emitter.emit_vertex(a)
         emitter.emit_edge(
             AliquotFor(),
             a.gid(),
-            b.gid()
+            s.gid()
         )
 
         i = Case(case_id=sample_id,
@@ -39,8 +39,8 @@ def transform(path="source/ccle/DepMap-2018q4-celllines.csv",
             emitter.emit_vertex(i)
             case_gids.append(i.gid())
         emitter.emit_edge(
-            BiosampleFor(),
-            b.gid(),
+            SampleFor(),
+            s.gid(),
             i.gid()
         )
 
