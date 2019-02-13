@@ -302,34 +302,34 @@ class COCACluster(Vertex):
 
 @enforce_types
 @dataclass(frozen=True)
-class Individual(Vertex):
-    individual_id: str
+class Case(Vertex):
+    case_id: str
     gdc_attributes: Union[None, dict] = None
     gtex_attributes: Union[None, dict] = None
     ccle_attributes: Union[None, dict] = None
 
     def gid(self):
-        return Individual.make_gid(self.individual_id)
+        return Case.make_gid(self.case_id)
 
     @classmethod
-    def make_gid(cls, individual_id):
-        return GID("%s:%s" % (cls.__name__, individual_id))
+    def make_gid(cls, case_id):
+        return GID("%s:%s" % (cls.__name__, case_id))
 
 
 @enforce_types
 @dataclass(frozen=True)
-class Biosample(Vertex):
-    biosample_id: str
+class Sample(Vertex):
+    sample_id: str
     gdc_attributes: Union[None, dict] = None
     ccle_attributes: Union[None, dict] = None
     gtex_attributes: Union[None, dict] = None
 
     def gid(self):
-        return Biosample.make_gid(self.biosample_id)
+        return Sample.make_gid(self.sample_id)
 
     @classmethod
-    def make_gid(cls, biosample_id):
-        return GID("%s:%s" % (cls.__name__, biosample_id))
+    def make_gid(cls, sample_id):
+        return GID("%s:%s" % (cls.__name__, sample_id))
 
 
 @enforce_types
@@ -364,6 +364,20 @@ class GeneOntologyTerm(Vertex):
         if go_id.startswith("GO:"):
             return GID(go_id)
         return GID("%s:%s" % (cls.__name__, go_id))
+
+
+@enforce_types
+@dataclass(frozen=True)
+class Program(Vertex):
+    program_id: str
+    gdc_attributes: Union[None, dict] = None
+
+    def gid(self):
+        return Program.make_gid(self.program_id)
+
+    @classmethod
+    def make_gid(cls, program_id):
+        return GID("%s:%s" % (cls.__name__, program_id))
 
 
 @enforce_types

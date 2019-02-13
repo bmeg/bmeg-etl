@@ -4,9 +4,9 @@ https://gdc.cancer.gov/
 """
 
 from bmeg.util.cli import default_argument_parser
-from bmeg.edge import InProject, BiosampleFor, AliquotFor, TreatedWith
+from bmeg.edge import InProject, SampleFor, AliquotFor, TreatedWith
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import Individual, Biosample, Project, Aliquot
+from bmeg.vertex import Case, Sample, Project, Aliquot
 from bmeg.ioutils import read_tsv
 from transform.gdc.gdcutils import extract, query_gdc, get_file
 from bmeg.enrichers.drug_enricher import compound_factory
@@ -48,7 +48,7 @@ summary.experimental_strategies
 tissue_source_site
 """.strip().split())
 
-# These are the fields we want to keep from the GDC Case (BMEG Individual).
+# These are the fields we want to keep from the GDC Case (BMEG Case).
 keep_case_fields = """
 diagnoses
 demographic
@@ -59,7 +59,7 @@ project
 """.strip().split()
 
 
-def compounds(emitter, parameters={}, output_path='/tmp', individual_gids=None):
+def compounds(emitter, parameters={}, output_path='/tmp', case_gids=None):
     """ the only way to get drugs is to download files and parse them"""
     my_filters = json.loads("""
     {"op":"and","content":[{"op":"in","content":{"field":"files.data_type","value":["Clinical data"]}},{"op":"in","content":{"field":"files.tags","value":["drug"]}}]}
@@ -82,9 +82,9 @@ def compounds(emitter, parameters={}, output_path='/tmp', individual_gids=None):
                 continue
             bcr_patient_uuid = line['bcr_patient_uuid']
             pharmaceutical_therapy_drug_name = line['pharmaceutical_therapy_drug_name']
-            individual_gid = Individual.make_gid(bcr_patient_uuid)
-            # is this a requested individual?
-            if individual_gids is None or individual_gid in individual_gids:
+            case_gid = Case.make_gid(bcr_patient_uuid)
+            # is this a requested case?
+            if case_gids is None or case_gid in case_gids:
                 t = (bcr_patient_uuid, pharmaceutical_therapy_drug_name)
                 # have we seen this combination before?
                 if t not in dedupe:
@@ -96,7 +96,7 @@ def compounds(emitter, parameters={}, output_path='/tmp', individual_gids=None):
                         dedupe_compounds.append(compound_gid)
                     emitter.emit_edge(
                         TreatedWith(),
-                        individual_gid,
+                        case_gid,
                         compound_gid,
                     )
                     dedupe.append(t)
@@ -105,18 +105,18 @@ def compounds(emitter, parameters={}, output_path='/tmp', individual_gids=None):
 
 def transform(emitter, parameters={}):
     # Crawl all cases, samples, aliquots to generate
-    # BMEG Individuals, Biosamples, and Aliquots.
+    # BMEG Cases, Samples, and Aliquots.
     parameters['expand'] = expand_case_fields
-    individual_gids = []
+    case_gids = []
     for row in query_gdc("cases", parameters):
-        i = Individual(row["id"], extract(row, keep_case_fields))
-        emitter.emit_vertex(i)
-        individual_gid = i.gid()
-        individual_gids.append(individual_gid)
+        c = Case(row["id"], extract(row, keep_case_fields))
+        emitter.emit_vertex(c)
+        case_gid = c.gid()
+        case_gids.append(case_gid)
         emitter.emit_edge(
             InProject(),
-            individual_gid,
-            Project.make_gid(i.gdc_attributes["project"]["project_id"]),
+            case_gid,
+            Project.make_gid(c.gdc_attributes["project"]["project_id"]),
         )
 
         for sample in row.get("samples", []):
@@ -124,13 +124,13 @@ def transform(emitter, parameters={}):
                 sample,
                 ["tumor_descriptor", "sample_type", "submitter_id"],
             )
-            b = Biosample(sample["sample_id"], sample_fields)
-            emitter.emit_vertex(b)
+            s = Sample(sample["sample_id"], sample_fields)
+            emitter.emit_vertex(s)
 
             emitter.emit_edge(
-                BiosampleFor(),
-                b.gid(),
-                i.gid(),
+                SampleFor(),
+                s.gid(),
+                c.gid(),
             )
 
             for portion in sample.get("portions", []):
@@ -148,14 +148,14 @@ def transform(emitter, parameters={}):
                         emitter.emit_edge(
                             AliquotFor(),
                             a.gid(),
-                            b.gid(),
+                            s.gid(),
                         )
     # now use the file endpoint to get compounds
-    compounds(emitter, parameters, individual_gids=individual_gids)
+    compounds(emitter, parameters, case_gids=case_gids)
 
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    emitter = JSONEmitter("gdc")
+    emitter = JSONEmitter(directory="gdc")
     transform(emitter)
     emitter.close()

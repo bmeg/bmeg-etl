@@ -2,7 +2,9 @@ cmd: python3 transform/gdsc/response.py
 deps:
 - md5: eef91774a6b4ef37e3a8f341b1a48d0d
   path: source/gdsc/GDSC_AUC.csv
-md5: 30fadc05627d47fe17927909ac4c6e28
+- md5: 9909dd770481cea740e1db0983cfbf80
+  path: outputs/ccle/Sample.Vertex.json.gz
+md5: 0de434b71dd97cc6e60a802bfb39a1b6
 outs:
 - cache: true
   md5: cef2bf0d7f24e6393239983cbc52ee45
@@ -16,3 +18,15 @@ outs:
 - cache: true
   md5: ca895b4056bda95d8b7aee6638aa0991
   path: outputs/gdsc/gdsc.ResponseTo.Edge.json.gz
+- cache: true
+  md5: 1491201f10f6099b04a1d192b26d7efd
+  path: outputs/gdsc/gdsc.Project.Vertex.json.gz
+- cache: true
+  md5: 05542db109ae94423d2ae1d0734facc7
+  path: outputs/gdsc/gdsc.InProject.Edge.json.gz
+- cache: true
+  md5: 5873bef4f4591a5a5275396148bd5690
+  path: outputs/gdsc/gdsc.Program.Vertex.json.gz
+- cache: true
+  md5: be97264d9f4156e443af1bf0a074e868
+  path: outputs/gdsc/gdsc.InProgram.Edge.json.gz

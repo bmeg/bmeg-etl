@@ -3,7 +3,7 @@ import os
 import pytest
 import contextlib
 from transform.ctrp.transform import transform
-from bmeg.vertex import DrugResponse, Aliquot, Compound, Biosample, Individual, Project
+from bmeg.vertex import DrugResponse, Aliquot, Compound, Sample, Case, Project, Program
 
 
 @pytest.fixture
@@ -32,11 +32,11 @@ def curvePath(request):
 
 
 @pytest.fixture
-def biosample_path(request):
-    return os.path.join(request.fspath.dirname, 'outputs/ccle/Biosample.Vertex.json.gz')
+def sample_path(request):
+    return os.path.join(request.fspath.dirname, 'outputs/ccle/Sample.Vertex.json.gz')
 
 
-def validate(helpers, emitter_directory, biosample_path, metadrugPath,
+def validate(helpers, emitter_directory, sample_path, metadrugPath,
              metacelllinePath, responsePath, metaexperimentPath, curvePath):
     """ run xform and test results"""
     profile_file = os.path.join(
@@ -55,7 +55,7 @@ def validate(helpers, emitter_directory, biosample_path, metadrugPath,
         for f in all_files:
             os.remove(f)
 
-    transform(biosample_path=biosample_path,
+    transform(sample_path=sample_path,
               metadrugPath=metadrugPath,
               metacelllinePath=metacelllinePath,
               responsePath=responsePath,
@@ -69,22 +69,23 @@ def validate(helpers, emitter_directory, biosample_path, metadrugPath,
     helpers.assert_vertex_file_valid(Compound, compound_file)
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot'])
     # missing vertexes
-    for f in ['ctrp.Aliquot.Vertex.json.gz', 'ctrp.Biosample.Vertex.json.gz',
-              'ctrp.Individual.Vertex.json.gz', 'ctrp.Project.Vertex.json.gz']:
+    for f in ['ctrp.Aliquot.Vertex.json.gz', 'ctrp.Sample.Vertex.json.gz',
+              'ctrp.Case.Vertex.json.gz', 'ctrp.Project.Vertex.json.gz',
+              'ctrp.Program.Vertex.json.gz']:
         v = eval(f.split('.')[1])
         f = os.path.join(emitter_directory, f)
         helpers.assert_vertex_file_valid(v, f)
     # missing edges
-    for f, v1, v2 in [('ctrp.AliquotFor.Edge.json.gz', Aliquot, Biosample),
-                      ('ctrp.BiosampleFor.Edge.json.gz',
-                       Biosample, Individual),
-                      ('ctrp.InProject.Edge.json.gz', Individual, Project)]:
+    for f, v1, v2 in [('ctrp.AliquotFor.Edge.json.gz', Aliquot, Sample),
+                      ('ctrp.SampleFor.Edge.json.gz', Sample, Case),
+                      ('ctrp.InProject.Edge.json.gz', Case, Project),
+                      ('ctrp.InProgram.Edge.json.gz', Project, Program)]:
         f = os.path.join(emitter_directory, f)
         helpers.assert_edge_file_valid(v1, v2, f)
 
 
-def test_simple(helpers, emitter_directory, biosample_path, metadrugPath,
+def test_simple(helpers, emitter_directory, sample_path, metadrugPath,
                 metacelllinePath, responsePath, metaexperimentPath, curvePath):
 
-    validate(helpers, emitter_directory, biosample_path, metadrugPath,
+    validate(helpers, emitter_directory, sample_path, metadrugPath,
              metacelllinePath, responsePath, metaexperimentPath, curvePath)

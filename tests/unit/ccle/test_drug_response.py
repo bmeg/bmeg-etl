@@ -3,7 +3,7 @@ import os
 import pytest
 import contextlib
 from transform.ccle.drug_response import transform
-from bmeg.vertex import DrugResponse, Aliquot, Compound, Biosample, Individual, Project
+from bmeg.vertex import DrugResponse, Aliquot, Compound, Sample, Case, Project, Program
 
 
 @pytest.fixture
@@ -13,12 +13,12 @@ def drug_response_path(request):
 
 
 @pytest.fixture
-def biosample_path(request):
+def sample_path(request):
     """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'outputs/ccle/Biosample.Vertex.json.gz')
+    return os.path.join(request.fspath.dirname, 'outputs/ccle/Sample.Vertex.json.gz')
 
 
-def validate(helpers, emitter_directory, biosample_path, drug_response_path):
+def validate(helpers, emitter_directory, sample_path, drug_response_path):
     """ run xform and test results"""
     profile_file = os.path.join(
         emitter_directory, 'drug_response.DrugResponse.Vertex.json.gz')
@@ -36,7 +36,7 @@ def validate(helpers, emitter_directory, biosample_path, drug_response_path):
         for f in all_files:
             os.remove(f)
 
-    transform(biosample_path=biosample_path,
+    transform(sample_path=sample_path,
               drug_response_path=drug_response_path,
               emitter_directory=emitter_directory)
     # ratify
@@ -46,20 +46,21 @@ def validate(helpers, emitter_directory, biosample_path, drug_response_path):
     helpers.assert_vertex_file_valid(Compound, compound_file)
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot'])
     # missing vertexes
-    for f in ['drug_response.Aliquot.Vertex.json.gz', 'drug_response.Biosample.Vertex.json.gz',
-              'drug_response.Individual.Vertex.json.gz', 'drug_response.Project.Vertex.json.gz']:
+    for f in ['drug_response.Aliquot.Vertex.json.gz', 'drug_response.Sample.Vertex.json.gz',
+              'drug_response.Case.Vertex.json.gz', 'drug_response.Project.Vertex.json.gz',
+              'drug_response.Program.Vertex.json.gz']:
         v = eval(f.split('.')[1])
         f = os.path.join(emitter_directory, f)
         helpers.assert_vertex_file_valid(v, f)
     # missing edges
-    for f, v1, v2 in [('drug_response.AliquotFor.Edge.json.gz', Aliquot, Biosample),
-                      ('drug_response.BiosampleFor.Edge.json.gz',
-                       Biosample, Individual),
-                      ('drug_response.InProject.Edge.json.gz', Individual, Project)]:
+    for f, v1, v2 in [('drug_response.AliquotFor.Edge.json.gz', Aliquot, Sample),
+                      ('drug_response.SampleFor.Edge.json.gz', Sample, Case),
+                      ('drug_response.InProject.Edge.json.gz', Case, Project),
+                      ('drug_response.InProgram.Edge.json.gz', Project, Program)]:
         f = os.path.join(emitter_directory, f)
         helpers.assert_edge_file_valid(v1, v2, f)
 
 
-def test_simple(helpers, emitter_directory, biosample_path, drug_response_path):
+def test_simple(helpers, emitter_directory, sample_path, drug_response_path):
     """ limit the result to a single project"""
-    validate(helpers, emitter_directory, biosample_path, drug_response_path)
+    validate(helpers, emitter_directory, sample_path, drug_response_path)

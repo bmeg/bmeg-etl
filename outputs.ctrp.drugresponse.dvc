@@ -10,7 +10,9 @@ deps:
   path: source/ctrp/v20.meta.per_experiment.txt
 - md5: 33a8c30659874b027dda316f257e12e1
   path: source/ctrp/v20.data.per_cpd_post_qc.txt
-md5: 6c1c2cb4a94ea0aa7cccd472cca52d05
+- md5: 9909dd770481cea740e1db0983cfbf80
+  path: outputs/ccle/Sample.Vertex.json.gz
+md5: c4810193d35ebc5d848177083528c95d
 outs:
 - cache: true
   md5: 61d4237a9a2ed74cc684c2b417c7144f
@@ -25,23 +27,29 @@ outs:
   md5: 5440600007b405bbb28d83b5e945926b
   path: outputs/ctrp/ctrp.ResponseTo.Edge.json.gz
 - cache: true
-  md5: 550c126ecbfe8bf93ab9bb818c37a0e1
+  md5: fa8de9dfd71486ac95d928da08afd33a
   path: outputs/ctrp/ctrp.AliquotFor.Edge.json.gz
 - cache: true
   md5: 11e9da270928da83829c8a058f6773f1
   path: outputs/ctrp/ctrp.Aliquot.Vertex.json.gz
 - cache: true
-  md5: f3bc3820a0a929e2b44dd6d4dc3e54e4
-  path: outputs/ctrp/ctrp.BiosampleFor.Edge.json.gz
+  md5: f3cab660b165033e8400380f29f5f952
+  path: outputs/ctrp/ctrp.SampleFor.Edge.json.gz
 - cache: true
-  md5: 36ce12f81143de7f467e7b8004cced59
-  path: outputs/ctrp/ctrp.Biosample.Vertex.json.gz
+  md5: 3ccda9b1c2aa6d2e93220a2ebd3d5e81
+  path: outputs/ctrp/ctrp.Sample.Vertex.json.gz
 - cache: true
-  md5: d4af1e71a561110716bd402cf62e7c86
-  path: outputs/ctrp/ctrp.Individual.Vertex.json.gz
+  md5: 31362680358796dfd234150ad8b829f4
+  path: outputs/ctrp/ctrp.Case.Vertex.json.gz
 - cache: true
-  md5: 3013dc04f2d74b425fe05a5993a50d85
+  md5: 22c069110556c9e59deee389484a32d8
   path: outputs/ctrp/ctrp.InProject.Edge.json.gz
 - cache: true
-  md5: 26d21447bcbd3e59909c82d3293ae3fe
+  md5: 0f5fb6608f02254a1e5a764a3756a5de
   path: outputs/ctrp/ctrp.Project.Vertex.json.gz
+- cache: true
+  md5: a199453e4e851a49c3cb0493c66592ac
+  path: outputs/ctrp/ctrp.InProgram.Edge.json.gz
+- cache: true
+  md5: 2e7a608c9c6dac2a81e013dafbacd96d
+  path: outputs/ctrp/ctrp.Program.Vertex.json.gz

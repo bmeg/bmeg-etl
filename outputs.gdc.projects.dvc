@@ -1,9 +1,15 @@
-cmd: python3 transform/gdc/projects.py
+cmd: python3 -m transform.gdc.projects
 deps:
 - md5: 6808ca805661622ad65ae014a4b2a094
   path: source/gdc/version.txt
-md5: 47c0e86a4d29fd7339313afaf439acc7
+md5: d4e3e1a569bd6080ddb6eddcd153e738
 outs:
 - cache: true
-  md5: 80c8b7eaa88a02cf13be1c247e5cdb69
+  md5: 6b944816542b90a3ee8537e745c8ba08
   path: outputs/gdc/Project.Vertex.json.gz
+- cache: true
+  md5: cf202a7054b50cf6eb809d02c3959dbf
+  path: outputs/gdc/Program.Vertex.json.gz
+- cache: true
+  md5: ab3a9e2a11aab2271ad55c54a27ba97f
+  path: outputs/gdc/InProgram.Edge.json.gz

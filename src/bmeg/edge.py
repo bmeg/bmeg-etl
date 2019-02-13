@@ -128,16 +128,7 @@ class StructureFor(Edge):
 @dataclass(frozen=True)
 class COCAClusterFor(Edge):
     """
-    COCACluster -> Individual
-    """
-    pass
-
-
-@enforce_types
-@dataclass(frozen=True)
-class BiosampleFor(Edge):
-    """
-    Biosample -> Individual
+    COCACluster -> Case
     """
     pass
 
@@ -146,7 +137,7 @@ class BiosampleFor(Edge):
 @dataclass(frozen=True)
 class CallsetFor(Edge):
     """
-    Callset -> Biosample
+    Callset -> Sample
     """
     pass
 
@@ -170,9 +161,38 @@ class PFAMAlignment(Edge):
     end: int
 
 
+@enforce_types
+@dataclass(frozen=True)
+class InProgram(Edge):
+    """
+    Project -> Program
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
 class InProject(Edge):
     """
-    Individual -> Project
+    Case -> Project
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class SampleFor(Edge):
+    """
+    Sample -> Case
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
+class AliquotFor(Edge):
+    """
+    Aliquot -> Sample
     """
     pass
 
@@ -193,15 +213,6 @@ class GeneOntologyAnnotation(Edge):
 class GeneOntologyIsA(Edge):
     """
     GenoOntologyTerm -> GenoOntologyTerm
-    """
-    pass
-
-
-@enforce_types
-@dataclass(frozen=True)
-class AliquotFor(Edge):
-    """
-    Aliquot -> Biosample
     """
     pass
 
@@ -318,7 +329,7 @@ class PhenotypeOf(Edge):
 @dataclass(frozen=True)
 class TreatedWith(Edge):
     """
-    Individual -> Compound
+    Case -> Compound
     """
     pass
 

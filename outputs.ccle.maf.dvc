@@ -1,4 +1,4 @@
-cmd: transform/ccle/ccle_maf_transform.sh
+cmd: python3 transform/ccle/ccle_maf_transform.py
 deps:
 - md5: cc3abedb40a6795c34b739a6df2b140e
   path: source/gene_enricher/hgnc_complete_set.json
@@ -3140,7 +3140,9 @@ deps:
   path: source/ccle/mafs/COLO201_LARGE_INTESTINE_vs_NORMAL/vep.maf
 - md5: a339758e2a8edb9152251c24eaeceadd
   path: source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf
-md5: 5490ca0b0337e51dcaf590f1234056c1
+- md5: 9909dd770481cea740e1db0983cfbf80
+  path: outputs/ccle/Sample.Vertex.json.gz
+md5: f47df82cdec1c20ce7c4de72ca293203
 outs:
 - cache: true
   md5: a06b8088b3d6a8b54d3deabc364ace81
@@ -3158,26 +3160,26 @@ outs:
   md5: 1a1c04d62e4c696b345e8e0d09051352
   path: outputs/ccle/maf.CallsetFor.Edge.json.gz
 - cache: true
-  md5: 0d86676acb8efc127808aabdcb1d1281
+  md5: 0d25b271f196a66926ebf77461f1e7f8
   path: outputs/ccle/maf.AliquotFor.Edge.json.gz
 - cache: true
   md5: 0ba4233585b69eb076339cd2f994dd8d
   path: outputs/ccle/maf.Aliquot.Vertex.json.gz
 - cache: true
-  md5: 3834ed16c2674b686720ac9ebdf3c4ce
-  path: outputs/ccle/maf.BiosampleFor.Edge.json.gz
+  md5: a53b33a0a062d4a9606c37c73d233067
+  path: outputs/ccle/maf.SampleFor.Edge.json.gz
 - cache: true
-  md5: bf4582d4d7bb5e6045c481df97142d4d
-  path: outputs/ccle/maf.Biosample.Vertex.json.gz
+  md5: e5db027be0ab8145727fbe9c0781322e
+  path: outputs/ccle/maf.Sample.Vertex.json.gz
 - cache: true
   md5: 31860168a855a6f1dabcb6aa106c39d6
   path: outputs/ccle/maf.Deadletter.Vertex.json.gz
 - cache: true
-  md5: a30ce420656026739514bc836ff84705
-  path: outputs/ccle/maf.Individual.Vertex.json.gz
+  md5: 505eab7969aff3ab36e1938e4cc494a6
+  path: outputs/ccle/maf.Case.Vertex.json.gz
 - cache: true
-  md5: 22dfb2568f116a954bfdc2c2e0cf58d9
+  md5: 0d2155078977b9397ebfc541983aa03c
   path: outputs/ccle/maf.InProject.Edge.json.gz
 - cache: true
-  md5: cc4f61b47a0df8900bc82089b6d1f18a
+  md5: c92ccd2e86632c733fd589caee5cd132
   path: outputs/ccle/maf.Project.Vertex.json.gz
