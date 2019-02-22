@@ -2,6 +2,11 @@ import bmeg.enrichers.phenotype_enricher as phenotype_enricher
 import logging
 from pprint import pprint
 
+# maintain fresh cache for all calls
+from uncacher import uncache
+uncache(phenotype_enricher.requests)
+
+
 NAMES = """
 BOCA
 cancer
