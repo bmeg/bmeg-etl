@@ -2367,7 +2367,6 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/ccle/maf.Callset.Vertex.json.gz \
   -d outputs/ccle/maf.CallsetFor.Edge.json.gz \
   -d outputs/ccle/maf.Case.Vertex.json.gz \
-  -d outputs/ccle/maf.Deadletter.Vertex.json.gz \
   -d outputs/ccle/maf.InProject.Edge.json.gz \
   -d outputs/ccle/maf.Project.Vertex.json.gz \
   -d outputs/ccle/maf.Sample.Vertex.json.gz \
@@ -2404,7 +2403,6 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/ensembl/Transcript.Vertex.json.gz \
   -d outputs/ensembl/TranscriptFor.Edge.json.gz \
   -d outputs/g2p/AlleleIn.Edge.json.gz \
-  -d outputs/g2p/Deadletter.Vertex.json.gz \
   -d outputs/g2p/G2PAssociation.Vertex.json.gz \
   -d outputs/g2p/HasAlleleFeature.Edge.json.gz \
   -d outputs/g2p/HasGeneFeature.Edge.json.gz \
@@ -2447,7 +2445,6 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/mc3/AlleleIn.Edge.json.gz \
   -d outputs/mc3/Callset.Vertex.json.gz \
   -d outputs/mc3/CallsetFor.Edge.json.gz \
-  -d outputs/mc3/Deadletter.Vertex.json.gz \
   -d outputs/pfam/GeneOntologyAnnotation.Edge.json.gz \
   -d outputs/pfam/PFAMAlignment.Edge.json.gz \
   -d outputs/pfam/PFAMClan.Vertex.json.gz \

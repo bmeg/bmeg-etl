@@ -55,7 +55,7 @@ def transform(source_path,
             continue  # do we want to drop these data?
 
         for aliquot_id, val in zip(samples, row[3:]):
-            collect[aliquot_id][symbol] = val
+            collect[aliquot_id][symbol] = int(val)
 
     for aliquot_barcode, values in collect.items():
         aliquot_id = aliquot_lookup[aliquot_barcode]
