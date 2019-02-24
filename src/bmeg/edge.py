@@ -255,6 +255,14 @@ class ResponseTo(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
+class TestedIn(Edge):
+    """
+    Compound -> Project
+    """
+    pass
+
+@enforce_types
+@dataclass(frozen=True)
 class HasSupportingReference(Edge):
     """
     G2PAssociation -> Publication

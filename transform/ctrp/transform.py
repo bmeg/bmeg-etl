@@ -1,6 +1,6 @@
 import pandas
 from bmeg.vertex import DrugResponse, Aliquot, Case, Project, Program
-from bmeg.edge import ResponseIn, ResponseTo, InProject, InProgram
+from bmeg.edge import ResponseIn, ResponseTo, InProject, InProgram, TestedIn
 from bmeg.enrichers.drug_enricher import compound_factory
 from bmeg.emitter import JSONEmitter
 from bmeg.ccle import build_ccle2depmap_conversion_table, build_project_lookup, missing_ccle_cellline_factory
@@ -32,6 +32,7 @@ def transform(sample_path='outputs/ccle/Sample.Vertex.json.gz',
         compound = compound_factory(name=cpd_name)
         emitter.emit_vertex(compound)
 
+
     ccl_df = pandas.read_table(metacelllinePath)
     ccl_df = ccl_df.set_index("master_ccl_id")
 
@@ -47,6 +48,7 @@ def transform(sample_path='outputs/ccle/Sample.Vertex.json.gz',
     missing_cell_lines = []
     case_gids = []
     project_gids = []
+    project_compounds = {}
     for i, row in response_df.iterrows():
         exp_id = row['experiment_id']
         cpd_id = row['master_cpd_id']
@@ -73,6 +75,7 @@ def transform(sample_path='outputs/ccle/Sample.Vertex.json.gz',
                 prog.gid()
             )
             project_gids.append(proj.gid())
+            project_compounds[proj.gid()] = {}
         if Case.make_gid(ccl_name) not in case_gids and ccl_name not in missing_cell_lines:
             emitter.emit_edge(
                 InProject(),
@@ -105,6 +108,12 @@ def transform(sample_path='outputs/ccle/Sample.Vertex.json.gz',
             dr.gid(),
             compound.gid()
         )
+        if compound.gid() not in project_compounds[proj.gid()]:
+            emitter.emit_edge(
+                TestedIn(),
+                compound.gid(),
+                proj.gid())
+            project_compounds[proj.gid()][compound.gid()] = True
 
     # generate project, case, sample, aliquot for missing cell lines
     missing_ccle_cellline_factory(emitter=emitter,
