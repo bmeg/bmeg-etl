@@ -3,31 +3,28 @@
 a set of very basic queries - simply ensure the counts of label
 """
 
-from gripql import eq
 
 EXPECTED_COUNTS = {
-    'Individual': 34980,
-    'Biosample': 74457,
-    'Project': 84,
-    'Aliquot': 188038,
-    'DrugResponse': 197690,
+    'Case': 35596,
+    'Sample': 75127,
+    'Project': 196,
+    'Aliquot': 195804,
+    'DrugResponse': 596490,
     'G2PAssociation': 46573,
-    'Gene': 57905,
-    'MinimalAllele': 1318,
-    'Allele': 4028128,
-    'Phenotype': 1413,
-    'Exon': 674466,
-    'Protein': 107844,
-    'PFAMFamily': 16712,
-    'Transcript': 194318,
+    'Gene': 63677,
+    'MinimalAllele': 1508,
+    'Allele': 4037946,
+    'Phenotype': 2002,
+    'Exon': 737019,
+    'Protein': 94575,
+    'PFAMFamily': 17929,
+    'Transcript': 214804,
 }
 
 
 def count_label(label, V):
     """ count label template query """
-    q = V.where(
-        eq("_label", label)
-    ).count()
+    q = V.hasLabel(label).count()
     return list(
         q
     )[0]['count'], q

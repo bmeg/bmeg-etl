@@ -143,8 +143,8 @@ def helpers():
 @pytest.fixture(scope="module")
 def graph():
     """ return a connection to the bmeg graph (control w/ BMEG_URL, BMEG_GRAPH env var) """
-    bmeg_url = os.getenv('BMEG_URL', "http://arachne.compbio.ohsu.edu")
-    bmeg_graph = os.getenv('BMEG_GRAPH', "bmeg_test")
+    bmeg_url = os.getenv('BMEG_URL', "http://grip.compbio.ohsu.edu")
+    bmeg_graph = os.getenv('BMEG_GRAPH', "bmeg_rc1_2")
     return gripql.Connection(bmeg_url).graph(bmeg_graph)
 
 
