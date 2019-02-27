@@ -64,8 +64,6 @@ deps:
   path: outputs/ccle/maf.CallsetFor.Edge.json.gz
 - md5: 505eab7969aff3ab36e1938e4cc494a6
   path: outputs/ccle/maf.Case.Vertex.json.gz
-- md5: 31860168a855a6f1dabcb6aa106c39d6
-  path: outputs/ccle/maf.Deadletter.Vertex.json.gz
 - md5: 0d2155078977b9397ebfc541983aa03c
   path: outputs/ccle/maf.InProject.Edge.json.gz
 - md5: c92ccd2e86632c733fd589caee5cd132
@@ -138,8 +136,6 @@ deps:
   path: outputs/ensembl/TranscriptFor.Edge.json.gz
 - md5: 18a55d71ce80493e9098a868b06ea541
   path: outputs/g2p/AlleleIn.Edge.json.gz
-- md5: bb5ddaef6b20f62c6321ae3ed43106bb
-  path: outputs/g2p/Deadletter.Vertex.json.gz
 - md5: df35501caec93f039e3b9b495cf8f984
   path: outputs/g2p/G2PAssociation.Vertex.json.gz
 - md5: e8371bd830d8fdb0ccf226ad20d8df8f
@@ -224,8 +220,6 @@ deps:
   path: outputs/mc3/Callset.Vertex.json.gz
 - md5: f9b05ece6cec86e18708f5a072512e2e
   path: outputs/mc3/CallsetFor.Edge.json.gz
-- md5: a65a9be56992f6d2d14512fe866420a4
-  path: outputs/mc3/Deadletter.Vertex.json.gz
 - md5: e055d958444eafb0e490a91e98aa8185
   path: outputs/pfam/GeneOntologyAnnotation.Edge.json.gz
 - md5: 3e4ca315ff85be97f9a64cf84f6710e4
@@ -2598,4 +2592,4 @@ deps:
   path: outputs/tcga/UVM.TranscriptExpressionOf.Edge.json.gz
 - md5: c7a2f84471b557f492297bba67f71d3e
   path: source/compound/sqlite.db
-md5: ab8cee8a52ebc88eb7e29dec3ecf6880
+md5: 70d890e28f2a663dd20efe974b971516
