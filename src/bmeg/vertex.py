@@ -3,6 +3,7 @@ from enum import Enum
 import hashlib
 from typing import Union
 from dacite import from_dict as dacite_from_dict
+import re
 from bmeg.gid import GID
 from bmeg.utils import enforce_types
 
@@ -486,12 +487,11 @@ class G2PAssociation(Vertex):
 @enforce_types
 @dataclass(frozen=True)
 class Publication(Vertex):
-    url: str  # http://www.ncbi.nlm.nih.gov/pubmed/18451181
+    url: str  # https://www.ncbi.nlm.nih.gov/pubmed/18451181
     title: Union[None, str]
     abstract: Union[None, str]
     text: Union[None, str]
     date: Union[None, str]
-
     author: Union[None, list]
     citation: Union[None, list]
 
@@ -500,6 +500,8 @@ class Publication(Vertex):
 
     @classmethod
     def make_gid(cls, url):
+        rec = re.compile(r"https?://(www\.)?")
+        url = rec.sub("", url).strip()
         return GID("%s:%s" % (cls.__name__, url))
 
 

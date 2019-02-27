@@ -67,9 +67,9 @@ def transform(
                         r += 1
                         continue
                     dedup[to] = True
-                    id = to.replace('Publication:', '')
+                    url = to.replace('Publication:', 'http://')
                     title = abstract = text = date = author = citation = None
-                    publication = Publication(id, title, abstract, text, date, author, citation)
+                    publication = Publication(url, title, abstract, text, date, author, citation)
                     emitter.emit_vertex(publication)
                     e += 1
                 except Exception as exc:

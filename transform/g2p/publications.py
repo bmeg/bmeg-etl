@@ -15,7 +15,7 @@ def normalize(hit):
     if evidence.get('info', None):
         for url in evidence['info'].get('publications', []):
             publications.append(
-                Publication(url=url, title=None, abstract=None, text=None, date=None, author=None, citation=None)
+                Publication(url=url.strip(), title=None, abstract=None, text=None, date=None, author=None, citation=None)
             )
     hit['publications'] = publications
     publication_gids = [p.gid() for p in publications if p.gid() not in EXPORTED_PUBLICATIONS]

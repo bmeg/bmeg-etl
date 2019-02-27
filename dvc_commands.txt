@@ -164,7 +164,7 @@ dvc run --file source.gdsc.GDSC_AUC.csv.dvc --yes \
 #
 dvc run --file source.g2p.all.dvc --yes \
   -d source/g2p/version.txt \
-  -o source/g2p/all.json \
+  -o source/g2p/all.json.gz \
   "curl https://s3-us-west-2.amazonaws.com/g2p-0.11/all.json | gzip > source/g2p/all.json.gz"
 #
 dvc run --file source.ensembl.Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.trans_gene.tsv.dvc --yes \
@@ -512,12 +512,13 @@ dvc run --file outputs.tcga.expression.dvc --yes \
 dvc run --file outputs.pubmed.dvc --yes \
   -d source/pubmed/baseline \
   -o outputs/pubmed \
-  " ./transform/pubmed/pubmed.py -o pubmed --scan source/pubmed/baseline/"
+  "find source/pubmed/baseline/ -type f -name '*.xml.gz' | xargs -P 12 -n 1 -I {} python3 ./transform/pubmed/pubmed.py {}"
 #
 dvc run --file outputs.publication.dvc --yes \
   -d outputs/g2p/HasSupportingReference.Edge.json.gz \
+  -d outputs/pubmed \
   -o outputs/publication/stub.Publication.Vertex.json.gz \
-  "python3 transform/publication/transform.py"
+  "python3 transform/publication/transform.py --debug"
 #
 dvc run --file outputs.phenotype.dvc --yes \
   -d outputs/ccle/Phenotype.Vertex.json.gz \
@@ -620,7 +621,7 @@ dvc run --file outputs.gdc.cases.dvc --yes \
   "python3 -m transform.gdc.cases"
 #
 dvc run --file outputs.g2p.dvc --yes \
-  -d source/g2p/all.json \
+  -d source/g2p/all.json.gz \
   -d source/gene_enricher/hgnc_complete_set.json \
   -o outputs/g2p/Allele.Vertex.json.gz \
   -o outputs/g2p/AlleleIn.Edge.json.gz \
