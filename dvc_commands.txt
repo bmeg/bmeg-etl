@@ -165,7 +165,7 @@ dvc run --file source.gdsc.GDSC_AUC.csv.dvc --yes \
 dvc run --file source.g2p.all.dvc --yes \
   -d source/g2p/version.txt \
   -o source/g2p/all.json.gz \
-  "curl https://s3-us-west-2.amazonaws.com/g2p-0.11/all.json | gzip > source/g2p/all.json.gz"
+  "curl https://s3-us-west-2.amazonaws.com/g2p-0.12/all.json | gzip > source/g2p/all.json.gz"
 #
 dvc run --file source.ensembl.Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.trans_gene.tsv.dvc --yes \
   -d outputs/ensembl/TranscriptFor.Edge.json.gz \
