@@ -527,7 +527,7 @@ class Deadletter(Vertex):
 
 @enforce_types
 @dataclass(frozen=True)
-class MinimalAllele(Vertex):
+class GenomicFeature(Vertex):
     """ consensus set of minimal variant level data (MVLD)
         inspired by https://www.ncbi.nlm.nih.gov/pubmed/27814769
     """
@@ -542,8 +542,8 @@ class MinimalAllele(Vertex):
     name: str = None
 
     def gid(self):
-        return MinimalAllele.make_gid(self.genome, self.chromosome, self.start, self.end, self.annotations, self.myvariantinfo,
-                                      self.type, self.effect, self.name)
+        return GenomicFeature.make_gid(self.genome, self.chromosome, self.start, self.end, self.annotations, self.myvariantinfo,
+                                       self.type, self.effect, self.name)
 
     @classmethod
     def make_gid(cls, genome, chromosome, start, end, annotations, myvariantinfo, type, effect, name):

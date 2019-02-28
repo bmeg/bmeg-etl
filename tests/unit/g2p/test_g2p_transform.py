@@ -5,7 +5,7 @@ import contextlib
 import pytest
 from transform.g2p.transform import transform
 from transform.g2p.genes import normalize as gene_normalize
-from bmeg.vertex import G2PAssociation, Publication, Gene, Allele, Phenotype, Deadletter, MinimalAllele, Compound
+from bmeg.vertex import G2PAssociation, Publication, Gene, Allele, Phenotype, Deadletter, GenomicFeature, Compound
 
 
 @pytest.fixture
@@ -29,9 +29,9 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     phenotype_file = os.path.join(emitter_path_prefix, 'Phenotype.Vertex.json.gz')
     phenotype_edge_file = os.path.join(emitter_path_prefix, 'HasPhenotype.Edge.json.gz')
     deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json.gz')
-    minimal_allele_file = os.path.join(emitter_path_prefix, 'MinimalAllele.Vertex.json.gz')
-    minimal_allele_edge_file = os.path.join(emitter_path_prefix, 'HasMinimalAlleleFeature.Edge.json.gz')
-    has_gene_edge_file = os.path.join(emitter_path_prefix, 'MinimalAlleleIn.Edge.json.gz')
+    genomic_feature_file = os.path.join(emitter_path_prefix, 'GenomicFeature.Vertex.json.gz')
+    genomic_feature_edge_file = os.path.join(emitter_path_prefix, 'HasGenomicFeatureFeature.Edge.json.gz')
+    has_gene_edge_file = os.path.join(emitter_path_prefix, 'GenomicFeatureIn.Edge.json.gz')
     allele_in_edge_file = os.path.join(emitter_path_prefix, 'AlleleIn.Edge.json.gz')
     environment_in_edge_file = os.path.join(emitter_path_prefix, 'HasEnvironment.Edge.json.gz')
     environment_file = os.path.join(emitter_path_prefix, 'Compound.Vertex.json.gz')
@@ -45,8 +45,8 @@ def validate(helpers, g2p_file, emitter_path_prefix):
         os.remove(phenotype_file)
         os.remove(phenotype_edge_file)
         os.remove(deadletter_file)
-        os.remove(minimal_allele_file)
-        os.remove(minimal_allele_edge_file)
+        os.remove(genomic_feature_file)
+        os.remove(genomic_feature_edge_file)
         os.remove(has_gene_edge_file)
         os.remove(allele_in_edge_file)
         os.remove(environment_in_edge_file)
@@ -75,22 +75,22 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     assert has_phenotype_count == 295, 'There should be 295 has_phenotype edges'
     # test/test.Deadletter.Vertex.json
     helpers.assert_vertex_file_valid(Deadletter, deadletter_file)
-    # test/test.MinimalAllele.Vertex.json
-    helpers.assert_vertex_file_valid(MinimalAllele, minimal_allele_file)
+    # test/test.GenomicFeature.Vertex.json
+    helpers.assert_vertex_file_valid(GenomicFeature, genomic_feature_file)
     # test/test.Environment.Vertex.json
     compound_count = helpers.assert_vertex_file_valid(Compound, environment_file)
     assert compound_count == 46, 'There should be 46 compounds'
-    # test/test.MinimalAllele.Vertex.json
-    helpers.assert_edge_file_valid(G2PAssociation, MinimalAllele, minimal_allele_edge_file)
+    # test/test.GenomicFeature.Vertex.json
+    helpers.assert_edge_file_valid(G2PAssociation, GenomicFeature, genomic_feature_edge_file)
     # test/test.HasGene.Edge.json
-    helpers.assert_edge_file_valid(MinimalAllele, Gene, has_gene_edge_file)
+    helpers.assert_edge_file_valid(GenomicFeature, Gene, has_gene_edge_file)
     # test/test.AlleleIn.Edge.json
     helpers.assert_edge_file_valid(Allele, Gene, allele_in_edge_file)
     # test/test.HasEnvironment.Edge.json
     helpers.assert_edge_file_valid(G2PAssociation, Compound, environment_in_edge_file)
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(
-        [association_file, publication_edge_file, gene_edge_file, allele_edge_file, allele_file, phenotype_file, phenotype_edge_file, deadletter_file, minimal_allele_file, minimal_allele_edge_file, has_gene_edge_file, allele_in_edge_file, environment_in_edge_file, environment_file],
+        [association_file, publication_edge_file, gene_edge_file, allele_edge_file, allele_file, phenotype_file, phenotype_edge_file, deadletter_file, genomic_feature_file, genomic_feature_edge_file, has_gene_edge_file, allele_in_edge_file, environment_in_edge_file, environment_file],
         exclude_labels=['Publication', 'Gene']
     )
 
