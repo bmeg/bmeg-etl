@@ -25,29 +25,12 @@ class Edge:
 
 @enforce_types
 @dataclass(frozen=True)
-class VariantIn(Edge):
-    """
-    Variant -> Gene
-    """
-    pass
-
-
-@enforce_types
-@dataclass(frozen=True)
-class VariantCall(Edge):
-    """
-    Variant -> Callset
-    """
-    info: dict
-
-
-@enforce_types
-@dataclass(frozen=True)
 class AlleleIn(Edge):
     """
-    Variant -> Gene
+    Allele -> Gene
     """
-    pass
+    def label(self):
+        return "alleleIn"
 
 
 @enforce_types
@@ -69,6 +52,9 @@ class AlleleCall(Edge):
     ensembl_transcript: str
     ensembl_gene: str
 
+    def label(self):
+        return "hasSomaticVariant"
+
 
 @enforce_types
 @dataclass(frozen=True)
@@ -76,7 +62,9 @@ class MethylationOf(Edge):
     """
     Methylation -> Aliquot
     """
-    pass
+
+    def label(self):
+        return "methylationOf"
 
 
 @enforce_types
@@ -85,7 +73,8 @@ class MethylationProbeFor(Edge):
     """
     MethylationProbe -> Gene
     """
-    pass
+    def label(self):
+        return "methylationProbeOf"
 
 
 @enforce_types
@@ -94,7 +83,8 @@ class TranscriptFor(Edge):
     """
     Transcript -> Gene
     """
-    pass
+    def label(self):
+        return "transcriptOf"
 
 
 @enforce_types
@@ -103,7 +93,8 @@ class ExonFor(Edge):
     """
     Exon -> Transcript
     """
-    pass
+    def label(self):
+        return "exonOf"
 
 
 @enforce_types
@@ -112,16 +103,18 @@ class ProteinFor(Edge):
     """
     Protein -> Transcript
     """
-    pass
+    def label(self):
+        return "proteinOf"
 
 
 @enforce_types
 @dataclass(frozen=True)
 class StructureFor(Edge):
     """
-    Protein -> ProteinStructure
+    ProteinStructure -> Protein 
     """
-    pass
+    def label(self):
+        return "structureOf"
 
 
 @enforce_types
@@ -130,7 +123,8 @@ class COCAClusterFor(Edge):
     """
     COCACluster -> Case
     """
-    pass
+    def label(self):
+        return "hasLabel"
 
 
 @enforce_types
@@ -139,7 +133,8 @@ class CallsetFor(Edge):
     """
     Callset -> Sample
     """
-    pass
+    def label(self):
+        return "callsetOf"    
 
 
 @enforce_types
@@ -148,7 +143,8 @@ class PFAMClanMember(Edge):
     """
     PFAMClan -> PFAMFamily
     """
-    pass
+    def label(self):
+        return "clanOf"
 
 
 @enforce_types
@@ -160,6 +156,9 @@ class PFAMAlignment(Edge):
     start: int
     end: int
 
+    def label(self):
+        return "hasFamily"
+
 
 @enforce_types
 @dataclass(frozen=True)
@@ -167,7 +166,8 @@ class InProgram(Edge):
     """
     Project -> Program
     """
-    pass
+    def label(self):
+        return "projectOf"
 
 
 @enforce_types
@@ -176,7 +176,8 @@ class InProject(Edge):
     """
     Case -> Project
     """
-    pass
+    def label(self):
+        return "caseOf"
 
 
 @enforce_types
@@ -185,7 +186,8 @@ class SampleFor(Edge):
     """
     Sample -> Case
     """
-    pass
+    def label(self):
+        return "sampleOf"
 
 
 @enforce_types
@@ -194,7 +196,8 @@ class AliquotFor(Edge):
     """
     Aliquot -> Sample
     """
-    pass
+    def label(self):
+        return "aliquotOf"
 
 
 @enforce_types
@@ -207,6 +210,9 @@ class GeneOntologyAnnotation(Edge):
     title: str
     references: list
 
+    def label(self):
+        return "annotationOf"
+
 
 @enforce_types
 @dataclass(frozen=True)
@@ -214,7 +220,8 @@ class GeneOntologyIsA(Edge):
     """
     GenoOntologyTerm -> GenoOntologyTerm
     """
-    pass
+    def label(self):
+        return "subclassOf"
 
 
 @enforce_types
@@ -223,7 +230,8 @@ class GeneExpressionOf(Edge):
     """
     GeneExpression -> Aliquot
     """
-    pass
+    def label(self):
+        return "geneExpressionOf"
 
 
 @enforce_types
@@ -232,7 +240,8 @@ class TranscriptExpressionOf(Edge):
     """
     TranscriptExpression -> Aliquot
     """
-    pass
+    def label(self):
+        return "transcriptExpressionOf"
 
 
 @enforce_types
@@ -241,7 +250,8 @@ class ResponseIn(Edge):
     """
     DrugResponse -> Aliquot
     """
-    pass
+    def label(self):
+        return "responseIn"
 
 
 @enforce_types
@@ -250,7 +260,8 @@ class ResponseTo(Edge):
     """
     DrugResponse -> Compound
     """
-    pass
+    def label(self):
+        return "responseTo"
 
 
 @enforce_types
@@ -259,7 +270,8 @@ class HasSupportingReference(Edge):
     """
     G2PAssociation -> Publication
     """
-    pass
+    def label(self):
+        return "hasSupportingReference"
 
 
 @enforce_types
@@ -268,7 +280,8 @@ class HasGeneFeature(Edge):
     """
     G2PAssociation -> Gene
     """
-    pass
+    def label(self):
+        return "hasGeneFeature"
 
 
 @enforce_types
@@ -286,7 +299,8 @@ class HasPhenotype(Edge):
     """
     G2PAssociation -> Phenotype
     """
-    pass
+    def label(self):
+        return "hasPhenotype"
 
 
 @enforce_types
@@ -295,7 +309,8 @@ class HasEnvironment(Edge):
     """
     G2PAssociation -> Compound
     """
-    pass
+    def label(self):
+        return "hasEnvironment"
 
 
 @enforce_types
@@ -331,8 +346,8 @@ class TreatedWith(Edge):
     """
     Case -> Compound
     """
-    pass
-
+    def label(self):
+        return "treatedWith"
 
 @enforce_types
 @dataclass(frozen=True)
@@ -358,4 +373,5 @@ class CopyNumberAlterationOf(Edge):
     """
     CopyNumberAlteration -> Aliquot
     """
-    pass
+    def label(self):
+        return "copyNumberAlterationOf"
