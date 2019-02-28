@@ -1,9 +1,9 @@
-cmd: curl https://s3-us-west-2.amazonaws.com/g2p-0.11/all.json | gzip > source/g2p/all.json.gz
+cmd: curl https://s3-us-west-2.amazonaws.com/g2p-0.12/all.json | gzip > source/g2p/all.json.gz
 deps:
-- md5: 1e85d27c4639f6730bb7624094413c74
+- md5: 0baa36c0aa8d1883b5ded91b5fc5bb5b
   path: source/g2p/version.txt
-md5: a0ac203f83c1948552f74bbcc5bafa05
+md5: 16897f3f860e18fc97934113558225a2
 outs:
 - cache: true
-  md5: 724c66ca0675c21fa2bfad94e73d14f3
+  md5: 2e42790acae5b7c2aa50596512d35be5
   path: source/g2p/all.json.gz
