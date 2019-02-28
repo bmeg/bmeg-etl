@@ -631,11 +631,11 @@ dvc run --file outputs.g2p.dvc --yes \
   -o outputs/g2p/HasAlleleFeature.Edge.json.gz \
   -o outputs/g2p/HasEnvironment.Edge.json.gz \
   -o outputs/g2p/HasGeneFeature.Edge.json.gz \
-  -o outputs/g2p/HasMinimalAlleleFeature.Edge.json.gz \
+  -o outputs/g2p/HasGenomicFeatureFeature.Edge.json.gz \
   -o outputs/g2p/HasPhenotype.Edge.json.gz \
   -o outputs/g2p/HasSupportingReference.Edge.json.gz \
-  -o outputs/g2p/MinimalAllele.Vertex.json.gz \
-  -o outputs/g2p/MinimalAlleleIn.Edge.json.gz \
+  -o outputs/g2p/GenomicFeature.Vertex.json.gz \
+  -o outputs/g2p/GenomicFeatureIn.Edge.json.gz \
   -o outputs/g2p/Phenotype.Vertex.json.gz \
   "python3 -m transform.g2p.transform"
 #
@@ -2407,11 +2407,11 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/g2p/G2PAssociation.Vertex.json.gz \
   -d outputs/g2p/HasAlleleFeature.Edge.json.gz \
   -d outputs/g2p/HasGeneFeature.Edge.json.gz \
-  -d outputs/g2p/HasMinimalAlleleFeature.Edge.json.gz \
+  -d outputs/g2p/HasGenomicFeatureFeature.Edge.json.gz \
   -d outputs/g2p/HasPhenotype.Edge.json.gz \
   -d outputs/g2p/HasSupportingReference.Edge.json.gz \
-  -d outputs/g2p/MinimalAllele.Vertex.json.gz \
-  -d outputs/g2p/MinimalAlleleIn.Edge.json.gz \
+  -d outputs/g2p/GenomicFeature.Vertex.json.gz \
+  -d outputs/g2p/GenomicFeatureIn.Edge.json.gz \
   -d outputs/g2p/Phenotype.Vertex.json.gz \
   -d outputs/gdc/Aliquot.Vertex.json.gz \
   -d outputs/gdc/AliquotFor.Edge.json.gz \
