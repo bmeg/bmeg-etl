@@ -32,7 +32,6 @@ def transform(sample_path='outputs/ccle/Sample.Vertex.json.gz',
         compound = compound_factory(name=cpd_name)
         emitter.emit_vertex(compound)
 
-
     ccl_df = pandas.read_table(metacelllinePath)
     ccl_df = ccl_df.set_index("master_ccl_id")
 
