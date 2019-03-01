@@ -2,9 +2,9 @@ cmd: python3 transform/tcga/methylation.py
 deps:
 - md5: c3e5ab440c94c37a676767a6afa685de
   path: source/tcga/methylation/IlluminaHumanMethylation450.tar.gz
-- md5: c65784990987a166671b2c9c10464d9c
+- md5: c0cdd3401bdff190de1647f95dc42429
   path: outputs/gdc/Aliquot.Vertex.json.gz
-md5: d5989b9da49c99d02bef964b0e3d9451
+md5: 1041e1b69ed9fe074c3785a7216c4811
 outs:
 - cache: true
   md5: 857efae737e7af6c0fa5cec2ab5852c9
