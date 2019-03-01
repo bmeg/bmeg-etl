@@ -674,7 +674,7 @@ dvc run --file outputs.ctrp.drugresponse.dvc --yes \
   -o outputs/ctrp/ctrp.Project.Vertex.json.gz \
   -o outputs/ctrp/ctrp.InProgram.Edge.json.gz \
   -o outputs/ctrp/ctrp.Program.Vertex.json.gz \
-  "python ./transform/ctrp/transform.py"
+  "python3 ./transform/ctrp/transform.py"
 #
 dvc run --file outputs.compound.normalized.dvc --yes \
   -d outputs/ccle/drug_response.Compound.Vertex.json.gz \
