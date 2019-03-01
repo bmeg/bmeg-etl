@@ -4,7 +4,7 @@ deps:
   path: source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv
 - md5: 9909dd770481cea740e1db0983cfbf80
   path: outputs/ccle/Sample.Vertex.json.gz
-md5: 0b6610f3e1ebb7e70a7f4137c72def7b
+md5: b31df5a2bb7b13c3ff9591c8911a30e5
 outs:
 - cache: true
   md5: 600526ae5bed66376d5f073dca2bf5cc
@@ -42,6 +42,9 @@ outs:
 - cache: true
   md5: eb1c9c50025e823c4c4cfc3e2c1bd6eb
   path: outputs/ccle/drug_response.InProgram.Edge.json.gz
+- cache: true
+  md5: 264739732061e7a71e19a0b628a3c6c0
+  path: outputs/ccle/drug_response.TestedIn.Edge.json.gz
 - cache: true
   md5: 538e806d32fa92be619fdf84af5376c2
   path: outputs/ccle/drug_response.Program.Vertex.json.gz
