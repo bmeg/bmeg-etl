@@ -261,6 +261,7 @@ class TestedIn(Edge):
     """
     pass
 
+
 @enforce_types
 @dataclass(frozen=True)
 class HasSupportingReference(Edge):
