@@ -46,6 +46,7 @@ outputs/ccle/tatlow.TranscriptExpressionOf.Edge.json.gz
 outputs/compound/normalized.Compound.Vertex.json.gz
 outputs/compound/normalized.HasEnvironment.Edge.json.gz
 outputs/compound/normalized.ResponseTo.Edge.json.gz
+outputs/compound/normalized.TestedIn.Edge.json.gz
 outputs/compound/normalized.TreatedWith.Edge.json.gz
 outputs/ctrp/ctrp.Aliquot.Vertex.json.gz
 outputs/ctrp/ctrp.AliquotFor.Edge.json.gz
@@ -67,13 +68,13 @@ outputs/ensembl/Transcript.Vertex.json.gz
 outputs/ensembl/TranscriptFor.Edge.json.gz
 outputs/g2p/AlleleIn.Edge.json.gz
 outputs/g2p/G2PAssociation.Vertex.json.gz
+outputs/g2p/GenomicFeature.Vertex.json.gz
+outputs/g2p/GenomicFeatureIn.Edge.json.gz
 outputs/g2p/HasAlleleFeature.Edge.json.gz
 outputs/g2p/HasGeneFeature.Edge.json.gz
-outputs/g2p/HasMinimalAlleleFeature.Edge.json.gz
+outputs/g2p/HasGenomicFeatureFeature.Edge.json.gz
 outputs/g2p/HasPhenotype.Edge.json.gz
 outputs/g2p/HasSupportingReference.Edge.json.gz
-outputs/g2p/MinimalAllele.Vertex.json.gz
-outputs/g2p/MinimalAlleleIn.Edge.json.gz
 outputs/g2p/Phenotype.Vertex.json.gz
 outputs/gdc/Aliquot.Vertex.json.gz
 outputs/gdc/AliquotFor.Edge.json.gz
