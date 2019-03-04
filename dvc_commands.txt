@@ -165,7 +165,7 @@ dvc run --file source.gdsc.GDSC_AUC.csv.dvc --yes \
 dvc run --file source.g2p.all.dvc --yes \
   -d source/g2p/version.txt \
   -o source/g2p/all.json.gz \
-  "curl https://s3-us-west-2.amazonaws.com/g2p-0.11/all.json | gzip > source/g2p/all.json.gz"
+  "curl https://s3-us-west-2.amazonaws.com/g2p-0.12/all.json | gzip > source/g2p/all.json.gz"
 #
 dvc run --file source.ensembl.Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.trans_gene.tsv.dvc --yes \
   -d outputs/ensembl/TranscriptFor.Edge.json.gz \
@@ -631,11 +631,11 @@ dvc run --file outputs.g2p.dvc --yes \
   -o outputs/g2p/HasAlleleFeature.Edge.json.gz \
   -o outputs/g2p/HasEnvironment.Edge.json.gz \
   -o outputs/g2p/HasGeneFeature.Edge.json.gz \
-  -o outputs/g2p/HasMinimalAlleleFeature.Edge.json.gz \
+  -o outputs/g2p/HasGenomicFeatureFeature.Edge.json.gz \
   -o outputs/g2p/HasPhenotype.Edge.json.gz \
   -o outputs/g2p/HasSupportingReference.Edge.json.gz \
-  -o outputs/g2p/MinimalAllele.Vertex.json.gz \
-  -o outputs/g2p/MinimalAlleleIn.Edge.json.gz \
+  -o outputs/g2p/GenomicFeature.Vertex.json.gz \
+  -o outputs/g2p/GenomicFeatureIn.Edge.json.gz \
   -o outputs/g2p/Phenotype.Vertex.json.gz \
   "python3 -m transform.g2p.transform"
 #
@@ -674,7 +674,7 @@ dvc run --file outputs.ctrp.drugresponse.dvc --yes \
   -o outputs/ctrp/ctrp.Project.Vertex.json.gz \
   -o outputs/ctrp/ctrp.InProgram.Edge.json.gz \
   -o outputs/ctrp/ctrp.Program.Vertex.json.gz \
-  "python ./transform/ctrp/transform.py"
+  "python3 ./transform/ctrp/transform.py"
 #
 dvc run --file outputs.compound.normalized.dvc --yes \
   -d outputs/ccle/drug_response.Compound.Vertex.json.gz \
@@ -2407,11 +2407,11 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/g2p/G2PAssociation.Vertex.json.gz \
   -d outputs/g2p/HasAlleleFeature.Edge.json.gz \
   -d outputs/g2p/HasGeneFeature.Edge.json.gz \
-  -d outputs/g2p/HasMinimalAlleleFeature.Edge.json.gz \
+  -d outputs/g2p/HasGenomicFeatureFeature.Edge.json.gz \
   -d outputs/g2p/HasPhenotype.Edge.json.gz \
   -d outputs/g2p/HasSupportingReference.Edge.json.gz \
-  -d outputs/g2p/MinimalAllele.Vertex.json.gz \
-  -d outputs/g2p/MinimalAlleleIn.Edge.json.gz \
+  -d outputs/g2p/GenomicFeature.Vertex.json.gz \
+  -d outputs/g2p/GenomicFeatureIn.Edge.json.gz \
   -d outputs/g2p/Phenotype.Vertex.json.gz \
   -d outputs/gdc/Aliquot.Vertex.json.gz \
   -d outputs/gdc/AliquotFor.Edge.json.gz \

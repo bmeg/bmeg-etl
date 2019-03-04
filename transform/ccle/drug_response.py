@@ -5,7 +5,7 @@ from types import SimpleNamespace as SN
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
 from bmeg.vertex import DrugResponse, Aliquot, Case, Project, Program
-from bmeg.edge import ResponseIn, ResponseTo, InProject, InProgram
+from bmeg.edge import ResponseIn, ResponseTo, InProject, InProgram, TestedIn
 from bmeg.enrichers.drug_enricher import compound_factory
 from bmeg.ccle import build_ccle2depmap_conversion_table, build_project_lookup, missing_ccle_cellline_factory
 
@@ -49,6 +49,7 @@ def transform(sample_path='outputs/ccle/Sample.Vertex.json.gz',
     missing_cell_lines = []
     case_gids = []
     project_gids = []
+    project_compounds = {}
     for line in input_stream:
         # map the names to snake case
         mline = {"source": "CCLE"}
@@ -93,6 +94,7 @@ def transform(sample_path='outputs/ccle/Sample.Vertex.json.gz',
                 prog.gid()
             )
             project_gids.append(proj.gid())
+            project_compounds[proj.gid()] = {}
         if Case.make_gid(sample_id) not in case_gids and sample_id not in missing_cell_lines:
             emitter.emit_edge(
                 InProject(),
@@ -121,6 +123,9 @@ def transform(sample_path='outputs/ccle/Sample.Vertex.json.gz',
             drug_resp.gid(),
             compound.gid(),
         )
+        if compound.gid() not in project_compounds[proj.gid()]:
+            emitter.emit_edge(TestedIn(), compound.gid(), proj.gid())
+            project_compounds[proj.gid()][compound.gid()] = True
 
     # generate project, case, sample, aliquot for missing cell lines
     missing_ccle_cellline_factory(emitter=emitter,

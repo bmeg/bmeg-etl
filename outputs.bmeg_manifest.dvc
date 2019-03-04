@@ -1,6 +1,6 @@
 cmd: echo generating file manifest...
 deps:
-- md5: a92d500251f95dc98b4d15a5b05c443e
+- md5: 1d78fe030127fa82ba2aea693fd36e5a
   path: outputs/allele/Allele.Vertex.json.gz
 - md5: 9499f47f8cc33c79cf48c1799776905e
   path: outputs/ccle/Aliquot.Vertex.json.gz
@@ -90,13 +90,13 @@ deps:
   path: outputs/ccle/tatlow.TranscriptExpression.Vertex.json.gz
 - md5: 220fc5197689fad89ad1b52fdd55d130
   path: outputs/ccle/tatlow.TranscriptExpressionOf.Edge.json.gz
-- md5: d4568248a7cecbf7e6b6f95989988cc1
+- md5: 8bba4b668da74bfd12deae6f8e8a7e10
   path: outputs/compound/normalized.Compound.Vertex.json.gz
-- md5: 1f912ccbeda577d79a3660b6acb33907
+- md5: 9bddd66b1087f8d5dd53865e14a2ba9b
   path: outputs/compound/normalized.HasEnvironment.Edge.json.gz
-- md5: d9e5fa41843a95da981ad4e3541150e6
+- md5: 55c6a547f771b3920a5d1befa7915923
   path: outputs/compound/normalized.ResponseTo.Edge.json.gz
-- md5: 9fb48ea78a7504eeb99dfd3e183bb8b7
+- md5: d059c88b80be04055566aae8337cc201
   path: outputs/compound/normalized.TreatedWith.Edge.json.gz
 - md5: 11e9da270928da83829c8a058f6773f1
   path: outputs/ctrp/ctrp.Aliquot.Vertex.json.gz
@@ -134,25 +134,25 @@ deps:
   path: outputs/ensembl/Transcript.Vertex.json.gz
 - md5: d53861b06ab11a807f3e801f07a24e9b
   path: outputs/ensembl/TranscriptFor.Edge.json.gz
-- md5: 18a55d71ce80493e9098a868b06ea541
+- md5: abbc65869e2c27b127180a609e4ce077
   path: outputs/g2p/AlleleIn.Edge.json.gz
-- md5: df35501caec93f039e3b9b495cf8f984
+- md5: d50bff1274a8dc84668a26b60a5cb189
   path: outputs/g2p/G2PAssociation.Vertex.json.gz
-- md5: e8371bd830d8fdb0ccf226ad20d8df8f
+- md5: f3527d78c4b90342b52443a394c1c0d9
   path: outputs/g2p/HasAlleleFeature.Edge.json.gz
-- md5: 0443b1c286948777d15c5dce659c15d8
+- md5: bd87c29bdf14ea1063fd4f36e2d21770
   path: outputs/g2p/HasGeneFeature.Edge.json.gz
-- md5: cdf861a3eb09e37b96671823a1d52b8d
-  path: outputs/g2p/HasMinimalAlleleFeature.Edge.json.gz
-- md5: 8e65d6f61774989936b8cd83bf3d8320
+- md5: a98638d296c5f659ec88e0e2e331940c
+  path: outputs/g2p/HasGenomicFeatureFeature.Edge.json.gz
+- md5: 69578b755ab137ce1223df13250fb67d
   path: outputs/g2p/HasPhenotype.Edge.json.gz
-- md5: 507cd9f8a0961302cb34b9262c3b22b8
+- md5: 86502d24b9a96a35b6dd167b49b3b1f8
   path: outputs/g2p/HasSupportingReference.Edge.json.gz
-- md5: a21c04f7b34288cb4daec4a6d28dedef
-  path: outputs/g2p/MinimalAllele.Vertex.json.gz
-- md5: d715ac8ba46852db6a5799e6deb79e7d
-  path: outputs/g2p/MinimalAlleleIn.Edge.json.gz
-- md5: 9799d6c7c0ed337f57ad3715e0a61579
+- md5: 3ae9fc001726cce94c599e5a58075f37
+  path: outputs/g2p/GenomicFeature.Vertex.json.gz
+- md5: 70480135dea7b408cba26707a87fb0fe
+  path: outputs/g2p/GenomicFeatureIn.Edge.json.gz
+- md5: 7bb405c051fc42a97da25280a37e6176
   path: outputs/g2p/Phenotype.Vertex.json.gz
 - md5: c0cdd3401bdff190de1647f95dc42429
   path: outputs/gdc/Aliquot.Vertex.json.gz
@@ -234,13 +234,13 @@ deps:
   path: outputs/pfam/ProteinStructure.Vertex.json.gz
 - md5: 49e1d86e3c01677943fc6c89924d3bf9
   path: outputs/pfam/StructureFor.Edge.json.gz
-- md5: 2513ab0809ad3dc0d5122ebff43dfa78
+- md5: f6fd72e4b9129ecc148f42521c56706f
   path: outputs/phenotype/normalized.HasPhenotype.Edge.json.gz
-- md5: 1bbeec66c698da4a5eea8e587cc55b79
+- md5: c9b716e71856d262b1778d6aca86ed6f
   path: outputs/phenotype/normalized.Phenotype.Vertex.json.gz
-- md5: c10167e678ccf4fd5e3a0537915c867f
+- md5: 319f82b8fdfb36b0db99880fa12cf380
   path: outputs/phenotype/normalized.PhenotypeOf.Edge.json.gz
-- md5: 3a3ca7630740475d83743c352660adc9
+- md5: e75bc79dfaa1f5fdb3dcd2d9d287b66d
   path: outputs/publication/stub.Publication.Vertex.json.gz
 - md5: ba553a414f23758783a8bf7c98e86147
   path: outputs/pubmed/pubmed19n0001.Publication.Vertex.json.gz
@@ -2590,6 +2590,6 @@ deps:
   path: outputs/tcga/UVM.TranscriptExpression.Vertex.json.gz
 - md5: 9b65fee3ef320a61e678417c8eedb400
   path: outputs/tcga/UVM.TranscriptExpressionOf.Edge.json.gz
-- md5: c7a2f84471b557f492297bba67f71d3e
+- md5: ee5ae7b511c60b8fafaa58bca46758ce
   path: source/compound/sqlite.db
-md5: 3084ecb36334ba8a77634b2abe8dafc1
+md5: a95fd96573143f7afdd28d8728ab259c

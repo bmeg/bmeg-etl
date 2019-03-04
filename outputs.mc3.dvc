@@ -1,13 +1,13 @@
 cmd: python3 transform/mc3/mc3_maf_transform.py
 deps:
-- md5: c65784990987a166671b2c9c10464d9c
+- md5: c0cdd3401bdff190de1647f95dc42429
   path: outputs/gdc/Aliquot.Vertex.json.gz
 - md5: 639ad8f8386e98dacc22e439188aa8fa
   path: source/mc3/mc3.v0.2.8.PUBLIC.maf.gz
-md5: 98b048919bf9adc1af11180d13a5655c
+md5: 66f0db423ae433846358e6c2c80eedf0
 outs:
 - cache: true
-  md5: 779fa7c7aef6a8ddd5adddd807b07a3f
+  md5: 97378cc093c8ff564a72afe1daf747f9
   path: outputs/mc3/Allele.Vertex.json.gz
 - cache: true
   md5: 2f27ecc2d4c9885191858e2081fc0a4f
