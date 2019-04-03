@@ -61,7 +61,7 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     helpers.assert_edge_file_valid(G2PAssociation, Publication, publication_edge_file)
     # HasGeneFeature.Edge.json.gz
     gene_count = helpers.assert_edge_file_valid(G2PAssociation, Gene, gene_edge_file)
-    assert 46 == gene_count, 'There should be 46 genes'
+    assert 46 == gene_count, 'There should be 46 genes to association'
 
     from_tos = {}
     to_froms = {}
@@ -134,7 +134,9 @@ def test_genes():
     # reset singleton 'already seen'
     transform.g2p.genes.EXPORTED_GENES = []
     assert gene_normalize({'genes': ['TP53']}) == ({'genes': {'ENSG00000141510'}}, ['ENSG00000141510'], []), 'We should have a modified hit and a gene vertex gid'
-    assert gene_normalize({'genes': ['TP53', 'EGFR']}) == ({'genes': {'ENSG00000141510', 'ENSG00000146648'}}, ['ENSG00000146648', 'ENSG00000141510'], []), 'We should have a modified hit and a gene vertex gid only for genes we havent seen'
+    normalized = gene_normalize({'genes': ['TP53', 'EGFR']})
+    assert normalized[0] == {'genes': {'ENSG00000141510', 'ENSG00000146648'}}, 'should return both genes'
+    assert 'ENSG00000146648' in normalized[1] and 'ENSG00000141510' in normalized[1], 'should return both genes'
 
 
 def test_genes_nofind():
