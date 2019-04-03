@@ -2,16 +2,20 @@ cmd: python3 transform/phenotype/transform.py
 deps:
 - md5: bcb95cf6dfdb04448f15af60072c5d80
   path: outputs/ccle/Phenotype.Vertex.json.gz
-- md5: 7bb405c051fc42a97da25280a37e6176
+- md5: 0e9388b8a09131b6b9b5ae0c85b910dd
   path: outputs/g2p/Phenotype.Vertex.json.gz
-md5: dbe095b798bf05f5d279c9d37ef0c8ce
+md5: e2de047f6844bba0ff7d742f6204a2bf
 outs:
 - cache: true
-  md5: f6fd72e4b9129ecc148f42521c56706f
+  md5: 12daead8a8c54eafe0afa766001d471f
+  metric: false
   path: outputs/phenotype/normalized.HasPhenotype.Edge.json.gz
 - cache: true
-  md5: c9b716e71856d262b1778d6aca86ed6f
+  md5: 0b4cd6aa07f7c07fa0e62d9e057759d5
+  metric: false
   path: outputs/phenotype/normalized.Phenotype.Vertex.json.gz
 - cache: true
   md5: 319f82b8fdfb36b0db99880fa12cf380
+  metric: false
   path: outputs/phenotype/normalized.PhenotypeOf.Edge.json.gz
+wdir: .

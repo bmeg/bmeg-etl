@@ -2,7 +2,7 @@ cmd: python3 transform/compound/transform.py
 deps:
 - md5: 600526ae5bed66376d5f073dca2bf5cc
   path: outputs/ccle/drug_response.Compound.Vertex.json.gz
-- md5: 1311040b11cfaa27056159481e261f70
+- md5: 293ec7e72f5d49b187a5de532882c645
   path: outputs/g2p/Compound.Vertex.json.gz
 - md5: 8360b8e15d784273c0c3b77eee498896
   path: outputs/gdc/Compound.Vertex.json.gz
@@ -16,24 +16,30 @@ deps:
   path: outputs/ctrp/ctrp.ResponseTo.Edge.json.gz
 - md5: ca895b4056bda95d8b7aee6638aa0991
   path: outputs/gdsc/gdsc.ResponseTo.Edge.json.gz
-- md5: 2f50d90c387cb91f9a2d819b50fdae5a
+- md5: d631575d62511dbba11f39a55fb804eb
   path: outputs/g2p/HasEnvironment.Edge.json.gz
 - md5: d240ed026648eceed518b9eaf5b08bcd
   path: outputs/gdc/TreatedWith.Edge.json.gz
-md5: 62544645fb070fcd572f91af21f55715
+md5: 3a93530a8145693e25aef9dda580ea06
 outs:
 - cache: true
-  md5: 8bba4b668da74bfd12deae6f8e8a7e10
+  md5: 16e566787275b19e7489cfb1b963c7c6
+  metric: false
   path: outputs/compound/normalized.Compound.Vertex.json.gz
 - cache: true
-  md5: 9bddd66b1087f8d5dd53865e14a2ba9b
+  md5: f741bedb8c7dad3ed3d155234cf7c024
+  metric: false
   path: outputs/compound/normalized.HasEnvironment.Edge.json.gz
 - cache: true
-  md5: 55c6a547f771b3920a5d1befa7915923
+  md5: 3ca002fb11f1e9d49da487ba4ae1e372
+  metric: false
   path: outputs/compound/normalized.ResponseTo.Edge.json.gz
 - cache: true
   md5: d059c88b80be04055566aae8337cc201
+  metric: false
   path: outputs/compound/normalized.TreatedWith.Edge.json.gz
 - cache: true
-  md5: ee5ae7b511c60b8fafaa58bca46758ce
+  md5: 6af81607581642c8dd747950952082e0
+  metric: false
   path: source/compound/sqlite.db
+wdir: .

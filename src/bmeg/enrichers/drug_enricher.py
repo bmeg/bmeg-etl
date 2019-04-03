@@ -155,7 +155,7 @@ def normalize_biothings(name):
                 'chembl.usan_stem_definition'
             url = 'http://c.biothings.io/v1/query?q=chembl.pref_name:{}&{}'.format(name_part, fields)
             logging.debug(url)
-            r = requests.get(url, timeout=60)
+            r = requests.get(url, timeout=10)
             rsp = r.json()
             hits = rsp['hits']
             logging.debug('len(hits) {}'.format(len(hits)))
