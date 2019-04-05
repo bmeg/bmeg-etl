@@ -2,6 +2,7 @@
 ['remote "ceph"']
 url = s3://bmeg/dvc
 endpointurl = https://ceph.acc.ohsu.edu
+listobjects = true
 [core]
 remote = ceph
 ['remote "source"']
