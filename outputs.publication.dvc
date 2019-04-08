@@ -1,9 +1,11 @@
-cmd: python3 transform/publication/transform.py
+cmd: python3 transform/publication/transform.py --debug
 deps:
-- md5: cc4a6489bcbd88fa5bdd78d683fc7f02
+- md5: 86502d24b9a96a35b6dd167b49b3b1f8
   path: outputs/g2p/HasSupportingReference.Edge.json.gz
-md5: 75c15455ae92526864e977c013cdbeb1
+- md5: 09279f27a37d2d749553cbebc6aaa17d.dir
+  path: outputs/pubmed
+md5: 9adf46c60515797fe09dcece0b866b96
 outs:
 - cache: true
-  md5: e2893cf16f4dfb72cd30cf40b5def431
+  md5: e75bc79dfaa1f5fdb3dcd2d9d287b66d
   path: outputs/publication/stub.Publication.Vertex.json.gz

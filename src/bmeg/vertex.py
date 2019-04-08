@@ -3,6 +3,7 @@ from enum import Enum
 import hashlib
 from typing import Union
 from dacite import from_dict as dacite_from_dict
+import re
 from bmeg.gid import GID
 from bmeg.utils import enforce_types
 
@@ -486,12 +487,11 @@ class G2PAssociation(Vertex):
 @enforce_types
 @dataclass(frozen=True)
 class Publication(Vertex):
-    url: str  # http://www.ncbi.nlm.nih.gov/pubmed/18451181
+    url: str  # https://www.ncbi.nlm.nih.gov/pubmed/18451181
     title: Union[None, str]
     abstract: Union[None, str]
     text: Union[None, str]
     date: Union[None, str]
-
     author: Union[None, list]
     citation: Union[None, list]
 
@@ -500,6 +500,8 @@ class Publication(Vertex):
 
     @classmethod
     def make_gid(cls, url):
+        rec = re.compile(r"https?://(www\.)?")
+        url = rec.sub("", url).strip()
         return GID("%s:%s" % (cls.__name__, url))
 
 
@@ -525,7 +527,7 @@ class Deadletter(Vertex):
 
 @enforce_types
 @dataclass(frozen=True)
-class MinimalAllele(Vertex):
+class GenomicFeature(Vertex):
     """ consensus set of minimal variant level data (MVLD)
         inspired by https://www.ncbi.nlm.nih.gov/pubmed/27814769
     """
@@ -540,8 +542,8 @@ class MinimalAllele(Vertex):
     name: str = None
 
     def gid(self):
-        return MinimalAllele.make_gid(self.genome, self.chromosome, self.start, self.end, self.annotations, self.myvariantinfo,
-                                      self.type, self.effect, self.name)
+        return GenomicFeature.make_gid(self.genome, self.chromosome, self.start, self.end, self.annotations, self.myvariantinfo,
+                                       self.type, self.effect, self.name)
 
     @classmethod
     def make_gid(cls, genome, chromosome, start, end, annotations, myvariantinfo, type, effect, name):

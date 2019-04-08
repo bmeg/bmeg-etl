@@ -4,7 +4,7 @@ import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
 from bmeg.ccle import build_project_lookup
 from bmeg.vertex import Aliquot, DrugResponse, Case, Project, Program
-from bmeg.edge import ResponseIn, ResponseTo, InProject, InProgram
+from bmeg.edge import ResponseIn, ResponseTo, InProject, InProgram, TestedIn
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
 from bmeg.enrichers.drug_enricher import compound_factory
@@ -84,6 +84,7 @@ def transform(
     compound_gids = []
     case_gids = []
     project_gids = []
+    project_compounds = {}
     for row in r:
         c += 1
         for key, raw_value in row.items():
@@ -113,6 +114,7 @@ def transform(
                     prog.gid()
                 )
                 project_gids.append(proj.gid())
+                project_compounds[proj.gid()] = []
 
             value = None
             if raw_value != "NA":
@@ -142,6 +144,9 @@ def transform(
                 e.gid(),
                 compound.gid(),
             )
+            if compound.gid() not in project_compounds[proj.gid()]:
+                emitter.emit_edge(TestedIn(), compound.gid(), proj.gid())
+                project_compounds[proj.gid()].append(compound.gid())
 
         if c % 10 == 0:
             logging.info('imported {}'.format(c))

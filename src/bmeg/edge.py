@@ -266,6 +266,15 @@ class ResponseTo(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
+class TestedIn(Edge):
+    """
+    Compound -> Project
+    """
+    pass
+
+
+@enforce_types
+@dataclass(frozen=True)
 class HasSupportingReference(Edge):
     """
     G2PAssociation -> Publication
@@ -315,7 +324,7 @@ class HasEnvironment(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class HasMinimalAlleleFeature(Edge):
+class HasGenomicFeatureFeature(Edge):
     """
     G2PAssociation -> Gene
     """
@@ -324,9 +333,9 @@ class HasMinimalAlleleFeature(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class MinimalAlleleIn(Edge):
+class GenomicFeatureIn(Edge):
     """
-    MinimalAllele -> Gene
+    GenomicFeature -> Gene
     """
     pass
 

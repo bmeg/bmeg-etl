@@ -330,7 +330,8 @@ def normalize(name):
         drugs = normalize_pubchem_substance(name)
     if len(drugs) == 0:
         # print 'normalize_chembl'
-        drugs = normalize_chembl(name)
+        # drugs = normalize_chembl(name)
+        pass
     if len(drugs) == 0:
         logging.warning('normalize_drugs NOFIND {}'
                         .format(name))

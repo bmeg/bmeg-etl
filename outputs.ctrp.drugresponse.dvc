@@ -1,4 +1,4 @@
-cmd: python ./transform/ctrp/transform.py
+cmd: python3 ./transform/ctrp/transform.py
 deps:
 - md5: 08ee08009c543d7a6ab4c4e34c54649e
   path: source/ctrp/v20.meta.per_compound.txt
@@ -12,7 +12,7 @@ deps:
   path: source/ctrp/v20.data.per_cpd_post_qc.txt
 - md5: 9909dd770481cea740e1db0983cfbf80
   path: outputs/ccle/Sample.Vertex.json.gz
-md5: c4810193d35ebc5d848177083528c95d
+md5: 0615e751eb970048398a32eb7264494a
 outs:
 - cache: true
   md5: 61d4237a9a2ed74cc684c2b417c7144f
@@ -26,6 +26,9 @@ outs:
 - cache: true
   md5: 5440600007b405bbb28d83b5e945926b
   path: outputs/ctrp/ctrp.ResponseTo.Edge.json.gz
+- cache: true
+  md5: 58a9044cc150fca8fad2da5459dab79b
+  path: outputs/ctrp/ctrp.TestedIn.Edge.json.gz
 - cache: true
   md5: fa8de9dfd71486ac95d928da08afd33a
   path: outputs/ctrp/ctrp.AliquotFor.Edge.json.gz
