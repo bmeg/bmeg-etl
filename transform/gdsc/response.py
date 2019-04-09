@@ -4,7 +4,7 @@ import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
 from bmeg.ccle import build_project_lookup
 from bmeg.vertex import Aliquot, DrugResponse, Case, Project, Program
-from bmeg.edge import ResponseIn, ResponseTo, InProject, InProgram, TestedIn
+from bmeg.edge import ResponseIn, ResponseTo, HasCase, HasProject, TestedIn
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
 from bmeg.enrichers.drug_enricher import compound_factory
@@ -101,17 +101,17 @@ def transform(
             proj = Project(project_id)
             if Case.make_gid(sample) not in case_gids:
                 emitter.emit_edge(
-                    InProject(),
-                    Case.make_gid(sample),
-                    proj.gid(),
+                    HasCase(),
+                    to_gid=Case.make_gid(sample),
+                    from_gid=proj.gid(),
                 )
                 case_gids.append(Case.make_gid(sample))
             if proj.gid() not in project_gids:
                 emitter.emit_vertex(proj)
                 emitter.emit_edge(
-                    InProgram(),
-                    proj.gid(),
-                    prog.gid()
+                    HasProject(),
+                    to_gid=proj.gid(),
+                    from_gid=prog.gid()
                 )
                 project_gids.append(proj.gid())
                 project_compounds[proj.gid()] = []
