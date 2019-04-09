@@ -1,7 +1,7 @@
 from bmeg.emitter import JSONEmitter
 from bmeg.ioutils import read_tsv
 from bmeg.vertex import Aliquot, Sample, Case, Project, Program
-from bmeg.edge import AliquotFor, SampleFor, InProject, InProgram
+from bmeg.edge import HasAliquot, HasSample, HasCase, HasProject
 
 
 def extract_case_id(sample_id):
@@ -33,14 +33,14 @@ for row in samples:
     if p.gid() not in project_ids:
         emitter.emit_vertex(p)
         emitter.emit_edge(
-            InProgram(),
-            p.gid(),
-            prog.gid()
+            HasProject(),
+            to_gid=p.gid(),
+            from_gid=prog.gid()
         )
     emitter.emit_edge(
-        InProject(),
-        Case.make_gid(case_id),
-        p.gid(),
+        HasCase(),
+        to_gid=Case.make_gid(case_id),
+        from_gid=p.gid(),
     )
 
     s = Sample(
@@ -49,17 +49,17 @@ for row in samples:
     )
     emitter.emit_vertex(s)
     emitter.emit_edge(
-        SampleFor(),
-        s.gid(),
-        Case.make_gid(case_id),
+        HasSample(),
+        to_gid=s.gid(),
+        from_gid=Case.make_gid(case_id),
     )
 
     a = Aliquot(sample_id)
     emitter.emit_vertex(a)
     emitter.emit_edge(
-        AliquotFor(),
-        a.gid(),
-        s.gid(),
+        HasAliquot(),
+        to_gid=a.gid(),
+        from_gid=s.gid(),
     )
 
 

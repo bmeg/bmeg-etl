@@ -1,5 +1,5 @@
 from bmeg.vertex import GeneExpression, Aliquot, ExpressionMetric
-from bmeg.edge import GeneExpressionOf
+from bmeg.edge import HasGeneExpression
 from bmeg.emitter import JSONEmitter
 from bmeg.gct import parse_gct, split_ensembl_id
 
@@ -17,9 +17,9 @@ for sample, values in parse_gct(p, "outputs/gtex", split_ensembl_id):
     )
     emitter.emit_vertex(g)
     emitter.emit_edge(
-        GeneExpressionOf(),
-        from_gid=g.gid(),
-        to_gid=Aliquot.make_gid(sample)
+        HasGeneExpression(),
+        to_gid=g.gid(),
+        from_gid=Aliquot.make_gid(sample)
     )
 
 emitter.close()

@@ -4,32 +4,32 @@ deps:
   path: source/gtex/GTEx_v7_Annotations_SampleAttributesDS.txt
 - md5: 73d9180f604c17e6c211ca1694dc9ff7
   path: source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.txt
-md5: 1d437bdda4a77aff89bd5734a989d88f
+md5: 236b4c7dc4f7e4996c924c4abd5a5843
 outs:
 - cache: true
-  md5: 288ed0294dea127c3c7c11a018744704
+  md5: 72f3d80aa82747fe9314cff078da0864
   path: outputs/gtex/gtex.Aliquot.Vertex.json.gz
 - cache: true
-  md5: 9a7179004b57ca89d6e1776bc566a03e
-  path: outputs/gtex/gtex.AliquotFor.Edge.json.gz
+  md5: 2d80a8f3b1f2c6b9f1be1238072d31a5
+  path: outputs/gtex/gtex.HasAliquot.Edge.json.gz
 - cache: true
-  md5: a790885bd8115d8b05c41618c5ad076f
+  md5: 6801a9994f3e60bc2175bd0998150a5b
   path: outputs/gtex/gtex.Sample.Vertex.json.gz
 - cache: true
-  md5: 9cef4dcda200d79913cb70d44cde501d
-  path: outputs/gtex/gtex.SampleFor.Edge.json.gz
+  md5: 6c26cb8bce2fdcc7f406a44c85ea29ce
+  path: outputs/gtex/gtex.HasSample.Edge.json.gz
 - cache: true
-  md5: 1df1a18e1fbbea3b903b410539b8f455
+  md5: 01079a626d73e6a85d533e9e51140c0b
   path: outputs/gtex/gtex.Case.Vertex.json.gz
 - cache: true
-  md5: ef0b0fec68c429dc5e55c5d4a560e1c6
-  path: outputs/gtex/gtex.InProject.Edge.json.gz
+  md5: 16e8abbfe67914f795f495b6d8d3e978
+  path: outputs/gtex/gtex.HasCase.Edge.json.gz
 - cache: true
-  md5: d305cd68f887bab736592ffa8bf3440f
+  md5: 2f735f2323d503c1dd1bfa1256e7be8e
   path: outputs/gtex/gtex.Project.Vertex.json.gz
 - cache: true
-  md5: 9052841360019b2362172b5d04036f5f
-  path: outputs/gtex/gtex.InProgram.Edge.json.gz
+  md5: e8638198f3189cfaab945e47cb96baf5
+  path: outputs/gtex/gtex.HasProject.Edge.json.gz
 - cache: true
-  md5: 1d8b1d4751f29b50c561f31e028abdb9
+  md5: 77263b069f18824f7d9973364a37810f
   path: outputs/gtex/gtex.Program.Vertex.json.gz
