@@ -2,20 +2,20 @@ cmd: python3 transform/ensembl/transform.py
 deps:
 - md5: 24cfb0003e76c88c0df30f512fa3c148
   path: source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz
-md5: 2bbb8321542b053f188007096148a121
+md5: 5a2aa77ae5e53760de651ae28066e064
 outs:
 - cache: true
-  md5: f2f9e48c8528e41a8634978cff51d757
+  md5: deafe626cff352b181de263a584d5d36
   path: outputs/ensembl/Exon.Vertex.json.gz
 - cache: true
-  md5: 67c42eac66ee32fedc4f74a03a757c24
-  path: outputs/ensembl/ExonFor.Edge.json.gz
+  md5: e0ff3eee5d2f27e967257b542991f1b6
+  path: outputs/ensembl/HasExon.Edge.json.gz
 - cache: true
-  md5: c114a0c26f3d62e54982583d49a4dcab
+  md5: fbf57442762e7a965c9c34e81b6b4025
   path: outputs/ensembl/Gene.Vertex.json.gz
 - cache: true
-  md5: f15b2c80bc2b211220d08c92da11970a
+  md5: 56b6a0c4aa82950b2fb41ce5c9c96c7a
   path: outputs/ensembl/Transcript.Vertex.json.gz
 - cache: true
-  md5: d53861b06ab11a807f3e801f07a24e9b
-  path: outputs/ensembl/TranscriptFor.Edge.json.gz
+  md5: 05fd4cf331dea9852738540597d39ab9
+  path: outputs/ensembl/HasTranscript.Edge.json.gz

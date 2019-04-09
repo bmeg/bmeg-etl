@@ -5,7 +5,7 @@ from urllib.parse import unquote
 
 import bmeg.ioutils
 from bmeg.vertex import Gene, Transcript, Exon
-from bmeg.edge import TranscriptFor, ExonFor
+from bmeg.edge import HasTranscript, HasExon
 from bmeg.emitter import JSONEmitter
 
 
@@ -100,9 +100,9 @@ def transform(
             emitter.emit_vertex(e)
 
             for transcript_id in transcripts:
-                emitter.emit_edge(ExonFor(),
-                                  from_gid=e.gid(),
-                                  to_gid=Transcript.make_gid(transcript_id))
+                emitter.emit_edge(HasExon(),
+                                  to_gid=e.gid(),
+                                  from_gid=Transcript.make_gid(transcript_id))
 
                 if transcript_id not in emitted_transcripts:
                     for attrs in features[transcript_id]:
@@ -116,9 +116,9 @@ def transform(
                                        biotype=attrs["type"],
                                        genome=GENOME_BUILD)
                         emitter.emit_vertex(t)
-                        emitter.emit_edge(TranscriptFor(),
-                                          from_gid=t.gid(),
-                                          to_gid=Gene.make_gid(gene_id))
+                        emitter.emit_edge(HasTranscript(),
+                                          to_gid=t.gid(),
+                                          from_gid=Gene.make_gid(gene_id))
                         emitted_transcripts[transcript_id] = True
 
                         if gene_id not in emitted_genes:

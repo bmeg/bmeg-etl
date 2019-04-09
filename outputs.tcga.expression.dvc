@@ -80,10 +80,10 @@ outs:
   path: outputs/tcga/ACC.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 5712ca653e873737248a88b5331f3c5c
-  path: outputs/tcga/ACC.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/ACC.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: f84bc2a6eb736a4d0bf43c55ac490d57
-  path: outputs/tcga/ACC.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/ACC.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 2790ed6ece29cf07fdf57beeec6a36a2
   path: outputs/tcga/BLCA.TranscriptExpression.Vertex.json.gz
@@ -92,10 +92,10 @@ outs:
   path: outputs/tcga/BLCA.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 40354ef175422b055e0ff13b5ce78d66
-  path: outputs/tcga/BLCA.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/BLCA.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 882a9e9b84840276036d241181b7a8a6
-  path: outputs/tcga/BLCA.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/BLCA.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 5cfeab174d035c4943a407049bf8ba67
   path: outputs/tcga/BRCA.TranscriptExpression.Vertex.json.gz
@@ -104,10 +104,10 @@ outs:
   path: outputs/tcga/BRCA.GeneExpression.Vertex.json.gz
 - cache: true
   md5: c49c16d7a34eea7cc55577bf1cefa861
-  path: outputs/tcga/BRCA.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/BRCA.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: a0e13f17f27ce3d3035c62211a0e5598
-  path: outputs/tcga/BRCA.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/BRCA.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: a986b4913dbb7b838f210672add238d5
   path: outputs/tcga/CESC.TranscriptExpression.Vertex.json.gz
@@ -116,10 +116,10 @@ outs:
   path: outputs/tcga/CESC.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 42b45f699ce242bac6ffa0e6f4d29d35
-  path: outputs/tcga/CESC.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/CESC.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: e860a190d72d775ac880532e15d13d47
-  path: outputs/tcga/CESC.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/CESC.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: f15b05d3880ff2b66ddbf579bbabec9b
   path: outputs/tcga/CHOL.TranscriptExpression.Vertex.json.gz
@@ -128,10 +128,10 @@ outs:
   path: outputs/tcga/CHOL.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 3406efb84e0c7046ce16312594318659
-  path: outputs/tcga/CHOL.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/CHOL.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: b7f5a003e9462863cbc96a28b46ff79b
-  path: outputs/tcga/CHOL.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/CHOL.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 4c4b0503ba70e62bfa1afffbf24c9361
   path: outputs/tcga/COAD.TranscriptExpression.Vertex.json.gz
@@ -140,10 +140,10 @@ outs:
   path: outputs/tcga/COAD.GeneExpression.Vertex.json.gz
 - cache: true
   md5: d6b400f8134c939ad7823c738d2cec15
-  path: outputs/tcga/COAD.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/COAD.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 21df6aeb25803a6536244c9b88ff88ec
-  path: outputs/tcga/COAD.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/COAD.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: c933c8d23f0c04ef7312655eca258868
   path: outputs/tcga/DLBC.TranscriptExpression.Vertex.json.gz
@@ -152,10 +152,10 @@ outs:
   path: outputs/tcga/DLBC.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 0340b418506f46f8632793f29470f02a
-  path: outputs/tcga/DLBC.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/DLBC.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 1266bc70d039def454e00a90ed8e92d1
-  path: outputs/tcga/DLBC.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/DLBC.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: cb1353ac583a2369dd7c5edcf17f265c
   path: outputs/tcga/ESCA.TranscriptExpression.Vertex.json.gz
@@ -164,10 +164,10 @@ outs:
   path: outputs/tcga/ESCA.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 9688d153318a7bd9a9ed04fa9fef8065
-  path: outputs/tcga/ESCA.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/ESCA.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 5e6c3e64290f8e03721c59cf242657db
-  path: outputs/tcga/ESCA.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/ESCA.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 8a68044213df16a8b853a0eb3b6b5268
   path: outputs/tcga/GBM.TranscriptExpression.Vertex.json.gz
@@ -176,10 +176,10 @@ outs:
   path: outputs/tcga/GBM.GeneExpression.Vertex.json.gz
 - cache: true
   md5: e82bf3409a7a3d80b444b37412ed0874
-  path: outputs/tcga/GBM.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/GBM.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: f46d975eedb090e426a6259c5c098458
-  path: outputs/tcga/GBM.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/GBM.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 43b965f8d643ceb94576fcd0692ba05b
   path: outputs/tcga/HNSC.TranscriptExpression.Vertex.json.gz
@@ -188,10 +188,10 @@ outs:
   path: outputs/tcga/HNSC.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 17d488c5a5a7a6aa84b6b80f92293d94
-  path: outputs/tcga/HNSC.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/HNSC.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 9d084aa3ecbd9ccdf7a5109460f8bd7d
-  path: outputs/tcga/HNSC.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/HNSC.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: e927953da583c1170ef881c7ebd4c753
   path: outputs/tcga/KICH.TranscriptExpression.Vertex.json.gz
@@ -200,10 +200,10 @@ outs:
   path: outputs/tcga/KICH.GeneExpression.Vertex.json.gz
 - cache: true
   md5: a35ab97befe28c3de2340ac1912f59b7
-  path: outputs/tcga/KICH.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/KICH.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 1e5f2311a98d54c3f6518e5c9d5aa269
-  path: outputs/tcga/KICH.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/KICH.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 5c069be5f05252ff7b51c9e26060db6f
   path: outputs/tcga/KIRC.TranscriptExpression.Vertex.json.gz
@@ -212,10 +212,10 @@ outs:
   path: outputs/tcga/KIRC.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 7386e5543adc920f62afdde8b221f834
-  path: outputs/tcga/KIRC.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/KIRC.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 7f10508b1be64f38e1001203dceebdb0
-  path: outputs/tcga/KIRC.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/KIRC.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: d577818fcb8245f1c7bbdcedcd351cf4
   path: outputs/tcga/KIRP.TranscriptExpression.Vertex.json.gz
@@ -224,10 +224,10 @@ outs:
   path: outputs/tcga/KIRP.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 4a881d712992c5f4fa13b426140398c8
-  path: outputs/tcga/KIRP.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/KIRP.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: ee940c46505a841321378ec51602e25d
-  path: outputs/tcga/KIRP.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/KIRP.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: b3ed6641a21580141381c70cd12d92db
   path: outputs/tcga/LAML.TranscriptExpression.Vertex.json.gz
@@ -236,10 +236,10 @@ outs:
   path: outputs/tcga/LAML.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 09a80210472a1a4d25fbc3601562fd03
-  path: outputs/tcga/LAML.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/LAML.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 0c197fc28ff4e93b1938079071f5c18e
-  path: outputs/tcga/LAML.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/LAML.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 2821028fc7cb09449cd1b8914cc9e973
   path: outputs/tcga/LGG.TranscriptExpression.Vertex.json.gz
@@ -248,10 +248,10 @@ outs:
   path: outputs/tcga/LGG.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 7a189c49cf6c1f9fb3529c44797d2dad
-  path: outputs/tcga/LGG.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/LGG.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 297d1fbcab3caf14ee5ad914915e472a
-  path: outputs/tcga/LGG.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/LGG.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: bd57711ce14829b9d4123af71bb0e497
   path: outputs/tcga/LIHC.TranscriptExpression.Vertex.json.gz
@@ -260,10 +260,10 @@ outs:
   path: outputs/tcga/LIHC.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 2395c33ddfc01f65a0c107f8b7cdce7f
-  path: outputs/tcga/LIHC.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/LIHC.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 158de78286aa90054560ae70ec0b7d17
-  path: outputs/tcga/LIHC.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/LIHC.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 8a8342026b746bfdd48ac3fbe35a53a6
   path: outputs/tcga/LUAD.TranscriptExpression.Vertex.json.gz
@@ -272,10 +272,10 @@ outs:
   path: outputs/tcga/LUAD.GeneExpression.Vertex.json.gz
 - cache: true
   md5: afe003078e58f1269c11cb380167db69
-  path: outputs/tcga/LUAD.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/LUAD.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: a27ec0950e616ae62d64bf2e6fca9d64
-  path: outputs/tcga/LUAD.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/LUAD.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 668b133e33c40b6e263f02f6a3ed5480
   path: outputs/tcga/LUSC.TranscriptExpression.Vertex.json.gz
@@ -284,10 +284,10 @@ outs:
   path: outputs/tcga/LUSC.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 92ec4693a3a2dcb18092d699eedbf3b8
-  path: outputs/tcga/LUSC.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/LUSC.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: a22caa4747570342ec7809e693ea72df
-  path: outputs/tcga/LUSC.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/LUSC.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: f48f1a0f43c4786535d08e1b33b085df
   path: outputs/tcga/MESO.TranscriptExpression.Vertex.json.gz
@@ -296,10 +296,10 @@ outs:
   path: outputs/tcga/MESO.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 70e8166cc2deaca4115d9998023a3fb3
-  path: outputs/tcga/MESO.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/MESO.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: f2b1544b5e389438a129c9221a5f3571
-  path: outputs/tcga/MESO.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/MESO.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 72d17fabf877c04f0fd7b9bee8448a2f
   path: outputs/tcga/OV.TranscriptExpression.Vertex.json.gz
@@ -308,10 +308,10 @@ outs:
   path: outputs/tcga/OV.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 8f4f1e0efd67a4718211fb097b9eef48
-  path: outputs/tcga/OV.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/OV.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 0f78328745bf44ce8c8a33f23025cfa6
-  path: outputs/tcga/OV.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/OV.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 4ae6bc01711b9c341c6736fbd7d2b40d
   path: outputs/tcga/PAAD.TranscriptExpression.Vertex.json.gz
@@ -320,10 +320,10 @@ outs:
   path: outputs/tcga/PAAD.GeneExpression.Vertex.json.gz
 - cache: true
   md5: b99eb3406ed38a2925fe303537723f7d
-  path: outputs/tcga/PAAD.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/PAAD.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: e77229f88c1f3a3d7575300771c65fc3
-  path: outputs/tcga/PAAD.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/PAAD.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 079b6c5a8ceeceb97ce65e7f701889f9
   path: outputs/tcga/PCPG.TranscriptExpression.Vertex.json.gz
@@ -332,10 +332,10 @@ outs:
   path: outputs/tcga/PCPG.GeneExpression.Vertex.json.gz
 - cache: true
   md5: b1cc3db34115a216067ca48c2607aae1
-  path: outputs/tcga/PCPG.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/PCPG.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: b3e21fbebb3ca214264971e8fbd83051
-  path: outputs/tcga/PCPG.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/PCPG.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 3b15e5679013960f2cd59bf1034290dd
   path: outputs/tcga/PRAD.TranscriptExpression.Vertex.json.gz
@@ -344,10 +344,10 @@ outs:
   path: outputs/tcga/PRAD.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 5d453ede53e8166582462f4806f45f96
-  path: outputs/tcga/PRAD.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/PRAD.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 58a6c093225e1cb7d885aa418d36ab1a
-  path: outputs/tcga/PRAD.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/PRAD.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 23f8d8413004181ec40b401911457755
   path: outputs/tcga/READ.TranscriptExpression.Vertex.json.gz
@@ -356,10 +356,10 @@ outs:
   path: outputs/tcga/READ.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 56bc540bbe85308b8ab32e69ef80d429
-  path: outputs/tcga/READ.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/READ.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 632a5ab726b9deacaa43990a9750496f
-  path: outputs/tcga/READ.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/READ.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 685a086a6d9c8431dec8f2f4c6876d2d
   path: outputs/tcga/SARC.TranscriptExpression.Vertex.json.gz
@@ -368,10 +368,10 @@ outs:
   path: outputs/tcga/SARC.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 7efe9813fd36b51cffabcf7c269ca8ae
-  path: outputs/tcga/SARC.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/SARC.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 86b3a8c16f284b605df2bb7d1b728764
-  path: outputs/tcga/SARC.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/SARC.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 714a7232709e378232ea8bd660eee54c
   path: outputs/tcga/SKCM.TranscriptExpression.Vertex.json.gz
@@ -380,10 +380,10 @@ outs:
   path: outputs/tcga/SKCM.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 6102ce46b13423837f11299488e2d85e
-  path: outputs/tcga/SKCM.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/SKCM.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 4083d6c2f32c962b6224b88e936668a2
-  path: outputs/tcga/SKCM.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/SKCM.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 36484e670c4596531090216da17ad868
   path: outputs/tcga/STAD.TranscriptExpression.Vertex.json.gz
@@ -392,10 +392,10 @@ outs:
   path: outputs/tcga/STAD.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 30dfee808ebec0004d44edf3fbe8eeb6
-  path: outputs/tcga/STAD.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/STAD.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: f06d980c6986b214179ba85d48779fda
-  path: outputs/tcga/STAD.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/STAD.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 098ddab84239c8a187a2ec26d90414f9
   path: outputs/tcga/TGCT.TranscriptExpression.Vertex.json.gz
@@ -404,10 +404,10 @@ outs:
   path: outputs/tcga/TGCT.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 533304d6dd4dc37eb40be7c38cb4681e
-  path: outputs/tcga/TGCT.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/TGCT.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 79f0bc95f96de2dc698be9e3c2f8427d
-  path: outputs/tcga/TGCT.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/TGCT.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: ef4d016da5eb9560877f64a7ae63c6e5
   path: outputs/tcga/THCA.TranscriptExpression.Vertex.json.gz
@@ -416,10 +416,10 @@ outs:
   path: outputs/tcga/THCA.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 8bcbd804017b353f7d5e12cdb8ab8d60
-  path: outputs/tcga/THCA.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/THCA.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: defeb02770648b85e690a9de82ae1c6d
-  path: outputs/tcga/THCA.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/THCA.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 5daf7e1ff2eac544e476b4f3b127f640
   path: outputs/tcga/THYM.TranscriptExpression.Vertex.json.gz
@@ -428,10 +428,10 @@ outs:
   path: outputs/tcga/THYM.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 5f0dea369ec761db6d5cc29dd64c7b22
-  path: outputs/tcga/THYM.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/THYM.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 1ce0826bec81c6103b1f1864689891f4
-  path: outputs/tcga/THYM.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/THYM.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 6da1012c54014eebb706f5c4b0307e5e
   path: outputs/tcga/UCEC.TranscriptExpression.Vertex.json.gz
@@ -440,10 +440,10 @@ outs:
   path: outputs/tcga/UCEC.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 9f185019da8823d09576585cafa62350
-  path: outputs/tcga/UCEC.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/UCEC.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 835194651de012d6367178c0c76fe040
-  path: outputs/tcga/UCEC.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/UCEC.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: a9c85e6f7746490595aca0dbcd28e8ae
   path: outputs/tcga/UCS.TranscriptExpression.Vertex.json.gz
@@ -452,10 +452,10 @@ outs:
   path: outputs/tcga/UCS.GeneExpression.Vertex.json.gz
 - cache: true
   md5: c869fddebfc75c1e234e4649f2922a42
-  path: outputs/tcga/UCS.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/UCS.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 2399fb559bcef94d3bc1e989ef99e1b2
-  path: outputs/tcga/UCS.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/UCS.HasGeneExpression.Edge.json.gz
 - cache: true
   md5: 7152a729d53c23c8499ef38b74a8028f
   path: outputs/tcga/UVM.TranscriptExpression.Vertex.json.gz
@@ -464,7 +464,7 @@ outs:
   path: outputs/tcga/UVM.GeneExpression.Vertex.json.gz
 - cache: true
   md5: 9b65fee3ef320a61e678417c8eedb400
-  path: outputs/tcga/UVM.TranscriptExpressionOf.Edge.json.gz
+  path: outputs/tcga/UVM.HasTranscriptExpression.Edge.json.gz
 - cache: true
   md5: 2f3adbaba9ec3c72bc673f8c31808a6e
-  path: outputs/tcga/UVM.GeneExpressionOf.Edge.json.gz
+  path: outputs/tcga/UVM.HasGeneExpression.Edge.json.gz

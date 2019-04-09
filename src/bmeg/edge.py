@@ -35,7 +35,7 @@ class AlleleIn(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class AlleleCall(Edge):
+class SomaticVariant(Edge):
     """
     Callset -> Allele
     """
@@ -58,63 +58,63 @@ class AlleleCall(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class MethylationOf(Edge):
+class HasMethylation(Edge):
     """
-    Methylation -> Aliquot
+    Aliquot -> Methylation
     """
 
     def label(self):
-        return "methylationOf"
+        return "hasMethylation"
 
 
 @enforce_types
 @dataclass(frozen=True)
-class MethylationProbeFor(Edge):
+class HasMethylationProbe(Edge):
     """
-    MethylationProbe -> Gene
+    Gene -> MethylationProbe
     """
     def label(self):
-        return "methylationProbeOf"
+        return "hasMethylationProbe"
 
 
 @enforce_types
 @dataclass(frozen=True)
-class TranscriptFor(Edge):
+class HasTranscript(Edge):
     """
-    Transcript -> Gene
+    Gene -> Transcript
     """
     def label(self):
-        return "transcriptOf"
+        return "hasTranscript"
 
 
 @enforce_types
 @dataclass(frozen=True)
-class ExonFor(Edge):
+class HasExon(Edge):
     """
-    Exon -> Transcript
+    Transcript -> Exon
     """
     def label(self):
-        return "exonOf"
+        return "hasExon"
 
 
 @enforce_types
 @dataclass(frozen=True)
-class ProteinFor(Edge):
+class HasProtein(Edge):
     """
-    Protein -> Transcript
+    Transcript -> Protein
     """
     def label(self):
-        return "proteinOf"
+        return "hasProtein"
 
 
 @enforce_types
 @dataclass(frozen=True)
 class StructureFor(Edge):
     """
-    ProteinStructure -> Protein 
+    Protein -> ProteinStructure
     """
     def label(self):
-        return "structureOf"
+        return "hasStructure"
 
 
 @enforce_types
@@ -131,20 +131,20 @@ class COCAClusterFor(Edge):
 @dataclass(frozen=True)
 class CallsetFor(Edge):
     """
-    Callset -> Sample
+    Sample -> hasCallset
     """
     def label(self):
-        return "callsetOf"    
+        return "hasCallset"
 
-
+    
 @enforce_types
 @dataclass(frozen=True)
 class PFAMClanMember(Edge):
     """
-    PFAMClan -> PFAMFamily
+    PFAMFamily -> PFAMClan
     """
     def label(self):
-        return "clanOf"
+        return "hasClan"
 
 
 @enforce_types
@@ -162,42 +162,42 @@ class PFAMAlignment(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class InProgram(Edge):
+class HasProject(Edge):
     """
-    Project -> Program
+    Program -> Project
     """
     def label(self):
-        return "projectOf"
+        return "hasProject"
 
 
 @enforce_types
 @dataclass(frozen=True)
-class InProject(Edge):
+class HasCase(Edge):
     """
-    Case -> Project
+    Project -> Case
     """
     def label(self):
-        return "caseOf"
+        return "hasCase"
 
 
 @enforce_types
 @dataclass(frozen=True)
-class SampleFor(Edge):
+class HasSample(Edge):
     """
-    Sample -> Case
+    Case -> Sample
     """
     def label(self):
-        return "sampleOf"
+        return "hasSample"
 
 
 @enforce_types
 @dataclass(frozen=True)
-class AliquotFor(Edge):
+class HasAliquot(Edge):
     """
-    Aliquot -> Sample
+    Sample -> Aliquot
     """
     def label(self):
-        return "aliquotOf"
+        return "hasAliquot"
 
 
 @enforce_types
@@ -226,22 +226,22 @@ class GeneOntologyIsA(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class GeneExpressionOf(Edge):
+class HasGeneExpression(Edge):
     """
-    GeneExpression -> Aliquot
+    Aliquot -> GeneExpression
     """
     def label(self):
-        return "geneExpressionOf"
+        return "hasGeneExpression"
 
 
 @enforce_types
 @dataclass(frozen=True)
-class TranscriptExpressionOf(Edge):
+class HasTranscriptExpression(Edge):
     """
-    TranscriptExpression -> Aliquot
+    Aliquot -> TranscriptExpression
     """
     def label(self):
-        return "transcriptExpressionOf"
+        return "hasTranscriptExpression"
 
 
 @enforce_types
@@ -270,8 +270,8 @@ class TestedIn(Edge):
     """
     Compound -> Project
     """
-    pass
-
+    def label(self):
+        return "testedIn"
 
 @enforce_types
 @dataclass(frozen=True)
@@ -324,11 +324,13 @@ class HasEnvironment(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class HasGenomicFeatureFeature(Edge):
+class HasGenomicFeature(Edge):
     """
     G2PAssociation -> Gene
     """
-    pass
+
+    def label(self):
+        return "hasGenomicFeature"
 
 
 @enforce_types
@@ -378,9 +380,9 @@ class Writes(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class CopyNumberAlterationOf(Edge):
+class HasCopyNumberAlterationOf(Edge):
     """
-    CopyNumberAlteration -> Aliquot
+    Aliquot -> CopyNumberAlteration
     """
     def label(self):
-        return "copyNumberAlterationOf"
+        return "hasCopyNumberAlteration"
