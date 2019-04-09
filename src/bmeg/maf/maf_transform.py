@@ -6,7 +6,7 @@ import gzip
 import sys
 
 from bmeg.vertex import Allele, Deadletter, Aliquot
-from bmeg.edge import CallsetFor, AlleleIn
+from bmeg.edge import HasCallset, AlleleIn
 from bmeg.emitter import new_emitter
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
@@ -177,20 +177,20 @@ class MAFTransformer():
                 for call_tuple in call_tuples:
                     call = call_tuple[0]
                     callset_gid = call_tuple[1]
-                    emitter.emit_edge(call, callset_gid, allele.gid())
+                    emitter.emit_edge(call, from_gid=callset_gid, to_gid=allele.gid())
                 # many callsets can be created, emit only uniques
                 for callset in callsets:
                     if callset.gid not in my_callsets_ids:
                         my_callsets_ids.add(callset.gid)
                         emitter.emit_vertex(callset)
                         if callset.normal_aliquot_id:
-                            emitter.emit_edge(CallsetFor(),
-                                              callset.gid(),
-                                              Aliquot.make_gid(callset.normal_aliquot_id),
+                            emitter.emit_edge(HasCallset(),
+                                              to_gid=callset.gid(),
+                                              from_gid=Aliquot.make_gid(callset.normal_aliquot_id),
                                               )
-                        emitter.emit_edge(CallsetFor(),
-                                          callset.gid(),
-                                          Aliquot.make_gid(callset.tumor_aliquot_id),
+                        emitter.emit_edge(HasCallset(),
+                                          to_gid=callset.gid(),
+                                          from_gid=Aliquot.make_gid(callset.tumor_aliquot_id),
                                           )
 
                 # create edge to gene

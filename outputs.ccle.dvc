@@ -2,38 +2,38 @@ cmd: python3 transform/ccle/samples.py
 deps:
 - md5: b4cf38f5366ef8b58e7db826f872e0d4
   path: source/ccle/DepMap-2018q4-celllines.csv
-md5: 815a241a1e4c564640317097555f53e7
+md5: c3fb29dc87156d60edafe945bcfc8146
 outs:
 - cache: true
-  md5: 9499f47f8cc33c79cf48c1799776905e
+  md5: afd120d90fb3203faf5954923a087888
   path: outputs/ccle/Aliquot.Vertex.json.gz
 - cache: true
-  md5: 484ba288601db239b17b9e3363f48cba
-  path: outputs/ccle/AliquotFor.Edge.json.gz
+  md5: 3b1192c1888fe8b028c03fb28499d30a
+  path: outputs/ccle/HasAliquot.Edge.json.gz
 - cache: true
-  md5: 9909dd770481cea740e1db0983cfbf80
+  md5: 3d09b94e106c1b4681d1a41ede7f859b
   path: outputs/ccle/Sample.Vertex.json.gz
 - cache: true
-  md5: 54597ce80e241a4678266cdd44374027
-  path: outputs/ccle/SampleFor.Edge.json.gz
+  md5: 4e49b35109bf64d2655b9f9dc1270c95
+  path: outputs/ccle/HasSample.Edge.json.gz
 - cache: true
-  md5: 7a05f11efc9fce44fdda461d121d9c00
+  md5: 9a433d1681db9e4b20baf92815c78d75
   path: outputs/ccle/Case.Vertex.json.gz
 - cache: true
-  md5: 499ebf693e66144ea82ed7ea8615c461
-  path: outputs/ccle/InProject.Edge.json.gz
+  md5: 8e19c18e72853a319b59b64f7adccd0c
+  path: outputs/ccle/HasCase.Edge.json.gz
 - cache: true
-  md5: 88a7ccd29b1efd70c5274ba7bc0d0288
+  md5: a1beaad9e524fda9a4260088d1e759dc
   path: outputs/ccle/Project.Vertex.json.gz
 - cache: true
-  md5: 87520203d93cbbd8e6f00171567f9749
-  path: outputs/ccle/InProgram.Edge.json.gz
+  md5: 0fa15bcd782f25f45ee3e4a0efd72694
+  path: outputs/ccle/HasProject.Edge.json.gz
 - cache: true
-  md5: 69ab8b00c4bb56805506569ec19da523
+  md5: 4b8c55158fe1c5db223d951f4636cf81
   path: outputs/ccle/Program.Vertex.json.gz
 - cache: true
-  md5: bcb95cf6dfdb04448f15af60072c5d80
+  md5: 01ebf514754d8679ff7bcc6b0ee0fbea
   path: outputs/ccle/Phenotype.Vertex.json.gz
 - cache: true
-  md5: 88c6a6095ecc42a2974e5181568bd401
+  md5: fa441383de97156906a10c51977ad13d
   path: outputs/ccle/PhenotypeOf.Edge.json.gz

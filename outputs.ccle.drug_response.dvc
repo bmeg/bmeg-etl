@@ -2,63 +2,49 @@ cmd: python3 transform/ccle/drug_response.py
 deps:
 - md5: 917f411573d5e68f9d61234e9e1bb539
   path: source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv
-- md5: 9909dd770481cea740e1db0983cfbf80
+- md5: 3d09b94e106c1b4681d1a41ede7f859b
   path: outputs/ccle/Sample.Vertex.json.gz
-md5: b31df5a2bb7b13c3ff9591c8911a30e5
+md5: 7b4191494739f5ba5ae81938ee1fabd5
 outs:
 - cache: true
-  md5: 600526ae5bed66376d5f073dca2bf5cc
-  metric: false
+  md5: 73915e365c0ec21503e49ef82262a187
   path: outputs/ccle/drug_response.Compound.Vertex.json.gz
 - cache: true
-  md5: 92cb87bb07b9bbe88f74eb8996a7b6c6
-  metric: false
+  md5: 30eeb478b3cf7afd5a84aafe46bc6070
   path: outputs/ccle/drug_response.DrugResponse.Vertex.json.gz
 - cache: true
-  md5: 59279fc3fd0e0171cadcef01ee1ad3ed
-  metric: false
+  md5: a1cac987481e90c90ade0a2be36f3f57
   path: outputs/ccle/drug_response.ResponseIn.Edge.json.gz
 - cache: true
-  md5: a476f08778c6e13e3017fd790e8f5b4c
-  metric: false
+  md5: 291dfedd5a6a855903adcf12a9b33b63
   path: outputs/ccle/drug_response.ResponseTo.Edge.json.gz
 - cache: true
-  md5: 28fc9b680323fd91f7bccf3a0a349a55
-  metric: false
-  path: outputs/ccle/drug_response.AliquotFor.Edge.json.gz
+  md5: 174524639752fe1aef5ccc08d1e32d8d
+  path: outputs/ccle/drug_response.HasAliquot.Edge.json.gz
 - cache: true
-  md5: 4033832c4016030ad40d5cb91c75d031
-  metric: false
+  md5: f7a2b7a6496917e596f771ee9c398d35
   path: outputs/ccle/drug_response.Aliquot.Vertex.json.gz
 - cache: true
-  md5: 06e7fe6763115edf5774928b04687207
-  metric: false
-  path: outputs/ccle/drug_response.SampleFor.Edge.json.gz
+  md5: ac61b2dcc70eb2f8c4d1f002a2cf7df4
+  path: outputs/ccle/drug_response.HasSample.Edge.json.gz
 - cache: true
-  md5: e5b25875f567249382ce6d540753f827
-  metric: false
+  md5: 40499afcbfe850f7be45bd1f89a0c985
   path: outputs/ccle/drug_response.Sample.Vertex.json.gz
 - cache: true
-  md5: 55f5dc1f3efb6ad5896558c36390a704
-  metric: false
+  md5: 189649b929f4adda12b72e5de0892bd6
   path: outputs/ccle/drug_response.Case.Vertex.json.gz
 - cache: true
-  md5: 8130508ffb03cd59813fc987b0498830
-  metric: false
-  path: outputs/ccle/drug_response.InProject.Edge.json.gz
+  md5: b53fefd4036d26b2cff694d5424c913f
+  path: outputs/ccle/drug_response.HasCase.Edge.json.gz
 - cache: true
-  md5: 8eeaf055eb35863f3946d1ca9bc911c9
-  metric: false
+  md5: 2ea927e1b0494a80daf0d1acf446801a
   path: outputs/ccle/drug_response.Project.Vertex.json.gz
 - cache: true
-  md5: eb1c9c50025e823c4c4cfc3e2c1bd6eb
-  metric: false
-  path: outputs/ccle/drug_response.InProgram.Edge.json.gz
+  md5: dedecb8667a49b8dd9ae3962d11b8270
+  path: outputs/ccle/drug_response.HasProject.Edge.json.gz
 - cache: true
-  md5: 264739732061e7a71e19a0b628a3c6c0
-  metric: false
+  md5: 8e6e19774e01a37e8f085c6f9a359eb0
   path: outputs/ccle/drug_response.TestedIn.Edge.json.gz
 - cache: true
-  md5: 538e806d32fa92be619fdf84af5376c2
-  metric: false
+  md5: d876f594a2c6d5994cae0e4086ff4ba0
   path: outputs/ccle/drug_response.Program.Vertex.json.gz

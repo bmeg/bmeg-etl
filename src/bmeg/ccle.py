@@ -3,7 +3,7 @@ from types import SimpleNamespace as SN
 
 import bmeg.ioutils
 from bmeg.vertex import Aliquot, Sample, Case, Project
-from bmeg.edge import AliquotFor, SampleFor, InProject
+from bmeg.edge import HasAliquot, HasSample, HasCase
 from bmeg.emitter import JSONEmitter, DebugEmitter
 
 
@@ -105,25 +105,25 @@ def missing_ccle_cellline_factory(emitter, missing_ids,
         c = Case(case_id=aliquot_id)
         emitter.emit_vertex(c)
         emitter.emit_edge(
-            InProject(),
-            c.gid(),
-            p.gid(),
+            HasCase(),
+            to_gid=c.gid(),
+            from_gid=p.gid(),
         )
 
         s = Sample(sample_id=aliquot_id)
         emitter.emit_vertex(s)
         emitter.emit_edge(
-            SampleFor(),
-            s.gid(),
-            c.gid(),
+            HasSample(),
+            to_gid=s.gid(),
+            from_gid=c.gid(),
         )
 
         a = Aliquot(aliquot_id=aliquot_id)
         emitter.emit_vertex(a)
         emitter.emit_edge(
-            AliquotFor(),
-            a.gid(),
-            s.gid(),
+            HasAliquot(),
+            to_gid=a.gid(),
+            from_gid=s.gid(),
         )
 
     return

@@ -3140,46 +3140,46 @@ deps:
   path: source/ccle/mafs/COLO201_LARGE_INTESTINE_vs_NORMAL/vep.maf
 - md5: a339758e2a8edb9152251c24eaeceadd
   path: source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf
-- md5: 9909dd770481cea740e1db0983cfbf80
+- md5: 3d09b94e106c1b4681d1a41ede7f859b
   path: outputs/ccle/Sample.Vertex.json.gz
-md5: f47df82cdec1c20ce7c4de72ca293203
+md5: 82f6c195153feef7a4517eb690fcfdf6
 outs:
 - cache: true
-  md5: a06b8088b3d6a8b54d3deabc364ace81
+  md5: ef5b8d573fb83c2839ab6647e4be860e
   path: outputs/ccle/maf.Allele.Vertex.json.gz
 - cache: true
-  md5: 0a8fca7e09689f0f20ef696a4e650796
-  path: outputs/ccle/maf.AlleleCall.Edge.json.gz
+  md5: e29b4eb5172737b4ddc58ed055c2d8e1
+  path: outputs/ccle/maf.SomaticVariant.Edge.json.gz
 - cache: true
-  md5: 2960a8d45957614d277ad5d06e45a715
+  md5: e182c249a2d826b2744a7a15018f5be9
   path: outputs/ccle/maf.AlleleIn.Edge.json.gz
 - cache: true
-  md5: 7fcc37212c55949285b49404b33d8114
+  md5: b3465cb61461102bb6a6aae0f8b20167
   path: outputs/ccle/maf.Callset.Vertex.json.gz
 - cache: true
-  md5: 1a1c04d62e4c696b345e8e0d09051352
-  path: outputs/ccle/maf.CallsetFor.Edge.json.gz
+  md5: a25a39f590cffcb8a9902afdd3439b42
+  path: outputs/ccle/maf.HasCallset.Edge.json.gz
 - cache: true
-  md5: 0d25b271f196a66926ebf77461f1e7f8
-  path: outputs/ccle/maf.AliquotFor.Edge.json.gz
+  md5: 2363fda385c0c02c74792fcdd1aa5baa
+  path: outputs/ccle/maf.HasAliquot.Edge.json.gz
 - cache: true
-  md5: 0ba4233585b69eb076339cd2f994dd8d
+  md5: 2988bdd67f8bdf7c81f70ba9efbe9eee
   path: outputs/ccle/maf.Aliquot.Vertex.json.gz
 - cache: true
-  md5: a53b33a0a062d4a9606c37c73d233067
-  path: outputs/ccle/maf.SampleFor.Edge.json.gz
+  md5: 1974bd1083b451793cf965fb8e2b88d9
+  path: outputs/ccle/maf.HasSample.Edge.json.gz
 - cache: true
-  md5: e5db027be0ab8145727fbe9c0781322e
+  md5: 0be0bb8c75214888c8427f0dfcfeb3c4
   path: outputs/ccle/maf.Sample.Vertex.json.gz
 - cache: true
-  md5: 31860168a855a6f1dabcb6aa106c39d6
+  md5: 14ac998f56dffe50b1ee981e28b48ec6
   path: outputs/ccle/maf.Deadletter.Vertex.json.gz
 - cache: true
-  md5: 505eab7969aff3ab36e1938e4cc494a6
+  md5: ec1dde0e37014face6c7c984e4ed3815
   path: outputs/ccle/maf.Case.Vertex.json.gz
 - cache: true
-  md5: 0d2155078977b9397ebfc541983aa03c
-  path: outputs/ccle/maf.InProject.Edge.json.gz
+  md5: dd7ecc3290d1c68cbfde04166b885a4a
+  path: outputs/ccle/maf.HasCase.Edge.json.gz
 - cache: true
-  md5: c92ccd2e86632c733fd589caee5cd132
+  md5: e149e92dd1dd29535d63ac4c46d4a4e3
   path: outputs/ccle/maf.Project.Vertex.json.gz

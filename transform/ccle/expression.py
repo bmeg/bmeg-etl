@@ -1,5 +1,5 @@
 from bmeg.vertex import GeneExpression, Aliquot, ExpressionMetric
-from bmeg.edge import GeneExpressionOf
+from bmeg.edge import HasGeneExpression
 from bmeg.emitter import JSONEmitter
 from bmeg.gct import parse_gct, split_ensembl_id
 from bmeg.utils import ensure_directory
@@ -29,9 +29,9 @@ def transform_rpkm(path="source/ccle/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct",
         )
         emitter.emit_vertex(g)
         emitter.emit_edge(
-            GeneExpressionOf(),
-            from_gid=g.gid(),
-            to_gid=Aliquot.make_gid(sample)
+            HasGeneExpression(),
+            to_gid=g.gid(),
+            from_gid=Aliquot.make_gid(sample)
         )
 
     emitter.close()
@@ -59,9 +59,9 @@ def transform_tpm(path="source/ccle/CCLE_depMap_18Q4_TPM_v2.csv",
         )
         emitter.emit_vertex(g)
         emitter.emit_edge(
-            GeneExpressionOf(),
-            from_gid=g.gid(),
-            to_gid=Aliquot.make_gid(sample)
+            HasGeneExpression(),
+            to_gid=g.gid(),
+            from_gid=Aliquot.make_gid(sample)
         )
 
     emitter.close()

@@ -1,7 +1,7 @@
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
 from bmeg.vertex import Sample, Aliquot, Case, Project, Program
-from bmeg.edge import AliquotFor, SampleFor, InProject, InProgram, PhenotypeOf
+from bmeg.edge import HasAliquot, HasSample, HasCase, HasProject, PhenotypeOf
 from bmeg.enrichers.phenotype_enricher import phenotype_factory
 from pydash import is_blank
 
@@ -28,9 +28,9 @@ def transform(path="source/ccle/DepMap-2018q4-celllines.csv",
         a = Aliquot(aliquot_id=sample_id)
         emitter.emit_vertex(a)
         emitter.emit_edge(
-            AliquotFor(),
-            a.gid(),
-            s.gid()
+            HasAliquot(),
+            to_gid=a.gid(),
+            from_gid=s.gid()
         )
 
         i = Case(case_id=sample_id,
@@ -39,9 +39,9 @@ def transform(path="source/ccle/DepMap-2018q4-celllines.csv",
             emitter.emit_vertex(i)
             case_gids.append(i.gid())
         emitter.emit_edge(
-            SampleFor(),
-            s.gid(),
-            i.gid()
+            HasSample(),
+            to_gid=s.gid(),
+            from_gid=i.gid()
         )
 
         project_id = "DepMap_{}".format("_".join(row["Primary Disease"].split()))
@@ -50,15 +50,15 @@ def transform(path="source/ccle/DepMap-2018q4-celllines.csv",
         if proj.gid() not in project_gids:
             emitter.emit_vertex(proj)
             emitter.emit_edge(
-                InProgram(),
-                proj.gid(),
-                prog.gid()
+                HasProject(),
+                to_gid=proj.gid(),
+                from_gid=prog.gid()
             )
             project_gids.append(proj.gid())
         emitter.emit_edge(
-            InProject(),
-            i.gid(),
-            proj.gid()
+            HasCase(),
+            to_gid=i.gid(),
+            from_gid=proj.gid()
         )
 
         phenotype_name = row.get('Subtype Disease', None)

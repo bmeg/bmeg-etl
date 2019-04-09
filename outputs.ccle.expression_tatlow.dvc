@@ -2,36 +2,36 @@ cmd: python3 transform/ccle/expression_tatlow.py
 deps:
 - md5: 4fadc5ed3b8008b390fca93278b06b23
   path: source/ccle/expression/CCLE_tpm.tsv.gz
-- md5: 9909dd770481cea740e1db0983cfbf80
+- md5: 3d09b94e106c1b4681d1a41ede7f859b
   path: outputs/ccle/Sample.Vertex.json.gz
 - md5: 07b930da26e4a06dcf8c9a0faff57be1
   path: source/tcga/expression/transcript-level/TCGA_ID_MAP.csv
-md5: 8834991628320b33d9b7883b18044eef
+md5: 2f5f1a858f9142ec07f1f039947a7fe7
 outs:
 - cache: true
-  md5: 82954c355a556fa4b8490d24197a7b46
+  md5: 5190a944746aff4fbd4a9ce56af992c4
   path: outputs/ccle/tatlow.Aliquot.Vertex.json.gz
 - cache: true
-  md5: 000878611a40e38c21ce0b4b22cb80a6
-  path: outputs/ccle/tatlow.AliquotFor.Edge.json.gz
+  md5: 6910800b39414e7c76aa123b2a67966c
+  path: outputs/ccle/tatlow.HasAliquot.Edge.json.gz
 - cache: true
-  md5: bff4c434864300a9032f48a7c623ff47
+  md5: 6e8bdbf938ff4e57bb2e7b72d03ebc8a
   path: outputs/ccle/tatlow.Sample.Vertex.json.gz
 - cache: true
-  md5: 4d74a8cdeff91c2a219e63255a36c985
-  path: outputs/ccle/tatlow.SampleFor.Edge.json.gz
+  md5: 9dc73b0a936573b7150937de3ab8684b
+  path: outputs/ccle/tatlow.HasSample.Edge.json.gz
 - cache: true
-  md5: 1012330624f64dd52697069e469f71c2
+  md5: 91f92ba26cc17cfb582285bddb5e9851
   path: outputs/ccle/tatlow.TranscriptExpression.Vertex.json.gz
 - cache: true
-  md5: 220fc5197689fad89ad1b52fdd55d130
-  path: outputs/ccle/tatlow.TranscriptExpressionOf.Edge.json.gz
+  md5: c797b5d40a3a9a2ee370f2e7ce47ef06
+  path: outputs/ccle/tatlow.HasTranscriptExpression.Edge.json.gz
 - cache: true
-  md5: 1090a663e7fa3967a3caaface7d32aea
-  path: outputs/ccle/tatlow.InProject.Edge.json.gz
+  md5: ce86ef32dbc69dba7b1698a1d8071673
+  path: outputs/ccle/tatlow.HasCase.Edge.json.gz
 - cache: true
-  md5: 52b81ad221f8d1dac3fabef5eb7d7bea
+  md5: 5658a3793357c6af90a4c8ba162ec2c1
   path: outputs/ccle/tatlow.Case.Vertex.json.gz
 - cache: true
-  md5: e1eb35d6b5987c814e99238932514a91
+  md5: 0f89e2e8cb7a55eac0f68da697c63c42
   path: outputs/ccle/tatlow.Project.Vertex.json.gz

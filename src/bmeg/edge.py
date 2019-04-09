@@ -129,7 +129,7 @@ class COCAClusterFor(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class CallsetFor(Edge):
+class HasCallset(Edge):
     """
     Sample -> hasCallset
     """

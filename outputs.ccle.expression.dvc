@@ -2,11 +2,11 @@ cmd: python3 transform/ccle/expression.py
 deps:
 - md5: 3bcfe7226807240529a5f6aa3a6e98c0
   path: source/ccle/CCLE_depMap_18Q4_TPM_v2.csv
-md5: 70eed1c4e69abda0bb5fea50ec06de26
+md5: 32e2c7ae0aeceee1458e264afcb03eae
 outs:
 - cache: true
-  md5: 3abe364ab43fcd13097f5fee88c5977a
+  md5: 2b8a3a88cc9a70c5d3298681c0f3bb0b
   path: outputs/ccle/GeneExpression.Vertex.json.gz
 - cache: true
-  md5: 7b853de110174e0bde81dd70588d504f
-  path: outputs/ccle/GeneExpressionOf.Edge.json.gz
+  md5: 9332e671625d9e845613428ee3e2f018
+  path: outputs/ccle/HasGeneExpression.Edge.json.gz

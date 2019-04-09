@@ -3,7 +3,7 @@ import csv
 import gzip
 
 from bmeg.vertex import TranscriptExpression, Aliquot, ExpressionMetric
-from bmeg.edge import TranscriptExpressionOf
+from bmeg.edge import HasTranscriptExpression
 from bmeg.emitter import JSONEmitter
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
@@ -77,9 +77,9 @@ def transform(source_path,
         )
         emitter.emit_vertex(g)
         emitter.emit_edge(
-            TranscriptExpressionOf(),
-            from_gid=g.gid(),
-            to_gid=Aliquot.make_gid(aliquot_id)
+            HasTranscriptExpression(),
+            to_gid=g.gid(),
+            from_gid=Aliquot.make_gid(aliquot_id)
         )
 
     # generate project, case, sample, aliquot for missing cell lines
