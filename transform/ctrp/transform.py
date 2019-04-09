@@ -1,6 +1,6 @@
 import pandas
 from bmeg.vertex import DrugResponse, Aliquot, Case, Project, Program
-from bmeg.edge import ResponseIn, ResponseTo, InProject, InProgram, TestedIn
+from bmeg.edge import ResponseIn, ResponseTo, HasCase, HasProject, TestedIn
 from bmeg.enrichers.drug_enricher import compound_factory
 from bmeg.emitter import JSONEmitter
 from bmeg.ccle import build_ccle2depmap_conversion_table, build_project_lookup, missing_ccle_cellline_factory
@@ -69,17 +69,17 @@ def transform(sample_path='outputs/ccle/Sample.Vertex.json.gz',
         if proj.gid() not in project_gids:
             emitter.emit_vertex(proj)
             emitter.emit_edge(
-                InProgram(),
-                proj.gid(),
-                prog.gid()
+                HasProject(),
+                to_gid=proj.gid(),
+                from_gid=prog.gid()
             )
             project_gids.append(proj.gid())
             project_compounds[proj.gid()] = {}
         if Case.make_gid(ccl_name) not in case_gids and ccl_name not in missing_cell_lines:
             emitter.emit_edge(
-                InProject(),
-                Case.make_gid(ccl_name),
-                proj.gid(),
+                HasCase(),
+                to_gid=Case.make_gid(ccl_name),
+                from_gid=proj.gid(),
             )
             case_gids.append(Case.make_gid(ccl_name))
 
