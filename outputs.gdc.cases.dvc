@@ -2,29 +2,29 @@ cmd: python3 -m transform.gdc.cases
 deps:
 - md5: 6808ca805661622ad65ae014a4b2a094
   path: source/gdc/version.txt
-md5: 6b2824720e3b51cfe19a26ebbdeba157
+md5: 403cadcf13cf5bdc463344a1ab2f80df
 outs:
 - cache: true
-  md5: c0cdd3401bdff190de1647f95dc42429
+  md5: c655e47898fa19a454aaac2e4a15eefb
   path: outputs/gdc/Aliquot.Vertex.json.gz
 - cache: true
-  md5: 4af4a4262eb6c0ac87ff7ed53ab100cd
-  path: outputs/gdc/AliquotFor.Edge.json.gz
+  md5: 8e4140325ad8e6ea7e64306b26f2589c
+  path: outputs/gdc/HasAliquot.Edge.json.gz
 - cache: true
-  md5: 634c711f729ed061616ae804b1de5c93
+  md5: 5810eb552fbd8bf5544097ff56a190db
   path: outputs/gdc/Sample.Vertex.json.gz
 - cache: true
-  md5: 5220bfec469f72f501418485fc9fbd8c
-  path: outputs/gdc/SampleFor.Edge.json.gz
+  md5: f9e26559cfccdb026172d472c73f5891
+  path: outputs/gdc/HasSample.Edge.json.gz
 - cache: true
-  md5: 8360b8e15d784273c0c3b77eee498896
+  md5: 5a00b1ed266c29ce8ca92f275b722901
   path: outputs/gdc/Compound.Vertex.json.gz
 - cache: true
-  md5: 04c034ca69c33c2901a007d26656bac6
-  path: outputs/gdc/InProject.Edge.json.gz
+  md5: c3449f369032877aa16599a2de9f8e1d
+  path: outputs/gdc/HasCase.Edge.json.gz
 - cache: true
-  md5: 36c6c8fc236d6aa783df38ff50dc9a42
+  md5: f790c5fd66e5efefdd900722bfc292f3
   path: outputs/gdc/Case.Vertex.json.gz
 - cache: true
-  md5: d240ed026648eceed518b9eaf5b08bcd
+  md5: 913d1d8004b0a31afcbe40043f9c115d
   path: outputs/gdc/TreatedWith.Edge.json.gz

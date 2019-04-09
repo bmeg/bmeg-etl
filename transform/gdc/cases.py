@@ -4,7 +4,7 @@ https://gdc.cancer.gov/
 """
 
 from bmeg.util.cli import default_argument_parser
-from bmeg.edge import InProject, SampleFor, AliquotFor, TreatedWith
+from bmeg.edge import HasCase, HasSample, HasAliquot, TreatedWith
 from bmeg.emitter import JSONEmitter
 from bmeg.vertex import Case, Sample, Project, Aliquot
 from bmeg.ioutils import read_tsv
@@ -114,9 +114,9 @@ def transform(emitter, parameters={}):
         case_gid = c.gid()
         case_gids.append(case_gid)
         emitter.emit_edge(
-            InProject(),
-            case_gid,
-            Project.make_gid(c.gdc_attributes["project"]["project_id"]),
+            HasCase(),
+            to_gid=case_gid,
+            from_gid=Project.make_gid(c.gdc_attributes["project"]["project_id"]),
         )
 
         for sample in row.get("samples", []):
@@ -128,9 +128,9 @@ def transform(emitter, parameters={}):
             emitter.emit_vertex(s)
 
             emitter.emit_edge(
-                SampleFor(),
-                s.gid(),
-                c.gid(),
+                HasSample(),
+                to_gid=s.gid(),
+                from_gid=c.gid(),
             )
 
             for portion in sample.get("portions", []):
@@ -146,9 +146,9 @@ def transform(emitter, parameters={}):
                         emitter.emit_vertex(a)
 
                         emitter.emit_edge(
-                            AliquotFor(),
-                            a.gid(),
-                            s.gid(),
+                            HasAliquot(),
+                            to_gid=a.gid(),
+                            from_gid=s.gid(),
                         )
     # now use the file endpoint to get compounds
     compounds(emitter, parameters, case_gids=case_gids)
