@@ -380,7 +380,7 @@ class Writes(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class HasCopyNumberAlterationOf(Edge):
+class HasCopyNumberAlteration(Edge):
     """
     Aliquot -> CopyNumberAlteration
     """

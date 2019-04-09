@@ -10,7 +10,7 @@ import sys
 
 import bmeg.enrichers.gene_enricher as gene_enricher
 from bmeg.vertex import Aliquot, CopyNumberAlteration
-from bmeg.edge import CopyNumberAlterationOf
+from bmeg.edge import HasCopyNumberAlteration
 from bmeg.emitter import JSONEmitter
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
@@ -67,9 +67,9 @@ def transform(source_path,
         )
         emitter.emit_vertex(cna)
         emitter.emit_edge(
-            CopyNumberAlterationOf(),
-            from_gid=cna.gid(),
-            to_gid=Aliquot.make_gid(aliquot_id)
+            HasCopyNumberAlteration(),
+            to_gid=cna.gid(),
+            from_gid=Aliquot.make_gid(aliquot_id)
         )
     emitter.close()
 
