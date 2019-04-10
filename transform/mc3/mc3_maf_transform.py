@@ -1,7 +1,7 @@
 
 """ transform a maf file into vertexs[variant, allele]   """
 from bmeg.vertex import Callset, Gene
-from bmeg.edge import AlleleCall
+from bmeg.edge import SomaticVariant
 
 from bmeg.maf.maf_transform import get_value, MAFTransformer, maf_default_argument_parser
 from bmeg.emitter import new_emitter
@@ -70,7 +70,7 @@ class MC3_MAFTransformer(MAFTransformer):
         call_methods = line.get('CENTERS', '')
         call_methods = [call_method.replace('*', '') for call_method in call_methods.split("|")]
         info['methods'] = call_methods
-        return AlleleCall(**info)
+        return SomaticVariant(**info)
 
     def callset_maker(self, allele, source, centerCol, method, line):
         """ create callset from line """
