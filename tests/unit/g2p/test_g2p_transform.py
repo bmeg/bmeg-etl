@@ -30,7 +30,7 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     phenotype_edge_file = os.path.join(emitter_path_prefix, 'HasPhenotype.Edge.json.gz')
     deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json.gz')
     genomic_feature_file = os.path.join(emitter_path_prefix, 'GenomicFeature.Vertex.json.gz')
-    genomic_feature_edge_file = os.path.join(emitter_path_prefix, 'HasGenomicFeatureFeature.Edge.json.gz')
+    genomic_feature_edge_file = os.path.join(emitter_path_prefix, 'HasGenomicFeature.Edge.json.gz')
     has_gene_edge_file = os.path.join(emitter_path_prefix, 'GenomicFeatureIn.Edge.json.gz')
     allele_in_edge_file = os.path.join(emitter_path_prefix, 'AlleleIn.Edge.json.gz')
     environment_in_edge_file = os.path.join(emitter_path_prefix, 'HasEnvironment.Edge.json.gz')
@@ -109,7 +109,8 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     compound_count = helpers.assert_vertex_file_valid(Compound, environment_file)
     assert compound_count == 46, 'There should be 46 compounds'
     # test/test.GenomicFeature.Vertex.json
-    helpers.assert_edge_file_valid(G2PAssociation, GenomicFeature, genomic_feature_edge_file)
+    genomic_feature_edge_count = helpers.assert_edge_file_valid(G2PAssociation, GenomicFeature, genomic_feature_edge_file)
+    assert genomic_feature_edge_count == 14, 'There should be 14 edges between G2PAssociation and GenomicFeature'
     # test/test.HasGene.Edge.json
     helpers.assert_edge_file_valid(GenomicFeature, Gene, has_gene_edge_file)
     # test/test.AlleleIn.Edge.json

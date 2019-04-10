@@ -4,7 +4,7 @@ deps:
   path: source/g2p/all.json.gz
 - md5: f6f970935fa1b813e9a19fc8ad49d357
   path: source/gene_enricher/hgnc_complete_set.json
-md5: 7cc0052639cea728a65a10116bab8dd9
+md5: 0005e903edb2d14b63d5af7cf0d1a04b
 outs:
 - cache: true
   md5: c5c3fca02d77afbd0dba5bc81f7f2282
@@ -15,7 +15,7 @@ outs:
   metric: false
   path: outputs/g2p/AlleleIn.Edge.json.gz
 - cache: true
-  md5: 293ec7e72f5d49b187a5de532882c645
+  md5: 8299e5575f52aa92392a829297161bc9
   metric: false
   path: outputs/g2p/Compound.Vertex.json.gz
 - cache: true
@@ -31,19 +31,19 @@ outs:
   metric: false
   path: outputs/g2p/HasAlleleFeature.Edge.json.gz
 - cache: true
-  md5: d631575d62511dbba11f39a55fb804eb
+  md5: 8393a6a6d80ea04a3c0748695f8a399c
   metric: false
   path: outputs/g2p/HasEnvironment.Edge.json.gz
 - cache: true
-  md5: 7dfc8ffe9145fbac4224fca9312bb3bd
+  md5: e6de4f059d4b1a294a31859a87868be4
   metric: false
   path: outputs/g2p/HasGeneFeature.Edge.json.gz
 - cache: true
-  md5: a98638d296c5f659ec88e0e2e331940c
+  md5: 8a3d7007a3c89f90354a0bc5cf1f1be7
   metric: false
-  path: outputs/g2p/HasGenomicFeatureFeature.Edge.json.gz
+  path: outputs/g2p/HasGenomicFeature.Edge.json.gz
 - cache: true
-  md5: 04da2e97a4cc3f971a5d5edad61671a7
+  md5: 910fe933c94b44c81227fcee5f32b8c0
   metric: false
   path: outputs/g2p/HasPhenotype.Edge.json.gz
 - cache: true
@@ -51,15 +51,15 @@ outs:
   metric: false
   path: outputs/g2p/HasSupportingReference.Edge.json.gz
 - cache: true
-  md5: e21321ba80bcc6056830cc9c09f4e38d
+  md5: e18a9435fd1756cc3e6468b069b61184
   metric: false
   path: outputs/g2p/GenomicFeature.Vertex.json.gz
 - cache: true
-  md5: 70480135dea7b408cba26707a87fb0fe
+  md5: 3b33261f64671fa821d912c6157abb19
   metric: false
   path: outputs/g2p/GenomicFeatureIn.Edge.json.gz
 - cache: true
-  md5: 0e9388b8a09131b6b9b5ae0c85b910dd
+  md5: 80f4b6f1657a492af29c486fc307c784
   metric: false
   path: outputs/g2p/Phenotype.Vertex.json.gz
 wdir: .
