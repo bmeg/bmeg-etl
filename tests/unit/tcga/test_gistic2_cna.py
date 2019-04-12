@@ -26,7 +26,7 @@ def aliquot_source_path(request):
 def validate(helpers, source_path, aliquot_source_path, emitter_directory):
     """ run xform and test results"""
     cna_file = os.path.join(emitter_directory, 'TCGA-ACC.CopyNumberAlteration.Vertex.json.gz')
-    cna_of_file = os.path.join(emitter_directory, 'TCGA-ACC.CopyNumberAlterationOf.Edge.json.gz')
+    cna_of_file = os.path.join(emitter_directory, 'TCGA-ACC.HasCopyNumberAlteration.Edge.json.gz')
 
     all_files = [cna_file, cna_of_file]
     # remove output
@@ -41,7 +41,7 @@ def validate(helpers, source_path, aliquot_source_path, emitter_directory):
 
     # ratify
     helpers.assert_vertex_file_valid(CopyNumberAlteration, cna_file)
-    helpers.assert_edge_file_valid(CopyNumberAlteration, Aliquot, cna_of_file)
+    helpers.assert_edge_file_valid(Aliquot, CopyNumberAlteration, cna_of_file)
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot'])
 
 

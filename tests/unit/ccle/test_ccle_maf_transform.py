@@ -32,17 +32,17 @@ def ccle_sample_path(request):
 
 def validate(helpers, maf_file, emitter_path_prefix, ccle_sample_path):
     allele_file = os.path.join(emitter_path_prefix, 'maf.Allele.Vertex.json.gz')
-    allelecall_file = os.path.join(emitter_path_prefix, 'maf.AlleleCall.Edge.json.gz')
+    allelecall_file = os.path.join(emitter_path_prefix, 'maf.SomaticVariant.Edge.json.gz')
     callset_file = os.path.join(emitter_path_prefix, 'maf.Callset.Vertex.json.gz')
     allelein_file = os.path.join(emitter_path_prefix, 'maf.AlleleIn.Edge.json.gz')
-    callsetfor_file = os.path.join(emitter_path_prefix, 'maf.CallsetFor.Edge.json.gz')
+    callsetfor_file = os.path.join(emitter_path_prefix, 'maf.HasCallset.Edge.json.gz')
     aliquot_file = os.path.join(emitter_path_prefix, 'maf.Aliquot.Vertex.json.gz')
-    aliquotfor_file = os.path.join(emitter_path_prefix, 'maf.AliquotFor.Edge.json.gz')
+    aliquotfor_file = os.path.join(emitter_path_prefix, 'maf.HasAliquot.Edge.json.gz')
     sample_file = os.path.join(emitter_path_prefix, 'maf.Sample.Vertex.json.gz')
-    samplefor_file = os.path.join(emitter_path_prefix, 'maf.SampleFor.Edge.json.gz')
+    samplefor_file = os.path.join(emitter_path_prefix, 'maf.HasSample.Edge.json.gz')
     case_file = os.path.join(emitter_path_prefix, 'maf.Case.Vertex.json.gz')
     project_file = os.path.join(emitter_path_prefix, 'maf.Project.Vertex.json.gz')
-    inproject_file = os.path.join(emitter_path_prefix, 'maf.InProject.Edge.json.gz')
+    inproject_file = os.path.join(emitter_path_prefix, 'maf.HasCase.Edge.json.gz')
     all_files = [allele_file, allelecall_file, callset_file, allelein_file, callsetfor_file]
 
     # remove output
@@ -64,21 +64,21 @@ def validate(helpers, maf_file, emitter_path_prefix, ccle_sample_path):
     # test/maf.AlleleCall.Edge.json
     helpers.assert_edge_file_valid(Callset, Allele, allelecall_file)
     # test/maf.CallsetFor.Edge.json
-    helpers.assert_edge_file_valid(Callset, Aliquot, callsetfor_file)
+    helpers.assert_edge_file_valid(Aliquot, Callset, callsetfor_file)
     # test/maf.Aliquot.Vertex.json
     helpers.assert_vertex_file_valid(Aliquot, aliquot_file)
     # test/maf.AliquotFor.Edge.json
-    helpers.assert_edge_file_valid(Aliquot, Sample, aliquotfor_file)
+    helpers.assert_edge_file_valid(Sample, Aliquot, aliquotfor_file)
     # test/maf.Sample.Vertex.json
     helpers.assert_vertex_file_valid(Sample, sample_file)
     # test/maf.SampleFor.Edge.json
-    helpers.assert_edge_file_valid(Sample, Case, samplefor_file)
+    helpers.assert_edge_file_valid(Case, Sample, samplefor_file)
     # test/maf.Case.Vertex.json
     helpers.assert_vertex_file_valid(Case, case_file)
     # test/maf.Project.Vertex.json
     helpers.assert_vertex_file_valid(Project, project_file)
     # test/maf.InProject.Edge.json
-    helpers.assert_edge_file_valid(Case, Project, inproject_file)
+    helpers.assert_edge_file_valid(Project, Case, inproject_file)
 
     assert callset_count > 0, 'There should be at least one callset'
     with reader(callset_file) as f:

@@ -20,9 +20,9 @@ def aliquot_source_path(request):
 def validate(helpers, source_path, aliquot_source_path, emitter_directory):
     """ run xform and test results"""
     methylation_probe_file = os.path.join(emitter_directory, 'IlluminaHumanMethylation450.MethylationProbe.Vertex.json.gz')
-    methylation_probe_for_file = os.path.join(emitter_directory, 'IlluminaHumanMethylation450.MethylationProbeFor.Edge.json.gz')
+    methylation_probe_for_file = os.path.join(emitter_directory, 'IlluminaHumanMethylation450.HasMethylationProbe.Edge.json.gz')
     methylation_file = os.path.join(emitter_directory, 'IlluminaHumanMethylation450.Methylation.Vertex.json.gz')
-    methylation_of_file = os.path.join(emitter_directory, 'IlluminaHumanMethylation450.MethylationOf.Edge.json.gz')
+    methylation_of_file = os.path.join(emitter_directory, 'IlluminaHumanMethylation450.HasMethylation.Edge.json.gz')
 
     all_files = [methylation_probe_file, methylation_probe_for_file, methylation_file, methylation_of_file]
     # remove output
@@ -37,9 +37,9 @@ def validate(helpers, source_path, aliquot_source_path, emitter_directory):
 
     # ratify
     helpers.assert_vertex_file_valid(Methylation, methylation_file)
-    helpers.assert_edge_file_valid(Methylation, Aliquot, methylation_of_file)
+    helpers.assert_edge_file_valid(Aliquot, Methylation,  methylation_of_file)
     helpers.assert_vertex_file_valid(MethylationProbe, methylation_probe_file)
-    helpers.assert_edge_file_valid(MethylationProbe, Gene, methylation_probe_for_file)
+    #helpers.assert_edge_file_valid(Gene, MethylationProbe, methylation_probe_for_file)
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot', 'Gene', 'MethylationProbe'])
 
 

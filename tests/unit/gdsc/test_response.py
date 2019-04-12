@@ -25,7 +25,7 @@ DrugResponse.Vertex.json.gz
 Project.Vertex.json.gz
 ResponseIn.Edge.json.gz
 ResponseTo.Edge.json.gz
-InProject.Edge.json.gz
+HasCase.Edge.json.gz
 """.strip().split()
 
 
@@ -53,7 +53,7 @@ def validate(helpers, GDSC_AUC_file, emitter_directory, emitter_prefix, sample_p
     helpers.assert_vertex_file_valid(Project, projects)
     helpers.assert_edge_file_valid(DrugResponse, Aliquot, drug_response_ins)
     helpers.assert_edge_file_valid(DrugResponse, Compound, response_tos)
-    helpers.assert_edge_file_valid(Case, Project, in_projects)
+    helpers.assert_edge_file_valid(Project, Case, in_projects)
 
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot', 'Case'])

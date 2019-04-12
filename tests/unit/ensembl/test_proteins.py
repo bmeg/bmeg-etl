@@ -12,7 +12,7 @@ def protein_table_path(request):
 
 def test_simple(helpers, emitter_directory, protein_table_path):
     protein_file = os.path.join(emitter_directory, 'Protein.Vertex.json.gz')
-    proteinfor_file = os.path.join(emitter_directory, 'ProteinFor.Edge.json.gz')
+    proteinfor_file = os.path.join(emitter_directory, 'HasProtein.Edge.json.gz')
     transform(protein_table_path=protein_table_path, emitter_directory=emitter_directory)
     helpers.assert_vertex_file_valid(Protein, '{}/Protein.Vertex.json.gz'.format(emitter_directory))
     helpers.assert_edge_joins_valid([protein_file, proteinfor_file], exclude_labels=['Transcript'])

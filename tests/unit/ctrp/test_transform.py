@@ -76,10 +76,10 @@ def validate(helpers, emitter_directory, sample_path, metadrugPath,
         f = os.path.join(emitter_directory, f)
         helpers.assert_vertex_file_valid(v, f)
     # missing edges
-    for f, v1, v2 in [('ctrp.AliquotFor.Edge.json.gz', Aliquot, Sample),
-                      ('ctrp.SampleFor.Edge.json.gz', Sample, Case),
-                      ('ctrp.InProject.Edge.json.gz', Case, Project),
-                      ('ctrp.InProgram.Edge.json.gz', Project, Program)]:
+    for f, v1, v2 in [('ctrp.HasAliquot.Edge.json.gz', Sample, Aliquot),
+                      ('ctrp.HasSample.Edge.json.gz', Case, Sample),
+                      ('ctrp.HasCase.Edge.json.gz', Project, Case),
+                      ('ctrp.HasProject.Edge.json.gz', Program, Project)]:
         f = os.path.join(emitter_directory, f)
         helpers.assert_edge_file_valid(v1, v2, f)
 

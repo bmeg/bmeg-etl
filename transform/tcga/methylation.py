@@ -7,7 +7,7 @@ import tarfile
 
 import bmeg.enrichers.gene_enricher as gene_enricher
 from bmeg.vertex import Methylation, MethylationProbe, Aliquot, Gene
-from bmeg.edge import MethylationOf, MethylationProbeFor
+from bmeg.edge import HasMethylation, HasMethylationProbe
 from bmeg.emitter import JSONEmitter
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
@@ -80,9 +80,9 @@ def transform(source_path,
 
                 if symbol.startswith("ENSG"):
                     emitter.emit_edge(
-                        MethylationProbeFor(),
-                        from_gid=p.gid(),
-                        to_gid=Gene.make_gid(symbol)
+                        HasMethylationProbe(),
+                        to_gid=p.gid(),
+                        from_gid=Gene.make_gid(symbol)
                     )
 
             # http://gdac.broadinstitute.org/runs/sampleReports/latest/SKCM_Notifications.html
@@ -106,9 +106,9 @@ def transform(source_path,
             )
             emitter.emit_vertex(m)
             emitter.emit_edge(
-                MethylationOf(),
-                from_gid=m.gid(),
-                to_gid=Aliquot.make_gid(aliquot_id)
+                HasMethylation(),
+                to_gid=m.gid(),
+                from_gid=Aliquot.make_gid(aliquot_id)
             )
 
         logging.debug("finished processing: %s", member.name)

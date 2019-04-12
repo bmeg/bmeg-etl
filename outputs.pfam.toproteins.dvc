@@ -2,14 +2,14 @@ cmd: python3 transform/pfam/pfam_to_proteins.py
 deps:
 - md5: a716f3864b3883ef8b4a29adebc29533
   path: source/pfam/homo_sapiens.json
-md5: 8024bb682f74c2968acdd9914a41a27f
+md5: c1e2dc312ecb8e3eea03eeabad444705
 outs:
 - cache: true
-  md5: 2aa52ab0170fb95149b0b4b88bda8c82
+  md5: 8a3fa7702b373dec1e0e0c18ae3d6a36
   path: outputs/pfam/ProteinStructure.Vertex.json.gz
 - cache: true
-  md5: 3e4ca315ff85be97f9a64cf84f6710e4
+  md5: 994a740e343922e7ea23265d616d14e6
   path: outputs/pfam/PFAMAlignment.Edge.json.gz
 - cache: true
-  md5: 49e1d86e3c01677943fc6c89924d3bf9
+  md5: 77e38fe737936538ea2fce4c39d8fba0
   path: outputs/pfam/StructureFor.Edge.json.gz

@@ -14,7 +14,7 @@ import bmeg.ioutils
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
 
-from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment, HasGenomicFeatureFeature, AlleleIn, GenomicFeatureIn
+from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment, HasGenomicFeature, AlleleIn, GenomicFeatureIn
 from bmeg.vertex import Deadletter
 from bmeg.emitter import new_emitter
 
@@ -77,9 +77,9 @@ def toGraph(normalized_association, emitter):
     for allele in na.vertices['genomic_features']:
         emitter.emit_vertex(allele)
     for feature_gid in na.genomic_features:
-        emitter.emit_edge(HasGenomicFeatureFeature(),
-                          association.gid(),
-                          feature_gid
+        emitter.emit_edge(HasGenomicFeature(),
+                          from_gid=association.gid(),
+                          to_gid=feature_gid
                           )
 
     for allele_has_gene in na.vertices['allele_has_gene']:

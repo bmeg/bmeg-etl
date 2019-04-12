@@ -61,10 +61,10 @@ def gdc_aliquot_path(request):
 
 def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
     allele_file = os.path.join(emitter_path_prefix, 'Allele.Vertex.json.gz')
-    allelecall_file = os.path.join(emitter_path_prefix, 'AlleleCall.Edge.json.gz')
+    allelecall_file = os.path.join(emitter_path_prefix, 'SomaticVariant.Edge.json.gz')
     callset_file = os.path.join(emitter_path_prefix, 'Callset.Vertex.json.gz')
     allelein_file = os.path.join(emitter_path_prefix, 'AlleleIn.Edge.json.gz')
-    callsetfor_file = os.path.join(emitter_path_prefix, 'CallsetFor.Edge.json.gz')
+    callsetfor_file = os.path.join(emitter_path_prefix, 'HasCallset.Edge.json.gz')
     deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json.gz')
 
     all_files = [allele_file, allelecall_file, callset_file, allelein_file, callsetfor_file, deadletter_file]
@@ -84,7 +84,7 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
     # test/test.AlleleIn.Edge.json
     helpers.assert_edge_file_valid(Allele, Gene, allelein_file)
     # test/test.CallsetFor.Edge.json
-    helpers.assert_edge_file_valid(Callset, Aliquot, callsetfor_file)
+    helpers.assert_edge_file_valid(Aliquot, Callset, callsetfor_file)
 
     with reader(callset_file) as f:
         for line in f:
@@ -133,8 +133,8 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
         for line in f:
             # should be json
             callsetfor = json.loads(line)
-            assert callsetfor['from'].startswith('Callset:mc3:'), 'from should be a callset'
-            assert callsetfor['to'].startswith('Aliquot:'), 'to should be an aliquot'
+            assert callsetfor['to'].startswith('Callset:mc3:'), 'from should be a callset'
+            assert callsetfor['from'].startswith('Aliquot:'), 'to should be an aliquot'
 
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(

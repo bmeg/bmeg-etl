@@ -17,7 +17,7 @@ def validate(helpers, emitter_path_prefix):
     """ run xform and test results"""
     project_file = '{}Project.Vertex.json.gz'.format(emitter_path_prefix)
     program_file = '{}Program.Vertex.json.gz'.format(emitter_path_prefix)
-    inprogram_file = '{}InProgram.Edge.json.gz'.format(emitter_path_prefix)
+    inprogram_file = '{}HasProject.Edge.json.gz'.format(emitter_path_prefix)
     all_files = [project_file, program_file, inprogram_file]
 
     # remove output
@@ -31,7 +31,7 @@ def validate(helpers, emitter_path_prefix):
     emitter.close()
     helpers.assert_vertex_file_valid(Project, project_file)
     helpers.assert_vertex_file_valid(Program, program_file)
-    helpers.assert_edge_file_valid(Project, Program, inprogram_file)
+    helpers.assert_edge_file_valid(Program, Project, inprogram_file)
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(
         all_files,

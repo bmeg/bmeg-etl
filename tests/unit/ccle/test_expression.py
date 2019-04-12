@@ -17,7 +17,7 @@ def tpm_file(request):
 def validate(helpers, tpm_file, emitter_directory):
     """ run xform and test results"""
     expression_file = os.path.join(emitter_directory, 'GeneExpression.Vertex.json.gz')
-    expression_of_file = os.path.join(emitter_directory, 'GeneExpressionOf.Edge.json.gz')
+    expression_of_file = os.path.join(emitter_directory, 'HasGeneExpression.Edge.json.gz')
 
     all_files = [expression_file, expression_of_file]
     # remove output
@@ -29,7 +29,7 @@ def validate(helpers, tpm_file, emitter_directory):
     transform_tpm(path=tpm_file, emitter_directory=emitter_directory)
     # ratify
     helpers.assert_vertex_file_valid(GeneExpression, expression_file)
-    helpers.assert_edge_file_valid(GeneExpression, Aliquot, expression_of_file)
+    helpers.assert_edge_file_valid(Aliquot, GeneExpression, expression_of_file)
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot'])
     # ensure broad ids not used for aliquot
 

@@ -12,9 +12,9 @@ def gff3_path(request):
 
 def test_simple(emitter_directory, gff3_path, helpers):
     exon_file = '{}/Exon.Vertex.json.gz'.format(emitter_directory)
-    exonfor_file = '{}/ExonFor.Edge.json.gz'.format(emitter_directory)
+    exonfor_file = '{}/HasExon.Edge.json.gz'.format(emitter_directory)
     transcript_file = '{}/Transcript.Vertex.json.gz'.format(emitter_directory)
-    transcriptfor_file = '{}/TranscriptFor.Edge.json.gz'.format(emitter_directory)
+    transcriptfor_file = '{}/HasTranscript.Edge.json.gz'.format(emitter_directory)
     gene_file = '{}/Gene.Vertex.json.gz'.format(emitter_directory)
 
     transform(gff3_path=gff3_path, emitter_directory=emitter_directory)

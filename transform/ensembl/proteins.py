@@ -2,7 +2,7 @@ import csv
 
 import bmeg.ioutils
 from bmeg.vertex import Protein, Transcript
-from bmeg.edge import ProteinFor
+from bmeg.edge import HasProtein
 from bmeg.emitter import JSONEmitter
 
 GENOME_BUILD = "GRCh37"
@@ -33,9 +33,9 @@ def transform(protein_table_path='source/ensembl/Homo_sapiens.GRCh37.85.uniprot.
                         genome=GENOME_BUILD)
             emitter.emit_vertex(p)
             emitter.emit_edge(
-                ProteinFor(),
-                from_gid=p.gid(),
-                to_gid=Transcript.make_gid(transcript_id)
+                HasProtein(),
+                to_gid=p.gid(),
+                from_gid=Transcript.make_gid(transcript_id)
             )
             emitted_proteins.append(protein_id)
 

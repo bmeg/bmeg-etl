@@ -125,7 +125,7 @@ class BaseEmitter:
     def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
         dumped = {
             "_id": obj.make_gid(from_gid, to_gid),
-            #"gid": obj.make_gid(from_gid, to_gid),
+            "gid": obj.make_gid(from_gid, to_gid),
             "label": obj.label(),
             "from": from_gid,
             "to": to_gid,
@@ -139,7 +139,7 @@ class BaseEmitter:
     def emit_vertex(self, obj: Vertex):
         dumped = {
             "_id": obj.gid(),
-            #"gid": obj.gid(),
+            "gid": obj.gid(),
             "label": obj.label(),
             "data": self._get_data(obj)
         }

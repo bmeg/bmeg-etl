@@ -22,9 +22,9 @@ def validate(helpers, emitter_path_prefix, parameters):
     case_file = '{}Case.Vertex.json.gz'.format(emitter_path_prefix)
     compound_file = '{}Compound.Vertex.json.gz'.format(emitter_path_prefix)
 
-    samplefor_file = '{}SampleFor.Edge.json.gz'.format(emitter_path_prefix)
-    aliquotfor_file = '{}AliquotFor.Edge.json.gz'.format(emitter_path_prefix)
-    inproject_file = '{}InProject.Edge.json.gz'.format(emitter_path_prefix)
+    samplefor_file = '{}HasSample.Edge.json.gz'.format(emitter_path_prefix)
+    aliquotfor_file = '{}HasAliquot.Edge.json.gz'.format(emitter_path_prefix)
+    inproject_file = '{}HasCase.Edge.json.gz'.format(emitter_path_prefix)
     treatedwith_file = '{}TreatedWith.Edge.json.gz'.format(emitter_path_prefix)
 
     all_files = [sample_file, aliquot_file, case_file, samplefor_file,
@@ -47,11 +47,11 @@ def validate(helpers, emitter_path_prefix, parameters):
     # test.Compound.Vertex.json
     helpers.assert_vertex_file_valid(Compound, compound_file)
     # test.SampleFor.Edge.json
-    helpers.assert_edge_file_valid(Sample, Case, samplefor_file)
+    helpers.assert_edge_file_valid(Case, Sample, samplefor_file)
     # test.AliquotFor.Edge.json
-    helpers.assert_edge_file_valid(Aliquot, Sample, aliquotfor_file)
+    helpers.assert_edge_file_valid(Sample, Aliquot, aliquotfor_file)
     # test.InProject.Edge.json
-    helpers.assert_edge_file_valid(Case, Project, inproject_file)
+    helpers.assert_edge_file_valid(Project, Case, inproject_file)
     # test.TreatedWith.Edge.json
     helpers.assert_edge_file_valid(Case, Compound, treatedwith_file)
 

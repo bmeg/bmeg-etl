@@ -32,13 +32,13 @@ def validate(helpers, emitter_path_prefix, sample_info_file):
     """ run xform and test results"""
     sample_file = os.path.join(emitter_path_prefix, 'Sample.Vertex.json.gz')
     aliquot_file = os.path.join(emitter_path_prefix, 'Aliquot.Vertex.json.gz')
-    aliquot_for_file = os.path.join(emitter_path_prefix, 'AliquotFor.Edge.json.gz')
+    aliquot_for_file = os.path.join(emitter_path_prefix, 'HasAliquot.Edge.json.gz')
     case_file = os.path.join(emitter_path_prefix, 'Case.Vertex.json.gz')
     project_file = os.path.join(emitter_path_prefix, 'Project.Vertex.json.gz')
-    in_project_file = os.path.join(emitter_path_prefix, 'InProject.Edge.json.gz')
+    in_project_file = os.path.join(emitter_path_prefix, 'HasCase.Edge.json.gz')
     program_file = os.path.join(emitter_path_prefix, 'Program.Vertex.json.gz')
-    in_program_file = os.path.join(emitter_path_prefix, 'InProgram.Edge.json.gz')
-    sample_for_file = os.path.join(emitter_path_prefix, 'SampleFor.Edge.json.gz')
+    in_program_file = os.path.join(emitter_path_prefix, 'HasProject.Edge.json.gz')
+    sample_for_file = os.path.join(emitter_path_prefix, 'HasSample.Edge.json.gz')
     phenotype_file = os.path.join(emitter_path_prefix, 'Phenotype.Vertex.json.gz')
     phenotype_of_file = os.path.join(emitter_path_prefix, 'PhenotypeOf.Edge.json.gz')
 
@@ -68,16 +68,16 @@ def validate(helpers, emitter_path_prefix, sample_info_file):
     assert program_count == 1, 'expected program_count'
 
     # test.AliquotFor.Edge.json
-    helpers.assert_edge_file_valid(Aliquot, Sample, aliquot_for_file)
+    helpers.assert_edge_file_valid(Sample, Aliquot, aliquot_for_file)
 
     # test.SampleFor.Edge.json
-    helpers.assert_edge_file_valid(Sample, Case, sample_for_file)
+    helpers.assert_edge_file_valid(Case, Sample, sample_for_file)
 
     # test.InProject.Edge.json
-    helpers.assert_edge_file_valid(Case, Project, in_project_file)
+    helpers.assert_edge_file_valid(Project, Case, in_project_file)
 
     # test.InProgram.Edge.json
-    helpers.assert_edge_file_valid(Project, Program, in_program_file)
+    helpers.assert_edge_file_valid(Program, Project, in_program_file)
 
     # test.PhenotypeOf.Edge.json
     helpers.assert_edge_file_valid(Aliquot, Phenotype, phenotype_of_file)

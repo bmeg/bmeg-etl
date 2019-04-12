@@ -53,10 +53,10 @@ def validate(helpers, emitter_directory, sample_path, drug_response_path):
         f = os.path.join(emitter_directory, f)
         helpers.assert_vertex_file_valid(v, f)
     # missing edges
-    for f, v1, v2 in [('drug_response.AliquotFor.Edge.json.gz', Aliquot, Sample),
-                      ('drug_response.SampleFor.Edge.json.gz', Sample, Case),
-                      ('drug_response.InProject.Edge.json.gz', Case, Project),
-                      ('drug_response.InProgram.Edge.json.gz', Project, Program)]:
+    for f, v1, v2 in [('drug_response.HasAliquot.Edge.json.gz', Sample, Aliquot),
+                      ('drug_response.HasSample.Edge.json.gz', Case, Sample),
+                      ('drug_response.HasCase.Edge.json.gz', Project, Case),
+                      ('drug_response.HasProject.Edge.json.gz', Program, Project)]:
         f = os.path.join(emitter_directory, f)
         helpers.assert_edge_file_valid(v1, v2, f)
 
