@@ -12,6 +12,40 @@ from bmeg.gid import GID
 from bmeg.utils import enforce_types, ensure_directory
 from bmeg.vertex import Vertex
 
+class BaseEmitter:
+    def __init__(self):
+
+    def emitVertex(self, v):
+        o = v._validate()
+        if len(o) == 0:
+            gid = None
+            label = v._classSchema.label
+            data = {}
+            for k, val in v._data.items():
+                # If the value represents the 'node_id' of the data
+                if v._classSchema.prop(k).systemAlias == "node_id":
+                    gid = val
+            for k, val in v._data.items():
+                link = v._classSchema.getLink(k)
+                if link is not None:
+                    for dst in val:
+                        self.emitLink(link['label'], from_gid=gid, to_gid=dst)
+                        if 'backref' in link:
+                            self.emitLink(link["backref"], to_gid=gid, from_gid=dst)
+                else:
+                    data[k] = val
+            if gid is None:
+                print("GID is not set")
+            else:
+                print(json.dumps({"gid":gid, "label":label, "data" : data}))
+        else:
+            for i in o:
+                print("Error: %s" % (i))
+
+    # a link if an edge with no properties
+    def emitLink(self, label, from_gid, to_gid ):
+        print(json.dumps({"label":label, "from":from_gid, "to":to_gid}))
+
 
 class DebugEmitter:
     def __init__(self, **kwargs):
