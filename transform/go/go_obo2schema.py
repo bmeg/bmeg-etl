@@ -3,9 +3,12 @@
 import re
 import sys
 
-from bmeg.vertex import GeneOntologyTerm
-from bmeg.edge import GeneOntologyIsA
+import bmeg
 from bmeg.emitter import JSONEmitter
+
+schema = bmeg.load("./schemas")
+
+GeneOntologyTerm = schema.GeneOntologyTerm
 
 re_section = re.compile(r'^\[(.*)\]')
 re_field = re.compile(r'^(\w+): (.*)$')
@@ -69,13 +72,7 @@ if __name__ == "__main__":
             emitter.emit_vertex(GeneOntologyTerm(
                 go_id=go_id, name=go_name,
                 definition=go_definition, namespace=go_namespace,
-                synonym=synonym, xref=xref
+                synonym=synonym, xref=xref, is_a=is_a
             ))
-            for i in is_a:
-                emitter.emit_edge(
-                    GeneOntologyIsA(),
-                    from_gid=GeneOntologyTerm.make_gid(go_id),
-                    to_gid=GeneOntologyTerm.make_gid(i)
-                )
 
     emitter.close()

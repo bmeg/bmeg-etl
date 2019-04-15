@@ -1,0 +1,40 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "gene_ontology_annotation"
+title: GeneOntologyAnnotation
+type: object
+category: genomic
+program: '*'
+project: '*'
+description: >
+  Gene Ontology Term
+additionalProperties: false
+submittable: false
+validators: null
+
+systemProperties:
+  - id
+
+required:
+  - go_id
+  - gene_id
+
+uniqueKeys:
+  - [go_id]
+
+links: []
+
+properties:
+  go_id:
+    type: string
+    systemAlias: from
+  gene_id:
+    type: string
+    systemAlias: to
+  evidence:
+    type: string
+  title:
+    type: string
+  references:
+    type: array
+    items: string

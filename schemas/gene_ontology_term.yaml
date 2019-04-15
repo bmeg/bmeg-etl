@@ -1,0 +1,49 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "gene_ontology_term"
+title: GeneOntologyTerm
+type: object
+category: genomic
+program: '*'
+project: '*'
+description: >
+  Gene Ontology Term
+additionalProperties: false
+submittable: false
+validators: null
+
+systemProperties:
+  - id
+
+required:
+  - go_id
+
+uniqueKeys:
+  - [go_id]
+
+links:
+  - name: is_a
+    label: is_a
+    target_type: gene_ontology_term
+    multiplicity: one_to_many
+    required: true
+
+properties:
+  go_id:
+    type: string
+    systemAlias: node_id
+  name:
+    type: string
+  namespace:
+    type: string
+  definition:
+    type: string
+  synonym:
+    type: array
+    items: string
+  xref:
+    type: array
+    items: string
+  is_a:
+    type: array
+    items: string

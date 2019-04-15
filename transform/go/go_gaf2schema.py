@@ -7,10 +7,12 @@
 import sys
 import gzip
 
-from bmeg.vertex import Gene, GeneOntologyTerm
-from bmeg.edge import GeneOntologyAnnotation
+import bmeg
 from bmeg.emitter import JSONEmitter
 
+schema = bmeg.load("./schemas")
+
+GeneOntologyAnnotation = schema.GeneOntologyAnnotation
 
 UNIPROT_COL = 1
 SYMBOL_COL = 2
@@ -49,14 +51,16 @@ if __name__ == "__main__":
                     if len(row[NAME_COL]):
                         title = row[NAME_COL]
 
-                    gene_gid = Gene.make_gid(gene_id=ensembl_id)
-                    go_gid = GeneOntologyTerm.make_gid(go_id=go_id)
+                    #gene_gid = Gene.make_gid(gene_id=ensembl_id)
+                    #go_gid = GeneOntologyTerm.make_gid(go_id=go_id)
                     emitter.emit_edge(
                         GeneOntologyAnnotation(
                             evidence=evidence,
                             references=references, title=title
                         ),
-                        to_gid=gene_gid,
-                        from_gid=go_gid
+                        to_gid=ensembl_id,
+                        from_gid=go_id
+                        #to_gid=gene_gid,
+                        #from_gid=go_gid
                     )
     emitter.close()
