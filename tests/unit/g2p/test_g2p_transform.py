@@ -30,7 +30,11 @@ def validate(helpers, g2p_file, emitter_path_prefix):
     phenotype_edge_file = os.path.join(emitter_path_prefix, 'HasPhenotype.Edge.json.gz')
     deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json.gz')
     genomic_feature_file = os.path.join(emitter_path_prefix, 'GenomicFeature.Vertex.json.gz')
+<<<<<<< HEAD
     genomic_feature_edge_file = os.path.join(emitter_path_prefix, 'HasGenomicFeature.Edge.json.gz')
+=======
+    genomic_feature_edge_file = os.path.join(emitter_path_prefix, 'HasGenomicFeatureFeature.Edge.json.gz')
+>>>>>>> c5ad181b36221160c5a2c64581db0e94dc8edcac
     has_gene_edge_file = os.path.join(emitter_path_prefix, 'GenomicFeatureIn.Edge.json.gz')
     allele_in_edge_file = os.path.join(emitter_path_prefix, 'AlleleIn.Edge.json.gz')
     environment_in_edge_file = os.path.join(emitter_path_prefix, 'HasEnvironment.Edge.json.gz')
