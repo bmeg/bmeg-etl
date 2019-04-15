@@ -114,7 +114,7 @@ def make_gid(label, from_gid: GID, to_gid: GID):
 
 class Generator:
     """
-    BaseEmitter is an internal helper that contains code shared by all
+    Generator is an internal helper that contains code shared by all
     emitters, such as validation checks, data cleanup, etc.
     """
 

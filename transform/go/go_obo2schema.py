@@ -3,12 +3,8 @@
 import re
 import sys
 
-import bmeg
+from bmeg import GeneOntologyTerm
 from bmeg.emitter import JSONEmitter
-
-schema = bmeg.load("./schemas")
-
-GeneOntologyTerm = schema.GeneOntologyTerm
 
 re_section = re.compile(r'^\[(.*)\]')
 re_field = re.compile(r'^(\w+): (.*)$')

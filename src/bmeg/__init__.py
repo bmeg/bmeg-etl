@@ -5,6 +5,8 @@ import json
 from copy import copy
 from glob import glob
 
+
+
 def load(path):
     out = Schema()
     for g in glob(os.path.join(path, "*.yaml")):
@@ -160,3 +162,10 @@ class SchemaType:
         return self._typeDict.get("enum", [])
 
     enum = property(getEnum)
+
+_schema = load( os.path.join(os.path.dirname(os.path.abspath(__file__)), "schemas") )
+
+__all__ = []
+for k, v in _schema._classes.items():
+    globals()[k] = v
+    __all__.append(k)

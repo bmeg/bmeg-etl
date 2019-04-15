@@ -1,8 +1,8 @@
-cmd: wget http://www.geneontology.org/gene-associations/goa_human.gaf.gz -O source/go/goa_human.gaf.gz
+cmd: curl -o source/go/goa_human.gaf.gz -L http://www.geneontology.org/gene-associations/goa_human.gaf.gz
 deps:
 - md5: 6808ca805661622ad65ae014a4b2a094
   path: source/go/version.txt
-md5: 65cbf49cf13b8f40f395b5e048c7be9e
+md5: 049a97d59b616d4f1d8ec0113a512acc
 outs:
 - cache: true
   md5: 09158ea3761fc37c02ac80769f723622

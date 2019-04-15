@@ -7,12 +7,8 @@
 import sys
 import gzip
 
-import bmeg
+from bmeg import GeneOntologyAnnotation
 from bmeg.emitter import JSONEmitter
-
-schema = bmeg.load("./schemas")
-
-GeneOntologyAnnotation = schema.GeneOntologyAnnotation
 
 UNIPROT_COL = 1
 SYMBOL_COL = 2
