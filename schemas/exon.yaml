@@ -1,0 +1,44 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "exon"
+title: Exon
+type: object
+category: genomic
+program: '*'
+project: '*'
+description: >
+  Gene Exon
+additionalProperties: false
+submittable: false
+validators: null
+
+systemProperties:
+  - id
+
+required:
+  - name
+  - dbgap_accession_number
+
+uniqueKeys:
+  - [id]
+  - [name]
+
+links: []
+
+properties:
+  exon_id:
+    type: string
+    systemAlias: node_id
+  transcript_id:
+    type: array
+    items: string
+  chromosome:
+    type: string
+  start:
+    type: integer
+  end:
+    type: integer
+  strand:
+    type: string
+  genome:
+    type: string

@@ -4,8 +4,6 @@ import re
 from urllib.parse import unquote
 
 import bmeg.ioutils
-from bmeg.vertex import Gene, Transcript, Exon
-from bmeg.edge import HasTranscript, HasExon
 from bmeg.emitter import JSONEmitter
 
 
@@ -55,6 +53,9 @@ def transform(
     Transform the file downloaded from:
         ftp://ftp.ensembl.org/pub/grch37/release-94/gff3/homo_sapiens/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz
     """
+
+    schema = bmeg.load("schemas")
+
     emitter = JSONEmitter(directory=emitter_directory, prefix=None)
 
     inhandle = bmeg.ioutils.reader(gff3_path)
@@ -90,7 +91,7 @@ def transform(
                 transcript_id = get_parent_transcript(attrs["Parent"])
                 transcripts.append(transcript_id)
             attrs = aset[0]
-            e = Exon(exon_id=attrs["exon_id"],
+            e = schema.Exon(exon_id=attrs["exon_id"],
                      transcript_id=transcripts,
                      chromosome=attrs["seqId"],
                      start=attrs["start"],

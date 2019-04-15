@@ -9,7 +9,7 @@ def load(path):
     out = Schema()
     for g in glob(os.path.join(path, "*.yaml")):
         with open(g) as handle:
-            meta = yaml.load(handle.read())
+            meta = yaml.load(handle.read(), Loader=yaml.SafeLoader)
         if meta.get("type", "") == "object":
             c = SchemaClass(out, os.path.basename(g), meta)
         else:

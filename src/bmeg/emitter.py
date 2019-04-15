@@ -7,13 +7,12 @@ import dataclasses
 from datetime import datetime
 import gzip
 
-from bmeg.edge import Edge
 from bmeg.gid import GID
 from bmeg.utils import enforce_types, ensure_directory
-from bmeg.vertex import Vertex
 
 class BaseEmitter:
     def __init__(self):
+        pass
 
     def emitVertex(self, v):
         o = v._validate()
@@ -54,11 +53,11 @@ class DebugEmitter:
     def close(self):
         self.emitter.close()
 
-    def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
+    def emit_edge(self, obj, from_gid: GID, to_gid: GID):
         d = self.emitter.emit_edge(obj, from_gid, to_gid)
         print(json.dumps(d, indent=True))
 
-    def emit_vertex(self, obj: Vertex):
+    def emit_vertex(self, obj):
         d = self.emitter.emit_vertex(obj)
         print(json.dumps(d, indent=True))
 
@@ -72,7 +71,7 @@ class JSONEmitter:
         self.handles.close()
         self.emitter.close()
 
-    def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
+    def emit_edge(self, obj, from_gid: GID, to_gid: GID):
         d = self.emitter.emit_edge(obj, from_gid, to_gid)
         fh = self.handles[obj]
         if self.handles.compresslevel > 0:
@@ -82,7 +81,7 @@ class JSONEmitter:
             fh.write(json.dumps(d))
             fh.write(os.linesep)
 
-    def emit_vertex(self, obj: Vertex):
+    def emit_vertex(self, obj):
         d = self.emitter.emit_vertex(obj)
         fh = self.handles[obj]
         if self.handles.compresslevel > 0:
@@ -143,7 +142,7 @@ class BaseEmitter:
     def close(self):
         self.rate.close()
 
-    def _get_data(self, obj: typing.Union[Edge, Vertex]):
+    def _get_data(self, obj):
         # this util recurses and unravels embedded dataclasses
         # see https://docs.python.org/3/library/dataclasses.html#dataclasses.asdict
         data = dataclasses.asdict(obj)
@@ -156,7 +155,7 @@ class BaseEmitter:
         return data
 
     @enforce_types
-    def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
+    def emit_edge(self, obj, from_gid: GID, to_gid: GID):
         dumped = {
             "_id": obj.make_gid(from_gid, to_gid),
             "gid": obj.make_gid(from_gid, to_gid),
@@ -170,7 +169,7 @@ class BaseEmitter:
         return dumped
 
     @enforce_types
-    def emit_vertex(self, obj: Vertex):
+    def emit_vertex(self, obj):
         dumped = {
             "_id": obj.gid(),
             "gid": obj.gid(),
@@ -204,12 +203,12 @@ class FileHandler:
     def __getitem__(self, obj):
         label = obj.__class__.__name__
 
-        if isinstance(obj, Vertex):
-            suffix = "Vertex"
-        elif isinstance(obj, Edge):
-            suffix = "Edge"
-        else:
-            suffix = "Unknown"
+        #if isinstance(obj, Vertex):
+        #    suffix = "Vertex"
+        #elif isinstance(obj, Edge):
+        #    suffix = "Edge"
+        #else:
+        suffix = "Unknown"
 
         fname = "%s.%s.%s" % (label, suffix, self.extension)
         if self.prefix is not None:
