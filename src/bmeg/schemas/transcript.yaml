@@ -21,7 +21,11 @@ required:
 uniqueKeys:
   - [transcript_id]
 
-links: []
+links:
+- name: gene_id
+  backref: transcript
+  label: gene
+  target_type: gene
 
 properties:
   transcript_id:
