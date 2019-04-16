@@ -1,7 +1,6 @@
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import Sample, Aliquot, Case, Project, Program
-from bmeg.edge import HasAliquot, HasSample, HasCase, HasProject, PhenotypeOf
+from bmeg import Sample, Aliquot, Case, Project, Program
 from bmeg.enrichers.phenotype_enricher import phenotype_factory
 from pydash import is_blank
 
@@ -15,64 +14,62 @@ def transform(path="source/ccle/DepMap-2018q4-celllines.csv",
     case_gids = []
     project_gids = []
     phenotype_gids = []
-    prog = Program(program_id="DepMap")
+    prog = Program(id="DepMap", name="DepMap", dbgap_accession_number="NA")
     emitter.emit_vertex(prog)
     # DepMap_ID,CCLE_Name,Aliases,COSMIC_ID,Sanger ID,Primary Disease,Subtype Disease,Gender,Source
     # ACH-000001,NIHOVCAR3_OVARY,NIH:OVCAR-3;OVCAR3,905933,2201,Ovarian Cancer,"Adenocarcinoma, high grade serous",Female,ATCC
     for row in reader:
         sample_id = row["DepMap_ID"]
-        s = Sample(sample_id=sample_id,
-                   ccle_attributes=row)
+        s = Sample(id=sample_id, submitter_id=row["CCLE_Name"], **row)
         emitter.emit_vertex(s)
 
-        a = Aliquot(aliquot_id=sample_id)
+        a = Aliquot(id=sample_id)
         emitter.emit_vertex(a)
-        emitter.emit_edge(
-            HasAliquot(),
-            to_gid=a.gid(),
-            from_gid=s.gid()
-        )
+        #emitter.emit_edge(
+        #    HasAliquot(),
+        #    to_gid=a.gid(),
+        #    from_gid=s.gid()
+        #)
 
-        i = Case(case_id=sample_id,
-                 ccle_attributes={'gender': row.get('Gender', None)})
-        if i.gid() not in case_gids:
+        i = Case(id=sample_id, gender=row.get('Gender', None))
+        if i.id not in case_gids:
             emitter.emit_vertex(i)
-            case_gids.append(i.gid())
-        emitter.emit_edge(
-            HasSample(),
-            to_gid=s.gid(),
-            from_gid=i.gid()
-        )
+            case_gids.append(i.id)
+        #emitter.emit_edge(
+        #    HasSample(),
+        #    to_gid=s.gid(),
+        #    from_gid=i.gid()
+        #)
 
         project_id = "DepMap_{}".format("_".join(row["Primary Disease"].split()))
         # create project
-        proj = Project(project_id=project_id)
-        if proj.gid() not in project_gids:
+        proj = Project(id=project_id)
+        if proj.id not in project_gids:
             emitter.emit_vertex(proj)
-            emitter.emit_edge(
-                HasProject(),
-                to_gid=proj.gid(),
-                from_gid=prog.gid()
-            )
-            project_gids.append(proj.gid())
-        emitter.emit_edge(
-            HasCase(),
-            to_gid=i.gid(),
-            from_gid=proj.gid()
-        )
+            #emitter.emit_edge(
+            #    HasProject(),
+            #    to_gid=proj.gid(),
+            #    from_gid=prog.gid()
+            #)
+            project_gids.append(proj.id)
+        #emitter.emit_edge(
+        #    HasCase(),
+        #    to_gid=i.gid(),
+        #    from_gid=proj.gid()
+        #)
 
         phenotype_name = row.get('Subtype Disease', None)
         if not phenotype_name or is_blank(phenotype_name):
             phenotype_name = row.get('Primary Disease')
         phenotype = phenotype_factory(name=phenotype_name)
-        if phenotype.gid() not in phenotype_gids:
+        if phenotype.term_id not in phenotype_gids:
             emitter.emit_vertex(phenotype)
-            phenotype_gids.append(phenotype.gid())
-        emitter.emit_edge(
-            PhenotypeOf(),
-            a.gid(),
-            phenotype.gid(),
-        )
+            phenotype_gids.append(phenotype.term_id)
+        #emitter.emit_edge(
+        #    PhenotypeOf(),
+        #    a.gid(),
+        #    phenotype.gid(),
+        #)
 
     emitter.close()
 

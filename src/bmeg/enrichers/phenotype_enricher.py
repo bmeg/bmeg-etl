@@ -1,6 +1,6 @@
 """ given disease name, return Phenotype """
 
-from bmeg.vertex import Phenotype
+from bmeg import Phenotype
 import urllib.parse
 import logging
 import re

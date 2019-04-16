@@ -105,7 +105,7 @@ class ClassInstance:
 
     def _validateSet(self, k, v):
         if k not in self._classSchema.properties():
-            return "Property '%s' not found" % (k)
+            return "%s property '%s' not found" % (self._classSchema.name, k)
         prop = self._classSchema.prop(k)
         vt = None
         ve = []
@@ -127,7 +127,7 @@ class ClassInstance:
         o = []
         for i in self._classSchema.required():
             if i not in self._data:
-                o.append("required property %s not found" % (i))
+                o.append("%s required property %s not found" % (self._classSchema.name, i))
         return o
 
     def __getattr__(self,name):

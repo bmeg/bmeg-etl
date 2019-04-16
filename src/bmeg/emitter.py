@@ -181,6 +181,8 @@ class Generator:
                     self.emit_link(wrt, link['label'], from_gid=gid, to_gid=dst)
                     if 'backref' in link:
                         self.emit_link(wrt, link["backref"], to_gid=gid, from_gid=dst)
+            #elif obj._classSchema.prop(k).systemAlias == "node_id":
+            #    pass
             else:
                 data[k] = val
         if gid is None:

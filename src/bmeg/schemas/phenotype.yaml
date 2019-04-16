@@ -1,0 +1,32 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "phenotype"
+title: Phenotype
+type: object
+category: genomic
+program: '*'
+project: '*'
+description: >
+  Phenotype
+additionalProperties: false
+submittable: false
+validators: null
+
+systemProperties:
+  - id
+
+required:
+  - term_id
+
+uniqueKeys:
+  - [id]
+
+links: []
+
+properties:
+  term_id:
+    type: string  # DOID:11198 ; MONDO:0007254
+  term:
+    type: string  # DiGeorge syndrome ; breast cancer
+  name:
+    type: string  # some unoffical name e.g. cancer of the breast
