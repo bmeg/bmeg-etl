@@ -1,5 +1,5 @@
 
-from bmeg.vertex import Compound
+from bmeg import Compound
 from bmeg.enrichers.drug_enricher import compound_factory
 # keep track of what we've already exported
 EXPORTED_COMPOUNDS = []

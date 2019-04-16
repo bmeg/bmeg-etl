@@ -1,5 +1,5 @@
 
-from bmeg.vertex import Phenotype
+from bmeg import Phenotype
 
 # keep track of what we've already exported
 EXPORTED_PHENOTYPES = []

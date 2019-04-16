@@ -1,6 +1,6 @@
 
 import json
-from bmeg.vertex import G2PAssociation
+from bmeg import G2PAssociation
 
 
 def create_association(hit):

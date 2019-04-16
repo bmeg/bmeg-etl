@@ -1,7 +1,7 @@
 
-from bmeg.vertex import Allele, GenomicFeature
+from bmeg import Allele, GenomicFeature
 import bmeg.enrichers.gene_enricher as gene_enricher
-from bmeg.vertex import Gene
+#from bmeg.vertex import Gene
 import re
 
 # keep track of what we've already exported
@@ -12,7 +12,7 @@ def gene_gid(symbol):
     """ return gene gid """
     symbol = symbol.replace('Wild-Type', '').strip()
     gene = gene_enricher.get_gene(symbol)
-    return Gene.make_gid(gene_id=gene['ensembl_gene_id'])
+    return gene['ensembl_gene_id'] #Gene.make_gid(gene_id=gene['ensembl_gene_id'])
 
 
 def allele(feature):

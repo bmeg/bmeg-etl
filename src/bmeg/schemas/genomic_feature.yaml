@@ -1,0 +1,43 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "genomic_feature"
+title: GenomicFeature
+type: object
+category: genomic
+program: '*'
+project: '*'
+description: >
+  GenomicFeature
+additionalProperties: false
+submittable: false
+validators: null
+
+systemProperties:
+  - id
+
+required: []
+
+uniqueKeys: []
+
+links: []
+
+properties:
+  genome:
+    type: string
+  chromosome:
+    type: string
+  start:
+    type: integer
+  end:
+    type: integer
+  annotations:
+    type: array
+    items: string
+  type:
+    type: string
+  effect:
+    type: string
+  name:
+    type: string
+    
+    

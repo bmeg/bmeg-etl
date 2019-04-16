@@ -1,0 +1,39 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "g2p_association"
+title: G2PAssociation
+type: object
+category: genomic
+program: '*'
+project: '*'
+description: >
+  G2P Association
+additionalProperties: false
+submittable: false
+validators: null
+
+systemProperties:
+  - id
+
+required: []
+
+uniqueKeys: []
+
+links: []
+
+properties:
+  source:
+    type: string
+  description:
+    type: string
+  evidence_label:
+    type: string
+  response_type:
+    type: string
+  oncogenic:
+    type: string
+  source_document:
+    type: string
+  source_url:
+    type: string
+    

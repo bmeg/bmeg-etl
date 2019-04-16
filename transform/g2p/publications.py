@@ -1,5 +1,5 @@
 
-from bmeg.vertex import Publication
+from bmeg import Publication
 
 # keep track of what we've already exported
 EXPORTED_PUBLICATIONS = []
