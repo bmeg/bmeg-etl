@@ -1,13 +1,13 @@
 $schema: "http://json-schema.org/draft-04/schema#"
 
-id: "exon"
-title: Exon
+id: "transcript"
+title: Transcript
 type: object
 category: genomic
 program: '*'
 project: '*'
 description: >
-  Gene Exon
+  Transcript
 additionalProperties: false
 submittable: false
 validators: null
@@ -16,25 +16,19 @@ systemProperties:
   - id
 
 required:
-  - exon_id
+  - transcript_id
 
 uniqueKeys:
-  - [id]
-  - [name]
+  - [transcript_id]
 
-links:
-  - name: transcript_id
-    backref: exon
-    label: transcript
-    target_type: transcript
+links: []
 
 properties:
-  exon_id:
+  transcript_id:
     type: string
     systemAlias: node_id
-  transcript_id:
-    type: array
-    items: string
+  gene_id:
+    type: string
   chromosome:
     type: string
   start:
@@ -44,4 +38,6 @@ properties:
   strand:
     type: string
   genome:
+    type: string
+  biotype:
     type: string

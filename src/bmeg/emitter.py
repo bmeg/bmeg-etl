@@ -180,7 +180,7 @@ class Generator:
                 for dst in val:
                     self.emit_link(wrt, link['label'], from_gid=gid, to_gid=dst)
                     if 'backref' in link:
-                        self.emit_link(link["backref"], to_gid=gid, from_gid=dst)
+                        self.emit_link(wrt, link["backref"], to_gid=gid, from_gid=dst)
             else:
                 data[k] = val
         if gid is None:
