@@ -4,9 +4,8 @@ https://gdc.cancer.gov/
 """
 
 from bmeg.util.cli import default_argument_parser
-from bmeg.edge import HasCase, HasSample, HasAliquot, TreatedWith
+from bmeg import Case, Sample, Project, Aliquot
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import Case, Sample, Project, Aliquot
 from bmeg.ioutils import read_tsv
 from transform.gdc.gdcutils import extract, query_gdc, get_file
 from bmeg.enrichers.drug_enricher import compound_factory
@@ -109,29 +108,33 @@ def transform(emitter, parameters={}):
     parameters['expand'] = expand_case_fields
     case_gids = []
     for row in query_gdc("cases", parameters):
-        c = Case(row["id"], extract(row, keep_case_fields))
+        c = Case(id=row["id"], **extract(row, keep_case_fields))
         emitter.emit_vertex(c)
-        case_gid = c.gid()
+        case_gid = c.id
         case_gids.append(case_gid)
+        """
         emitter.emit_edge(
             HasCase(),
             to_gid=case_gid,
             from_gid=Project.make_gid(c.gdc_attributes["project"]["project_id"]),
         )
+        """
 
         for sample in row.get("samples", []):
             sample_fields = extract(
                 sample,
                 ["tumor_descriptor", "sample_type", "submitter_id"],
             )
-            s = Sample(sample["sample_id"], sample_fields)
+            s = Sample(id=sample["sample_id"], **sample_fields)
             emitter.emit_vertex(s)
 
+            """
             emitter.emit_edge(
                 HasSample(),
                 to_gid=s.gid(),
                 from_gid=c.gid(),
             )
+            """
 
             for portion in sample.get("portions", []):
                 for analyte in portion.get("analytes", []):
@@ -142,14 +145,15 @@ def transform(emitter, parameters={}):
                         )
                         fields = dict(sample_fields)
                         fields.update(aliquot_fields)
-                        a = Aliquot(aliquot_id=aliquot["aliquot_id"], gdc_attributes=fields)
+                        a = Aliquot(id=aliquot["aliquot_id"], **fields)
                         emitter.emit_vertex(a)
-
+                        """
                         emitter.emit_edge(
                             HasAliquot(),
                             to_gid=a.gid(),
                             from_gid=s.gid(),
                         )
+                        """
     # now use the file endpoint to get compounds
     compounds(emitter, parameters, case_gids=case_gids)
 

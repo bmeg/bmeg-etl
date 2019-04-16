@@ -163,9 +163,9 @@ class Generator:
         err = obj._validate()
         if len(err) > 0:
             #TODO: emit errors to log
-            for i in o:
+            for i in err:
                 print("Error: %s" % (i))
-            return None
+            #return None
 
         gid = None
         label = obj._classSchema.label

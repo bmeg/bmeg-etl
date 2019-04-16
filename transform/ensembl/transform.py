@@ -3,6 +3,8 @@ import re
 
 from urllib.parse import unquote
 
+from bmeg import Exon, Gene, Transcript
+
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
 
@@ -54,8 +56,6 @@ def transform(
         ftp://ftp.ensembl.org/pub/grch37/release-94/gff3/homo_sapiens/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz
     """
 
-    schema = bmeg.load("schemas")
-
     emitter = JSONEmitter(directory=emitter_directory, prefix=None)
 
     inhandle = bmeg.ioutils.reader(gff3_path)
@@ -91,7 +91,7 @@ def transform(
                 transcript_id = get_parent_transcript(attrs["Parent"])
                 transcripts.append(transcript_id)
             attrs = aset[0]
-            e = schema.Exon(exon_id=attrs["exon_id"],
+            e = Exon(exon_id=attrs["exon_id"],
                      transcript_id=transcripts,
                      chromosome=attrs["seqId"],
                      start=attrs["start"],
@@ -101,9 +101,9 @@ def transform(
             emitter.emit_vertex(e)
 
             for transcript_id in transcripts:
-                emitter.emit_edge(HasExon(),
-                                  to_gid=e.gid(),
-                                  from_gid=Transcript.make_gid(transcript_id))
+                #emitter.emit_edge(HasExon(),
+                #                  to_gid=e.gid(),
+                #                  from_gid=Transcript.make_gid(transcript_id))
 
                 if transcript_id not in emitted_transcripts:
                     for attrs in features[transcript_id]:
@@ -117,9 +117,9 @@ def transform(
                                        biotype=attrs["type"],
                                        genome=GENOME_BUILD)
                         emitter.emit_vertex(t)
-                        emitter.emit_edge(HasTranscript(),
-                                          to_gid=t.gid(),
-                                          from_gid=Gene.make_gid(gene_id))
+                        #emitter.emit_edge(HasTranscript(),
+                        #                  to_gid=t.gid(),
+                        #                  from_gid=Gene.make_gid(gene_id))
                         emitted_transcripts[transcript_id] = True
 
                         if gene_id not in emitted_genes:

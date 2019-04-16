@@ -130,6 +130,11 @@ class ClassInstance:
                 o.append("required property %s not found" % (i))
         return o
 
+    def __getattr__(self,name):
+        if name in self._data:
+            return self._data[name]
+        raise AttributeError("%s" % (name))
+
 class SchemaProperty:
     def __init__(self, schema, propDict):
         self._schema = schema

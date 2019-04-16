@@ -5,8 +5,7 @@ https://gdc.cancer.gov/
 
 from bmeg.util.cli import default_argument_parser
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import Project, Program
-from bmeg.edge import HasProject
+from bmeg import Project, Program
 
 from transform.gdc.gdcutils import query_gdc, extract
 
@@ -37,17 +36,19 @@ summary
 def transform(emitter):
     dedup = {}
     for row in query_gdc("projects", {"expand": expand_project_fields}):
-        proj = Project(row["id"], extract(row, keep_project_fields))
-        prog = Program(row["program"]["name"], row["program"])
+        proj = Project(id=row["id"], **extract(row, keep_project_fields))
+        prog = Program(id=row["program"]["name"], **row["program"])
         emitter.emit_vertex(proj)
+        """
         emitter.emit_edge(
             HasProject(),
             to_gid=proj.gid(),
             from_gid=prog.gid(),
         )
-        if prog.gid() not in dedup:
+        """
+        if prog.id not in dedup:
             emitter.emit_vertex(prog)
-            dedup[prog.gid()] = None
+            dedup[prog.id] = None
 
 
 if __name__ == "__main__":
