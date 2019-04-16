@@ -2,7 +2,7 @@ cmd: python3 transform/compound/transform.py
 deps:
 - md5: 600526ae5bed66376d5f073dca2bf5cc
   path: outputs/ccle/drug_response.Compound.Vertex.json.gz
-- md5: 1311040b11cfaa27056159481e261f70
+- md5: 8299e5575f52aa92392a829297161bc9
   path: outputs/g2p/Compound.Vertex.json.gz
 - md5: 8360b8e15d784273c0c3b77eee498896
   path: outputs/gdc/Compound.Vertex.json.gz
@@ -32,7 +32,8 @@ outs:
   md5: 8b9e0319412cc3f38fe21130890fa5af
   path: outputs/compound/normalized.Compound.Vertex.json.gz
 - cache: true
-  md5: 9bddd66b1087f8d5dd53865e14a2ba9b
+  md5: 61956a11d27345127d993383e010ac0e
+  metric: false
   path: outputs/compound/normalized.HasEnvironment.Edge.json.gz
 - cache: true
   md5: 7e4384e7dd0adb75b23d63f8cd0c7613
@@ -46,3 +47,4 @@ outs:
 - cache: true
   md5: 5973bc78c4a9d4958c7a0ff9ef8124f4
   path: source/compound/sqlite.db
+wdir: .

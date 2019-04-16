@@ -1,6 +1,6 @@
 cmd: python3 transform/ccle/ccle_maf_transform.py
 deps:
-- md5: cc3abedb40a6795c34b739a6df2b140e
+- md5: f6f970935fa1b813e9a19fc8ad49d357
   path: source/gene_enricher/hgnc_complete_set.json
 - md5: 078c811212df6ace75b90c0927c94467
   path: source/ccle/mafs/LU135_LUNG_vs_NORMAL/vep.maf
@@ -3183,3 +3183,4 @@ outs:
 - cache: true
   md5: e149e92dd1dd29535d63ac4c46d4a4e3
   path: outputs/ccle/maf.Project.Vertex.json.gz
+wdir: .
