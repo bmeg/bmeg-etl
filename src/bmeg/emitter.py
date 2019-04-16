@@ -73,6 +73,9 @@ class DebugEmitter:
             obj
         )
 
+    def emit_link(self, label, to_gid, from_gid):
+        self.write_edge({"label" : label, "to" : to_gid, "from" : from_gid})
+
 
 class JSONEmitter:
     def __init__(self, directory, prefix=None, **kwargs):
@@ -109,6 +112,9 @@ class JSONEmitter:
     def emit_vertex(self, obj):
         d = self.generator.emit_vertex(self, obj)
 
+    def emit_link(self, label, to_gid, from_gid):
+        self.write_edge({"label" : label, "to" : to_gid, "from" : from_gid})
+        
 def make_gid(label, from_gid: GID, to_gid: GID):
     return "(%s)--%s->(%s)" % (from_gid, label, to_gid)
 
@@ -169,10 +175,13 @@ class Generator:
 
         gid = None
         label = obj._classSchema.label
-        for k, val in obj._data.items():
+        for k, prop in obj._classSchema.properties().items():
             # If the value represents the 'node_id' of the data
-            if obj._classSchema.prop(k).systemAlias == "node_id":
-                gid = val
+            if prop.get("systemAlias", "") == "node_id":
+                gid = obj._get(k)
+        if gid is None:
+            print("%s node_id is not set" % (obj._classSchema.name))
+            return None
         data = {}
         for k, val in obj._data.items():
             link = obj._classSchema.getLink(k)
@@ -185,9 +194,6 @@ class Generator:
             #    pass
             else:
                 data[k] = val
-        if gid is None:
-            print("GID is not set")
-            return None
         wrt.write_vertex( {"gid":gid, "label":label, "data" : data} )
         self.rate.tick()
 

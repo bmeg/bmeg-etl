@@ -2,8 +2,7 @@ import ujson
 from types import SimpleNamespace as SN
 
 import bmeg.ioutils
-from bmeg.vertex import Aliquot, Sample, Case, Project
-from bmeg.edge import HasAliquot, HasSample, HasCase
+from bmeg import Aliquot, Sample, Case, Project
 from bmeg.emitter import JSONEmitter, DebugEmitter
 
 

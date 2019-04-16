@@ -1,6 +1,6 @@
 """ drug name, return Compound """
 
-from bmeg.vertex import Compound
+from bmeg import Compound
 from bmeg.requests import Client
 from bmeg.ioutils import read_tsv
 
@@ -30,7 +30,7 @@ for line in read_tsv('source/drug_enricher/drug_alias.tsv'):
 
 def compound_factory(name):
     """ create a stub compound for downstream normalization """
-    return Compound(term_id='TODO:{}'.format(name), term='TODO', name=name)
+    return Compound(compound_id='TODO:{}'.format(name), term='TODO', name=name)
 
 
 def _chunks(l, n):

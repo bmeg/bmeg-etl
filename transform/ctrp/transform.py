@@ -1,6 +1,6 @@
 import pandas
-from bmeg.vertex import DrugResponse, Aliquot, Case, Project, Program
-from bmeg.edge import ResponseIn, ResponseTo, HasCase, HasProject, TestedIn
+from bmeg import DrugResponse, Aliquot, Case, Project, Program
+#from bmeg.edge import ResponseIn, ResponseTo, HasCase, HasProject, TestedIn
 from bmeg.enrichers.drug_enricher import compound_factory
 from bmeg.emitter import JSONEmitter
 from bmeg.ccle import build_ccle2depmap_conversion_table, build_project_lookup, missing_ccle_cellline_factory
@@ -17,7 +17,7 @@ def transform(sample_path='outputs/ccle/Sample.Vertex.json.gz',
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
-    prog = Program(program_id="CTRP")
+    prog = Program(id="CTRP", name="CTRP", dbgap_accession_number="")
     emitter.emit_vertex(prog)
 
     # lookup table to convert CCLE names to DepMap_IDs
@@ -65,23 +65,23 @@ def transform(sample_path='outputs/ccle/Sample.Vertex.json.gz',
         project_id = "CTRP_Unkown"
         if ccl_name in projects:
             project_id = "CTRP_{}".format(projects[ccl_name])
-        proj = Project(project_id)
-        if proj.gid() not in project_gids:
+        proj = Project(id=project_id, name=project_id, dbgap_accession_number="", programs=["CTRP"], code="")
+        if proj.id not in project_gids:
             emitter.emit_vertex(proj)
-            emitter.emit_edge(
-                HasProject(),
-                to_gid=proj.gid(),
-                from_gid=prog.gid()
-            )
-            project_gids.append(proj.gid())
-            project_compounds[proj.gid()] = {}
-        if Case.make_gid(ccl_name) not in case_gids and ccl_name not in missing_cell_lines:
-            emitter.emit_edge(
-                HasCase(),
-                to_gid=Case.make_gid(ccl_name),
-                from_gid=proj.gid(),
-            )
-            case_gids.append(Case.make_gid(ccl_name))
+            #emitter.emit_edge(
+            #    HasProject(),
+            #    to_gid=proj.id,
+            #    from_gid=prog.id
+            #)
+            project_gids.append(proj.id)
+            project_compounds[proj.id] = {}
+        if ccl_name not in case_gids and ccl_name not in missing_cell_lines:
+            #emitter.emit_edge(
+            #    HasCase(),
+            #    to_gid=Case.make_gid(ccl_name),
+            #    from_gid=proj.gid(),
+            #)
+            case_gids.append(ccl_name)
 
         cpd_name = compound_df.loc[cpd_id]['cpd_name']
         auc = row['area_under_curve']
@@ -94,25 +94,25 @@ def transform(sample_path='outputs/ccle/Sample.Vertex.json.gz',
 
         dr = DrugResponse(sample_id=ccl_name, compound_id=cpd_name, source="CTRP",
                           act_area=auc, ec50=ec50, doses_um=list(conc),
-                          activity_data_median=list(resp))
+                          activity_data=list(resp))
         emitter.emit_vertex(dr)
         compound = compound_factory(name=cpd_name)
-        emitter.emit_edge(
-            ResponseIn(),
-            dr.gid(),
-            Aliquot.make_gid(ccl_name)
-        )
-        emitter.emit_edge(
-            ResponseTo(),
-            dr.gid(),
-            compound.gid()
-        )
-        if compound.gid() not in project_compounds[proj.gid()]:
-            emitter.emit_edge(
-                TestedIn(),
-                compound.gid(),
-                proj.gid())
-            project_compounds[proj.gid()][compound.gid()] = True
+        #emitter.emit_edge(
+        #    ResponseIn(),
+        #    dr.gid(),
+        #    Aliquot.make_gid(ccl_name)
+        #)
+        #emitter.emit_edge(
+        #    ResponseTo(),
+        #    dr.gid(),
+        #    compound.gid()
+        #)
+        if compound.compound_id not in project_compounds[proj.id]:
+            emitter.emit_link(
+                "tested",
+                compound.compound_id,
+                proj.id)
+            project_compounds[proj.id][compound.compound_id] = True
 
     # generate project, case, sample, aliquot for missing cell lines
     missing_ccle_cellline_factory(emitter=emitter,

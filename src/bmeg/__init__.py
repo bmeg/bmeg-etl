@@ -130,9 +130,19 @@ class ClassInstance:
                 o.append("%s required property %s not found" % (self._classSchema.name, i))
         return o
 
+    def _get(self, name):
+        if name in self._data:
+            return self._data[name]
+        p = self._classSchema._classDict['properties'].get(name, None)
+        if p is not None and "template" in p:
+            return p["template"].format(**self._data)
+    
     def __getattr__(self,name):
         if name in self._data:
             return self._data[name]
+        p = self._classSchema._classDict['properties'].get(name, None)
+        if p is not None and "template" in p:
+            return p["template"].format(**self._data)
         raise AttributeError("%s" % (name))
 
 class SchemaProperty:
