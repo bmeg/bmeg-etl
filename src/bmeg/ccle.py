@@ -96,33 +96,33 @@ def missing_ccle_cellline_factory(emitter, missing_ids,
         if project_prefix:
             project = "{}_{}".format(project_prefix, project)
 
-        p = Project(project_id=project)
-        if p.gid() not in project_gids:
+        p = Project(id=project)
+        if p.id not in project_gids:
             emitter.emit_vertex(p)
-            project_gids.append(p.gid())
+            project_gids.append(p.id)
 
-        c = Case(case_id=aliquot_id)
+        c = Case(id="case:%s" % (aliquot_id), project_id=project)
         emitter.emit_vertex(c)
-        emitter.emit_edge(
-            HasCase(),
-            to_gid=c.gid(),
-            from_gid=p.gid(),
-        )
+        #emitter.emit_edge(
+        #    HasCase(),
+        #    to_gid=c.gid(),
+        #    from_gid=p.gid(),
+        #)
 
-        s = Sample(sample_id=aliquot_id)
+        s = Sample(id="sample:%s" % (aliquot_id), case_id=c.id)
         emitter.emit_vertex(s)
-        emitter.emit_edge(
-            HasSample(),
-            to_gid=s.gid(),
-            from_gid=c.gid(),
-        )
+        #emitter.emit_edge(
+        #    HasSample(),
+        #    to_gid=s.gid(),
+        #    from_gid=c.gid(),
+        #)
 
-        a = Aliquot(aliquot_id=aliquot_id)
+        a = Aliquot(id="aliquot:%s" % (aliquot_id), sample_id=s.id)
         emitter.emit_vertex(a)
-        emitter.emit_edge(
-            HasAliquot(),
-            to_gid=a.gid(),
-            from_gid=s.gid(),
-        )
+        #emitter.emit_edge(
+        #    HasAliquot(),
+        #    to_gid=a.gid(),
+        #    from_gid=s.gid(),
+        #)
 
     return

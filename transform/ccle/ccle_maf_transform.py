@@ -44,7 +44,7 @@ class CCLE_MAFTransformer(MAFTransformer):
 
     def create_gene_gid(self, line):  # pragma nocover
         ensembl_id = line.get('Gene', None)
-        return Gene.make_gid(gene_id=ensembl_id)
+        return ensembl_id #Gene.make_gid(gene_id=ensembl_id)
 
     def barcode_to_aliquot_id(self, barcode):
         """ create ccle sample barcode """

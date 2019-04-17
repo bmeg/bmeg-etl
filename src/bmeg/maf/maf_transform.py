@@ -6,6 +6,7 @@ import gzip
 import sys
 
 from bmeg import Allele, Aliquot
+from bmeg.gid import make_allele_gid
 #from bmeg.edge import HasCallset, AlleleIn
 from bmeg.emitter import new_emitter
 from bmeg.util.cli import default_argument_parser
@@ -133,7 +134,14 @@ class MAFTransformer():
     def allele_maker(self, line):
         """ worker task to create and/or harvest allele from line """
         allele_dict = self.create_allele_dict(line)
-        return Allele(**allele_dict)
+        allele_id = make_allele_gid(
+            genome=allele_dict["genome"],
+            chromosome=allele_dict["chromosome"],
+            start=allele_dict["start"],
+            end=allele_dict["end"],
+            ref_bases=allele_dict["reference_bases"],
+            alt_bases=allele_dict["alternate_bases"])
+        return Allele(allele_id=allele_id, **allele_dict)
 
     def multithreading(self, func, lines, max_workers, harvest, filter):
         """
@@ -177,26 +185,26 @@ class MAFTransformer():
                 for call_tuple in call_tuples:
                     call = call_tuple[0]
                     callset_gid = call_tuple[1]
-                    emitter.emit_edge(call, from_gid=callset_gid, to_gid=allele.gid())
+                    emitter.emit_edge(call, from_gid=callset_gid, to_gid=allele.allele_id)
                 # many callsets can be created, emit only uniques
                 for callset in callsets:
-                    if callset.gid not in my_callsets_ids:
-                        my_callsets_ids.add(callset.gid)
+                    if callset.id not in my_callsets_ids:
+                        my_callsets_ids.add(callset.id)
                         emitter.emit_vertex(callset)
                         if callset.normal_aliquot_id:
-                            emitter.emit_edge(HasCallset(),
-                                              to_gid=callset.gid(),
-                                              from_gid=Aliquot.make_gid(callset.normal_aliquot_id),
+                            emitter.emit_link("hasCallset",
+                                              to_gid=callset.id,
+                                              from_gid=callset.normal_aliquot_id #Aliquot.make_gid(callset.normal_aliquot_id),
                                               )
-                        emitter.emit_edge(HasCallset(),
-                                          to_gid=callset.gid(),
-                                          from_gid=Aliquot.make_gid(callset.tumor_aliquot_id),
+                        emitter.emit_link("hasCallset",
+                                          to_gid=callset.id,
+                                          from_gid=callset.tumor_aliquot_id #Aliquot.make_gid(callset.tumor_aliquot_id),
                                           )
 
                 # create edge to gene
                 gene_gid = self.create_gene_gid(line)
                 if gene_gid:
-                    emitter.emit_edge(AlleleIn(), allele.gid(), gene_gid)
+                    emitter.emit_link("alleleIn", allele.allele_id, gene_gid)
             except Exception as exc:
                 logging.exception(exc)
                 e += 1
