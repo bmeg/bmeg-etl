@@ -2,8 +2,7 @@
 """ transform a maf file into vertexs[variant, allele]   """
 
 from glob import glob
-from bmeg.vertex import Callset, Gene
-from bmeg.edge import SomaticVariant
+from bmeg import Callset, Gene, SomaticVariant
 from bmeg.emitter import new_emitter
 from bmeg.maf.maf_transform import get_value, MAFTransformer
 from bmeg.ccle import build_ccle2depmap_conversion_table, build_project_lookup, missing_ccle_cellline_factory
@@ -68,7 +67,7 @@ class CCLE_MAFTransformer(MAFTransformer):
         callset = Callset(tumor_aliquot_id=aliquot_id,
                           normal_aliquot_id=None,
                           source=source)
-        sample_call = (self.allele_call_maker(allele, line, method), callset.gid())
+        sample_call = (self.allele_call_maker(allele, line, method), callset.id)
 
         return [sample_call], [callset]
 

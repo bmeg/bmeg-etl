@@ -1,13 +1,13 @@
 $schema: "http://json-schema.org/draft-04/schema#"
 
-id: "allele"
-title: Allele
+id: "somatic_variant"
+title: SomaticVariant
 type: object
 category: genomic
 program: '*'
 project: '*'
 description: >
-  Allele
+  A somatic variant edge
 additionalProperties: false
 submittable: false
 validators: null
@@ -22,31 +22,30 @@ uniqueKeys: []
 links: []
 
 properties:
-  allele_id:
+  ref:
     type: string
-    systemAlias: node_id
-  genome:
+  alt:
     type: string
-  chromosome:
-    type: string
-  start:
+  t_depth:
     type: integer
-  end:
+  t_ref_count:
     type: integer
-  strand:
+  t_alt_count:
+    type: integer
+  n_depth:
+    type: integer
+  n_ref_count:
+    type: integer
+  n_alt_count:
+    type: integer
+  filter:
     type: string
-  reference_bases:
-    type: string
-  alternate_bases:
-    type: string
-  hugo_symbol:
-    type: string
+  methods:
+    type: array
+    items: array
   ensembl_transcript:
     type: string
-  type:
+  ensembl_gene:
     type: string
-  effect:
-    type: string
-  dbSNP_RS:
-    type: string
+
     

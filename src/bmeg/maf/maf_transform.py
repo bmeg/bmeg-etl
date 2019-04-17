@@ -5,8 +5,8 @@ import csv
 import gzip
 import sys
 
-from bmeg.vertex import Allele, Deadletter, Aliquot
-from bmeg.edge import HasCallset, AlleleIn
+from bmeg import Allele, Aliquot
+#from bmeg.edge import HasCallset, AlleleIn
 from bmeg.emitter import new_emitter
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
@@ -200,7 +200,7 @@ class MAFTransformer():
             except Exception as exc:
                 logging.exception(exc)
                 e += 1
-                emitter.emit_vertex(Deadletter(target_label='Allele', data=line))
+                #emitter.emit_vertex(Deadletter(target_label='Allele', data=line))
 
             # log progress
             c += 1
