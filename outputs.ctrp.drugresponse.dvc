@@ -12,7 +12,7 @@ deps:
   path: source/ctrp/v20.data.per_cpd_post_qc.txt
 - md5: 9909dd770481cea740e1db0983cfbf80
   path: outputs/ccle/Sample.Vertex.json.gz
-md5: 199aa679d9ec70cc2c716de01b16de57
+md5: b9b62aeeabf2cdcf008e6929d35fe1ca
 outs:
 - cache: true
   md5: 61d4237a9a2ed74cc684c2b417c7144f
@@ -66,3 +66,7 @@ outs:
   md5: 2e7a608c9c6dac2a81e013dafbacd96d
   metric: false
   path: outputs/ctrp/ctrp.Program.Vertex.json.gz
+- cache: true
+  md5: 58a9044cc150fca8fad2da5459dab79b
+  metric: false
+  path: outputs/ctrp/ctrp.TestedIn.Edge.json.gz
