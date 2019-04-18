@@ -109,7 +109,7 @@ def missing_ccle_cellline_factory(emitter, missing_ids,
         #    from_gid=p.gid(),
         #)
 
-        s = Sample(id="sample:%s" % (aliquot_id), case_id=c.id)
+        s = Sample(id="sample:%s" % (aliquot_id), cases=[c.id])
         emitter.emit_vertex(s)
         #emitter.emit_edge(
         #    HasSample(),
@@ -117,7 +117,7 @@ def missing_ccle_cellline_factory(emitter, missing_ids,
         #    from_gid=c.gid(),
         #)
 
-        a = Aliquot(id="aliquot:%s" % (aliquot_id), sample_id=s.id)
+        a = Aliquot(id="aliquot:%s" % (aliquot_id), samples=[s.id])
         emitter.emit_vertex(a)
         #emitter.emit_edge(
         #    HasAliquot(),
