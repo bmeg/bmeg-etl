@@ -7,8 +7,8 @@ import logging
 import subprocess
 import sys
 
-from bmeg.vertex import TranscriptExpression, GeneExpression, Aliquot, ExpressionMetric
-from bmeg.edge import HasGeneExpression, HasTranscriptExpression
+from bmeg import TranscriptExpression, GeneExpression, Aliquot
+#from bmeg.edge import HasGeneExpression, HasTranscriptExpression
 from bmeg.emitter import JSONEmitter
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
@@ -52,16 +52,17 @@ def transform(source_path,
         g = TranscriptExpression(
             id=aliquot_id,
             source="tcga",
-            metric=ExpressionMetric.TPM,
+            metric="TPM",
             method="Illumina Hiseq",
             values=values,
+            aliquot_id=aliquot_id
         )
         emitter.emit_vertex(g)
-        emitter.emit_edge(
-            HasTranscriptExpression(),
-            to_gid=g.gid(),
-            from_gid=Aliquot.make_gid(aliquot_id)
-        )
+        #emitter.emit_edge(
+        #    HasTranscriptExpression(),
+        #    to_gid=g.gid(),
+        #    from_gid=Aliquot.make_gid(aliquot_id)
+        #)
 
         geneValues = {}
         for k, v in values.items():
@@ -74,16 +75,17 @@ def transform(source_path,
         gg = GeneExpression(
             id=aliquot_id + "_gene",
             source="tcga",
-            metric=ExpressionMetric.GENE_TPM,
+            metric="GENE_TMP",
             method="Illumina Hiseq",
             values=geneValues,
+            aliquot_id=aliquot_id
         )
         emitter.emit_vertex(gg)
-        emitter.emit_edge(
-            HasGeneExpression(),
-            to_gid=gg.gid(),
-            from_gid=Aliquot.make_gid(aliquot_id)
-        )
+        #emitter.emit_edge(
+        #    HasGeneExpression(),
+        #    to_gid=gg.gid(),
+        #    from_gid=Aliquot.make_gid(aliquot_id)
+        #)
 
     emitter.close()
 
