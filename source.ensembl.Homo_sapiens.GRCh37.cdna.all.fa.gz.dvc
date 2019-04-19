@@ -1,0 +1,12 @@
+cmd: curl -o source/ensembl/Homo_sapiens.GRCh37.cdna.all.fa.gz ftp://ftp.ensembl.org/pub/grch37/release-87/fasta/homo_sapiens/cdna/Homo_sapiens.GRCh37.cdna.all.fa.gz
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/ensembl/version.txt
+md5: e7959ee64163e116da721cfa31c9e84e
+outs:
+- cache: true
+  md5: 6a151129af721296f6d74ae35a90b685
+  metric: false
+  path: source/ensembl/Homo_sapiens.GRCh37.cdna.all.fa.gz
+  persist: false
+wdir: .

@@ -6,6 +6,7 @@ import typing
 import dataclasses
 from datetime import datetime
 import gzip
+from collections import Iterable
 
 from bmeg import ClassInstance
 from bmeg.gid import GID
@@ -186,6 +187,8 @@ class Generator:
         for k, val in obj._data.items():
             link = obj._classSchema.getLink(k)
             if link is not None:
+                if not isinstance(val, Iterable) or isinstance(val, str):
+                    val = [val]
                 for dst in val:
                     self.emit_link(wrt, link['label'], from_gid=gid, to_gid=dst)
                     if 'backref' in link:

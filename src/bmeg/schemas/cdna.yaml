@@ -1,0 +1,37 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "cdna"
+title: CDNA
+type: object
+category: genomic
+program: '*'
+project: '*'
+description: >
+  CDNA
+additionalProperties: false
+submittable: false
+validators: null
+
+systemProperties:
+  - id
+
+required:
+  - transcript_id
+
+uniqueKeys: []
+
+links:
+  - name: transcript_id
+    label: transcript
+    backref: sequence
+    target_type: transcript
+
+properties:
+  id:
+    type: string
+    systemAlias: node_id
+    template: seq:{transcript_id}
+  transcript_id:
+    type: string
+  sequence:
+    type: string

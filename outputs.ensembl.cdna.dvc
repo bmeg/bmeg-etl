@@ -1,0 +1,22 @@
+cmd: python transform/ensembl/cdna.py
+deps:
+- md5: 6a151129af721296f6d74ae35a90b685
+  path: source/ensembl/Homo_sapiens.GRCh37.cdna.all.fa.gz
+md5: 13bac5dea85fad6ffb61c5428095f75b
+outs:
+- cache: true
+  md5: 254abca9132b02a7a95b548d785a8a82
+  metric: false
+  path: outputs/ensembl/cdna.CDNA.Vertex.json.gz
+  persist: false
+- cache: true
+  md5: a60156f20001289a247519a55594941f
+  metric: false
+  path: outputs/ensembl/cdna.sequence.Edge.json.gz
+  persist: false
+- cache: true
+  md5: da7cb9c5a2b0bc0d25d89ba806c4c985
+  metric: false
+  path: outputs/ensembl/cdna.transcript.Edge.json.gz
+  persist: false
+wdir: .
