@@ -60,3 +60,18 @@ properties:
     $ref: "_definitions.yaml#/datetime"
   updated_datetime:
     $ref: "_definitions.yaml#/datetime"
+  url:
+    type: string
+  title:
+    type: string
+  text:
+    type: string
+  date:
+    type: string
+  author:
+    type: array
+    items: string
+  citation:
+    type: string
+  abstract:
+    type: string
