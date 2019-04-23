@@ -28,7 +28,11 @@ EXCEPTIONS = [
     "outputs/meta/File.Vertex.json.gz",
     "outputs/meta/Reads.Edge.json.gz",
     "outputs/meta/Writes.Edge.json.gz",
-    "outputs/meta/bmeg_file_manifest.txt"
+    "outputs/meta/bmeg_file_manifest.txt",
+    "outputs/tcga/IlluminaHumanMethylation450.Methylation.Vertex.json.gz",
+    "outputs/tcga/IlluminaHumanMethylation450.MethylationOf.Edge.json.gz",
+    "outputs/tcga/IlluminaHumanMethylation450.MethylationProbe.Vertex.json.gz",
+    "outputs/tcga/IlluminaHumanMethylation450.MethylationProbeFor.Edge.json.gz",    
 ]
 
 print("generating DVC command...")
