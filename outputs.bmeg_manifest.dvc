@@ -92,13 +92,13 @@ deps:
   path: outputs/ccle/tatlow.TranscriptExpression.Vertex.json.gz
 - md5: 220fc5197689fad89ad1b52fdd55d130
   path: outputs/ccle/tatlow.TranscriptExpressionOf.Edge.json.gz
-- md5: 915e3b19d04e919e4f031f0a50a3573c
+- md5: ecb97ef5ea28947a4a8db44512b9b59a
   path: outputs/compound/normalized.Compound.Vertex.json.gz
 - md5: 61956a11d27345127d993383e010ac0e
   path: outputs/compound/normalized.HasEnvironment.Edge.json.gz
-- md5: fa25a084e0dddbf8b33470ad0b44a1c3
+- md5: c7b9554be63da49205564cd529cfe325
   path: outputs/compound/normalized.ResponseTo.Edge.json.gz
-- md5: c4b0396824d8e8a5f1e89710929ed301
+- md5: 15cad3c5633e2d5a374633bb850a735b
   path: outputs/compound/normalized.TreatedWith.Edge.json.gz
 - md5: 11e9da270928da83829c8a058f6773f1
   path: outputs/ctrp/ctrp.Aliquot.Vertex.json.gz
@@ -2588,7 +2588,7 @@ deps:
   path: outputs/tcga/UVM.TranscriptExpression.Vertex.json.gz
 - md5: 9b65fee3ef320a61e678417c8eedb400
   path: outputs/tcga/UVM.TranscriptExpressionOf.Edge.json.gz
-- md5: 43e8cc6947f0d764749b5fb54c7d133a
+- md5: b81e976a0dc28d53192c934713b60d2d
   path: source/compound/sqlite.db
-md5: 67f72effc32063c7be3b9b423f76183d
+md5: 374c0b53e10126a965f942e2a097c7e5
 wdir: .
