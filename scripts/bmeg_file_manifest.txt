@@ -23,6 +23,7 @@ outputs/ccle/drug_response.Project.Vertex.json.gz
 outputs/ccle/drug_response.ResponseIn.Edge.json.gz
 outputs/ccle/drug_response.Sample.Vertex.json.gz
 outputs/ccle/drug_response.SampleFor.Edge.json.gz
+outputs/ccle/drug_response.TestedIn.Edge.json.gz
 outputs/ccle/maf.Aliquot.Vertex.json.gz
 outputs/ccle/maf.AliquotFor.Edge.json.gz
 outputs/ccle/maf.AlleleCall.Edge.json.gz
@@ -58,6 +59,7 @@ outputs/ctrp/ctrp.Project.Vertex.json.gz
 outputs/ctrp/ctrp.ResponseIn.Edge.json.gz
 outputs/ctrp/ctrp.Sample.Vertex.json.gz
 outputs/ctrp/ctrp.SampleFor.Edge.json.gz
+outputs/ctrp/ctrp.TestedIn.Edge.json.gz
 outputs/ensembl/Exon.Vertex.json.gz
 outputs/ensembl/ExonFor.Edge.json.gz
 outputs/ensembl/Gene.Vertex.json.gz
@@ -67,13 +69,13 @@ outputs/ensembl/Transcript.Vertex.json.gz
 outputs/ensembl/TranscriptFor.Edge.json.gz
 outputs/g2p/AlleleIn.Edge.json.gz
 outputs/g2p/G2PAssociation.Vertex.json.gz
+outputs/g2p/GenomicFeature.Vertex.json.gz
+outputs/g2p/GenomicFeatureIn.Edge.json.gz
 outputs/g2p/HasAlleleFeature.Edge.json.gz
 outputs/g2p/HasGeneFeature.Edge.json.gz
-outputs/g2p/HasMinimalAlleleFeature.Edge.json.gz
+outputs/g2p/HasGenomicFeature.Edge.json.gz
 outputs/g2p/HasPhenotype.Edge.json.gz
 outputs/g2p/HasSupportingReference.Edge.json.gz
-outputs/g2p/MinimalAllele.Vertex.json.gz
-outputs/g2p/MinimalAlleleIn.Edge.json.gz
 outputs/g2p/Phenotype.Vertex.json.gz
 outputs/gdc/Aliquot.Vertex.json.gz
 outputs/gdc/AliquotFor.Edge.json.gz
@@ -90,6 +92,7 @@ outputs/gdsc/gdsc.InProject.Edge.json.gz
 outputs/gdsc/gdsc.Program.Vertex.json.gz
 outputs/gdsc/gdsc.Project.Vertex.json.gz
 outputs/gdsc/gdsc.ResponseIn.Edge.json.gz
+outputs/gdsc/gdsc.TestedIn.Edge.json.gz
 outputs/go/GeneOntologyAnnotation.Edge.json.gz
 outputs/go/GeneOntologyIsA.Edge.json.gz
 outputs/go/GeneOntologyTerm.Vertex.json.gz
@@ -1131,10 +1134,6 @@ outputs/tcga/HNSC.GeneExpression.Vertex.json.gz
 outputs/tcga/HNSC.GeneExpressionOf.Edge.json.gz
 outputs/tcga/HNSC.TranscriptExpression.Vertex.json.gz
 outputs/tcga/HNSC.TranscriptExpressionOf.Edge.json.gz
-outputs/tcga/IlluminaHumanMethylation450.Methylation.Vertex.json.gz
-outputs/tcga/IlluminaHumanMethylation450.MethylationOf.Edge.json.gz
-outputs/tcga/IlluminaHumanMethylation450.MethylationProbe.Vertex.json.gz
-outputs/tcga/IlluminaHumanMethylation450.MethylationProbeFor.Edge.json.gz
 outputs/tcga/KICH.GeneExpression.Vertex.json.gz
 outputs/tcga/KICH.GeneExpressionOf.Edge.json.gz
 outputs/tcga/KICH.TranscriptExpression.Vertex.json.gz

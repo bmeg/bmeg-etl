@@ -1,6 +1,6 @@
 cmd: echo generating file manifest...
 deps:
-- md5: 1d78fe030127fa82ba2aea693fd36e5a
+- md5: 24816de0e8e151cd458b746a25234d5b
   path: outputs/allele/Allele.Vertex.json.gz
 - md5: 9499f47f8cc33c79cf48c1799776905e
   path: outputs/ccle/Aliquot.Vertex.json.gz
@@ -50,6 +50,8 @@ deps:
   path: outputs/ccle/drug_response.Sample.Vertex.json.gz
 - md5: 06e7fe6763115edf5774928b04687207
   path: outputs/ccle/drug_response.SampleFor.Edge.json.gz
+- md5: 264739732061e7a71e19a0b628a3c6c0
+  path: outputs/ccle/drug_response.TestedIn.Edge.json.gz
 - md5: 0e2a1ad6d00e83d79281551b8589616d
   path: outputs/ccle/maf.Aliquot.Vertex.json.gz
 - md5: f561733a51eeba4cb716bc64a1fa1558
@@ -120,6 +122,8 @@ deps:
   path: outputs/ctrp/ctrp.Sample.Vertex.json.gz
 - md5: f3cab660b165033e8400380f29f5f952
   path: outputs/ctrp/ctrp.SampleFor.Edge.json.gz
+- md5: 58a9044cc150fca8fad2da5459dab79b
+  path: outputs/ctrp/ctrp.TestedIn.Edge.json.gz
 - md5: f2f9e48c8528e41a8634978cff51d757
   path: outputs/ensembl/Exon.Vertex.json.gz
 - md5: 67c42eac66ee32fedc4f74a03a757c24
@@ -138,20 +142,20 @@ deps:
   path: outputs/g2p/AlleleIn.Edge.json.gz
 - md5: d50bff1274a8dc84668a26b60a5cb189
   path: outputs/g2p/G2PAssociation.Vertex.json.gz
-- md5: f3527d78c4b90342b52443a394c1c0d9
-  path: outputs/g2p/HasAlleleFeature.Edge.json.gz
-- md5: e6de4f059d4b1a294a31859a87868be4
-  path: outputs/g2p/HasGeneFeature.Edge.json.gz
-- md5: a98638d296c5f659ec88e0e2e331940c
-  path: outputs/g2p/HasGenomicFeatureFeature.Edge.json.gz
-- md5: 910fe933c94b44c81227fcee5f32b8c0
-  path: outputs/g2p/HasPhenotype.Edge.json.gz
-- md5: 86502d24b9a96a35b6dd167b49b3b1f8
-  path: outputs/g2p/HasSupportingReference.Edge.json.gz
 - md5: e18a9435fd1756cc3e6468b069b61184
   path: outputs/g2p/GenomicFeature.Vertex.json.gz
 - md5: 3b33261f64671fa821d912c6157abb19
   path: outputs/g2p/GenomicFeatureIn.Edge.json.gz
+- md5: f3527d78c4b90342b52443a394c1c0d9
+  path: outputs/g2p/HasAlleleFeature.Edge.json.gz
+- md5: e6de4f059d4b1a294a31859a87868be4
+  path: outputs/g2p/HasGeneFeature.Edge.json.gz
+- md5: 8a3d7007a3c89f90354a0bc5cf1f1be7
+  path: outputs/g2p/HasGenomicFeature.Edge.json.gz
+- md5: 910fe933c94b44c81227fcee5f32b8c0
+  path: outputs/g2p/HasPhenotype.Edge.json.gz
+- md5: 86502d24b9a96a35b6dd167b49b3b1f8
+  path: outputs/g2p/HasSupportingReference.Edge.json.gz
 - md5: 80f4b6f1657a492af29c486fc307c784
   path: outputs/g2p/Phenotype.Vertex.json.gz
 - md5: c0cdd3401bdff190de1647f95dc42429
@@ -184,6 +188,8 @@ deps:
   path: outputs/gdsc/gdsc.Project.Vertex.json.gz
 - md5: 6a723c4793a2790cccc51273c9f32da8
   path: outputs/gdsc/gdsc.ResponseIn.Edge.json.gz
+- md5: fd3e1d134353450f18557d64bf6f6914
+  path: outputs/gdsc/gdsc.TestedIn.Edge.json.gz
 - md5: dc541a52fe6a06d2a06aa82f481bb31f
   path: outputs/go/GeneOntologyAnnotation.Edge.json.gz
 - md5: 8c0044b23cbd2f67673dc559c2905abd
@@ -2266,14 +2272,6 @@ deps:
   path: outputs/tcga/HNSC.TranscriptExpression.Vertex.json.gz
 - md5: 17d488c5a5a7a6aa84b6b80f92293d94
   path: outputs/tcga/HNSC.TranscriptExpressionOf.Edge.json.gz
-- md5: 857efae737e7af6c0fa5cec2ab5852c9
-  path: outputs/tcga/IlluminaHumanMethylation450.Methylation.Vertex.json.gz
-- md5: bcb88317f0e2198a44b2305a9085d25f
-  path: outputs/tcga/IlluminaHumanMethylation450.MethylationOf.Edge.json.gz
-- md5: eb93aecf5ad62068307e7370de562d5c
-  path: outputs/tcga/IlluminaHumanMethylation450.MethylationProbe.Vertex.json.gz
-- md5: ad08f05fe654bcd0f95b03ba9b006262
-  path: outputs/tcga/IlluminaHumanMethylation450.MethylationProbeFor.Edge.json.gz
 - md5: ebe90fc19fbcb51a9ceb1c42eadf9c96
   path: outputs/tcga/KICH.GeneExpression.Vertex.json.gz
 - md5: 1e5f2311a98d54c3f6518e5c9d5aa269
@@ -2592,5 +2590,5 @@ deps:
   path: outputs/tcga/UVM.TranscriptExpressionOf.Edge.json.gz
 - md5: 43e8cc6947f0d764749b5fb54c7d133a
   path: source/compound/sqlite.db
-md5: 545a2fc8dc45e0b3682cc3a6a68c1bad
+md5: 67f72effc32063c7be3b9b423f76183d
 wdir: .

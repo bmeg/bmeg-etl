@@ -6,10 +6,10 @@ deps:
   path: outputs/g2p/Allele.Vertex.json.gz
 - md5: 97378cc093c8ff564a72afe1daf747f9
   path: outputs/mc3/Allele.Vertex.json.gz
-md5: 50ceec3e4da0d694a9339bec6a4aabbd
+md5: fff6d82ee10d2c3d54168ea2ea4007f4
 outs:
 - cache: true
-  md5: 1d78fe030127fa82ba2aea693fd36e5a
+  md5: 24816de0e8e151cd458b746a25234d5b
   metric: false
   path: outputs/allele/Allele.Vertex.json.gz
 wdir: .
