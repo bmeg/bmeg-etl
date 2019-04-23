@@ -14,7 +14,7 @@ EXPECTED_COUNTS = {
     'Gene': 63677,
     'GenomicFeature': 5941,
     'Allele': 4129937,
-    'Phenotype': 3448,
+    'Phenotype': 3447,
     'Exon': 737019,
     'Protein': 94575,
     'PFAMFamily': 17929,
