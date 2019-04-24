@@ -20,7 +20,7 @@ deps:
   path: outputs/g2p/HasEnvironment.Edge.json.gz
 - md5: d240ed026648eceed518b9eaf5b08bcd
   path: outputs/gdc/TreatedWith.Edge.json.gz
-md5: 1f7de17123ed3442a6a205454e1d677f
+md5: 71804fcc13c978c070da4f5160344a2b
 outs:
 - cache: true
   md5: ecb97ef5ea28947a4a8db44512b9b59a
@@ -31,7 +31,7 @@ outs:
   metric: false
   path: outputs/compound/normalized.HasEnvironment.Edge.json.gz
 - cache: true
-  md5: c7b9554be63da49205564cd529cfe325
+  md5: bc22286360b3d11d0b2ba65a3249618b
   metric: false
   path: outputs/compound/normalized.ResponseTo.Edge.json.gz
 - cache: true
@@ -39,7 +39,7 @@ outs:
   metric: false
   path: outputs/compound/normalized.TreatedWith.Edge.json.gz
 - cache: true
-  md5: b81e976a0dc28d53192c934713b60d2d
+  md5: d3b37bcf4d780b7a64054bab7e4d3b54
   metric: false
   path: source/compound/sqlite.db
 wdir: .
