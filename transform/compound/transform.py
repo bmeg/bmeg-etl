@@ -22,7 +22,7 @@ def transform(
     output_dir="outputs",
     emitter_directory=DEFAULT_DIRECTORY,
     vertex_names="**/*Compound.Vertex.json*",
-    edge_names="**/*.Edge.json*",
+    edge_names="**/*Edge.json*",
     store_path="source/compound/sqlite.db"
 ):
     batch_size = 1000
@@ -30,6 +30,7 @@ def transform(
     emitter = new_emitter(name=emitter_name, directory=emitter_directory, prefix='normalized')
     path = '{}/{}'.format(output_dir, vertex_names)
     files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
+    assert len(files) > 0,  'No vertexes found for {}'.format(path)
     logging.info(files)
     store = new_store('key-val', path=store_path, index=True)
     c = t = e = 0
