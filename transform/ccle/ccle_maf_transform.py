@@ -2,11 +2,11 @@
 """ transform a maf file into vertexs[variant, allele]   """
 
 from glob import glob
+import bmeg.ioutils
 from bmeg.vertex import Callset, Gene
 from bmeg.edge import AlleleCall
 from bmeg.emitter import new_emitter
 from bmeg.maf.maf_transform import get_value, MAFTransformer
-from bmeg.ccle import build_ccle2depmap_conversion_table, build_project_lookup, missing_ccle_cellline_factory
 
 
 CCLE_EXTENSION_CALLSET_INT_KEYS = {
@@ -30,7 +30,6 @@ TUMOR_SAMPLE_BARCODE = "Tumor_Sample_Barcode"  # 15
 NORMAL_SAMPLE_BARCODE = "Matched_Norm_Sample_Barcode"  # 16
 
 SAMPLE_CONVERSION_TABLE = {}
-MISSING_CELL_LINES = []
 
 
 class CCLE_MAFTransformer(MAFTransformer):
@@ -50,17 +49,15 @@ class CCLE_MAFTransformer(MAFTransformer):
     def barcode_to_aliquot_id(self, barcode):
         """ create ccle sample barcode """
         global SAMPLE_CONVERSION_TABLE
-        global MISSING_CELL_LINES
         ccle_name_from_path = self.current_path.split('/')[-2]
         ccle_name_from_path = ccle_name_from_path.replace('_vs_NORMAL', '')
+
         if ccle_name_from_path in SAMPLE_CONVERSION_TABLE:
             return SAMPLE_CONVERSION_TABLE[ccle_name_from_path]
         elif ccle_name_from_path.split("_")[0] in SAMPLE_CONVERSION_TABLE:
             return SAMPLE_CONVERSION_TABLE[ccle_name_from_path.split("_")[0]]
         else:
-            if ccle_name_from_path not in MISSING_CELL_LINES:
-                MISSING_CELL_LINES.append(ccle_name_from_path)
-            return ccle_name_from_path
+            return "%s:Callset" % (ccle_name_from_path)
 
     def callset_maker(self, allele, source, centerCol, method, line):
         """ create callset from line """
@@ -92,15 +89,14 @@ class CCLE_MAFTransformer(MAFTransformer):
         return AlleleCall(**info)
 
 
-def transform(mafpath,
-              ccle_sample_path,
+def transform(mafpath="source/ccle/mafs/*/vep.maf",
+              cellline_lookup_path="source/ccle/cellline_lookup.tsv",
               emitter_directory="ccle",
               emitter_prefix="maf"):
 
     # ensure that we have a lookup from CCLE native id to depmap id
     global SAMPLE_CONVERSION_TABLE
-    global MISSING_CELL_LINES
-    SAMPLE_CONVERSION_TABLE = build_ccle2depmap_conversion_table(ccle_sample_path)
+    SAMPLE_CONVERSION_TABLE = bmeg.ioutils.read_lookup(cellline_lookup_path)
 
     transformer = CCLE_MAFTransformer()
     emitter = new_emitter(name="json",
@@ -114,15 +110,8 @@ def transform(mafpath,
             mafpath=f,
             source="ccle")
 
-    # generate project, case, sample, aliquot for missing cell lines
-    missing_ccle_cellline_factory(emitter=emitter,
-                                  missing_ids=MISSING_CELL_LINES,
-                                  project_prefix="DepMap",
-                                  project_lookup=build_project_lookup(ccle_sample_path))
-
     emitter.close()
 
 
 if __name__ == '__main__':  # pragma: no cover
-    transform(mafpath="source/ccle/mafs/*/vep.maf",
-              ccle_sample_path="outputs/ccle/Sample.Vertex.json.gz")
+    transform()

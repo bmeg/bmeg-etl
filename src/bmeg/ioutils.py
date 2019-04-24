@@ -20,3 +20,11 @@ def read_csv(path, **kwargs):
 def read_tsv(path, **kwargs):
     r = reader(path)
     return csv.DictReader(r, delimiter="\t", **kwargs)
+
+
+def read_lookup(path):
+    r = read_tsv(path, fieldnames=["key", "value"])
+    lookup = {}
+    for line in r:
+        lookup[line["key"]] = line["value"]
+    return lookup

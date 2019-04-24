@@ -194,9 +194,12 @@ class MAFTransformer():
                                           )
 
                 # create edge to gene
-                gene_gid = self.create_gene_gid(line)
-                if gene_gid:
-                    emitter.emit_edge(AlleleIn(), allele.gid(), gene_gid)
+                try:
+                    gene_gid = self.create_gene_gid(line)
+                    if gene_gid:
+                        emitter.emit_edge(AlleleIn(), allele.gid(), gene_gid)
+                except Exception as exc:
+                    logging.exception(exc)
             except Exception as exc:
                 logging.exception(exc)
                 e += 1

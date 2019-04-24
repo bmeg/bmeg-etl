@@ -1,0 +1,9 @@
+cmd: ' python3 transform/ccle/depmap_cases.py'
+deps:
+- md5: 6d66a59fb75c31cd3a1b320eefe1efc8
+  path: source/ccle/DepMap-2019q1-celllines.csv_v2.csv
+md5: 1299756e9260bdf10c9e7786a71b328c
+outs:
+- cache: true
+  md5: 243667dfc80ebcb554d56ae6a86c4562
+  path: outputs/ccle/depmap.Case.Vertex.json.gz

@@ -1,12 +1,20 @@
-cmd: python3 transform/ccle/expression.py
+cmd: python3 transform/ccle/ccle_expression.py
 deps:
-- md5: 3bcfe7226807240529a5f6aa3a6e98c0
-  path: source/ccle/CCLE_depMap_18Q4_TPM_v2.csv
-md5: 70eed1c4e69abda0bb5fea50ec06de26
+- md5: 6f69af2dd6a8e0bd8c916d8ec5b79061
+  path: source/ccle/CCLE_depMap_19Q1_TPM.csv
+- md5: d907322a3f1b98712ef577c89e5cdfeb
+  path: source/ccle/CCLE_depMap_19Q1_TPM_transcripts.csv
+md5: e505ff8ffb65cffae44584fb56ae7fd4
 outs:
 - cache: true
-  md5: 3abe364ab43fcd13097f5fee88c5977a
+  md5: edca6ef1db4ce63def5b90d097a745dc
+  path: outputs/ccle/TranscriptExpression.Vertex.json.gz
+- cache: true
+  md5: 17a4dcd28b39946d9d4fb5d674e2b4f1
+  path: outputs/ccle/TranscriptExpressionOf.Edge.json.gz
+- cache: true
+  md5: e67b6b877492a8bc17505790ae1a3e2d
   path: outputs/ccle/GeneExpression.Vertex.json.gz
 - cache: true
-  md5: 7b853de110174e0bde81dd70588d504f
+  md5: 8e7c8b143ffea3395ab021450343b591
   path: outputs/ccle/GeneExpressionOf.Edge.json.gz
