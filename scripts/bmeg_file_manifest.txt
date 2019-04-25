@@ -23,7 +23,6 @@ outputs/ccle/drug_response.Project.Vertex.json.gz
 outputs/ccle/drug_response.ResponseIn.Edge.json.gz
 outputs/ccle/drug_response.Sample.Vertex.json.gz
 outputs/ccle/drug_response.SampleFor.Edge.json.gz
-outputs/ccle/drug_response.TestedIn.Edge.json.gz
 outputs/ccle/maf.Aliquot.Vertex.json.gz
 outputs/ccle/maf.AliquotFor.Edge.json.gz
 outputs/ccle/maf.AlleleCall.Edge.json.gz
@@ -47,6 +46,7 @@ outputs/ccle/tatlow.TranscriptExpressionOf.Edge.json.gz
 outputs/compound/normalized.Compound.Vertex.json.gz
 outputs/compound/normalized.HasEnvironment.Edge.json.gz
 outputs/compound/normalized.ResponseTo.Edge.json.gz
+outputs/compound/normalized.TestedIn.Edge.json.gz
 outputs/compound/normalized.TreatedWith.Edge.json.gz
 outputs/ctrp/ctrp.Aliquot.Vertex.json.gz
 outputs/ctrp/ctrp.AliquotFor.Edge.json.gz
@@ -59,7 +59,6 @@ outputs/ctrp/ctrp.Project.Vertex.json.gz
 outputs/ctrp/ctrp.ResponseIn.Edge.json.gz
 outputs/ctrp/ctrp.Sample.Vertex.json.gz
 outputs/ctrp/ctrp.SampleFor.Edge.json.gz
-outputs/ctrp/ctrp.TestedIn.Edge.json.gz
 outputs/ensembl/Exon.Vertex.json.gz
 outputs/ensembl/ExonFor.Edge.json.gz
 outputs/ensembl/Gene.Vertex.json.gz
@@ -92,7 +91,6 @@ outputs/gdsc/gdsc.InProject.Edge.json.gz
 outputs/gdsc/gdsc.Program.Vertex.json.gz
 outputs/gdsc/gdsc.Project.Vertex.json.gz
 outputs/gdsc/gdsc.ResponseIn.Edge.json.gz
-outputs/gdsc/gdsc.TestedIn.Edge.json.gz
 outputs/go/GeneOntologyAnnotation.Edge.json.gz
 outputs/go/GeneOntologyIsA.Edge.json.gz
 outputs/go/GeneOntologyTerm.Vertex.json.gz
