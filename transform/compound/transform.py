@@ -18,24 +18,21 @@ DEFAULT_DIRECTORY = 'compound'
 
 
 def transform(
+    vertex_files,
+    edge_files,
     emitter_name="json",
     output_dir="outputs",
     emitter_directory=DEFAULT_DIRECTORY,
-    vertex_names="**/*Compound.Vertex.json*",
-    edge_names="**/*Edge.json*",
-    store_path="source/compound/sqlite.db"
+    store_path="source/compound/sqlite.db",
 ):
     batch_size = 1000
     compound_cache = {}
     emitter = new_emitter(name=emitter_name, directory=emitter_directory, prefix='normalized')
-    path = '{}/{}'.format(output_dir, vertex_names)
-    files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
-    assert len(files) > 0,  'No vertexes found for {}'.format(path)
-    logging.info(files)
+    logging.info(vertex_files)
     store = new_store('key-val', path=store_path, index=True)
     c = t = e = 0
     dups = []
-    for file in files:
+    for file in vertex_files:
         logging.info(file)
         with reader(file) as ins:
             for line in ins:
@@ -83,10 +80,8 @@ def transform(
         logging.info('transforming read: {} errors: {}'.format(t, e))
 
     # get the edges
-    path = '{}/{}'.format(output_dir, edge_names)
-    files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
     c = t = e = 0
-    for file in files:
+    for file in edge_files:
         logging.info(file)
         with reader(file) as ins:
             for line in ins:
@@ -129,7 +124,9 @@ def transform(
 
 if __name__ == '__main__':  # pragma: no cover
     parser = default_argument_parser()
+    parser.add_argument('--vertex_files', nargs='+', help='vertex list', required=True)
+    parser.add_argument('--edge_files', nargs='+', help='edge list', required=True)
     options = parser.parse_args(sys.argv[1:])
     default_logging(options.loglevel)
 
-    transform()
+    transform(vertex_files=options.vertex_files, edge_files=options.edge_files)
