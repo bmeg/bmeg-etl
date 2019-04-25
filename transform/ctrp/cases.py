@@ -1,59 +1,67 @@
-from glob import glob
-import os
 import pandas
 
 import bmeg.ioutils
-from bmeg.emitter import JSONEmitter
 from bmeg.vertex import Sample, Aliquot, Case, Project, Program
 from bmeg.edge import AliquotFor, SampleFor, InProject, InProgram, PhenotypeOf
 from bmeg.enrichers.phenotype_enricher import phenotype_factory
+from bmeg.emitter import JSONEmitter
 
 
 def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
               project_lookup_path="source/ccle/cellline_project_lookup.tsv",
               phenotype_lookup_path="source/ccle/cellline_phenotype_lookup.tsv",
-              drug_response_path='source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv',
-              expression_path="source/ccle/CCLE_depMap_19Q1_TPM.csv",
-              maf_dir="source/ccle/mafs/*",
-              emitter_prefix="ccle",
-              emitter_directory="ccle"):
+              metadrugPath='source/ctrp/v20.meta.per_compound.txt',
+              metacelllinePath="source/ctrp/v20.meta.per_cell_line.txt",
+              responsePath="source/ctrp/v20.data.curves_post_qc.txt",
+              metaexperimentPath="source/ctrp/v20.meta.per_experiment.txt",
+              curvePath="source/ctrp/v20.data.per_cpd_post_qc.txt",
+              emitter_prefix='ctrp',
+              emitter_directory='ctrp'):
 
     celllines = bmeg.ioutils.read_lookup(cellline_lookup_path)
     projects = bmeg.ioutils.read_lookup(project_lookup_path)
     phenotypes = bmeg.ioutils.read_lookup(phenotype_lookup_path)
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
-    prog = Program(program_id="CCLE")
+
+    prog = Program(program_id="CTRP")
     emitter.emit_vertex(prog)
+
+    compound_df = pandas.read_table(metadrugPath)
+    compound_df = compound_df.set_index("master_cpd_id")
+
+    ccl_df = pandas.read_table(metacelllinePath)
+    ccl_df = ccl_df.set_index("master_ccl_id")
+
+    response_df = pandas.read_table(responsePath)
+
+    metaexperiment_df = pandas.read_table(metaexperimentPath)
+    metaexperiment_df = metaexperiment_df.drop_duplicates("experiment_id")
+    metaexperiment_df = metaexperiment_df.set_index("experiment_id")
+
+    curve_df = pandas.read_table(curvePath)
+    curve_df = curve_df.set_index(["experiment_id", "master_cpd_id"])
 
     raw_ids = {}
     drugs = {}
+    for i, row in response_df.iterrows():
+        cpd_id = row['master_cpd_id']
+        cpd_name = compound_df.loc[cpd_id]['cpd_name']
+        exp_id = row['experiment_id']
+        ccl_id = metaexperiment_df.loc[exp_id]['master_ccl_id']
+        ccl_name = ccl_df.loc[ccl_id]['ccl_name']
 
-    input_stream = bmeg.ioutils.read_csv(drug_response_path)
-    for line in input_stream:
-        k = line['CCLE Cell Line Name']
-        if k not in raw_ids:
-            raw_ids[k] = None
-        d = line['Compound']
-        if k in drugs:
-            drugs[k].append(d)
+        if ccl_name not in raw_ids:
+            raw_ids[ccl_name] = None
+        if ccl_name in drugs:
+            drugs[ccl_name].append(cpd_name)
         else:
-            drugs[k] = [d]
-
-    input_stream = pandas.read_csv(expression_path, sep=",", index_col=0)
-    for k, vals in input_stream.iterrows():
-        if k not in raw_ids:
-            raw_ids[k] = None
-
-    for f in glob(maf_dir):
-        k = os.path.basename(f).replace("_vs_NORMAL", "")
-        if k not in raw_ids:
-            raw_ids[k] = None
+            drugs[ccl_name] = [cpd_name]
 
     emitted_celllines = {}
     emitted_projects = {}
     for i in raw_ids:
-        project_id = "CCLE_%s" % (projects.get(i, "Unknown"))
+        project_id = "CTRP_%s" % (projects.get(i, "Unknown"))
         emit_cellline = False
         if i in celllines:
             cellline_id = celllines[i]
@@ -113,36 +121,21 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
                 pheno.gid()
             )
 
-        for experiement_type in ["DrugResponse", "TranscriptExpression", "GeneExpression", "Callset"]:
-            if experiement_type == "DrugResponse":
-                for drug in drugs.get(i, []):
-                    aliquot_id = "%s:%s:%s" % (cellline_id, experiement_type, drug)
-                    a = Aliquot(aliquot_id=aliquot_id)
-                    emitter.emit_vertex(a)
-                    emitter.emit_edge(
-                        AliquotFor(),
-                        a.gid(),
-                        s.gid(),
-                    )
-                    emitter.emit_edge(
-                        InProject(),
-                        a.gid(),
-                        p.gid(),
-                    )
-            else:
-                aliquot_id = "%s:%s" % (cellline_id, experiement_type)
-                a = Aliquot(aliquot_id=aliquot_id)
-                emitter.emit_vertex(a)
-                emitter.emit_edge(
-                    AliquotFor(),
-                    a.gid(),
-                    s.gid(),
-                )
-                emitter.emit_edge(
-                    InProject(),
-                    a.gid(),
-                    p.gid(),
-                )
+        experiement_type = "DrugResponse"
+        for drug in drugs.get(i, []):
+            aliquot_id = "%s:%s:%s" % (cellline_id, experiement_type, drug)
+            a = Aliquot(aliquot_id=aliquot_id)
+            emitter.emit_vertex(a)
+            emitter.emit_edge(
+                AliquotFor(),
+                a.gid(),
+                s.gid(),
+            )
+            emitter.emit_edge(
+                InProject(),
+                a.gid(),
+                p.gid(),
+            )
 
         emitted_celllines[cellline_id] = None
 
