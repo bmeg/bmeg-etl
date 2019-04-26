@@ -2,29 +2,39 @@
 import os
 import contextlib
 import pytest
-from transform.ccle.ccle_cases import transform
+from transform.ctrp.cases import transform
 from transform.ccle.depmap_cases import transform as depmap_transform
 from bmeg.vertex import Sample, Aliquot, Case, Project, Program
 
 
 @pytest.fixture
+def metadrugPath(request):
+    return os.path.join(request.fspath.dirname, 'source/ctrp/v20.meta.per_compound.txt')
+
+
+@pytest.fixture
+def metacelllinePath(request):
+    return os.path.join(request.fspath.dirname, 'source/ctrp/v20.meta.per_cell_line.txt')
+
+
+@pytest.fixture
+def responsePath(request):
+    return os.path.join(request.fspath.dirname, 'source/ctrp/v20.data.curves_post_qc.txt')
+
+
+@pytest.fixture
+def metaexperimentPath(request):
+    return os.path.join(request.fspath.dirname, 'source/ctrp/v20.meta.per_experiment.txt')
+
+
+@pytest.fixture
+def curvePath(request):
+    return os.path.join(request.fspath.dirname, 'source/ctrp/v20.data.per_cpd_post_qc.txt')
+
+
+@pytest.fixture
 def cellline_meta_path(request):
     return os.path.join(request.fspath.dirname, 'source/ccle/DepMap-2019q1-celllines.csv_v2.csv')
-
-
-@pytest.fixture
-def maf_dir(request):
-    return os.path.join(request.fspath.dirname, 'source/ccle/mafs/*')
-
-
-@pytest.fixture
-def expression_path(request):
-    return os.path.join(request.fspath.dirname, 'source/ccle/CCLE_depMap_19Q1_TPM.csv')
-
-
-@pytest.fixture
-def drug_response_path(request):
-    return os.path.join(request.fspath.dirname, 'source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv')
 
 
 @pytest.fixture
@@ -43,8 +53,8 @@ def phenotype_lookup_path(request):
 
 
 def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_path,
-             project_lookup_path, phenotype_lookup_path, drug_response_path,
-             expression_path, maf_dir):
+             project_lookup_path, phenotype_lookup_path, metadrugPath,
+             metacelllinePath, responsePath, metaexperimentPath, curvePath):
     """ run xform and test results"""
     aliquot_file = os.path.join(emitter_directory, 'Aliquot.Vertex.json.gz')
     aliquot_for_file = os.path.join(emitter_directory, 'AliquotFor.Edge.json.gz')
@@ -78,9 +88,11 @@ def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_pat
         cellline_lookup_path=cellline_lookup_path,
         project_lookup_path=project_lookup_path,
         phenotype_lookup_path=phenotype_lookup_path,
-        drug_response_path=drug_response_path,
-        expression_path=expression_path,
-        maf_dir=maf_dir,
+        metadrugPath=metadrugPath,
+        metacelllinePath=metacelllinePath,
+        responsePath=responsePath,
+        metaexperimentPath=metaexperimentPath,
+        curvePath=curvePath,
         emitter_prefix=None,
         emitter_directory=emitter_directory
     )
@@ -91,13 +103,13 @@ def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_pat
     helpers.assert_vertex_file_valid(Sample, sample_file)
     # test.Case.Vertex.json
     depmap_case_count = helpers.assert_vertex_file_valid(Case, depmap_case_file)
-    assert depmap_case_count == 10, 'expected case_count'
+    assert depmap_case_count == 2, 'expected case_count'
     # test.Case.Vertex.json
     case_count = helpers.assert_vertex_file_valid(Case, case_file)
     assert case_count == 1, 'expected case_count'
     # test.Project.Vertex.json
     project_count = helpers.assert_vertex_file_valid(Project, project_file)
-    assert project_count == 8, 'expected project_count'
+    assert project_count == 2, 'expected project_count'
     # test.Program.Vertex.json
     program_count = helpers.assert_vertex_file_valid(Program, program_file)
     assert program_count == 1, 'expected program_count'
@@ -123,8 +135,10 @@ def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_pat
     helpers.assert_edge_joins_valid(all_files)
 
 
-def test_simple(helpers, emitter_directory, cellline_meta_path, cellline_lookup_path, project_lookup_path,
-                phenotype_lookup_path, drug_response_path, expression_path, maf_dir):
+def test_simple(helpers, emitter_directory, cellline_meta_path, cellline_lookup_path,
+                project_lookup_path, phenotype_lookup_path, metadrugPath,
+                metacelllinePath, responsePath, metaexperimentPath, curvePath):
 
-    validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_path, project_lookup_path,
-             phenotype_lookup_path, drug_response_path, expression_path, maf_dir)
+    validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_path,
+             project_lookup_path, phenotype_lookup_path, metadrugPath,
+             metacelllinePath, responsePath, metaexperimentPath, curvePath)

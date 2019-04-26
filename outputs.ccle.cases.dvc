@@ -3148,7 +3148,7 @@ deps:
   path: source/ccle/mafs/COLO201_LARGE_INTESTINE_vs_NORMAL/vep.maf
 - md5: a339758e2a8edb9152251c24eaeceadd
   path: source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf
-md5: dfb720cc73771f63710d3c5517f42f07
+md5: 97d2c175cf919f166f74347a099c6e51
 outs:
 - cache: true
   md5: 6391180f2ea75454a5650db1a5101d80
@@ -3166,13 +3166,13 @@ outs:
   md5: 9cf2136eaef3122df49d999361c76f4a
   path: outputs/ccle/ccle.Case.Vertex.json.gz
 - cache: true
-  md5: d7c9e61264533d18b5823f6c7d118204
+  md5: 3f5d45ef0840f300b4f6e76f69dc597d
   path: outputs/ccle/ccle.InProject.Edge.json.gz
 - cache: true
-  md5: 709eb97913ee62b76cd93c5d155921a3
+  md5: 2598c8ba2e22c5ea68e4636f31f63e06
   path: outputs/ccle/ccle.Project.Vertex.json.gz
 - cache: true
-  md5: e1c716b9b82e8881c14384173990e482
+  md5: 8947308aeda9f9cad027f381a83d2b7e
   path: outputs/ccle/ccle.InProgram.Edge.json.gz
 - cache: true
   md5: 538e806d32fa92be619fdf84af5376c2

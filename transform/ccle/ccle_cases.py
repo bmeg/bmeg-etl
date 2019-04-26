@@ -53,7 +53,6 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
     emitted_celllines = {}
     emitted_projects = {}
     for i in raw_ids:
-        project_id = "CCLE_%s" % (projects.get(i, "Unknown"))
         emit_cellline = False
         if i in celllines:
             cellline_id = celllines[i]
@@ -66,6 +65,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         if cellline_id in emitted_celllines:
             continue
 
+        project_id = "CCLE_%s" % (projects.get(cellline_id, "Unknown"))
         p = Project(project_id=project_id)
         if p.gid() not in emitted_projects:
             emitter.emit_vertex(p)
