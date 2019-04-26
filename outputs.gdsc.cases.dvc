@@ -1,0 +1,47 @@
+cmd: python3 transform/gdsc/cases.py
+deps:
+- md5: 68df7365a12885b8be1f56b1f5c0f699
+  path: source/ccle/cellline_lookup.tsv
+- md5: 1ccf5f79ce438dd797505a3f478a3d15
+  path: source/ccle/cellline_project_lookup.tsv
+- md5: e75fa89e20b91f7e3408398799e9fbce
+  path: source/ccle/cellline_phenotype_lookup.tsv
+- md5: d3cf88d70b03ea2d7bb9cac9ad0ec689
+  path: source/gdsc/Cell_Lines_Details.xlsx
+- md5: 15ec93d796ceb66f19a1e084d255ceb8
+  path: source/gdsc/Screened_Compounds.xlsx
+md5: e3e814973bace6121b7a9c684947e174
+outs:
+- cache: true
+  md5: 36125168168fa8467c4608bd00a827b4
+  path: outputs/gdsc/gdsc.AliquotFor.Edge.json.gz
+- cache: true
+  md5: 7e3398095915523d74998f4f5ce24682
+  path: outputs/gdsc/gdsc.Aliquot.Vertex.json.gz
+- cache: true
+  md5: 1159d0e1aa845651670cabcc34053b17
+  path: outputs/gdsc/gdsc.SampleFor.Edge.json.gz
+- cache: true
+  md5: 6d713b626d3520bdaccba86a23911d3b
+  path: outputs/gdsc/gdsc.Sample.Vertex.json.gz
+- cache: true
+  md5: c28a319be23dd67937d67a59bf52e6be
+  path: outputs/gdsc/gdsc.Case.Vertex.json.gz
+- cache: true
+  md5: fdd78429c09510cb2847bf057aea69ee
+  path: outputs/gdsc/gdsc.InProject.Edge.json.gz
+- cache: true
+  md5: 21595f2b9637a8d61d22ade544776bb9
+  path: outputs/gdsc/gdsc.Project.Vertex.json.gz
+- cache: true
+  md5: 66ece8c424310f650ee94457d9703e53
+  path: outputs/gdsc/gdsc.InProgram.Edge.json.gz
+- cache: true
+  md5: 5873bef4f4591a5a5275396148bd5690
+  path: outputs/gdsc/gdsc.Program.Vertex.json.gz
+- cache: true
+  md5: d9dcb62ce90eea22d52bc0732fbc8299
+  path: outputs/gdsc/gdsc.Phenotype.Vertex.json.gz
+- cache: true
+  md5: a1f6224446988c6af268b330dedd1e1d
+  path: outputs/gdsc/gdsc.PhenotypeOf.Edge.json.gz

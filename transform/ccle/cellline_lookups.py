@@ -77,10 +77,10 @@ def create_cellline_lookup(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv"
         if "MERGED" in line["CCLE_Name"]:
             continue
 
-        lookup[line["DepMap_ID"]] = line["DepMap_ID"]
-        lookup[line["CCLE_Name"]] = line["DepMap_ID"]
-        lookup[line["COSMIC_ID"]] = line["DepMap_ID"]
-        lookup[line["Sanger ID"]] = line["DepMap_ID"]
+        keys = ["DepMap_ID", "CCLE_Name", "COSMIC_ID", "Sanger ID"]
+        for k in keys:
+            if line[k] and not is_blank(line[k]):
+                lookup[str(line[k])] = line["DepMap_ID"]
 
         if "MATCHED_NORMAL" in line["CCLE_Name"]:
             continue
@@ -92,9 +92,8 @@ def create_cellline_lookup(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv"
             aliases.append(prefix)
 
         split_aliases = line["Aliases"].split(";")
-        if len(split_aliases) > 1:
-            for x in split_aliases:
-                aliases.append(x)
+        for x in split_aliases:
+            aliases.append(x)
 
         for a in aliases:
             lookup[a] = line["DepMap_ID"]
