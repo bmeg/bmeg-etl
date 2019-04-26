@@ -18,21 +18,16 @@ def maf_file(request):
 
 
 @pytest.fixture
-def emitter_path_prefix(request):
-    return os.path.join(request.fspath.dirname, 'test')
-
-
-@pytest.fixture
 def cellline_lookup_path(request):
     return os.path.join(request.fspath.dirname, 'source/ccle/cellline_lookup.tsv')
 
 
-def validate(helpers, maf_file, emitter_path_prefix, ccle_sample_path):
-    allele_file = os.path.join(emitter_path_prefix, 'maf.Allele.Vertex.json.gz')
-    allelecall_file = os.path.join(emitter_path_prefix, 'maf.AlleleCall.Edge.json.gz')
-    callset_file = os.path.join(emitter_path_prefix, 'maf.Callset.Vertex.json.gz')
-    allelein_file = os.path.join(emitter_path_prefix, 'maf.AlleleIn.Edge.json.gz')
-    callsetfor_file = os.path.join(emitter_path_prefix, 'maf.CallsetFor.Edge.json.gz')
+def validate(helpers, emitter_directory, maf_file, cellline_lookup_path):
+    allele_file = os.path.join(emitter_directory, 'maf.Allele.Vertex.json.gz')
+    allelecall_file = os.path.join(emitter_directory, 'maf.AlleleCall.Edge.json.gz')
+    callset_file = os.path.join(emitter_directory, 'maf.Callset.Vertex.json.gz')
+    allelein_file = os.path.join(emitter_directory, 'maf.AlleleIn.Edge.json.gz')
+    callsetfor_file = os.path.join(emitter_directory, 'maf.CallsetFor.Edge.json.gz')
 
     all_files = [allele_file, allelecall_file, callset_file, allelein_file, callsetfor_file]
 
@@ -44,7 +39,8 @@ def validate(helpers, maf_file, emitter_path_prefix, ccle_sample_path):
     transform(
         mafpath=maf_file,
         cellline_lookup_path=cellline_lookup_path,
-        emitter_directory=emitter_path_prefix)
+        emitter_directory=emitter_directory
+    )
 
     # test/maf.Allele.Vertex.json
     helpers.assert_vertex_file_valid(Allele, allele_file)
@@ -99,6 +95,6 @@ def validate(helpers, maf_file, emitter_path_prefix, ccle_sample_path):
     )
 
 
-def test_simple(helpers, maf_file, emitter_path_prefix, cellline_lookup_path):
+def test_simple(helpers, emitter_directory, maf_file, cellline_lookup_path):
     """ simple test """
-    validate(helpers, maf_file, emitter_path_prefix, cellline_lookup_path)
+    validate(helpers, emitter_directory, maf_file, cellline_lookup_path)

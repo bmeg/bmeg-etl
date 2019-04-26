@@ -1,5 +1,9 @@
-cmd: python3 ./transform/ctrp/transform.py
+cmd: python3 ./transform/ctrp/drug_response.py
 deps:
+- md5: 8e2bba40fe672df968ceaee2d9c51e72
+  path: source/ccle/cellline_lookup.tsv
+- md5: d28a1b1e5fdc78d81e6f61b851329c0e
+  path: source/ccle/cellline_project_lookup.tsv
 - md5: 08ee08009c543d7a6ab4c4e34c54649e
   path: source/ctrp/v20.meta.per_compound.txt
 - md5: 30381766e5a0deb1c50c50c7bab546de
@@ -10,53 +14,20 @@ deps:
   path: source/ctrp/v20.meta.per_experiment.txt
 - md5: 33a8c30659874b027dda316f257e12e1
   path: source/ctrp/v20.data.per_cpd_post_qc.txt
-- md5: 9909dd770481cea740e1db0983cfbf80
-  path: outputs/ccle/Sample.Vertex.json.gz
-md5: 0615e751eb970048398a32eb7264494a
+md5: 1a68b55489e437d3b05df9c23c33bf1a
 outs:
 - cache: true
   md5: 61d4237a9a2ed74cc684c2b417c7144f
   path: outputs/ctrp/ctrp.Compound.Vertex.json.gz
 - cache: true
-  md5: a4e81d548a19f8f90160bb37d76217bc
+  md5: 19332cf2cd8fd765088e84790189fe68
   path: outputs/ctrp/ctrp.DrugResponse.Vertex.json.gz
 - cache: true
-  md5: 5731d5bc00405929a00112c934848c97
+  md5: a5b0f7c1630f77c87e7bcd9c7b21df9b
   path: outputs/ctrp/ctrp.ResponseIn.Edge.json.gz
 - cache: true
-  md5: 5440600007b405bbb28d83b5e945926b
+  md5: 7172f61320fa23b121c5f4cce98be139
   path: outputs/ctrp/ctrp.ResponseTo.Edge.json.gz
 - cache: true
-  md5: 58a9044cc150fca8fad2da5459dab79b
-  path: outputs/ctrp/ctrp.TestedIn.Edge.json.gz
-- cache: true
-  md5: fa8de9dfd71486ac95d928da08afd33a
-  path: outputs/ctrp/ctrp.AliquotFor.Edge.json.gz
-- cache: true
-  md5: 11e9da270928da83829c8a058f6773f1
-  path: outputs/ctrp/ctrp.Aliquot.Vertex.json.gz
-- cache: true
-  md5: f3cab660b165033e8400380f29f5f952
-  path: outputs/ctrp/ctrp.SampleFor.Edge.json.gz
-- cache: true
-  md5: 3ccda9b1c2aa6d2e93220a2ebd3d5e81
-  path: outputs/ctrp/ctrp.Sample.Vertex.json.gz
-- cache: true
-  md5: 31362680358796dfd234150ad8b829f4
-  path: outputs/ctrp/ctrp.Case.Vertex.json.gz
-- cache: true
-  md5: 22c069110556c9e59deee389484a32d8
-  path: outputs/ctrp/ctrp.InProject.Edge.json.gz
-- cache: true
-  md5: 0f5fb6608f02254a1e5a764a3756a5de
-  path: outputs/ctrp/ctrp.Project.Vertex.json.gz
-- cache: true
-  md5: a199453e4e851a49c3cb0493c66592ac
-  path: outputs/ctrp/ctrp.InProgram.Edge.json.gz
-- cache: true
-  md5: 2e7a608c9c6dac2a81e013dafbacd96d
-  path: outputs/ctrp/ctrp.Program.Vertex.json.gz
-- cache: true
-  md5: 58a9044cc150fca8fad2da5459dab79b
-  metric: false
+  md5: 739eea6e6579b0614f551e56d548c23c
   path: outputs/ctrp/ctrp.TestedIn.Edge.json.gz

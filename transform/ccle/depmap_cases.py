@@ -15,7 +15,7 @@ def transform(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv",
     # DepMap_ID,CCLE_Name,Aliases,COSMIC_ID,Sanger ID,Primary Disease,Subtype Disease,Gender,Source
     # ACH-000001,NIHOVCAR3_OVARY,NIH:OVCAR-3;OVCAR3,905933,2201,Ovarian Cancer,"Adenocarcinoma, high grade serous",Female,ATCC
     for row in reader:
-        if "NORMAL" in row["CCLE_Name"] or "MERGED" in row["CCLE_Name"]:
+        if "MERGED" in row["CCLE_Name"]:
             continue
 
         props = {}

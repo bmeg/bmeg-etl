@@ -2,14 +2,14 @@ cmd: ' python3 transform/ccle/cellline_lookups.py'
 deps:
 - md5: 6d66a59fb75c31cd3a1b320eefe1efc8
   path: source/ccle/DepMap-2019q1-celllines.csv_v2.csv
-md5: 0a0fc020b40fa4db81b33c06c094ed60
+md5: a9da3ab1597bc79a867762c152460930
 outs:
 - cache: true
-  md5: 8e2bba40fe672df968ceaee2d9c51e72
+  md5: 523421b6d2829186c15cbdb3ae50c804
   path: source/ccle/cellline_lookup.tsv
 - cache: true
-  md5: d28a1b1e5fdc78d81e6f61b851329c0e
+  md5: 1ccf5f79ce438dd797505a3f478a3d15
   path: source/ccle/cellline_project_lookup.tsv
 - cache: true
-  md5: 6ee3b7c5417fc464dd831292ed79f84e
+  md5: e75fa89e20b91f7e3408398799e9fbce
   path: source/ccle/cellline_phenotype_lookup.tsv
