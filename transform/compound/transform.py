@@ -9,7 +9,6 @@ from bmeg.enrichers.drug_enricher import normalize
 from bmeg.gid import GID
 from bmeg.stores import new_store
 
-import glob
 import logging
 import sys
 import ujson
@@ -17,14 +16,7 @@ import ujson
 DEFAULT_DIRECTORY = 'compound'
 
 
-def transform(
-    vertex_files,
-    edge_files,
-    emitter_name="json",
-    output_dir="outputs",
-    emitter_directory=DEFAULT_DIRECTORY,
-    store_path="source/compound/sqlite.db",
-):
+def transform(vertex_files, edge_files, emitter_name="json", output_dir="outputs", emitter_directory=DEFAULT_DIRECTORY, store_path="source/compound/sqlite.db"):
     batch_size = 1000
     compound_cache = {}
     emitter = new_emitter(name=emitter_name, directory=emitter_directory, prefix='normalized')

@@ -14,11 +14,7 @@ import bmeg.ioutils
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
 
-<<<<<<< HEAD
 from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment, HasGenomicFeature, AlleleIn, GenomicFeatureIn
-=======
-from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment, HasGenomicFeatureFeature, AlleleIn, GenomicFeatureIn
->>>>>>> c5ad181b36221160c5a2c64581db0e94dc8edcac
 from bmeg.vertex import Deadletter
 from bmeg.emitter import new_emitter
 
@@ -26,6 +22,7 @@ files = {}
 ALLELE_HAS_GENE_CACHE = []
 HAS_ENVIRONMENT_CACHE = []
 GENOMIC_FEATURE_HAS_GENE_CACHE = []
+
 
 def normalizeAssociations(path):
     """ create a record from input """
