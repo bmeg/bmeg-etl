@@ -599,6 +599,7 @@ dvc run --file outputs.gdsc.dvc --yes \
   -o outputs/gdsc/gdsc.InProject.Edge.json.gz \
   -o outputs/gdsc/gdsc.Program.Vertex.json.gz \
   -o outputs/gdsc/gdsc.InProgram.Edge.json.gz \
+  -o outputs/gdsc/gdsc.TestedIn.Edge.json.gz \
   "python3 transform/gdsc/response.py"
 #
 dvc run --file outputs.gdc.projects.dvc --yes \
@@ -665,6 +666,7 @@ dvc run --file outputs.ctrp.drugresponse.dvc --yes \
   -o outputs/ctrp/ctrp.DrugResponse.Vertex.json.gz \
   -o outputs/ctrp/ctrp.ResponseIn.Edge.json.gz \
   -o outputs/ctrp/ctrp.ResponseTo.Edge.json.gz \
+  -o outputs/ctrp/ctrp.TestedIn.Edge.json.gz \
   -o outputs/ctrp/ctrp.AliquotFor.Edge.json.gz \
   -o outputs/ctrp/ctrp.Aliquot.Vertex.json.gz \
   -o outputs/ctrp/ctrp.SampleFor.Edge.json.gz \
@@ -678,27 +680,26 @@ dvc run --file outputs.ctrp.drugresponse.dvc --yes \
   "python3 ./transform/ctrp/transform.py"
 #
 dvc run --file outputs.compound.normalized.dvc --yes \
-   -d outputs/gdc/Compound.Vertex.json.gz \
-   -d outputs/ctrp/ctrp.Compound.Vertex.json.gz \
-   -d outputs/ccle/Compound.Vertex.json.gz \
-   -d outputs/ccle/drug_response.Compound.Vertex.json.gz \
-   -d outputs/gdsc/gdsc.Compound.Vertex.json.gz \
-   -d outputs/g2p/Compound.Vertex.json.gz \
-   -d outputs/ccle/drug_response.ResponseTo.Edge.json.gz \
-   -d outputs/ctrp/ctrp.ResponseTo.Edge.json.gz \
-   -d outputs/gdsc/gdsc.ResponseTo.Edge.json.gz \
-   -d outputs/g2p/HasEnvironment.Edge.json.gz \
-   -d outputs/gdc/TreatedWith.Edge.json.gz \
-   -d outputs/ctrp/ctrp.TestedIn.Edge.json.gz \
-   -d outputs/ccle/drug_response.TestedIn.Edge.json.gz \
-   -d outputs/gdsc/gdsc.TestedIn.Edge.json.gz \
-   -o outputs/compound/normalized.Compound.Vertex.json.gz \
-   -o outputs/compound/normalized.HasEnvironment.Edge.json.gz \
-   -o outputs/compound/normalized.ResponseTo.Edge.json.gz \
-   -o outputs/compound/normalized.TreatedWith.Edge.json.gz \
-   -o outputs/compound/normalized.TestedIn.Edge.json.gz \
-   -o source/compound/sqlite.db \
-   "python3 transform/compound/transform.py --vertex_files outputs/gdc/Compound.Vertex.json.gz outputs/ctrp/ctrp.Compound.Vertex.json.gz outputs/ccle/Compound.Vertex.json.gz outputs/ccle/drug_response.Compound.Vertex.json.gz outputs/ccle/drug_response.Compound.Vertex.json.gz outputs/gdsc/gdsc.Compound.Vertex.json.gz outputs/g2p/Compound.Vertex.json.gz --edge_files outputs/ccle/drug_response.ResponseTo.Edge.json.gz outputs/ctrp/ctrp.ResponseTo.Edge.json.gz outputs/gdsc/gdsc.ResponseTo.Edge.json.gz outputs/g2p/HasEnvironment.Edge.json.gz outputs/gdc/TreatedWith.Edge.json.gz outputs/ctrp/ctrp.TestedIn.Edge.json.gz outputs/ccle/drug_response.TestedIn.Edge.json.gz outputs/gdsc/gdsc.TestedIn.Edge.json.gz"
+  -d outputs/ccle/drug_response.Compound.Vertex.json.gz \
+  -d outputs/g2p/Compound.Vertex.json.gz \
+  -d outputs/gdc/Compound.Vertex.json.gz \
+  -d outputs/gdsc/gdsc.Compound.Vertex.json.gz \
+  -d outputs/ctrp/ctrp.Compound.Vertex.json.gz \
+  -d outputs/ccle/drug_response.ResponseTo.Edge.json.gz \
+  -d outputs/ctrp/ctrp.ResponseTo.Edge.json.gz \
+  -d outputs/gdsc/gdsc.ResponseTo.Edge.json.gz \
+  -d outputs/ccle/drug_response.TestedIn.Edge.json.gz \
+  -d outputs/ctrp/ctrp.TestedIn.Edge.json.gz \
+  -d outputs/gdsc/gdsc.TestedIn.Edge.json.gz \
+  -d outputs/g2p/HasEnvironment.Edge.json.gz \
+  -d outputs/gdc/TreatedWith.Edge.json.gz \
+  -o outputs/compound/normalized.Compound.Vertex.json.gz \
+  -o outputs/compound/normalized.HasEnvironment.Edge.json.gz \
+  -o outputs/compound/normalized.ResponseTo.Edge.json.gz \
+  -o outputs/compound/normalized.TestedIn.Edge.json.gz \
+  -o outputs/compound/normalized.TreatedWith.Edge.json.gz \
+  -o source/compound/sqlite.db \
+  "python3 transform/compound/transform.py"
 #
 dvc run --file outputs.ccle.maf.dvc --yes \
   -d source/gene_enricher/hgnc_complete_set.json \
@@ -2338,6 +2339,7 @@ dvc run --file outputs.ccle.drug_response.dvc --yes \
   -o outputs/ccle/drug_response.InProject.Edge.json.gz \
   -o outputs/ccle/drug_response.Project.Vertex.json.gz \
   -o outputs/ccle/drug_response.InProgram.Edge.json.gz \
+  -o outputs/ccle/drug_response.TestedIn.Edge.json.gz \
   -o outputs/ccle/drug_response.Program.Vertex.json.gz \
   "python3 transform/ccle/drug_response.py"
 #
@@ -2390,6 +2392,7 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/compound/normalized.Compound.Vertex.json.gz \
   -d outputs/compound/normalized.HasEnvironment.Edge.json.gz \
   -d outputs/compound/normalized.ResponseTo.Edge.json.gz \
+  -d outputs/compound/normalized.TestedIn.Edge.json.gz \
   -d outputs/compound/normalized.TreatedWith.Edge.json.gz \
   -d outputs/ctrp/ctrp.Aliquot.Vertex.json.gz \
   -d outputs/ctrp/ctrp.AliquotFor.Edge.json.gz \
@@ -2411,13 +2414,13 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/ensembl/TranscriptFor.Edge.json.gz \
   -d outputs/g2p/AlleleIn.Edge.json.gz \
   -d outputs/g2p/G2PAssociation.Vertex.json.gz \
+  -d outputs/g2p/GenomicFeature.Vertex.json.gz \
+  -d outputs/g2p/GenomicFeatureIn.Edge.json.gz \
   -d outputs/g2p/HasAlleleFeature.Edge.json.gz \
   -d outputs/g2p/HasGeneFeature.Edge.json.gz \
   -d outputs/g2p/HasGenomicFeature.Edge.json.gz \
   -d outputs/g2p/HasPhenotype.Edge.json.gz \
   -d outputs/g2p/HasSupportingReference.Edge.json.gz \
-  -d outputs/g2p/GenomicFeature.Vertex.json.gz \
-  -d outputs/g2p/GenomicFeatureIn.Edge.json.gz \
   -d outputs/g2p/Phenotype.Vertex.json.gz \
   -d outputs/gdc/Aliquot.Vertex.json.gz \
   -d outputs/gdc/AliquotFor.Edge.json.gz \

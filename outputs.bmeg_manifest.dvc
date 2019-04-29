@@ -90,7 +90,7 @@ deps:
   path: outputs/ccle/tatlow.TranscriptExpression.Vertex.json.gz
 - md5: 220fc5197689fad89ad1b52fdd55d130
   path: outputs/ccle/tatlow.TranscriptExpressionOf.Edge.json.gz
-- md5: ecb97ef5ea28947a4a8db44512b9b59a
+- md5: 8b9e0319412cc3f38fe21130890fa5af
   path: outputs/compound/normalized.Compound.Vertex.json.gz
 - md5: 61956a11d27345127d993383e010ac0e
   path: outputs/compound/normalized.HasEnvironment.Edge.json.gz

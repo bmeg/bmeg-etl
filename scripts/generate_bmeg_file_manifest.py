@@ -12,8 +12,10 @@ EXCEPTIONS = [
     "outputs/ccle/maf.Deadletter.Vertex.json.gz",
     "outputs/ccle/drug_response.Compound.Vertex.json.gz",
     "outputs/ccle/drug_response.ResponseTo.Edge.json.gz",
+    "outputs/ccle/drug_response.TestedIn.Edge.json.gz",
     "outputs/ctrp/ctrp.Compound.Vertex.json.gz",
     "outputs/ctrp/ctrp.ResponseTo.Edge.json.gz",
+    "outputs/ctrp/ctrp.TestedIn.Edge.json.gz",
     "outputs/g2p/Allele.Vertex.json.gz",
     "outputs/g2p/Compound.Vertex.json.gz",
     "outputs/g2p/Deadletter.Vertex.json.gz",
@@ -35,7 +37,7 @@ EXCEPTIONS = [
     "outputs/tcga/IlluminaHumanMethylation450.Methylation.Vertex.json.gz",
     "outputs/tcga/IlluminaHumanMethylation450.MethylationOf.Edge.json.gz",
     "outputs/tcga/IlluminaHumanMethylation450.MethylationProbe.Vertex.json.gz",
-    "outputs/tcga/IlluminaHumanMethylation450.MethylationProbeFor.Edge.json.gz",    
+    "outputs/tcga/IlluminaHumanMethylation450.MethylationProbeFor.Edge.json.gz",
 ]
 
 print("generating DVC command...")
