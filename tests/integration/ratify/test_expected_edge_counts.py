@@ -35,7 +35,7 @@ def count_traversal(_from, to, expected_count, V, via=None, expected_time=60):
         q = V.hasLabel(_from).out(via).hasLabel(to).count()
     else:
         q = V.hasLabel(_from).out().hasLabel(to).count()
-    query_string = json.dumps(q.__dict__, separators=(',', ':'))
+    query_string = json.dumps(q.to_dict(), separators=(',', ':'))
     actual_count = list(q)[0]['count']
     actual_time = watch.elapsedTime()
     via_msg = via
@@ -95,7 +95,7 @@ def test_expected_drug_response(V, caplog):
     watch = Stopwatch()
     actual_count = list(q)[0]['count']
     actual_time = watch.elapsedTime()
-    query_string = json.dumps(q.__dict__, separators=(',', ':'))
+    query_string = json.dumps(q.to_dict(), separators=(',', ':'))
     assert actual_count == 596490, 'Expected DrugResponse->Aliquot->Sample actual: {} q:{}'.format(actual_count, query_string)
     assert actual_time < 300, 'Expected DrugResponse->Aliquot->Sample < 300 sec actual: {} q:{}'.format(actual_time, query_string)
 
@@ -117,6 +117,21 @@ def test_expected_allele_callset(V, caplog):
     watch = Stopwatch()
     actual_count = list(q)[0]['count']
     actual_time = watch.elapsedTime()
-    query_string = json.dumps(q.__dict__, separators=(',', ':'))
-    assert actual_count == 5879, 'Expected Gene->AlleleIn->Allele->Callset->AlleleCall actual: {} q:{}'.format(actual_count, query_string)
+    query_string = json.dumps(q.to_dict(), separators=(',', ':'))
+    assert actual_count == 5664, 'Expected Gene->AlleleIn->Allele->Callset->AlleleCall actual: {} q:{}'.format(actual_count, query_string)
     assert actual_time < 7, 'Expected Gene->AlleleIn->Allele->Callset->AlleleCall < 7 sec actual: {} q:{}'.format(actual_time, query_string)
+
+
+def test_expected_g2p_associations(V, caplog):
+    """ subset only for one gene """
+    caplog.set_level(logging.INFO)
+    q = (
+        V.hasLabel("Gene").has(eq("$.symbol", "BRCA1")).in_("HasGeneFeature")
+        .count()
+    )
+    watch = Stopwatch()
+    actual_count = list(q)[0]['count']
+    actual_time = watch.elapsedTime()
+    query_string = json.dumps(q.to_dict(), separators=(',', ':'))
+    assert actual_count > 1, 'Expected Gene->HasGeneFeature->G2PAssociation should be more than 1 actual: {} q:{}'.format(actual_count, query_string)
+    assert actual_time < 7, 'Expected Gene->HasGeneFeature->G2PAssociation  < 7 sec actual: {} q:{}'.format(actual_time, query_string)

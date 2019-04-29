@@ -24,6 +24,8 @@ EXCEPTIONS = [
     "outputs/gdc/TreatedWith.Edge.json.gz",
     "outputs/gdsc/gdsc.Compound.Vertex.json.gz",
     "outputs/gdsc/gdsc.ResponseTo.Edge.json.gz",
+    "outputs/ccle/drug_response.TestedIn.Edge.json.gz",
+    "outputs/ctrp/ctrp.TestedIn.Edge.json.gz",
     "outputs/gdsc/gdsc.TestedIn.Edge.json.gz",
     "outputs/mc3/Allele.Vertex.json.gz",
     "outputs/mc3/Deadletter.Vertex.json.gz",
@@ -31,7 +33,11 @@ EXCEPTIONS = [
     "outputs/meta/File.Vertex.json.gz",
     "outputs/meta/Reads.Edge.json.gz",
     "outputs/meta/Writes.Edge.json.gz",
-    "outputs/meta/bmeg_file_manifest.txt"
+    "outputs/meta/bmeg_file_manifest.txt",
+    "outputs/tcga/IlluminaHumanMethylation450.Methylation.Vertex.json.gz",
+    "outputs/tcga/IlluminaHumanMethylation450.MethylationOf.Edge.json.gz",
+    "outputs/tcga/IlluminaHumanMethylation450.MethylationProbe.Vertex.json.gz",
+    "outputs/tcga/IlluminaHumanMethylation450.MethylationProbeFor.Edge.json.gz",
 ]
 
 print("generating DVC command...")

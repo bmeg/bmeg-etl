@@ -309,7 +309,7 @@ class HasEnvironment(Edge):
 
 @enforce_types
 @dataclass(frozen=True)
-class HasGenomicFeatureFeature(Edge):
+class HasGenomicFeature(Edge):
     """
     G2PAssociation -> Gene
     """

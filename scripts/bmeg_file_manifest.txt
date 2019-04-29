@@ -72,7 +72,7 @@ outputs/g2p/GenomicFeature.Vertex.json.gz
 outputs/g2p/GenomicFeatureIn.Edge.json.gz
 outputs/g2p/HasAlleleFeature.Edge.json.gz
 outputs/g2p/HasGeneFeature.Edge.json.gz
-outputs/g2p/HasGenomicFeatureFeature.Edge.json.gz
+outputs/g2p/HasGenomicFeature.Edge.json.gz
 outputs/g2p/HasPhenotype.Edge.json.gz
 outputs/g2p/HasSupportingReference.Edge.json.gz
 outputs/g2p/Phenotype.Vertex.json.gz
@@ -1132,10 +1132,6 @@ outputs/tcga/HNSC.GeneExpression.Vertex.json.gz
 outputs/tcga/HNSC.GeneExpressionOf.Edge.json.gz
 outputs/tcga/HNSC.TranscriptExpression.Vertex.json.gz
 outputs/tcga/HNSC.TranscriptExpressionOf.Edge.json.gz
-outputs/tcga/IlluminaHumanMethylation450.Methylation.Vertex.json.gz
-outputs/tcga/IlluminaHumanMethylation450.MethylationOf.Edge.json.gz
-outputs/tcga/IlluminaHumanMethylation450.MethylationProbe.Vertex.json.gz
-outputs/tcga/IlluminaHumanMethylation450.MethylationProbeFor.Edge.json.gz
 outputs/tcga/KICH.GeneExpression.Vertex.json.gz
 outputs/tcga/KICH.GeneExpressionOf.Edge.json.gz
 outputs/tcga/KICH.TranscriptExpression.Vertex.json.gz
