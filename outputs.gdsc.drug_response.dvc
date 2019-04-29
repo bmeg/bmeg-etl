@@ -1,0 +1,25 @@
+cmd: python3 transform/gdsc/drug_response.py
+deps:
+- md5: 1ccf5f79ce438dd797505a3f478a3d15
+  path: source/ccle/cellline_project_lookup.tsv
+- md5: 6f149d87dc3d75f5bab686b3e871f5e3
+  path: source/gdsc/GDSC_AUC.csv
+- md5: 4ed0013c5a77169f7402b05f5e0fb7b2
+  path: source/gdsc/GDSC_IC50.csv
+md5: 6f3b9b3b650f26e667efb4cc625995ab
+outs:
+- cache: true
+  md5: 2073849ddec708acd7821afa71e3f99f
+  path: outputs/gdsc/gdsc.Compound.Vertex.json.gz
+- cache: true
+  md5: c3a18ffeae213d5e124241fa1815d046
+  path: outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz
+- cache: true
+  md5: 2abec2b78ab7af7faf32be013107539a
+  path: outputs/gdsc/gdsc.ResponseIn.Edge.json.gz
+- cache: true
+  md5: 0654b51400ec12fffded527ab920db20
+  path: outputs/gdsc/gdsc.ResponseTo.Edge.json.gz
+- cache: true
+  md5: 74c8842c6d7dff6501df852b7e5b0a99
+  path: outputs/gdsc/gdsc.TestedIn.Edge.json.gz
