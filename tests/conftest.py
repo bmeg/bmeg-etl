@@ -79,6 +79,15 @@ class Helpers:
         return c
 
     @staticmethod
+    def parse_edge_file(edge_file_path):
+        """ ensure file exists; return [edge] """
+        assert os.path.isfile(edge_file_path)
+        with bmeg.ioutils.reader(edge_file_path) as f:
+            for line in f:
+                # should be json
+                yield json.loads(line)
+
+    @staticmethod
     def load_stores(graph_file_paths):
         """ load an in memory 'graph' returns (vertices, edges)"""
         vertices = {}
@@ -142,10 +151,11 @@ def helpers():
 
 @pytest.fixture(scope="module")
 def graph():
-    """ return a connection to the bmeg graph (control w/ BMEG_URL, BMEG_GRAPH env var) """
-    bmeg_url = os.getenv('BMEG_URL', "http://grip.compbio.ohsu.edu")
+    """ return a connection to the bmeg graph (control w/ BMEG_URL, BMEG_GRAPH, BMEG_CREDENTIAL_FILE env var) """
+    bmeg_url = os.getenv('BMEG_URL', 'https://bmeg.io/api')
     bmeg_graph = os.getenv('BMEG_GRAPH', "bmeg_rc1_2")
-    return gripql.Connection(bmeg_url).graph(bmeg_graph)
+    bmeg_credential_file = os.getenv('BMEG_CREDENTIAL_FILE', '/tmp/bmeg_credentials.json')
+    return gripql.graph.Graph(url=bmeg_url, graph=bmeg_graph, credential_file=bmeg_credential_file)
 
 
 @pytest.fixture(scope="module")

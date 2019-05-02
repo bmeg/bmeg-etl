@@ -1,13 +1,15 @@
 cmd: transform/allele/transform.sh
 deps:
-- md5: a06b8088b3d6a8b54d3deabc364ace81
+- md5: c53d6b0359327906cff0171b449cb485
   path: outputs/ccle/maf.Allele.Vertex.json.gz
 - md5: c5c3fca02d77afbd0dba5bc81f7f2282
   path: outputs/g2p/Allele.Vertex.json.gz
 - md5: 97378cc093c8ff564a72afe1daf747f9
   path: outputs/mc3/Allele.Vertex.json.gz
-md5: 51648e6bc18504b233f9ebe9f9e840ba
+md5: fff6d82ee10d2c3d54168ea2ea4007f4
 outs:
 - cache: true
-  md5: 1d78fe030127fa82ba2aea693fd36e5a
+  md5: 24816de0e8e151cd458b746a25234d5b
+  metric: false
   path: outputs/allele/Allele.Vertex.json.gz
+wdir: .

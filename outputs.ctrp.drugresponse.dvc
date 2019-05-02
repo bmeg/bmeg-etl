@@ -56,3 +56,7 @@ outs:
 - cache: true
   md5: 2e7a608c9c6dac2a81e013dafbacd96d
   path: outputs/ctrp/ctrp.Program.Vertex.json.gz
+- cache: true
+  md5: 58a9044cc150fca8fad2da5459dab79b
+  metric: false
+  path: outputs/ctrp/ctrp.TestedIn.Edge.json.gz

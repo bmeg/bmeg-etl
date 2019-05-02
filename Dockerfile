@@ -9,7 +9,7 @@ RUN pip3 install numpy bx-python requests protobuf pandas xlrd
 COPY transform /opt/transform
 
 # Copy RNA Transform code
-COPY transform/rna-matrix/transform-rna-matrix.py /opt/
+# COPY transform/rna-matrix/transform-rna-matrix.py /opt/
 
 COPY setup.py README.md /build/
 COPY src /build/src

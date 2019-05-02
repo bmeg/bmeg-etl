@@ -14,13 +14,14 @@ import bmeg.ioutils
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
 
-from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment, HasGenomicFeatureFeature, AlleleIn, GenomicFeatureIn
+from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment, HasGenomicFeature, AlleleIn, GenomicFeatureIn
 from bmeg.vertex import Deadletter
 from bmeg.emitter import new_emitter
 
 files = {}
 ALLELE_HAS_GENE_CACHE = []
 HAS_ENVIRONMENT_CACHE = []
+GENOMIC_FEATURE_HAS_GENE_CACHE = []
 
 
 def normalizeAssociations(path):
@@ -77,7 +78,7 @@ def toGraph(normalized_association, emitter):
     for allele in na.vertices['genomic_features']:
         emitter.emit_vertex(allele)
     for feature_gid in na.genomic_features:
-        emitter.emit_edge(HasGenomicFeatureFeature(),
+        emitter.emit_edge(HasGenomicFeature(),
                           association.gid(),
                           feature_gid
                           )
@@ -92,10 +93,14 @@ def toGraph(normalized_association, emitter):
         ALLELE_HAS_GENE_CACHE.append(allele_has_gene)
 
     for genomic_feature_has_gene in na.vertices['genomic_feature_has_gene']:
+        if genomic_feature_has_gene in GENOMIC_FEATURE_HAS_GENE_CACHE:
+            continue
         emitter.emit_edge(GenomicFeatureIn(),
                           genomic_feature_has_gene[0],
                           genomic_feature_has_gene[1],
                           )
+        GENOMIC_FEATURE_HAS_GENE_CACHE.append(genomic_feature_has_gene)
+
     for phenotype in na.vertices['phenotypes']:
         emitter.emit_vertex(phenotype)
     for phenotype_gid in na.phenotypes:

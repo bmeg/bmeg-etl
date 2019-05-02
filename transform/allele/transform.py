@@ -104,10 +104,17 @@ def main():  # pragma: no cover
     parser.add_argument('--sorted_allele_file', type=str,
                         help='Path to the file containing sorted **/*.Allele.Vertex.json',
                         default='source/allele/sorted_allele_file.json')
+    parser.add_argument('--delete_workfile', dest='delete_workfile', action='store_true')
+    parser.add_argument('--no-delete_workfile', dest='delete_workfile', action='store_false')
+    parser.set_defaults(delete_workfile=True)
 
     # We don't need the first argument, which is the program name
     options = parser.parse_args(sys.argv[1:])
     default_logging(options.loglevel)
+
+    if options.delete_workfile and os.path.isfile(options.sorted_allele_file):
+        logging.info('deleting {}'.format(options.sorted_allele_file))
+        os.remove(options.sorted_allele_file)
 
     transform(output_dir=options.output_dir,
               prefix=options.prefix,
