@@ -13,7 +13,7 @@ EXPECTED_COUNTS = {
     'G2PAssociation': 50099,
     'Gene': 63677,
     'GenomicFeature': 5941,
-    'Allele': 4129937,
+    'Allele': 4023292,
     'Phenotype': 3447,
     'Exon': 737019,
     'Protein': 94575,

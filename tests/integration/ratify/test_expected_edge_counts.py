@@ -118,7 +118,7 @@ def test_expected_allele_callset(V, caplog):
     actual_count = list(q)[0]['count']
     actual_time = watch.elapsedTime()
     query_string = json.dumps(q.to_dict(), separators=(',', ':'))
-    assert actual_count == 5664, 'Expected Gene->AlleleIn->Allele->Callset->AlleleCall actual: {} q:{}'.format(actual_count, query_string)
+    assert actual_count == 5879, 'Expected Gene->AlleleIn->Allele->Callset->AlleleCall actual: {} q:{}'.format(actual_count, query_string)
     assert actual_time < 7, 'Expected Gene->AlleleIn->Allele->Callset->AlleleCall < 7 sec actual: {} q:{}'.format(actual_time, query_string)
 
 
