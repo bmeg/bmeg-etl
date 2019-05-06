@@ -46,7 +46,7 @@ def validate(helpers, output_dir, emitter_directory, store_path):
     # create output
     vertex_files = [os.path.join(output_dir, f) for f in VERTEX_FILES]
     edge_files = [os.path.join(output_dir, f) for f in EDGE_FILES]
-    transform(vertex_files=vertex_files, edge_files=edge_files, output_dir=output_dir, emitter_directory=emitter_directory, store_path=store_path)
+    transform(vertex_files=vertex_files, edge_files=edge_files, emitter_directory=emitter_directory, store_path=store_path)
     # check output
     compounds = all_files[0]
     response_tos = all_files[1]
