@@ -6,10 +6,17 @@ md5: 2e3b2d5d139cbb029a7576434d987241
 outs:
 - cache: true
   md5: 68df7365a12885b8be1f56b1f5c0f699
+  metric: false
   path: source/ccle/cellline_lookup.tsv
+  persist: false
 - cache: true
   md5: 1ccf5f79ce438dd797505a3f478a3d15
+  metric: false
   path: source/ccle/cellline_project_lookup.tsv
+  persist: false
 - cache: true
   md5: e75fa89e20b91f7e3408398799e9fbce
+  metric: false
   path: source/ccle/cellline_phenotype_lookup.tsv
+  persist: false
+wdir: .

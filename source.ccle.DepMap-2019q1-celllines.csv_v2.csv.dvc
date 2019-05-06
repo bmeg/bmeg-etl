@@ -7,4 +7,7 @@ md5: f4a2d3fed270b854bb0f56d940a4de82
 outs:
 - cache: true
   md5: 6d66a59fb75c31cd3a1b320eefe1efc8
+  metric: false
   path: source/ccle/DepMap-2019q1-celllines.csv_v2.csv
+  persist: false
+wdir: .

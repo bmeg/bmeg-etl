@@ -1,6 +1,6 @@
 cmd: python3 transform/ccle/ccle_cases.py
 deps:
-- md5: 523421b6d2829186c15cbdb3ae50c804
+- md5: 68df7365a12885b8be1f56b1f5c0f699
   path: source/ccle/cellline_lookup.tsv
 - md5: 1ccf5f79ce438dd797505a3f478a3d15
   path: source/ccle/cellline_project_lookup.tsv
@@ -3148,38 +3148,61 @@ deps:
   path: source/ccle/mafs/COLO201_LARGE_INTESTINE_vs_NORMAL/vep.maf
 - md5: a339758e2a8edb9152251c24eaeceadd
   path: source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf
-md5: 97d2c175cf919f166f74347a099c6e51
+md5: 44288582ed0a80a71ab645f6ab3b8ee2
 outs:
 - cache: true
-  md5: 6391180f2ea75454a5650db1a5101d80
+  md5: 95d3e985d9ea9ba711ea02637e3a176d
+  metric: false
   path: outputs/ccle/ccle.AliquotFor.Edge.json.gz
+  persist: false
 - cache: true
-  md5: 366501ae7d23fdbd89e208b96a7b1b97
+  md5: cb7dacacfd4005b5eec113e2f2cae6cf
+  metric: false
   path: outputs/ccle/ccle.Aliquot.Vertex.json.gz
+  persist: false
 - cache: true
-  md5: 213d186d5726bfafddbd488165bfd2ff
+  md5: eebfd418dc58775d6526956a57aa96e7
+  metric: false
   path: outputs/ccle/ccle.SampleFor.Edge.json.gz
+  persist: false
 - cache: true
-  md5: ac23fb902dfd38dfad938b3374ceaa11
+  md5: ea7f089602bc41b651f0cdf33d63aef9
+  metric: false
   path: outputs/ccle/ccle.Sample.Vertex.json.gz
+  persist: false
 - cache: true
-  md5: 9cf2136eaef3122df49d999361c76f4a
+  md5: 71f8dd7e2a06acb00d8d95ae47a48121
+  metric: false
   path: outputs/ccle/ccle.Case.Vertex.json.gz
+  persist: false
 - cache: true
-  md5: 3f5d45ef0840f300b4f6e76f69dc597d
+  md5: 54b91004ebc048ab50ccecf2fab877c7
+  metric: false
   path: outputs/ccle/ccle.InProject.Edge.json.gz
+  persist: false
 - cache: true
   md5: 2598c8ba2e22c5ea68e4636f31f63e06
+  metric: false
   path: outputs/ccle/ccle.Project.Vertex.json.gz
+  persist: false
 - cache: true
   md5: 8947308aeda9f9cad027f381a83d2b7e
+  metric: false
   path: outputs/ccle/ccle.InProgram.Edge.json.gz
+  persist: false
 - cache: true
   md5: 538e806d32fa92be619fdf84af5376c2
+  metric: false
   path: outputs/ccle/ccle.Program.Vertex.json.gz
+  persist: false
 - cache: true
-  md5: e7a25ebbbd41d76f9ad8110110df5989
+  md5: e1090220edab97486927fe5a7d39b347
+  metric: false
   path: outputs/ccle/ccle.Phenotype.Vertex.json.gz
+  persist: false
 - cache: true
-  md5: 10fd2bf7b0764044a5d54e4c35fdbe6d
+  md5: 74bf5421f83eee4607b08d73690121a9
+  metric: false
   path: outputs/ccle/ccle.PhenotypeOf.Edge.json.gz
+  persist: false
+wdir: .

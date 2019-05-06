@@ -27,6 +27,7 @@ def transform(
 ):
     batch_size = 1000
     phenotype_cache = {}
+    dups = {}
     emitter = new_emitter(name=emitter_name, directory=emitter_directory, prefix='normalized')
     path = '{}/{}'.format(output_dir, vertex_names)
     files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
@@ -35,7 +36,6 @@ def transform(
     store = new_store('key-val', path=store_path, index=True)
     store.index()  # default is no index
     c = t = e = 0
-    dups = []
     for file in files:
         logging.info(file)
         with reader(file) as ins:
@@ -83,7 +83,7 @@ def transform(
                     phenotype = Phenotype.from_dict(phenotype)
                     if phenotype.gid() not in dups:
                         emitter.emit_vertex(phenotype)
-                    dups.append(phenotype.gid())
+                        dups[phenotype.gid()] = None
                     phenotype_cache[phenotype_gid] = phenotype
                     c += 1
                     t += 1
@@ -126,7 +126,7 @@ def transform(
                     emitter.emit_edge(
                         edge,
                         GID(from_),
-                        GID(to),
+                        GID(to)
                     )
                     c += 1
                     t += 1
@@ -138,12 +138,11 @@ def transform(
                     logging.info('transforming read: {} errors: {}'.format(t, e))
                     c = 0
         logging.info('transforming read: {} errors: {}'.format(t, e))
-        emitter.close()
+    emitter.close()
 
 
 if __name__ == '__main__':  # pragma: no cover
     parser = default_argument_parser()
     options = parser.parse_args(sys.argv[1:])
     default_logging(options.loglevel)
-
     transform()

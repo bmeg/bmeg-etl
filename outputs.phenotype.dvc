@@ -1,21 +1,36 @@
 cmd: python3 transform/phenotype/transform.py
 deps:
-- md5: bcb95cf6dfdb04448f15af60072c5d80
-  path: outputs/ccle/Phenotype.Vertex.json.gz
-- md5: 80f4b6f1657a492af29c486fc307c784
+- md5: e1090220edab97486927fe5a7d39b347
+  path: outputs/ccle/ccle.Phenotype.Vertex.json.gz
+- md5: ab0bb678cd927232509817c9eb251a37
+  path: outputs/ctrp/ctrp.Phenotype.Vertex.json.gz
+- md5: d9dcb62ce90eea22d52bc0732fbc8299
+  path: outputs/gdsc/gdsc.Phenotype.Vertex.json.gz
+- md5: 2ffa8f187a9d7b6e05b4fd488f202f05
   path: outputs/g2p/Phenotype.Vertex.json.gz
-md5: c06d75c53cd804f0e22563490851854e
+- md5: 74bf5421f83eee4607b08d73690121a9
+  path: outputs/ccle/ccle.PhenotypeOf.Edge.json.gz
+- md5: 511d657b67f7e1783f079c36b2d32cff
+  path: outputs/ctrp/ctrp.PhenotypeOf.Edge.json.gz
+- md5: a1f6224446988c6af268b330dedd1e1d
+  path: outputs/gdsc/gdsc.PhenotypeOf.Edge.json.gz
+- md5: 943ef0c19568a0dc7dae6aa60e02fec2
+  path: outputs/g2p/HasPhenotype.Edge.json.gz
+md5: 5f7b69e2796f3ed8c0d24583953b6816
 outs:
 - cache: true
-  md5: bec3293a6b5277af46b0903e552ae643
+  md5: c1823777a33fea354192b3fe9206deed
   metric: false
   path: outputs/phenotype/normalized.HasPhenotype.Edge.json.gz
+  persist: false
 - cache: true
-  md5: ce1860e6f22ae8e63b17dcfbbbc6e4bd
+  md5: ba795883af154e87de1d096855ae01a7
   metric: false
   path: outputs/phenotype/normalized.Phenotype.Vertex.json.gz
+  persist: false
 - cache: true
-  md5: 319f82b8fdfb36b0db99880fa12cf380
+  md5: 344e41bc9188b83d86b3062f7635f1f6
   metric: false
   path: outputs/phenotype/normalized.PhenotypeOf.Edge.json.gz
+  persist: false
 wdir: .
