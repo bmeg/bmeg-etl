@@ -28,6 +28,8 @@ deps:
   path: outputs/ccle/ccle.Sample.Vertex.json.gz
 - md5: eebfd418dc58775d6526956a57aa96e7
   path: outputs/ccle/ccle.SampleFor.Edge.json.gz
+- md5: 3b9087d0e8ae246e12e2bfab15d6dd4f
+  path: outputs/ccle/depmap.Case.Vertex.json.gz
 - md5: 95016806ae51190e89a9c078f087d0fb
   path: outputs/ccle/drug_response.DrugResponse.Vertex.json.gz
 - md5: 1b81e901cd539671bcc565114de707e6
@@ -2524,5 +2526,5 @@ deps:
   path: outputs/tcga/UVM.TranscriptExpressionOf.Edge.json.gz
 - md5: 3e4b7609393f4ecead661aad1e41d655
   path: source/compound/sqlite.db
-md5: be21f0527bbbcb5420ff352ea4393161
+md5: 8c3bcaad051e54805e122fbcb0250f12
 wdir: .

@@ -2312,6 +2312,11 @@ dvc run --file outputs.ccle.drug_response.dvc --yes \
   -o outputs/ccle/drug_response.TestedIn.Edge.json.gz \
   "python3 transform/ccle/ccle_drug_response.py"
 #
+dvc run --file outputs.ccle.depmap_cases.dvc --yes \
+  -d source/ccle/DepMap-2019q1-celllines.csv_v2.csv \
+  -o outputs/ccle/depmap.Case.Vertex.json.gz \
+  "python3 transform/ccle/depmap_cases.py"
+#
 dvc run --file outputs.ccle.cases.dvc --yes \
   -d source/ccle/cellline_lookup.tsv \
   -d source/ccle/cellline_project_lookup.tsv \
@@ -3915,6 +3920,7 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/ccle/ccle.Project.Vertex.json.gz \
   -d outputs/ccle/ccle.Sample.Vertex.json.gz \
   -d outputs/ccle/ccle.SampleFor.Edge.json.gz \
+  -d outputs/ccle/depmap.Case.Vertex.json.gz \
   -d outputs/ccle/drug_response.DrugResponse.Vertex.json.gz \
   -d outputs/ccle/drug_response.ResponseIn.Edge.json.gz \
   -d outputs/ccle/maf.AlleleCall.Edge.json.gz \

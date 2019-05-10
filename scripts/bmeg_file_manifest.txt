@@ -12,6 +12,7 @@ outputs/ccle/ccle.Program.Vertex.json.gz
 outputs/ccle/ccle.Project.Vertex.json.gz
 outputs/ccle/ccle.Sample.Vertex.json.gz
 outputs/ccle/ccle.SampleFor.Edge.json.gz
+outputs/ccle/depmap.Case.Vertex.json.gz
 outputs/ccle/drug_response.DrugResponse.Vertex.json.gz
 outputs/ccle/drug_response.ResponseIn.Edge.json.gz
 outputs/ccle/maf.AlleleCall.Edge.json.gz
