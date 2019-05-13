@@ -35,7 +35,7 @@ SAMPLE_CONVERSION_TABLE = {}
 class CCLE_MAFTransformer(MAFTransformer):
 
     # callset source
-    SOURCE = 'ccle'
+    SOURCE = 'CCLE'
     DEFAULT_PREFIX = SOURCE
     TUMOR_ALLELE = 'Tumor_Seq_Allele2'
 
@@ -53,11 +53,13 @@ class CCLE_MAFTransformer(MAFTransformer):
         ccle_name_from_path = ccle_name_from_path.replace('_vs_NORMAL', '')
 
         if ccle_name_from_path in SAMPLE_CONVERSION_TABLE:
-            return SAMPLE_CONVERSION_TABLE[ccle_name_from_path]
+            cellline_id = SAMPLE_CONVERSION_TABLE[ccle_name_from_path]
         elif ccle_name_from_path.split("_")[0] in SAMPLE_CONVERSION_TABLE:
-            return SAMPLE_CONVERSION_TABLE[ccle_name_from_path.split("_")[0]]
+            cellline_id = SAMPLE_CONVERSION_TABLE[ccle_name_from_path.split("_")[0]]
         else:
-            return "%s:Callset" % (ccle_name_from_path)
+            cellline_id = ccle_name_from_path
+
+        return "%s:Callset" % (cellline_id)
 
     def callset_maker(self, allele, source, centerCol, method, line):
         """ create callset from line """
@@ -108,7 +110,7 @@ def transform(mafpath="source/ccle/mafs/*/vep.maf",
             skip=1,
             emitter=emitter,
             mafpath=f,
-            source="ccle")
+            source="CCLE")
 
     emitter.close()
 

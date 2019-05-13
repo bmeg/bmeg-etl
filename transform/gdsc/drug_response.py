@@ -42,7 +42,7 @@ def transform(project_lookup_path="source/ccle/cellline_project_lookup.tsv",
 
             dr = DrugResponse(submitter_id=cellline_id,
                               submitter_compound_id=drug_name,
-                              source="gdsc",
+                              source="GDSC",
                               act_area=auc_val,
                               ic50=ic50_val)
             emitter.emit_vertex(dr)

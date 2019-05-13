@@ -3140,7 +3140,7 @@ deps:
   path: source/ccle/mafs/COLO201_LARGE_INTESTINE_vs_NORMAL/vep.maf
 - md5: a339758e2a8edb9152251c24eaeceadd
   path: source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf
-md5: e464a5ec3a51c24347d7dbfb1f68df1e
+md5: 159aab3ae95fa497d0d031f91f05087f
 outs:
 - cache: true
   md5: a06b8088b3d6a8b54d3deabc364ace81
@@ -3148,7 +3148,7 @@ outs:
   path: outputs/ccle/maf.Allele.Vertex.json.gz
   persist: false
 - cache: true
-  md5: d9ddc9028dd15e82c26a68edeb0424a9
+  md5: 42cd9de7cf7525f8c2b327bdd1cf3ac5
   metric: false
   path: outputs/ccle/maf.AlleleCall.Edge.json.gz
   persist: false
@@ -3158,12 +3158,12 @@ outs:
   path: outputs/ccle/maf.AlleleIn.Edge.json.gz
   persist: false
 - cache: true
-  md5: 1052cae3c02942040118884696e31ac9
+  md5: 0bb63bb80001f8bb58d11751a1d2e4c6
   metric: false
   path: outputs/ccle/maf.Callset.Vertex.json.gz
   persist: false
 - cache: true
-  md5: 9d3116fa38c3804600a99fe9a54b9977
+  md5: 2e07fd0c2b9dbf85143460a276b94782
   metric: false
   path: outputs/ccle/maf.CallsetFor.Edge.json.gz
   persist: false

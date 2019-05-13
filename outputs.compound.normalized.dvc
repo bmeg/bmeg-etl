@@ -18,9 +18,9 @@ deps:
   path: outputs/g2p/Compound.Vertex.json.gz
 - md5: a476f08778c6e13e3017fd790e8f5b4c
   path: outputs/ccle/drug_response.ResponseTo.Edge.json.gz
-- md5: 7172f61320fa23b121c5f4cce98be139
+- md5: de19191179a24f7632d49849bbf39088
   path: outputs/ctrp/ctrp.ResponseTo.Edge.json.gz
-- md5: 0654b51400ec12fffded527ab920db20
+- md5: 513e8c82f1cb42852c7536220320da63
   path: outputs/gdsc/gdsc.ResponseTo.Edge.json.gz
 - md5: e2db35b0e0ce1d293f1071e8a6b0f35d
   path: outputs/g2p/HasEnvironment.Edge.json.gz
@@ -32,20 +32,20 @@ deps:
   path: outputs/ccle/drug_response.TestedIn.Edge.json.gz
 - md5: 74c8842c6d7dff6501df852b7e5b0a99
   path: outputs/gdsc/gdsc.TestedIn.Edge.json.gz
-md5: 98281fe24b12040e43a71b8fb966e11e
+md5: 38b4c21b7d2e65fa725679600fd35552
 outs:
 - cache: true
-  md5: de821db37d9895288507d91bcd4bccec
+  md5: 83744dc4903dedbe5be5b4ffacaff956
   metric: false
   path: outputs/compound/normalized.Compound.Vertex.json.gz
   persist: false
 - cache: true
-  md5: beabe2b6661500a7d721e1f53d326a37
+  md5: fa06de0b8ba1890dd20045a82f2a499f
   metric: false
   path: outputs/compound/normalized.HasEnvironment.Edge.json.gz
   persist: false
 - cache: true
-  md5: 04238d5953fbf2a4351c172d8137f1ff
+  md5: 7942e2644945c31ff6a4c083d620017f
   metric: false
   path: outputs/compound/normalized.ResponseTo.Edge.json.gz
   persist: false
@@ -60,7 +60,7 @@ outs:
   path: outputs/compound/normalized.TestedIn.Edge.json.gz
   persist: false
 - cache: true
-  md5: 3e4b7609393f4ecead661aad1e41d655
+  md5: 0c626da74e7fa1dae370a37835148e2d
   metric: false
   path: source/compound/sqlite.db
   persist: false

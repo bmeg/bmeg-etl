@@ -68,7 +68,9 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         conc = curve_sub["cpd_conc_umol"]
         resp = curve_sub["cpd_avg_pv"]
 
-        dr = DrugResponse(submitter_id=ccl_name, submitter_compound_id=cpd_name, source="ctrp",
+        dr = DrugResponse(submitter_id=ccl_name,
+                          submitter_compound_id=cpd_name,
+                          source="CTRP",
                           act_area=auc, ec50=ec50, doses_um=list(conc),
                           activity_data_median=list(resp))
         emitter.emit_vertex(dr)
