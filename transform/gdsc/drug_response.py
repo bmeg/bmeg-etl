@@ -43,8 +43,8 @@ def transform(project_lookup_path="source/ccle/cellline_project_lookup.tsv",
             dr = DrugResponse(submitter_id=cellline_id,
                               submitter_compound_id=drug_name,
                               source="GDSC",
-                              act_area=auc_val,
-                              ic50=ic50_val)
+                              act_area=auc_val if not pandas.isnull(auc_val) else None,
+                              ic50=ic50_val if not pandas.isnull(ic50_val) else None)
             emitter.emit_vertex(dr)
             compound = compound_factory(name=drug_name)
             if compound.gid() not in emitted_compounds:

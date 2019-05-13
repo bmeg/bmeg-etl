@@ -47,6 +47,9 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             cellline_id = str(row["Sample Name"])
             emit_cellline = True
 
+        if cellline_id == "TOTAL:":
+            continue
+
         if cellline_id in emitted_celllines:
             continue
 
