@@ -14,7 +14,7 @@ deps:
   path: source/ctrp/v20.meta.per_experiment.txt
 - md5: 33a8c30659874b027dda316f257e12e1
   path: source/ctrp/v20.data.per_cpd_post_qc.txt
-md5: d80ea1c3ae7c51b2561ebaaddee5f69d
+md5: cf7ab43c20151572c960b26c1dc8021b
 outs:
 - cache: true
   md5: 61d4237a9a2ed74cc684c2b417c7144f
@@ -27,7 +27,7 @@ outs:
   path: outputs/ctrp/ctrp.DrugResponse.Vertex.json.gz
   persist: false
 - cache: true
-  md5: 7e467029898e5d32d8b66eeaa622475c
+  md5: 34c35b1b44c9b8af4c6c1a6298b384bc
   metric: false
   path: outputs/ctrp/ctrp.ResponseIn.Edge.json.gz
   persist: false

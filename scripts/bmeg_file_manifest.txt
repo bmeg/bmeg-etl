@@ -24,8 +24,17 @@ outputs/compound/normalized.HasEnvironment.Edge.json.gz
 outputs/compound/normalized.ResponseTo.Edge.json.gz
 outputs/compound/normalized.TestedIn.Edge.json.gz
 outputs/compound/normalized.TreatedWith.Edge.json.gz
+outputs/ctrp/ctrp.Aliquot.Vertex.json.gz
+outputs/ctrp/ctrp.AliquotFor.Edge.json.gz
+outputs/ctrp/ctrp.Case.Vertex.json.gz
 outputs/ctrp/ctrp.DrugResponse.Vertex.json.gz
+outputs/ctrp/ctrp.InProgram.Edge.json.gz
+outputs/ctrp/ctrp.InProject.Edge.json.gz
+outputs/ctrp/ctrp.Program.Vertex.json.gz
+outputs/ctrp/ctrp.Project.Vertex.json.gz
 outputs/ctrp/ctrp.ResponseIn.Edge.json.gz
+outputs/ctrp/ctrp.Sample.Vertex.json.gz
+outputs/ctrp/ctrp.SampleFor.Edge.json.gz
 outputs/ensembl/Exon.Vertex.json.gz
 outputs/ensembl/ExonFor.Edge.json.gz
 outputs/ensembl/Gene.Vertex.json.gz

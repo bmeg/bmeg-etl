@@ -51,7 +51,7 @@ def transform_gene_tpm(path="source/ccle/CCLE_depMap_19Q1_TPM.csv",
     for sample, values in tmp_df.iterrows():
         g = GeneExpression(
             id=sample,
-            source="ccle",
+            source="CCLE",
             metric=ExpressionMetric.GENE_TPM,
             method="Unknown",
             values=values.to_dict(),
@@ -60,7 +60,7 @@ def transform_gene_tpm(path="source/ccle/CCLE_depMap_19Q1_TPM.csv",
         emitter.emit_edge(
             GeneExpressionOf(),
             from_gid=g.gid(),
-            to_gid=Aliquot.make_gid("%s:GeneExpression" % (sample))
+            to_gid=Aliquot.make_gid("CCLE:%s:GeneExpression" % (sample))
         )
 
     emitter.close()
@@ -79,7 +79,7 @@ def transform_tpm(path="source/ccle/CCLE_depMap_19Q1_TPM_transcripts.csv",
     for sample, values in tmp_df.iterrows():
         t = TranscriptExpression(
             id=sample,
-            source="ccle",
+            source="CCLE",
             metric=ExpressionMetric.TPM,
             method="Unknown",
             values=values.to_dict(),
@@ -88,7 +88,7 @@ def transform_tpm(path="source/ccle/CCLE_depMap_19Q1_TPM_transcripts.csv",
         emitter.emit_edge(
             TranscriptExpressionOf(),
             from_gid=t.gid(),
-            to_gid=Aliquot.make_gid("%s:TranscriptExpression" % (sample))
+            to_gid=Aliquot.make_gid("CCLE:%s:TranscriptExpression" % (sample))
         )
 
     emitter.close()

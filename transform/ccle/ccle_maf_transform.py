@@ -59,7 +59,7 @@ class CCLE_MAFTransformer(MAFTransformer):
         else:
             cellline_id = ccle_name_from_path
 
-        return "%s:Callset" % (cellline_id)
+        return "CCLE:%s:Callset" % (cellline_id)
 
     def callset_maker(self, allele, source, centerCol, method, line):
         """ create callset from line """

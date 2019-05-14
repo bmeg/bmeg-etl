@@ -83,7 +83,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         emitter.emit_edge(
             ResponseIn(),
             drug_resp.gid(),
-            Aliquot.make_gid("%s:DrugResponse:%s" % (drug_response.submitter_id, drug_response.submitter_compound_id)),
+            Aliquot.make_gid("CCLE:%s:DrugResponse:%s" % (drug_response.submitter_id, drug_response.submitter_compound_id)),
         )
         # create compound
         compound = compound_factory(name=drug_response.submitter_compound_id)

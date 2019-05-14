@@ -53,7 +53,7 @@ def transform(project_lookup_path="source/ccle/cellline_project_lookup.tsv",
             emitter.emit_edge(
                 ResponseIn(),
                 dr.gid(),
-                Aliquot.make_gid("%s:DrugResponse:%s" % (cellline_id, drug_name))
+                Aliquot.make_gid("GDSC:%s:DrugResponse:%s" % (cellline_id, drug_name))
             )
             emitter.emit_edge(
                 ResponseTo(),

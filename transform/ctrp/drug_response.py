@@ -78,7 +78,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         emitter.emit_edge(
             ResponseIn(),
             dr.gid(),
-            Aliquot.make_gid("%s:DrugResponse:%s" % (ccl_name, cpd_name))
+            Aliquot.make_gid("CTRP:%s:DrugResponse:%s" % (ccl_name, cpd_name))
         )
         emitter.emit_edge(
             ResponseTo(),

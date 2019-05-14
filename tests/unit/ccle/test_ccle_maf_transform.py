@@ -59,7 +59,7 @@ def validate(helpers, emitter_directory, maf_file, cellline_lookup_path):
             # should be json
             callset = json.loads(line)
             # source should be ccle
-            assert callset['data']['source'] == 'ccle', 'source should be ccle'
+            assert callset['data']['source'] == 'CCLE', 'source should be CCLE'
             # from & to should be ids, not gids
             assert 'Aliquot' not in callset['data']['tumor_aliquot_id'], 'tumor_aliquot_id should not have Aliquot gid'
 

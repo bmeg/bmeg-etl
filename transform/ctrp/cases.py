@@ -51,6 +51,10 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         ccl_id = metaexperiment_df.loc[exp_id]['master_ccl_id']
         ccl_name = ccl_df.loc[ccl_id]['ccl_name']
 
+        # both ids map to ACH-000991
+        if ccl_name in ["697", "SNU81"]:
+            ccl_name = "SNU81"
+
         if ccl_name not in raw_ids:
             raw_ids[ccl_name] = None
         if ccl_name in drugs:
