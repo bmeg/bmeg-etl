@@ -4,17 +4,26 @@ deps:
   path: source/ccle/CCLE_depMap_19Q1_TPM.csv
 - md5: d907322a3f1b98712ef577c89e5cdfeb
   path: source/ccle/CCLE_depMap_19Q1_TPM_transcripts.csv
-md5: e505ff8ffb65cffae44584fb56ae7fd4
+md5: b087620e39ddfb6538f36f76b9c48809
 outs:
 - cache: true
-  md5: edca6ef1db4ce63def5b90d097a745dc
+  md5: eb5a36448f808284c180da3e0bc715e0
+  metric: false
   path: outputs/ccle/TranscriptExpression.Vertex.json.gz
+  persist: false
 - cache: true
-  md5: 17a4dcd28b39946d9d4fb5d674e2b4f1
+  md5: cdd834f2f44aa7579bb012b2ecc5ec12
+  metric: false
   path: outputs/ccle/TranscriptExpressionOf.Edge.json.gz
+  persist: false
 - cache: true
-  md5: e67b6b877492a8bc17505790ae1a3e2d
+  md5: 6f7f5f7c88d49b515a987936e5ae61d2
+  metric: false
   path: outputs/ccle/GeneExpression.Vertex.json.gz
+  persist: false
 - cache: true
-  md5: 8e7c8b143ffea3395ab021450343b591
+  md5: f80ecd7087110fafb4f1bce5d8552a07
+  metric: false
   path: outputs/ccle/GeneExpressionOf.Edge.json.gz
+  persist: false
+wdir: .

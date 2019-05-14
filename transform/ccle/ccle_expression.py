@@ -23,7 +23,7 @@ def transform_rpkm(path="source/depmap/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct
         sample = sample.split()[1].replace('(', '').replace(')', '')
         g = GeneExpression(
             id=sample,
-            source="ccle",
+            source="CCLE",
             metric=ExpressionMetric.RPKM,
             method="Unknown",
             values=values,
@@ -32,7 +32,7 @@ def transform_rpkm(path="source/depmap/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct
         emitter.emit_edge(
             GeneExpressionOf(),
             from_gid=g.gid(),
-            to_gid=Aliquot.make_gid(sample)
+            to_gid=Aliquot.make_gid("CCLE:%s:GeneExpression" % (sample))
         )
 
     emitter.close()
