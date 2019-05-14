@@ -73,7 +73,8 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             p.gid(),
         )
 
-        s = Sample(sample_id=cellline_id)
+        sample_id = "GDSC:%s" % (cellline_id)
+        s = Sample(sample_id=sample_id)
         emitter.emit_vertex(s)
         emitter.emit_edge(
             SampleFor(),
@@ -103,7 +104,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
 
         experiement_type = "DrugResponse"
         for drug in drugs:
-            aliquot_id = "%s:%s:%s" % (cellline_id, experiement_type, drug)
+            aliquot_id = "GDSC:%s:%s:%s" % (cellline_id, experiement_type, drug)
             a = Aliquot(aliquot_id=aliquot_id)
             emitter.emit_vertex(a)
             emitter.emit_edge(
