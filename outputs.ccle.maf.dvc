@@ -1,6 +1,6 @@
 cmd: python3 transform/ccle/ccle_maf_transform.py
 deps:
-- md5: 68df7365a12885b8be1f56b1f5c0f699
+- md5: e6d1bc2ea16ca63f03474a27ea27034e
   path: source/ccle/cellline_lookup.tsv
 - md5: 078c811212df6ace75b90c0927c94467
   path: source/ccle/mafs/LU135_LUNG_vs_NORMAL/vep.maf
@@ -3140,7 +3140,7 @@ deps:
   path: source/ccle/mafs/COLO201_LARGE_INTESTINE_vs_NORMAL/vep.maf
 - md5: a339758e2a8edb9152251c24eaeceadd
   path: source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf
-md5: 29446ece3d8a21d35a8590bb792ae0f1
+md5: 80276e0aecf0482567c5a90c080c946c
 outs:
 - cache: true
   md5: a06b8088b3d6a8b54d3deabc364ace81

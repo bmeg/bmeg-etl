@@ -397,11 +397,6 @@ class Project(Vertex):
         return GID("%s:%s" % (cls.__name__, project_id))
 
 
-class DrugResponseMetric(str, Enum):
-    AUC = "AUC"
-    IC50 = "IC50"
-
-
 @enforce_types
 @dataclass(frozen=True)
 class DrugResponse(Vertex):
@@ -418,6 +413,7 @@ class DrugResponse(Vertex):
     ic50: Union[None, float] = None
     amax: Union[None, float] = None
     act_area: Union[None, float] = None
+    auc: Union[None, float] = None
 
     def gid(self):
         return DrugResponse.make_gid(self.source, self.submitter_id, self.submitter_compound_id)

@@ -71,7 +71,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         dr = DrugResponse(submitter_id=ccl_name,
                           submitter_compound_id=cpd_name,
                           source="CTRP",
-                          act_area=auc, ec50=ec50, doses_um=list(conc),
+                          auc=auc, ec50=ec50, doses_um=list(conc),
                           activity_data_median=list(resp))
         emitter.emit_vertex(dr)
         compound = compound_factory(name=cpd_name)

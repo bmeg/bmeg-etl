@@ -1,4 +1,5 @@
 import os
+import re
 from pydash import is_blank
 
 import bmeg.ioutils
@@ -14,15 +15,11 @@ def create_project_lookup(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv",
     lookup = {}
     input_stream = bmeg.ioutils.read_csv(path)
     for line in input_stream:
-        if "MERGED" in line["CCLE_Name"]:
-            continue
-
         # TODO: convert to TCGA project short codes
         project_id = "_".join(line["Primary Disease"].split())
         # project_id = line["Subtype Disease"]
         if not project_id or is_blank(project_id):
             continue
-
         lookup[line["DepMap_ID"]] = project_id
 
     assert len(lookup.keys()), "Project lookup is empty!"
@@ -44,9 +41,6 @@ def create_phenotype_lookup(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv
     lookup = {}
     input_stream = bmeg.ioutils.read_csv(path)
     for line in input_stream:
-        if "MERGED" in line["CCLE_Name"]:
-            continue
-
         phenotype_name = line.get('Subtype Disease', None)
         if not phenotype_name or is_blank(phenotype_name):
             phenotype_name = line.get('Primary Disease', None)
@@ -75,6 +69,10 @@ def create_cellline_lookup(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv"
     input_stream = bmeg.ioutils.read_csv(path)
     for line in input_stream:
         if "MERGED" in line["CCLE_Name"]:
+            m = re.search("\[MERGED_TO_(ACH-[0-9]+)\](.*)", line["CCLE_Name"])
+            lookup[line["DepMap_ID"]] = m.group(1)
+            lookup[m.group(2)] = m.group(1)
+            lookup[line["COSMIC_ID"]] = m.group(1)
             continue
 
         keys = ["DepMap_ID", "CCLE_Name", "COSMIC_ID", "Sanger ID"]

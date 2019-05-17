@@ -7,13 +7,15 @@ from bmeg.edge import ResponseIn, ResponseTo, TestedIn
 from bmeg.enrichers.drug_enricher import compound_factory
 
 
-def transform(project_lookup_path="source/ccle/cellline_project_lookup.tsv",
+def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
+              project_lookup_path="source/ccle/cellline_project_lookup.tsv",
               drugs_meta_path="source/gdsc/Screened_Compounds.xlsx",
               ic50_path="source/gdsc/GDSC_IC50.csv",
               auc_path="source/gdsc/GDSC_AUC.csv",
               emitter_prefix="gdsc",
               emitter_directory="gdsc"):
 
+    celllines = bmeg.ioutils.read_lookup(cellline_lookup_path)
     projects = bmeg.ioutils.read_lookup(project_lookup_path)
 
     emitter = JSONEmitter(prefix=emitter_prefix, directory=emitter_directory)
@@ -34,6 +36,9 @@ def transform(project_lookup_path="source/ccle/cellline_project_lookup.tsv",
         for cellline_id, ic50_val in row.to_dict().items():
             auc_val = auc_df.loc[drug_id][cellline_id]
 
+            # correct for merged broad ids
+            cellline_id = celllines.get(cellline_id, cellline_id)
+
             # Track drugs for project
             project_id = "GDSC_%s" % (projects.get(cellline_id, "Unknown"))
             proj = Project(project_id)
@@ -43,7 +48,7 @@ def transform(project_lookup_path="source/ccle/cellline_project_lookup.tsv",
             dr = DrugResponse(submitter_id=cellline_id,
                               submitter_compound_id=drug_name,
                               source="GDSC",
-                              act_area=auc_val if not pandas.isnull(auc_val) else None,
+                              auc=auc_val if not pandas.isnull(auc_val) else None,
                               ic50=ic50_val if not pandas.isnull(ic50_val) else None)
             emitter.emit_vertex(dr)
             compound = compound_factory(name=drug_name)
