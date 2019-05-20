@@ -24,11 +24,17 @@ def metadrugPath(request):
 
 
 @pytest.fixture
+def cellline_lookup_path(request):
+    return os.path.join(request.fspath.dirname, 'source/ccle/cellline_lookup.tsv')
+
+
+@pytest.fixture
 def project_lookup_path(request):
     return os.path.join(request.fspath.dirname, 'source/ccle/cellline_project_lookup.tsv')
 
 
-def validate(helpers, emitter_directory, metadrugPath, GDSC_AUC_file, GDSC_IC50_file, project_lookup_path):
+def validate(helpers, emitter_directory, metadrugPath, GDSC_AUC_file, GDSC_IC50_file,
+             cellline_lookup_path, project_lookup_path):
 
     profile_file = os.path.join(emitter_directory, 'DrugResponse.Vertex.json.gz')
     profile_in_file = os.path.join(emitter_directory, 'ResponseIn.Edge.json.gz')
@@ -45,6 +51,7 @@ def validate(helpers, emitter_directory, metadrugPath, GDSC_AUC_file, GDSC_IC50_
 
     # create output
     transform(
+        cellline_lookup_path=cellline_lookup_path,
         project_lookup_path=project_lookup_path,
         drugs_meta_path=metadrugPath,
         auc_path=GDSC_AUC_file,
@@ -62,5 +69,7 @@ def validate(helpers, emitter_directory, metadrugPath, GDSC_AUC_file, GDSC_IC50_
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot', 'Project'])
 
 
-def test_simple(helpers, emitter_directory, metadrugPath, GDSC_AUC_file, GDSC_IC50_file, project_lookup_path):
-    validate(helpers, emitter_directory, metadrugPath, GDSC_AUC_file, GDSC_IC50_file, project_lookup_path)
+def test_simple(helpers, emitter_directory, metadrugPath, GDSC_AUC_file, GDSC_IC50_file,
+                cellline_lookup_path, project_lookup_path):
+    validate(helpers, emitter_directory, metadrugPath, GDSC_AUC_file, GDSC_IC50_file,
+             cellline_lookup_path, project_lookup_path)
