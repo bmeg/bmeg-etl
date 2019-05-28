@@ -1,6 +1,6 @@
 import io
 import os
-
+from glob import glob
 from setuptools import setup
 
 
@@ -22,6 +22,8 @@ setup(
     license="MIT",
     package_dir={"": "src/"},
     packages=["bmeg", "bmeg.util", "bmeg.maf", "bmeg.enrichers"],
+    data_files=[ ('share/bmeg', glob("bmeg-dictionary/gdcdictionary/schemas/*.yaml")) ],
+    zip_safe=False,
     python_requires=">=3.6, <4",
     install_requires=[
         "dataclasses>=0.6",

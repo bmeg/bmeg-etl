@@ -3,9 +3,9 @@ import re
 
 from urllib.parse import unquote
 
+from bmeg import Exon, Gene, Transcript
+
 import bmeg.ioutils
-from bmeg.vertex import Gene, Transcript, Exon
-from bmeg.edge import TranscriptFor, ExonFor
 from bmeg.emitter import JSONEmitter
 
 
@@ -55,6 +55,7 @@ def transform(
     Transform the file downloaded from:
         ftp://ftp.ensembl.org/pub/grch37/release-94/gff3/homo_sapiens/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz
     """
+
     emitter = JSONEmitter(directory=emitter_directory, prefix=None)
 
     inhandle = bmeg.ioutils.reader(gff3_path)
@@ -97,13 +98,9 @@ def transform(
                      end=attrs["end"],
                      strand=attrs["strand"],
                      genome=GENOME_BUILD)
-            emitter.emit_vertex(e)
+            emitter.emit(e)
 
             for transcript_id in transcripts:
-                emitter.emit_edge(ExonFor(),
-                                  from_gid=e.gid(),
-                                  to_gid=Transcript.make_gid(transcript_id))
-
                 if transcript_id not in emitted_transcripts:
                     for attrs in features[transcript_id]:
                         gene_id = get_parent_gene(attrs["Parent"])
@@ -115,10 +112,7 @@ def transform(
                                        strand=attrs["strand"],
                                        biotype=attrs["type"],
                                        genome=GENOME_BUILD)
-                        emitter.emit_vertex(t)
-                        emitter.emit_edge(TranscriptFor(),
-                                          from_gid=t.gid(),
-                                          to_gid=Gene.make_gid(gene_id))
+                        emitter.emit(t)
                         emitted_transcripts[transcript_id] = True
 
                         if gene_id not in emitted_genes:
@@ -131,7 +125,7 @@ def transform(
                                          end=int(attrs["end"]),
                                          strand=attrs["strand"],
                                          genome=GENOME_BUILD)
-                                emitter.emit_vertex(g)
+                                emitter.emit(g)
                                 emitted_genes[gene_id] = True
     emitter.close()
 
