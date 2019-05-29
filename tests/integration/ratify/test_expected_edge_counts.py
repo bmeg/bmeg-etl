@@ -9,9 +9,9 @@ import json
 import logging
 
 EXPECTED_COUNTS = [
-    {'_from': 'Sample', 'to': 'Case', 'via': 'SampleFor', 'expected_count': 75127, 'expected_time': 22},
-    {'_from': 'Case', 'to': 'Project', 'via': 'InProject', 'expected_count': 45792, 'expected_time': 11},
-    {'_from': 'Aliquot', 'to': 'Sample', 'via': 'AliquotFor', 'expected_count': 195804, 'expected_time': 50},
+    {'_from': 'Sample', 'to': 'Case', 'via': 'SampleFor', 'expected_count': 76883, 'expected_time': 22},
+    {'_from': 'Case', 'to': 'Project', 'via': 'InProject', 'expected_count': 45459, 'expected_time': 11},
+    {'_from': 'Aliquot', 'to': 'Sample', 'via': 'AliquotFor', 'expected_count': 849801, 'expected_time': 200},
     {'_from': 'Protein', 'to': 'PFAMFamily', 'via': 'PFAMAlignment', 'expected_count': 87547, 'expected_time': 30},
     {'_from': 'Protein', 'to': 'Transcript', 'via': 'ProteinFor', 'expected_count': 94446, 'expected_time': 29},
 ]
@@ -96,7 +96,7 @@ def test_expected_drug_response(V, caplog):
     actual_count = list(q)[0]['count']
     actual_time = watch.elapsedTime()
     query_string = json.dumps(q.to_dict(), separators=(',', ':'))
-    assert actual_count == 596490, 'Expected DrugResponse->Aliquot->Sample actual: {} q:{}'.format(actual_count, query_string)
+    assert actual_count == 641610, 'Expected DrugResponse->Aliquot->Sample actual: {} q:{}'.format(actual_count, query_string)
     assert actual_time < 300, 'Expected DrugResponse->Aliquot->Sample < 300 sec actual: {} q:{}'.format(actual_time, query_string)
 
 
