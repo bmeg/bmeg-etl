@@ -96,7 +96,7 @@ def test_expected_drug_response(V, caplog):
     actual_count = list(q)[0]['count']
     actual_time = watch.elapsedTime()
     query_string = json.dumps(q.to_dict(), separators=(',', ':'))
-    assert actual_count == 596490, 'Expected DrugResponse->Aliquot->Sample actual: {} q:{}'.format(actual_count, query_string)
+    assert actual_count == 641610, 'Expected DrugResponse->Aliquot->Sample actual: {} q:{}'.format(actual_count, query_string)
     assert actual_time < 300, 'Expected DrugResponse->Aliquot->Sample < 300 sec actual: {} q:{}'.format(actual_time, query_string)
 
 

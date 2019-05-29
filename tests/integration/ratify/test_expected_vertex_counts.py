@@ -3,7 +3,6 @@
 a set of very basic queries - simply ensure the counts of label
 """
 
-
 EXPECTED_COUNTS = {
     'Case': 35577,
     'Sample': 76883,
