@@ -7,6 +7,7 @@ import dataclasses
 from datetime import datetime
 import gzip
 
+from bmeg import Vertex, Edge
 from bmeg.utils import enforce_types, ensure_directory
 
 
@@ -122,7 +123,6 @@ class BaseEmitter:
         return data
 
     def emit_edge(self, obj):
-        obj.validat()
         gid = "(%s)--%s->(%s)" % (obj.from_gid, obj.label(), obj.to_gid)
         dumped = {
             "_id": gid,
@@ -137,7 +137,7 @@ class BaseEmitter:
         return dumped
 
     def emit_vertex(self, obj):
-        obj.validat()
+        obj.validate()
         dumped = {
             "_id": obj.gid(),
             "gid": obj.gid(),

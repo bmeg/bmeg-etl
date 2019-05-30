@@ -3,7 +3,9 @@ import re
 
 from urllib.parse import unquote
 
-from bmeg import Exon, Gene, Transcript
+from bmeg import (Exon, Gene, Transcript,
+                  Transcript_Gene_Gene, Gene_Transcript_Transcript, 
+                  Exon_Transcript_Transcript, Transcript_Exon_Exon)
 
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
@@ -91,20 +93,32 @@ def transform(
                 transcript_id = get_parent_transcript(attrs["Parent"])
                 transcripts.append(transcript_id)
             attrs = aset[0]
-            e = Exon(exon_id=attrs["exon_id"],
-                     transcript_id=transcripts,
+            e = Exon(id=attrs["exon_id"],
+                     transcripts=transcripts,
                      chromosome=attrs["seqId"],
                      start=attrs["start"],
                      end=attrs["end"],
                      strand=attrs["strand"],
                      genome=GENOME_BUILD)
-            emitter.emit(e)
+            emitter.emit_vertex(e)
 
             for transcript_id in transcripts:
+                emitter.emit_edge(
+                    Exon_Transcript_Transcript(
+                        from_gid=e.gid(),
+                        to_gid=Transcript.make_gid(transcript_id)
+                    )
+                )
+                emitter.emit_edge(
+                    Transcript_Exon_Exon(
+                        from_gid=Transcript.make_gid(transcript_id),
+                        to_gid=e.gid()
+                    )
+                )
                 if transcript_id not in emitted_transcripts:
                     for attrs in features[transcript_id]:
                         gene_id = get_parent_gene(attrs["Parent"])
-                        t = Transcript(transcript_id=attrs["transcript_id"],
+                        t = Transcript(id=attrs["transcript_id"],
                                        gene_id=gene_id,
                                        chromosome=attrs["seqId"],
                                        start=int(attrs["start"]),
@@ -112,12 +126,24 @@ def transform(
                                        strand=attrs["strand"],
                                        biotype=attrs["type"],
                                        genome=GENOME_BUILD)
-                        emitter.emit(t)
+                        emitter.emit_vertex(t)
+                        emitter.emit_edge(
+                            Transcript_Gene_Gene(
+                                from_gid=t.gid(),
+                                to_gid=Gene.make_gid(gene_id)
+                            )
+                        )
+                        emitter.emit_edge(
+                            Gene_Transcript_Transcript(
+                                from_gid=Gene.make_gid(gene_id),
+                                to_gid=t.gid()
+                            )
+                        )
                         emitted_transcripts[transcript_id] = True
 
                         if gene_id not in emitted_genes:
                             for attrs in features[gene_id]:
-                                g = Gene(gene_id=attrs["gene_id"],
+                                g = Gene(id=attrs["gene_id"],
                                          symbol=attrs["Name"],
                                          description=attrs.get("description", ""),
                                          chromosome=attrs["seqId"],
@@ -125,7 +151,7 @@ def transform(
                                          end=int(attrs["end"]),
                                          strand=attrs["strand"],
                                          genome=GENOME_BUILD)
-                                emitter.emit(g)
+                                emitter.emit_vertex(g)
                                 emitted_genes[gene_id] = True
     emitter.close()
 
