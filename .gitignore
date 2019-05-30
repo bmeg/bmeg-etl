@@ -49,3 +49,5 @@ tests/unit/compound/source/compound/sqlite.db
 
 .DS_Store
 tests/unit/*/test/*.json.gz
+
+tests/unit/gen3/outputs
