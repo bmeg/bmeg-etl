@@ -6,11 +6,57 @@ import typing
 import dataclasses
 from datetime import datetime
 import gzip
-from collections import Iterable
 
-from bmeg import ClassInstance
+from bmeg.edge import Edge
 from bmeg.gid import GID
 from bmeg.utils import enforce_types, ensure_directory
+from bmeg.vertex import Vertex
+
+
+class DebugEmitter:
+    def __init__(self, **kwargs):
+        self.emitter = BaseEmitter(**kwargs)
+
+    def close(self):
+        self.emitter.close()
+
+    def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
+        d = self.emitter.emit_edge(obj, from_gid, to_gid)
+        print(json.dumps(d, indent=True))
+
+    def emit_vertex(self, obj: Vertex):
+        d = self.emitter.emit_vertex(obj)
+        print(json.dumps(d, indent=True))
+
+
+class JSONEmitter:
+    def __init__(self, directory, prefix=None, **kwargs):
+        self.handles = FileHandler(directory, prefix, "json")
+        self.emitter = BaseEmitter(**kwargs)
+
+    def close(self):
+        self.handles.close()
+        self.emitter.close()
+
+    def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
+        d = self.emitter.emit_edge(obj, from_gid, to_gid)
+        fh = self.handles[obj]
+        if self.handles.compresslevel > 0:
+            fh.write(json.dumps(d).encode())
+            fh.write(os.linesep.encode())
+        else:
+            fh.write(json.dumps(d))
+            fh.write(os.linesep)
+
+    def emit_vertex(self, obj: Vertex):
+        d = self.emitter.emit_vertex(obj)
+        fh = self.handles[obj]
+        if self.handles.compresslevel > 0:
+            fh.write(json.dumps(d).encode())
+            fh.write(os.linesep.encode())
+        else:
+            fh.write(json.dumps(d))
+            fh.write(os.linesep)
 
 
 class Rate:
@@ -49,97 +95,10 @@ class Rate:
         if self.i % 1000 == 0:
             self.log()
 
-class DebugEmitter:
-    def __init__(self, **kwargs):
-        self.generator = Generator(**kwargs)
 
-    def close(self):
-        self.generator.close()
-
-    def write_edge(self, e):
-        print(json.dumps(e, indent=True))
-
-    def write_vertex(self, v):
-        print(json.dumps(v, indent=True))
-
-    def emit(self, obj):
-        o = self.generator.to_dict(obj)
-        print(json.dumps(o, indent=True))
-
-    def emit_edge(self, obj, from_gid: GID, to_gid: GID):
-        self.generator.emit_edge(
-            self,
-            obj, from_gid, to_gid
-        )
-
-    def emit_vertex(self, obj):
-        self.generator.emit_vertex(
-            self,
-            obj
-        )
-
-    def emit_link(self, label, to_gid, from_gid):
-        self.write_edge({"label" : label, "to" : to_gid, "from" : from_gid})
-
-
-class JSONEmitter:
-    def __init__(self, directory, prefix=None, **kwargs):
-        self.vertex_handles = FileHandler(directory, prefix, "Vertex.json")
-        self.edge_handles = FileHandler(directory, prefix, "Edge.json")
-        self.obj_handles = FileHandler(directory, prefix, "json")
-        self.generator = Generator(**kwargs)
-
-    def close(self):
-        self.vertex_handles.close()
-        self.edge_handles.close()
-        self.generator.close()
-
-    def write_edge(self, obj):
-        fh = self.edge_handles[obj]
-        if self.edge_handles.compresslevel > 0:
-            fh.write(json.dumps(obj).encode())
-            fh.write(os.linesep.encode())
-        else:
-            fh.write(json.dumps(obj))
-            fh.write(os.linesep)
-
-    def write_vertex(self, obj):
-        fh = self.vertex_handles[obj]
-        if self.vertex_handles.compresslevel > 0:
-            fh.write(json.dumps(obj).encode())
-            fh.write(os.linesep.encode())
-        else:
-            fh.write(json.dumps(obj))
-            fh.write(os.linesep)
-
-    def write_obj(self, obj):
-        o = self.generator.to_dict(obj)
-        fh = self.obj_handles[obj]
-        if self.vertex_handles.compresslevel > 0:
-            fh.write(json.dumps(o).encode())
-            fh.write(os.linesep.encode())
-        else:
-            fh.write(json.dumps(o))
-            fh.write(os.linesep)
-
-    def emit(self, obj):
-        self.write_obj(obj)
-
-    def emit_edge(self, obj, from_gid: GID, to_gid: GID):
-        d = self.generator.emit_edge(self, obj, from_gid, to_gid)
-
-    def emit_vertex(self, obj):
-        d = self.generator.emit_vertex(self, obj)
-
-    def emit_link(self, label, to_gid, from_gid):
-        self.write_edge({"label" : label, "to" : to_gid, "from" : from_gid})
-
-def make_gid(label, from_gid: GID, to_gid: GID):
-    return "(%s)--%s->(%s)" % (from_gid, label, to_gid)
-
-class Generator:
+class BaseEmitter:
     """
-    Generator is an internal helper that contains code shared by all
+    BaseEmitter is an internal helper that contains code shared by all
     emitters, such as validation checks, data cleanup, etc.
     """
 
@@ -150,7 +109,7 @@ class Generator:
     def close(self):
         self.rate.close()
 
-    def _get_data(self, obj):
+    def _get_data(self, obj: typing.Union[Edge, Vertex]):
         # this util recurses and unravels embedded dataclasses
         # see https://docs.python.org/3/library/dataclasses.html#dataclasses.asdict
         data = dataclasses.asdict(obj)
@@ -163,74 +122,30 @@ class Generator:
         return data
 
     @enforce_types
-    def to_dict(self, obj: ClassInstance):
-        err = obj._validate()
-        if len(err) > 0:
-            #TODO: emit errors to log
-            for i in err:
-                print("Error: %s" % (i))
-            #return None
-        return obj._data
-
-    @enforce_types
-    def emit_edge(self, wrt, obj: ClassInstance, from_gid: str, to_gid: str):
-        label = obj._classSchema.label
-        gid = make_gid(label, from_gid, to_gid)
-        data = {}
-        for k, val in obj._data.items():
-            link = obj._classSchema.getLink(k)
-            if link is None:
-                data[k] = val
-
+    def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
         dumped = {
-            "_id": gid,
-            "gid": gid,
-            "label": label,
+            "_id": obj.make_gid(from_gid, to_gid),
+            "gid": obj.make_gid(from_gid, to_gid),
+            "label": obj.label(),
             "from": from_gid,
             "to": to_gid,
-            "data": data
+            "data": self._get_data(obj)
         }
+
         self.rate.tick()
-        wrt.write_edge( dumped )
+        return dumped
 
     @enforce_types
-    def emit_vertex(self, wrt, obj: ClassInstance):
-        err = obj._validate()
-        if len(err) > 0:
-            #TODO: emit errors to log
-            for i in err:
-                print("Error: %s" % (i))
-            #return None
+    def emit_vertex(self, obj: Vertex):
+        dumped = {
+            "_id": obj.gid(),
+            "gid": obj.gid(),
+            "label": obj.label(),
+            "data": self._get_data(obj)
+        }
 
-        gid = None
-        label = obj._classSchema.label
-        for k, prop in obj._classSchema.properties().items():
-            # If the value represents the 'node_id' of the data
-            if prop.get("systemAlias", "") == "node_id":
-                gid = obj._get(k)
-        if gid is None:
-            print("%s node_id is not set" % (obj._classSchema.name))
-            return None
-        data = {}
-        for k, val in obj._data.items():
-            link = obj._classSchema.getLink(k)
-            if link is not None:
-                if not isinstance(val, Iterable) or isinstance(val, str):
-                    val = [val]
-                for dst in val:
-                    self.emit_link(wrt, link['label'], from_gid=gid, to_gid=dst)
-                    if 'backref' in link:
-                        self.emit_link(wrt, link["backref"], to_gid=gid, from_gid=dst)
-            #elif obj._classSchema.prop(k).systemAlias == "node_id":
-            #    pass
-            else:
-                data[k] = val
-        wrt.write_vertex( {"gid":gid, "label":label, "data" : data} )
         self.rate.tick()
-
-    # a link if an edge with no properties
-    def emit_link(self, wrt, label, from_gid, to_gid ):
-        wrt.write_edge({"label":label, "from":from_gid, "to":to_gid})
+        return dumped
 
 
 class FileHandler:
@@ -253,12 +168,16 @@ class FileHandler:
         atexit.register(self.close)
 
     def __getitem__(self, obj):
-        if isinstance(obj, ClassInstance):
-            label = obj._classSchema.name
-        else:
-            label = obj['label'] #.__class__.__name__
+        label = obj.__class__.__name__
 
-        fname = "%s.%s" % (label, self.extension)
+        if isinstance(obj, Vertex):
+            suffix = "Vertex"
+        elif isinstance(obj, Edge):
+            suffix = "Edge"
+        else:
+            suffix = "Unknown"
+
+        fname = "%s.%s.%s" % (label, suffix, self.extension)
         if self.prefix is not None:
             fname = self.prefix + "." + fname
         fname = os.path.join(self.outdir, fname)

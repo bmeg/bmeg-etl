@@ -1,187 +1,118 @@
-
+import pkg_resources
+import jsonschema
 import os
-import yaml
-import json
-from copy import copy
-from glob import glob
+import types
+
+from dictionaryutils import DataDictionary, load_schemas_from_dir, load_yaml
+
+from copy import deepcopy
 
 
+class BMEGDataDictionary(DataDictionary):
+    def __init__(
+            self,
+            root_dir,
+            definitions_paths=None,
+            metaschema_path=None
+    ):
+        self.root_dir = root_dir
+        self.metaschema_path = metaschema_path or self._metaschema_path
+        self.definitions_paths = definitions_paths or self._definitions_paths
+        self.exclude = (
+            [self.metaschema_path] +
+            self.definitions_paths +
+            [self.settings_path] +
+            ["data_release.yaml", "root.yaml"]
+        )
+        self.schema = dict()
+        self.resolvers = dict()
 
-def load(path):
-    out = Schema()
-    for g in glob(os.path.join(path, "*.yaml")):
-        with open(g) as handle:
-            meta = yaml.load(handle.read(), Loader=yaml.SafeLoader)
-        if meta.get("type", "") == "object":
-            c = SchemaClass(out, os.path.basename(g), meta)
-        else:
-            out._add(os.path.basename(g), meta)
-    return out
+        self.metaschema = load_yaml(
+            os.path.join(
+                pkg_resources.resource_filename("dictionaryutils", "schemas"),
+                self.metaschema_path
+            )
+        )
 
-class Schema(object):
-    def __init__(self):
-        self._classes = {}
-        self._path = {}
+        self.load_data(directory=self.root_dir, url=None)
 
-    def _add(self, path, c):
-        if isinstance(c, SchemaClass):
-            self._classes[c.name] = c
-        self._path[path] = c
+    def load_data(self, directory=None, url=None):
+        """Load and reslove all schemas from directory or url"""
+        yamls, resolvers = load_schemas_from_dir(pkg_resources.resource_filename("dictionaryutils", "schemas/"))
+        yamls, resolvers = load_schemas_from_dir(directory,
+                                                 schemas=yamls,
+                                                 resolvers=resolvers)
 
-    def _getTerm(self, p):
-        f, elem = p.split("#")
-        if f in self._path:
-            meta = self._path[f]
-            elem = elem.lstrip("/")
-            if elem in meta:
-                return meta[elem]
-        return None
+        self.settings = yamls.get(self.settings_path) or {}
+        self.resolvers.update(resolvers)
 
-    def _getProp(self, p):
-        f, elem = p.split("#")
-        if f in self._path:
-            meta = self._path[f]
-            elem = elem.lstrip("/")
-            if elem in meta:
-                return meta[elem]
+        schemas = {
+            schema["id"]: self.resolve_schema(schema, deepcopy(schema))
+            for path, schema in yamls.items()
+            if path not in self.exclude
+        }
+        self.schema.update(schemas)
 
-    def __getattr__(self,name):
-        if name in self._classes:
-            return self._classes[name]
-        raise AttributeError("%s" % (name))
-
-class SchemaClass:
-
-    def __init__(self, schema, path, classDict):
-        self._schema = schema
-        self._path = path
-        self._classDict = classDict
-
-        self._schema._add(path, self)
-
-    def __call__(self, **data):
-        return ClassInstance(self._schema, self, **data)
-
-    def getName(self):
-        #print(self._schema)
-        return self._classDict['title']
-
-    def getLink(self, n):
-        for i in self._classDict.get("links", []):
-            if i['name'] == n:
-                return i
-        return None
-
-    def properties(self):
-        return self._classDict['properties']
-
-    def prop(self, name):
-        prop = self._classDict['properties'][name]
-        if "$ref" in prop:
-            m = copy(self._schema._getProp(prop["$ref"]))
-            for k, v in prop.items():
-                if k != "$ref":
-                    m[k] = v
-            return SchemaProperty(self._schema, m)
-        else:
-            return SchemaProperty(self._schema, prop)
-
-    def required(self):
-        return self._classDict["required"]
-
-    name = property(getName)
-    label = property(getName)
 
 class ClassInstance:
-    def __init__(self, schema, classSchema, **data):
-        self._schema = schema
-        self._classSchema = classSchema
-        self._data = {}
 
-        for k, v in data.items():
-            o = self._validateSet(k, v)
-            if o is not None:
-                print(o)
+    def __init__(self, **kwargs):
+        self.__dict__["_props"] = {}
+        if "properties" in self._schema:
+            for k in self._schema["properties"].keys():
+                self.__dict__["_props"][k] = None
 
-    def _validateSet(self, k, v):
-        if k not in self._classSchema.properties():
-            return "%s property '%s' not found" % (self._classSchema.name, k)
-        prop = self._classSchema.prop(k)
-        vt = None
-        ve = []
-        for t in prop.types:
-            enum = t.enum
-            if len(enum) > 0:
-                if v not in enum:
-                    ve.append( "value %s not in [%s]" % (v, ",".join(enum)) )
-                else:
-                    vt = t
-            else:
-                vt = t
-        if vt is not None:
-            self._data[k] = v
-        else:
-            return "type not found: [%s]" % (",".join(ve))
+        for k, v in kwargs.items():
+            self.__setattr__(k, v)
 
-    def _validate(self):
-        o = []
-        for i in self._classSchema.required():
-            if i not in self._data:
-                o.append("%s required property %s not found" % (self._classSchema.name, i))
-        return o
+    def props(self):
+        return self._props
 
-    def _get(self, name):
-        if name in self._data:
-            return self._data[name]
-        p = self._classSchema._classDict['properties'].get(name, None)
-        if p is not None and "template" in p:
-            return p["template"].format(**self._data)
+    def schema(self):
+        return self._schema
 
-    def __getattr__(self,name):
-        if name in self._data:
-            return self._data[name]
-        p = self._classSchema._classDict['properties'].get(name, None)
-        if p is not None and "template" in p:
-            return p["template"].format(**self._data)
-        raise AttributeError("%s" % (name))
+    def validate(self):
+        jsonschema.validate(self.props(), self.schema())
+        return
 
-class SchemaProperty:
-    def __init__(self, schema, propDict):
-        self._schema = schema
-        self._propDict = propDict
+    def label(self):
+        return self.__class__.__name__
 
-    def getSystemAlias(self):
-        #print(self._propDict)
-        return self._propDict.get("systemAlias", "")
+    def gid(self):
+        return ClassInstance.make_gid(self.id)
 
-    #def types(self):
-    #return self._propDict.get("oneOf", [])
+    @classmethod
+    def make_gid(cls, gid):
+        return cls._gid_cls(gid)
 
-    def getTypes(self):
-        if "oneOf" in self._propDict:
-            o = []
-            for i in self._propDict["oneOf"]:
-                o.append(SchemaType(self._schema, i))
-            return o
-        return [ SchemaType(self._schema, self._propDict) ]
+    def __repr__(self):
+        return '<%s(%s)>' % (self.__class__.__name__, self.props())
 
-    systemAlias = property(getSystemAlias)
-    types = property(getTypes)
+    def __setattr__(self, key, item):
+        if key not in self._props:
+            raise KeyError("object does not contain key '{}'".format(key))
+        self._props[key] = item
 
-class SchemaType:
-    def __init__(self, schema, typeDict):
-        self._schema = schema
-        self._typeDict = typeDict
+    def __getattr__(self, key):
+        return self._props[key]
 
-    def getEnum(self):
-        return self._typeDict.get("enum", [])
+    def __getitem__(self, k):
+        return self.__getattr__(k)
 
-    enum = property(getEnum)
+    def __setitem__(self, k, v):
+        return self.__setattr__(k, v)
 
-_schemaPath = os.path.join(os.path.dirname(os.path.dirname(__file__)), "share/bmeg")
-_schema = load( _schemaPath )
+
+_schemaPath = pkg_resources.resource_filename(__name__, "bmeg-dictionary/gdcdictionary/schemas")
+_schema = BMEGDataDictionary(root_dir=_schemaPath)
 
 __all__ = []
-for k, v in _schema._classes.items():
-    globals()[k] = v
-    __all__.append(k)
+for k, schema in _schema.schema.items():
+    name = k.capitalize()
+    cls = type(
+        name, (ClassInstance,),
+        {'_schema': schema,
+         '_gid_cls': types.new_class("{}GID".format(name), (str,), {})}
+    )
+    globals()[name] = cls
+    __all__.append(name)

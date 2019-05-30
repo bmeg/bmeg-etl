@@ -2,5 +2,5 @@
 	path = tools/vcf2maf-tools
 	url = https://github.com/OpenGenomics/vcf2maf-tools.git
 [submodule "bmeg-dictionary"]
-	path = bmeg-dictionary
+	path = src/bmeg/schemas
 	url = https://github.com/bmeg/bmeg-dictionary.git
