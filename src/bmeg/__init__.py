@@ -1,11 +1,12 @@
-import pkg_resources
+import dataclasses
 import jsonschema
 import os
+import pkg_resources
 import types
 
-from dictionaryutils import DataDictionary, load_schemas_from_dir, load_yaml
-
 from copy import deepcopy
+from dictionaryutils import DataDictionary, load_schemas_from_dir, load_yaml
+from bmeg.utils import enforce_types
 
 
 class BMEGDataDictionary(DataDictionary):
@@ -103,12 +104,16 @@ class ClassInstance:
         return self.__setattr__(k, v)
 
 
+def capitalize(label):
+    return "".join([x.capitalize() for x in label.split("_")])
+
+
 _schemaPath = pkg_resources.resource_filename(__name__, "bmeg-dictionary/gdcdictionary/schemas")
 _schema = BMEGDataDictionary(root_dir=_schemaPath)
 
 __all__ = []
 for k, schema in _schema.schema.items():
-    name = k.capitalize()
+    name = capitalize(k)
     cls = type(
         name, (ClassInstance,),
         {'_schema': schema,
@@ -116,3 +121,16 @@ for k, schema in _schema.schema.items():
     )
     globals()[name] = cls
     __all__.append(name)
+
+for k, schema in _schema.schema.items():
+    for link in schema['links']:
+        src = capitalize(k)
+        target = capitalize(link["target_type"])
+        cls_name = "{}_{}_{}".format(src, capitalize(link['label']), target)
+        globals()[cls_name] = enforce_types(dataclasses.make_dataclass(
+            link['label'],
+            [('from_gid', globals()[name]._gid_cls),
+             ('to_gid', globals()[target]._gid_cls)],
+            namespace={'label': lambda self: self.__class__.__name__}
+        ))
+        __all__.append(cls_name)

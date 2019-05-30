@@ -7,10 +7,7 @@ import dataclasses
 from datetime import datetime
 import gzip
 
-from bmeg.edge import Edge
-from bmeg.gid import GID
 from bmeg.utils import enforce_types, ensure_directory
-from bmeg.vertex import Vertex
 
 
 class DebugEmitter:
@@ -20,11 +17,11 @@ class DebugEmitter:
     def close(self):
         self.emitter.close()
 
-    def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
-        d = self.emitter.emit_edge(obj, from_gid, to_gid)
+    def emit_edge(self, obj):
+        d = self.emitter.emit_edge(obj)
         print(json.dumps(d, indent=True))
 
-    def emit_vertex(self, obj: Vertex):
+    def emit_vertex(self, obj):
         d = self.emitter.emit_vertex(obj)
         print(json.dumps(d, indent=True))
 
@@ -38,8 +35,8 @@ class JSONEmitter:
         self.handles.close()
         self.emitter.close()
 
-    def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
-        d = self.emitter.emit_edge(obj, from_gid, to_gid)
+    def emit_edge(self, obj):
+        d = self.emitter.emit_edge(obj)
         fh = self.handles[obj]
         if self.handles.compresslevel > 0:
             fh.write(json.dumps(d).encode())
@@ -48,7 +45,7 @@ class JSONEmitter:
             fh.write(json.dumps(d))
             fh.write(os.linesep)
 
-    def emit_vertex(self, obj: Vertex):
+    def emit_vertex(self, obj):
         d = self.emitter.emit_vertex(obj)
         fh = self.handles[obj]
         if self.handles.compresslevel > 0:
@@ -109,10 +106,13 @@ class BaseEmitter:
     def close(self):
         self.rate.close()
 
-    def _get_data(self, obj: typing.Union[Edge, Vertex]):
+    def _get_data(self, data):
         # this util recurses and unravels embedded dataclasses
         # see https://docs.python.org/3/library/dataclasses.html#dataclasses.asdict
-        data = dataclasses.asdict(obj)
+        if dataclasses.is_dataclass(data):
+            data = dataclasses.asdict(data)
+        elif not isinstance(data, dict):
+            raise TypeError("data is of unknown type: {}".format(type(data)))
         # delete null values
         if not self.preserve_null:
             remove = [k for k in data if data[k] is None]
@@ -121,27 +121,28 @@ class BaseEmitter:
 
         return data
 
-    @enforce_types
-    def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
+    def emit_edge(self, obj):
+        obj.validat()
+        gid = "(%s)--%s->(%s)" % (obj.from_gid, obj.label(), obj.to_gid)
         dumped = {
-            "_id": obj.make_gid(from_gid, to_gid),
-            "gid": obj.make_gid(from_gid, to_gid),
+            "_id": gid,
+            "gid": gid,
             "label": obj.label(),
-            "from": from_gid,
-            "to": to_gid,
+            "from": obj.from_gid,
+            "to": obj.to_gid,
             "data": self._get_data(obj)
         }
 
         self.rate.tick()
         return dumped
 
-    @enforce_types
-    def emit_vertex(self, obj: Vertex):
+    def emit_vertex(self, obj):
+        obj.validat()
         dumped = {
             "_id": obj.gid(),
             "gid": obj.gid(),
             "label": obj.label(),
-            "data": self._get_data(obj)
+            "data": self._get_data(obj.props())
         }
 
         self.rate.tick()
