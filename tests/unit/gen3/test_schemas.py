@@ -25,6 +25,8 @@ def test_schemas():
         assert sp.issubset(p), 'schema has system property(s) not found in properties {}'.format(sp - p)
         assert rp.issubset(p), 'schema has required property(s) not found in properties {}'.format(rp - p)
         assert link_names.issubset(p), 'schema has link names(s) not found in properties {}'.format(link_names - p)
+        assert schema['category'] != 'template', 'should have set category'
+
         # # TODO - once we can load schema and _definitions.yaml
         # from jsonschema.validators import validator_for
         # validator = validator_for(schema)
