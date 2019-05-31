@@ -13,12 +13,18 @@ import matplotlib.pyplot as plt
 
 import inflection
 
-from yaml import dump, load, FullLoader
+from yaml import dump, load, FullLoader, Dumper
 
 import copy
 
 if sys.version > '3':
     long = int
+
+
+# https://github.com/yaml/pyyaml/issues/103
+class NoAliasDumper(Dumper):
+    def ignore_aliases(self, data):
+        return True
 
 
 def gid_exceptions(label):
@@ -192,7 +198,7 @@ def create_yaml(schema, output_dir='outputs/gen3'):
         file_name = '{}.yaml'.format(schema_id)
         p = os.path.join(output_dir, file_name)
         with open(p, 'w') as outs:
-            outs.write(dump(schema, default_flow_style=False))
+            outs.write(dump(schema, default_flow_style=False, Dumper=NoAliasDumper))
         paths.append(p)
     return paths
 
