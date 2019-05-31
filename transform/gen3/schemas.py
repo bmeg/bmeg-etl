@@ -239,7 +239,7 @@ def make_id(label):
 
 
 def make_category(schema_id):
-    CATEGORIES.get(schema_id, 'reference')
+    return CATEGORIES.get(schema_id, 'reference')
 
 
 def create_yaml(schema, output_dir='outputs/gen3'):
