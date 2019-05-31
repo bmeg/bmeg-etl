@@ -153,7 +153,7 @@ def create_schema(G):
         schema[v] = {}
         schema[v]['links'] = []
         schema[v]['properties'] = field_types
-        schema[v]['required'] = [k for k, o in schema[v]['properties'].items() if type(o['type']) is not list]
+        schema[v]['required'] = [k for k, o in schema[v]['properties'].items() if type(o.get('type', None) ) is not list]
 
     to_many = {'type': {'$ref': '_definitions.yaml#/to_many'}}
     for v in deduced_vertices & bmeg_vertices:
