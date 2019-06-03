@@ -1,9 +1,0 @@
-cmd: wget https://osf.io/brkh6/download -O source/ccle/expression/CCLE_tpm.tsv.gz
-deps:
-- md5: 6808ca805661622ad65ae014a4b2a094
-  path: source/ccle/version.txt
-md5: 939ce56c20497db992f1b9e58161b1a2
-outs:
-- cache: true
-  md5: 4fadc5ed3b8008b390fca93278b06b23
-  path: source/ccle/expression/CCLE_tpm.tsv.gz

@@ -3,7 +3,7 @@
 import pytest
 from transform.ccle.ccle_maf_transform import transform
 from transform.ccle.ccle_maf_transform import CCLE_EXTENSION_CALLSET_KEYS
-from bmeg.vertex import Allele, Callset, Gene, Aliquot, Sample, Case, Project
+from bmeg.vertex import Allele, Callset, Gene, Aliquot
 from bmeg.maf.maf_transform import STANDARD_MAF_KEYS
 from bmeg.ioutils import reader
 
@@ -14,35 +14,21 @@ import json
 
 @pytest.fixture
 def maf_file(request):
-    """ get the full path of the test fixture """
     return os.path.join(request.fspath.dirname, 'source/ccle/mafs/*/vep.maf')
 
 
 @pytest.fixture
-def emitter_path_prefix(request):
-    """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'test')
+def cellline_lookup_path(request):
+    return os.path.join(request.fspath.dirname, 'source/ccle/cellline_lookup.tsv')
 
 
-@pytest.fixture
-def ccle_sample_path(request):
-    """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'outputs/ccle/Sample.Vertex.json.gz')
+def validate(helpers, emitter_directory, maf_file, cellline_lookup_path):
+    allele_file = os.path.join(emitter_directory, 'maf.Allele.Vertex.json.gz')
+    allelecall_file = os.path.join(emitter_directory, 'maf.AlleleCall.Edge.json.gz')
+    callset_file = os.path.join(emitter_directory, 'maf.Callset.Vertex.json.gz')
+    allelein_file = os.path.join(emitter_directory, 'maf.AlleleIn.Edge.json.gz')
+    callsetfor_file = os.path.join(emitter_directory, 'maf.CallsetFor.Edge.json.gz')
 
-
-def validate(helpers, maf_file, emitter_path_prefix, ccle_sample_path):
-    allele_file = os.path.join(emitter_path_prefix, 'maf.Allele.Vertex.json.gz')
-    allelecall_file = os.path.join(emitter_path_prefix, 'maf.AlleleCall.Edge.json.gz')
-    callset_file = os.path.join(emitter_path_prefix, 'maf.Callset.Vertex.json.gz')
-    allelein_file = os.path.join(emitter_path_prefix, 'maf.AlleleIn.Edge.json.gz')
-    callsetfor_file = os.path.join(emitter_path_prefix, 'maf.CallsetFor.Edge.json.gz')
-    aliquot_file = os.path.join(emitter_path_prefix, 'maf.Aliquot.Vertex.json.gz')
-    aliquotfor_file = os.path.join(emitter_path_prefix, 'maf.AliquotFor.Edge.json.gz')
-    sample_file = os.path.join(emitter_path_prefix, 'maf.Sample.Vertex.json.gz')
-    samplefor_file = os.path.join(emitter_path_prefix, 'maf.SampleFor.Edge.json.gz')
-    case_file = os.path.join(emitter_path_prefix, 'maf.Case.Vertex.json.gz')
-    project_file = os.path.join(emitter_path_prefix, 'maf.Project.Vertex.json.gz')
-    inproject_file = os.path.join(emitter_path_prefix, 'maf.InProject.Edge.json.gz')
     all_files = [allele_file, allelecall_file, callset_file, allelein_file, callsetfor_file]
 
     # remove output
@@ -52,8 +38,9 @@ def validate(helpers, maf_file, emitter_path_prefix, ccle_sample_path):
     # create output
     transform(
         mafpath=maf_file,
-        ccle_sample_path=ccle_sample_path,
-        emitter_directory=emitter_path_prefix)
+        cellline_lookup_path=cellline_lookup_path,
+        emitter_directory=emitter_directory
+    )
 
     # test/maf.Allele.Vertex.json
     helpers.assert_vertex_file_valid(Allele, allele_file)
@@ -65,20 +52,6 @@ def validate(helpers, maf_file, emitter_path_prefix, ccle_sample_path):
     helpers.assert_edge_file_valid(Callset, Allele, allelecall_file)
     # test/maf.CallsetFor.Edge.json
     helpers.assert_edge_file_valid(Callset, Aliquot, callsetfor_file)
-    # test/maf.Aliquot.Vertex.json
-    helpers.assert_vertex_file_valid(Aliquot, aliquot_file)
-    # test/maf.AliquotFor.Edge.json
-    helpers.assert_edge_file_valid(Aliquot, Sample, aliquotfor_file)
-    # test/maf.Sample.Vertex.json
-    helpers.assert_vertex_file_valid(Sample, sample_file)
-    # test/maf.SampleFor.Edge.json
-    helpers.assert_edge_file_valid(Sample, Case, samplefor_file)
-    # test/maf.Case.Vertex.json
-    helpers.assert_vertex_file_valid(Case, case_file)
-    # test/maf.Project.Vertex.json
-    helpers.assert_vertex_file_valid(Project, project_file)
-    # test/maf.InProject.Edge.json
-    helpers.assert_edge_file_valid(Case, Project, inproject_file)
 
     assert callset_count > 0, 'There should be at least one callset'
     with reader(callset_file) as f:
@@ -86,7 +59,7 @@ def validate(helpers, maf_file, emitter_path_prefix, ccle_sample_path):
             # should be json
             callset = json.loads(line)
             # source should be ccle
-            assert callset['data']['source'] == 'ccle', 'source should be ccle'
+            assert callset['data']['source'] == 'CCLE', 'source should be CCLE'
             # from & to should be ids, not gids
             assert 'Aliquot' not in callset['data']['tumor_aliquot_id'], 'tumor_aliquot_id should not have Aliquot gid'
 
@@ -122,6 +95,6 @@ def validate(helpers, maf_file, emitter_path_prefix, ccle_sample_path):
     )
 
 
-def test_simple(helpers, maf_file, emitter_path_prefix, ccle_sample_path):
+def test_simple(helpers, emitter_directory, maf_file, cellline_lookup_path):
     """ simple test """
-    validate(helpers, maf_file, emitter_path_prefix, ccle_sample_path)
+    validate(helpers, emitter_directory, maf_file, cellline_lookup_path)

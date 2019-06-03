@@ -123,7 +123,7 @@ class Gene(Vertex):
     @classmethod
     def make_gid(cls, gene_id):
         if not gene_id.startswith("ENSG"):
-            raise ValueError("not an emsembl gene id: {}".format(gene_id))
+            raise ValueError("not an ensembl gene id: {}".format(gene_id))
         if gene_id.count(".") != 0:
             raise ValueError("version numbers not allowed")
         return GID("%s" % (gene_id))
@@ -147,7 +147,7 @@ class Transcript(Vertex):
     @classmethod
     def make_gid(cls, transcript_id):
         if not transcript_id.startswith("ENST"):
-            raise ValueError("not an emsembl transcript id: {}".format(transcript_id))
+            raise ValueError("not an ensembl transcript id: {}".format(transcript_id))
         if transcript_id.count(".") != 0:
             raise ValueError("version numbers not allowed")
         return GID("%s" % (transcript_id))
@@ -170,7 +170,7 @@ class Exon(Vertex):
     @classmethod
     def make_gid(cls, exon_id):
         if not exon_id.startswith("ENSE"):
-            raise ValueError("not an emsembl exon id: {}".format(exon_id))
+            raise ValueError("not an ensembl exon id: {}".format(exon_id))
         if exon_id.count(".") != 0:
             raise ValueError("version numbers not allowed: %s" % (exon_id))
         return GID("%s" % (exon_id))
@@ -190,7 +190,7 @@ class Protein(Vertex):
     @classmethod
     def make_gid(cls, protein_id):
         if not protein_id.startswith("ENSP"):
-            raise ValueError("not an emsembl protein id: {}".format(protein_id))
+            raise ValueError("not an ensembl protein id: {}".format(protein_id))
         if protein_id.count(".") != 0:
             raise ValueError("version numbers not allowed")
         return GID("%s" % (protein_id))
@@ -307,7 +307,7 @@ class Case(Vertex):
     case_id: str
     gdc_attributes: Union[None, dict] = None
     gtex_attributes: Union[None, dict] = None
-    ccle_attributes: Union[None, dict] = None
+    cellline_attributes: Union[None, dict] = None
 
     def gid(self):
         return Case.make_gid(self.case_id)
@@ -322,8 +322,8 @@ class Case(Vertex):
 class Sample(Vertex):
     sample_id: str
     gdc_attributes: Union[None, dict] = None
-    ccle_attributes: Union[None, dict] = None
     gtex_attributes: Union[None, dict] = None
+    cellline_attributes: Union[None, dict] = None
 
     def gid(self):
         return Sample.make_gid(self.sample_id)
@@ -338,6 +338,8 @@ class Sample(Vertex):
 class Aliquot(Vertex):
     aliquot_id: str
     gdc_attributes: Union[None, dict] = None
+    gtex_attributes: Union[None, dict] = None
+    cellline_attributes: Union[None, dict] = None
 
     def gid(self):
         return Aliquot.make_gid(self.aliquot_id)
@@ -395,17 +397,12 @@ class Project(Vertex):
         return GID("%s:%s" % (cls.__name__, project_id))
 
 
-class DrugResponseMetric(str, Enum):
-    AUC = "AUC"
-    IC50 = "IC50"
-
-
 @enforce_types
 @dataclass(frozen=True)
 class DrugResponse(Vertex):
     source: str
-    sample_id: str
-    compound_id: str
+    submitter_id: str
+    submitter_compound_id: str
 
     doses_um: Union[None, list] = None
     activity_data_median: Union[None, list] = None
@@ -416,13 +413,14 @@ class DrugResponse(Vertex):
     ic50: Union[None, float] = None
     amax: Union[None, float] = None
     act_area: Union[None, float] = None
+    auc: Union[None, float] = None
 
     def gid(self):
-        return DrugResponse.make_gid(self.source, self.sample_id, self.compound_id)
+        return DrugResponse.make_gid(self.source, self.submitter_id, self.submitter_compound_id)
 
     @classmethod
-    def make_gid(cls, source, sample_id, compound_id):
-        return GID("%s:%s:%s:%s" % (cls.__name__, source, sample_id, compound_id))
+    def make_gid(cls, source, submitter_id, submitter_compound_id):
+        return GID("%s:%s:%s:%s" % (cls.__name__, source, submitter_id, submitter_compound_id))
 
 
 @enforce_types

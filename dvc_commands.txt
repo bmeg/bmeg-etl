@@ -51,11 +51,6 @@ dvc run --file source.tcga.TCGA_expression_tpm.tsv.gz.dvc --yes \
   -o source/tcga/expression/transcript-level/TCGA_UVM_tpm.tsv.gz \
   "unzip -j source/tcga/expression/transcript-level/tcga-genomics.zip *_tpm.tsv.gz -d source/tcga/expression/transcript-level"
 #
-dvc run --file source.tcga.methylation.IlluminaHumanMethylation450.tar.gz.dvc --yes \
-  -d source/tcga/methylation/version.txt \
-  -o source/tcga/methylation/IlluminaHumanMethylation450.tar.gz \
-  "python3 transform/tcga/download_methylation.py"
-#
 dvc run --file source.tcga.gistic2-firehose.gistic2cna.dvc --yes \
   -d source/tcga/gistic2-firehose/version.txt \
   -o source/tcga/gistic2-firehose/TCGA-ACC_all_thresholded.by_genes.txt \
@@ -157,10 +152,17 @@ dvc run --file source.gene_enricher.hgnc_complete_set.json.dvc --yes \
   -o source/gene_enricher/hgnc_complete_set.json \
   "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ebi.ac.uk/pub/databases/genenames/new/json/hgnc_complete_set.json --output source/gene_enricher/hgnc_complete_set.json"
 #
-dvc run --file source.gdsc.GDSC_AUC.csv.dvc --yes \
+dvc run --file source.gdsc.meta_files.dvc --yes \
+  -d source/gdsc/version.txt \
+  -o source/gdsc/Cell_Lines_Details.xlsx \
+  -o source/gdsc/Screened_Compounds.xlsx \
+  "wget -O source/gdsc/Cell_Lines_Details.xlsx ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/current_release/Cell_Lines_Details.xlsx && wget -O source/gdsc/Screened_Compounds.xlsx ftp://ftp.sanger.ac.uk/pub/project/cancerrxgene/releases/current_release/Screened_Compounds.xlsx"
+#
+dvc run --file source.gdsc.drug_response.dvc --yes \
   -d source/gdsc/version.txt \
   -o source/gdsc/GDSC_AUC.csv \
-  "wget https://depmap.org/portal/download/api/download/external?file_name=processed_portal_downloads%2Fsanger-gdsc-545e.1%2FGDSC_AUC.csv -O source/gdsc/GDSC_AUC.csv"
+  -o source/gdsc/GDSC_IC50.csv \
+  "wget https://depmap.org/portal/download/api/download/external?file_name=processed_portal_downloads%2Fsanger-gdsc-545e.2%2FGDSC_AUC.csv -O source/gdsc/GDSC_AUC.csv && wget https://depmap.org/portal/download/api/download/external?file_name=processed_portal_downloads%2Fsanger-gdsc-545e.2%2FGDSC_IC50.csv -O source/gdsc/GDSC_IC50.csv"
 #
 dvc run --file source.g2p.all.dvc --yes \
   -d source/g2p/version.txt \
@@ -202,39 +204,37 @@ dvc run --file source.ccle.mafs.dvc --yes \
   -o source/ccle/mafs \
   " ./tools/run_vcfdir2maf.sh source/ccle/vcfs source/ccle/mafs"
 #
-dvc run --file source.ccle.DepMap-2018q4-celllines.csv.dvc --yes \
+dvc run --file source.ccle.DepMap-2019q1-celllines.csv_v2.csv.dvc --yes \
   -d source/ccle/version.txt \
-  -o source/ccle/DepMap-2018q4-celllines.csv \
-  "wget https://depmap.org/portal/download/api/download/external?file_name=processed_portal_downloads%2Fdepmap-public-cell-line-metadata-183e.1%2FDepMap-2018q4-celllines.csv -O source/ccle/DepMap-2018q4-celllines.csv"
+  -o source/ccle/DepMap-2019q1-celllines.csv_v2.csv \
+  "wget https://depmap.org/portal/download/api/download/external?file_name=processed_portal_downloads%2Fdepmap-public-cell-line-metadata-183e.4%2FDepMap-2019q1-celllines_v2.csv -O source/ccle/DepMap-2019q1-celllines.csv_v2.csv"
 #
-dvc run --file source.ccle.CCLE_tpm.tsv.gz.dvc --yes \
-  -d source/ccle/version.txt \
-  -o source/ccle/expression/CCLE_tpm.tsv.gz \
-  "wget https://osf.io/brkh6/download -O source/ccle/expression/CCLE_tpm.tsv.gz"
+dvc run --file source.ccle.cellline_lookups.dvc --yes \
+  -d source/ccle/DepMap-2019q1-celllines.csv_v2.csv \
+  -o source/ccle/cellline_lookup.tsv \
+  -o source/ccle/cellline_project_lookup.tsv \
+  -o source/ccle/cellline_phenotype_lookup.tsv \
+  " python3 transform/ccle/cellline_lookups.py"
 #
 dvc run --file source.ccle.CCLE_NP24.2009_Drug_data_2015.02.24.csv.dvc --yes \
   -d source/ccle/version.txt \
   -o source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv \
   "wget https://data.broadinstitute.org/ccle_legacy_data/pharmacological_profiling/CCLE_NP24.2009_Drug_data_2015.02.24.csv -O source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv"
 #
-dvc run --file source.ccle.CCLE_depMap_18Q4_TPM_v2.dvc --yes \
+dvc run --file source.ccle.CCLE_depMap_19Q1_TPM_transcripts.csv.dvc --yes \
   -d source/ccle/version.txt \
-  -o source/ccle/CCLE_depMap_18Q4_TPM_v2.csv \
-  " curl -L -o source/ccle/CCLE_depMap_18Q4_TPM_v2.csv https://depmap.org/portal/download/api/download/external?file_name=ccle%2Fdepmap-rnaseq-expression-data-ccd0.9%2FCCLE_depMap_18Q4_TPM_v2.csv"
+  -o source/ccle/CCLE_depMap_19Q1_TPM_transcripts.csv \
+  " curl -L -o source/ccle/CCLE_depMap_19Q1_TPM_transcripts.csv https://depmap.org/portal/download/api/download/external?file_name=ccle%2Fdepmap-rnaseq-expression-data-ccd0.12%2FCCLE_depMap_19Q1_TPM_transcripts.csv"
+#
+dvc run --file source.ccle.CCLE_depMap_19Q1_TPM.csv.dvc --yes \
+  -d source/ccle/version.txt \
+  -o source/ccle/CCLE_depMap_19Q1_TPM.csv \
+  " curl -L -o source/ccle/CCLE_depMap_19Q1_TPM.csv https://depmap.org/portal/download/api/download/external?file_name=ccle%2Fdepmap-rnaseq-expression-data-ccd0.12%2FCCLE_depMap_19Q1_TPM.csv"
 #
 dvc run --file source.ccle.CCLE_DepMap_18q3_maf_20180718.txt.dvc --yes \
   -d source/ccle/version.txt \
   -o source/ccle/CCLE_DepMap_18q3_maf_20180718.txt \
   "wget https://data.broadinstitute.org/ccle/CCLE_DepMap_18q3_maf_20180718.txt -O source/ccle/CCLE_DepMap_18q3_maf_20180718.txt"
-#
-dvc run --file outputs.tcga.IlluminaHumanMethylation450.dvc --yes \
-  -d source/tcga/methylation/IlluminaHumanMethylation450.tar.gz \
-  -d outputs/gdc/Aliquot.Vertex.json.gz \
-  -o outputs/tcga/IlluminaHumanMethylation450.Methylation.Vertex.json.gz \
-  -o outputs/tcga/IlluminaHumanMethylation450.MethylationProbe.Vertex.json.gz \
-  -o outputs/tcga/IlluminaHumanMethylation450.MethylationOf.Edge.json.gz \
-  -o outputs/tcga/IlluminaHumanMethylation450.MethylationProbeFor.Edge.json.gz \
-  "python3 transform/tcga/methylation.py"
 #
 dvc run --file outputs.tcga.gistic2cna.dvc --yes \
   -d source/tcga/gistic2-firehose/TCGA-ACC_all_thresholded.by_genes.txt \
@@ -521,8 +521,14 @@ dvc run --file outputs.publication.dvc --yes \
   "python3 transform/publication/transform.py --debug"
 #
 dvc run --file outputs.phenotype.dvc --yes \
-  -d outputs/ccle/Phenotype.Vertex.json.gz \
+  -d outputs/ccle/ccle.Phenotype.Vertex.json.gz \
+  -d outputs/ctrp/ctrp.Phenotype.Vertex.json.gz \
+  -d outputs/gdsc/gdsc.Phenotype.Vertex.json.gz \
   -d outputs/g2p/Phenotype.Vertex.json.gz \
+  -d outputs/ccle/ccle.PhenotypeOf.Edge.json.gz \
+  -d outputs/ctrp/ctrp.PhenotypeOf.Edge.json.gz \
+  -d outputs/gdsc/gdsc.PhenotypeOf.Edge.json.gz \
+  -d outputs/g2p/HasPhenotype.Edge.json.gz \
   -o outputs/phenotype/normalized.HasPhenotype.Edge.json.gz \
   -o outputs/phenotype/normalized.Phenotype.Vertex.json.gz \
   -o outputs/phenotype/normalized.PhenotypeOf.Edge.json.gz \
@@ -588,19 +594,35 @@ dvc run --file outputs.go.dvc --yes \
   -o outputs/go/GeneOntologyTerm.Vertex.json.gz \
   "python3 transform/go/go_obo2schema.py source/go/go.obo go"
 #
-dvc run --file outputs.gdsc.dvc --yes \
+dvc run --file outputs.gdsc.drug_response.dvc --yes \
+  -d source/ccle/cellline_project_lookup.tsv \
   -d source/gdsc/GDSC_AUC.csv \
-  -d outputs/ccle/Sample.Vertex.json.gz \
+  -d source/gdsc/GDSC_IC50.csv \
   -o outputs/gdsc/gdsc.Compound.Vertex.json.gz \
   -o outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz \
   -o outputs/gdsc/gdsc.ResponseIn.Edge.json.gz \
   -o outputs/gdsc/gdsc.ResponseTo.Edge.json.gz \
-  -o outputs/gdsc/gdsc.Project.Vertex.json.gz \
-  -o outputs/gdsc/gdsc.InProject.Edge.json.gz \
-  -o outputs/gdsc/gdsc.Program.Vertex.json.gz \
-  -o outputs/gdsc/gdsc.InProgram.Edge.json.gz \
   -o outputs/gdsc/gdsc.TestedIn.Edge.json.gz \
-  "python3 transform/gdsc/response.py"
+  "python3 transform/gdsc/drug_response.py"
+#
+dvc run --file outputs.gdsc.cases.dvc --yes \
+  -d source/ccle/cellline_lookup.tsv \
+  -d source/ccle/cellline_project_lookup.tsv \
+  -d source/ccle/cellline_phenotype_lookup.tsv \
+  -d source/gdsc/Cell_Lines_Details.xlsx \
+  -d source/gdsc/Screened_Compounds.xlsx \
+  -o outputs/gdsc/gdsc.AliquotFor.Edge.json.gz \
+  -o outputs/gdsc/gdsc.Aliquot.Vertex.json.gz \
+  -o outputs/gdsc/gdsc.SampleFor.Edge.json.gz \
+  -o outputs/gdsc/gdsc.Sample.Vertex.json.gz \
+  -o outputs/gdsc/gdsc.Case.Vertex.json.gz \
+  -o outputs/gdsc/gdsc.InProject.Edge.json.gz \
+  -o outputs/gdsc/gdsc.Project.Vertex.json.gz \
+  -o outputs/gdsc/gdsc.InProgram.Edge.json.gz \
+  -o outputs/gdsc/gdsc.Program.Vertex.json.gz \
+  -o outputs/gdsc/gdsc.Phenotype.Vertex.json.gz \
+  -o outputs/gdsc/gdsc.PhenotypeOf.Edge.json.gz \
+  "python3 transform/gdsc/cases.py"
 #
 dvc run --file outputs.gdc.projects.dvc --yes \
   -d source/gdc/version.txt \
@@ -656,53 +678,44 @@ dvc run --file outputs.ensembl.dvc --yes \
   "python3 transform/ensembl/transform.py"
 #
 dvc run --file outputs.ctrp.drugresponse.dvc --yes \
+  -d source/ccle/cellline_lookup.tsv \
+  -d source/ccle/cellline_project_lookup.tsv \
   -d source/ctrp/v20.meta.per_compound.txt \
   -d source/ctrp/v20.meta.per_cell_line.txt \
   -d source/ctrp/v20.data.curves_post_qc.txt \
   -d source/ctrp/v20.meta.per_experiment.txt \
   -d source/ctrp/v20.data.per_cpd_post_qc.txt \
-  -d outputs/ccle/Sample.Vertex.json.gz \
   -o outputs/ctrp/ctrp.Compound.Vertex.json.gz \
   -o outputs/ctrp/ctrp.DrugResponse.Vertex.json.gz \
   -o outputs/ctrp/ctrp.ResponseIn.Edge.json.gz \
   -o outputs/ctrp/ctrp.ResponseTo.Edge.json.gz \
   -o outputs/ctrp/ctrp.TestedIn.Edge.json.gz \
-  -o outputs/ctrp/ctrp.AliquotFor.Edge.json.gz \
-  -o outputs/ctrp/ctrp.Aliquot.Vertex.json.gz \
-  -o outputs/ctrp/ctrp.SampleFor.Edge.json.gz \
-  -o outputs/ctrp/ctrp.Sample.Vertex.json.gz \
-  -o outputs/ctrp/ctrp.Case.Vertex.json.gz \
-  -o outputs/ctrp/ctrp.InProject.Edge.json.gz \
-  -o outputs/ctrp/ctrp.Project.Vertex.json.gz \
-  -o outputs/ctrp/ctrp.InProgram.Edge.json.gz \
-  -o outputs/ctrp/ctrp.Program.Vertex.json.gz \
-  -o outputs/ctrp/ctrp.TestedIn.Edge.json.gz \
-  "python3 ./transform/ctrp/transform.py"
+  "python3 ./transform/ctrp/drug_response.py"
 #
 dvc run --file outputs.compound.normalized.dvc --yes \
-  -d outputs/ccle/drug_response.Compound.Vertex.json.gz \
-  -d outputs/g2p/Compound.Vertex.json.gz \
   -d outputs/gdc/Compound.Vertex.json.gz \
-  -d outputs/gdsc/gdsc.Compound.Vertex.json.gz \
   -d outputs/ctrp/ctrp.Compound.Vertex.json.gz \
+  -d outputs/ccle/drug_response.Compound.Vertex.json.gz \
+  -d outputs/gdsc/gdsc.Compound.Vertex.json.gz \
+  -d outputs/g2p/Compound.Vertex.json.gz \
   -d outputs/ccle/drug_response.ResponseTo.Edge.json.gz \
   -d outputs/ctrp/ctrp.ResponseTo.Edge.json.gz \
   -d outputs/gdsc/gdsc.ResponseTo.Edge.json.gz \
-  -d outputs/ccle/drug_response.TestedIn.Edge.json.gz \
-  -d outputs/ctrp/ctrp.TestedIn.Edge.json.gz \
-  -d outputs/gdsc/gdsc.TestedIn.Edge.json.gz \
   -d outputs/g2p/HasEnvironment.Edge.json.gz \
   -d outputs/gdc/TreatedWith.Edge.json.gz \
+  -d outputs/ctrp/ctrp.TestedIn.Edge.json.gz \
+  -d outputs/ccle/drug_response.TestedIn.Edge.json.gz \
+  -d outputs/gdsc/gdsc.TestedIn.Edge.json.gz \
   -o outputs/compound/normalized.Compound.Vertex.json.gz \
   -o outputs/compound/normalized.HasEnvironment.Edge.json.gz \
   -o outputs/compound/normalized.ResponseTo.Edge.json.gz \
-  -o outputs/compound/normalized.TestedIn.Edge.json.gz \
   -o outputs/compound/normalized.TreatedWith.Edge.json.gz \
+  -o outputs/compound/normalized.TestedIn.Edge.json.gz \
   -o source/compound/sqlite.db \
-  "python3 transform/compound/transform.py"
+  "python3 transform/compound/transform.py 	--vertex_files outputs/gdc/Compound.Vertex.json.gz outputs/ctrp/ctrp.Compound.Vertex.json.gz outputs/ccle/drug_response.Compound.Vertex.json.gz outputs/ccle/drug_response.Compound.Vertex.json.gz outputs/gdsc/gdsc.Compound.Vertex.json.gz outputs/g2p/Compound.Vertex.json.gz 	--edge_files outputs/ccle/drug_response.ResponseTo.Edge.json.gz outputs/ctrp/ctrp.ResponseTo.Edge.json.gz outputs/gdsc/gdsc.ResponseTo.Edge.json.gz outputs/g2p/HasEnvironment.Edge.json.gz outputs/gdc/TreatedWith.Edge.json.gz outputs/ctrp/ctrp.TestedIn.Edge.json.gz outputs/ccle/drug_response.TestedIn.Edge.json.gz outputs/gdsc/gdsc.TestedIn.Edge.json.gz"
 #
 dvc run --file outputs.ccle.maf.dvc --yes \
-  -d source/gene_enricher/hgnc_complete_set.json \
+  -d source/ccle/cellline_lookup.tsv \
   -d source/ccle/mafs/LU135_LUNG_vs_NORMAL/vep.maf \
   -d source/ccle/mafs/NCIH2126_LUNG_vs_NORMAL/vep.maf \
   -d source/ccle/mafs/KARPAS384_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
@@ -2272,139 +2285,1655 @@ dvc run --file outputs.ccle.maf.dvc --yes \
   -d source/ccle/mafs/PACADD161_PANCREAS_vs_NORMAL/vep.maf \
   -d source/ccle/mafs/COLO201_LARGE_INTESTINE_vs_NORMAL/vep.maf \
   -d source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
-  -d outputs/ccle/Sample.Vertex.json.gz \
   -o outputs/ccle/maf.Allele.Vertex.json.gz \
   -o outputs/ccle/maf.AlleleCall.Edge.json.gz \
   -o outputs/ccle/maf.AlleleIn.Edge.json.gz \
   -o outputs/ccle/maf.Callset.Vertex.json.gz \
   -o outputs/ccle/maf.CallsetFor.Edge.json.gz \
-  -o outputs/ccle/maf.AliquotFor.Edge.json.gz \
-  -o outputs/ccle/maf.Aliquot.Vertex.json.gz \
-  -o outputs/ccle/maf.SampleFor.Edge.json.gz \
-  -o outputs/ccle/maf.Sample.Vertex.json.gz \
-  -o outputs/ccle/maf.Deadletter.Vertex.json.gz \
-  -o outputs/ccle/maf.Case.Vertex.json.gz \
-  -o outputs/ccle/maf.InProject.Edge.json.gz \
-  -o outputs/ccle/maf.Project.Vertex.json.gz \
   "python3 transform/ccle/ccle_maf_transform.py"
 #
-dvc run --file outputs.ccle.expression_tatlow.dvc --yes \
-  -d source/ccle/expression/CCLE_tpm.tsv.gz \
-  -d outputs/ccle/Sample.Vertex.json.gz \
-  -d source/tcga/expression/transcript-level/TCGA_ID_MAP.csv \
-  -o outputs/ccle/tatlow.Aliquot.Vertex.json.gz \
-  -o outputs/ccle/tatlow.AliquotFor.Edge.json.gz \
-  -o outputs/ccle/tatlow.Sample.Vertex.json.gz \
-  -o outputs/ccle/tatlow.SampleFor.Edge.json.gz \
-  -o outputs/ccle/tatlow.TranscriptExpression.Vertex.json.gz \
-  -o outputs/ccle/tatlow.TranscriptExpressionOf.Edge.json.gz \
-  -o outputs/ccle/tatlow.InProject.Edge.json.gz \
-  -o outputs/ccle/tatlow.Case.Vertex.json.gz \
-  -o outputs/ccle/tatlow.Project.Vertex.json.gz \
-  "python3 transform/ccle/expression_tatlow.py"
-#
 dvc run --file outputs.ccle.expression.dvc --yes \
-  -d source/ccle/CCLE_depMap_18Q4_TPM_v2.csv \
+  -d source/ccle/CCLE_depMap_19Q1_TPM.csv \
+  -d source/ccle/CCLE_depMap_19Q1_TPM_transcripts.csv \
+  -o outputs/ccle/TranscriptExpression.Vertex.json.gz \
+  -o outputs/ccle/TranscriptExpressionOf.Edge.json.gz \
   -o outputs/ccle/GeneExpression.Vertex.json.gz \
   -o outputs/ccle/GeneExpressionOf.Edge.json.gz \
-  "python3 transform/ccle/expression.py"
-#
-dvc run --file outputs.ccle.dvc --yes \
-  -d source/ccle/DepMap-2018q4-celllines.csv \
-  -o outputs/ccle/Aliquot.Vertex.json.gz \
-  -o outputs/ccle/AliquotFor.Edge.json.gz \
-  -o outputs/ccle/Sample.Vertex.json.gz \
-  -o outputs/ccle/SampleFor.Edge.json.gz \
-  -o outputs/ccle/Case.Vertex.json.gz \
-  -o outputs/ccle/InProject.Edge.json.gz \
-  -o outputs/ccle/Project.Vertex.json.gz \
-  -o outputs/ccle/InProgram.Edge.json.gz \
-  -o outputs/ccle/Program.Vertex.json.gz \
-  -o outputs/ccle/Phenotype.Vertex.json.gz \
-  -o outputs/ccle/PhenotypeOf.Edge.json.gz \
-  "python3 transform/ccle/samples.py"
+  "python3 transform/ccle/ccle_expression.py"
 #
 dvc run --file outputs.ccle.drug_response.dvc --yes \
+  -d source/ccle/cellline_lookup.tsv \
+  -d source/ccle/cellline_project_lookup.tsv \
   -d source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv \
-  -d outputs/ccle/Sample.Vertex.json.gz \
   -o outputs/ccle/drug_response.Compound.Vertex.json.gz \
   -o outputs/ccle/drug_response.DrugResponse.Vertex.json.gz \
   -o outputs/ccle/drug_response.ResponseIn.Edge.json.gz \
   -o outputs/ccle/drug_response.ResponseTo.Edge.json.gz \
-  -o outputs/ccle/drug_response.AliquotFor.Edge.json.gz \
-  -o outputs/ccle/drug_response.Aliquot.Vertex.json.gz \
-  -o outputs/ccle/drug_response.SampleFor.Edge.json.gz \
-  -o outputs/ccle/drug_response.Sample.Vertex.json.gz \
-  -o outputs/ccle/drug_response.Case.Vertex.json.gz \
-  -o outputs/ccle/drug_response.InProject.Edge.json.gz \
-  -o outputs/ccle/drug_response.Project.Vertex.json.gz \
-  -o outputs/ccle/drug_response.InProgram.Edge.json.gz \
   -o outputs/ccle/drug_response.TestedIn.Edge.json.gz \
-  -o outputs/ccle/drug_response.Program.Vertex.json.gz \
-  "python3 transform/ccle/drug_response.py"
+  "python3 transform/ccle/ccle_drug_response.py"
+#
+dvc run --file outputs.ccle.depmap_cases.dvc --yes \
+  -d source/ccle/DepMap-2019q1-celllines.csv_v2.csv \
+  -o outputs/ccle/depmap.Case.Vertex.json.gz \
+  "python3 transform/ccle/depmap_cases.py"
+#
+dvc run --file outputs.ccle.cases.dvc --yes \
+  -d source/ccle/cellline_lookup.tsv \
+  -d source/ccle/cellline_project_lookup.tsv \
+  -d source/ccle/cellline_phenotype_lookup.tsv \
+  -d source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv \
+  -d source/ccle/CCLE_depMap_19Q1_TPM.csv \
+  -d source/ccle/mafs/LU135_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2126_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KARPAS384_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JM1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO320_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHUEM2_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MDAMB415_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2810_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LOVO_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/IM95_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SCC90_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/U178_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SCMCRM2_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/VMRCMELG_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RPMI8402_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKBR3_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ES7_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MCC13_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2731_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MOT_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH660_PROSTATE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIBL2009_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CFPAC1_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MB1_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW982_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MG63_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS445_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BONNA12_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/QGP1_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS578T_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW962_VULVA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1143_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CCK81_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1838_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1666_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2110_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/IM9_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SCI1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NOS1_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TE5_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHUEM1_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH64_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/639V_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/L363_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JURLMK1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SUDHL4_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAKI1_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCCSTCK140_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SCH_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DOK_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2009_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO680N_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/A388_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEYA8_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC827GR5_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SUDHL5_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DMS273_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GB1_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HOS_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RO82W1_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ALLSIL_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/VCAP_PROSTATE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KD_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UMC11_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OVCAR8_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU8_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BHY_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1341_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/IPC298_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TT2609C02_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KPNSI9S_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/IGROV1_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ACCMESO1_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/T24_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CA46_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/YAPC_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC2108_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LB996RCC_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NB7_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1648_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC366_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MERO82_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LN229_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GCIY_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ME180_CERVIX_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PEDS015T_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RH1_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHUEM7_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKM1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HSC4_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU387_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU1079_BILIARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NO11_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMRC3_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HOP92_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DKMG_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PATU8988T_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LB647PBL_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/C8166_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SUPB15_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MKN28_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/A1207_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OV7_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/U87MG_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SCLC21H_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KNS81_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DMS153_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GMS10_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MAC2A_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/FTC238_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PRECLH_PROSTATE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HOP62_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU182_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU1272_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SCABER_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH3255_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH716_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CMK_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/FTC133_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ES3_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HUH1_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TC138_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/D247MG_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CORL32_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIBL128_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JURKAT_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CL40_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ASH3_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LN215_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TE617T_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TC71_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHH5_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1599_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS611T_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HT3_CERVIX_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KNS60_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/IGR1_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2591_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CORL51_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TC106_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RERFLCMS_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RF48_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LCLC103H_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BV173_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1581_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ARH77_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TEN_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PACADD119_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TE10_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CP50EBV_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ZR7530_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/WM278_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EB3_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ABC1_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MM386_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/WM115_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2444_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SH10TC_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MEL202_EYE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LU139_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PLB985_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LS1034_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MM370_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHOS3_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KE37_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHOM2B_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KNS62_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MERO14_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MM415_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NO10_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU423_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NUGC2_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1437_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EGI1_BILIARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LN235_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ESS1_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW1783_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MCC142_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HUH6CLONE5_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCT15_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TUHR14TKB_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/253J_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EW1_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TE6_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OCIAML2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KO52_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMH2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RH4_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU410_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HA7RCC_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS822T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIBL2122_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ISTSL1_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAPAN2_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCC021_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PECAPJ15_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MET2B_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KASUMI2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NTERA2CLD1_TESTIS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MERO41_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS683_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NB1_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MFE280_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/YAMATO_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NB10_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LP1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/22RV1_PROSTATE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BHT101_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KG1C_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2087_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TT_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LB771HNC_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH526_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2066_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/YMB1E_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHUEM3_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TE12_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LOUNH91_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DOTC24510_CERVIX_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/A704_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NUGC3_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RKN_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW620_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/253JBV_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ES8_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TCCSUP_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2228_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GT3TKB_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KARPAS620_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EKVX_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RERFLCFM_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MHHCALL4_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/A204_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EW3_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LN319_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MDST8_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GAK_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DJM1_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH3122_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/D336MG_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU685_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CCLFPEDS0008T_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CW9019_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JOPACA1_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SLVL_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU283_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MELJUSO_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KATOIII_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/D423MG_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MUTZ3_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SN12C_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SLR24_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CORL23_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MZ7B_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/59M_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EM2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2004RT_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LS1034_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HT1197_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SIGM5_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ST486_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU503_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RHJT_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ISTMES2_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COV434_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SAOS2_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DB_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU1196_BILIARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PCI38_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UACC62_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1428_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MS751_CERVIX_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/P31FUJ_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TYKNU_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TGBC11TKB_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAL54_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1770_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/A4FUK_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CALU6_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC70_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LS513_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HPAC_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PACADD137_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMBC2_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/D341MED_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OUMS27_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/U118MG_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CESS_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OV90_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNB75_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2882_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1419_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EPLC272H_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/D425_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU489_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ESO26_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SQ1_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NIHOVCAR3_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DSH1_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DETROIT562_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LB2241EBV_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU620_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ACCS_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EW8_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/YD15_SALIVARY_GLAND_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MS1_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HRT18_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MOLM16_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HTK_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH358_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC4006_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1568_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EW18_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UMCHOR1_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1187_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/C10_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1105_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAL27_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LB2241RCC_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEMCSS_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1937_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MM127_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2291_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DMS79_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKGT2_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MELHO_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/VMRCLCD_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OCIAML3_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BFTC905_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TT_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU324_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SJSA1_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DIFI_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW626_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KIJK_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BT483_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OVTOKO_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TUHR10TKB_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2122_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MMACSF_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKMG1_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OVCAR4_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OE19_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RPMI7951_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS294T_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KE39_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UPCISCC152_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CASKI_CERVIX_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RL952_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CALU1_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMS26_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SLR23_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TFK1_BILIARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/L428_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MPP89_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KOSC2_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH196_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LB2518MEL_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RL_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MOLM6_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH835_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HNT34_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MFE296_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KYSE220_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KASUMI6_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/A431_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EWS834_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS742T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC33_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/U698M_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GOS3_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SLR20_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HUH6_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JVM3_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SCS214_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO783_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/VMRCLCP_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/K5_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RPMI8226_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH378_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2023_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNGM_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SC1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NB14_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/M059J_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OE33_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HKA1_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NUDHL1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MC116_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LU134A_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKMM2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NALM6_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH929_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TE441T_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2106_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1937_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU738_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SUM159PT_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/AM38_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS343T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/WM983B_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU61_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ISHIKAWAHERAKLIO02ER_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKMEL3_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMRC20_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW780_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/D542MG_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KARPAS1106P_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIBL2087_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SF268_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LB647SCLC_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EVSAT_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MEC1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNUC2A_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2085_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PC3_PROSTATE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LB373MELD_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1599_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PECAPJ49_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CHP134_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HUCCT1_BILIARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO699_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC2814_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PL18_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CME1_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS274T_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LAN6_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIBL1395_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS746T_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/C125PM_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/786O_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU1066_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MERO95_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MCF7_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OELE_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ASPC1_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/A2058_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SUIT2_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MOLT16_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HMC18_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KYM1_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKMEL1_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS633T_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DMS114_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OCIAML5_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EFO21_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RPMI6666_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BB65RCC_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KON_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SIMA_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC2218_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SCC3_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKNFI_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/G401_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CMLT1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/A673_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LB2518EBV_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/A427_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LK2_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCC010_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MS1_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KALS1_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/YKG1_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO794_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CALU3_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EJM_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS706T_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO824_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH847_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/IALM_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/VMRCRCW_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAOV3_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NAMALWA_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/STM9101_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKNO1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JVM2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MINO_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SR786_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BDCM_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KP3_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UMUC1_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MDAMB436_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAL120_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TE1_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BCPAP_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIBL2052_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/L33_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JIMT1_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PFEIFFER_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2081_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CL14_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH23_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PCI4B_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PFSK1_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TTC1240_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OCIMY5_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RERFLCKJ_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/WM35_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CHLA266_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU601_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MEG01_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EMCBAC2_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ATN1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ISTMES1_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CI1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TE9_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RD_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NB12_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAKI2_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CHLA06ATRT_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU245_BILIARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMH2_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW156_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/VMCUB1_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU1105_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MDAMB231_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/IMR5_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OVISE_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2461_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CORL311_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LU99_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BICR18_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PF382_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU466_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/42MGBA_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1395_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LB1047EBV_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2722_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DAUDI_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH720_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAL39_VULVA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/U251MG_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HLFA_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW1573_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU719_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/8MGBA_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HT55_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/A3KAW_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCO2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAL851_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HC1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS695T_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/A172_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1359_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UWB1289_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/M1203273_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KELLY_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BCP1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LNZ308_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GMEL_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KHYG_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHH1_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMS18_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KPNYN_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KYSE450_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NUDUL1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TCCPAN2_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/R262_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SMZ1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RVH421_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COV318_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SUDHL16_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MFM223_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BB65EBV_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ACHN_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SUDHL1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/REC1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2452_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CACO2_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PACADD165_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2818_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LAMA84_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO678_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HL60_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SF126_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UACC812_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1876_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KP4_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/YT_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OMC1_CERVIX_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAPAN1_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LNCAPCLONEFGC_PROSTATE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAL12T_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NH6_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC38_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU478_BILIARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKOV3_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/T3M10_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KP1NL_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SUPB8_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1171_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MEWO_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ECC12_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LS411N_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CORL279_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MON_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LIM1215_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC38_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MDAMB361_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HMEL_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MV411_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNUC5_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ML2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ES4_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKMEL5_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BICR78_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CHL1_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO668_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/451LU_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HDMYZ_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH647_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BIN67_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RCCER_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RCM1_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CORL24_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HUNS1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LN382_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCET_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RPMI8866_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CHAGOK1_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JEKO1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1694_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JJN3_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RAMOS2G64C10_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EN_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KARPAS231_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RCCJF_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HT1080_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC15_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PANC0213_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/VMRCRCZ_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHH7_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OCILY132_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HSC1_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1573_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RDES_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UMUC6_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU1_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/L1236_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHH6_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1438_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JEG3_PLACENTA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CORL88_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU1033_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/T98G_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LOUCY_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SBC3_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HSC39_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JAR_PLACENTA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OCILY19_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MOLM13_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PECAPJ41CLONED2_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KNS81FD_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/U937_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SMSCTR_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TF1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SF539_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CORL321_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SCC15_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/VAL_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MSTO211H_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/T173_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SLR26_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TTC442_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MCAS_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OCIM1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SF767_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/U266B1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH446_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2030_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MFHINO_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KARPAS299_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MHHES1_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MN60_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/697_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SARC9371_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MERO83_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC2998_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/P3HR1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHH4_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH460_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OPM1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OCUM1_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BICR16_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CHLA218_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CPCN_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DV90_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UW228_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU626_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NK92MI_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/C32_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EBC1_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LI7_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU407_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CJM_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HUH7_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS821T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/M980513_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TM87_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BC1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RH30_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ECC10_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/A2780_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NKL_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BXPC3_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TTC466_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MHHCALL3_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC78_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEPG2_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RERFLCSQ1_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MFE319_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/FLO1_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GDM1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ML1_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1588_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHC7_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ETK1_BILIARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW403_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EW22_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TO175T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CTB1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1304_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MZ2MEL_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO679_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMS11_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1975_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SCC25_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MDAMB175VII_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KYSE520_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PECAPJ34CLONEC12_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MHHCALL2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UMUC14_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/C75_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CP50MELB_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BE13_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKN_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNUC4_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU1077_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMS12BM_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MDAMB468_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW579_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO829_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HUO9_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MDAMB330_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OCILY10_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HUH28_BILIARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/G361_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/647V_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHESOAD1_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH661_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1703_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HT115_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DBTRG05MG_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TK10_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MOTN1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LS180_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GA10_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKMEL30_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCT116_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/D392MG_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2795_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/S117_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EFE184_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HT_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1623_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CROAP3_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CHLA9_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SJRH30_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1734_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LS123_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKPNDW_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RT112_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH209_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MONOMAC6_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BFTC909_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/U2OS_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/AMO1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KINGS1_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/VAESBJ_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RI1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NEC8_TESTIS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SUM149PT_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2077_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC95_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SLR21_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PC14_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OCILY3_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HT29_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CHLA258_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIBL209_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEL9217_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CORL105_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HUPT4_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GEO_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS618T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/K029AX_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PATU8988S_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/H4_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NOMO1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMS21BM_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HMVII_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RKO_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OVKATE_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CHP126_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKUT1_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HSC2_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BC3C_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS739T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NUGC4_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/G402_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS766T_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OAW42_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OSC19_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OCILY12_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HGC27_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CGTHW1_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COGE352_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BEN_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RS411_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GRM_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LB831EBV_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC515_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CHLA32_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO205_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TASK1_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1355_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LB996EBV_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PACADD135_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OVCA420_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHOS2_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/L542_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS616T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OCILY7_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH128_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS600T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GRANTA519_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW900_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KGN_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PL4_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW13_ADRENAL_CORTEX_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH510_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKGT4_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC2429_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIBL1770_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAL148_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SISO_CERVIX_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MALME3M_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DU4475_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU886_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BICR6_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BB49HNC_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MORCPR_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW1710_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/IMR32_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH226_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/M059K_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU308_BILIARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1395_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1618_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/A498_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MOLP8_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MZ7MEL_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU520_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PATU8902_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1915_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HN_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CORL47_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1155_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ES5_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SET2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CORL303_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MDAMB453_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TK_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MUGCHOR1_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKCO1_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ACN_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SBC5_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SYO1_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKMEL24_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2347_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KCL22_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MERO48A_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RMGI_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LCLC97TM1_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/WIL2NS_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH740_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCE4_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO792_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/127399_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW1116_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKRC20_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1755_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1569_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/F36P_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JSC1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EFM192A_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIBL1437_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LU65_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OVK18_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GAMG_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SUDHL6_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS675T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKMEL31_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TTC549_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMS34_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SF8657_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIBL2126_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DMS53_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RCC10RGB_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UOK101_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH28_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/WSUNHL_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC202_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SCLC22H_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LN18_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PC3JPC3_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU119_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHOS4_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS852T_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MKN1_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SH4_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LAN2_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMOE2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS737T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2029_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW1353_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW480_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PL21_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU216_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HUT102_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/C99_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TGBC1TKB_BILIARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OVMANA_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LC1SQ_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/A253_SALIVARY_GLAND_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LMSU_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UACC257_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DIPG007_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KU812_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HO1N1_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2373_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHU022_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU1197_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LXF289_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HT144_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAL33_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU449_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2286_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ZR751_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PANC0203_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PLCPRF5_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GBM001_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UCH2_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CHLA99_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU16_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NH12_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CS1_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/2313287_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKMEL2_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PANC0504_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS939T_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OC314_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAL51_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COGN305_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MRKNU1_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NB69_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEC50B_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CTV1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKNMC_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH211_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW684_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/H9_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LC1SQSF_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NALM19_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIN87_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/K562_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/STS0421_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1781_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EFM19_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS281T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHU029_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW1417_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH524_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DAOY_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMS20_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEP3B217_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/J82_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/WM1552C_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OSRC2_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HAL01_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TM31_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/A101D_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/C84_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMM1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/AN3CA_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MHHNB11_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RERFGC1B_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OV17R_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU398_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/H3118_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS729_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GRST_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BECKER_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NBSUSSR_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH630_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU899_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PWR1E_PROSTATE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SUM229PE_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DL40_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PANC0403_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MOLT4_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SF295_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/A549_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/WSUDLCL2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1187_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1819_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1792_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EW12_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/A375_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TC205_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1385_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH596_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HA7EBV_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SLR25_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SALE_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KM12_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH841_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS840T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KYSE270_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BALL1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/YD10B_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BB49EBV_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KYSE150_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BT12_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KPNRTBM1_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OACM51_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EW13_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NB1643_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OVSAHO_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MZ1PC_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JIYOYEP2003_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS839T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COV362_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CHSA0011_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU175_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HO1U1_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EW11_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKLMS1_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NB13_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS571T_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BC3_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PEO1_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EOL1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1650_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SUDHL10_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RMUGS_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1954_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/L82_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/WM1799_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MLMA_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKNEP1_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS870T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CP66EBV_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PEER_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CHSA8926_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KHM1B_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEKTE_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC56_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEL_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RPMI2650_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PCM6_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ALLPO_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MKN7_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU840_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HMCB_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TGBC24TKB_BILIARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MHHPREB1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO818_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1954_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SU8686_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SUDHL8_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH854_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MERO84_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEC59_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SEKI_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO741_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LOXIMVI_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHU028_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS604T_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEC1_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KS1_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TE11_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/D263MG_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH513_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HELA_CERVIX_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/769P_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MYLA_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH748_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OPM2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CP67MEL_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC827_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SUPHD1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CA922_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEY_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RH41_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HARA_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU349_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KU1919_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2141_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS255T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1195_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GI1_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1930_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/YD8_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH838_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU1076_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEC1A_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC2935_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/5637_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MJ_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RAJI_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PANC1005_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SAS_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2073_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LN340_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAS1_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BICR56_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KP1N_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU869_BILIARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GOTO_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HT1376_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO775_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/FARAGE_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RT11284_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1806_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TE159T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1993_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2172_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC364_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/FU97_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH650_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/REH_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KYSE70_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS936T_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CMK115_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS751T_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TE125T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2135_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NKM1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS940T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCCIT_TESTIS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU878_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHH2_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TUHR4TKB_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMS27_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEC108_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/C33A_CERVIX_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/P12ICHIKAWA_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CP66MEL_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1693_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BT549_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/D566MG_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH810_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/WM793_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW756_CERVIX_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BICR10_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RCCAB_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RH36_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU1214_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PANC0327_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EB2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/201T_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OVMIU_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RH18_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TE8_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKHEP1_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COGN278_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/AGS_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PANC0813_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH889_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CHP212_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BT474_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MOLT3_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1563_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2803_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH187_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/Y79_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OV56_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UMUC16_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UACC893_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LC2AD_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LB1047RCC_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MKN74_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DND41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/C2BBE1_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KURAMOCHI_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW48_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH684_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KYAE1_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LC1F_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH69_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UT7_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CCFSTTG1_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OE21_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC2218_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW872_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EW24_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DANG_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JK1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OVCAR5_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ES1_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/QIMRWIL_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS688AT_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COGAR359_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MOLT13_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EMCBAC1_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MYM12_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/YH13_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DOV13_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/INA6_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1944_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/J82_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KLE_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HLF_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CORL95_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS895T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SUPM2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BB30HNC_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU668_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BT20_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HUG1N_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SAT_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PANC1_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MDAPCA2B_PROSTATE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BPH1_PROSTATE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS934T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS834T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RXF393_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KYSE30_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MUTZ5_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PK59_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MM383_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC2157_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LN405_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU46_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/C80_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CADOES1_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1395_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO800_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKN3_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PCI30_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU1041_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIBL2171_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/H290_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KYSE510_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PK45H_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1417_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/H2369_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAL72_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HUPT3_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UMUC3_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OUMS23_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CCRFCEM_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW837_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/YD38_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MCC26_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DM3_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HUTU80_SMALL_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2170_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HMY1_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LN428_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PEDS005TPFAD_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KPMRTRY_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1373_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1651_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/IOMMLEE_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HLE_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH250_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RT4_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HDLM2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNUC1_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BL70_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HUO3N1_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DG75_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MTA_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PC9_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MC1010_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2052_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU201_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2405_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UBLC1_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/IGR37_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OC316_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHOM1_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/8305C_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/IGR39_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1500_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HPAFII_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DU145_PROSTATE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RS5_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU761_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OVCA433_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/U343_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CHLA15_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/T3M4_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1435_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/AML193_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH747_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PCI6A_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HUT78_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1092_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SHSY5Y_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CH157MN_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1793_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/U138MG_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UMUC5_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKLU1_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/T84_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CROAP2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS819T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2171_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SCC9_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COV644_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2887_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MOLP2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MCIXC_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MIAPACA2_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKNAS_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LN464_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MKN45_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/M07E_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH508_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LB373EBV_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/P32ISH_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TC32_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DERL2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KARPAS45_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MOGGCCM_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1339_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1833_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LUDLU1_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH82_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MM426_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SCC4_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ANGMCSS_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC2450_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TOV112D_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CCLFPEDS0018T_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS172T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ES6_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CL34_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OAW28_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LNZTA3WT4_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RCCFG2_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW1088_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEC151_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PK1_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW1271_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NB17_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEC265_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CL11_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ECGI10_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MCCAR_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ME1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MDAMB134VI_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TOV21G_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TE15_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NB5_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BICR31_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EHEB_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EB1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/D458_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GSS_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EW7_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KYSE50_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MOGGUVW_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BT16_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NMCG1_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU1040_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ISTSL2_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DMS454_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PACADD188_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/D283MED_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OACP4C_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/IHH4_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KY821_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GP5D_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MDAMB157_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/AU565_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/M14_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/8505C_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TGW_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NB4_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MONOMAC1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TALL1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MM1S_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW954_VULVA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PSN1_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/G292CLONEA141B1_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COV504_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH292_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/L540_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAL78_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHOC5_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KP2_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TCYIK_CERVIX_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO684_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNUC2B_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/WM2664_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NHAHTDD_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LC41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC461_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMRC2_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/FADU_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/C3A_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OSC20_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RERFLCAI_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ONCODG1_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/WM88_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TE14_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TTC642_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEC6_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC44_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAOV4_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GSU_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RERFLCAD2_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CW2_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1688_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ISTMEL1_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KE97_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MESSA_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SEM_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DOHH2_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EWS502_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HPBALL_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH820_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SBC1_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH146_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RCHACV_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2227_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/D502MG_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/D245MG_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW1990_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TOLEDO_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU5_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS863T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW948_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TUR_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS698T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAR1_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ESO51_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KG1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS888T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CHSA0108_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OCIMY7_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LB831BLC_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKNSH_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/FUOV1_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2342_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU81_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RCCMF_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JHU011_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS944T_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMS28BM_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKMEL28_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LB771PBL_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS229T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1836_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/T47D_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2804_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TMK1_STOMACH_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BE2M17_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH345_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKNBE2_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/P30OHK_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PA1_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HS606T_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NBTU110_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/C4I_CERVIX_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC2157_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKNDZ_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU213_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MZ1B_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH322_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEC1B_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KPL1_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SUPT1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SUPT11_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKGIIIA_CERVIX_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MDAMB435S_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KMRC1_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KYSE180_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH441_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAL29_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LN443_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH727_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HEC251_ENDOMETRIUM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SNU475_LIVER_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KASUMI1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CHLA57_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GCT_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SW1463_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1963_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RCK8_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH522_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/OCUBM_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NB6_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KARPAS422_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UO31_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ES2_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KYSE140_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC1143_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TIG3TD_FIBROBLAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAMA1_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HSC3_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ROS50_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EFO27_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BB30PBL_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TE4_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KOPN8_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/GIMEN_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HCC2279_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO829_MATCHED_NORMAL_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/MERO25_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/LU165_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KYO1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RERFLCAD1_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/ONS76_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1869_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SIHA_CERVIX_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HH_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PCI15A_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/UDSCC2_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JMSU1_URINARY_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KNS42_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/K2_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1299_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKES1_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1048_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RCCJW_KIDNEY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NALM1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2196_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2869_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SF172_CENTRAL_NERVOUS_SYSTEM_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SKMES1_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/JL1_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO704_OVARY_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/M00921_SKIN_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/RH28_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HTCC3_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/HDQP1_BREAST_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NY_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH2595_PLEURA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1436_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KPNYS_AUTONOMIC_GANGLIA_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/THP1_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/DEL_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/EW16_BONE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH1184_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/NCIH520_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/SHP77_LUNG_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/TTC709_SOFT_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/CAL62_THYROID_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BICR22_UPPER_AERODIGESTIVE_TRACT_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/FEPD_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/KYSE410_OESOPHAGUS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/PACADD161_PANCREAS_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/COLO201_LARGE_INTESTINE_vs_NORMAL/vep.maf \
+  -d source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf \
+  -o outputs/ccle/ccle.AliquotFor.Edge.json.gz \
+  -o outputs/ccle/ccle.Aliquot.Vertex.json.gz \
+  -o outputs/ccle/ccle.SampleFor.Edge.json.gz \
+  -o outputs/ccle/ccle.Sample.Vertex.json.gz \
+  -o outputs/ccle/ccle.Case.Vertex.json.gz \
+  -o outputs/ccle/ccle.InProject.Edge.json.gz \
+  -o outputs/ccle/ccle.Project.Vertex.json.gz \
+  -o outputs/ccle/ccle.InProgram.Edge.json.gz \
+  -o outputs/ccle/ccle.Program.Vertex.json.gz \
+  -o outputs/ccle/ccle.Phenotype.Vertex.json.gz \
+  -o outputs/ccle/ccle.PhenotypeOf.Edge.json.gz \
+  "python3 transform/ccle/ccle_cases.py"
 #
 dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/allele/Allele.Vertex.json.gz \
-  -d outputs/ccle/Aliquot.Vertex.json.gz \
-  -d outputs/ccle/AliquotFor.Edge.json.gz \
-  -d outputs/ccle/Case.Vertex.json.gz \
   -d outputs/ccle/GeneExpression.Vertex.json.gz \
   -d outputs/ccle/GeneExpressionOf.Edge.json.gz \
-  -d outputs/ccle/InProgram.Edge.json.gz \
-  -d outputs/ccle/InProject.Edge.json.gz \
-  -d outputs/ccle/Phenotype.Vertex.json.gz \
-  -d outputs/ccle/PhenotypeOf.Edge.json.gz \
-  -d outputs/ccle/Program.Vertex.json.gz \
-  -d outputs/ccle/Project.Vertex.json.gz \
-  -d outputs/ccle/Sample.Vertex.json.gz \
-  -d outputs/ccle/SampleFor.Edge.json.gz \
-  -d outputs/ccle/drug_response.Aliquot.Vertex.json.gz \
-  -d outputs/ccle/drug_response.AliquotFor.Edge.json.gz \
-  -d outputs/ccle/drug_response.Case.Vertex.json.gz \
+  -d outputs/ccle/TranscriptExpression.Vertex.json.gz \
+  -d outputs/ccle/TranscriptExpressionOf.Edge.json.gz \
+  -d outputs/ccle/ccle.Aliquot.Vertex.json.gz \
+  -d outputs/ccle/ccle.AliquotFor.Edge.json.gz \
+  -d outputs/ccle/ccle.Case.Vertex.json.gz \
+  -d outputs/ccle/ccle.InProgram.Edge.json.gz \
+  -d outputs/ccle/ccle.InProject.Edge.json.gz \
+  -d outputs/ccle/ccle.Program.Vertex.json.gz \
+  -d outputs/ccle/ccle.Project.Vertex.json.gz \
+  -d outputs/ccle/ccle.Sample.Vertex.json.gz \
+  -d outputs/ccle/ccle.SampleFor.Edge.json.gz \
+  -d outputs/ccle/depmap.Case.Vertex.json.gz \
   -d outputs/ccle/drug_response.DrugResponse.Vertex.json.gz \
-  -d outputs/ccle/drug_response.InProgram.Edge.json.gz \
-  -d outputs/ccle/drug_response.InProject.Edge.json.gz \
-  -d outputs/ccle/drug_response.Program.Vertex.json.gz \
-  -d outputs/ccle/drug_response.Project.Vertex.json.gz \
   -d outputs/ccle/drug_response.ResponseIn.Edge.json.gz \
-  -d outputs/ccle/drug_response.Sample.Vertex.json.gz \
-  -d outputs/ccle/drug_response.SampleFor.Edge.json.gz \
-  -d outputs/ccle/maf.Aliquot.Vertex.json.gz \
-  -d outputs/ccle/maf.AliquotFor.Edge.json.gz \
   -d outputs/ccle/maf.AlleleCall.Edge.json.gz \
   -d outputs/ccle/maf.AlleleIn.Edge.json.gz \
   -d outputs/ccle/maf.Callset.Vertex.json.gz \
   -d outputs/ccle/maf.CallsetFor.Edge.json.gz \
-  -d outputs/ccle/maf.Case.Vertex.json.gz \
-  -d outputs/ccle/maf.InProject.Edge.json.gz \
-  -d outputs/ccle/maf.Project.Vertex.json.gz \
-  -d outputs/ccle/maf.Sample.Vertex.json.gz \
-  -d outputs/ccle/maf.SampleFor.Edge.json.gz \
-  -d outputs/ccle/tatlow.Aliquot.Vertex.json.gz \
-  -d outputs/ccle/tatlow.AliquotFor.Edge.json.gz \
-  -d outputs/ccle/tatlow.Case.Vertex.json.gz \
-  -d outputs/ccle/tatlow.InProject.Edge.json.gz \
-  -d outputs/ccle/tatlow.Project.Vertex.json.gz \
-  -d outputs/ccle/tatlow.Sample.Vertex.json.gz \
-  -d outputs/ccle/tatlow.SampleFor.Edge.json.gz \
-  -d outputs/ccle/tatlow.TranscriptExpression.Vertex.json.gz \
-  -d outputs/ccle/tatlow.TranscriptExpressionOf.Edge.json.gz \
   -d outputs/compound/normalized.Compound.Vertex.json.gz \
   -d outputs/compound/normalized.HasEnvironment.Edge.json.gz \
   -d outputs/compound/normalized.ResponseTo.Edge.json.gz \
   -d outputs/compound/normalized.TestedIn.Edge.json.gz \
   -d outputs/compound/normalized.TreatedWith.Edge.json.gz \
-  -d outputs/ctrp/ctrp.Aliquot.Vertex.json.gz \
-  -d outputs/ctrp/ctrp.AliquotFor.Edge.json.gz \
-  -d outputs/ctrp/ctrp.Case.Vertex.json.gz \
   -d outputs/ctrp/ctrp.DrugResponse.Vertex.json.gz \
-  -d outputs/ctrp/ctrp.InProgram.Edge.json.gz \
-  -d outputs/ctrp/ctrp.InProject.Edge.json.gz \
-  -d outputs/ctrp/ctrp.Program.Vertex.json.gz \
-  -d outputs/ctrp/ctrp.Project.Vertex.json.gz \
   -d outputs/ctrp/ctrp.ResponseIn.Edge.json.gz \
-  -d outputs/ctrp/ctrp.Sample.Vertex.json.gz \
-  -d outputs/ctrp/ctrp.SampleFor.Edge.json.gz \
   -d outputs/ensembl/Exon.Vertex.json.gz \
   -d outputs/ensembl/ExonFor.Edge.json.gz \
   -d outputs/ensembl/Gene.Vertex.json.gz \
@@ -2419,9 +3948,7 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/g2p/HasAlleleFeature.Edge.json.gz \
   -d outputs/g2p/HasGeneFeature.Edge.json.gz \
   -d outputs/g2p/HasGenomicFeature.Edge.json.gz \
-  -d outputs/g2p/HasPhenotype.Edge.json.gz \
   -d outputs/g2p/HasSupportingReference.Edge.json.gz \
-  -d outputs/g2p/Phenotype.Vertex.json.gz \
   -d outputs/gdc/Aliquot.Vertex.json.gz \
   -d outputs/gdc/AliquotFor.Edge.json.gz \
   -d outputs/gdc/Case.Vertex.json.gz \
@@ -2431,12 +3958,17 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/gdc/Project.Vertex.json.gz \
   -d outputs/gdc/Sample.Vertex.json.gz \
   -d outputs/gdc/SampleFor.Edge.json.gz \
+  -d outputs/gdsc/gdsc.Aliquot.Vertex.json.gz \
+  -d outputs/gdsc/gdsc.AliquotFor.Edge.json.gz \
+  -d outputs/gdsc/gdsc.Case.Vertex.json.gz \
   -d outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz \
   -d outputs/gdsc/gdsc.InProgram.Edge.json.gz \
   -d outputs/gdsc/gdsc.InProject.Edge.json.gz \
   -d outputs/gdsc/gdsc.Program.Vertex.json.gz \
   -d outputs/gdsc/gdsc.Project.Vertex.json.gz \
   -d outputs/gdsc/gdsc.ResponseIn.Edge.json.gz \
+  -d outputs/gdsc/gdsc.Sample.Vertex.json.gz \
+  -d outputs/gdsc/gdsc.SampleFor.Edge.json.gz \
   -d outputs/go/GeneOntologyAnnotation.Edge.json.gz \
   -d outputs/go/GeneOntologyIsA.Edge.json.gz \
   -d outputs/go/GeneOntologyTerm.Vertex.json.gz \
@@ -3478,10 +5010,6 @@ dvc run --file outputs.bmeg_manifest.dvc --yes \
   -d outputs/tcga/HNSC.GeneExpressionOf.Edge.json.gz \
   -d outputs/tcga/HNSC.TranscriptExpression.Vertex.json.gz \
   -d outputs/tcga/HNSC.TranscriptExpressionOf.Edge.json.gz \
-  -d outputs/tcga/IlluminaHumanMethylation450.Methylation.Vertex.json.gz \
-  -d outputs/tcga/IlluminaHumanMethylation450.MethylationOf.Edge.json.gz \
-  -d outputs/tcga/IlluminaHumanMethylation450.MethylationProbe.Vertex.json.gz \
-  -d outputs/tcga/IlluminaHumanMethylation450.MethylationProbeFor.Edge.json.gz \
   -d outputs/tcga/KICH.GeneExpression.Vertex.json.gz \
   -d outputs/tcga/KICH.GeneExpressionOf.Edge.json.gz \
   -d outputs/tcga/KICH.TranscriptExpression.Vertex.json.gz \

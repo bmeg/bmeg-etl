@@ -14,4 +14,5 @@ ujson==1.35
 # dataclass serialization
 dacite==0.0.16
 pydash==4.7.3
-dvc==0.34.1
+dvc==0.35.7
+xlrd==1.2.0

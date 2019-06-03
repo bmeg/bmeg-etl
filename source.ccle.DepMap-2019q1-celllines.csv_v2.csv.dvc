@@ -1,0 +1,13 @@
+cmd: wget https://depmap.org/portal/download/api/download/external?file_name=processed_portal_downloads%2Fdepmap-public-cell-line-metadata-183e.4%2FDepMap-2019q1-celllines_v2.csv
+  -O source/ccle/DepMap-2019q1-celllines.csv_v2.csv
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/ccle/version.txt
+md5: f4a2d3fed270b854bb0f56d940a4de82
+outs:
+- cache: true
+  md5: 6d66a59fb75c31cd3a1b320eefe1efc8
+  metric: false
+  path: source/ccle/DepMap-2019q1-celllines.csv_v2.csv
+  persist: false
+wdir: .

@@ -4,10 +4,11 @@ cmd: curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --r
 deps:
 - md5: 6808ca805661622ad65ae014a4b2a094
   path: source/gene_enricher/version.txt
-md5: f83906593cc08419730763c54919f386
+md5: c3c4d2208ce4efe8eadd89ede117723f
 outs:
 - cache: true
-  md5: f6f970935fa1b813e9a19fc8ad49d357
+  md5: 19b38af3355e061c18068846d432204f
   metric: false
   path: source/gene_enricher/hgnc_complete_set.json
+  persist: false
 wdir: .
