@@ -10,6 +10,11 @@ from bmeg.utils import enforce_types
 
 
 class BMEGDataDictionary(DataDictionary):
+    """
+    Modified from:
+    https://github.com/uc-cdis/dictionaryutils/blob/42bf330d82bf084141c0f21b9815cc7e34bf5287/dictionaryutils/__init__.py#L112
+    """
+
     def __init__(
             self,
             root_dir,
