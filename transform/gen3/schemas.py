@@ -206,7 +206,7 @@ def create_schema(G):
         schema[v]['properties'] = field_types
         schema[v]['required'] = [k for k, o in schema[v]['properties'].items() if type(o.get('type', None)) is not list]
 
-    to_many = {'type': {'$ref': '_definitions.yaml#/to_many'}}
+    to_many = {'$ref': '_definitions.yaml#/to_many'}
     for v in deduced_vertices & bmeg_vertices:
         source_edges = [e for e in G.edges if e[0] == v]
         # [('Case', 'Project', 0), ('Case', 'Compound', 0)]
