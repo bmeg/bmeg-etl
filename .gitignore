@@ -45,10 +45,9 @@ tests/unit/compound/source/compound/sqlite.db
 tests/unit/*/test/*.json.gz
 
 .DS_Store
-<<<<<<< HEAD
-
-=======
 tests/unit/*/test/*.json.gz
 
 tests/unit/gen3/outputs
->>>>>>> generates gen3 schemas
+tests/integration/*/test/*.json.gz
+
+tests/integration/gen3/outputs
