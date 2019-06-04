@@ -48,6 +48,6 @@ tests/unit/compound/source/compound/sqlite.db
 !tests/unit/phenotype/outputs/**/*.*
 
 .DS_Store
-tests/unit/*/test/*.json.gz
+tests/integration/*/test/*.json.gz
 
-tests/unit/gen3/outputs
+tests/integration/gen3/outputs
