@@ -2,10 +2,15 @@ import dataclasses
 import jsonschema
 import os
 import pkg_resources
+import re
+import sys
 import types
 
 from copy import deepcopy
 from dictionaryutils import DataDictionary, load_schemas_from_dir, load_yaml
+from functools import partial
+
+from bmeg.gid import gid_factories, default_gid, cast_gid
 from bmeg.utils import enforce_types
 
 
@@ -71,8 +76,13 @@ class ClassInstance:
         for k, v in kwargs.items():
             self.__setattr__(k, v)
 
-    def props(self):
-        return self._props
+    def props(self, preserve_null=False):
+        data = self._props
+        if not preserve_null:
+            remove = [k for k in data if data[k] is None]
+            for k in remove:
+                del data[k]
+        return data
 
     def schema(self):
         return self._schema
@@ -85,14 +95,11 @@ class ClassInstance:
         return self.__class__.__name__
 
     def gid(self):
-        return self.make_gid(self.id)
-
-    @classmethod
-    def make_gid(cls, gid):
-        return cls._gid_cls(gid)
+        return self.make_gid(self.submitter_id)
 
     def __repr__(self):
-        return '<%s(%s)>' % (self.__class__.__name__, self.props())
+        return '<%s(%s)>' % (self.__class__.__name__,
+                             self.props(preserve_null=True))
 
     def __setattr__(self, key, item):
         if key not in self._props:
@@ -110,7 +117,7 @@ class ClassInstance:
 
 
 def capitalize(label):
-    return "".join([x.capitalize() for x in label.split("_")])
+    return "".join([(lambda x: x[0].upper() + x[1:])(x) for x in re.split("_| +", label)])
 
 
 class Vertex:
@@ -126,11 +133,20 @@ _schema = BMEGDataDictionary(root_dir=_schemaPath)
 
 __all__ = [Vertex, Edge]
 for k, schema in _schema.schema.items():
-    name = capitalize(k)
+    name = capitalize(schema["id"])
+    # TODO: enforce a gid factory is defined for every type
+    if name not in gid_factories:
+        print("using default gid factory for '{}'".format(name), file=sys.stderr)
+        gid_factory = partial(default_gid, name)
+    else:
+        gid_factory = gid_factories[name]
     cls = type(
         name, (ClassInstance, Vertex),
-        {'_schema': schema,
-         '_gid_cls': types.new_class("{}GID".format(name), (str,), {})}
+        {
+            '_schema': schema,
+            '_gid_cls': types.new_class("{}GID".format(name), (str,), {}),
+            'make_gid': classmethod(cast_gid(gid_factory))
+        }
     )
     globals()[name] = cls
     __all__.append(name)
@@ -138,7 +154,7 @@ for k, schema in _schema.schema.items():
 for k, schema in _schema.schema.items():
     for link in schema['links']:
         # TODO: handle link subgroup?
-        if not "target_type" in link:
+        if "target_type" not in link:
             continue
         src = capitalize(k)
         target = capitalize(link["target_type"])
@@ -147,10 +163,11 @@ for k, schema in _schema.schema.items():
             link['label'],
             [('from_gid', globals()[src]._gid_cls),
              ('to_gid', globals()[target]._gid_cls)],
+            bases=(Edge,),
             namespace={'label': lambda self: self.__class__.__name__}
         ))
         __all__.append(cls_name)
-        if not 'backref' in link:
+        if 'backref' not in link:
             continue
         bkref = "{}_{}_{}".format(target, capitalize(link['backref']), src)
         globals()[bkref] = enforce_types(dataclasses.make_dataclass(

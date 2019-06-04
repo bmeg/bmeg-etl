@@ -2,13 +2,12 @@ import atexit
 import json
 import os
 import sys
-import typing
 import dataclasses
 from datetime import datetime
 import gzip
 
 from bmeg import Vertex, Edge
-from bmeg.utils import enforce_types, ensure_directory
+from bmeg.utils import ensure_directory
 
 
 class DebugEmitter:
