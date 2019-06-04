@@ -4,11 +4,11 @@ from glob import glob
 
 from xml.dom.minidom import parseString
 
-from bmeg import (PFAMFamily, PFAMClan, GeneOntologyTerm,
-                  GeneOntologyTerm_Proteins_Protein,
-                  Protein_GeneOntologyTerms_GeneOntologyTerm,
-                  Protein_PFAMClans_PFAMClan,
-                  PFAMClan_Proteins_Protein)
+from bmeg import (PfamFamily, PfamClan, GeneOntologyTerm,
+                  GeneOntologyTerm_PfamFamilies_PfamFamily,
+                  PfamFamily_GeneOntologyTerms_GeneOntologyTerm,
+                  PfamFamily_PfamClans_PfamClan,
+                  PfamClan_PfamFamilies_PfamFamily)
 
 from bmeg.emitter import JSONEmitter
 from bmeg.ioutils import read_tsv
@@ -78,39 +78,40 @@ def xml_transform(dom, emit):
         out.comments = comments.strip()
         """
 
-        out = PFAMFamily(
-            submitter_id=PFAMFamily.make_gid(pfam_acc),
+        out = PfamFamily(
+            submitter_id=PfamFamily.make_gid(pfam_acc),
             pfam_id=pfam_id,
             accession=pfam_acc,
             type=pfam_type,
             description=description.strip(),
-            comments=comments.strip()
+            comments=comments.strip(),
+            project_id="Reference"
         )
         emit.emit_vertex(out)
         for g in go_terms:
             emit.emit_edge(
-                GeneOntologyTerm_Proteins_Protein(
+                GeneOntologyTerm_PfamFamilies_PfamFamily(
                     from_gid=GeneOntologyTerm.make_gid(g),
                     to_gid=out.gid()
                 )
             )
             emit.emit_edge(
-                Protein_GeneOntologyTerms_GeneOntologyTerm(
+                PfamFamily_GeneOntologyTerms_GeneOntologyTerm(
                     from_gid=out.gid(),
                     to_gid=GeneOntologyTerm.make_gid(g)
                 )
             )
         for c in clans:
             emit.emit_edge(
-                PFAMClan_Proteins_Protein(
-                    from_gid=PFAMClan.make_gid(c),
+                PfamClan_PfamFamilies_PfamFamily(
+                    from_gid=PfamClan.make_gid(c),
                     to_gid=out.gid()
                 )
             )
             emit.emit_edge(
-                Protein_PFAMClans_PFAMClan(
+                PfamFamily_PfamClans_PfamClan(
                     from_gid=out.gid(),
-                    to_gid=PFAMClan.make_gid(c)
+                    to_gid=PfamClan.make_gid(c)
                 )
             )
 
@@ -123,10 +124,16 @@ for f in glob("source/pfam/*.xml"):
         xml_transform(dom, emitter)
 
 path = "source/pfam/clans.tsv"
-tsv_in = read_tsv(path)
+tsv_in = read_tsv(path, fieldnames=["accession", "id", "description"])
 for line in tsv_in:
     # accession	id	description
-    emitter.emit_vertex(PFAMClan.from_dict(line))
-
+    c = PfamClan(
+        submitter_id=PfamClan.make_gid(line["accession"]),
+        accession=line["accession"],
+        clan_id=line["id"],
+        description=line["description"],
+        project_id="Reference"
+    )
+    emitter.emit_vertex(c)
 
 emitter.close()
