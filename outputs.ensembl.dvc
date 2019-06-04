@@ -1,0 +1,37 @@
+md5: 5531446ab948fe6ad4c24d62cb0cbe87
+cmd: python3 transform/ensembl/transform.py
+wdir: .
+deps:
+- md5: 24cfb0003e76c88c0df30f512fa3c148
+  path: source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz
+outs:
+- md5: 1d6aec1eb2d9601eedbaeb8e77f1dd98
+  path: outputs/ensembl/Exon.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 030eaeabf9db6179603cc9122d6768e7
+  path: outputs/ensembl/transcripts.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: ce80ffe64e5fdcf08b5b34495d57d3c0
+  path: outputs/ensembl/exons.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 625e1fdf93d953342d01fd6cd8ba72d6
+  path: outputs/ensembl/Transcript.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 7193934257b4e6789d49f1bac0dee7c1
+  path: outputs/ensembl/gene.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 7fbf8d196c36652cc4e763b81b9da2dd
+  path: outputs/ensembl/Gene.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
