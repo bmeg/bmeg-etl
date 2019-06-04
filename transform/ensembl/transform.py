@@ -95,7 +95,7 @@ def transform(
                 transcript_id = get_parent_transcript(attrs["Parent"])
                 transcripts.append(transcript_id)
             attrs = aset[0]
-            e = Exon(submitter_id=attrs["exon_id"],
+            e = Exon(submitter_id=Exon.make_gid(attrs["exon_id"]),
                      exon_id=attrs["exon_id"],
                      chromosome=attrs["seqId"],
                      start=attrs["start"],
@@ -121,7 +121,7 @@ def transform(
                 if transcript_id not in emitted_transcripts:
                     for attrs in features[transcript_id]:
                         gene_id = get_parent_gene(attrs["Parent"])
-                        t = Transcript(submitter_id=attrs["transcript_id"],
+                        t = Transcript(submitter_id=Transcript.make_gid(attrs["transcript_id"]),
                                        transcript_id=attrs["transcript_id"],
                                        chromosome=attrs["seqId"],
                                        start=int(attrs["start"]),
@@ -147,7 +147,7 @@ def transform(
 
                         if gene_id not in emitted_genes:
                             for attrs in features[gene_id]:
-                                g = Gene(submitter_id=attrs["gene_id"],
+                                g = Gene(submitter_id=Gene.make_gid(attrs["gene_id"]),
                                          gene_id=attrs["gene_id"],
                                          symbol=attrs["Name"],
                                          description=attrs.get("description", ""),

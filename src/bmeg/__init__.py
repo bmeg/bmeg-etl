@@ -95,7 +95,9 @@ class ClassInstance:
         return self.__class__.__name__
 
     def gid(self):
-        return self.make_gid(self.submitter_id)
+        if not isinstance(self.submitter_id, self._gid_cls):
+            raise TypeError("expected submitter_id of type {}", self._gid_cls)
+        return self.submitter_id
 
     def __repr__(self):
         return '<%s(%s)>' % (self.__class__.__name__,
