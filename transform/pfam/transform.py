@@ -4,8 +4,12 @@ from glob import glob
 
 from xml.dom.minidom import parseString
 
-from bmeg.vertex import PFAMFamily, PFAMClan, GeneOntologyTerm
-from bmeg.edge import GeneOntologyAnnotation, PFAMClanMember
+from bmeg import (PFAMFamily, PFAMClan, GeneOntologyTerm,
+                  GeneOntologyTerm_Proteins_Protein,
+                  Protein_GeneOntologyTerms_GeneOntologyTerm,
+                  Protein_PFAMClans_PFAMClan,
+                  PFAMClan_Proteins_Protein)
+
 from bmeg.emitter import JSONEmitter
 from bmeg.ioutils import read_tsv
 
@@ -75,21 +79,39 @@ def xml_transform(dom, emit):
         """
 
         out = PFAMFamily(
-            pfam_id=pfam_id, accession=pfam_acc, type=pfam_type,
-            description=description.strip(), comments=comments.strip()
+            submitter_id=PFAMFamily.make_gid(pfam_acc),
+            pfam_id=pfam_id,
+            accession=pfam_acc,
+            type=pfam_type,
+            description=description.strip(),
+            comments=comments.strip()
         )
         emit.emit_vertex(out)
         for g in go_terms:
             emit.emit_edge(
-                GeneOntologyAnnotation(evidence="NA", title="", references=[]),
-                from_gid=GeneOntologyTerm.make_gid(g),
-                to_gid=out.gid()
+                GeneOntologyTerm_Proteins_Protein(
+                    from_gid=GeneOntologyTerm.make_gid(g),
+                    to_gid=out.gid()
+                )
+            )
+            emit.emit_edge(
+                Protein_GeneOntologyTerms_GeneOntologyTerm(
+                    from_gid=out.gid(),
+                    to_gid=GeneOntologyTerm.make_gid(g)
+                )
             )
         for c in clans:
             emit.emit_edge(
-                PFAMClanMember(),
-                from_gid=PFAMClan.make_gid(c),
-                to_gid=out.gid()
+                PFAMClan_Proteins_Protein(
+                    from_gid=PFAMClan.make_gid(c),
+                    to_gid=out.gid()
+                )
+            )
+            emit.emit_edge(
+                Protein_PFAMClans_PFAMClan(
+                    from_gid=out.gid(),
+                    to_gid=PFAMClan.make_gid(c)
+                )
             )
 
 
