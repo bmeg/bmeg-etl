@@ -136,7 +136,6 @@ _schema = BMEGDataDictionary(root_dir=_schemaPath)
 __all__ = ['Vertex', 'Edge']
 for k, schema in _schema.schema.items():
     name = capitalize(schema["id"])
-    # TODO: enforce a gid factory is defined for every type
     if name not in gid_factories:
         print("using default gid factory for '{}'".format(name), file=sys.stderr)
         gid_factory = partial(default_gid, name)
@@ -161,31 +160,36 @@ for k, schema in _schema.schema.items():
         src = capitalize(k)
         target = capitalize(link["target_type"])
         cls_name = "{}_{}_{}".format(src, capitalize(link['label']), target)
-        cls = enforce_types(dataclasses.make_dataclass(
-            link['label'],
-            [('from_gid', globals()[src]._gid_cls),
-             ('to_gid', globals()[target]._gid_cls)],
-            bases=(Edge,),
-            namespace={'label': lambda self: self.__class__.__name__,
-                       'backref': lambda self: link.get('backref', None)}
-        ))
+        cls = enforce_types(
+            dataclasses.make_dataclass(
+                link['label'],
+                [('from_gid', globals()[src]._gid_cls),
+                 ('to_gid', globals()[target]._gid_cls)],
+                bases=(Edge,),
+                namespace={'label': lambda self: self.__class__.__name__}
+            )
+        )
         if 'backref' not in link:
+            cls._backref = None
             cls.backref = lambda self: None
             globals()[cls_name] = cls
             __all__.append(cls_name)
             continue
         bkref = "{}_{}_{}".format(target, capitalize(link['backref']), src)
-        bkref_cls = enforce_types(dataclasses.make_dataclass(
-            link['backref'],
-            [('from_gid', globals()[target]._gid_cls),
-             ('to_gid', globals()[src]._gid_cls)],
-            bases=(Edge,),
-            namespace={'label': lambda self: self.__class__.__name__,
-                       'backref': lambda self: link.get('label', None)}
-        ))
-        cls.backref = lambda self: bkref_cls(from_gid=self.to_gid, to_gid=self.from_gid)
-        bkref_cls.backref = lambda self: cls(from_gid=self.to_gid, to_gid=self.from_gid)
+        bkref_cls = enforce_types(
+            dataclasses.make_dataclass(
+                link['backref'],
+                [('from_gid', globals()[target]._gid_cls),
+                 ('to_gid', globals()[src]._gid_cls)],
+                bases=(Edge,),
+                namespace={'label': lambda self: self.__class__.__name__}
+            )
+        )
+        cls._backref = bkref_cls
+        cls.backref = lambda self: self._backref(from_gid=self.to_gid, to_gid=self.from_gid)
+        bkref_cls._backref = cls
+        bkref_cls.backref = lambda self: self._backref(from_gid=self.to_gid, to_gid=self.from_gid)
         globals()[cls_name] = cls
-        __all__.append(cls_name)
         globals()[bkref] = bkref_cls
+        __all__.append(cls_name)
         __all__.append(bkref)

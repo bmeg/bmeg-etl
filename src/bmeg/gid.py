@@ -1,4 +1,6 @@
-from functools import partial, wraps
+import hashlib
+
+from functools import wraps
 
 
 def default_gid(class_name: str, submitter_id: str):
@@ -37,6 +39,28 @@ def protein_gid(submitter_id: str):
     return "{}".format(submitter_id)
 
 
+def drugresponse_gid(source: str, submitter_id: str, compound_id: str):
+    return "DrugResponse:{}:{}:{}" % (source, submitter_id, compound_id)
+
+
+def callset_gid(source: str, tumor_aliquot_id: str, normal_aliquot_id: str):
+    return "Callset:{}:{}:{}" % (source, tumor_aliquot_id, normal_aliquot_id)
+
+
+def allele_gid(genome: str, chromosome: str, start: int, end: int,
+               reference_bases: str, alternate_bases: str):
+    # TODO
+    # figure out better hashing strategy
+    vid = "{}:{}:{}:{}:{}:{}".format(genome, chromosome,
+                                     start, end, reference_bases,
+                                     alternate_bases)
+    vid = vid.encode('utf-8')
+    vidhash = hashlib.sha1()
+    vidhash.update(vid)
+    vidhash = vidhash.hexdigest()
+    return "Allele:{}".format(vidhash)
+
+
 # cast the result of the above gid functions to the proper type
 def cast_gid(func):
     @wraps(func)
@@ -49,13 +73,11 @@ def cast_gid(func):
 
 # these will be used as the make_gid class method on schema generated vertex classes
 gid_factories = {
-    'Program': partial(default_gid, 'Program'),
-    'Project': partial(default_gid, 'Project'),
-    'Case': partial(default_gid, 'Case'),
-    'Sample': partial(default_gid, 'Sample'),
-    'Aliquot': partial(default_gid, 'Aliquot'),
     'Gene': gene_gid,
     'Transcript': transcript_gid,
     'Protein': protein_gid,
     'Exon': exon_gid,
+    'DrugResponse': drugresponse_gid,
+    'Callset': callset_gid,
+    'Allele': allele_gid
 }
