@@ -137,7 +137,7 @@ class BaseEmitter:
             "label": obj.label(),
             "from": obj.from_gid,
             "to": obj.to_gid,
-            "data": self._get_data(obj)
+            "data": self._get_data(obj.data)
         }
         self.rate.tick()
         return dumped

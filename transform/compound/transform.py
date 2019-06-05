@@ -3,10 +3,8 @@ from bmeg.emitter import new_emitter
 from bmeg.ioutils import reader
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
-from bmeg.vertex import Compound
-from bmeg.edge import *  # noqa
+from bmeg import * # noqa
 from bmeg.enrichers.drug_enricher import normalize
-from bmeg.gid import GID
 from bmeg.stores import new_store
 
 import logging
@@ -47,10 +45,12 @@ def transform(vertex_files, edge_files,
                                 # no hits? set term and id to name
                                 compound['term'] = compound['name']
                                 compound['term_id'] = 'NO_ONTOLOGY~{}'.format(compound['term'])
+                                compound['submitter_id'] = Compound.make_gid('NO_ONTOLOGY~{}'.format(compound['term']))
                             else:
                                 # hits: set term and id to normalized term
                                 compound['term'] = ontology_terms[0]['synonym']
                                 compound['term_id'] = ontology_terms[0]['ontology_term']
+                                compound['submitter_id'] = Compound.make_gid(ontology_terms[0]['ontology_term'])
                             # save it for next time
                             store.put(compound['name'], compound)
                         else:
@@ -58,7 +58,7 @@ def transform(vertex_files, edge_files,
                     else:
                         # we have a compound with a term already
                         store.put(compound['name'], compound)
-                    compound = Compound.from_dict(compound)
+                    compound = Compound(**compound)
                     if compound.gid() not in dups:
                         emitter.emit_vertex(compound)
                     compound_cache[compound_gid] = compound
@@ -92,17 +92,18 @@ def transform(vertex_files, edge_files,
                     data = edge['data']
                     # replace with normalized compound
                     if to in compound_cache:
-                        to = compound_cache[to].gid()
+                        to = compound_cache[to]
                     if from_ in compound_cache:
-                        from_ = compound_cache[from_].gid()
-                    cls = globals()[label]
+                        from_ = compound_cache[from_]
+                    cls_name = "{}_{}_{}".format(from_.label(), capitalize(label), to.label())
+                    cls = globals()[cls_name]
                     edge = cls()
-                    if data:
-                        edge = cls(data=data)
                     emitter.emit_edge(
-                        edge,
-                        GID(from_),
-                        GID(to),
+                        edge(
+                            from_gid=from_.gid(),
+                            to_gid=to.gid(),
+                            data=data
+                        )
                     )
                     c += 1
                     t += 1

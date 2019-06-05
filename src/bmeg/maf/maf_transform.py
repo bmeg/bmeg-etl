@@ -5,12 +5,13 @@ import csv
 import gzip
 import sys
 
-from bmeg.vertex import Allele, Deadletter, Aliquot
-from bmeg.edge import CallsetFor, AlleleIn
+from bmeg import (Allele, Aliquot, Deadletter,
+                  Callset_Aliquots_Aliquot,
+                  Callset_Alleles_Allele,
+                  Allele_Gene_Gene)
 from bmeg.emitter import new_emitter
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
-
 
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed
@@ -133,6 +134,12 @@ class MAFTransformer():
     def allele_maker(self, line):
         """ worker task to create and/or harvest allele from line """
         allele_dict = self.create_allele_dict(line)
+        allele_dict['submitter_id'] = Allele.make_gid(
+            allele_dict['genome'], allele_dict['chromosome'],
+            allele_dict['start'], allele_dict['end'],
+            allele_dict['reference_bases'], allele_dict['alternate_bases']
+        )
+        allele_dict['project_id'] = 'Reference'
         return Allele(**allele_dict)
 
     def multithreading(self, func, lines, max_workers, harvest, filter):
@@ -175,29 +182,48 @@ class MAFTransformer():
                 call_tuples, callsets = self.callset_maker(allele, source, centerCol, method, line)
                 # save the calls
                 for call_tuple in call_tuples:
-                    call = call_tuple[0]
+                    call_data = call_tuple[0]
                     callset_gid = call_tuple[1]
-                    emitter.emit_edge(call, callset_gid, allele.gid())
+                    emitter.emit_edge(
+                        Callset_Alleles_Allele(
+                            from_gid=callset_gid,
+                            to_gid=allele.gid(),
+                            data=call_data
+                        ),
+                        emit_backref=True
+                    )
                 # many callsets can be created, emit only uniques
                 for callset in callsets:
                     if callset.gid not in my_callsets_ids:
                         my_callsets_ids.add(callset.gid)
                         emitter.emit_vertex(callset)
                         if callset.normal_aliquot_id:
-                            emitter.emit_edge(CallsetFor(),
-                                              callset.gid(),
-                                              Aliquot.make_gid(callset.normal_aliquot_id),
-                                              )
-                        emitter.emit_edge(CallsetFor(),
-                                          callset.gid(),
-                                          Aliquot.make_gid(callset.tumor_aliquot_id),
-                                          )
+                            emitter.emit_edge(
+                                Callset_Aliquots_Aliquot(
+                                    from_gid=callset.gid(),
+                                    to_gid=Aliquot.make_gid(callset.normal_aliquot_id),
+                                ),
+                                emit_backref=True
+                            )
+                        if callset.tumor_aliquot_id:
+                            emitter.emit_edge(
+                                Callset_Aliquots_Aliquot(
+                                    from_gid=callset.gid(),
+                                    to_gid=Aliquot.make_gid(callset.tumor_aliquot_id),
+                                ),
+                                emit_backref=True
+                            )
 
                 # create edge to gene
                 try:
                     gene_gid = self.create_gene_gid(line)
                     if gene_gid:
-                        emitter.emit_edge(AlleleIn(), allele.gid(), gene_gid)
+                        emitter.emit_edge(
+                            Allele_Gene_Gene(
+                                from_gid=allele.gid(),
+                                to_gid=gene_gid
+                            )
+                        )
                 except Exception as exc:
                     logging.exception(exc)
             except Exception as exc:

@@ -1,4 +1,6 @@
+md5: 4bcc423f708372dab8567ed8a9defb40
 cmd: python3 transform/ccle/ccle_cases.py
+wdir: .
 deps:
 - md5: e6d1bc2ea16ca63f03474a27ea27034e
   path: source/ccle/cellline_lookup.tsv
@@ -3148,61 +3150,69 @@ deps:
   path: source/ccle/mafs/COLO201_LARGE_INTESTINE_vs_NORMAL/vep.maf
 - md5: a339758e2a8edb9152251c24eaeceadd
   path: source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf
-md5: 20d8da9928c7b9b922abb72404ebe5c7
 outs:
-- cache: true
-  md5: 2966c416c9e5c01297ebe3911a009056
-  metric: false
-  path: outputs/ccle/ccle.AliquotFor.Edge.json.gz
-  persist: false
-- cache: true
-  md5: 434fd476baa82e288537d2ed804f2408
-  metric: false
+- md5: 3814a68c9ad521fb0e620c3299ad1448
   path: outputs/ccle/ccle.Aliquot.Vertex.json.gz
-  persist: false
-- cache: true
-  md5: 1dbce19860c8b77c7a688e2dd9a78467
+  cache: true
   metric: false
-  path: outputs/ccle/ccle.SampleFor.Edge.json.gz
   persist: false
-- cache: true
-  md5: 73179f53e7962752b4fd3c2c847a0e34
-  metric: false
+- md5: 9bcf00b3db4a1a8933ae30ecf379e2de
   path: outputs/ccle/ccle.Sample.Vertex.json.gz
-  persist: false
-- cache: true
-  md5: 71f8dd7e2a06acb00d8d95ae47a48121
+  cache: true
   metric: false
+  persist: false
+- md5: 0e72de925d5945109651443e850bb78e
   path: outputs/ccle/ccle.Case.Vertex.json.gz
-  persist: false
-- cache: true
-  md5: 2a7076376d087f4de4bbb7ded3302a51
+  cache: true
   metric: false
-  path: outputs/ccle/ccle.InProject.Edge.json.gz
   persist: false
-- cache: true
-  md5: 2598c8ba2e22c5ea68e4636f31f63e06
-  metric: false
+- md5: f10df9592f74695778b59e6dbc568813
   path: outputs/ccle/ccle.Project.Vertex.json.gz
-  persist: false
-- cache: true
-  md5: 8947308aeda9f9cad027f381a83d2b7e
+  cache: true
   metric: false
-  path: outputs/ccle/ccle.InProgram.Edge.json.gz
   persist: false
-- cache: true
-  md5: 538e806d32fa92be619fdf84af5376c2
-  metric: false
+- md5: 949d419cf090fc61ae9ac27f3810d077
   path: outputs/ccle/ccle.Program.Vertex.json.gz
-  persist: false
-- cache: true
-  md5: e1090220edab97486927fe5a7d39b347
+  cache: true
   metric: false
+  persist: false
+- md5: ce5018f5394442d7f6ec363fa0fe703d
   path: outputs/ccle/ccle.Phenotype.Vertex.json.gz
-  persist: false
-- cache: true
-  md5: 3ca327e031fc34cf7a37d491140da2ae
+  cache: true
   metric: false
-  path: outputs/ccle/ccle.PhenotypeOf.Edge.json.gz
   persist: false
-wdir: .
+- md5: 985a7c10867dc55eb12f123a4453fffd
+  path: outputs/ccle/ccle.programs.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 6e80602ec39e25c3d8a73e32b39bc6c1
+  path: outputs/ccle/ccle.projects.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: d799553ca5a21a4afc501a4bd826c11c
+  path: outputs/ccle/ccle.case.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: bff11b2f1c3ebba4769035cbf3a36fec
+  path: outputs/ccle/ccle.sample.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 9823358093dee11cf1ac99361f3ad466
+  path: outputs/ccle/ccle.samples.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 09e924c2142074714a8224873edfe75b
+  path: outputs/ccle/ccle.aliquots.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 8f63574043ff1a0e96c4595407c196bd
+  path: outputs/ccle/ccle.phenotypes.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false

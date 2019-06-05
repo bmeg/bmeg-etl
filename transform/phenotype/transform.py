@@ -1,12 +1,9 @@
-
+from bmeg import * # noqa
 from bmeg.emitter import new_emitter
 from bmeg.ioutils import reader
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
-from bmeg.vertex import Phenotype
-from bmeg.edge import *  # noqa
 from bmeg.enrichers.phenotype_enricher import normalize
-from bmeg.gid import GID
 from bmeg.stores import new_store
 
 import glob
@@ -56,10 +53,12 @@ def transform(
                                 # no hits? set term and id to name
                                 phenotype['term'] = phenotype['name']
                                 phenotype['term_id'] = 'NO_ONTOLOGY~{}'.format(phenotype['term'])
+                                phenotype['submitter_id'] = Phenotype.make_gid('NO_ONTOLOGY~{}'.format(phenotype['term']))
                             else:
                                 # hits: set term and id to normalized term
                                 phenotype['term'] = ontology_terms[0]['label']
                                 phenotype['term_id'] = ontology_terms[0]['ontology_term']
+                                phenotype['submitter_id'] = Phenotype.make_gid(ontology_terms[0]['ontology_term'])
                             # save it for next time
                             store.put(phenotype['name'], phenotype)
                         else:
@@ -76,11 +75,12 @@ def transform(
                                     # hits: set term and id to normalized term
                                     phenotype['term'] = ontology_terms[0]['label']
                                     phenotype['term_id'] = ontology_terms[0]['ontology_term']
+                                    phenotype['submitter_id'] = Phenotype.make_gid(ontology_terms[0]['ontology_term'])
 
                     # we have a phenotype with a term already
                     store.put(phenotype.get('name', phenotype.get('term')), phenotype)
 
-                    phenotype = Phenotype.from_dict(phenotype)
+                    phenotype = Phenotype(**phenotype)
                     if phenotype.gid() not in dups:
                         emitter.emit_vertex(phenotype)
                         dups[phenotype.gid()] = None
@@ -116,17 +116,18 @@ def transform(
                     data = edge['data']
                     # replace with normalized phenotype
                     if to in phenotype_cache:
-                        to = phenotype_cache[to].gid()
+                        to = phenotype_cache[to]
                     if from_ in phenotype_cache:
-                        from_ = phenotype_cache[from_].gid()
-                    cls = globals()[label]
+                        from_ = phenotype_cache[from_]
+                    cls_name = "{}_{}_{}".format(from_.label(), capitalize(label), to.label())
+                    cls = globals()[cls_name]
                     edge = cls()
-                    if data:
-                        edge = cls(data=data)
                     emitter.emit_edge(
-                        edge,
-                        GID(from_),
-                        GID(to)
+                        edge(
+                            from_gid=from_.gid(),
+                            to_gid=to.gid(),
+                            data=data
+                        )
                     )
                     c += 1
                     t += 1

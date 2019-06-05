@@ -7,7 +7,7 @@ from bmeg.emitter import JSONEmitter
 from bmeg import (Aliquot, DrugResponse, Project,
                   Compound_Projects_Project,
                   DrugResponse_Aliquot_Aliquot,
-                  DrugResponse_Compound_Compound)
+                  DrugResponse_Compounds_Compound)
 from bmeg.enrichers.drug_enricher import compound_factory
 
 
@@ -71,15 +71,17 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             cellline_id = celllines[i.split("_")[0]]
         else:
             cellline_id = i
-        drug_response.submitter_id = DrugResponse.make_gid(cellline_id)
+        drug_response.submitter_id = DrugResponse.make_gid("CCLE", cellline_id, drug_response.submitter_compound_id)
 
         project_id = "CCLE_%s" % (projects.get(cellline_id, "Unknown"))
-        proj = Project(submitter_id=Project.make_gid(project_id), project_id=project_id)
+        proj = Project(submitter_id=Project.make_gid(project_id),
+                       project_id=project_id)
         if proj.gid() not in project_compounds:
             project_compounds[proj.gid()] = {}
 
         # create drug_response vertex
         drug_resp = DrugResponse(**drug_response.__dict__)
+        drug_resp.project_id = proj.gid()
         emitter.emit_vertex(drug_resp)
         #  and edge to aliquot
         emitter.emit_edge(
@@ -96,7 +98,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             compound_gids[compound.gid()] = None
         # and an edge to it
         emitter.emit_edge(
-            DrugResponse_Compound_Compound(
+            DrugResponse_Compounds_Compound(
                 from_gid=drug_resp.gid(),
                 to_gid=compound.gid()
             ),

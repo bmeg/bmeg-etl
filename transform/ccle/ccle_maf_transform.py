@@ -3,8 +3,7 @@
 
 from glob import glob
 import bmeg.ioutils
-from bmeg.vertex import Callset, Gene
-from bmeg.edge import AlleleCall
+from bmeg import Callset, Gene, AlleleCall
 from bmeg.emitter import new_emitter
 from bmeg.maf.maf_transform import get_value, MAFTransformer
 
@@ -44,7 +43,7 @@ class CCLE_MAFTransformer(MAFTransformer):
 
     def create_gene_gid(self, line):  # pragma nocover
         ensembl_id = line.get('Gene', None)
-        return Gene.make_gid(gene_id=ensembl_id)
+        return Gene.make_gid(ensembl_id)
 
     def barcode_to_aliquot_id(self, barcode):
         """ create ccle sample barcode """
@@ -64,9 +63,12 @@ class CCLE_MAFTransformer(MAFTransformer):
     def callset_maker(self, allele, source, centerCol, method, line):
         """ create callset from line """
         aliquot_id = self.barcode_to_aliquot_id(line[TUMOR_SAMPLE_BARCODE])
-        callset = Callset(tumor_aliquot_id=aliquot_id,
-                          normal_aliquot_id=None,
-                          source=source)
+        callset = Callset(
+            submitter_id=Callset.make_gid(source, aliquot_id, None),
+            tumor_aliquot_id=aliquot_id,
+            normal_aliquot_id=None,
+            source=source
+        )
         sample_call = (self.allele_call_maker(allele, line, method), callset.gid())
 
         return [sample_call], [callset]

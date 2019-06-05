@@ -40,11 +40,11 @@ def protein_gid(submitter_id: str):
 
 
 def drugresponse_gid(source: str, submitter_id: str, compound_id: str):
-    return "DrugResponse:{}:{}:{}" % (source, submitter_id, compound_id)
+    return "DrugResponse:{}:{}:{}".format(source, submitter_id, compound_id)
 
 
 def callset_gid(source: str, tumor_aliquot_id: str, normal_aliquot_id: str):
-    return "Callset:{}:{}:{}" % (source, tumor_aliquot_id, normal_aliquot_id)
+    return "Callset:{}:{}:{}".format(source, tumor_aliquot_id, normal_aliquot_id)
 
 
 def allele_gid(genome: str, chromosome: str, start: int, end: int,

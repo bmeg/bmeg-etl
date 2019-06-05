@@ -1,4 +1,4 @@
-from bmeg import (GeneExpression, TranscriptExpression, Aliquot, ExpressionMetric, Project,
+from bmeg import (GeneExpression, TranscriptExpression, Aliquot, Project,
                   GeneExpression_Aliquot_Aliquot, TranscriptExpression_Aliquot_Aliquot)
 
 import bmeg.ioutils
@@ -27,7 +27,7 @@ def transform_rpkm(path="source/depmap/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct
         # use broad suffix  "QGP1_PANCREAS (ACH-000347)" -> "ACH-000347"
         sample = sample.split()[1].replace('(', '').replace(')', '')
         g = GeneExpression(
-            metric=ExpressionMetric.RPKM,
+            metric="RPKM",
             method="Unknown",
             values=values,
             project_id=Project.make_gid("CCLE_%s" % (projects.get(sample, "Unknown")))
@@ -60,7 +60,7 @@ def transform_gene_tpm(path="source/ccle/CCLE_depMap_19Q1_TPM.csv",
     for sample, values in tmp_df.iterrows():
         g = GeneExpression(
             submitter_id=GeneExpression.make_gid("CCLE:%s" % (sample)),
-            metric=ExpressionMetric.GENE_TPM,
+            metric="GENE_TPM",
             method="Unknown",
             values=values.to_dict(),
             project_id=Project.make_gid("CCLE_%s" % (projects.get(sample, "Unknown")))
@@ -93,7 +93,7 @@ def transform_tpm(path="source/ccle/CCLE_depMap_19Q1_TPM_transcripts.csv",
     for sample, values in tmp_df.iterrows():
         t = TranscriptExpression(
             submitter_id=TranscriptExpression.make_gid("CCLE:%s" % (sample)),
-            metric=ExpressionMetric.TPM,
+            metric="TPM",
             method="Unknown",
             values=values.to_dict(),
             project_id=Project.make_gid("CCLE_%s" % (projects.get(sample, "Unknown")))

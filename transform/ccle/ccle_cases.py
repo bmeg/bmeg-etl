@@ -10,8 +10,8 @@ from bmeg import (Sample, Aliquot, Case, Project, Program,
                   Case_Projects_Project,
                   Sample_Projects_Project,
                   Aliquot_Projects_Project,
-                  Case_Phenotype_Phenotype,
-                  Sample_Phenotype_Phenotype,
+                  Case_Phenotypes_Phenotype,
+                  Sample_Phenotypes_Phenotype,
                   Project_Programs_Program)
 from bmeg.enrichers.phenotype_enricher import phenotype_factory
 
@@ -129,7 +129,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             emitter.emit_vertex(pheno)
             # case <-> phenotype edges
             emitter.emit_edge(
-                Case_Phenotype_Phenotype(
+                Case_Phenotypes_Phenotype(
                     from_gid=c.gid(),
                     to_gid=pheno.gid()
                 ),
@@ -137,7 +137,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             )
             # sample <-> phenotype edges
             emitter.emit_edge(
-                Sample_Phenotype_Phenotype(
+                Sample_Phenotypes_Phenotype(
                     from_gid=s.gid(),
                     to_gid=pheno.gid()
                 ),
@@ -175,7 +175,9 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
                     emit_aliquot(emitter, a, s, proj)
             else:
                 aliquot_id = "CCLE:%s:%s" % (cellline_id, experiement_type)
-                a = Aliquot(aliquot_id=aliquot_id)
+                a = Aliquot(submitter_id=Aliquot.make_gid(aliquot_id),
+                            aliquot_id=aliquot_id,
+                            project_id=proj.gid())
                 emit_aliquot(emitter, a, s, proj)
 
         emitted_celllines[cellline_id] = None

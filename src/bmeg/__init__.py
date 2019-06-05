@@ -1,4 +1,5 @@
 import dataclasses
+import hashlib
 import jsonschema
 import os
 import pkg_resources
@@ -9,6 +10,7 @@ import types
 from copy import deepcopy
 from dictionaryutils import DataDictionary, load_schemas_from_dir, load_yaml
 from functools import partial
+from typing import Union
 
 from bmeg.gid import gid_factories, default_gid, cast_gid
 from bmeg.utils import enforce_types
@@ -130,10 +132,30 @@ class Edge:
     pass
 
 
+@enforce_types
+@dataclasses.dataclass(frozen=True)
+class Deadletter(Vertex):
+    """ standard way to log missing data """
+    target_label: str  # desired vertex label
+    data: dict  # data from source
+
+    def gid(self):
+        return Deadletter.make_gid(self.target_label, self.data)
+
+    @classmethod
+    def make_gid(cls, target_label, data):
+        # create hash from data dict
+        data = '%s:%s' % (target_label, str(data))
+        datahash = hashlib.sha1()
+        datahash.update(data.encode('utf-8'))
+        datahash = datahash.hexdigest()
+        return "%s:%s" % (cls.__name__, datahash)
+
+
 _schemaPath = pkg_resources.resource_filename(__name__, "bmeg-dictionary/gdcdictionary/schemas")
 _schema = BMEGDataDictionary(root_dir=_schemaPath)
 
-__all__ = ['Vertex', 'Edge']
+__all__ = ['Vertex', 'Edge', 'Deadletter']
 for k, schema in _schema.schema.items():
     name = capitalize(schema["id"])
     if name not in gid_factories:
@@ -142,7 +164,8 @@ for k, schema in _schema.schema.items():
     else:
         gid_factory = gid_factories[name]
     cls = type(
-        name, (ClassInstance, Vertex),
+        name,
+        (ClassInstance, Vertex),
         {
             '_schema': schema,
             '_gid_cls': types.new_class("{}GID".format(name), (str,), {}),
@@ -162,9 +185,12 @@ for k, schema in _schema.schema.items():
         cls_name = "{}_{}_{}".format(src, capitalize(link['label']), target)
         cls = enforce_types(
             dataclasses.make_dataclass(
-                link['label'],
-                [('from_gid', globals()[src]._gid_cls),
-                 ('to_gid', globals()[target]._gid_cls)],
+                cls_name=link['label'],
+                fields=[
+                    ('from_gid', globals()[src]._gid_cls),
+                    ('to_gid', globals()[target]._gid_cls),
+                    ('data', dict, dataclasses.field(default_factory=dict))
+                ],
                 bases=(Edge,),
                 namespace={'label': lambda self: self.__class__.__name__}
             )
@@ -178,9 +204,12 @@ for k, schema in _schema.schema.items():
         bkref = "{}_{}_{}".format(target, capitalize(link['backref']), src)
         bkref_cls = enforce_types(
             dataclasses.make_dataclass(
-                link['backref'],
-                [('from_gid', globals()[target]._gid_cls),
-                 ('to_gid', globals()[src]._gid_cls)],
+                cls_name=link['backref'],
+                fields=[
+                    ('from_gid', globals()[target]._gid_cls),
+                    ('to_gid', globals()[src]._gid_cls),
+                    ('data', dict, dataclasses.field(default_factory=dict))
+                ],
                 bases=(Edge,),
                 namespace={'label': lambda self: self.__class__.__name__}
             )
