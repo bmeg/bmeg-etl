@@ -1,8 +1,8 @@
 import ijson
 
 from bmeg import (Protein, PfamFamily, ProteinStructure,
-                  Protein_PfamFamilies_PfamFamily, PfamFamily_Proteins_Protein,
-                  Protein_ProteinStructures_ProteinStructure, ProteinStructure_Protein_Protein)
+                  Protein_PfamFamilies_PfamFamily,
+                  Protein_ProteinStructures_ProteinStructure)
 
 from bmeg.emitter import JSONEmitter
 
@@ -32,26 +32,17 @@ def transform(data_path='source/pfam/homo_sapiens.json',
                                         Protein_PfamFamilies_PfamFamily(
                                             from_gid=prot_id,
                                             to_gid=PfamFamily.make_gid(feature['name'])
-                                        )
+                                        ),
+                                        emit_backref=True
                                     )
-                                    emitter.emit_edge(
-                                        PfamFamily_Proteins_Protein(
-                                            from_gid=PfamFamily.make_gid(feature['name']),
-                                            to_gid=prot_id
-                                        )
-                                    )
+
                             for pdb in translation.get('PDB', []):
-                                emitter.emit_edge(
-                                    ProteinStructure_Protein_Protein(
-                                        from_gid=ProteinStructure.make_gid(pdb),
-                                        to_gid=prot_id
-                                    )
-                                )
                                 emitter.emit_edge(
                                     Protein_ProteinStructures_ProteinStructure(
                                         from_gid=prot_id,
                                         to_gid=ProteinStructure.make_gid(pdb),
-                                    )
+                                    ),
+                                    emit_backref=True
                                 )
                                 if pdb in dedup:
                                     continue

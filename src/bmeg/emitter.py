@@ -17,9 +17,13 @@ class DebugEmitter:
     def close(self):
         self.emitter.close()
 
-    def emit_edge(self, obj):
+    def emit_edge(self, obj, emit_backref=False):
         d = self.emitter.emit_edge(obj)
         print(json.dumps(d, indent=True))
+        if emit_backref:
+            if not obj.backref():
+                raise ValueError("{} has no valid backref".format(obj))
+            self.emit_edge(obj.backref())
 
     def emit_vertex(self, obj):
         d = self.emitter.emit_vertex(obj)
@@ -35,7 +39,7 @@ class JSONEmitter:
         self.handles.close()
         self.emitter.close()
 
-    def emit_edge(self, obj):
+    def emit_edge(self, obj, emit_backref=False):
         d = self.emitter.emit_edge(obj)
         fh = self.handles[obj]
         if self.handles.compresslevel > 0:
@@ -44,6 +48,10 @@ class JSONEmitter:
         else:
             fh.write(json.dumps(d))
             fh.write(os.linesep)
+        if emit_backref:
+            if not obj.backref():
+                raise ValueError("{} has no valid backref".format(obj))
+            self.emit_edge(obj.backref())
 
     def emit_vertex(self, obj):
         d = self.emitter.emit_vertex(obj)
@@ -131,7 +139,6 @@ class BaseEmitter:
             "to": obj.to_gid,
             "data": self._get_data(obj)
         }
-
         self.rate.tick()
         return dumped
 
@@ -143,7 +150,6 @@ class BaseEmitter:
             "label": obj.label(),
             "data": self._get_data(obj.props())
         }
-
         self.rate.tick()
         return dumped
 

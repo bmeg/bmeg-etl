@@ -4,8 +4,15 @@ import pandas
 
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import Sample, Aliquot, Case, Project, Program
-from bmeg.edge import AliquotFor, SampleFor, InProject, InProgram, PhenotypeOf
+from bmeg import (Sample, Aliquot, Case, Project, Program,
+                  Aliquot_Sample_Sample,
+                  Sample_Case_Case,
+                  Case_Projects_Project,
+                  Sample_Projects_Project,
+                  Aliquot_Projects_Project,
+                  Case_Phenotype_Phenotype,
+                  Sample_Phenotype_Phenotype,
+                  Project_Programs_Program)
 from bmeg.enrichers.phenotype_enricher import phenotype_factory
 
 
@@ -23,7 +30,9 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
     phenotypes = bmeg.ioutils.read_lookup(phenotype_lookup_path)
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
-    prog = Program(program_id="CCLE")
+    prog = Program(submitter_id=Program.make_gid("CCLE"),
+                   program_id="CCLE",
+                   project_id="CCLE")
     emitter.emit_vertex(prog)
 
     raw_ids = {}
@@ -66,84 +75,108 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             continue
 
         project_id = "CCLE_%s" % (projects.get(cellline_id, "Unknown"))
-        p = Project(project_id=project_id)
-        if p.gid() not in emitted_projects:
-            emitter.emit_vertex(p)
+        proj = Project(submitter_id=Project.make_gid(project_id), project_id=project_id)
+        if proj.gid() not in emitted_projects:
+            emitter.emit_vertex(proj)
             emitter.emit_edge(
-                InProgram(),
-                p.gid(),
-                prog.gid(),
+                Project_Programs_Program(
+                    from_gid=proj.gid(),
+                    to_gid=prog.gid(),
+                ),
+                emit_backref=True
             )
-            emitted_projects[p.gid()] = None
+            emitted_projects[proj.gid()] = None
 
-        c = Case(case_id=cellline_id)
+        c = Case(submitter_id=Case.make_gid(cellline_id),
+                 case_id=cellline_id,
+                 project_id=proj.gid())
         if emit_cellline:
             emitter.emit_vertex(c)
-        emitter.emit_edge(
-            InProject(),
-            c.gid(),
-            p.gid(),
-        )
+            # case <-> project edges
+            emitter.emit_edge(
+                Case_Projects_Project(
+                    from_gid=c.gid(),
+                    to_gid=proj.gid()
+                ),
+                emit_backref=True
+            )
 
         sample_id = "CCLE:%s" % (cellline_id)
-        s = Sample(sample_id=sample_id)
+        s = Sample(submitter_id=Sample.make_gid(sample_id),
+                   sample_id=sample_id,
+                   project_id=proj.gid())
         emitter.emit_vertex(s)
+        # sample <-> case edges
         emitter.emit_edge(
-            SampleFor(),
-            s.gid(),
-            c.gid(),
+            Sample_Case_Case(
+                from_gid=s.gid(),
+                to_gid=c.gid()
+            ),
+            emit_backref=True
         )
+        # sample <-> project edges
         emitter.emit_edge(
-            InProject(),
-            s.gid(),
-            p.gid(),
+            Sample_Projects_Project(
+                from_gid=s.gid(),
+                to_gid=proj.gid()
+            ),
+            emit_backref=True
         )
 
         phenotype_name = phenotypes.get(cellline_id, None)
         if phenotype_name:
             pheno = phenotype_factory(phenotype_name)
             emitter.emit_vertex(pheno)
+            # case <-> phenotype edges
             emitter.emit_edge(
-                PhenotypeOf(),
-                c.gid(),
-                pheno.gid()
+                Case_Phenotype_Phenotype(
+                    from_gid=c.gid(),
+                    to_gid=pheno.gid()
+                ),
+                emit_backref=True
             )
+            # sample <-> phenotype edges
             emitter.emit_edge(
-                PhenotypeOf(),
-                s.gid(),
-                pheno.gid()
+                Sample_Phenotype_Phenotype(
+                    from_gid=s.gid(),
+                    to_gid=pheno.gid()
+                ),
+                emit_backref=True
             )
+
+        def emit_aliquot(emitter, a, s, proj):
+            # aliquot
+            emitter.emit_vertex(a)
+            # aliquot <-> sample edges
+            emitter.emit_edge(
+                Aliquot_Sample_Sample(
+                    from_gid=a.gid(),
+                    to_gid=s.gid()
+                ),
+                emit_backref=True
+            )
+            # aliquot <-> project edges
+            emitter.emit_edge(
+                Aliquot_Projects_Project(
+                    from_gid=a.gid(),
+                    to_gid=proj.gid()
+                ),
+                emit_backref=True
+            )
+            return
 
         for experiement_type in ["DrugResponse", "TranscriptExpression", "GeneExpression", "Callset"]:
             if experiement_type == "DrugResponse":
                 for drug in drugs.get(i, []):
                     aliquot_id = "CCLE:%s:%s:%s" % (cellline_id, experiement_type, drug)
-                    a = Aliquot(aliquot_id=aliquot_id)
-                    emitter.emit_vertex(a)
-                    emitter.emit_edge(
-                        AliquotFor(),
-                        a.gid(),
-                        s.gid(),
-                    )
-                    emitter.emit_edge(
-                        InProject(),
-                        a.gid(),
-                        p.gid(),
-                    )
+                    a = Aliquot(submitter_id=Aliquot.make_gid(aliquot_id),
+                                aliquot_id=aliquot_id,
+                                project_id=proj.gid())
+                    emit_aliquot(emitter, a, s, proj)
             else:
                 aliquot_id = "CCLE:%s:%s" % (cellline_id, experiement_type)
                 a = Aliquot(aliquot_id=aliquot_id)
-                emitter.emit_vertex(a)
-                emitter.emit_edge(
-                    AliquotFor(),
-                    a.gid(),
-                    s.gid(),
-                )
-                emitter.emit_edge(
-                    InProject(),
-                    a.gid(),
-                    p.gid(),
-                )
+                emit_aliquot(emitter, a, s, proj)
 
         emitted_celllines[cellline_id] = None
 

@@ -4,8 +4,7 @@ import re
 from urllib.parse import unquote
 
 from bmeg import (Exon, Gene, Transcript,
-                  Transcript_Gene_Gene, Gene_Transcripts_Transcript,
-                  Exon_Transcripts_Transcript, Transcript_Exons_Exon)
+                  Transcript_Gene_Gene, Exon_Transcripts_Transcript)
 
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
@@ -110,14 +109,10 @@ def transform(
                     Exon_Transcripts_Transcript(
                         from_gid=e.gid(),
                         to_gid=Transcript.make_gid(transcript_id)
-                    )
+                    ),
+                    emit_backref=True
                 )
-                emitter.emit_edge(
-                    Transcript_Exons_Exon(
-                        from_gid=Transcript.make_gid(transcript_id),
-                        to_gid=e.gid()
-                    )
-                )
+
                 if transcript_id not in emitted_transcripts:
                     for attrs in features[transcript_id]:
                         gene_id = get_parent_gene(attrs["Parent"])
@@ -135,13 +130,8 @@ def transform(
                             Transcript_Gene_Gene(
                                 from_gid=t.gid(),
                                 to_gid=Gene.make_gid(gene_id)
-                            )
-                        )
-                        emitter.emit_edge(
-                            Gene_Transcripts_Transcript(
-                                from_gid=Gene.make_gid(gene_id),
-                                to_gid=t.gid()
-                            )
+                            ),
+                            emit_backref=True
                         )
                         emitted_transcripts[transcript_id] = True
 

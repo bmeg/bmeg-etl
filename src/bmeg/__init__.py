@@ -133,7 +133,7 @@ class Edge:
 _schemaPath = pkg_resources.resource_filename(__name__, "bmeg-dictionary/gdcdictionary/schemas")
 _schema = BMEGDataDictionary(root_dir=_schemaPath)
 
-__all__ = [Vertex, Edge]
+__all__ = ['Vertex', 'Edge']
 for k, schema in _schema.schema.items():
     name = capitalize(schema["id"])
     # TODO: enforce a gid factory is defined for every type
@@ -161,22 +161,31 @@ for k, schema in _schema.schema.items():
         src = capitalize(k)
         target = capitalize(link["target_type"])
         cls_name = "{}_{}_{}".format(src, capitalize(link['label']), target)
-        globals()[cls_name] = enforce_types(dataclasses.make_dataclass(
+        cls = enforce_types(dataclasses.make_dataclass(
             link['label'],
             [('from_gid', globals()[src]._gid_cls),
              ('to_gid', globals()[target]._gid_cls)],
             bases=(Edge,),
-            namespace={'label': lambda self: self.__class__.__name__}
+            namespace={'label': lambda self: self.__class__.__name__,
+                       'backref': lambda self: link.get('backref', None)}
         ))
-        __all__.append(cls_name)
         if 'backref' not in link:
+            cls.backref = lambda self: None
+            globals()[cls_name] = cls
+            __all__.append(cls_name)
             continue
         bkref = "{}_{}_{}".format(target, capitalize(link['backref']), src)
-        globals()[bkref] = enforce_types(dataclasses.make_dataclass(
+        bkref_cls = enforce_types(dataclasses.make_dataclass(
             link['backref'],
             [('from_gid', globals()[target]._gid_cls),
              ('to_gid', globals()[src]._gid_cls)],
             bases=(Edge,),
-            namespace={'label': lambda self: self.__class__.__name__}
+            namespace={'label': lambda self: self.__class__.__name__,
+                       'backref': lambda self: link.get('label', None)}
         ))
+        cls.backref = lambda self: bkref_cls(from_gid=self.to_gid, to_gid=self.from_gid)
+        bkref_cls.backref = lambda self: cls(from_gid=self.to_gid, to_gid=self.from_gid)
+        globals()[cls_name] = cls
+        __all__.append(cls_name)
+        globals()[bkref] = bkref_cls
         __all__.append(bkref)

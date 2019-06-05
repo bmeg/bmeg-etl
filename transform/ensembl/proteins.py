@@ -38,7 +38,8 @@ def transform(protein_table_path='source/ensembl/Homo_sapiens.GRCh37.85.uniprot.
                 Protein_Transcript_Transcript(
                     from_gid=p.gid(),
                     to_gid=Transcript.make_gid(transcript_id)
-                )
+                ),
+                emit_backref=True
             )
             emitted_proteins.append(protein_id)
 

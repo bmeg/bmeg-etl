@@ -6,8 +6,6 @@ from xml.dom.minidom import parseString
 
 from bmeg import (PfamFamily, PfamClan, GeneOntologyTerm,
                   GeneOntologyTerm_PfamFamilies_PfamFamily,
-                  PfamFamily_GeneOntologyTerms_GeneOntologyTerm,
-                  PfamFamily_PfamClans_PfamClan,
                   PfamClan_PfamFamilies_PfamFamily)
 
 from bmeg.emitter import JSONEmitter
@@ -93,26 +91,17 @@ def xml_transform(dom, emit):
                 GeneOntologyTerm_PfamFamilies_PfamFamily(
                     from_gid=GeneOntologyTerm.make_gid(g),
                     to_gid=out.gid()
-                )
+                ),
+                emit_backref=True
             )
-            emit.emit_edge(
-                PfamFamily_GeneOntologyTerms_GeneOntologyTerm(
-                    from_gid=out.gid(),
-                    to_gid=GeneOntologyTerm.make_gid(g)
-                )
-            )
+
         for c in clans:
             emit.emit_edge(
                 PfamClan_PfamFamilies_PfamFamily(
                     from_gid=PfamClan.make_gid(c),
                     to_gid=out.gid()
-                )
-            )
-            emit.emit_edge(
-                PfamFamily_PfamClans_PfamClan(
-                    from_gid=out.gid(),
-                    to_gid=PfamClan.make_gid(c)
-                )
+                ),
+                emit_backref=True
             )
 
 

@@ -4,8 +4,10 @@ from types import SimpleNamespace as SN
 
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import Aliquot, DrugResponse, Project
-from bmeg.edge import ResponseIn, ResponseTo, TestedIn
+from bmeg import (Aliquot, DrugResponse, Project,
+                  Compound_Projects_Project,
+                  DrugResponse_Aliquot_Aliquot,
+                  DrugResponse_Compound_Compound)
 from bmeg.enrichers.drug_enricher import compound_factory
 
 
@@ -69,10 +71,10 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             cellline_id = celllines[i.split("_")[0]]
         else:
             cellline_id = i
-        drug_response.submitter_id = cellline_id
+        drug_response.submitter_id = DrugResponse.make_gid(cellline_id)
 
         project_id = "CCLE_%s" % (projects.get(cellline_id, "Unknown"))
-        proj = Project(project_id)
+        proj = Project(submitter_id=Project.make_gid(project_id), project_id=project_id)
         if proj.gid() not in project_compounds:
             project_compounds[proj.gid()] = {}
 
@@ -81,9 +83,11 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         emitter.emit_vertex(drug_resp)
         #  and edge to aliquot
         emitter.emit_edge(
-            ResponseIn(),
-            drug_resp.gid(),
-            Aliquot.make_gid("CCLE:%s:DrugResponse:%s" % (drug_response.submitter_id, drug_response.submitter_compound_id)),
+            DrugResponse_Aliquot_Aliquot(
+                from_gid=drug_resp.gid(),
+                to_gid=Aliquot.make_gid("CCLE:%s:DrugResponse:%s" % (drug_response.submitter_id, drug_response.submitter_compound_id))
+            ),
+            emit_backref=True
         )
         # create compound
         compound = compound_factory(name=drug_response.submitter_compound_id)
@@ -92,13 +96,22 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             compound_gids[compound.gid()] = None
         # and an edge to it
         emitter.emit_edge(
-            ResponseTo(),
-            drug_resp.gid(),
-            compound.gid(),
+            DrugResponse_Compound_Compound(
+                from_gid=drug_resp.gid(),
+                to_gid=compound.gid()
+            ),
+            emit_backref=True
         )
+
         # create edge from compound to project
         if compound.gid() not in project_compounds[proj.gid()]:
-            emitter.emit_edge(TestedIn(), compound.gid(), proj.gid())
+            emitter.emit_edge(
+                Compound_Projects_Project(
+                    from_gid=compound.gid(),
+                    to_gid=proj.gid()
+                ),
+                emit_backref=True
+            )
             project_compounds[proj.gid()][compound.gid()] = True
 
     emitter.close()
