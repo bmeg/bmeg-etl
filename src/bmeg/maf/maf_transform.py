@@ -81,7 +81,7 @@ class MAFTransformer():
     # options argument
     DEFAULT_MAF_FILE = None
 
-    def read_maf(self, mafpath, gz, skip=0, harvest=True):
+    def read_maf(self, mafpath, gz, skip=0):
         """ generator for each line in maf """
         if gz or 'gz' in mafpath:
             inhandle = gzip.open(mafpath, mode='rt')
@@ -96,7 +96,7 @@ class MAFTransformer():
             yield line
         inhandle.close()
 
-    def allele_call_maker(self, allele, line=None):
+    def allele_call_maker(self, line, methof):
         """ override, create call from line """
         pass
 
@@ -104,7 +104,7 @@ class MAFTransformer():
         """ override, decode barcode """
         return barcode
 
-    def callset_maker(self, allele, source, centerCol, method, line):  # noqa pragma nocover
+    def callset_maker(self, line, method):  # noqa pragma nocover
         """ override, create callset from line """
         logging.error('override me')
         pass
@@ -142,7 +142,7 @@ class MAFTransformer():
         allele_dict['project_id'] = 'Reference'
         return Allele(**allele_dict)
 
-    def multithreading(self, func, lines, max_workers, harvest, filter):
+    def multithreading(self, func, lines, max_workers):
         """
         Create a thread pool and create alleles
         """
@@ -151,18 +151,18 @@ class MAFTransformer():
 
         for chunk in chunked(lines, max_workers):
             with ThreadPoolExecutor(max_workers=max_workers) as executor:
-                futures = (executor.submit(func, line, harvest, filter) for line in chunk)  # noqa
+                futures = (executor.submit(func, line) for line in chunk)  # noqa
                 for future in as_completed(futures):
                     yield future.result()
 
-    def maf_convert(self, emitter, mafpath, source,
+    def maf_convert(self, emitter, mafpath,
                     genome='GRCh37',
-                    method='variant', gz=False, centerCol='Center', skip=0,
-                    harvest=True, filter=[]):
+                    method='Unknown',
+                    gz=False,
+                    skip=0):
         """
         emitter -  a way to write output
         mafpath - a file to read
-        source - special handling if 'tcga'
         genome - reference_genome e.g. GRCh37
         method - call's method
         gz - is mafpath a gz
@@ -179,7 +179,7 @@ class MAFTransformer():
                 # save the allele that was created
                 emitter.emit_vertex(allele)
                 # create edge between the allele and the callset
-                call_tuples, callsets = self.callset_maker(allele, source, centerCol, method, line)
+                call_tuples, callsets = self.callset_maker(line, method)
                 # save the calls
                 for call_tuple in call_tuples:
                     call_data = call_tuple[0]
@@ -238,16 +238,16 @@ class MAFTransformer():
         logging.info('imported {}'.format(c))
 
 
-def transform(mafpath, prefix, source, emitter_name='json', skip=0, transformer=MAFTransformer()):
+def transform(mafpath, emitter_directory, emitter_name='json', skip=0, transformer=MAFTransformer()):
     """ entry point """
-    emitter = new_emitter(name=emitter_name, directory=prefix)
-    transformer.maf_convert(emitter=emitter, mafpath=mafpath, skip=skip, source=source)
+    emitter = new_emitter(name=emitter_name, directory=emitter_directory)
+    transformer.maf_convert(emitter=emitter, mafpath=mafpath, skip=skip)
     emitter.close()
 
 
 def maf_default_argument_parser(transformer):
     """ add our default arguments """
-    parser = default_argument_parser(transformer.DEFAULT_PREFIX)
+    parser = default_argument_parser()
     parser.add_argument('--maf_file', type=str,
                         help='Path to the maf you want to import',
                         default=transformer.DEFAULT_MAF_FILE)
@@ -266,9 +266,8 @@ def main(transformer, maf_file=None):  # pragma: no cover
     default_logging(options.loglevel)
 
     transform(mafpath=options.maf_file,
-              prefix=options.prefix,
+              emitter_directory=transformer.DEFAULT_PREFIX,
               skip=options.skip,
-              source=transformer.SOURCE,
               emitter_name=options.emitter,
               transformer=transformer)
 

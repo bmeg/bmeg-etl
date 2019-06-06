@@ -3,7 +3,7 @@
 
 from glob import glob
 import bmeg.ioutils
-from bmeg import Callset, Gene, AlleleCall
+from bmeg import Callset, Gene
 from bmeg.emitter import new_emitter
 from bmeg.maf.maf_transform import get_value, MAFTransformer
 
@@ -34,8 +34,6 @@ SAMPLE_CONVERSION_TABLE = {}
 class CCLE_MAFTransformer(MAFTransformer):
 
     # callset source
-    SOURCE = 'CCLE'
-    DEFAULT_PREFIX = SOURCE
     TUMOR_ALLELE = 'Tumor_Seq_Allele2'
 
     def set_file(self, path):
@@ -50,30 +48,30 @@ class CCLE_MAFTransformer(MAFTransformer):
         global SAMPLE_CONVERSION_TABLE
         ccle_name_from_path = self.current_path.split('/')[-2]
         ccle_name_from_path = ccle_name_from_path.replace('_vs_NORMAL', '')
-
         if ccle_name_from_path in SAMPLE_CONVERSION_TABLE:
             cellline_id = SAMPLE_CONVERSION_TABLE[ccle_name_from_path]
         elif ccle_name_from_path.split("_")[0] in SAMPLE_CONVERSION_TABLE:
             cellline_id = SAMPLE_CONVERSION_TABLE[ccle_name_from_path.split("_")[0]]
         else:
             cellline_id = ccle_name_from_path
+        return cellline_id
 
-        return "CCLE:%s:Callset" % (cellline_id)
-
-    def callset_maker(self, allele, source, centerCol, method, line):
+    def callset_maker(self, line, method):
         """ create callset from line """
-        aliquot_id = self.barcode_to_aliquot_id(line[TUMOR_SAMPLE_BARCODE])
+        global PROJECT_CONVERSION_TABLE
+        cellline_id = self.barcode_to_aliquot_id(line[TUMOR_SAMPLE_BARCODE])
+        tumor_aliquot_id = "CCLE:%s:Callset" % (cellline_id)
+        project_id = "CCLE_%s" % (PROJECT_CONVERSION_TABLE.get(cellline_id, "Unknown"))
         callset = Callset(
-            submitter_id=Callset.make_gid(source, aliquot_id, None),
-            tumor_aliquot_id=aliquot_id,
+            submitter_id=Callset.make_gid("CCLE", tumor_aliquot_id, None),
+            tumor_aliquot_id=tumor_aliquot_id,
             normal_aliquot_id=None,
-            source=source
+            project_id=project_id
         )
-        sample_call = (self.allele_call_maker(allele, line, method), callset.gid())
+        allele_call = (self.allele_call_maker(line, method), callset.gid())
+        return [allele_call], [callset]
 
-        return [sample_call], [callset]
-
-    def allele_call_maker(self, allele, line, method):
+    def allele_call_maker(self, line, method):
         """ create call from line """
         info = {
             "t_depth": 0,
@@ -82,7 +80,7 @@ class CCLE_MAFTransformer(MAFTransformer):
             "t_alt_count": 0,
             "n_ref_count": 0,
             "n_alt_count": 0,
-            "methods": ["ccle"],
+            "methods": [method],
         }
         for k, kn in CCLE_EXTENSION_CALLSET_KEYS.items():
             info[kn] = get_value(line, k, None)
@@ -90,17 +88,21 @@ class CCLE_MAFTransformer(MAFTransformer):
             info['filter'] = 'PASS'
         # for k, kn in CCLE_EXTENSION_CALLSET_INT_KEYS.items():
         #     info[kn] = int(get_value(line, k, None))
-        return AlleleCall(**info)
+        return info
 
 
 def transform(mafpath="source/ccle/mafs/*/vep.maf",
               cellline_lookup_path="source/ccle/cellline_lookup.tsv",
+              project_lookup_path="source/ccle/cellline_project_lookup.tsv",
               emitter_directory="ccle",
               emitter_prefix="maf"):
 
     # ensure that we have a lookup from CCLE native id to depmap id
     global SAMPLE_CONVERSION_TABLE
     SAMPLE_CONVERSION_TABLE = bmeg.ioutils.read_lookup(cellline_lookup_path)
+    # ensure that we have a lookup from CCLE native id to project id
+    global PROJECT_CONVERSION_TABLE
+    PROJECT_CONVERSION_TABLE = bmeg.ioutils.read_lookup(project_lookup_path)
 
     transformer = CCLE_MAFTransformer()
     emitter = new_emitter(name="json",
@@ -111,8 +113,8 @@ def transform(mafpath="source/ccle/mafs/*/vep.maf",
         transformer.maf_convert(
             skip=1,
             emitter=emitter,
-            mafpath=f,
-            source="CCLE")
+            mafpath=f
+        )
 
     emitter.close()
 
