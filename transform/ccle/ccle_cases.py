@@ -87,9 +87,11 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             )
             emitted_projects[proj.gid()] = None
 
+        # all cellline cases belong to DepMap...
+        # not sure if this is a good idea
         c = Case(submitter_id=Case.make_gid(cellline_id),
                  case_id=cellline_id,
-                 project_id=proj.gid())
+                 project_id='DepMap')
         if emit_cellline:
             emitter.emit_vertex(c)
             # case <-> project edges

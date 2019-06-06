@@ -96,7 +96,7 @@ class MAFTransformer():
             yield line
         inhandle.close()
 
-    def allele_call_maker(self, line, methof):
+    def allele_call_maker(self, line, method):
         """ override, create call from line """
         pass
 

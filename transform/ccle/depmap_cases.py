@@ -1,6 +1,6 @@
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
-from bmeg.vertex import Case
+from bmeg import Case
 
 
 def transform(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv",
@@ -22,8 +22,12 @@ def transform(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv",
         for k, v in row.items():
             props["_".join(k.split())] = v
 
-        c = Case(case_id=row["DepMap_ID"],
-                 cellline_attributes=props)
+        c = Case(
+            submitter_id=Case.make_gid(row["DepMap_ID"]),
+            case_id=row["DepMap_ID"],
+            cellline_attributes=props,
+            project_id='DepMap'
+        )
         if c.gid() not in case_gids:
             emitter.emit_vertex(c)
             case_gids[c.gid()] = None
