@@ -31,8 +31,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
     prog = Program(submitter_id=Program.make_gid("CCLE"),
-                   program_id="CCLE",
-                   project_id="CCLE")
+                   program_id="CCLE")
     emitter.emit_vertex(prog)
 
     raw_ids = {}
@@ -87,11 +86,10 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             )
             emitted_projects[proj.gid()] = None
 
-        # all cellline cases belong to DepMap...
-        # not sure if this is a good idea
+        # cellline cases belong to multiple projects so we leave project_id blank...
         c = Case(submitter_id=Case.make_gid(cellline_id),
                  case_id=cellline_id,
-                 project_id='DepMap')
+                 project_id='')
         if emit_cellline:
             emitter.emit_vertex(c)
             # case <-> project edges

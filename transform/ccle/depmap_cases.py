@@ -26,7 +26,7 @@ def transform(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv",
             submitter_id=Case.make_gid(row["DepMap_ID"]),
             case_id=row["DepMap_ID"],
             cellline_attributes=props,
-            project_id='DepMap'
+            project_id=''
         )
         if c.gid() not in case_gids:
             emitter.emit_vertex(c)

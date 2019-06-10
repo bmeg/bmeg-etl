@@ -26,12 +26,11 @@ def transform(data_path='source/pfam/homo_sapiens.json',
                             prot_id = Protein.make_gid(translation['id'].split(".")[0])
                             for feature in translation['protein_features']:
                                 if feature.get('dbname', "") == "Pfam":
-                                    # TODO: edge features
-                                    # PfamAlignment(start=int(feature['start']), end=int(feature['end'])),
                                     emitter.emit_edge(
                                         Protein_PfamFamilies_PfamFamily(
                                             from_gid=prot_id,
-                                            to_gid=PfamFamily.make_gid(feature['name'])
+                                            to_gid=PfamFamily.make_gid(feature['name']),
+                                            data={'start': int(feature['start']), 'end': int(feature['end'])}
                                         ),
                                         emit_backref=True
                                     )

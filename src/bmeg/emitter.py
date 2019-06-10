@@ -2,7 +2,6 @@ import atexit
 import json
 import os
 import sys
-import dataclasses
 from datetime import datetime
 import gzip
 
@@ -17,7 +16,7 @@ class DebugEmitter:
     def close(self):
         self.emitter.close()
 
-    def emit_edge(self, obj, emit_backref=False):
+    def emit_edge(self, obj: Edge, emit_backref: bool = False):
         d = self.emitter.emit_edge(obj)
         print(json.dumps(d, indent=True))
         if emit_backref:
@@ -25,7 +24,7 @@ class DebugEmitter:
                 raise ValueError("{} has no valid backref".format(obj))
             self.emit_edge(obj.backref())
 
-    def emit_vertex(self, obj):
+    def emit_vertex(self, obj: Vertex):
         d = self.emitter.emit_vertex(obj)
         print(json.dumps(d, indent=True))
 
@@ -39,7 +38,7 @@ class JSONEmitter:
         self.handles.close()
         self.emitter.close()
 
-    def emit_edge(self, obj, emit_backref=False):
+    def emit_edge(self, obj: Edge, emit_backref: bool = False):
         d = self.emitter.emit_edge(obj)
         fh = self.handles[obj]
         if self.handles.compresslevel > 0:
@@ -53,7 +52,7 @@ class JSONEmitter:
                 raise ValueError("{} has no valid backref".format(obj))
             self.emit_edge(obj.backref())
 
-    def emit_vertex(self, obj):
+    def emit_vertex(self, obj: Vertex):
         d = self.emitter.emit_vertex(obj)
         fh = self.handles[obj]
         if self.handles.compresslevel > 0:
@@ -107,29 +106,13 @@ class BaseEmitter:
     emitters, such as validation checks, data cleanup, etc.
     """
 
-    def __init__(self, preserve_null=False):
-        self.preserve_null = preserve_null
+    def __init__(self):
         self.rate = Rate()
 
     def close(self):
         self.rate.close()
 
-    def _get_data(self, data):
-        # this util recurses and unravels embedded dataclasses
-        # see https://docs.python.org/3/library/dataclasses.html#dataclasses.asdict
-        if dataclasses.is_dataclass(data):
-            data = dataclasses.asdict(data)
-        elif not isinstance(data, dict):
-            raise TypeError("data is of unknown type: {}".format(type(data)))
-        # delete null values
-        if not self.preserve_null:
-            remove = [k for k in data if data[k] is None]
-            for k in remove:
-                del data[k]
-
-        return data
-
-    def emit_edge(self, obj):
+    def emit_edge(self, obj: Edge):
         gid = "(%s)--%s->(%s)" % (obj.from_gid, obj.label(), obj.to_gid)
         dumped = {
             "_id": gid,
@@ -137,18 +120,18 @@ class BaseEmitter:
             "label": obj.label(),
             "from": obj.from_gid,
             "to": obj.to_gid,
-            "data": self._get_data(obj.data)
+            "data": obj.props()
         }
         self.rate.tick()
         return dumped
 
-    def emit_vertex(self, obj):
+    def emit_vertex(self, obj: Vertex):
         obj.validate()
         dumped = {
             "_id": obj.gid(),
             "gid": obj.gid(),
             "label": obj.label(),
-            "data": self._get_data(obj.props())
+            "data": obj.props()
         }
         self.rate.tick()
         return dumped

@@ -1,9 +1,10 @@
 
 [flake8]
-ignore = E501, E704, W605
+ignore = E501, E704, W605, F405
 exclude =
   .git
   venv
   __pycache__
   source
   outputs
+	bmeg-dictionary

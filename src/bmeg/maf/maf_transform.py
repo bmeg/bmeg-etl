@@ -170,7 +170,7 @@ class MAFTransformer():
         """
 
         logging.info('converting maf: ' + mafpath)
-        my_callsets_ids = set()
+        my_callsets_ids = {}
         c = skip
         e = 0
         for line in self.read_maf(mafpath, gz, skip):
@@ -194,8 +194,7 @@ class MAFTransformer():
                     )
                 # many callsets can be created, emit only uniques
                 for callset in callsets:
-                    if callset.gid not in my_callsets_ids:
-                        my_callsets_ids.add(callset.gid)
+                    if callset.gid() not in my_callsets_ids:
                         emitter.emit_vertex(callset)
                         if callset.normal_aliquot_id:
                             emitter.emit_edge(
@@ -213,6 +212,7 @@ class MAFTransformer():
                                 ),
                                 emit_backref=True
                             )
+                        my_callsets_ids[callset.gid()] = True
 
                 # create edge to gene
                 try:

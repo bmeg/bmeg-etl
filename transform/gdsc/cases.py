@@ -1,8 +1,15 @@
 import pandas
 
 import bmeg.ioutils
-from bmeg.vertex import Sample, Aliquot, Case, Project, Program
-from bmeg.edge import AliquotFor, SampleFor, InProject, InProgram, PhenotypeOf
+from bmeg import (Sample, Aliquot, Case, Project, Program,
+                  Aliquot_Sample_Sample,
+                  Sample_Case_Case,
+                  Case_Projects_Project,
+                  Sample_Projects_Project,
+                  Aliquot_Projects_Project,
+                  Case_Phenotypes_Phenotype,
+                  Sample_Phenotypes_Phenotype,
+                  Project_Programs_Program)
 from bmeg.enrichers.phenotype_enricher import phenotype_factory
 from bmeg.emitter import JSONEmitter
 
@@ -21,7 +28,8 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
-    prog = Program(program_id="GDSC")
+    prog = Program(submitter_id=Program.make_gid("GDSC"),
+                   program_id="GDSC")
     emitter.emit_vertex(prog)
 
     drugs_df = pandas.read_excel(drugs_meta_path, sheet_name=0, header=0)
@@ -54,68 +62,98 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             continue
 
         project_id = "GDSC_%s" % (projects.get(cellline_id, "Unknown"))
-        p = Project(project_id=project_id)
-        if p.gid() not in emitted_projects:
-            emitter.emit_vertex(p)
+        proj = Project(submitter_id=Project.make_gid(project_id), project_id=project_id)
+        if proj.gid() not in emitted_projects:
+            emitter.emit_vertex(proj)
             emitter.emit_edge(
-                InProgram(),
-                p.gid(),
-                prog.gid(),
+                Project_Programs_Program(
+                    from_gid=proj.gid(),
+                    to_gid=prog.gid(),
+                ),
+                emit_backref=True
             )
-            emitted_projects[p.gid()] = None
+            emitted_projects[proj.gid()] = None
 
-        c = Case(case_id=cellline_id)
+        # cellline cases belong to multiple projects so we leave project_id blank...
+        c = Case(submitter_id=Case.make_gid(cellline_id),
+                 case_id=cellline_id,
+                 project_id='')
         if emit_cellline:
             emitter.emit_vertex(c)
-        emitter.emit_edge(
-            InProject(),
-            c.gid(),
-            p.gid(),
-        )
+            # case <-> project edges
+            emitter.emit_edge(
+                Case_Projects_Project(
+                    from_gid=c.gid(),
+                    to_gid=proj.gid()
+                ),
+                emit_backref=True
+            )
 
         sample_id = "GDSC:%s" % (cellline_id)
-        s = Sample(sample_id=sample_id)
+        s = Sample(submitter_id=Sample.make_gid(sample_id),
+                   sample_id=sample_id,
+                   project_id=proj.gid())
         emitter.emit_vertex(s)
+        # sample <-> case edges
         emitter.emit_edge(
-            SampleFor(),
-            s.gid(),
-            c.gid(),
+            Sample_Case_Case(
+                from_gid=s.gid(),
+                to_gid=c.gid()
+            ),
+            emit_backref=True
         )
+        # sample <-> project edges
         emitter.emit_edge(
-            InProject(),
-            s.gid(),
-            p.gid(),
+            Sample_Projects_Project(
+                from_gid=s.gid(),
+                to_gid=proj.gid()
+            ),
+            emit_backref=True
         )
 
         phenotype_name = phenotypes.get(cellline_id, None)
         if phenotype_name:
             pheno = phenotype_factory(phenotype_name)
             emitter.emit_vertex(pheno)
+            # case <-> phenotype edges
             emitter.emit_edge(
-                PhenotypeOf(),
-                c.gid(),
-                pheno.gid()
+                Case_Phenotypes_Phenotype(
+                    from_gid=c.gid(),
+                    to_gid=pheno.gid()
+                ),
+                emit_backref=True
             )
+            # sample <-> phenotype edges
             emitter.emit_edge(
-                PhenotypeOf(),
-                s.gid(),
-                pheno.gid()
+                Sample_Phenotypes_Phenotype(
+                    from_gid=s.gid(),
+                    to_gid=pheno.gid()
+                ),
+                emit_backref=True
             )
 
         experiement_type = "DrugResponse"
         for drug in drugs:
             aliquot_id = "GDSC:%s:%s:%s" % (cellline_id, experiement_type, drug)
-            a = Aliquot(aliquot_id=aliquot_id)
+            a = Aliquot(submitter_id=Aliquot.make_gid(aliquot_id),
+                        aliquot_id=aliquot_id,
+                        project_id=proj.gid())
             emitter.emit_vertex(a)
+            # aliquot <-> sample edges
             emitter.emit_edge(
-                AliquotFor(),
-                a.gid(),
-                s.gid(),
+                Aliquot_Sample_Sample(
+                    from_gid=a.gid(),
+                    to_gid=s.gid()
+                ),
+                emit_backref=True
             )
+            # aliquot <-> project edges
             emitter.emit_edge(
-                InProject(),
-                a.gid(),
-                p.gid(),
+                Aliquot_Projects_Project(
+                    from_gid=a.gid(),
+                    to_gid=proj.gid()
+                ),
+                emit_backref=True
             )
 
         emitted_celllines[cellline_id] = None

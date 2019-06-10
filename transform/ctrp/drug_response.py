@@ -1,8 +1,10 @@
 import pandas
 
 import bmeg.ioutils
-from bmeg.vertex import DrugResponse, Aliquot, Project
-from bmeg.edge import ResponseIn, ResponseTo, TestedIn
+from bmeg import (Aliquot, DrugResponse, Project,
+                  Compound_Projects_Project,
+                  DrugResponse_Aliquot_Aliquot,
+                  DrugResponse_Compounds_Compound)
 from bmeg.enrichers.drug_enricher import compound_factory
 from bmeg.emitter import JSONEmitter
 
@@ -41,6 +43,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
     curve_df = pandas.read_table(curvePath)
     curve_df = curve_df.set_index(["experiment_id", "master_cpd_id"])
 
+    compound_gids = {}
     project_compounds = {}
     for i, row in response_df.iterrows():
         exp_id = row['experiment_id']
@@ -53,10 +56,9 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             ccl_name = celllines[ccl_name]
 
         # Track drugs for project
-        project_id = "CTRP_Unkown"
-        if ccl_name in projects:
-            project_id = "CTRP_{}".format(projects[ccl_name])
-        proj = Project(project_id)
+        project_id = "CTRP_%s" % (projects.get(ccl_name, "Unknown"))
+        proj = Project(submitter_id=Project.make_gid(project_id),
+                       project_id=project_id)
         if proj.gid() not in project_compounds:
             project_compounds[proj.gid()] = {}
 
@@ -68,28 +70,47 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         conc = curve_sub["cpd_conc_umol"]
         resp = curve_sub["cpd_avg_pv"]
 
-        dr = DrugResponse(submitter_id=ccl_name,
+        # create drug response vertex
+        dr = DrugResponse(submitter_id=DrugResponse.make_gid(ccl_name, cpd_name),
                           submitter_compound_id=cpd_name,
-                          source="CTRP",
-                          auc=auc, ec50=ec50, doses_um=list(conc),
-                          activity_data_median=list(resp))
+                          auc=auc,
+                          ec50=ec50,
+                          doses_um=list(conc),
+                          activity_data_median=list(resp),
+                          project_id=proj.gid())
         emitter.emit_vertex(dr)
+        #  and edge to aliquot
+        emitter.emit_edge(
+            DrugResponse_Aliquot_Aliquot(
+                from_gid=dr.gid(),
+                to_gid=Aliquot.make_gid("CTRP:%s:DrugResponse:%s" % (dr.submitter_id, dr.submitter_compound_id))
+            ),
+            emit_backref=True
+        )
+
+        # create compound
         compound = compound_factory(name=cpd_name)
+        if compound.gid() not in compound_gids:
+            emitter.emit_vertex(compound)
+            compound_gids[compound.gid()] = None
+        # and an edge to it
         emitter.emit_edge(
-            ResponseIn(),
-            dr.gid(),
-            Aliquot.make_gid("CTRP:%s:DrugResponse:%s" % (ccl_name, cpd_name))
+            DrugResponse_Compounds_Compound(
+                from_gid=dr.gid(),
+                to_gid=compound.gid()
+            ),
+            emit_backref=True
         )
-        emitter.emit_edge(
-            ResponseTo(),
-            dr.gid(),
-            compound.gid()
-        )
+
+        # create edge from compound to project
         if compound.gid() not in project_compounds[proj.gid()]:
             emitter.emit_edge(
-                TestedIn(),
-                compound.gid(),
-                proj.gid())
+                Compound_Projects_Project(
+                    from_gid=compound.gid(),
+                    to_gid=proj.gid()
+                ),
+                emit_backref=True
+            )
             project_compounds[proj.gid()][compound.gid()] = True
 
     emitter.close()

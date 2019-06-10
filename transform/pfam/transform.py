@@ -90,7 +90,8 @@ def xml_transform(dom, emit):
             emit.emit_edge(
                 GeneOntologyTerm_PfamFamilies_PfamFamily(
                     from_gid=GeneOntologyTerm.make_gid(g),
-                    to_gid=out.gid()
+                    to_gid=out.gid(),
+                    data={'evidence': None, 'title': '', 'references': ''}
                 ),
                 emit_backref=True
             )

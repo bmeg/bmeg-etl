@@ -10,7 +10,6 @@ import types
 from copy import deepcopy
 from dictionaryutils import DataDictionary, load_schemas_from_dir, load_yaml
 from functools import partial
-from typing import Union
 
 from bmeg.gid import gid_factories, default_gid, cast_gid
 from bmeg.utils import enforce_types
@@ -32,10 +31,7 @@ class BMEGDataDictionary(DataDictionary):
         self.metaschema_path = metaschema_path or self._metaschema_path
         self.definitions_paths = definitions_paths or self._definitions_paths
         self.exclude = (
-            [self.metaschema_path] +
-            self.definitions_paths +
-            [self.settings_path] +
-            ["data_release.yaml", "root.yaml"]
+            [self.metaschema_path] + self.definitions_paths + [self.settings_path] + ["data_release.yaml", "root.yaml"]
         )
         self.schema = dict()
         self.resolvers = dict()
@@ -79,7 +75,7 @@ class ClassInstance:
             self.__setattr__(k, v)
 
     def props(self, preserve_null=False):
-        data = self._props
+        data = self._props.copy()
         if not preserve_null:
             remove = [k for k in data if data[k] is None]
             for k in remove:
@@ -139,8 +135,17 @@ class Deadletter(Vertex):
     target_label: str  # desired vertex label
     data: dict  # data from source
 
+    def validate(self):
+        return
+
+    def label(self):
+        return self.__class__.__name__
+
     def gid(self):
         return Deadletter.make_gid(self.target_label, self.data)
+
+    def props(self):
+        return self.__dict__
 
     @classmethod
     def make_gid(cls, target_label, data):
@@ -175,6 +180,16 @@ for k, schema in _schema.schema.items():
     globals()[name] = cls
     __all__.append(name)
 
+
+def get_edge_props(self, preserve_null=False):
+    _data = self.data.copy()
+    if not preserve_null:
+        remove = [k for k in _data if _data[k] is None]
+        for k in remove:
+            del _data[k]
+    return _data
+
+
 for k, schema in _schema.schema.items():
     for link in schema['links']:
         # TODO: handle link subgroup?
@@ -192,7 +207,10 @@ for k, schema in _schema.schema.items():
                     ('data', dict, dataclasses.field(default_factory=dict))
                 ],
                 bases=(Edge,),
-                namespace={'label': lambda self: self.__class__.__name__}
+                namespace={
+                    'label': lambda self: self.__class__.__name__,
+                    'props': get_edge_props
+                }
             )
         )
         if 'backref' not in link:
@@ -211,7 +229,10 @@ for k, schema in _schema.schema.items():
                     ('data', dict, dataclasses.field(default_factory=dict))
                 ],
                 bases=(Edge,),
-                namespace={'label': lambda self: self.__class__.__name__}
+                namespace={
+                    'label': lambda self: self.__class__.__name__,
+                    'props': get_edge_props
+                }
             )
         )
         cls._backref = bkref_cls

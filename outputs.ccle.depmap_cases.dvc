@@ -1,11 +1,11 @@
-md5: 895d3da945638b50150b8429e763f1a8
+md5: b6cfb30385121e4b283830cc2ba35657
 cmd: python3 transform/ccle/depmap_cases.py
 wdir: .
 deps:
 - md5: 6d66a59fb75c31cd3a1b320eefe1efc8
   path: source/ccle/DepMap-2019q1-celllines.csv_v2.csv
 outs:
-- md5: fa15f651d2fc670eefc643eb5611a1b3
+- md5: 6522e8dd2dd0ada05e290a622983e7f7
   path: outputs/ccle/depmap.Case.Vertex.json.gz
   cache: true
   metric: false

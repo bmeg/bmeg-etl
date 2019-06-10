@@ -48,7 +48,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
     project_compounds = {}
     for line in input_stream:
         # map the names to snake case
-        mline = {"source": "CCLE"}
+        mline = {}
         for k, v in NAMES.items():
             # line[v] = line.pop(k)
             # csv field to float array
@@ -91,6 +91,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             ),
             emit_backref=True
         )
+
         # create compound
         compound = compound_factory(name=drug_response.submitter_compound_id)
         if compound.gid() not in compound_gids:

@@ -1,4 +1,4 @@
-from bmeg.vertex import Transcript
+from bmeg import Transcript
 import logging
 
 from bmeg.requests import Client
@@ -36,12 +36,13 @@ def normalize(ensembl_transcript_id):
     if response['strand'] > 0:
         strand = '-'
     return Transcript(
+        submitter_id=Transcript.make_gid(response['id']),
         transcript_id=response['id'],
-        gene_id=response['Parent'],
         chromosome=response['seq_region_name'],
         start=response['start'],
         end=response['end'],
         strand=strand,
+        biotype=response['biotype'],
         genome=response['assembly_name'],
-        biotype=response['biotype']
+        project_id="Reference"
     )
