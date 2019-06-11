@@ -11,13 +11,13 @@ from bmeg.emitter import JSONEmitter
 
 def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
               project_lookup_path="source/ccle/cellline_project_lookup.tsv",
-              metadrugPath='source/ctrp/v20.meta.per_compound.txt',
+              metadrugPath="source/ctrp/v20.meta.per_compound.txt",
               metacelllinePath="source/ctrp/v20.meta.per_cell_line.txt",
               responsePath="source/ctrp/v20.data.curves_post_qc.txt",
               metaexperimentPath="source/ctrp/v20.meta.per_experiment.txt",
               curvePath="source/ctrp/v20.data.per_cpd_post_qc.txt",
-              emitter_prefix='ctrp',
-              emitter_directory='ctrp'):
+              emitter_prefix="drug_response",
+              emitter_directory="ctrp"):
 
     celllines = bmeg.ioutils.read_lookup(cellline_lookup_path)
     projects = bmeg.ioutils.read_lookup(project_lookup_path)
@@ -27,7 +27,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
     compound_df = pandas.read_table(metadrugPath)
     compound_df = compound_df.set_index("master_cpd_id")
     for i, row in compound_df.iterrows():
-        cpd_name = row['cpd_name']
+        cpd_name = row["cpd_name"]
         compound = compound_factory(name=cpd_name)
         emitter.emit_vertex(compound)
 
@@ -46,12 +46,12 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
     compound_gids = {}
     project_compounds = {}
     for i, row in response_df.iterrows():
-        exp_id = row['experiment_id']
-        cpd_id = row['master_cpd_id']
-        ccl_id = metaexperiment_df.loc[exp_id]['master_ccl_id']
+        exp_id = row["experiment_id"]
+        cpd_id = row["master_cpd_id"]
+        ccl_id = metaexperiment_df.loc[exp_id]["master_ccl_id"]
 
         # remap sample name if possible
-        ccl_name = ccl_df.loc[ccl_id]['ccl_name']
+        ccl_name = ccl_df.loc[ccl_id]["ccl_name"]
         if ccl_name in celllines:
             ccl_name = celllines[ccl_name]
 
@@ -62,16 +62,16 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         if proj.gid() not in project_compounds:
             project_compounds[proj.gid()] = {}
 
-        cpd_name = compound_df.loc[cpd_id]['cpd_name']
-        auc = row['area_under_curve']
-        ec50 = row['apparent_ec50_umol']
+        cpd_name = compound_df.loc[cpd_id]["cpd_name"]
+        auc = row["area_under_curve"]
+        ec50 = row["apparent_ec50_umol"]
 
         curve_sub = curve_df.loc[(exp_id, cpd_id)]
         conc = curve_sub["cpd_conc_umol"]
         resp = curve_sub["cpd_avg_pv"]
 
         # create drug response vertex
-        dr = DrugResponse(submitter_id=DrugResponse.make_gid(ccl_name, cpd_name),
+        dr = DrugResponse(submitter_id=DrugResponse.make_gid("CTRP", ccl_name, cpd_name),
                           submitter_compound_id=cpd_name,
                           auc=auc,
                           ec50=ec50,
@@ -116,5 +116,5 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
     emitter.close()
 
 
-if __name__ == '__main__':  # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     transform()

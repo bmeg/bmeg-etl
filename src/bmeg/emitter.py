@@ -113,6 +113,7 @@ class BaseEmitter:
         self.rate.close()
 
     def emit_edge(self, obj: Edge):
+        obj.validate()
         gid = "(%s)--%s->(%s)" % (obj.from_gid, obj.label(), obj.to_gid)
         dumped = {
             "_id": gid,

@@ -1,4 +1,6 @@
+md5: 95211193442facded36a3e02aeb9a57c
 cmd: python3 transform/gdsc/drug_response.py
+wdir: .
 deps:
 - md5: 7ef860f52bd8a7c6028adb8183a624ff
   path: source/ccle/cellline_project_lookup.tsv
@@ -6,31 +8,39 @@ deps:
   path: source/gdsc/GDSC_AUC.csv
 - md5: 4ed0013c5a77169f7402b05f5e0fb7b2
   path: source/gdsc/GDSC_IC50.csv
-md5: f1792393bcc6189f164b9d91766a5324
 outs:
-- cache: true
-  md5: 2073849ddec708acd7821afa71e3f99f
+- md5: 89c5c23bef1611d655e608fef1b18ddc
+  path: outputs/gdsc/drug_response.Compound.Vertex.json.gz
+  cache: true
   metric: false
-  path: outputs/gdsc/gdsc.Compound.Vertex.json.gz
   persist: false
-- cache: true
-  md5: 3894fb74692283761c2047e1256829c2
+- md5: 70aa4e9a4ae837d602bc224b3f4058bf
+  path: outputs/gdsc/drug_response.DrugResponse.Vertex.json.gz
+  cache: true
   metric: false
-  path: outputs/gdsc/gdsc.DrugResponse.Vertex.json.gz
   persist: false
-- cache: true
-  md5: d1f1e5740beeec48c2bc83bbf1ec985b
+- md5: d8257c80e72a9a9ea233a026b7806058
+  path: outputs/gdsc/drug_response.aliquot.Edge.json.gz
+  cache: true
   metric: false
-  path: outputs/gdsc/gdsc.ResponseIn.Edge.json.gz
   persist: false
-- cache: true
-  md5: 8d4fe2fc3b00256136185659e74ec316
+- md5: a9476e76c9428cff14b14c596ffa07e9
+  path: outputs/gdsc/drug_response.drug_response.Edge.json.gz
+  cache: true
   metric: false
-  path: outputs/gdsc/gdsc.ResponseTo.Edge.json.gz
   persist: false
-- cache: true
-  md5: ebee76eadf0539a0a3ed470ea5cb21f2
+- md5: fb8d3e99a6c72fe6cbd967dd1dcf9f9e
+  path: outputs/gdsc/drug_response.drug_responses.Edge.json.gz
+  cache: true
   metric: false
-  path: outputs/gdsc/gdsc.TestedIn.Edge.json.gz
   persist: false
-wdir: .
+- md5: 42179b41432f0cc92c84ddfc58b082cd
+  path: outputs/gdsc/drug_response.compounds.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 991c580d8354294781105155bf773d88
+  path: outputs/gdsc/drug_response.projects.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false

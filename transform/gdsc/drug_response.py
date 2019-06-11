@@ -14,7 +14,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
               drugs_meta_path="source/gdsc/Screened_Compounds.xlsx",
               ic50_path="source/gdsc/GDSC_IC50.csv",
               auc_path="source/gdsc/GDSC_AUC.csv",
-              emitter_prefix="gdsc",
+              emitter_prefix="drug_response",
               emitter_directory="gdsc"):
 
     celllines = bmeg.ioutils.read_lookup(cellline_lookup_path)
@@ -49,7 +49,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
                 project_compounds[proj.gid()] = {}
 
             # create drug response vertex
-            dr = DrugResponse(submitter_id=DrugResponse.make_gid(cellline_id, drug_name),
+            dr = DrugResponse(submitter_id=DrugResponse.make_gid("GDSC", cellline_id, drug_name),
                               submitter_compound_id=drug_name,
                               auc=auc_val if not pandas.isnull(auc_val) else None,
                               ic50=ic50_val if not pandas.isnull(ic50_val) else None,

@@ -1,4 +1,6 @@
+md5: 46622048411000ea0be8db3d28a7fb95
 cmd: python3 ./transform/ctrp/cases.py
+wdir: .
 deps:
 - md5: e6d1bc2ea16ca63f03474a27ea27034e
   path: source/ccle/cellline_lookup.tsv
@@ -16,61 +18,64 @@ deps:
   path: source/ctrp/v20.meta.per_experiment.txt
 - md5: 33a8c30659874b027dda316f257e12e1
   path: source/ctrp/v20.data.per_cpd_post_qc.txt
-md5: e2c468ee3a397e971212d7bc4e96313d
 outs:
-- cache: true
-  md5: 1432e4d4d4f00f20d71a73f3e6fb33ed
-  metric: false
-  path: outputs/ctrp/ctrp.AliquotFor.Edge.json.gz
-  persist: false
-- cache: true
-  md5: 3b18db879e9c0d8ba50448f3bfd1fee0
-  metric: false
+- md5: 3ff59a4c8c891811ce1d10763ece7202
   path: outputs/ctrp/ctrp.Aliquot.Vertex.json.gz
-  persist: false
-- cache: true
-  md5: df4b590bac228e4167007bb29a7b4ca2
+  cache: true
   metric: false
-  path: outputs/ctrp/ctrp.SampleFor.Edge.json.gz
   persist: false
-- cache: true
-  md5: 146e605609cc9edb6c5b29aa9c02d128
-  metric: false
+- md5: 21dfb6e1b25a535affb1edd8f4d10072
   path: outputs/ctrp/ctrp.Sample.Vertex.json.gz
-  persist: false
-- cache: true
-  md5: 31362680358796dfd234150ad8b829f4
+  cache: true
   metric: false
+  persist: false
+- md5: 2ea2f63a6f4edef8902bf199465f895d
   path: outputs/ctrp/ctrp.Case.Vertex.json.gz
-  persist: false
-- cache: true
-  md5: 0e38f2f93317720535c64ca28443f286
+  cache: true
   metric: false
-  path: outputs/ctrp/ctrp.InProject.Edge.json.gz
   persist: false
-- cache: true
-  md5: 7e25c919dfb17fcd51cc7b468a96fa5e
-  metric: false
+- md5: b907aa5f65de0e021cf50b37cf6d50f3
   path: outputs/ctrp/ctrp.Project.Vertex.json.gz
-  persist: false
-- cache: true
-  md5: 643ba48c9bc901fdf067d243df8b2e90
+  cache: true
   metric: false
-  path: outputs/ctrp/ctrp.InProgram.Edge.json.gz
   persist: false
-- cache: true
-  md5: 2e7a608c9c6dac2a81e013dafbacd96d
-  metric: false
+- md5: a108f58b84280b87ed2fd5a4e2401230
   path: outputs/ctrp/ctrp.Program.Vertex.json.gz
-  persist: false
-- cache: true
-  md5: ab0bb678cd927232509817c9eb251a37
+  cache: true
   metric: false
+  persist: false
+- md5: fd9a3f22e2f38f785820751c861490d3
   path: outputs/ctrp/ctrp.Phenotype.Vertex.json.gz
-  persist: false
-- cache: true
-  md5: 0135c922e96ccbf054f4abbc60e3a7d0
+  cache: true
   metric: false
-  path: outputs/ctrp/ctrp.PhenotypeOf.Edge.json.gz
   persist: false
-wdir: .
+- md5: 15204dcc551885d6ce083a11311539d2
+  path: outputs/ctrp/ctrp.programs.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 13555145f3f303d8ae186a110b162e84
+  path: outputs/ctrp/ctrp.projects.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: d774c91902d87a9473d8cf19c2ecd9f2
+  path: outputs/ctrp/ctrp.case.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: c831fd1487dcb21ca8cc26683a71caed
+  path: outputs/ctrp/ctrp.sample.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 51c63663652aea6c1dc706f01dfa9813
+  path: outputs/ctrp/ctrp.samples.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: be8129e20726a1e150749c5f880ae0d1
+  path: outputs/ctrp/ctrp.aliquots.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false

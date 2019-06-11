@@ -195,6 +195,12 @@ for k, schema in _schema.schema.items():
         # TODO: handle link subgroup?
         if "target_type" not in link:
             continue
+        # should we add required fields?
+        edge_schema = {
+            'type': 'object',
+            'additionalProperties': False,
+            'properties': link.get('properties', {})
+        }
         src = capitalize(k)
         target = capitalize(link["target_type"])
         cls_name = "{}_{}_{}".format(src, capitalize(link['label']), target)
@@ -208,6 +214,9 @@ for k, schema in _schema.schema.items():
                 ],
                 bases=(Edge,),
                 namespace={
+                    '_schema': edge_schema,
+                    'schema': lambda self: self._schema,
+                    'validate': lambda self: jsonschema.validate(self.props(), self.schema()),
                     'label': lambda self: self.__class__.__name__,
                     'props': get_edge_props
                 }
@@ -230,6 +239,9 @@ for k, schema in _schema.schema.items():
                 ],
                 bases=(Edge,),
                 namespace={
+                    '_schema': edge_schema,
+                    'schema': lambda self: self._schema,
+                    'validate': lambda self: jsonschema.validate(self.props(), self.schema()),
                     'label': lambda self: self.__class__.__name__,
                     'props': get_edge_props
                 }

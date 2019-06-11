@@ -1,4 +1,6 @@
+md5: b3eeaa43992f1562bb8b4f8a16ab482b
 cmd: python3 ./transform/ctrp/drug_response.py
+wdir: .
 deps:
 - md5: e6d1bc2ea16ca63f03474a27ea27034e
   path: source/ccle/cellline_lookup.tsv
@@ -14,31 +16,39 @@ deps:
   path: source/ctrp/v20.meta.per_experiment.txt
 - md5: 33a8c30659874b027dda316f257e12e1
   path: source/ctrp/v20.data.per_cpd_post_qc.txt
-md5: 89af5075e4793ba5c859dd001facba6f
 outs:
-- cache: true
-  md5: 61d4237a9a2ed74cc684c2b417c7144f
+- md5: 6499b1a3d430c255c5bb0fddfd566eca
+  path: outputs/ctrp/drug_response.Compound.Vertex.json.gz
+  cache: true
   metric: false
-  path: outputs/ctrp/ctrp.Compound.Vertex.json.gz
   persist: false
-- cache: true
-  md5: 08174a0430859095e9e48bc6e0ac7177
+- md5: c458ec596a6717e5c46b98c190a18538
+  path: outputs/ctrp/drug_response.DrugResponse.Vertex.json.gz
+  cache: true
   metric: false
-  path: outputs/ctrp/ctrp.DrugResponse.Vertex.json.gz
   persist: false
-- cache: true
-  md5: 34c35b1b44c9b8af4c6c1a6298b384bc
+- md5: 39fc4bdd8762b3bdb37bb37080b90f11
+  path: outputs/ctrp/drug_response.aliquot.Edge.json.gz
+  cache: true
   metric: false
-  path: outputs/ctrp/ctrp.ResponseIn.Edge.json.gz
   persist: false
-- cache: true
-  md5: de19191179a24f7632d49849bbf39088
+- md5: 48460f6d88cd6b0be0cd189a7689b529
+  path: outputs/ctrp/drug_response.drug_response.Edge.json.gz
+  cache: true
   metric: false
-  path: outputs/ctrp/ctrp.ResponseTo.Edge.json.gz
   persist: false
-- cache: true
-  md5: 739eea6e6579b0614f551e56d548c23c
+- md5: 1d2993867c06894f453b780519b44cad
+  path: outputs/ctrp/drug_response.drug_responses.Edge.json.gz
+  cache: true
   metric: false
-  path: outputs/ctrp/ctrp.TestedIn.Edge.json.gz
   persist: false
-wdir: .
+- md5: 40207e1fe3634c1d901f4976120ad879
+  path: outputs/ctrp/drug_response.compounds.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 28fa81246955ae576e759181cb2f3dff
+  path: outputs/ctrp/drug_response.projects.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
