@@ -5,8 +5,7 @@ from bmeg import Callset, Gene
 from bmeg.maf.maf_transform import get_value, MAFTransformer, maf_default_argument_parser
 from bmeg.emitter import new_emitter
 from bmeg.util.logging import default_logging
-from bmeg.ioutils import reader
-import json
+import bmeg.ioutils
 import sys
 import logging
 
@@ -46,10 +45,11 @@ class MC3_MAFTransformer(MAFTransformer):
 
     def barcode_to_aliquot_id(self, barcode):
         """ create tcga sample barcode """
-        global ALIQUOT_CONVERSION_TABLE
-        if barcode not in ALIQUOT_CONVERSION_TABLE:
+        global ID_CONVERSION_TABLE
+        if barcode not in ID_CONVERSION_TABLE:
             logging.warning('{} not found in ALIQUOT_CONVERSION_TABLE'.format(barcode))
-        return ALIQUOT_CONVERSION_TABLE[barcode]
+            return barcode
+        return ID_CONVERSION_TABLE[barcode]
 
     def create_gene_gid(self, line):  # pragma nocover
         """ override, create gene_gid from line """
@@ -70,10 +70,10 @@ class MC3_MAFTransformer(MAFTransformer):
 
     def callset_maker(self, line, method):
         """ create callset from line """
+        global PROJECT_CONVERSION_TABLE
         tumor_aliquot_gid = self.barcode_to_aliquot_id(line['Tumor_Sample_Barcode'])
         normal_aliquot_gid = self.barcode_to_aliquot_id(line['Matched_Norm_Sample_Barcode'])
-        # TODO fix project_id
-        project_id = None
+        project_id = PROJECT_CONVERSION_TABLE.get(tumor_aliquot_gid, None)
         sample_callset = Callset(
             submitter_id=Callset.make_gid("MC3", tumor_aliquot_gid, normal_aliquot_gid),
             tumor_aliquot_id=tumor_aliquot_gid,
@@ -81,28 +81,23 @@ class MC3_MAFTransformer(MAFTransformer):
             project_id=project_id
         )
         sample_call = (self.allele_call_maker(line, method), sample_callset.gid())
-
         return [sample_call], [sample_callset]
 
 
-def transform(mafpath,
-              aliquot_lookup_path,
-              project_lookup_path,
+def transform(mafpath='source/mc3/mc3.v0.2.8.PUBLIC.maf.gz',
+              id_lookup_path='source/gdc/id_lookup.tsv',
+              project_lookup_path='source/gdc/project_lookup.tsv',
               skip=0,
               emitter_name='json',
               emitter_directory='mc3'):
 
     # ensure that we have a lookup from TCGA barcode to gdc uuid
-    global ALIQUOT_CONVERSION_TABLE
-    # ALIQUOT_CONVERSION_TABLE = bmeg.ioutils.read_lookup(aliquot_lookup_path)
-    with reader(aliquot_lookup_path) as f:
-        for line in f:
-            aliquot = json.loads(line)
-            ALIQUOT_CONVERSION_TABLE[aliquot['data']['gdc_attributes']['submitter_id']] = aliquot['data']['aliquot_id']
+    global ID_CONVERSION_TABLE
+    ID_CONVERSION_TABLE = bmeg.ioutils.read_lookup(id_lookup_path)
 
     # ensure that we have a lookup from TCGA id to project id
-    # global PROJECT_CONVERSION_TABLE
-    # PROJECT_CONVERSION_TABLE = bmeg.ioutils.read_lookup(project_lookup_path)
+    global PROJECT_CONVERSION_TABLE
+    PROJECT_CONVERSION_TABLE = bmeg.ioutils.read_lookup(project_lookup_path)
 
     transformer = MC3_MAFTransformer()
     emitter = new_emitter(name=emitter_name, directory=emitter_directory)
@@ -118,9 +113,6 @@ def transform(mafpath,
 
 def main(transformer=MC3_MAFTransformer()):  # pragma: no cover
     parser = maf_default_argument_parser(transformer)
-    parser.add_argument('--aliquot_lookup_path', type=str,
-                        help='Path to the directory containing gdc.Aliquot.Vertex.json',
-                        default='outputs/gdc/Aliquot.Vertex.json.gz')
     # We don't need the first argument, which is the program name
     options = parser.parse_args(sys.argv[1:])
     default_logging(options.loglevel)
@@ -130,7 +122,6 @@ def main(transformer=MC3_MAFTransformer()):  # pragma: no cover
     transform(
         mafpath=options.maf_file,
         emitter_name=options.emitter,
-        aliquot_lookup_path=options.aliquot_lookup_path,
         skip=options.skip
     )
 
