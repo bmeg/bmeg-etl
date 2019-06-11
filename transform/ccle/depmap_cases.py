@@ -1,11 +1,15 @@
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
-from bmeg import Case
+from bmeg import (Case, Case_Phenotypes_Phenotype)
+from bmeg.enrichers.phenotype_enricher import phenotype_factory
 
 
 def transform(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv",
+              phenotype_lookup_path="source/ccle/cellline_phenotype_lookup.tsv",
               emitter_prefix="depmap",
               emitter_directory="ccle"):
+
+    phenotypes = bmeg.ioutils.read_lookup(phenotype_lookup_path)
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
     reader = bmeg.ioutils.read_csv(path)
@@ -31,6 +35,19 @@ def transform(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv",
         if c.gid() not in case_gids:
             emitter.emit_vertex(c)
             case_gids[c.gid()] = None
+
+        phenotype_name = phenotypes.get(row["DepMap_ID"], None)
+        if phenotype_name:
+            pheno = phenotype_factory(phenotype_name)
+            emitter.emit_vertex(pheno)
+            # case <-> phenotype edges
+            emitter.emit_edge(
+                Case_Phenotypes_Phenotype(
+                    from_gid=c.gid(),
+                    to_gid=pheno.gid()
+                ),
+                emit_backref=True
+            )
 
     emitter.close()
 

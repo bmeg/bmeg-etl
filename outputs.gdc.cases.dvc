@@ -1,30 +1,62 @@
-cmd: python3 -m transform.gdc.cases
+md5: 39795f462b8962fcd5a0102ac7c2c8f3
+cmd: python3 transform/gdc/cases.py
+wdir: .
 deps:
-- md5: 6808ca805661622ad65ae014a4b2a094
-  path: source/gdc/version.txt
-md5: 6b2824720e3b51cfe19a26ebbdeba157
+- md5: 3a18c73656ca57a9b8bc9873c721e876
+  path: source/gdc/cases.json
 outs:
-- cache: true
-  md5: c0cdd3401bdff190de1647f95dc42429
+- md5: f2c5724add31b001955936f77245403e
   path: outputs/gdc/Aliquot.Vertex.json.gz
-- cache: true
-  md5: 4af4a4262eb6c0ac87ff7ed53ab100cd
-  path: outputs/gdc/AliquotFor.Edge.json.gz
-- cache: true
-  md5: 634c711f729ed061616ae804b1de5c93
+  cache: true
+  metric: false
+  persist: false
+- md5: 8debb6243b7fd671232bbd437c4d2a6e
   path: outputs/gdc/Sample.Vertex.json.gz
-- cache: true
-  md5: 5220bfec469f72f501418485fc9fbd8c
-  path: outputs/gdc/SampleFor.Edge.json.gz
-- cache: true
-  md5: 8360b8e15d784273c0c3b77eee498896
-  path: outputs/gdc/Compound.Vertex.json.gz
-- cache: true
-  md5: 04c034ca69c33c2901a007d26656bac6
-  path: outputs/gdc/InProject.Edge.json.gz
-- cache: true
-  md5: 36c6c8fc236d6aa783df38ff50dc9a42
+  cache: true
+  metric: false
+  persist: false
+- md5: 4d2a3b2874eecbcd150192b86863a01a
   path: outputs/gdc/Case.Vertex.json.gz
-- cache: true
-  md5: d240ed026648eceed518b9eaf5b08bcd
-  path: outputs/gdc/TreatedWith.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 5cd9522bb7a177b524e89c007d3b5feb
+  path: outputs/gdc/Project.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 57b1668638783cbe54f30e4e1d2a844a
+  path: outputs/gdc/Program.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: d32441601c4ad5b15dbce7c1f3ab88c7
+  path: outputs/gdc/programs.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 9ec757e205a15413336bf5ccbdccf9ba
+  path: outputs/gdc/projects.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 81da4ff2cff54ea24cc76055e65a5c64
+  path: outputs/gdc/case.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 02471218814d081728a66f1aae7c355d
+  path: outputs/gdc/sample.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: af586fb1df00db58491453f9f2550691
+  path: outputs/gdc/samples.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: abfd846e1bac3c8cc0bbdca869dba350
+  path: outputs/gdc/aliquots.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false

@@ -197,6 +197,7 @@ for k, schema in _schema.schema.items():
             continue
         # should we add required fields?
         edge_schema = {
+            '$schema': 'http://json-schema.org/draft-04/schema#',
             'type': 'object',
             'additionalProperties': False,
             'properties': link.get('properties', {})

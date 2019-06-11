@@ -1,4 +1,4 @@
-md5: b6cfb30385121e4b283830cc2ba35657
+md5: 3d53044da9507b8df4148139e476bace
 cmd: python3 transform/ccle/depmap_cases.py
 wdir: .
 deps:
@@ -7,6 +7,21 @@ deps:
 outs:
 - md5: 6522e8dd2dd0ada05e290a622983e7f7
   path: outputs/ccle/depmap.Case.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 0d91dbf7e08f061b9c672e925e906b5e
+  path: outputs/ccle/depmap.Phenotype.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: b83e9ab97dff1043ee4a26d391ae6b03
+  path: outputs/ccle/depmap.phenotypes.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 761e4e84288f7ed53a03e2045c0431b9
+  path: outputs/ccle/depmap.cases.Edge.json.gz
   cache: true
   metric: false
   persist: false
