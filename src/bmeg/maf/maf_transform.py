@@ -65,7 +65,7 @@ dbSNP_RS = "dbSNP_RS"  # 13
 
 
 def get_value(d, keys, default):
-    """ utility get value from list"""
+    """utility get value from list"""
     if isinstance(keys, list):
         for k in keys:
             if k in d:

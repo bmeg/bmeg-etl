@@ -3,7 +3,6 @@
 import pytest
 from transform.ccle.ccle_maf_transform import transform
 from transform.ccle.ccle_maf_transform import CCLE_EXTENSION_CALLSET_KEYS
-from bmeg.vertex import Allele, Callset, Gene, Aliquot
 from bmeg.maf.maf_transform import STANDARD_MAF_KEYS
 from bmeg.ioutils import reader
 
@@ -24,12 +23,14 @@ def cellline_lookup_path(request):
 
 def validate(helpers, emitter_directory, maf_file, cellline_lookup_path):
     allele_file = os.path.join(emitter_directory, 'maf.Allele.Vertex.json.gz')
-    allelecall_file = os.path.join(emitter_directory, 'maf.AlleleCall.Edge.json.gz')
     callset_file = os.path.join(emitter_directory, 'maf.Callset.Vertex.json.gz')
-    allelein_file = os.path.join(emitter_directory, 'maf.AlleleIn.Edge.json.gz')
-    callsetfor_file = os.path.join(emitter_directory, 'maf.CallsetFor.Edge.json.gz')
 
-    all_files = [allele_file, allelecall_file, callset_file, allelein_file, callsetfor_file]
+    callsets_edge_file = os.path.join(emitter_directory, 'maf.callsets.Edge.json.gz')
+    aliquots_edge_file = os.path.join(emitter_directory, 'maf.aliquots.Edge.json.gz')
+    alleles_edge_file = os.path.join(emitter_directory, 'maf.alleles.Edge.json.gz')
+
+    all_files = [allele_file, callset_file, callsets_edge_file,
+                 aliquots_edge_file, alleles_edge_file]
 
     # remove output
     with contextlib.suppress(FileNotFoundError):
@@ -42,29 +43,23 @@ def validate(helpers, emitter_directory, maf_file, cellline_lookup_path):
         emitter_directory=emitter_directory
     )
 
-    # test/maf.Allele.Vertex.json
-    helpers.assert_vertex_file_valid(Allele, allele_file)
-    # test/maf.Callset.Vertex.json
-    callset_count = helpers.assert_vertex_file_valid(Callset, callset_file)
-    # test/maf.AlleleIn.Edge.json
-    helpers.assert_edge_file_valid(Allele, Gene, allelein_file)
-    # test/maf.AlleleCall.Edge.json
-    helpers.assert_edge_file_valid(Callset, Allele, allelecall_file)
-    # test/maf.CallsetFor.Edge.json
-    helpers.assert_edge_file_valid(Callset, Aliquot, callsetfor_file)
+    for f in all_files:
+        if "Vertex.json.gz" in f:
+            helpers.assert_vertex_file_valid(f)
+        elif "Edge.json.gz" in f:
+            helpers.assert_edge_file_valid(f)
 
-    assert callset_count > 0, 'There should be at least one callset'
     with reader(callset_file) as f:
         for line in f:
             # should be json
             callset = json.loads(line)
             # source should be ccle
-            assert callset['data']['source'] == 'CCLE', 'source should be CCLE'
+            assert "CCLE" in callset['gid'], 'gid should contain CCLE'
             # from & to should be ids, not gids
             assert 'Aliquot' not in callset['data']['tumor_aliquot_id'], 'tumor_aliquot_id should not have Aliquot gid'
 
-    # test AlleleCall contents
-    with reader(allelecall_file) as f:
+    # test alleles edge contents
+    with reader(alleles_edge_file) as f:
         for line in f:
             # should be json
             allelecall = json.loads(line)

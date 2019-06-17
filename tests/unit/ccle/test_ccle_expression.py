@@ -3,7 +3,6 @@ import os
 import contextlib
 import pytest
 from transform.ccle.ccle_expression import transform_tpm, transform_gene_tpm
-from bmeg.vertex import GeneExpression, TranscriptExpression, Aliquot
 
 
 @pytest.fixture
@@ -19,12 +18,15 @@ def tpm_file(request):
 def validate(helpers, gene_tpm_file, tpm_file, emitter_directory):
     """ run xform and test results"""
     gene_expression_file = os.path.join(emitter_directory, 'GeneExpression.Vertex.json.gz')
-    gene_expression_of_file = os.path.join(emitter_directory, 'GeneExpressionOf.Edge.json.gz')
     transcript_expression_file = os.path.join(emitter_directory, 'TranscriptExpression.Vertex.json.gz')
-    transcript_expression_of_file = os.path.join(emitter_directory, 'TranscriptExpressionOf.Edge.json.gz')
 
-    all_files = [gene_expression_file, gene_expression_of_file,
-                 transcript_expression_file, transcript_expression_of_file]
+    gene_expressions_edge_file = os.path.join(emitter_directory, 'gene_expressions.Edge.json.gz')
+    transcript_expressions_edge_file = os.path.join(emitter_directory, 'transcript_expressions.Edge.json.gz')
+    aliquot_edge_file = os.path.join(emitter_directory, 'aliquot.Edge.json.gz')
+
+    all_files = [gene_expression_file, transcript_expression_file,
+                 gene_expressions_edge_file, transcript_expressions_edge_file,
+                 aliquot_edge_file]
 
     # remove output
     with contextlib.suppress(FileNotFoundError):
@@ -36,10 +38,12 @@ def validate(helpers, gene_tpm_file, tpm_file, emitter_directory):
     transform_tpm(path=tpm_file, emitter_directory=emitter_directory)
 
     # ratify
-    helpers.assert_vertex_file_valid(GeneExpression, gene_expression_file)
-    helpers.assert_edge_file_valid(GeneExpression, Aliquot, gene_expression_of_file)
-    helpers.assert_vertex_file_valid(TranscriptExpression, transcript_expression_file)
-    helpers.assert_edge_file_valid(TranscriptExpression, Aliquot, transcript_expression_of_file)
+    for f in all_files:
+        if "Vertex.json.gz" in f:
+            helpers.assert_vertex_file_valid(f)
+        elif "Edge.json.gz" in f:
+            helpers.assert_edge_file_valid(f)
+
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot'])
 
 

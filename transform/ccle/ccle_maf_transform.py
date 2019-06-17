@@ -9,12 +9,12 @@ from bmeg.maf.maf_transform import get_value, MAFTransformer
 
 
 CCLE_EXTENSION_CALLSET_INT_KEYS = {
-    # 't_depth' : 't_depth',
-    # 't_ref_count' : 't_ref_count',
-    # 't_alt_count' : 't_alt_count',
-    # 'n_depth' : 'n_depth',
-    # 'n_ref_count' : 'n_ref_count',
-    # 'n_alt_count' : 'n_alt_count'
+    't_depth': 't_depth',
+    't_ref_count': 't_ref_count',
+    't_alt_count': 't_alt_count',
+    'n_depth': 'n_depth',
+    'n_ref_count': 'n_ref_count',
+    'n_alt_count': 'n_alt_count'
 }
 
 CCLE_EXTENSION_CALLSET_KEYS = {
@@ -22,7 +22,7 @@ CCLE_EXTENSION_CALLSET_KEYS = {
     'Tumor_Seq_Allele1': 'alt',
     'FILTER': 'filter',
     'Gene': 'ensembl_gene',
-    'Transcript_ID': 'ensembl_transcript'
+    'Feature': 'ensembl_transcript'
 }
 
 TUMOR_SAMPLE_BARCODE = "Tumor_Sample_Barcode"  # 15
@@ -74,20 +74,18 @@ class CCLE_MAFTransformer(MAFTransformer):
     def allele_call_maker(self, line, method):
         """ create call from line """
         info = {
-            "t_depth": 0,
-            "n_depth": 0,
-            "t_ref_count": 0,
-            "t_alt_count": 0,
-            "n_ref_count": 0,
-            "n_alt_count": 0,
             "methods": [method],
         }
         for k, kn in CCLE_EXTENSION_CALLSET_KEYS.items():
             info[kn] = get_value(line, k, None)
+        for k, kn in CCLE_EXTENSION_CALLSET_INT_KEYS.items():
+            val = get_value(line, k, None)
+            if val == "." or val == "" or val is None:
+                info[kn] = None
+            else:
+                info[kn] = int(val)
         if info['filter'] is None:
             info['filter'] = 'PASS'
-        # for k, kn in CCLE_EXTENSION_CALLSET_INT_KEYS.items():
-        #     info[kn] = int(get_value(line, k, None))
         return info
 
 
