@@ -1,0 +1,17 @@
+md5: 31a90de216578d845c6b347901a63a01
+cmd: python3 transform/gdc/lookups.py
+wdir: .
+deps:
+- md5: 3a18c73656ca57a9b8bc9873c721e876
+  path: source/gdc/cases.json
+outs:
+- md5: 8b30f746c049968430e382727de66276
+  path: source/gdc/project_lookup.tsv
+  cache: true
+  metric: false
+  persist: false
+- md5: ed448dcd19734c7ffdc2481cff3a8dbc
+  path: source/gdc/id_lookup.tsv
+  cache: true
+  metric: false
+  persist: false
