@@ -47,14 +47,14 @@ class MC3_MAFTransformer(MAFTransformer):
         """ create tcga sample barcode """
         global ID_CONVERSION_TABLE
         if barcode not in ID_CONVERSION_TABLE:
-            logging.warning('{} not found in ALIQUOT_CONVERSION_TABLE'.format(barcode))
+            logging.warning('{} not found in ID_CONVERSION_TABLE'.format(barcode))
             return barcode
         return ID_CONVERSION_TABLE[barcode]
 
     def create_gene_gid(self, line):  # pragma nocover
         """ override, create gene_gid from line """
         ensembl_id = line.get('Gene', None)
-        return Gene.make_gid(gene_id=ensembl_id)
+        return Gene.make_gid(ensembl_id)
 
     def allele_call_maker(self, line, method):
         """ create call from line """

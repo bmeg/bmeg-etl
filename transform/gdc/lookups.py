@@ -20,22 +20,22 @@ def create_lookups(input_path="source/gdc/cases.json",
             id_lookup[row["id"]] = row["id"]
             id_lookup[row["submitter_id"]] = row["id"]
 
-        for sample in row.get("samples", []):
-            # sample
-            project_lookup[sample["sample_id"]] = proj_id
-            project_lookup[sample["submitter_id"]] = proj_id
+            for sample in row.get("samples", []):
+                # sample
+                project_lookup[sample["sample_id"]] = proj_id
+                project_lookup[sample["submitter_id"]] = proj_id
 
-            id_lookup[sample["sample_id"]] = sample["sample_id"]
-            id_lookup[sample["submitter_id"]] = sample["sample_id"]
+                id_lookup[sample["sample_id"]] = sample["sample_id"]
+                id_lookup[sample["submitter_id"]] = sample["sample_id"]
 
-            for portion in sample.get("portions", []):
-                for analyte in portion.get("analytes", []):
-                    for aliquot in analyte.get("aliquots", []):
-                        project_lookup[aliquot["aliquot_id"]] = proj_id
-                        project_lookup[aliquot["submitter_id"]] = proj_id
+                for portion in sample.get("portions", []):
+                    for analyte in portion.get("analytes", []):
+                        for aliquot in analyte.get("aliquots", []):
+                            project_lookup[aliquot["aliquot_id"]] = proj_id
+                            project_lookup[aliquot["submitter_id"]] = proj_id
 
-                        id_lookup[aliquot["aliquot_id"]] = aliquot["aliquot_id"]
-                        id_lookup[aliquot["submitter_id"]] = aliquot["aliquot_id"]
+                            id_lookup[aliquot["aliquot_id"]] = aliquot["aliquot_id"]
+                            id_lookup[aliquot["submitter_id"]] = aliquot["aliquot_id"]
 
     with open("{}/project_lookup.tsv".format(output_dir), "w") as handle:
         for key, value in project_lookup.items():
