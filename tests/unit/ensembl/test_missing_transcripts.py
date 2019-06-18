@@ -1,5 +1,6 @@
 import pytest
 import os
+import contextlib
 import shutil
 
 from transform.ensembl.missing_transcripts import transform
@@ -15,7 +16,8 @@ def test_simple(emitter_directory, missing_transcript_ids_filename, helpers):
     """ get the missing transcripts """
 
     # remove output
-    shutil.rmtree(emitter_directory)
+    with contextlib.suppress(FileNotFoundError):
+        shutil.rmtree(emitter_directory)
 
     transform(output_dir=emitter_directory,
               prefix='missing',

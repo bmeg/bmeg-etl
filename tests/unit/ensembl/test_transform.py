@@ -1,5 +1,6 @@
 import pytest
 import os
+import contextlib
 import shutil
 
 from transform.ensembl.transform import transform
@@ -20,7 +21,8 @@ def test_simple(emitter_directory, gff3_path, helpers):
     gene_edge_file = '{}/gene.Edge.json.gz'.format(emitter_directory)
 
     # remove output
-    shutil.rmtree(emitter_directory)
+    with contextlib.suppress(FileNotFoundError):
+        shutil.rmtree(emitter_directory)
 
     transform(gff3_path=gff3_path, emitter_directory=emitter_directory)
 

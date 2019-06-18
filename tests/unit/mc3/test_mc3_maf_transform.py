@@ -3,103 +3,105 @@
 """ test maf_transform """
 
 import pytest
+
 import transform.mc3.mc3_maf_transform as mc3_maf_transform
 from transform.mc3.mc3_maf_transform import MC3_EXTENSION_CALLSET_KEYS
 from bmeg.maf.maf_transform import STANDARD_MAF_KEYS
 from bmeg.maf.maf_transform import get_value
-from bmeg.vertex import Allele, Callset, Gene, Aliquot
 from bmeg.ioutils import reader
+
 import os
 import contextlib
+import shutil
 import json
-import logging
-
-from tests.unit.gdc.test_cases import validate as gdc_validate
 
 
 @pytest.fixture
 def maf_file(request):
     """ get the full path of the test fixture """
-    return os.path.join(request.fspath.dirname, 'tcga_test.maf')
+    return os.path.join(request.fspath.dirname, 'source/mc3/tcga_test.maf')
 
 
 @pytest.fixture
 def gz_file(request):
     """ get the full path of the test fixture """
-    return os.path.join(request.fspath.dirname, 'tcga_gz-test.maf.gz')
+    return os.path.join(request.fspath.dirname, 'source/mc3/tcga_gz-test.maf.gz')
 
 
 @pytest.fixture
 def no_center_file(request):
     """ get the full path of the test fixture """
-    return os.path.join(request.fspath.dirname, 'tcga_test-no-center.maf')
+    return os.path.join(request.fspath.dirname, 'source/mc3/tcga_test-no-center.maf')
 
 
 @pytest.fixture
 def NO_REF_ALT_file(request):
     """ get the full path of the test fixture """
-    return os.path.join(request.fspath.dirname, 'tcga_test-NO_REF_ALT.maf')
+    return os.path.join(request.fspath.dirname, 'source/mc3/tcga_test-NO_REF_ALT.maf')
 
 
 @pytest.fixture
 def NO_BARCODE_file(request):
     """ get the full path of the test fixture """
-    return os.path.join(request.fspath.dirname, 'tcga_test-NO_BARCODE.maf')
+    return os.path.join(request.fspath.dirname, 'source/mc3/tcga_test-NO_BARCODE.maf')
 
 
 @pytest.fixture
-def emitter_path_prefix(request):
-    """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'test/')
-
-
-@pytest.fixture
-def gdc_aliquot_path(request):
+def id_lookup_path(request):
     """ get the full path of the test fixture """
-    return os.path.join(request.fspath.dirname, 'outputs/gdc/gdc.Aliquot.Vertex.json.gz')
+    return os.path.join(request.fspath.dirname, 'source/gdc/id_lookup.tsv')
 
 
-def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
-    allele_file = os.path.join(emitter_path_prefix, 'Allele.Vertex.json.gz')
-    allelecall_file = os.path.join(emitter_path_prefix, 'AlleleCall.Edge.json.gz')
-    callset_file = os.path.join(emitter_path_prefix, 'Callset.Vertex.json.gz')
-    allelein_file = os.path.join(emitter_path_prefix, 'AlleleIn.Edge.json.gz')
-    callsetfor_file = os.path.join(emitter_path_prefix, 'CallsetFor.Edge.json.gz')
-    deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json.gz')
+@pytest.fixture
+def project_lookup_path(request):
+    """ get the full path of the test fixture """
+    return os.path.join(request.fspath.dirname, 'source/gdc/project_lookup.tsv')
 
-    all_files = [allele_file, allelecall_file, callset_file, allelein_file, callsetfor_file, deadletter_file]
+
+def validate(helpers, maf_file, emitter_directory, id_lookup_path, project_lookup_path):
+    allele_file = os.path.join(emitter_directory, 'Allele.Vertex.json.gz')
+    callset_file = os.path.join(emitter_directory, 'Callset.Vertex.json.gz')
+    # deadletter_file = os.path.join(emitter_directory, 'Deadletter.Vertex.json.gz')
+
+    callsets_edge_file = os.path.join(emitter_directory, 'callsets.Edge.json.gz')
+    aliquots_edge_file = os.path.join(emitter_directory, 'aliquots.Edge.json.gz')
+    alleles_edge_file = os.path.join(emitter_directory, 'alleles.Edge.json.gz')
+
+    all_files = [
+        allele_file, callset_file,  # deadletter_file,
+        callsets_edge_file, aliquots_edge_file, alleles_edge_file
+    ]
+
     # remove output
     with contextlib.suppress(FileNotFoundError):
-        for f in all_files:
-            os.remove(f)
+        shutil.rmtree(emitter_directory)
+
     # create output
-    mc3_maf_transform.transform(maf_file, emitter_path_prefix, gdc_aliquot_path=gdc_aliquot_path)
+    mc3_maf_transform.transform(mafpath=maf_file,
+                                id_lookup_path=id_lookup_path,
+                                project_lookup_path=project_lookup_path,
+                                emitter_directory=emitter_directory)
 
-    # test/test.Allele.Vertex.json
-    helpers.assert_vertex_file_valid(Allele, allele_file)
-    # test.Callset.Vertex.json
-    helpers.assert_vertex_file_valid(Callset, callset_file)
-    # test/test.AlleleCall.Edge.json
-    helpers.assert_edge_file_valid(Callset, Allele, allelecall_file)
-    # test/test.AlleleIn.Edge.json
-    helpers.assert_edge_file_valid(Allele, Gene, allelein_file)
-    # test/test.CallsetFor.Edge.json
-    helpers.assert_edge_file_valid(Callset, Aliquot, callsetfor_file)
+    # ratify
+    for f in all_files:
+        if "Vertex.json.gz" in f:
+            helpers.assert_vertex_file_valid(f)
+        elif "Edge.json.gz" in f:
+            helpers.assert_edge_file_valid(f)
 
-    with reader(callset_file) as f:
-        for line in f:
-            # should be json
-            callset = json.loads(line)
-            # source should be ccle
-            assert callset['data']['source'] == 'mc3', 'source should be ccle'
-            assert 'Aliquot:' not in callset['data']['tumor_aliquot_id'], 'tumor_aliquot_id should not have Aliquot gid'
-            assert 'Aliquot:' not in callset['data']['normal_aliquot_id'], 'normal_aliquot_id should not have Aliquot gid'
+    # validate vertex for all edges exist
+    helpers.assert_edge_joins_valid(
+        all_files,
+        exclude_labels=['Gene', 'Aliquot']
+    )
 
-    # test AlleleCall contents
-    with reader(allelecall_file) as f:
+    # test alleles edge contents
+    with reader(alleles_edge_file) as f:
         for line in f:
             # should be json
             allelecall = json.loads(line)
+            if not (allelecall['from'].startswith("Callset") and allelecall['to'].startswith("Allele")):
+                continue
             # optional keys, if set should be non null
             for k in MC3_EXTENSION_CALLSET_KEYS:
                 if k in allelecall['data']:
@@ -124,16 +126,18 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
         for line in f:
             # should be json
             callset = json.loads(line)
-            assert callset['gid'].startswith('Callset:mc3:'), 'should start with Callset:mc3:xxx'
-            assert not callset['gid'].startswith('Callset:mc3:Aliquot:'), 'should start with Callset:mc3:xxx'
+            assert callset['gid'].startswith('Callset:MC3:'), 'should start with Callset:MC3:xxx'
+            assert not callset['gid'].startswith('Callset:MC3:Aliquot:'), 'should NOT start with Callset:MC3:Aliquot:xxx'
             assert callset['data']['tumor_aliquot_id'] != callset['data']['normal_aliquot_id'], 'tumor should not equal normal'
+            assert 'Aliquot:' not in callset['data']['tumor_aliquot_id'], 'tumor_aliquot_id should not have Aliquot gid'
+            assert 'Aliquot:' not in callset['data']['normal_aliquot_id'], 'normal_aliquot_id should not have Aliquot gid'
 
     # check callsetfor
-    with reader(callsetfor_file) as f:
+    with reader(aliquots_edge_file) as f:
         for line in f:
             # should be json
             callsetfor = json.loads(line)
-            assert callsetfor['from'].startswith('Callset:mc3:'), 'from should be a callset'
+            assert callsetfor['from'].startswith('Callset:MC3:'), 'from should be a callset'
             assert callsetfor['to'].startswith('Aliquot:'), 'to should be an aliquot'
 
     # validate vertex for all edges exist
@@ -144,14 +148,14 @@ def validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
     return all_files
 
 
-def test_simple(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path):
+def test_simple(helpers, maf_file, emitter_directory, id_lookup_path, project_lookup_path):
     """ simple test """
-    validate(helpers, maf_file, emitter_path_prefix, gdc_aliquot_path)
+    validate(helpers, maf_file, emitter_directory, id_lookup_path, project_lookup_path)
 
 
-def test_gz(helpers, gz_file, emitter_path_prefix, gdc_aliquot_path):
+def test_gz(helpers, gz_file, emitter_directory, id_lookup_path, project_lookup_path):
     """ simple test """
-    validate(helpers, gz_file, emitter_path_prefix, gdc_aliquot_path)
+    validate(helpers, gz_file, emitter_directory, id_lookup_path, project_lookup_path)
 
 
 def test_get_value():
@@ -159,16 +163,16 @@ def test_get_value():
     assert get_value({'foo': 0}, 'bar', 1) == 1
 
 
-def test_no_center(helpers, no_center_file, emitter_path_prefix, gdc_aliquot_path):
+def test_no_center(helpers, no_center_file, emitter_directory, id_lookup_path, project_lookup_path):
     """ 'Center column' renamed """
-    validate(helpers, no_center_file, emitter_path_prefix, gdc_aliquot_path)
+    validate(helpers, no_center_file, emitter_directory, id_lookup_path, project_lookup_path)
 
 
-def test_NO_REF_ALT(helpers, NO_REF_ALT_file, emitter_path_prefix, gdc_aliquot_path):
+def test_NO_REF_ALT(helpers, NO_REF_ALT_file, emitter_directory, id_lookup_path, project_lookup_path):
     """ no start """
     with pytest.raises(AssertionError):
-        validate(helpers, NO_REF_ALT_file, emitter_path_prefix, gdc_aliquot_path)
-    deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json.gz')
+        validate(helpers, NO_REF_ALT_file, emitter_directory, id_lookup_path, project_lookup_path)
+    deadletter_file = os.path.join(emitter_directory, 'Deadletter.Vertex.json.gz')
     with reader(deadletter_file) as f:
         c = 0
         for line in f:
@@ -177,46 +181,14 @@ def test_NO_REF_ALT(helpers, NO_REF_ALT_file, emitter_path_prefix, gdc_aliquot_p
         assert c == 1, 'We should have 1 dead letter'
 
 
-def test_NO_BARCODE(helpers, NO_BARCODE_file, emitter_path_prefix, gdc_aliquot_path):
+def test_NO_BARCODE(helpers, NO_BARCODE_file, emitter_directory, id_lookup_path, project_lookup_path):
     """ no start """
     with pytest.raises(AssertionError):
-        validate(helpers, NO_BARCODE_file, emitter_path_prefix, gdc_aliquot_path)
-    deadletter_file = os.path.join(emitter_path_prefix, 'Deadletter.Vertex.json.gz')
+        validate(helpers, NO_BARCODE_file, emitter_directory, id_lookup_path, project_lookup_path)
+    deadletter_file = os.path.join(emitter_directory, 'Deadletter.Vertex.json.gz')
     with reader(deadletter_file) as f:
         c = 0
         for line in f:
             json.loads(line)
             c += 1
         assert c == 1, 'We should have 1 dead letter'
-
-
-@pytest.fixture
-def TCGA_GBM_file(request):
-    """ get the full path of the test fixture """
-    return os.path.join(request.fspath.dirname, 'test_TCGA_GBM.maf')
-
-
-def test_TCGA_GBM(caplog, helpers, TCGA_GBM_file, emitter_path_prefix):
-    """ validate that mc3 aliquot aligns with our callset"""
-    caplog.set_level(logging.DEBUG)
-    # first harvest GDC data, specifically Aliquot
-    # note TCGA_GBM_file only has alleles for TCGA-02-0003
-    parameters = {
-        "filters": {
-            "op": "in",
-            "content": {
-                "field": "cases.submitter_id", "value": ["TCGA-02-0003"]
-            }
-        }
-    }
-    # harvest aliquots and write it to out emitter path ('test')
-    gdc_validate(helpers, emitter_path_prefix, parameters)
-    # now transform and validate our maf file, using aliquots we just harvested
-    aliquot_file = '{}Aliquot.Vertex.json.gz'.format(emitter_path_prefix)
-    validate(helpers, TCGA_GBM_file, emitter_path_prefix, aliquot_file)
-    # grab the callset we just created
-    callset_file = '{}Callset.Vertex.json.gz'.format(emitter_path_prefix)
-    callsetfor_file = '{}CallsetFor.Edge.json.gz'.format(emitter_path_prefix)
-    # re-validate a two node graph CallsetFor->Aliquot including the Aliquot into the `graph`
-    vertexes, edges = helpers.load_stores([aliquot_file, callsetfor_file, callset_file])
-    helpers.assert_edge_has_vertex(vertexes, edges)

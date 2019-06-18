@@ -7,6 +7,7 @@ from bmeg.maf.maf_transform import STANDARD_MAF_KEYS
 from bmeg.ioutils import reader
 
 import os
+import contextlib
 import shutil
 import json
 
@@ -33,7 +34,8 @@ def validate(helpers, emitter_directory, maf_file, cellline_lookup_path):
                  aliquots_edge_file, alleles_edge_file]
 
     # remove output
-    shutil.rmtree(emitter_directory)
+    with contextlib.suppress(FileNotFoundError):
+        shutil.rmtree(emitter_directory)
 
     # create output
     transform(

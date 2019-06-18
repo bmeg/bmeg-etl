@@ -1,4 +1,4 @@
-
+import contextlib
 import os
 import shutil
 import pytest
@@ -29,7 +29,8 @@ def validate(helpers, gene_tpm_file, tpm_file, emitter_directory):
                  aliquot_edge_file]
 
     # remove output
-    shutil.rmtree(emitter_directory)
+    with contextlib.suppress(FileNotFoundError):
+        shutil.rmtree(emitter_directory)
 
     # create output
     transform_gene_tpm(path=gene_tpm_file, emitter_directory=emitter_directory)

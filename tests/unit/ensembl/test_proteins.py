@@ -1,5 +1,6 @@
 import pytest
 import os
+import contextlib
 import shutil
 
 from transform.ensembl.proteins import transform
@@ -17,7 +18,8 @@ def test_simple(helpers, emitter_directory, protein_table_path):
     protein_edge_file = os.path.join(emitter_directory, 'protein.Edge.json.gz')
 
     # remove output
-    shutil.rmtree(emitter_directory)
+    with contextlib.suppress(FileNotFoundError):
+        shutil.rmtree(emitter_directory)
 
     transform(protein_table_path=protein_table_path, emitter_directory=emitter_directory)
 

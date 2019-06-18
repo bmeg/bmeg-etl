@@ -1,4 +1,4 @@
-
+import contextlib
 import os
 import pytest
 import shutil
@@ -37,7 +37,8 @@ def validate(helpers, emitter_directory, cellline_lookup_path, project_lookup_pa
     ]
 
     # remove output
-    shutil.rmtree(emitter_directory)
+    with contextlib.suppress(FileNotFoundError):
+        shutil.rmtree(emitter_directory)
 
     transform(cellline_lookup_path=cellline_lookup_path,
               project_lookup_path=project_lookup_path,

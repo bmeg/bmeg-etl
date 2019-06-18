@@ -1,4 +1,4 @@
-
+import contextlib
 import os
 import pytest
 import shutil
@@ -51,7 +51,8 @@ def validate(helpers, emitter_directory, metadrugPath, GDSC_AUC_file, GDSC_IC50_
     ]
 
     # remove output
-    shutil.rmtree(emitter_directory)
+    with contextlib.suppress(FileNotFoundError):
+        shutil.rmtree(emitter_directory)
 
     # create output
     transform(

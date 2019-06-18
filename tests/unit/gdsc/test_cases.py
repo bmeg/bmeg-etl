@@ -1,5 +1,5 @@
-
 import os
+import contextlib
 import pytest
 import shutil
 from transform.gdsc.cases import transform
@@ -67,7 +67,8 @@ def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_pat
     ]
 
     # remove output
-    shutil.rmtree(emitter_directory)
+    with contextlib.suppress(FileNotFoundError):
+        shutil.rmtree(emitter_directory)
 
     # create output
     depmap_transform(
