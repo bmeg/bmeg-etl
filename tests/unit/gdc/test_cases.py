@@ -1,85 +1,68 @@
-
 import os
-import contextlib
+import shutil
 import pytest
 import json
 from transform.gdc.cases import transform
-from bmeg.vertex import Sample, Aliquot, Case, Project, Compound
-from bmeg.emitter import JSONEmitter
 from bmeg.ioutils import reader
 
 
 @pytest.fixture
-def emitter_path_prefix(request):
-    """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'test/')
+def case_path(request):
+    """get the full path of the test input"""
+    return os.path.join(request.fspath.dirname, 'source/gdc/cases.json')
 
 
-def validate(helpers, emitter_path_prefix, parameters):
+def validate(helpers, emitter_directory, case_path):
     """ run xform and test results"""
-    sample_file = '{}Sample.Vertex.json.gz'.format(emitter_path_prefix)
-    aliquot_file = '{}Aliquot.Vertex.json.gz'.format(emitter_path_prefix)
-    case_file = '{}Case.Vertex.json.gz'.format(emitter_path_prefix)
-    compound_file = '{}Compound.Vertex.json.gz'.format(emitter_path_prefix)
+    aliquot_file = os.path.join(emitter_directory, 'Aliquot.Vertex.json.gz')
+    sample_file = os.path.join(emitter_directory, 'Sample.Vertex.json.gz')
+    case_file = os.path.join(emitter_directory, 'Case.Vertex.json.gz')
+    project_file = os.path.join(emitter_directory, 'Project.Vertex.json.gz')
+    program_file = os.path.join(emitter_directory, 'Program.Vertex.json.gz')
+    # phenotype_file = os.path.join(emitter_directory, 'Phenotype.Vertex.json.gz')
 
-    samplefor_file = '{}SampleFor.Edge.json.gz'.format(emitter_path_prefix)
-    aliquotfor_file = '{}AliquotFor.Edge.json.gz'.format(emitter_path_prefix)
-    inproject_file = '{}InProject.Edge.json.gz'.format(emitter_path_prefix)
-    treatedwith_file = '{}TreatedWith.Edge.json.gz'.format(emitter_path_prefix)
+    programs_edge_file = os.path.join(emitter_directory, 'programs.Edge.json.gz')
+    projects_edge_file = os.path.join(emitter_directory, 'projects.Edge.json.gz')
+    cases_edge_file = os.path.join(emitter_directory, 'cases.Edge.json.gz')
+    case_edge_file = os.path.join(emitter_directory, 'case.Edge.json.gz')
+    samples_edge_file = os.path.join(emitter_directory, 'samples.Edge.json.gz')
+    sample_edge_file = os.path.join(emitter_directory, 'sample.Edge.json.gz')
+    aliquots_edge_file = os.path.join(emitter_directory, 'aliquots.Edge.json.gz')
+    # phenotypes_edge_file = os.path.join(emitter_directory, 'phenotypes.Edge.json.gz')
 
-    all_files = [sample_file, aliquot_file, case_file, samplefor_file,
-                 aliquotfor_file, inproject_file, treatedwith_file, compound_file]
+    all_files = [
+        # vertices
+        aliquot_file, sample_file, case_file, project_file, program_file,
+        # edges
+        programs_edge_file, projects_edge_file, cases_edge_file, case_edge_file,
+        samples_edge_file, sample_edge_file, aliquots_edge_file, aliquots_edge_file
+    ]
+
     # remove output
-    with contextlib.suppress(FileNotFoundError):
-        for f in all_files:
-            os.remove(f)
+    shutil.rmtree(emitter_directory)
 
     # create output
-    emitter = JSONEmitter(emitter_path_prefix)
-    transform(emitter, parameters)
-    emitter.close()
-    # test.Allele.Vertex.json
-    helpers.assert_vertex_file_valid(Sample, sample_file)
-    # test.Aliquot.Vertex.json
-    helpers.assert_vertex_file_valid(Aliquot, aliquot_file)
-    # test.Case.Vertex.json
-    helpers.assert_vertex_file_valid(Case, case_file)
-    # test.Compound.Vertex.json
-    helpers.assert_vertex_file_valid(Compound, compound_file)
-    # test.SampleFor.Edge.json
-    helpers.assert_edge_file_valid(Sample, Case, samplefor_file)
-    # test.AliquotFor.Edge.json
-    helpers.assert_edge_file_valid(Aliquot, Sample, aliquotfor_file)
-    # test.InProject.Edge.json
-    helpers.assert_edge_file_valid(Case, Project, inproject_file)
-    # test.TreatedWith.Edge.json
-    helpers.assert_edge_file_valid(Case, Compound, treatedwith_file)
+    transform(input_path=case_path,
+              emitter_directory=emitter_directory)
 
-    # validate vertex for all edges exist
+    for f in all_files:
+        if "Vertex.json.gz" in f:
+            helpers.assert_vertex_file_valid(f)
+        elif "Edge.json.gz" in f:
+            helpers.assert_edge_file_valid(f)
+
     helpers.assert_edge_joins_valid(
-        all_files,
-        exclude_labels=['Project']
+        all_files
     )
 
     # test Aliquot contents
     with reader(aliquot_file) as f:
         for line in f:
-            # should be json
             aliquot = json.loads(line)
             assert 'TCGA' not in aliquot['gid'], 'Aliquot gid should be a uuid not {}'.format(aliquot['gid'])
-            assert 'TCGA' in aliquot['data']['gdc_attributes']['submitter_id'], 'Aliquot gid should be a uuid not {}'.format(aliquot['gid'])
+            assert 'TCGA' in aliquot['data']['gdc_attributes']['submitter_id'], 'gdc_attributes.submitter_id should contain TCGA'
 
 
-def test_simple(helpers, emitter_path_prefix):
-    """ limit the result to a single project"""
-    # see https://docs.gdc.cancer.gov/API/Users_Guide/Search_and_Retrieval/#example_2
-    parameters = {
-        "filters": {
-            "op": "in",
-            "content": {
-                "field": "cases.submitter_id", "value": ["TCGA-02-0003"]
-            }
-        }
+def test_simple(helpers, emitter_directory, case_path):
 
-    }
-    validate(helpers, emitter_path_prefix, parameters)
+    validate(helpers, emitter_directory, case_path)

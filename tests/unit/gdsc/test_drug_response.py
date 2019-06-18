@@ -1,9 +1,9 @@
 
 import os
-import contextlib
 import pytest
+import shutil
+
 from transform.gdsc.drug_response import transform
-from bmeg.vertex import Compound, DrugResponse, Aliquot, Project
 
 
 @pytest.fixture
@@ -36,18 +36,22 @@ def project_lookup_path(request):
 def validate(helpers, emitter_directory, metadrugPath, GDSC_AUC_file, GDSC_IC50_file,
              cellline_lookup_path, project_lookup_path):
 
-    profile_file = os.path.join(emitter_directory, 'DrugResponse.Vertex.json.gz')
-    profile_in_file = os.path.join(emitter_directory, 'ResponseIn.Edge.json.gz')
-    response_to_file = os.path.join(emitter_directory, 'ResponseTo.Edge.json.gz')
-    compound_file = os.path.join(emitter_directory, 'Compound.Vertex.json.gz')
-    tested_in_file = os.path.join(emitter_directory, 'TestedIn.Edge.json.gz')
+    drug_response_file = os.path.join(emitter_directory, 'drug_response.DrugResponse.Vertex.json.gz')
+    compound_file = os.path.join(emitter_directory, 'drug_response.Compound.Vertex.json.gz')
 
-    all_files = [profile_file, profile_in_file, response_to_file, compound_file, tested_in_file]
+    drug_responses_edge_file = os.path.join(emitter_directory, 'drug_response.drug_responses.Edge.json.gz')
+    drug_response_edge_file = os.path.join(emitter_directory, 'drug_response.drug_response.Edge.json.gz')
+    compounds_edge_file = os.path.join(emitter_directory, 'drug_response.compounds.Edge.json.gz')
+    projects_edge_file = os.path.join(emitter_directory, 'drug_response.projects.Edge.json.gz')
+
+    all_files = [
+        drug_response_file, compound_file,
+        drug_responses_edge_file, drug_response_edge_file,
+        compounds_edge_file, projects_edge_file
+    ]
 
     # remove output
-    with contextlib.suppress(FileNotFoundError):
-        for f in all_files:
-            os.remove(f)
+    shutil.rmtree(emitter_directory)
 
     # create output
     transform(
@@ -56,16 +60,17 @@ def validate(helpers, emitter_directory, metadrugPath, GDSC_AUC_file, GDSC_IC50_
         drugs_meta_path=metadrugPath,
         auc_path=GDSC_AUC_file,
         ic50_path=GDSC_IC50_file,
-        emitter_prefix=None,
+        emitter_prefix='drug_response',
         emitter_directory=emitter_directory
     )
 
     # ratify
-    helpers.assert_vertex_file_valid(DrugResponse, profile_file)
-    helpers.assert_edge_file_valid(DrugResponse, Aliquot, profile_in_file)
-    helpers.assert_edge_file_valid(DrugResponse, Compound, response_to_file)
-    helpers.assert_vertex_file_valid(Compound, compound_file)
-    helpers.assert_edge_file_valid(Compound, Project, tested_in_file)
+    for f in all_files:
+        if "Vertex.json.gz" in f:
+            helpers.assert_vertex_file_valid(f)
+        elif "Edge.json.gz" in f:
+            helpers.assert_edge_file_valid(f)
+
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot', 'Project'])
 
 

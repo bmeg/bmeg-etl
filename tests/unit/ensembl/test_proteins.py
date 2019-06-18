@@ -1,5 +1,7 @@
 import pytest
 import os
+import shutil
+
 from transform.ensembl.proteins import transform
 
 
@@ -13,6 +15,9 @@ def test_simple(helpers, emitter_directory, protein_table_path):
     protein_file = os.path.join(emitter_directory, 'Protein.Vertex.json.gz')
     transcript_edge_file = os.path.join(emitter_directory, 'transcript.Edge.json.gz')
     protein_edge_file = os.path.join(emitter_directory, 'protein.Edge.json.gz')
+
+    # remove output
+    shutil.rmtree(emitter_directory)
 
     transform(protein_table_path=protein_table_path, emitter_directory=emitter_directory)
 

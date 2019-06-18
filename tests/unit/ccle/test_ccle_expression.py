@@ -1,6 +1,6 @@
 
 import os
-import contextlib
+import shutil
 import pytest
 from transform.ccle.ccle_expression import transform_tpm, transform_gene_tpm
 
@@ -29,9 +29,7 @@ def validate(helpers, gene_tpm_file, tpm_file, emitter_directory):
                  aliquot_edge_file]
 
     # remove output
-    with contextlib.suppress(FileNotFoundError):
-        for f in all_files:
-            os.remove(f)
+    shutil.rmtree(emitter_directory)
 
     # create output
     transform_gene_tpm(path=gene_tpm_file, emitter_directory=emitter_directory)

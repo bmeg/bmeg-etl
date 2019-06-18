@@ -1,10 +1,9 @@
 
 import os
-import contextlib
+import shutil
 import pytest
 from transform.ctrp.cases import transform
 from transform.ccle.depmap_cases import transform as depmap_transform
-from bmeg.vertex import Sample, Aliquot, Case, Project, Program
 
 
 @pytest.fixture
@@ -57,26 +56,34 @@ def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_pat
              metacelllinePath, responsePath, metaexperimentPath, curvePath):
     """ run xform and test results"""
     aliquot_file = os.path.join(emitter_directory, 'Aliquot.Vertex.json.gz')
-    aliquot_for_file = os.path.join(emitter_directory, 'AliquotFor.Edge.json.gz')
     sample_file = os.path.join(emitter_directory, 'Sample.Vertex.json.gz')
-    sample_for_file = os.path.join(emitter_directory, 'SampleFor.Edge.json.gz')
     depmap_case_file = os.path.join(emitter_directory, 'depmap.Case.Vertex.json.gz')
     case_file = os.path.join(emitter_directory, 'Case.Vertex.json.gz')
-    in_project_file = os.path.join(emitter_directory, 'InProject.Edge.json.gz')
     project_file = os.path.join(emitter_directory, 'Project.Vertex.json.gz')
-    in_program_file = os.path.join(emitter_directory, 'InProgram.Edge.json.gz')
     program_file = os.path.join(emitter_directory, 'Program.Vertex.json.gz')
     phenotype_file = os.path.join(emitter_directory, 'Phenotype.Vertex.json.gz')
-    phenotype_of_file = os.path.join(emitter_directory, 'PhenotypeOf.Edge.json.gz')
 
-    all_files = [aliquot_file, aliquot_for_file, sample_file, sample_for_file,
-                 depmap_case_file, case_file, in_project_file, project_file,
-                 in_program_file, program_file, phenotype_file, phenotype_of_file]
+    programs_edge_file = os.path.join(emitter_directory, 'programs.Edge.json.gz')
+    projects_edge_file = os.path.join(emitter_directory, 'projects.Edge.json.gz')
+    cases_edge_file = os.path.join(emitter_directory, 'cases.Edge.json.gz')
+    case_edge_file = os.path.join(emitter_directory, 'case.Edge.json.gz')
+    samples_edge_file = os.path.join(emitter_directory, 'samples.Edge.json.gz')
+    sample_edge_file = os.path.join(emitter_directory, 'sample.Edge.json.gz')
+    aliquots_edge_file = os.path.join(emitter_directory, 'aliquots.Edge.json.gz')
+    phenotypes_edge_file = os.path.join(emitter_directory, 'phenotypes.Edge.json.gz')
+
+    all_files = [
+        # vertices
+        aliquot_file, sample_file, depmap_case_file, case_file, project_file,
+        program_file, phenotype_file,
+        # edges
+        programs_edge_file, projects_edge_file, cases_edge_file, case_edge_file,
+        samples_edge_file, sample_edge_file, aliquots_edge_file, aliquots_edge_file,
+        phenotypes_edge_file
+    ]
 
     # remove output
-    with contextlib.suppress(FileNotFoundError):
-        for f in all_files:
-            os.remove(f)
+    shutil.rmtree(emitter_directory)
 
     # create output
     depmap_transform(
@@ -97,42 +104,16 @@ def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_pat
         emitter_directory=emitter_directory
     )
 
-    # test.Aliquot.Vertex.json
-    helpers.assert_vertex_file_valid(Aliquot, aliquot_file)
-    # test.Sample.Vertex.json
-    helpers.assert_vertex_file_valid(Sample, sample_file)
-    # test.Case.Vertex.json
-    depmap_case_count = helpers.assert_vertex_file_valid(Case, depmap_case_file)
-    assert depmap_case_count == 2, 'expected case_count'
-    # test.Case.Vertex.json
-    case_count = helpers.assert_vertex_file_valid(Case, case_file)
-    assert case_count == 1, 'expected case_count'
-    # test.Project.Vertex.json
-    project_count = helpers.assert_vertex_file_valid(Project, project_file)
-    assert project_count == 2, 'expected project_count'
-    # test.Program.Vertex.json
-    program_count = helpers.assert_vertex_file_valid(Program, program_file)
-    assert program_count == 1, 'expected program_count'
+    for f in all_files:
+        if "Vertex.json.gz" in f:
+            helpers.assert_vertex_file_valid(f)
+        elif "Edge.json.gz" in f:
+            helpers.assert_edge_file_valid(f)
 
-    # test.AliquotFor.Edge.json
-    helpers.assert_edge_file_valid(Aliquot, Sample, aliquot_for_file)
-
-    # test.SampleFor.Edge.json
-    helpers.assert_edge_file_valid(Sample, Case, sample_for_file)
-
-    # disabled since InProject is polymorphic
-    # test.InProject.Edge.json
-    # helpers.assert_edge_file_valid(Case, Project, in_project_file)
-
-    # test.InProgram.Edge.json
-    helpers.assert_edge_file_valid(Project, Program, in_program_file)
-
-    # disabled since PhenotypeOf is polymorphic
-    # test.PhenotypeOf.Edge.json
-    # helpers.assert_edge_file_valid(Case, Phenotype, phenotype_of_file)
-
-    # validate vertex for all edges exist
-    helpers.assert_edge_joins_valid(all_files)
+    helpers.assert_edge_joins_valid(
+        all_files,
+        exclude_labels=["DrugResponse"]
+    )
 
 
 def test_simple(helpers, emitter_directory, cellline_meta_path, cellline_lookup_path,

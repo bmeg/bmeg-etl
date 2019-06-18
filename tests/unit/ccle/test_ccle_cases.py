@@ -1,6 +1,6 @@
 
 import os
-import contextlib
+import shutil
 import pytest
 from transform.ccle.ccle_cases import transform
 from transform.ccle.depmap_cases import transform as depmap_transform
@@ -60,7 +60,6 @@ def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_pat
     samples_edge_file = os.path.join(emitter_directory, 'samples.Edge.json.gz')
     sample_edge_file = os.path.join(emitter_directory, 'sample.Edge.json.gz')
     aliquots_edge_file = os.path.join(emitter_directory, 'aliquots.Edge.json.gz')
-    aliquot_edge_file = os.path.join(emitter_directory, 'aliquot.Edge.json.gz')
     phenotypes_edge_file = os.path.join(emitter_directory, 'phenotypes.Edge.json.gz')
 
     all_files = [
@@ -70,13 +69,11 @@ def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_pat
         # edges
         programs_edge_file, projects_edge_file, cases_edge_file, case_edge_file,
         samples_edge_file, sample_edge_file, aliquots_edge_file, aliquots_edge_file,
-        aliquot_edge_file, phenotypes_edge_file
+        phenotypes_edge_file
     ]
 
     # remove output
-    with contextlib.suppress(FileNotFoundError):
-        for f in all_files:
-            os.remove(f)
+    shutil.rmtree(emitter_directory)
 
     # create output
     depmap_transform(
@@ -103,7 +100,7 @@ def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_pat
 
     helpers.assert_edge_joins_valid(
         all_files,
-        exclude_labels=["TranscriptExpression", "GeneExpression", "DrugResponse"]
+        exclude_labels=["TranscriptExpression", "GeneExpression", "Callset", "DrugResponse"]
     )
 
 

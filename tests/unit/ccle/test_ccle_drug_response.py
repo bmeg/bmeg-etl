@@ -1,7 +1,7 @@
 
 import os
 import pytest
-import contextlib
+import shutil
 from transform.ccle.ccle_drug_response import transform
 
 
@@ -22,18 +22,13 @@ def project_lookup_path(request):
 
 def validate(helpers, emitter_directory, cellline_lookup_path, project_lookup_path, drug_response_path):
     """ run xform and test results"""
-    drug_response_file = os.path.join(
-        emitter_directory, 'drug_response.DrugResponse.Vertex.json.gz')
-    compound_file = os.path.join(
-        emitter_directory, 'drug_response.Compound.Vertex.json.gz')
-    drug_responses_edge_file = os.path.join(
-        emitter_directory, 'drug_response.drug_responses.Edge.json.gz')
-    drug_response_edge_file = os.path.join(
-        emitter_directory, 'drug_response.drug_response.Edge.json.gz')
-    compounds_edge_file = os.path.join(
-        emitter_directory, 'drug_response.compounds.Edge.json.gz')
-    projects_edge_file = os.path.join(
-        emitter_directory, 'drug_response.projects.Edge.json.gz')
+    drug_response_file = os.path.join(emitter_directory, 'drug_response.DrugResponse.Vertex.json.gz')
+    compound_file = os.path.join(emitter_directory, 'drug_response.Compound.Vertex.json.gz')
+
+    drug_responses_edge_file = os.path.join(emitter_directory, 'drug_response.drug_responses.Edge.json.gz')
+    drug_response_edge_file = os.path.join(emitter_directory, 'drug_response.drug_response.Edge.json.gz')
+    compounds_edge_file = os.path.join(emitter_directory, 'drug_response.compounds.Edge.json.gz')
+    projects_edge_file = os.path.join(emitter_directory, 'drug_response.projects.Edge.json.gz')
 
     all_files = [
         drug_response_file, compound_file,
@@ -42,9 +37,7 @@ def validate(helpers, emitter_directory, cellline_lookup_path, project_lookup_pa
     ]
 
     # remove output
-    with contextlib.suppress(FileNotFoundError):
-        for f in all_files:
-            os.remove(f)
+    shutil.rmtree(emitter_directory)
 
     transform(cellline_lookup_path=cellline_lookup_path,
               project_lookup_path=project_lookup_path,
