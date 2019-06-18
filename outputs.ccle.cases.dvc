@@ -1,4 +1,4 @@
-md5: cfcc5fabcba85888e5f5c5dde0079dc4
+md5: fc014bdec851c1847618bd707e60e525
 cmd: python3 transform/ccle/ccle_cases.py
 wdir: .
 deps:
@@ -3198,6 +3198,11 @@ outs:
   persist: false
 - md5: 68e3b647561710c276cdca6d32086c97
   path: outputs/ccle/ccle.case.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 7426bf0dc879b7da2075cddab25a5e8f
+  path: outputs/ccle/ccle.cases.Edge.json.gz
   cache: true
   metric: false
   persist: false

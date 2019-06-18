@@ -1,4 +1,4 @@
-md5: 39795f462b8962fcd5a0102ac7c2c8f3
+md5: f14fdcf94936b9c73954f2e46adc9c66
 cmd: python3 transform/gdc/cases.py
 wdir: .
 deps:
@@ -42,6 +42,11 @@ outs:
   persist: false
 - md5: 81da4ff2cff54ea24cc76055e65a5c64
   path: outputs/gdc/case.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: fcf25056932b6ea02d9aa6f9a03d162b
+  path: outputs/gdc/cases.Edge.json.gz
   cache: true
   metric: false
   persist: false

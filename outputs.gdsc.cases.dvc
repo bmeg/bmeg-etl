@@ -1,4 +1,4 @@
-md5: 0529744416cfb01a14a614ac99c77aa4
+md5: f6a6682f476edc8e5abb60348d502b6a
 cmd: python3 transform/gdsc/cases.py
 wdir: .
 deps:
@@ -53,8 +53,18 @@ outs:
   cache: true
   metric: false
   persist: false
+- md5: a8c2f66d73f7a69b97142e361d60e239
+  path: outputs/gdsc/gdsc.phenotypes.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
 - md5: 736a3e31ead531cdc8fb859bb7ed4854
   path: outputs/gdsc/gdsc.case.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 61bba5f724fa3f937165b3a87b63098d
+  path: outputs/gdsc/gdsc.cases.Edge.json.gz
   cache: true
   metric: false
   persist: false

@@ -1,4 +1,4 @@
-md5: eedb6b75e0146b72dca188b9b35b5ecd
+md5: 71d0f791bb373e296fa98fd5dc322284
 cmd: python3 ./transform/ctrp/cases.py
 wdir: .
 deps:
@@ -66,6 +66,11 @@ outs:
   persist: false
 - md5: d774c91902d87a9473d8cf19c2ecd9f2
   path: outputs/ctrp/ctrp.case.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: b6b43515d2a41c9b74fc84023cd8aa73
+  path: outputs/ctrp/ctrp.cases.Edge.json.gz
   cache: true
   metric: false
   persist: false
