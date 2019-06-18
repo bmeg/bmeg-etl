@@ -15,6 +15,8 @@ class Helpers:
         assert list(vertex_dict.keys()) == required, 'expected keys'
         for k in required:
             assert vertex_dict[k], 'empty key %s' % k
+        if 'project_id' in vertex_dict['data'] and vertex_dict['label'] != "Project":
+            assert vertex_dict['data']['project_id'].startswith("Project:"), 'expected data.project_id to be a Project GID'
 
     @staticmethod
     def assert_edge_keys_populated(edge_dict):

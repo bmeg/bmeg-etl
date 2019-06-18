@@ -12,9 +12,7 @@ from bmeg import (Sample, Aliquot, Case, Project, Program,
                   Case_Projects_Project,
                   Sample_Projects_Project,
                   Aliquot_Projects_Project,
-                  Project_Programs_Program,
-                  Case_Phenotypes_Phenotype,
-                  Sample_Phenotypes_Phenotype)
+                  Project_Programs_Program)
 from .gdcutils import extract
 
 

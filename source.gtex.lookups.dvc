@@ -1,0 +1,12 @@
+md5: 81a50c1b389d8275948f855a911bba69
+cmd: python3 transform/gtex/lookups.py
+wdir: .
+deps:
+- md5: 80f2b89d45843abb0a0dc39d5054530c
+  path: source/gtex/GTEx_v7_Annotations_SampleAttributesDS.txt
+outs:
+- md5: 0540e405df1d985a1250a49816a132e2
+  path: source/gtex/project_lookup.tsv
+  cache: true
+  metric: false
+  persist: false
