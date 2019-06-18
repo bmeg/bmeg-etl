@@ -1,4 +1,5 @@
 import os
+import contextlib
 import shutil
 import pytest
 
@@ -11,7 +12,19 @@ def compounds_path(request):
     return os.path.join(request.fspath.dirname, 'source/gdc/compounds/*.tsv')
 
 
-def validate(helpers, emitter_directory, compounds_path):
+@pytest.fixture
+def id_lookup_path(request):
+    """get the full path of the test input"""
+    return os.path.join(request.fspath.dirname, 'source/gdc/id_lookup.tsv')
+
+
+@pytest.fixture
+def project_lookup_path(request):
+    """get the full path of the test input"""
+    return os.path.join(request.fspath.dirname, 'source/gdc/project_lookup.tsv')
+
+
+def validate(helpers, emitter_directory, compounds_path, id_lookup_path, project_lookup_path):
     """ run xform and test results"""
     compound_file = os.path.join(emitter_directory, 'Compound.Vertex.json.gz')
 
@@ -27,10 +40,13 @@ def validate(helpers, emitter_directory, compounds_path):
     ]
 
     # remove output
-    shutil.rmtree(emitter_directory)
+    with contextlib.suppress(FileNotFoundError):
+        shutil.rmtree(emitter_directory)
 
     # create output
-    transform(input_path=compounds_path,
+    transform(compounds=compounds_path,
+              project_lookup_path=project_lookup_path,
+              emitter_prefix=None,
               emitter_directory=emitter_directory)
 
     # ratify
@@ -41,6 +57,6 @@ def validate(helpers, emitter_directory, compounds_path):
             helpers.assert_edge_file_valid(f)
 
 
-def test_simple(helpers, emitter_directory, compounds_path):
+def test_simple(helpers, emitter_directory, compounds_path, id_lookup_path, project_lookup_path):
 
-    validate(helpers, emitter_directory, compounds_path)
+    validate(helpers, emitter_directory, compounds_path, id_lookup_path, project_lookup_path)

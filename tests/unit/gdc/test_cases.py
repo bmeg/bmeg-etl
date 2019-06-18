@@ -1,4 +1,5 @@
 import os
+import contextlib
 import shutil
 import pytest
 import json
@@ -39,7 +40,8 @@ def validate(helpers, emitter_directory, case_path):
     ]
 
     # remove output
-    shutil.rmtree(emitter_directory)
+    with contextlib.suppress(FileNotFoundError):
+        shutil.rmtree(emitter_directory)
 
     # create output
     transform(input_path=case_path,

@@ -1,48 +1,68 @@
 import glob
 
-from bmeg import (Case, Case_Compound_Compound)
+from bmeg import (Case, Project, Case_Compounds_Compound, Compound_Projects_Project)
 from bmeg.emitter import JSONEmitter
 from bmeg.enrichers.drug_enricher import compound_factory
-from bmeg.ioutils import read_tsv
+from bmeg.ioutils import read_tsv, read_lookup
 
 
 def transform(compounds="source/gdc/compounds/*.tsv",
-              emitter_prefix=None,
+              id_lookup_path="source/gdc/id_lookup.tsv",
+              project_lookup_path="source/gdc/project_lookup.tsv",
+              emitter_prefix="gdc",
               emitter_directory="gdc"):
-    """ the only way to get drugs is to download files and parse them"""
+
+    ids = read_lookup(id_lookup_path)
+    projects = read_lookup(project_lookup_path)
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
     for path in glob.glob(compounds):
         tsv_in = read_tsv(path)
         c = 0
-        dedupe = {}
-        dedupe_compounds = {}
+        dedup_proj = {}
+        dedup_case = {}
+        dedup_compounds = {}
         for line in tsv_in:
             c += 1
             if c < 3:  # skip three header lines
                 continue
-            bcr_patient_uuid = line['bcr_patient_uuid']
+            bcr_patient_barcode = line['bcr_patient_barcode']
             pharmaceutical_therapy_drug_name = line['pharmaceutical_therapy_drug_name']
-            case_gid = Case.make_gid(bcr_patient_uuid)
-            t = (bcr_patient_uuid, pharmaceutical_therapy_drug_name)
+            case_gid = Case.make_gid(ids.get(bcr_patient_barcode, bcr_patient_barcode))
+            project_gid = Project.make_gid(projects.get(bcr_patient_barcode, None))
+            compound = compound_factory(name=pharmaceutical_therapy_drug_name)
+            compound_gid = compound.gid()
+
+            # have we seen this compound before?
+            if compound_gid not in dedup_compounds:
+                emitter.emit_vertex(compound)
+                dedup_compounds[compound_gid] = True
+
             # have we seen this combination before?
-            if t not in dedupe:
-                compound = compound_factory(name=pharmaceutical_therapy_drug_name)
-                compound_gid = compound.gid()
-                # have we seen this compound before?
-                if compound_gid not in dedupe_compounds:
-                    emitter.emit_vertex(compound)
-                    dedupe_compounds[compound_gid] = True
-                    emitter.emit_edge(
-                        Case_Compound_Compound(
-                            from_gid=case_gid,
-                            to_gid=compound_gid
-                        ),
-                        emit_backref=True
-                    )
-                    # TODO emit edge from compound to project
-                    dedupe[t] = True
+            t = (case_gid, compound_gid)
+            if t not in dedup_case:
+                emitter.emit_edge(
+                    Case_Compounds_Compound(
+                        from_gid=case_gid,
+                        to_gid=compound_gid
+                    ),
+                    emit_backref=True
+                )
+                dedup_case[t] = True
+
+            # have we seen this combination before?
+            t = (project_gid, compound_gid)
+            if t not in dedup_proj:
+                emitter.emit_edge(
+                    Compound_Projects_Project(
+                        from_gid=compound_gid,
+                        to_gid=project_gid
+                    ),
+                    emit_backref=True
+                )
+                dedup_proj[t] = True
+
     emitter.close()
 
 

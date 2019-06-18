@@ -15,7 +15,7 @@ from bmeg import (Sample, Aliquot, Case, Project, Program,
                   Project_Programs_Program,
                   Case_Phenotypes_Phenotype,
                   Sample_Phenotypes_Phenotype)
-from gdcutils import extract
+from .gdcutils import extract
 
 
 # These are the fields we want to keep from the GDC Case (BMEG Case).
