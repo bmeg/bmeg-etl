@@ -1,12 +1,24 @@
+md5: 65efb2cce831e54145049f439e9a8a72
 cmd: python3 transform/gtex/expression.py
+wdir: .
 deps:
+- md5: 0540e405df1d985a1250a49816a132e2
+  path: source/gtex/project_lookup.tsv
 - md5: e027506deca6a62f50e316561c6cb8cb
   path: source/gtex/GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_tpm.gct.gz
-md5: fe3d78c04e2c0916945a1f6180206fe9
 outs:
-- cache: true
-  md5: e37ad9c0f4d2d5853a5cb96348ef629f
+- md5: 5390be64dfac4b135da8741fffe005d5
   path: outputs/gtex/GeneExpression.Vertex.json.gz
-- cache: true
-  md5: 09e3c8d467f6ed3d97e491ebd28ac025
-  path: outputs/gtex/GeneExpressionOf.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 96fed72aa87e5fde2389b46b3e9aad37
+  path: outputs/gtex/aliquot.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: fc27aa9182f7a14e018ac3ab924e3646
+  path: outputs/gtex/gene_expressions.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
