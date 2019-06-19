@@ -4,7 +4,7 @@ from glob import glob
 
 from xml.dom.minidom import parseString
 
-from bmeg import (PfamFamily, PfamClan, GeneOntologyTerm,
+from bmeg import (PfamFamily, PfamClan, GeneOntologyTerm, Project,
                   GeneOntologyTerm_PfamFamilies_PfamFamily,
                   PfamClan_PfamFamilies_PfamFamily)
 
@@ -83,7 +83,7 @@ def xml_transform(dom, emit):
             type=pfam_type,
             description=description.strip(),
             comments=comments.strip(),
-            project_id="Reference"
+            project_id=Project.make_gid("Reference")
         )
         emit.emit_vertex(out)
         for g in go_terms:
@@ -91,7 +91,7 @@ def xml_transform(dom, emit):
                 GeneOntologyTerm_PfamFamilies_PfamFamily(
                     from_gid=GeneOntologyTerm.make_gid(g),
                     to_gid=out.gid(),
-                    data={'evidence': None, 'title': '', 'references': ''}
+                    data={'evidence': None, 'title': None, 'references': None}
                 ),
                 emit_backref=True
             )
@@ -106,24 +106,32 @@ def xml_transform(dom, emit):
             )
 
 
-emitter = JSONEmitter("pfam")
+def transform(pfam_xmls="source/pfam/*.xml",
+              clans_file="source/pfam/clans.tsv",
+              emitter_prefix=None,
+              emitter_directory='pfam'):
 
-for f in glob("source/pfam/*.xml"):
-    with open(f) as handle:
-        dom = parseString(handle.read())
-        xml_transform(dom, emitter)
+    emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
-path = "source/pfam/clans.tsv"
-tsv_in = read_tsv(path, fieldnames=["accession", "id", "description"])
-for line in tsv_in:
-    # accession	id	description
-    c = PfamClan(
-        submitter_id=PfamClan.make_gid(line["accession"]),
-        accession=line["accession"],
-        clan_id=line["id"],
-        description=line["description"],
-        project_id="Reference"
-    )
-    emitter.emit_vertex(c)
+    for f in glob(pfam_xmls):
+        with open(f) as handle:
+            dom = parseString(handle.read())
+            xml_transform(dom, emitter)
 
-emitter.close()
+    tsv_in = read_tsv(clans_file, fieldnames=["accession", "id", "description"])
+    for line in tsv_in:
+        # accession	id	description
+        c = PfamClan(
+            submitter_id=PfamClan.make_gid(line["accession"]),
+            accession=line["accession"],
+            clan_id=line["id"],
+            description=line["description"],
+            project_id=Project.make_gid("Reference")
+        )
+        emitter.emit_vertex(c)
+
+    emitter.close()
+
+
+if __name__ == '__main__':  # pragma: no cover
+    transform()
