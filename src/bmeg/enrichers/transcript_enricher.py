@@ -1,4 +1,4 @@
-from bmeg import Transcript
+from bmeg import Transcript, Project
 import logging
 
 from bmeg.requests import Client
@@ -44,5 +44,5 @@ def normalize(ensembl_transcript_id):
         strand=strand,
         biotype=response['biotype'],
         genome=response['assembly_name'],
-        project_id="Reference"
+        project_id=Project.make_gid("Reference")
     )

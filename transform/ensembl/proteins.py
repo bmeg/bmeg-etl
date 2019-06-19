@@ -1,11 +1,11 @@
 import csv
 
 import bmeg.ioutils
-from bmeg import Protein, Transcript, Protein_Transcript_Transcript
+from bmeg import Protein, Transcript, Project, Protein_Transcript_Transcript
 from bmeg.emitter import JSONEmitter
 
 
-PROJECT_ID = "Reference"
+PROJECT_ID = Project.make_gid("Reference")
 GENOME_BUILD = "GRCh37"
 DEFAULT_DIRECTORY = "ensembl"
 

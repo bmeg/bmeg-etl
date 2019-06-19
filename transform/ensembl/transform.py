@@ -3,14 +3,14 @@ import re
 
 from urllib.parse import unquote
 
-from bmeg import (Exon, Gene, Transcript,
+from bmeg import (Exon, Gene, Transcript, Project,
                   Transcript_Gene_Gene, Exon_Transcripts_Transcript)
 
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
 
 
-PROJECT_ID = "Reference"
+PROJECT_ID = Project.make_gid("Reference")
 GENOME_BUILD = "GRCh37"
 DEFAULT_DIRECTORY = "ensembl"
 
