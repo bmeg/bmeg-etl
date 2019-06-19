@@ -1,8 +1,9 @@
+import pandas
+
 from bmeg import (GeneExpression, Aliquot, Project,
                   GeneExpression_Aliquot_Aliquot)
 
 from bmeg.emitter import JSONEmitter
-from bmeg.gct import parse_gct, split_ensembl_id
 from bmeg.ioutils import read_lookup
 
 
@@ -15,12 +16,16 @@ def transform(gct_file="source/gtex/GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_ge
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
-    for sample, values in parse_gct(gct_file, "outputs/gtex", split_ensembl_id):
+    data = pandas.read_csv(gct_file, sep="\t", header=2)
+    tdata = data.set_index("Name").drop(columns=["Description"]).transpose()
+    tdata.columns = [c.split(".")[0] for c in tdata.columns]
+
+    for sample, values in tdata.iterrows():
         g = GeneExpression(
             submitter_id=GeneExpression.make_gid(sample),
             metric="GENE_TPM",
             method="Illumina HiSeq",
-            values=values,
+            values=values.to_dict(),
             project_id=Project.make_gid(projects.get(sample, None))
         )
         emitter.emit_vertex(g)
