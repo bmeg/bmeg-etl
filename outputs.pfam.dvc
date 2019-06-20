@@ -1,4 +1,4 @@
-md5: dea3fcccb5f0036cfbff2b388664ead5
+md5: d9d017de2711c17b86f5eeae55e63b73
 cmd: tar -xzf source/pfam/pfam.tar.gz -C source/pfam && python3 transform/pfam/transform.py
 wdir: .
 deps:
@@ -11,27 +11,27 @@ deps:
 - md5: a716f3864b3883ef8b4a29adebc29533
   path: source/pfam/homo_sapiens.json
 outs:
-- md5: c2e8ff6d786351822d8195a893e571fc
+- md5: 801e5000c527243d7fcd50df769e3f95
   path: outputs/pfam/PfamClan.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 51ff5bb148e0139ee562443e1cf7e097
+- md5: a1d1512a1935a6c63167ccc436f62d7f
   path: outputs/pfam/PfamFamily.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 5f135277eac9e2030765b9f7cb2dd361
+- md5: 1ff787863b7c6b4a7fe9d49ee65b9bef
   path: outputs/pfam/pfam_clans.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 8cad74925d0d5ee6d3ad814c9915fdb5
+- md5: 308489b26372fda81211cbd4158af2a4
   path: outputs/pfam/gene_ontology_terms.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 036da975440080f00463059c8e512f36
+- md5: 043af88624b2e39cb693db5bedea6bbf
   path: outputs/pfam/pfam_families.Edge.json.gz
   cache: true
   metric: false

@@ -1,31 +1,31 @@
-md5: a521ed187281f064f35fa5798b086759
+md5: e1ec51999fd55ab2ebce2ac2c941be6a
 cmd: python3 transform/pfam/pfam_to_proteins.py
 wdir: .
 deps:
 - md5: a716f3864b3883ef8b4a29adebc29533
   path: source/pfam/homo_sapiens.json
 outs:
-- md5: 8c566562c148a839325ee2e1895c9a4e
+- md5: dabfa9a8bb644ab76b631066a0fcb0df
   path: outputs/pfam/toproteins.ProteinStructure.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: d2b21ba6f225155ba9de2a02ae617dae
+- md5: 42fdf5529d0597dfbf48398252d76cf8
   path: outputs/pfam/toproteins.pfam_families.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 1eedc562c3a96db82f755cf2eba42580
+- md5: b3285b8a6f919127e42fda9a2124cfa5
   path: outputs/pfam/toproteins.protein_structures.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 2e7f82cf9f468e1b8994e9c055dba78f
+- md5: f608875b04734f07e88cbb90d7131a14
   path: outputs/pfam/toproteins.proteins.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 4906d0db809b3b228354114ab7db84df
+- md5: a4407871e93c992c69e9619cde972e9e
   path: outputs/pfam/toproteins.protein.Edge.json.gz
   cache: true
   metric: false
