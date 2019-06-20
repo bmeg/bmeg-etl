@@ -3,7 +3,7 @@ from bmeg.emitter import new_emitter
 from bmeg.ioutils import reader
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
-from bmeg import * # noqa
+from bmeg import Compound, GenericEdge
 from bmeg.enrichers.drug_enricher import normalize
 from bmeg.stores import new_store
 
@@ -11,20 +11,18 @@ import logging
 import sys
 import ujson
 
-DEFAULT_DIRECTORY = 'compound'
-
 
 def transform(vertex_files, edge_files,
               emitter_name="json",
-              emitter_directory=DEFAULT_DIRECTORY,
+              emitter_directory="compound",
               store_path="source/compound/sqlite.db"):
+
     batch_size = 1000
     compound_cache = {}
     emitter = new_emitter(name=emitter_name, directory=emitter_directory, prefix='normalized')
     logging.info(vertex_files)
     store = new_store('key-val', path=store_path, index=True)
     c = t = e = 0
-    dups = []
     for file in vertex_files:
         logging.info(file)
         with reader(file) as ins:
@@ -59,10 +57,9 @@ def transform(vertex_files, edge_files,
                         # we have a compound with a term already
                         store.put(compound['name'], compound)
                     compound = Compound(**compound)
-                    if compound.gid() not in dups:
+                    if compound.gid() not in compound_cache:
                         emitter.emit_vertex(compound)
-                    compound_cache[compound_gid] = compound
-                    dups.append(compound.gid())
+                        compound_cache[compound_gid] = compound
                     c += 1
                     t += 1
                 except Exception as exc:
@@ -85,26 +82,28 @@ def transform(vertex_files, edge_files,
                     if 'Compound:' not in edge['gid']:
                         logging.info('Edge {} has no compounds that need transformation. skipping.'.format(file))
                         break
+
                     # get edge components
                     label = edge['label']
                     from_ = edge['from']
                     to = edge['to']
                     data = edge['data']
-                    # replace with normalized compound
+
+                    # replace with normalized compound if available
                     if to in compound_cache:
-                        to = compound_cache[to]
+                        to = compound_cache[to].gid()
                     if from_ in compound_cache:
-                        from_ = compound_cache[from_]
-                    cls_name = "{}_{}_{}".format(from_.label(), capitalize(label), to.label())
-                    cls = globals()[cls_name]
-                    edge = cls()
+                        from_ = compound_cache[from_].gid()
+
                     emitter.emit_edge(
-                        edge(
-                            from_gid=from_.gid(),
-                            to_gid=to.gid(),
+                        GenericEdge(
+                            from_gid=from_,
+                            to_gid=to,
+                            edge_label=label,
                             data=data
                         )
                     )
+
                     c += 1
                     t += 1
                 except Exception as exc:

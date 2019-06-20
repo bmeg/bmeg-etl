@@ -4,8 +4,8 @@ import os
 import contextlib
 import pytest
 import logging
+import shutil
 from transform.compound.transform import transform
-from bmeg.vertex import Compound, DrugResponse
 from bmeg.stores import new_store
 
 ALL_FILES = """
@@ -38,22 +38,28 @@ def store_path(request):
 def validate(helpers, output_dir, emitter_directory, store_path):
 
     all_files = [os.path.join(emitter_directory, f) for f in ALL_FILES]
+
     # remove output
     with contextlib.suppress(FileNotFoundError):
-        for f in all_files:
-            os.remove(f)
+        shutil.rmtree(emitter_directory)
         os.remove(store_path)
+
     # create output
     vertex_files = [os.path.join(output_dir, f) for f in VERTEX_FILES]
     edge_files = [os.path.join(output_dir, f) for f in EDGE_FILES]
-    transform(vertex_files=vertex_files, edge_files=edge_files, emitter_directory=emitter_directory, store_path=store_path)
+    transform(vertex_files=vertex_files,
+              edge_files=edge_files,
+              emitter_directory=emitter_directory,
+              store_path=store_path)
+
     # check output
     compounds = all_files[0]
     response_tos = all_files[1]
-    helpers.assert_vertex_file_valid(Compound, compounds)
-    helpers.assert_edge_file_valid(DrugResponse, Compound, response_tos)
+    helpers.assert_vertex_file_valid(compounds)
+    helpers.assert_edge_file_valid(response_tos)
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['DrugResponse'])
+
     # ensure the store was created
     store = new_store('key-val', path=store_path)
     assert len([c for c in store.all()]) == 9, 'store should have 9 names'

@@ -130,6 +130,24 @@ class Edge:
 
 @enforce_types
 @dataclasses.dataclass(frozen=True)
+class GenericEdge(Edge):
+    from_gid: str
+    to_gid: str
+    edge_label: str
+    data: dict = dataclasses.field(default_factory=dict)
+
+    def label(self):
+        return self.edge_label
+
+    def validate(self):
+        return
+
+    def props(self, preserve_null=False):
+        return get_edge_props(self, preserve_null)
+
+
+@enforce_types
+@dataclasses.dataclass(frozen=True)
 class Deadletter(Vertex):
     """ standard way to log missing data """
     target_label: str  # desired vertex label
@@ -160,7 +178,7 @@ class Deadletter(Vertex):
 _schemaPath = pkg_resources.resource_filename(__name__, "bmeg-dictionary/gdcdictionary/schemas")
 _schema = BMEGDataDictionary(root_dir=_schemaPath)
 
-__all__ = ['Vertex', 'Edge', 'Deadletter']
+__all__ = ['Vertex', 'Edge', 'Deadletter', 'GenericEdge']
 for k, schema in _schema.schema.items():
     name = capitalize(schema["id"])
     if name not in gid_factories:
