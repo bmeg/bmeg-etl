@@ -3,8 +3,7 @@ from bmeg.emitter import new_emitter
 from bmeg.ioutils import reader
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
-from bmeg.vertex import Publication
-from bmeg.edge import *  # noqa
+from bmeg import Publication
 
 import glob
 import logging
