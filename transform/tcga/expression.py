@@ -7,8 +7,9 @@ import logging
 import subprocess
 import sys
 
-from bmeg.vertex import TranscriptExpression, GeneExpression, Aliquot, ExpressionMetric
-from bmeg.edge import GeneExpressionOf, TranscriptExpressionOf
+from bmeg import (GeneExpression, TranscriptExpression, Aliquot, Project,
+                  GeneExpression_Aliquot_Aliquot, TranscriptExpression_Aliquot_Aliquot)
+
 from bmeg.emitter import JSONEmitter
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
@@ -27,7 +28,11 @@ def transform(source_path,
 
     # Map CGHub analysis IDs to GDC Aliquot IDs
     r = csv.DictReader(open(id_map_file))
-    id_map = {row["CGHubAnalysisID"]: row["Aliquot_id"].lower() for row in r}
+    id_map = {}
+    project_map = {}
+    for row in r:
+        id_map[row["CGHubAnalysisID"]] = row["Aliquot_id"]
+        project_map[row["CGHubAnalysisID"]] = "TCGA-" + row["Disease"]
 
     r = csv.reader(open(gene_map_file), delimiter="\t")
     gene_map = {row[0]: row[1] for row in r}
@@ -46,21 +51,24 @@ def transform(source_path,
         for cghub_id, raw_expr in zip(samples, row[1:]):
             expr = float(raw_expr)
             aliquot_id = id_map[cghub_id]
+            project_id = project_map[cghub_id]
             collect[aliquot_id][transcript_id] = expr
 
     for aliquot_id, values in collect.items():
-        g = TranscriptExpression(
-            id=aliquot_id,
-            source="tcga",
-            metric=ExpressionMetric.TPM,
+        t = TranscriptExpression(
+            submitter_id=TranscriptExpression.make_gid(aliquot_id),
+            metric="TPM",
             method="Illumina Hiseq",
             values=values,
+            project_id=Project.make_gid(project_id)
         )
-        emitter.emit_vertex(g)
+        emitter.emit_vertex(t)
         emitter.emit_edge(
-            TranscriptExpressionOf(),
-            from_gid=g.gid(),
-            to_gid=Aliquot.make_gid(aliquot_id)
+            TranscriptExpression_Aliquot_Aliquot(
+                from_gid=t.gid(),
+                to_gid=Aliquot.make_gid(aliquot_id)
+            ),
+            emit_backref=True
         )
 
         geneValues = {}
@@ -71,18 +79,20 @@ def transform(source_path,
                 gene = gene_map[k]
                 geneValues[gene] = geneValues.get(gene, 0) + v
 
-        gg = GeneExpression(
-            id=aliquot_id + "_gene",
-            source="tcga",
-            metric=ExpressionMetric.GENE_TPM,
+        g = GeneExpression(
+            submitter_id=GeneExpression.make_gid(aliquot_id),
+            metric="GENE_TPM",
             method="Illumina Hiseq",
             values=geneValues,
+            project_id=Project.make_gid(project_id)
         )
-        emitter.emit_vertex(gg)
+        emitter.emit_vertex(g)
         emitter.emit_edge(
-            GeneExpressionOf(),
-            from_gid=gg.gid(),
-            to_gid=Aliquot.make_gid(aliquot_id)
+            GeneExpression_Aliquot_Aliquot(
+                from_gid=g.gid(),
+                to_gid=Aliquot.make_gid(aliquot_id)
+            ),
+            emit_backref=True
         )
 
     emitter.close()

@@ -2,8 +2,8 @@
 import os
 import contextlib
 import pytest
+import shutil
 from transform.tcga.expression import transform, make_parallel_workstream
-from bmeg.vertex import Expression, Aliquot
 
 
 @pytest.fixture
@@ -32,20 +32,29 @@ def source_wildcard(request):
 
 def validate(helpers, source_path, id_map_file, gene_map_file, emitter_directory):
     """ run xform and test results"""
-    expression_file = os.path.join(emitter_directory, 'ACC.TranscriptExpression.Vertex.json.gz')
-    expression_of_file = os.path.join(emitter_directory, 'ACC.TranscriptExpressionOf.Edge.json.gz')
+    gene_expression_file = os.path.join(emitter_directory, 'ACC.GeneExpression.Vertex.json.gz')
+    gene_expressions_edge_file = os.path.join(emitter_directory, 'ACC.gene_expressions.Edge.json.gz')
+    transcript_expression_file = os.path.join(emitter_directory, 'ACC.TranscriptExpression.Vertex.json.gz')
+    transcript_expressions_edge_file = os.path.join(emitter_directory, 'ACC.transcript_expressions.Edge.json.gz')
+    aliquot_edge_file = os.path.join(emitter_directory, 'ACC.aliquot.Edge.json.gz')
 
-    all_files = [expression_file, expression_of_file]
+    all_files = [gene_expression_file, transcript_expression_file,
+                 gene_expressions_edge_file, transcript_expressions_edge_file, aliquot_edge_file]
+
     # remove output
     with contextlib.suppress(FileNotFoundError):
-        for f in all_files:
-            os.remove(f)
+        shutil.rmtree(emitter_directory)
 
     # create output
     transform(source_path=source_path, id_map_file=id_map_file, gene_map_file=gene_map_file, emitter_directory=emitter_directory)
+
     # ratify
-    helpers.assert_vertex_file_valid(Expression, expression_file)
-    helpers.assert_edge_file_valid(Expression, Aliquot, expression_of_file)
+    for f in all_files:
+        if "Vertex.json.gz" in f:
+            helpers.assert_vertex_file_valid(f)
+        elif "Edge.json.gz" in f:
+            helpers.assert_edge_file_valid(f)
+
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot'])
 
 
