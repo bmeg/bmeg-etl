@@ -1,7 +1,6 @@
 import yaml
 import glob
-from bmeg.vertex import File, Command
-from bmeg.edge import Reads, Writes
+from bmeg import File, Command, Command_Writes_File, Command_Reads_File
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
 from bmeg.emitter import new_emitter
@@ -22,11 +21,15 @@ def transform(
     dups = []
     for filename in glob.iglob(dvc_path, recursive=False):
         with open(filename, 'r') as stream:
-            dvc = yaml.load(stream)
+            dvc = yaml.safe_load(stream)
             if 'cmd' not in dvc:
                 dvc['cmd'] = '# unknown'
             dvc['filename'] = filename
-            command = Command(cmd=dvc['cmd'], md5=dvc['md5'], filename=dvc['filename'])
+            command = Command(
+                cmd=dvc['cmd'],
+                md5=dvc['md5'],
+                filename=dvc['filename']
+            )
             emitter.emit_vertex(command)
             if 'deps' in dvc:
                 for dep in dvc['deps']:
@@ -38,7 +41,13 @@ def transform(
                     if file.gid() not in dups:
                         emitter.emit_vertex(file)
                         dups.append(file.gid())
-                    emitter.emit_edge(Reads(), command.gid(), file.gid())
+                    emitter.emit_edge(
+                        Command_Reads_File(
+                            from_gid=command.gid(),
+                            to_gid=file.gid()
+                        ),
+                        emit_backref=False
+                    )
 
             if 'outs' in dvc:
                 for out in dvc['outs']:
@@ -50,7 +59,13 @@ def transform(
                     if file.gid() not in dups:
                         emitter.emit_vertex(file)
                         dups.append(file.gid())
-                    emitter.emit_edge(Writes(), command.gid(), file.gid())
+                    emitter.emit_edge(
+                        Command_Writes_File(
+                            from_gid=command.gid(),
+                            to_gid=file.gid()
+                        ),
+                        emit_backref=False
+                    )
     emitter.close()
 
 
