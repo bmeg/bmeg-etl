@@ -1,4 +1,4 @@
-from bmeg import * # noqa
+from bmeg import Phenotype, GenericEdge
 from bmeg.emitter import new_emitter
 from bmeg.ioutils import reader
 from bmeg.util.cli import default_argument_parser
@@ -77,8 +77,9 @@ def transform(
                                     phenotype['term_id'] = ontology_terms[0]['ontology_term']
                                     phenotype['submitter_id'] = Phenotype.make_gid(ontology_terms[0]['ontology_term'])
 
-                    # we have a phenotype with a term already
-                    store.put(phenotype.get('name', phenotype.get('term')), phenotype)
+                        # we have a phenotype with a term already
+                        phenotype['submitter_id'] = Phenotype.make_gid(phenotype['term_id'])
+                        store.put(phenotype.get('name', phenotype.get('term')), phenotype)
 
                     phenotype = Phenotype(**phenotype)
                     if phenotype.gid() not in dups:
@@ -109,26 +110,28 @@ def transform(
                     if 'Phenotype:' not in edge['gid']:
                         logging.info('Edge {} has no phenotypes that need transformation. skipping.'.format(file))
                         break
+
                     # get edge components
                     label = edge['label']
                     from_ = edge['from']
                     to = edge['to']
                     data = edge['data']
+
                     # replace with normalized phenotype
                     if to in phenotype_cache:
-                        to = phenotype_cache[to]
+                        to = phenotype_cache[to].gid()
                     if from_ in phenotype_cache:
-                        from_ = phenotype_cache[from_]
-                    cls_name = "{}_{}_{}".format(from_.label(), capitalize(label), to.label())
-                    cls = globals()[cls_name]
-                    edge = cls()
+                        from_ = phenotype_cache[from_].gid()
+
                     emitter.emit_edge(
-                        edge(
-                            from_gid=from_.gid(),
-                            to_gid=to.gid(),
+                        GenericEdge(
+                            from_gid=from_,
+                            to_gid=to,
+                            edge_label=label,
                             data=data
                         )
                     )
+
                     c += 1
                     t += 1
                 except Exception as exc:

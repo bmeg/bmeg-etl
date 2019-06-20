@@ -45,6 +45,7 @@ def normalize_bioontology(name):
     quoted_name = urllib.parse.quote_plus(name)
     url = 'http://data.bioontology.org/search?q={}&apikey={}'.format(quoted_name, API_KEY)  # NOQA
     r = requests.get(url, timeout=20)
+    r.raise_for_status()
     response = r.json()
     terms = []
     if 'collection' in response and len(response['collection']) > 0:
@@ -100,6 +101,7 @@ def normalize_ebi(name):
     """  # NOQA
 
     r = requests.get(url, timeout=20)
+    r.raise_for_status()
     rsp = r.json()
     if 'response' not in rsp:
         logging.info('{} in disease_normalizer.NOFINDS'.format(name))

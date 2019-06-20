@@ -19,6 +19,7 @@ def transform(vertex_files, edge_files,
 
     batch_size = 1000
     compound_cache = {}
+    dups = {}
     emitter = new_emitter(name=emitter_name, directory=emitter_directory, prefix='normalized')
     logging.info(vertex_files)
     store = new_store('key-val', path=store_path, index=True)
@@ -55,11 +56,14 @@ def transform(vertex_files, edge_files,
                             compound = stored_compound
                     else:
                         # we have a compound with a term already
+                        compound['submitter_id'] = Compound.make_gid(compound['term_id'])
                         store.put(compound['name'], compound)
+
                     compound = Compound(**compound)
-                    if compound.gid() not in compound_cache:
+                    if compound.gid() not in dups:
                         emitter.emit_vertex(compound)
-                        compound_cache[compound_gid] = compound
+                        dups[compound.gid()] = None
+                    compound_cache[compound_gid] = compound
                     c += 1
                     t += 1
                 except Exception as exc:
