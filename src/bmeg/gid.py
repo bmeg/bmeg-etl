@@ -1,5 +1,5 @@
 import hashlib
-
+import re
 from functools import wraps
 
 
@@ -61,6 +61,12 @@ def allele_gid(genome: str, chromosome: str, start: int, end: int,
     return "Allele:{}".format(vidhash)
 
 
+def publication_gid(url: str):
+    rec = re.compile(r"https?://(www\.)?")
+    url = rec.sub("", url).strip()
+    return "Publication:{}".format(url)
+
+
 # cast the result of the above gid functions to the proper type
 def cast_gid(func):
     @wraps(func)
@@ -79,5 +85,6 @@ gid_factories = {
     'Exon': exon_gid,
     'DrugResponse': drugresponse_gid,
     'Callset': callset_gid,
-    'Allele': allele_gid
+    'Allele': allele_gid,
+    'Publication': publication_gid
 }
