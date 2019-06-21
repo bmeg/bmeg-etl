@@ -7,6 +7,8 @@ import sqlite3
 import ujson
 import uuid
 
+from bmeg import ClassInstance
+
 
 class KeyValueMemoryStore:
     """ store an id and a json serializable object in sqllite"""
@@ -86,6 +88,8 @@ class KeyValueStore:
         return result
 
     def put(self, id, obj):
+        if isinstance(obj, ClassInstance):
+            obj = obj.props()
         cur = self.conn.cursor()
         cur.execute(
             "insert or replace into data values(?, ?)",
@@ -120,7 +124,13 @@ class KeyValueStore:
     def load_many(self, batch):
         """ load a batch of tuples into table. each tuple is (str, json-serializable) """
         # serialize batch
-        batch = [(i[0], ujson.dumps(i[1])) for i in batch]
+        pbatch = []
+        for idx, i in enumerate(batch):
+            if isinstance(i[1], ClassInstance):
+                pbatch.append((i[0], i[1].props()))
+            else:
+                pbatch.append((i[0], i[1]))
+        batch = [(i[0], ujson.dumps(i[1])) for i in pbatch]
         logging.debug('starting insert')
         self.conn.executemany("insert or replace into data(id, json) values(?, ?)", batch)
         logging.debug('done insert')
@@ -135,16 +145,16 @@ class DataClassStore(KeyValueStore):
     def get(self, gid):
         """ xform dict to dataclass"""
         obj = super().get(gid)
-        return self.clazz.from_dict(obj)
+        return self.clazz(**obj)
 
     def put(self, obj):
-        """ get gid from dataclass"""
+        """ get gid from dataclass"""        
         return super().put(obj.gid(), obj)
 
     def all(self):
         """ xform dict to dataclass"""
         for obj in super().all():
-            yield self.clazz.from_dict(obj)
+            yield self.clazz(**obj)
 
     def load_many(self, batch):
         """ load a batch of tuples into table. each tuple is (str, object) """
