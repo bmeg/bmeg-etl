@@ -88,3 +88,7 @@ def transform(obo_file="source/go/go.obo",
                 )
 
     emitter.close()
+
+
+if __name__ == "__main__":
+    transform()

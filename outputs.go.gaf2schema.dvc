@@ -1,12 +1,19 @@
-cmd: python3 transform/go/go_gaf2schema.py source/go/goa_human.gaf.gz source/go/HUMAN_9606_idmapping.dat.gz
-  go
+md5: b14b046d4dfe352ef1108dedb5be0a4b
+cmd: python3 transform/go/go_gaf2schema.py
+wdir: .
 deps:
 - md5: 85f390a596093ff991ba1b4987a63022
   path: source/go/goa_human.gaf.gz
 - md5: 74fe666c3f2f9a7e7c0d5a2689431d22
   path: source/go/HUMAN_9606_idmapping.dat.gz
-md5: dd9ac84264525974dcc7f60180ab89c6
 outs:
-- cache: true
-  md5: dc541a52fe6a06d2a06aa82f481bb31f
-  path: outputs/go/GeneOntologyAnnotation.Edge.json.gz
+- md5: 199941dd0bba78db5e0c09e43ad61a12
+  path: outputs/go/genes.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 491c7578c2a00f7c08ac232587a1b94a
+  path: outputs/go/gene_ontology_terms.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
