@@ -13,7 +13,7 @@ import threading
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
 from bmeg.emitter import new_emitter
-from bmeg.vertex import Allele
+from bmeg import Allele
 from bmeg.ioutils import reader
 
 
@@ -21,13 +21,13 @@ def valid_filenames(path):
     """ filter out any we do not want to process """
     filenames = []
     for filename in glob.iglob(path, recursive=True):
-        # myvariant download
+        # myvariant download **DEPRECIATED**
         if 'myvariant' in filename:
             continue
         # our own output
         if 'allele.' in filename:
             continue
-        # pseudo alleles
+        # pseudo alleles **DEPRECIATED**
         if 'MinimalAllele' in filename:
             continue
         filenames.append(filename)
@@ -81,7 +81,13 @@ def transform(output_dir,
     with reader(sorted_allele_file) as ins:
         for line in ins:
             try:
-                allele = Allele.from_dict(ujson.loads(line)['data'])
+                allele_dict = ujson.loads(line)['data']
+                allele_dict['submitter_id'] = Allele.make_gid(
+                    allele_dict['genome'], allele_dict['chromosome'],
+                    allele_dict['start'], allele_dict['end'],
+                    allele_dict['reference_bases'], allele_dict['alternate_bases']
+                )
+                allele = Allele(**allele_dict)
                 emitter.emit_vertex(allele)
                 c += 1
                 t += 1
