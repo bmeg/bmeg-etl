@@ -66,6 +66,15 @@ class Helpers:
         return c
 
     @staticmethod
+    def parse_edge_file(edge_file_path):
+        """ ensure file exists; return [edge] """
+        assert os.path.isfile(edge_file_path)
+        with bmeg.ioutils.reader(edge_file_path) as f:
+            for line in f:
+                # should be json
+                yield json.loads(line)
+
+    @staticmethod
     def load_stores(graph_file_paths):
         """ load an in memory 'graph' returns (vertices, edges)"""
         vertices = {}
@@ -90,13 +99,16 @@ class Helpers:
             label = _from.split(':')[0]
             if label in exclude_labels:
                 continue
+            elif any(x in exclude_labels for x in ["Gene", "Transcript", "Exon", "Protein"]):
+                if label.startswith("ENS"):
+                    continue
             _to = edge['to']
-            # skip gene entries, kind of a hack
-            if _to.startswith("ENS"):
-                continue
             label = _to.split(':')[0]
             if label in exclude_labels:
                 continue
+            elif any(x in exclude_labels for x in ["Gene", "Transcript", "Exon", "Protein"]):
+                if label.startswith("ENS"):
+                    continue
             assert vertices.get(_from, None), 'edge {} from {} does not exist'.format(edge_gid, _from)
             assert vertices.get(_to, None), 'edge {} from {} does not exist'.format(edge_gid, _to)
 

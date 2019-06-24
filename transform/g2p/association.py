@@ -1,6 +1,6 @@
 
 import json
-from bmeg.vertex import G2PAssociation
+from bmeg import G2pAssociation, Project
 
 
 def create_association(hit):
@@ -14,7 +14,11 @@ def create_association(hit):
     for f in ['description', 'evidence_label', 'response_type',
               'oncogenic', 'source_url']:
         association_parms[f] = association.get(f, None)
-    return G2PAssociation(**association_parms)
+    return G2pAssociation(
+        submitter_id=G2pAssociation.make_gid(**association_parms),
+        project_id=Project.make_gid("Reference"),
+        **association_parms
+    )
 
 
 def normalize(hit):

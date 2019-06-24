@@ -61,6 +61,24 @@ def allele_gid(genome: str, chromosome: str, start: int, end: int,
     return "Allele:{}".format(vidhash)
 
 
+def genomic_feature_gid(genome: str, chromosome: str, start: int, end: int,
+                        type: str, name: str):
+    vid = "{}:{}:{}:{}:{}:{}".format(genome, chromosome, start, end, type, name)
+    vid = vid.encode('utf-8')
+    vidhash = hashlib.sha1()
+    vidhash.update(vid)
+    vidhash = vidhash.hexdigest()
+    return "GenomicFeature:{}".format(vidhash)
+
+
+def g2p_association_gid(source: str, description: str, evidence_label: str, response_type: str,
+                        oncogenic: str, source_document: str, source_url: str):
+    a = [p for p in [source, description, evidence_label, response_type, oncogenic, source_document, source_url] if p]
+    m = hashlib.sha1()
+    m.update(':'.join(a).encode('utf-8'))
+    return "G2pAssociation:{}".format(m.hexdigest())
+
+
 def publication_gid(url: str):
     rec = re.compile(r"https?://(www\.)?")
     url = rec.sub("", url).strip()
@@ -86,5 +104,7 @@ gid_factories = {
     'DrugResponse': drugresponse_gid,
     'Callset': callset_gid,
     'Allele': allele_gid,
+    'GenomicFeature': genomic_feature_gid,
+    'G2pAssociation': g2p_association_gid,
     'Publication': publication_gid
 }

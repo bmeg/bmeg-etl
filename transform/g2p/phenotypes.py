@@ -1,5 +1,5 @@
 
-from bmeg.vertex import Phenotype
+from bmeg import Phenotype, Project
 
 # keep track of what we've already exported
 EXPORTED_PHENOTYPES = []
@@ -7,7 +7,9 @@ EXPORTED_PHENOTYPES = []
 
 def make_phenotype(term_id, term=None):
     """ return phenotype gid """
-    return Phenotype(term_id=term_id, term=term)
+    return Phenotype(term_id=term_id, term=term,
+                     submitter_id=Phenotype.make_gid(term_id),
+                     project_id=Project.make_gid("Reference"))
 
 
 def normalize(hit):

@@ -1,6 +1,7 @@
 
-from bmeg.vertex import Compound
+from bmeg import Compound, Project
 from bmeg.enrichers.drug_enricher import compound_factory
+
 # keep track of what we've already exported
 EXPORTED_COMPOUNDS = []
 
@@ -8,7 +9,11 @@ EXPORTED_COMPOUNDS = []
 def compound(environment):
     """ return compound gid """
     if 'term' in environment and environment.get('id', None):
-        return Compound(name=environment['description'], term=environment['term'], term_id=environment['id'])
+        return Compound(
+            name=environment['description'], term=environment['term'], term_id=environment['id'],
+            submitter_id=Compound.make_gid(environment['id']),
+            project_id=Project.make_gid("Reference"),
+        )
     else:
         return compound_factory(name=environment['description'])
 
