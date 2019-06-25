@@ -1,6 +1,6 @@
 """ given disease name, return Phenotype """
 
-from bmeg import Phenotype
+from bmeg import Phenotype, Project
 import urllib.parse
 import logging
 import re
@@ -24,7 +24,7 @@ def phenotype_factory(name):
                      term_id='TODO:{}'.format(name),
                      term='TODO',
                      name=name,
-                     project_id="Reference")
+                     project_id=Project.make_gid("Reference"))
 
 
 disease_alias = {}

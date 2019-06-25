@@ -1,6 +1,6 @@
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
-from bmeg import (Case, Case_Phenotypes_Phenotype)
+from bmeg import (Case, Project, Case_Phenotypes_Phenotype)
 from bmeg.enrichers.phenotype_enricher import phenotype_factory
 
 
@@ -16,6 +16,7 @@ def transform(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv",
 
     # Load sample metadata.
     case_gids = {}
+    emitted_phenotypes = {}
     # DepMap_ID,CCLE_Name,Aliases,COSMIC_ID,Sanger ID,Primary Disease,Subtype Disease,Gender,Source
     # ACH-000001,NIHOVCAR3_OVARY,NIH:OVCAR-3;OVCAR3,905933,2201,Ovarian Cancer,"Adenocarcinoma, high grade serous",Female,ATCC
     for row in reader:
@@ -30,7 +31,7 @@ def transform(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv",
             submitter_id=Case.make_gid(row["DepMap_ID"]),
             case_id=row["DepMap_ID"],
             cellline_attributes=props,
-            project_id=''
+            project_id=Project.make_gid('Shared')
         )
         if c.gid() not in case_gids:
             emitter.emit_vertex(c)
@@ -39,7 +40,9 @@ def transform(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv",
         phenotype_name = phenotypes.get(row["DepMap_ID"], None)
         if phenotype_name:
             pheno = phenotype_factory(phenotype_name)
-            emitter.emit_vertex(pheno)
+            if pheno.gid() not in emitted_phenotypes:
+                emitter.emit_vertex(pheno)
+                emitted_phenotypes[pheno.gid()] = None
             # case <-> phenotype edges
             emitter.emit_edge(
                 Case_Phenotypes_Phenotype(

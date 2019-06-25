@@ -3,7 +3,7 @@
 
 from glob import glob
 import bmeg.ioutils
-from bmeg import Callset, Gene
+from bmeg import Callset, Gene, Project
 from bmeg.emitter import new_emitter
 from bmeg.maf.maf_transform import get_value, MAFTransformer
 
@@ -66,7 +66,7 @@ class CCLE_MAFTransformer(MAFTransformer):
             submitter_id=Callset.make_gid("CCLE", tumor_aliquot_id, None),
             tumor_aliquot_id=tumor_aliquot_id,
             normal_aliquot_id=None,
-            project_id=project_id
+            project_id=Project.make_gid(project_id)
         )
         allele_call = (self.allele_call_maker(line, method), callset.gid())
         return [allele_call], [callset]

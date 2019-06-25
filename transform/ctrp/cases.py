@@ -72,6 +72,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
 
     emitted_celllines = {}
     emitted_projects = {}
+    emitted_phenotypes = {}
     for i in raw_ids:
         emit_cellline = False
         if i in celllines:
@@ -98,10 +99,9 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             )
             emitted_projects[proj.gid()] = None
 
-        # cellline cases belong to multiple projects so we leave project_id blank...
         c = Case(submitter_id=Case.make_gid(cellline_id),
                  case_id=cellline_id,
-                 project_id='')
+                 project_id=Project.make_gid('Shared'))
         if emit_cellline:
             emitter.emit_vertex(c)
             # case <-> project edges
@@ -138,7 +138,9 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         phenotype_name = phenotypes.get(cellline_id, None)
         if phenotype_name:
             pheno = phenotype_factory(phenotype_name)
-            emitter.emit_vertex(pheno)
+            if pheno.gid() not in emitted_phenotypes:
+                emitter.emit_vertex(pheno)
+                emitted_phenotypes[pheno.gid()] = None
             # case <-> phenotype edges
             emitter.emit_edge(
                 Case_Phenotypes_Phenotype(

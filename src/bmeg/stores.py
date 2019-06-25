@@ -148,7 +148,7 @@ class DataClassStore(KeyValueStore):
         return self.clazz(**obj)
 
     def put(self, obj):
-        """ get gid from dataclass"""        
+        """ get gid from dataclass"""
         return super().put(obj.gid(), obj)
 
     def all(self):

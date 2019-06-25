@@ -26,10 +26,6 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
 
     compound_df = pandas.read_table(metadrugPath)
     compound_df = compound_df.set_index("master_cpd_id")
-    for i, row in compound_df.iterrows():
-        cpd_name = row["cpd_name"]
-        compound = compound_factory(name=cpd_name)
-        emitter.emit_vertex(compound)
 
     ccl_df = pandas.read_table(metacelllinePath)
     ccl_df = ccl_df.set_index("master_ccl_id")
@@ -43,7 +39,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
     curve_df = pandas.read_table(curvePath)
     curve_df = curve_df.set_index(["experiment_id", "master_cpd_id"])
 
-    compound_gids = {}
+    emitted_compounds = {}
     project_compounds = {}
     for i, row in response_df.iterrows():
         exp_id = row["experiment_id"]
@@ -88,12 +84,11 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             emit_backref=True
         )
 
-        # create compound
+        # create an edge to compound
         compound = compound_factory(name=cpd_name)
-        if compound.gid() not in compound_gids:
+        if compound.gid() not in emitted_compounds:
             emitter.emit_vertex(compound)
-            compound_gids[compound.gid()] = None
-        # and an edge to it
+            emitted_compounds[compound.gid()] = None
         emitter.emit_edge(
             DrugResponse_Compounds_Compound(
                 from_gid=dr.gid(),

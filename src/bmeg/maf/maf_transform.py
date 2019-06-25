@@ -5,7 +5,7 @@ import csv
 import gzip
 import sys
 
-from bmeg import (Allele, Aliquot, Deadletter,
+from bmeg import (Allele, Aliquot, Deadletter, Project,
                   Callset_Aliquots_Aliquot,
                   Callset_Alleles_Allele,
                   Allele_Gene_Gene)
@@ -139,7 +139,7 @@ class MAFTransformer():
             allele_dict['start'], allele_dict['end'],
             allele_dict['reference_bases'], allele_dict['alternate_bases']
         )
-        allele_dict['project_id'] = 'Reference'
+        allele_dict['project_id'] = Project.make_gid('Reference')
         return Allele(**allele_dict)
 
     def multithreading(self, func, lines, max_workers):

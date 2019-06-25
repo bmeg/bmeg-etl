@@ -1,6 +1,6 @@
 """ drug name, return Compound """
 
-from bmeg import Compound
+from bmeg import Compound, Project
 from bmeg.requests import Client
 from bmeg.ioutils import read_tsv
 
@@ -34,7 +34,7 @@ def compound_factory(name):
                     term_id='TODO:{}'.format(name),
                     term='TODO',
                     name=name,
-                    project_id='Reference')
+                    project_id=Project.make_gid('Reference'))
 
 
 def _chunks(l, n):
