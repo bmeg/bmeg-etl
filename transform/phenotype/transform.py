@@ -6,7 +6,6 @@ from bmeg.util.logging import default_logging
 from bmeg.enrichers.phenotype_enricher import normalize
 from bmeg.stores import new_store
 
-import glob
 import logging
 import sys
 import ujson
