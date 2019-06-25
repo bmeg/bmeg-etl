@@ -11,29 +11,25 @@ import logging
 import sys
 import ujson
 
-DEFAULT_DIRECTORY = 'phenotype'
-
 
 def transform(
+    vertex_files,
+    edge_files,
     emitter_name="json",
-    output_dir="outputs",
-    emitter_directory=DEFAULT_DIRECTORY,
-    vertex_names="**/*Phenotype.Vertex.json*",
-    edge_names="**/*.Edge.json*",
+    emitter_directory="phenotype",
     store_path="source/phenotype/sqlite.db"
 ):
     batch_size = 1000
     phenotype_cache = {}
     dups = {}
     emitter = new_emitter(name=emitter_name, directory=emitter_directory, prefix='normalized')
-    path = '{}/{}'.format(output_dir, vertex_names)
-    files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
-    logging.info(files)
+
+    logging.info("vertex files:", edge_files)
     logging.info(store_path)
     store = new_store('key-val', path=store_path, index=True)
     store.index()  # default is no index
     c = t = e = 0
-    for file in files:
+    for file in vertex_files:
         logging.info(file)
         with reader(file) as ins:
             for line in ins:
@@ -99,19 +95,14 @@ def transform(
         logging.info('transforming read: {} errors: {}'.format(t, e))
 
     # get the edges
-    path = '{}/{}'.format(output_dir, edge_names)
-    files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
+    logging.info("edge files:", edge_files)
     c = t = e = 0
-    for file in files:
+    for file in edge_files:
         logging.info(file)
         with reader(file) as ins:
             for line in ins:
                 try:
                     edge = ujson.loads(line)
-                    if 'Phenotype:' not in edge['gid']:
-                        logging.info('Edge {} has no phenotypes that need transformation. skipping.'.format(file))
-                        break
-
                     # get edge components
                     label = edge['label']
                     from_ = edge['from']
@@ -148,6 +139,8 @@ def transform(
 
 if __name__ == '__main__':  # pragma: no cover
     parser = default_argument_parser()
+    parser.add_argument('--vertex_files', nargs='+', help='vertex list', required=True)
+    parser.add_argument('--edge_files', nargs='+', help='edge list', required=True)
     options = parser.parse_args(sys.argv[1:])
     default_logging(options.loglevel)
-    transform()
+    transform(vertex_files=options.vertex_files, edge_files=options.edge_files)

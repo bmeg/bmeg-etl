@@ -8,10 +8,23 @@ import shutil
 from transform.phenotype.transform import transform
 from bmeg.stores import new_store
 
+
 ALL_FILES = """
 normalized.Phenotype.Vertex.json.gz
 normalized.PhenotypeOf.Edge.json.gz
 normalized.HasPhenotype.Edge.json.gz
+""".strip().split()
+
+
+VERTEX_FILES = """
+ccle/Phenotype.Vertex.json
+g2p/Phenotype.Vertex.json
+""".strip().split()
+
+
+EDGE_FILES = """
+ccle/PhenotypeOf.Edge.json
+g2p/HasPhenotype.Edge.json
 """.strip().split()
 
 
@@ -27,7 +40,7 @@ def store_path(request):
     return os.path.join(request.fspath.dirname, 'source/phenotype/sqlite.db')
 
 
-def validate(helpers, output_dir, emitter_directory, store_path):
+def validate(helpers, emitter_directory, output_dir, store_path):
 
     all_files = [os.path.join(emitter_directory, f) for f in ALL_FILES]
 
@@ -37,7 +50,12 @@ def validate(helpers, output_dir, emitter_directory, store_path):
         os.remove(store_path)
 
     # create output
-    transform(output_dir=output_dir, emitter_directory=emitter_directory, store_path=store_path)
+    vertex_files = [os.path.join(output_dir, f) for f in VERTEX_FILES]
+    edge_files = [os.path.join(output_dir, f) for f in EDGE_FILES]
+    transform(vertex_files=vertex_files,
+              edge_files=edge_files,
+              emitter_directory=emitter_directory,
+              store_path=store_path)
 
     # check output
     phenotypes = all_files[0]
@@ -54,7 +72,7 @@ def validate(helpers, output_dir, emitter_directory, store_path):
     assert len([c for c in store.all()]) == 19, 'store should have 19 names'
 
 
-def test_simple(caplog, helpers, output_dir, emitter_directory, store_path):
+def test_simple(caplog, helpers, emitter_directory, output_dir, store_path):
     """ simple test """
     caplog.set_level(logging.DEBUG)
-    validate(helpers, output_dir, emitter_directory, store_path)
+    validate(helpers, emitter_directory, output_dir, store_path)

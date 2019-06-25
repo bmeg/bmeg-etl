@@ -12,7 +12,8 @@ import sys
 import ujson
 
 
-def transform(vertex_files, edge_files,
+def transform(vertex_files,
+              edge_files,
               emitter_name="json",
               emitter_directory="compound",
               store_path="source/compound/sqlite.db"):
@@ -54,6 +55,7 @@ def transform(vertex_files, edge_files,
                             store.put(compound['name'], compound)
                         else:
                             compound = stored_compound
+                            compound['submitter_id'] = Compound.make_gid(compound['term_id'])
                     else:
                         # we have a compound with a term already
                         compound['submitter_id'] = Compound.make_gid(compound['term_id'])
@@ -83,10 +85,6 @@ def transform(vertex_files, edge_files,
             for line in ins:
                 try:
                     edge = ujson.loads(line)
-                    if 'Compound:' not in edge['gid']:
-                        logging.info('Edge {} has no compounds that need transformation. skipping.'.format(file))
-                        break
-
                     # get edge components
                     label = edge['label']
                     from_ = edge['from']
