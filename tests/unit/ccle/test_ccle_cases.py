@@ -79,6 +79,7 @@ def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_pat
     # create output
     depmap_transform(
         path=cellline_meta_path,
+        phenotype_lookup_path=phenotype_lookup_path,
         emitter_prefix="depmap",
         emitter_directory=emitter_directory
     )

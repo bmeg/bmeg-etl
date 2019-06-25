@@ -22,7 +22,12 @@ def cellline_lookup_path(request):
     return os.path.join(request.fspath.dirname, 'source/ccle/cellline_lookup.tsv')
 
 
-def validate(helpers, emitter_directory, maf_file, cellline_lookup_path):
+@pytest.fixture
+def project_lookup_path(request):
+    return os.path.join(request.fspath.dirname, 'source/ccle/cellline_project_lookup.tsv')
+
+
+def validate(helpers, emitter_directory, maf_file, cellline_lookup_path, project_lookup_path):
     allele_file = os.path.join(emitter_directory, 'maf.Allele.Vertex.json.gz')
     callset_file = os.path.join(emitter_directory, 'maf.Callset.Vertex.json.gz')
 
@@ -41,6 +46,7 @@ def validate(helpers, emitter_directory, maf_file, cellline_lookup_path):
     transform(
         mafpath=maf_file,
         cellline_lookup_path=cellline_lookup_path,
+        project_lookup_path=project_lookup_path,
         emitter_directory=emitter_directory
     )
 
@@ -91,6 +97,6 @@ def validate(helpers, emitter_directory, maf_file, cellline_lookup_path):
     )
 
 
-def test_simple(helpers, emitter_directory, maf_file, cellline_lookup_path):
+def test_simple(helpers, emitter_directory, maf_file, cellline_lookup_path, project_lookup_path):
     """ simple test """
-    validate(helpers, emitter_directory, maf_file, cellline_lookup_path)
+    validate(helpers, emitter_directory, maf_file, cellline_lookup_path, project_lookup_path)

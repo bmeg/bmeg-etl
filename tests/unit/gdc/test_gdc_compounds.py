@@ -45,6 +45,7 @@ def validate(helpers, emitter_directory, compounds_path, id_lookup_path, project
 
     # create output
     transform(compounds=compounds_path,
+              id_lookup_path=id_lookup_path,
               project_lookup_path=project_lookup_path,
               emitter_prefix=None,
               emitter_directory=emitter_directory)
