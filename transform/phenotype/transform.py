@@ -63,6 +63,7 @@ def transform(
                             store.put(phenotype['name'], phenotype)
                         else:
                             phenotype = stored_phenotype
+                            phenotype['submitter_id'] = Phenotype.make_gid(phenotype['term_id'])
                     else:
                         if 'MONDO' not in phenotype['term_id']:
                             # we prefer MONDO
