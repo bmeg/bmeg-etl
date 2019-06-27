@@ -20,3 +20,4 @@ cache
 /state-journal
 /state-wal
 /cache
+/repos

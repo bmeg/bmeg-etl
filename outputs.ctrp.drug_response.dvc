@@ -1,4 +1,4 @@
-md5: b3eeaa43992f1562bb8b4f8a16ab482b
+md5: 354aa4c9fae4447208b06ff1825f6633
 cmd: python3 ./transform/ctrp/drug_response.py
 wdir: .
 deps:
@@ -17,7 +17,7 @@ deps:
 - md5: 33a8c30659874b027dda316f257e12e1
   path: source/ctrp/v20.data.per_cpd_post_qc.txt
 outs:
-- md5: 6499b1a3d430c255c5bb0fddfd566eca
+- md5: 4415ada218ba007f04170b0b4ff660a9
   path: outputs/ctrp/drug_response.Compound.Vertex.json.gz
   cache: true
   metric: false

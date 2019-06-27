@@ -1,4 +1,4 @@
-md5: f23656f8586f9018e438ebe9296e0235
+md5: 4c6095f2305aef01d38a4200569b9e5c
 cmd: python3 transform/ccle/ccle_maf_transform.py
 wdir: .
 deps:
@@ -3143,12 +3143,12 @@ deps:
 - md5: a339758e2a8edb9152251c24eaeceadd
   path: source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf
 outs:
-- md5: 650dd0e1c915ea273fef7508edd56566
+- md5: dda58ed69d387e570955bef0d5fb965e
   path: outputs/ccle/maf.Allele.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 99ecaa30886e8da8971d07c5c24421e6
+- md5: b1435f4a0cdfe18265da7146861cbb71
   path: outputs/ccle/maf.Callset.Vertex.json.gz
   cache: true
   metric: false
@@ -3163,7 +3163,7 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: 46ceb28f141bf30eacc578f196af05b9
+- md5: 725390036321d2e9a0ad8a2bd7e753cd
   path: outputs/ccle/maf.alleles.Edge.json.gz
   cache: true
   metric: false

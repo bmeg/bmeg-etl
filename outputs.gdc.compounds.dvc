@@ -1,11 +1,11 @@
-md5: c6764fc426ab495af1ee96d1b872941f
+md5: c0fb81583fb75d3b7c3d77bca1305d2c
 cmd: python3 transform/gdc/compounds.py
 wdir: .
 deps:
 - md5: 52c1659f52406869466253844f48fe1c.dir
   path: source/gdc/compounds
 outs:
-- md5: d78ce2275d77e20d73f9ea95ae539825
+- md5: bab1b1f19a029fadb01a6cd08f6bc8c0
   path: outputs/gdc/gdc.Compound.Vertex.json.gz
   cache: true
   metric: false

@@ -1,4 +1,4 @@
-md5: a3bdcb280e1504bac9fbb01d11dcffbf
+md5: 6a7b45dd067804dc8df172a6f431bf06
 cmd: python3 transform/ccle/ccle_drug_response.py
 wdir: .
 deps:
@@ -9,7 +9,7 @@ deps:
 - md5: 917f411573d5e68f9d61234e9e1bb539
   path: source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv
 outs:
-- md5: c9aa9c33fe35e024f58f42d08fb12732
+- md5: bb07a18d248ebec2f9039bd1fc437fdf
   path: outputs/ccle/drug_response.Compound.Vertex.json.gz
   cache: true
   metric: false

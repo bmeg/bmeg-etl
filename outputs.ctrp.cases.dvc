@@ -1,4 +1,4 @@
-md5: 71d0f791bb373e296fa98fd5dc322284
+md5: 71b3bc6e06eab901cda8d53286dfeea4
 cmd: python3 ./transform/ctrp/cases.py
 wdir: .
 deps:
@@ -29,7 +29,7 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: 2ea2f63a6f4edef8902bf199465f895d
+- md5: 3168e6ec9615bcd29835557ac6cf7873
   path: outputs/ctrp/ctrp.Case.Vertex.json.gz
   cache: true
   metric: false
@@ -44,7 +44,7 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: fd9a3f22e2f38f785820751c861490d3
+- md5: 83369be1eb64e24049ba2e85cbcca5b7
   path: outputs/ctrp/ctrp.Phenotype.Vertex.json.gz
   cache: true
   metric: false
