@@ -7,7 +7,7 @@ EXPORTED_ALLELES = []
 
 
 def allele(feature):
-    """ return compound gid """
+    """ return alle """
     params = {
         'genome': feature['referenceName'],
         'chromosome': feature['chromosome'],
@@ -17,7 +17,7 @@ def allele(feature):
         'alternate_bases': feature['alt'],
         'strand': '+',
         'hugo_symbol': feature.get('geneSymbol', None),
-        'submitter_id': Allele.make_gid(
+        'id': Allele.make_gid(
             feature['referenceName'], feature['chromosome'],
             feature['start'], feature['end'],
             feature['ref'], feature['alt']
@@ -28,7 +28,7 @@ def allele(feature):
 
 
 def genomic_feature(feature):
-    """ return compound gid """
+    """ return genomic feature """
     params = {
         'genome': feature.get('referenceName', None),
         'chromosome': feature.get('chromosome', None),
@@ -36,7 +36,7 @@ def genomic_feature(feature):
         'end': feature.get('end', None),
         'type': feature.get('biomarker_type', None),
         'name': feature.get('description', feature.get('name', None)),
-        'submitter_id': GenomicFeature.make_gid(
+        'id': GenomicFeature.make_gid(
             feature.get('referenceName', None), feature.get('chromosome', None),
             feature.get('start', None), feature.get('end', None),
             feature.get('biomarker_type', None), feature.get('name', None)

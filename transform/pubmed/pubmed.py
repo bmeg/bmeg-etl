@@ -80,7 +80,7 @@ def emit_pubmed(e, v, attrs, **kwds):
     if 'Abstract' in kwds['MedlineCitation']['Article']:
         abstract = kwds['MedlineCitation']['Article']['Abstract']['AbstractText']
     url = 'https://www.ncbi.nlm.nih.gov/pubmed/{}'.format(pmid)
-    out = Publication(submitter_id=Publication.make_gid(url),
+    out = Publication(id=Publication.make_gid(url),
                       url=url, title=title, abstract=abstract,
                       text="", date=date, author=author, citation=[],
                       project_id=Project.make_gid("Reference"))

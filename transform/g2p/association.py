@@ -15,7 +15,7 @@ def create_association(hit):
               'oncogenic', 'source_url']:
         association_parms[f] = association.get(f, None)
     return G2pAssociation(
-        submitter_id=G2pAssociation.make_gid(**association_parms),
+        id=G2pAssociation.make_gid(**association_parms),
         project_id=Project.make_gid("Reference"),
         **association_parms
     )

@@ -63,6 +63,15 @@ class BMEGDataDictionary(DataDictionary):
         self.schema.update(schemas)
 
 
+def validate(props, schema):
+    try:
+        jsonschema.validate(props, schema)
+    except jsonschema.ValidationError as e:
+        e.schema = "src/bmeg/bmeg-dictionary/gdcdictionary/schemas/{}.yaml".format(e.schema['id'])
+        raise e
+    return
+
+
 class ClassInstance:
 
     def __init__(self, **kwargs):
@@ -76,26 +85,28 @@ class ClassInstance:
 
     def props(self, preserve_null=False):
         data = self._props.copy()
+        remove = [k for k in self._schema["systemProperties"]]
         if not preserve_null:
-            remove = [k for k in data if data[k] is None]
-            for k in remove:
-                del data[k]
+            nulls = [k for k in data if data[k] is None and k not in remove]
+            remove += nulls
+        for k in remove:
+            del data[k]
         return data
 
     def schema(self):
         return self._schema
 
     def validate(self):
-        jsonschema.validate(self.props(), self.schema())
+        validate(self.props(), self.schema())
         return
 
     def label(self):
         return self.__class__.__name__
 
     def gid(self):
-        if not isinstance(self.submitter_id, self._gid_cls):
-            raise TypeError("expected submitter_id of type {}", self._gid_cls)
-        return self.submitter_id
+        if not isinstance(self.id, self._gid_cls):
+            raise TypeError("expected id of type {}", self._gid_cls)
+        return self.id
 
     def __repr__(self):
         return '<%s(%s)>' % (self.__class__.__name__,
@@ -225,18 +236,19 @@ for k, schema in _schema.schema.items():
         cls_name = "{}_{}_{}".format(src, capitalize(link['label']), target)
         cls = enforce_types(
             dataclasses.make_dataclass(
-                cls_name=link['label'],
+                cls_name=cls_name,
                 fields=[
                     ('from_gid', globals()[src]._gid_cls),
                     ('to_gid', globals()[target]._gid_cls),
+                    ('__label', str, dataclasses.field(default=link['label'], init=False)),
                     ('data', dict, dataclasses.field(default_factory=dict))
                 ],
                 bases=(Edge,),
                 namespace={
                     '_schema': edge_schema,
                     'schema': lambda self: self._schema,
-                    'validate': lambda self: jsonschema.validate(self.props(), self.schema()),
-                    'label': lambda self: self.__class__.__name__,
+                    'validate': lambda self: validate(self.props(), self.schema()),
+                    'label': lambda self: self.__label,
                     'props': get_edge_props
                 }
             )
@@ -250,18 +262,19 @@ for k, schema in _schema.schema.items():
         bkref = "{}_{}_{}".format(target, capitalize(link['backref']), src)
         bkref_cls = enforce_types(
             dataclasses.make_dataclass(
-                cls_name=link['backref'],
+                cls_name=bkref,
                 fields=[
                     ('from_gid', globals()[target]._gid_cls),
                     ('to_gid', globals()[src]._gid_cls),
+                    ('__label', str, dataclasses.field(default=link['backref'], init=False)),
                     ('data', dict, dataclasses.field(default_factory=dict))
                 ],
                 bases=(Edge,),
                 namespace={
                     '_schema': edge_schema,
                     'schema': lambda self: self._schema,
-                    'validate': lambda self: jsonschema.validate(self.props(), self.schema()),
-                    'label': lambda self: self.__class__.__name__,
+                    'validate': lambda self: validate(self.props(), self.schema()),
+                    'label': lambda self: self.__label,
                     'props': get_edge_props
                 }
             )

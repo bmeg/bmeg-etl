@@ -66,7 +66,7 @@ def transform(
                     dedup[to] = True
                     url = to.replace('Publication:', 'http://')
                     publication = Publication(
-                        submitter_id=Publication.make_gid(url),
+                        id=Publication.make_gid(url),
                         url=url,
                         project_id=Project.make_gid("Reference")
                     )

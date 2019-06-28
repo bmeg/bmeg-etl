@@ -52,7 +52,7 @@ def transform(input_path="source/gdc/cases.json",
             row = json.loads(row)
 
             # program
-            prog = Program(submitter_id=Program.make_gid(row["project"]["program"]["name"]),
+            prog = Program(id=Program.make_gid(row["project"]["program"]["name"]),
                            program_id=row["project"]["program"]["name"],
                            gdc_attributes=extract(row["project"]["program"], keep_program_fields))
             if prog.gid() not in programs:
@@ -60,7 +60,7 @@ def transform(input_path="source/gdc/cases.json",
                 programs[prog.gid()] = True
 
             # project
-            proj = Project(submitter_id=Project.make_gid(row["project"]["project_id"]),
+            proj = Project(id=Project.make_gid(row["project"]["project_id"]),
                            project_id=row["project"]["project_id"],
                            gdc_attributes=extract(row["project"], keep_project_fields))
             if proj.gid() not in projects:
@@ -77,7 +77,7 @@ def transform(input_path="source/gdc/cases.json",
             project_gid = proj.gid()
 
             # case
-            c = Case(submitter_id=Case.make_gid(row["id"]),
+            c = Case(id=Case.make_gid(row["id"]),
                      case_id=row["id"],
                      gdc_attributes=extract(row, keep_case_fields),
                      project_id=project_gid)
@@ -97,7 +97,7 @@ def transform(input_path="source/gdc/cases.json",
                 ["tumor_descriptor", "sample_type", "submitter_id"],
             )
             # sample
-            s = Sample(submitter_id=Sample.make_gid(sample["sample_id"]),
+            s = Sample(id=Sample.make_gid(sample["sample_id"]),
                        sample_id=sample["sample_id"],
                        gdc_attributes=sample_fields,
                        project_id=project_gid)
@@ -129,7 +129,7 @@ def transform(input_path="source/gdc/cases.json",
                         fields = dict(sample_fields)
                         fields.update(aliquot_fields)
                         # aliquot
-                        a = Aliquot(submitter_id=Aliquot.make_gid(aliquot["aliquot_id"]),
+                        a = Aliquot(id=Aliquot.make_gid(aliquot["aliquot_id"]),
                                     aliquot_id=aliquot["aliquot_id"],
                                     gdc_attributes=fields,
                                     project_id=project_gid)

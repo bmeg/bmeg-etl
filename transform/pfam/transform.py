@@ -77,7 +77,7 @@ def xml_transform(dom, emit):
         """
 
         out = PfamFamily(
-            submitter_id=PfamFamily.make_gid(pfam_acc),
+            id=PfamFamily.make_gid(pfam_acc),
             pfam_id=pfam_id,
             accession=pfam_acc,
             type=pfam_type,
@@ -122,7 +122,7 @@ def transform(pfam_xmls="source/pfam/*.xml",
     for line in tsv_in:
         # accession	id	description
         c = PfamClan(
-            submitter_id=PfamClan.make_gid(line["accession"]),
+            id=PfamClan.make_gid(line["accession"]),
             accession=line["accession"],
             clan_id=line["id"],
             description=line["description"],

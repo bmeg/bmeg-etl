@@ -11,7 +11,7 @@ def compound(environment):
     if 'term' in environment and environment.get('id', None):
         return Compound(
             name=environment['description'], term=environment['term'], term_id=environment['id'],
-            submitter_id=Compound.make_gid(environment['id']),
+            id=Compound.make_gid(environment['id']),
             project_id=Project.make_gid("Reference"),
         )
     else:

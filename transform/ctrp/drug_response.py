@@ -53,7 +53,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
 
         # Track drugs for project
         project_id = "CTRP_%s" % (projects.get(ccl_name, "Unknown"))
-        proj = Project(submitter_id=Project.make_gid(project_id),
+        proj = Project(id=Project.make_gid(project_id),
                        project_id=project_id)
         if proj.gid() not in project_compounds:
             project_compounds[proj.gid()] = {}
@@ -67,7 +67,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         resp = curve_sub["cpd_avg_pv"]
 
         # create drug response vertex
-        dr = DrugResponse(submitter_id=DrugResponse.make_gid("CTRP", ccl_name, cpd_name),
+        dr = DrugResponse(id=DrugResponse.make_gid("CTRP", ccl_name, cpd_name),
                           submitter_compound_id=cpd_name,
                           auc=auc,
                           ec50=ec50,
@@ -79,7 +79,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         emitter.emit_edge(
             DrugResponse_Aliquot_Aliquot(
                 from_gid=dr.gid(),
-                to_gid=Aliquot.make_gid("CTRP:%s:DrugResponse:%s" % (dr.submitter_id, dr.submitter_compound_id))
+                to_gid=Aliquot.make_gid("CTRP:%s:DrugResponse:%s" % (dr.id, dr.submitter_compound_id))
             ),
             emit_backref=True
         )

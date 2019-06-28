@@ -56,7 +56,7 @@ def transform(source_path,
 
     for aliquot_id, values in collect.items():
         t = TranscriptExpression(
-            submitter_id=TranscriptExpression.make_gid(aliquot_id),
+            id=TranscriptExpression.make_gid(aliquot_id),
             metric="TPM",
             method="Illumina Hiseq",
             values=values,
@@ -80,7 +80,7 @@ def transform(source_path,
                 geneValues[gene] = geneValues.get(gene, 0) + v
 
         g = GeneExpression(
-            submitter_id=GeneExpression.make_gid(aliquot_id),
+            id=GeneExpression.make_gid(aliquot_id),
             metric="GENE_TPM",
             method="Illumina Hiseq",
             values=geneValues,

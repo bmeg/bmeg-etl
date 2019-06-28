@@ -48,17 +48,17 @@ def transform(
                                 # no hits? set term and id to name
                                 phenotype['term'] = phenotype['name']
                                 phenotype['term_id'] = 'NO_ONTOLOGY~{}'.format(phenotype['term'])
-                                phenotype['submitter_id'] = Phenotype.make_gid('NO_ONTOLOGY~{}'.format(phenotype['term']))
+                                phenotype['id'] = Phenotype.make_gid('NO_ONTOLOGY~{}'.format(phenotype['term']))
                             else:
                                 # hits: set term and id to normalized term
                                 phenotype['term'] = ontology_terms[0]['label']
                                 phenotype['term_id'] = ontology_terms[0]['ontology_term']
-                                phenotype['submitter_id'] = Phenotype.make_gid(ontology_terms[0]['ontology_term'])
+                                phenotype['id'] = Phenotype.make_gid(ontology_terms[0]['ontology_term'])
                             # save it for next time
                             store.put(phenotype['name'], phenotype)
                         else:
                             phenotype = stored_phenotype
-                            phenotype['submitter_id'] = Phenotype.make_gid(phenotype['term_id'])
+                            phenotype['id'] = Phenotype.make_gid(phenotype['term_id'])
                     else:
                         if 'MONDO' not in phenotype['term_id']:
                             # we prefer MONDO
@@ -71,10 +71,10 @@ def transform(
                                     # hits: set term and id to normalized term
                                     phenotype['term'] = ontology_terms[0]['label']
                                     phenotype['term_id'] = ontology_terms[0]['ontology_term']
-                                    phenotype['submitter_id'] = Phenotype.make_gid(ontology_terms[0]['ontology_term'])
+                                    phenotype['id'] = Phenotype.make_gid(ontology_terms[0]['ontology_term'])
 
                         # we have a phenotype with a term already
-                        phenotype['submitter_id'] = Phenotype.make_gid(phenotype['term_id'])
+                        phenotype['id'] = Phenotype.make_gid(phenotype['term_id'])
                         store.put(phenotype.get('name', phenotype.get('term')), phenotype)
 
                     phenotype = Phenotype(**phenotype)

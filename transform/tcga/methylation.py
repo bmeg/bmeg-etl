@@ -66,7 +66,7 @@ def transform(source_path,
             # only emit probe vertices when processing the first file
             if i == 0:
                 p = MethylationProbe(
-                    submitter_id=MethylationProbe.make_gid(probe_id),
+                    id=MethylationProbe.make_gid(probe_id),
                     probe_id=probe_id,
                     target=symbol,
                     chromosome=row[chromosome_idx],
@@ -98,7 +98,7 @@ def transform(source_path,
 
         for aliquot_id, values in collect.items():
             m = Methylation(
-                submitter_id=Methylation.make_gid(aliquot_id),
+                id=Methylation.make_gid(aliquot_id),
                 metric="Methylation beta value",
                 method=prefix,
                 values=values,

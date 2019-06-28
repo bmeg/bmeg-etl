@@ -82,7 +82,7 @@ def transform(output_dir,
         for line in ins:
             try:
                 allele_dict = ujson.loads(line)['data']
-                allele_dict['submitter_id'] = Allele.make_gid(
+                allele_dict['id'] = Allele.make_gid(
                     allele_dict['genome'], allele_dict['chromosome'],
                     allele_dict['start'], allele_dict['end'],
                     allele_dict['reference_bases'], allele_dict['alternate_bases']

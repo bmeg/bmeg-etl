@@ -50,7 +50,7 @@ def transform(data_path='source/pfam/homo_sapiens.json',
                                 if pdb not in dedup:
                                     emitter.emit_vertex(
                                         ProteinStructure(
-                                            submitter_id=ProteinStructure.make_gid(pdb),
+                                            id=ProteinStructure.make_gid(pdb),
                                             structure_id=pdb,
                                             project_id=Project.make_gid("Reference")
                                         )

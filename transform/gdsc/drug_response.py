@@ -43,13 +43,13 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
 
             # Track drugs for project
             project_id = "GDSC_%s" % (projects.get(cellline_id, "Unknown"))
-            proj = Project(submitter_id=Project.make_gid(project_id),
+            proj = Project(id=Project.make_gid(project_id),
                            project_id=project_id)
             if proj.gid() not in project_compounds:
                 project_compounds[proj.gid()] = {}
 
             # create drug response vertex
-            dr = DrugResponse(submitter_id=DrugResponse.make_gid("GDSC", cellline_id, drug_name),
+            dr = DrugResponse(id=DrugResponse.make_gid("GDSC", cellline_id, drug_name),
                               submitter_compound_id=drug_name,
                               auc=auc_val if not pandas.isnull(auc_val) else None,
                               ic50=ic50_val if not pandas.isnull(ic50_val) else None,

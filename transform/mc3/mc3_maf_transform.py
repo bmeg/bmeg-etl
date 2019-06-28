@@ -75,7 +75,7 @@ class MC3_MAFTransformer(MAFTransformer):
         normal_aliquot_gid = self.barcode_to_aliquot_id(line['Matched_Norm_Sample_Barcode'])
         project_id = PROJECT_CONVERSION_TABLE.get(tumor_aliquot_gid, None)
         sample_callset = Callset(
-            submitter_id=Callset.make_gid("MC3", tumor_aliquot_gid, normal_aliquot_gid),
+            id=Callset.make_gid("MC3", tumor_aliquot_gid, normal_aliquot_gid),
             tumor_aliquot_id=tumor_aliquot_gid,
             normal_aliquot_id=normal_aliquot_gid,
             project_id=Project.make_gid(project_id)

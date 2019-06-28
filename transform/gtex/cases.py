@@ -22,7 +22,7 @@ def transform(cases_path="source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.tx
     samples = read_tsv(samples_path)
     cases = read_tsv(cases_path)
 
-    prog = Program(submitter_id=Program.make_gid("GTEx"),
+    prog = Program(id=Program.make_gid("GTEx"),
                    program_id="GTEx")
     emitter.emit_vertex(prog)
 
@@ -39,7 +39,7 @@ def transform(cases_path="source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.tx
 
         # project
         proj_name = "GTEx_{}".format(row["SMTS"])
-        proj = Project(submitter_id=Project.make_gid(proj_name),
+        proj = Project(id=Project.make_gid(proj_name),
                        project_id=proj_name)
         if proj.gid() not in project_ids:
             emitter.emit_vertex(proj)
@@ -55,7 +55,7 @@ def transform(cases_path="source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.tx
 
         # case
         c = Case(
-            submitter_id=Case.make_gid(case_id),
+            id=Case.make_gid(case_id),
             case_id=case_id,
             gtex_attributes=case_props[case_id],
             project_id=proj.gid()
@@ -74,7 +74,7 @@ def transform(cases_path="source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.tx
 
         # sample
         s = Sample(
-            submitter_id=Sample.make_gid(sample_id),
+            id=Sample.make_gid(sample_id),
             sample_id=sample_id,
             gtex_attributes=row,
             project_id=proj.gid()
@@ -99,7 +99,7 @@ def transform(cases_path="source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.tx
 
         # aliquot
         a = Aliquot(
-            submitter_id=Aliquot.make_gid(sample_id),
+            id=Aliquot.make_gid(sample_id),
             aliquot_id=sample_id,
             project_id=proj.gid()
         )

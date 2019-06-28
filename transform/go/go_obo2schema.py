@@ -68,7 +68,7 @@ def transform(obo_file="source/go/go.obo",
                 for i in rec['xref']:
                     xref.append(i.split(" ")[0])
             got = GeneOntologyTerm(
-                submitter_id=GeneOntologyTerm.make_gid(go_id),
+                id=GeneOntologyTerm.make_gid(go_id),
                 go_id=go_id,
                 name=go_name,
                 definition=go_definition,

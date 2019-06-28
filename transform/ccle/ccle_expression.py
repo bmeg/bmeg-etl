@@ -59,7 +59,7 @@ def transform_gene_tpm(path="source/ccle/CCLE_depMap_19Q1_TPM.csv",
     tmp_df.rename(columns=lambda x: re.search(r'\((ENSG.*)\)', x).group(1), inplace=True)
     for sample, values in tmp_df.iterrows():
         g = GeneExpression(
-            submitter_id=GeneExpression.make_gid("CCLE:%s" % (sample)),
+            id=GeneExpression.make_gid("CCLE:%s" % (sample)),
             metric="GENE_TPM",
             method="Unknown",
             values=values.to_dict(),
@@ -92,7 +92,7 @@ def transform_tpm(path="source/ccle/CCLE_depMap_19Q1_TPM_transcripts.csv",
     tmp_df.rename(columns=lambda x: re.search(r'\((ENST.*)\)', x).group(1), inplace=True)
     for sample, values in tmp_df.iterrows():
         t = TranscriptExpression(
-            submitter_id=TranscriptExpression.make_gid("CCLE:%s" % (sample)),
+            id=TranscriptExpression.make_gid("CCLE:%s" % (sample)),
             metric="TPM",
             method="Unknown",
             values=values.to_dict(),

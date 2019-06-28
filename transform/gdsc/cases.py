@@ -28,7 +28,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
-    prog = Program(submitter_id=Program.make_gid("GDSC"),
+    prog = Program(id=Program.make_gid("GDSC"),
                    program_id="GDSC")
     emitter.emit_vertex(prog)
 
@@ -63,7 +63,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             continue
 
         project_id = "GDSC_%s" % (projects.get(cellline_id, "Unknown"))
-        proj = Project(submitter_id=Project.make_gid(project_id), project_id=project_id)
+        proj = Project(id=Project.make_gid(project_id), project_id=project_id)
         if proj.gid() not in emitted_projects:
             emitter.emit_vertex(proj)
             emitter.emit_edge(
@@ -76,7 +76,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             emitted_projects[proj.gid()] = None
 
         # cellline cases belong to multiple projects so we leave project_id blank...
-        c = Case(submitter_id=Case.make_gid(cellline_id),
+        c = Case(id=Case.make_gid(cellline_id),
                  case_id=cellline_id,
                  project_id=Project.make_gid('Shared'))
         if emit_cellline:
@@ -91,7 +91,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             )
 
         sample_id = "GDSC:%s" % (cellline_id)
-        s = Sample(submitter_id=Sample.make_gid(sample_id),
+        s = Sample(id=Sample.make_gid(sample_id),
                    sample_id=sample_id,
                    project_id=proj.gid())
         emitter.emit_vertex(s)
@@ -138,7 +138,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         experiement_type = "DrugResponse"
         for drug in drugs:
             aliquot_id = "GDSC:%s:%s:%s" % (cellline_id, experiement_type, drug)
-            a = Aliquot(submitter_id=Aliquot.make_gid(aliquot_id),
+            a = Aliquot(id=Aliquot.make_gid(aliquot_id),
                         aliquot_id=aliquot_id,
                         project_id=proj.gid())
             emitter.emit_vertex(a)

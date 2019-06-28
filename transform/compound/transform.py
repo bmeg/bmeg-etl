@@ -45,20 +45,20 @@ def transform(vertex_files,
                                 # no hits? set term and id to name
                                 compound['term'] = compound['name']
                                 compound['term_id'] = 'NO_ONTOLOGY~{}'.format(compound['term'])
-                                compound['submitter_id'] = Compound.make_gid('NO_ONTOLOGY~{}'.format(compound['term']))
+                                compound['id'] = Compound.make_gid('NO_ONTOLOGY~{}'.format(compound['term']))
                             else:
                                 # hits: set term and id to normalized term
                                 compound['term'] = ontology_terms[0]['synonym']
                                 compound['term_id'] = ontology_terms[0]['ontology_term']
-                                compound['submitter_id'] = Compound.make_gid(ontology_terms[0]['ontology_term'])
+                                compound['id'] = Compound.make_gid(ontology_terms[0]['ontology_term'])
                             # save it for next time
                             store.put(compound['name'], compound)
                         else:
                             compound = stored_compound
-                            compound['submitter_id'] = Compound.make_gid(compound['term_id'])
+                            compound['id'] = Compound.make_gid(compound['term_id'])
                     else:
                         # we have a compound with a term already
-                        compound['submitter_id'] = Compound.make_gid(compound['term_id'])
+                        compound['id'] = Compound.make_gid(compound['term_id'])
                         store.put(compound['name'], compound)
 
                     compound = Compound(**compound)

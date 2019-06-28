@@ -55,7 +55,7 @@ def transform(source_path,
         aliquot_id = aliquot_lookup[aliquot_barcode]
         project_id = project_lookup[aliquot_barcode]
         cna = CopyNumberAlteration(
-            submitter_id=CopyNumberAlteration.make_gid(aliquot_id),
+            id=CopyNumberAlteration.make_gid(aliquot_id),
             method=method,
             values=values,
             project_id=Project.make_gid(project_id)

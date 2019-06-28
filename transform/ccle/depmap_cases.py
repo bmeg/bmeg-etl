@@ -28,7 +28,7 @@ def transform(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv",
             props["_".join(k.split())] = v
 
         c = Case(
-            submitter_id=Case.make_gid(row["DepMap_ID"]),
+            id=Case.make_gid(row["DepMap_ID"]),
             case_id=row["DepMap_ID"],
             cellline_attributes=props,
             project_id=Project.make_gid('Shared')

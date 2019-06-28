@@ -12,14 +12,13 @@ from bmeg.enrichers.drug_enricher import compound_factory
 
 
 NAMES = {
-    'CCLE Cell Line Name': 'submitter_id',
+    'CCLE Cell Line Name': 'id',
     # 'Primary Cell Line Name': 'primary_cell_line_name',
     'Compound': 'submitter_compound_id',
     # 'Target': 'target',
     'Doses (uM)': 'doses_um',
     'Activity Data (median)': 'activity_data_median',
     'Activity SD': 'activity_sd',
-    'Num Data': 'num_data',
     'FitType': 'fit_type',
     'EC50 (uM)': 'ec50',
     'IC50 (uM)': 'ic50',
@@ -41,7 +40,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
 
     # input and map
     input_stream = bmeg.ioutils.read_csv(drug_response_path)
-    floats = ['amax', 'act_area', 'ec50', 'ic50', 'num_data']
+    floats = ['amax', 'act_area', 'ec50', 'ic50']
     compound_gids = {}
 
     # read the drug response csv
@@ -64,17 +63,17 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
                 mline[v] = line[k]
         drug_response = SN(**mline)
 
-        i = drug_response.submitter_id
+        i = drug_response.id
         if i in celllines:
             cellline_id = celllines[i]
         elif i.split("_")[0] in celllines:
             cellline_id = celllines[i.split("_")[0]]
         else:
             cellline_id = i
-        drug_response.submitter_id = DrugResponse.make_gid("CCLE", cellline_id, drug_response.submitter_compound_id)
+        drug_response.id = DrugResponse.make_gid("CCLE", cellline_id, drug_response.submitter_compound_id)
 
         project_id = "CCLE_%s" % (projects.get(cellline_id, "Unknown"))
-        proj = Project(submitter_id=Project.make_gid(project_id),
+        proj = Project(id=Project.make_gid(project_id),
                        project_id=project_id)
         if proj.gid() not in project_compounds:
             project_compounds[proj.gid()] = {}
@@ -87,7 +86,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         emitter.emit_edge(
             DrugResponse_Aliquot_Aliquot(
                 from_gid=drug_resp.gid(),
-                to_gid=Aliquot.make_gid("CCLE:%s:DrugResponse:%s" % (drug_response.submitter_id, drug_response.submitter_compound_id))
+                to_gid=Aliquot.make_gid("CCLE:%s:DrugResponse:%s" % (drug_response.id, drug_response.submitter_compound_id))
             ),
             emit_backref=True
         )
