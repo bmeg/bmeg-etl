@@ -20,7 +20,8 @@ if not API_KEY:
 
 def phenotype_factory(name):
     """ create a stub compound for downstream normalization """
-    return Phenotype(submitter_id=Phenotype.make_gid('TODO:{}'.format(name)),
+    return Phenotype(id=Phenotype.make_gid('TODO:{}'.format(name)),
+                     submitter_id=name,
                      term_id='TODO:{}'.format(name),
                      term='TODO',
                      name=name,

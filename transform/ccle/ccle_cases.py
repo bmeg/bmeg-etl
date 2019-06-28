@@ -5,7 +5,7 @@ import pandas
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
 from bmeg import (Sample, Aliquot, Case, Project, Program,
-                  Aliquot_Sample_Sample,
+                  Aliquot_Samples_Sample,
                   Sample_Case_Case,
                   Case_Projects_Project,
                   Sample_Projects_Project,
@@ -31,6 +31,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
     prog = Program(id=Program.make_gid("CCLE"),
+                   submitter_id="CCLE",
                    program_id="CCLE")
     emitter.emit_vertex(prog)
 
@@ -61,21 +62,21 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
     emitted_celllines = {}
     emitted_projects = {}
     emitted_phenotypes = {}
-    for i in raw_ids:
-        emit_cellline = False
-        if i in celllines:
-            cellline_id = celllines[i]
-        elif i.split("_")[0] in celllines:
-            cellline_id = celllines[i.split("_")[0]]
+    for raw_id in raw_ids:
+        if raw_id in celllines:
+            cellline_id = celllines[raw_id]
+        elif raw_id.split("_")[0] in celllines:
+            cellline_id = celllines[raw_id.split("_")[0]]
         else:
-            emit_cellline = True
-            cellline_id = i
+            cellline_id = raw_id
 
         if cellline_id in emitted_celllines:
             continue
 
         project_id = "CCLE_%s" % (projects.get(cellline_id, "Unknown"))
-        proj = Project(id=Project.make_gid(project_id), project_id=project_id)
+        proj = Project(id=Project.make_gid(project_id),
+                       submitter_id=project_id,
+                       project_id=project_id)
         if proj.gid() not in emitted_projects:
             emitter.emit_vertex(proj)
             emitter.emit_edge(
@@ -88,22 +89,23 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             emitted_projects[proj.gid()] = None
 
         c = Case(id=Case.make_gid(cellline_id),
+                 submitter_id=raw_id,
                  case_id=cellline_id,
-                 project_id=Project.make_gid('Shared'))
-        if emit_cellline:
-            emitter.emit_vertex(c)
-            # case <-> project edges
-            emitter.emit_edge(
-                Case_Projects_Project(
-                    from_gid=c.gid(),
-                    to_gid=proj.gid()
-                ),
-                emit_backref=True
-            )
+                 project_id=proj.gid())
+        emitter.emit_vertex(c)
+        # case <-> project edges
+        emitter.emit_edge(
+            Case_Projects_Project(
+                from_gid=c.gid(),
+                to_gid=proj.gid()
+            ),
+            emit_backref=True
+        )
 
         sample_id = "CCLE:%s" % (cellline_id)
         s = Sample(id=Sample.make_gid(sample_id),
-                   sample_id=sample_id,
+                   submitter_id=raw_id,
+                   sample_id=cellline_id,
                    project_id=proj.gid())
         emitter.emit_vertex(s)
         # sample <-> case edges
@@ -151,7 +153,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             emitter.emit_vertex(a)
             # aliquot <-> sample edges
             emitter.emit_edge(
-                Aliquot_Sample_Sample(
+                Aliquot_Samples_Sample(
                     from_gid=a.gid(),
                     to_gid=s.gid()
                 ),
@@ -169,16 +171,18 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
 
         for experiement_type in ["DrugResponse", "TranscriptExpression", "GeneExpression", "Callset"]:
             if experiement_type == "DrugResponse":
-                for drug in drugs.get(i, []):
+                for drug in drugs.get(raw_id, []):
                     aliquot_id = "CCLE:%s:%s:%s" % (cellline_id, experiement_type, drug)
                     a = Aliquot(id=Aliquot.make_gid(aliquot_id),
-                                aliquot_id=aliquot_id,
+                                submitter_id=raw_id,
+                                aliquot_id=cellline_id,
                                 project_id=proj.gid())
                     emit_aliquot(emitter, a, s, proj)
             else:
                 aliquot_id = "CCLE:%s:%s" % (cellline_id, experiement_type)
                 a = Aliquot(id=Aliquot.make_gid(aliquot_id),
-                            aliquot_id=aliquot_id,
+                            submitter_id=raw_id,
+                            aliquot_id=cellline_id,
                             project_id=proj.gid())
                 emit_aliquot(emitter, a, s, proj)
 

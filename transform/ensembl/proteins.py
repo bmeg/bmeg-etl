@@ -29,6 +29,7 @@ def transform(protein_table_path='source/ensembl/Homo_sapiens.GRCh37.85.uniprot.
 
         if protein_id != "-" and protein_id not in emitted_proteins:
             p = Protein(id=Protein.make_gid(protein_id),
+                        submitter_id=protein_id,
                         protein_id=protein_id,
                         uniprot_id=uniprot_id,
                         genome=GENOME_BUILD,

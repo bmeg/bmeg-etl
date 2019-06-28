@@ -27,6 +27,8 @@ def transform_rpkm(path="source/depmap/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct
         # use broad suffix  "QGP1_PANCREAS (ACH-000347)" -> "ACH-000347"
         sample = sample.split()[1].replace('(', '').replace(')', '')
         g = GeneExpression(
+            id=GeneExpression.make_gid("CCLE:%s" % (sample)),
+            submitter_id=GeneExpression.make_gid("CCLE:%s" % (sample)),
             metric="RPKM",
             method="Unknown",
             values=values,
@@ -60,7 +62,8 @@ def transform_gene_tpm(path="source/ccle/CCLE_depMap_19Q1_TPM.csv",
     for sample, values in tmp_df.iterrows():
         g = GeneExpression(
             id=GeneExpression.make_gid("CCLE:%s" % (sample)),
-            metric="GENE_TPM",
+            submitter_id=GeneExpression.make_gid("CCLE:%s" % (sample)),
+            metric="TPM",
             method="Unknown",
             values=values.to_dict(),
             project_id=Project.make_gid("CCLE_%s" % (projects.get(sample, "Unknown")))
@@ -93,6 +96,7 @@ def transform_tpm(path="source/ccle/CCLE_depMap_19Q1_TPM_transcripts.csv",
     for sample, values in tmp_df.iterrows():
         t = TranscriptExpression(
             id=TranscriptExpression.make_gid("CCLE:%s" % (sample)),
+            submitter_id=TranscriptExpression.make_gid("CCLE:%s" % (sample)),
             metric="TPM",
             method="Unknown",
             values=values.to_dict(),

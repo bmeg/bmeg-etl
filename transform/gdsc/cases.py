@@ -29,6 +29,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
     prog = Program(id=Program.make_gid("GDSC"),
+                   submitter_id="GDSC",
                    program_id="GDSC")
     emitter.emit_vertex(prog)
 
@@ -40,7 +41,6 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
     emitted_projects = {}
     emitted_phenotypes = {}
     for i, row in cells_df.iterrows():
-        emit_cellline = False
         cosmic = row.get("COSMIC identifier")
         if pandas.isnull(cosmic):
             cosmic = None
@@ -54,7 +54,6 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             cellline_id = celllines[str(row["Sample Name"]).replace("-", "").replace("/", "").upper()]
         else:
             cellline_id = str(row["Sample Name"])
-            emit_cellline = True
 
         if cellline_id == "TOTAL:":
             continue
@@ -63,7 +62,9 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             continue
 
         project_id = "GDSC_%s" % (projects.get(cellline_id, "Unknown"))
-        proj = Project(id=Project.make_gid(project_id), project_id=project_id)
+        proj = Project(id=Project.make_gid(project_id),
+                       submitter_id=project_id,
+                       project_id=project_id)
         if proj.gid() not in emitted_projects:
             emitter.emit_vertex(proj)
             emitter.emit_edge(
@@ -77,22 +78,23 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
 
         # cellline cases belong to multiple projects so we leave project_id blank...
         c = Case(id=Case.make_gid(cellline_id),
+                 submitter_id=str(row["Sample Name"]),
                  case_id=cellline_id,
-                 project_id=Project.make_gid('Shared'))
-        if emit_cellline:
-            emitter.emit_vertex(c)
-            # case <-> project edges
-            emitter.emit_edge(
-                Case_Projects_Project(
-                    from_gid=c.gid(),
-                    to_gid=proj.gid()
-                ),
-                emit_backref=True
-            )
+                 project_id=proj.gid())
+        emitter.emit_vertex(c)
+        # case <-> project edges
+        emitter.emit_edge(
+            Case_Projects_Project(
+                from_gid=c.gid(),
+                to_gid=proj.gid()
+            ),
+            emit_backref=True
+        )
 
         sample_id = "GDSC:%s" % (cellline_id)
         s = Sample(id=Sample.make_gid(sample_id),
-                   sample_id=sample_id,
+                   submitter_id=str(row["Sample Name"]),
+                   sample_id=cellline_id,
                    project_id=proj.gid())
         emitter.emit_vertex(s)
         # sample <-> case edges
@@ -139,7 +141,8 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         for drug in drugs:
             aliquot_id = "GDSC:%s:%s:%s" % (cellline_id, experiement_type, drug)
             a = Aliquot(id=Aliquot.make_gid(aliquot_id),
-                        aliquot_id=aliquot_id,
+                        submitter_id=str(row["Sample Name"]),
+                        aliquot_id=cellline_id,
                         project_id=proj.gid())
             emitter.emit_vertex(a)
             # aliquot <-> sample edges

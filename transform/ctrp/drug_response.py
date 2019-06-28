@@ -68,6 +68,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
 
         # create drug response vertex
         dr = DrugResponse(id=DrugResponse.make_gid("CTRP", ccl_name, cpd_name),
+                          submitter_id=DrugResponse.make_gid("CTRP", ccl_name, cpd_name),
                           submitter_compound_id=cpd_name,
                           auc=auc,
                           ec50=ec50,

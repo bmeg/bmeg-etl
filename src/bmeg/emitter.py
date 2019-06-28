@@ -158,7 +158,7 @@ class FileHandler:
         atexit.register(self.close)
 
     def __getitem__(self, obj):
-        label = obj.label()
+        label = obj.__class__.__name__
 
         if isinstance(obj, Vertex):
             suffix = "Vertex"

@@ -134,11 +134,12 @@ class MAFTransformer():
     def allele_maker(self, line):
         """ worker task to create and/or harvest allele from line """
         allele_dict = self.create_allele_dict(line)
-        allele_dict['submitter_id'] = Allele.make_gid(
+        allele_dict['id'] = Allele.make_gid(
             allele_dict['genome'], allele_dict['chromosome'],
             allele_dict['start'], allele_dict['end'],
             allele_dict['reference_bases'], allele_dict['alternate_bases']
         )
+        allele_dict['submitter_id'] = allele_dict['id'].strip("Allele:")
         allele_dict['project_id'] = Project.make_gid('Reference')
         return Allele(**allele_dict)
 

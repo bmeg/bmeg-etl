@@ -85,7 +85,7 @@ class ClassInstance:
 
     def props(self, preserve_null=False):
         data = self._props.copy()
-        remove = [k for k in self._schema["systemProperties"]]
+        remove = ["id"]
         if not preserve_null:
             nulls = [k for k in data if data[k] is None and k not in remove]
             remove += nulls
@@ -128,7 +128,10 @@ class ClassInstance:
 
 
 def capitalize(label):
-    return "".join([(lambda x: x[0].upper() + x[1:])(x) for x in re.split("_| +", label)])
+    label = "".join([(lambda x: x[0].upper() + x[1:])(x) for x in re.split("_| +", label)])
+    if label.startswith("G2p"):
+        label = "G2PAssoctiaion"
+    return label
 
 
 class Vertex:

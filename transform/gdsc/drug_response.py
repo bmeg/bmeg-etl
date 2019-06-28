@@ -50,6 +50,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
 
             # create drug response vertex
             dr = DrugResponse(id=DrugResponse.make_gid("GDSC", cellline_id, drug_name),
+                              submitter_id=DrugResponse.make_gid("GDSC", cellline_id, drug_name),
                               submitter_compound_id=drug_name,
                               auc=auc_val if not pandas.isnull(auc_val) else None,
                               ic50=ic50_val if not pandas.isnull(ic50_val) else None,

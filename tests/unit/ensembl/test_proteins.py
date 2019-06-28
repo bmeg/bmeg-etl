@@ -14,8 +14,8 @@ def protein_table_path(request):
 
 def test_simple(helpers, emitter_directory, protein_table_path):
     protein_file = os.path.join(emitter_directory, 'Protein.Vertex.json.gz')
-    transcript_edge_file = os.path.join(emitter_directory, 'transcript.Edge.json.gz')
-    protein_edge_file = os.path.join(emitter_directory, 'protein.Edge.json.gz')
+    tpp_edge_file = os.path.join(emitter_directory, 'Transcript_Protein_Protein.Edge.json.gz')
+    ptt_edge_file = os.path.join(emitter_directory, 'Protein_Transcript_Transcript.Edge.json.gz')
 
     # remove output
     with contextlib.suppress(FileNotFoundError):
@@ -24,6 +24,7 @@ def test_simple(helpers, emitter_directory, protein_table_path):
     transform(protein_table_path=protein_table_path, emitter_directory=emitter_directory)
 
     helpers.assert_vertex_file_valid(protein_file)
-    helpers.assert_edge_file_valid(transcript_edge_file)
-    helpers.assert_edge_file_valid(protein_edge_file)
-    helpers.assert_edge_joins_valid([protein_file, protein_edge_file, transcript_edge_file], exclude_labels=['Transcript'])
+    helpers.assert_edge_file_valid(tpp_edge_file)
+    helpers.assert_edge_file_valid(ptt_edge_file)
+    helpers.assert_edge_joins_valid([protein_file, tpp_edge_file, ptt_edge_file],
+                                    exclude_labels=['Transcript'])

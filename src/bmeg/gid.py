@@ -43,8 +43,8 @@ def drugresponse_gid(source: str, submitter_id: str, compound_id: str):
     return "DrugResponse:{}:{}:{}".format(source, submitter_id, compound_id)
 
 
-def callset_gid(source: str, tumor_aliquot_id: str, normal_aliquot_id: str):
-    return "Callset:{}:{}:{}".format(source, tumor_aliquot_id, normal_aliquot_id)
+def somatic_callset_gid(source: str, tumor_aliquot_id: str, normal_aliquot_id: str):
+    return "SomaticCallset:{}:{}:{}".format(source, tumor_aliquot_id, normal_aliquot_id)
 
 
 def allele_gid(genome: str, chromosome: str, start: int, end: int,
@@ -76,7 +76,7 @@ def g2p_association_gid(source: str, description: str, evidence_label: str, resp
     a = [p for p in [source, description, evidence_label, response_type, oncogenic, source_document, source_url] if p]
     m = hashlib.sha1()
     m.update(':'.join(a).encode('utf-8'))
-    return "G2pAssociation:{}".format(m.hexdigest())
+    return "G2PAssociation:{}".format(m.hexdigest())
 
 
 def publication_gid(url: str):
@@ -102,9 +102,9 @@ gid_factories = {
     'Protein': protein_gid,
     'Exon': exon_gid,
     'DrugResponse': drugresponse_gid,
-    'Callset': callset_gid,
+    'SomaticCallset': somatic_callset_gid,
     'Allele': allele_gid,
     'GenomicFeature': genomic_feature_gid,
-    'G2pAssociation': g2p_association_gid,
+    'G2PAssociation': g2p_association_gid,
     'Publication': publication_gid
 }
