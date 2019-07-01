@@ -63,14 +63,14 @@ def validate(helpers, maf_file, emitter_directory, id_lookup_path, project_looku
     callset_file = os.path.join(emitter_directory, 'Callset.Vertex.json.gz')
     # deadletter_file = os.path.join(emitter_directory, 'Deadletter.Vertex.json.gz')
 
-    callsets_edge_file = os.path.join(emitter_directory, 'callsets.Edge.json.gz')
-    aliquots_edge_file = os.path.join(emitter_directory, 'aliquots.Edge.json.gz')
-    alleles_edge_file = os.path.join(emitter_directory, 'alleles.Edge.json.gz')
+    aliquot_callset_edge_file = os.path.join(emitter_directory, 'Aliquot_Callsets_Callset.Edge.json.gz')
+    callset_aliquot_edge_file = os.path.join(emitter_directory, 'Callset_Aliquots_Aliquot.Edge.json.gz')
+    allele_callset_edge_file = os.path.join(emitter_directory, 'Allele_Callsets_Callset.Edge.json.gz')
+    callset_allele_edge_file = os.path.join(emitter_directory, 'Callset_Alleles_Allele.Edge.json.gz')
 
-    all_files = [
-        allele_file, callset_file,  # deadletter_file,
-        callsets_edge_file, aliquots_edge_file, alleles_edge_file
-    ]
+    all_files = [allele_file, callset_file,
+                 aliquot_callset_edge_file, callset_aliquot_edge_file,
+                 allele_callset_edge_file, callset_allele_edge_file]
 
     # remove output
     with contextlib.suppress(FileNotFoundError):
@@ -96,7 +96,7 @@ def validate(helpers, maf_file, emitter_directory, id_lookup_path, project_looku
     )
 
     # test alleles edge contents
-    with reader(alleles_edge_file) as f:
+    with reader(allele_callset_edge_file) as f:
         for line in f:
             # should be json
             allelecall = json.loads(line)
@@ -133,7 +133,7 @@ def validate(helpers, maf_file, emitter_directory, id_lookup_path, project_looku
             assert 'Aliquot:' not in callset['data']['normal_aliquot_id'], 'normal_aliquot_id should not have Aliquot gid'
 
     # check callsetfor
-    with reader(aliquots_edge_file) as f:
+    with reader(aliquot_callset_edge_file) as f:
         for line in f:
             # should be json
             callsetfor = json.loads(line)

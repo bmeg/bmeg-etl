@@ -25,13 +25,13 @@ def validate(helpers, emitter_directory, gene_tpm_file, tpm_file, project_lookup
     gene_expression_file = os.path.join(emitter_directory, 'GeneExpression.Vertex.json.gz')
     transcript_expression_file = os.path.join(emitter_directory, 'TranscriptExpression.Vertex.json.gz')
 
-    gene_expressions_edge_file = os.path.join(emitter_directory, 'gene_expressions.Edge.json.gz')
-    transcript_expressions_edge_file = os.path.join(emitter_directory, 'transcript_expressions.Edge.json.gz')
-    aliquot_edge_file = os.path.join(emitter_directory, 'aliquot.Edge.json.gz')
+    agg_edge_file = os.path.join(emitter_directory, 'Aliquot_GeneExpressions_GeneExpression.Edge.json.gz')
+    gaa_edge_file = os.path.join(emitter_directory, 'GeneExpression_Aliquot_Aliquot.Edge.json.gz')
+    att_edge_file = os.path.join(emitter_directory, 'Aliquot_TranscriptExpressions_TranscriptExpression.Edge.json.gz')
+    taa_edge_file = os.path.join(emitter_directory, 'TranscriptExpression_Aliquot_Aliquot.Edge.json.gz')
 
     all_files = [gene_expression_file, transcript_expression_file,
-                 gene_expressions_edge_file, transcript_expressions_edge_file,
-                 aliquot_edge_file]
+                 agg_edge_file, gaa_edge_file, att_edge_file, taa_edge_file]
 
     # remove output
     with contextlib.suppress(FileNotFoundError):

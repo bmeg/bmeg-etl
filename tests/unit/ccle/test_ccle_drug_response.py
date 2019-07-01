@@ -25,15 +25,17 @@ def validate(helpers, emitter_directory, cellline_lookup_path, project_lookup_pa
     drug_response_file = os.path.join(emitter_directory, 'drug_response.DrugResponse.Vertex.json.gz')
     compound_file = os.path.join(emitter_directory, 'drug_response.Compound.Vertex.json.gz')
 
-    drug_responses_edge_file = os.path.join(emitter_directory, 'drug_response.drug_responses.Edge.json.gz')
-    drug_response_edge_file = os.path.join(emitter_directory, 'drug_response.drug_response.Edge.json.gz')
-    compounds_edge_file = os.path.join(emitter_directory, 'drug_response.compounds.Edge.json.gz')
-    projects_edge_file = os.path.join(emitter_directory, 'drug_response.projects.Edge.json.gz')
+    add_edge_file = os.path.join(emitter_directory, 'drug_response.Aliquot_DrugResponse_DrugResponse.Edge.json.gz')
+    daa_edge_file = os.path.join(emitter_directory, 'drug_response.DrugResponse_Aliquot_Aliquot.Edge.json.gz')
+    dcc_edge_file = os.path.join(emitter_directory, 'drug_response.DrugResponse_Compounds_Compound.Edge.json.gz')
+    cdd_edge_file = os.path.join(emitter_directory, 'drug_response.Compound_DrugResponses_DrugResponse.Edge.json.gz')
+    pcc_edge_file = os.path.join(emitter_directory, 'drug_response.Project_Compounds_Compound.Edge.json.gz')
+    cpp_edge_file = os.path.join(emitter_directory, 'drug_response.Compound_Projects_Project.Edge.json.gz')
 
     all_files = [
         drug_response_file, compound_file,
-        drug_responses_edge_file, drug_response_edge_file,
-        compounds_edge_file, projects_edge_file
+        add_edge_file, daa_edge_file, dcc_edge_file, cdd_edge_file,
+        pcc_edge_file, cpp_edge_file
     ]
 
     # remove output

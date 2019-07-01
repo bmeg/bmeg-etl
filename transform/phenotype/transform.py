@@ -1,19 +1,23 @@
-from bmeg import Phenotype, GenericEdge
 from bmeg.emitter import new_emitter
 from bmeg.ioutils import reader
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
 from bmeg.enrichers.phenotype_enricher import normalize
 from bmeg.stores import new_store
+from bmeg import *
 
 import logging
+import glob
+import os
+import re
 import sys
 import ujson
 
 
 def transform(
-    vertex_files,
-    edge_files,
+    vertex_names="**/*Phenotype.Vertex.json*",
+    edge_names="**/*Phenotype*.Edge.json*",
+    output_dir="outputs",
     emitter_name="json",
     emitter_directory="phenotype",
     store_path="source/phenotype/sqlite.db"
@@ -23,10 +27,14 @@ def transform(
     dups = {}
     emitter = new_emitter(name=emitter_name, directory=emitter_directory, prefix='normalized')
 
-    logging.info("vertex files:", edge_files)
+    path = '{}/{}'.format(output_dir, vertex_names)
+    vertex_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
+    logging.info(vertex_files)
+
     logging.info(store_path)
     store = new_store('key-val', path=store_path, index=True)
     store.index()  # default is no index
+
     c = t = e = 0
     for file in vertex_files:
         logging.info(file)
@@ -94,7 +102,9 @@ def transform(
         logging.info('transforming read: {} errors: {}'.format(t, e))
 
     # get the edges
-    logging.info("edge files:", edge_files)
+    path = '{}/{}'.format(output_dir, edge_names)
+    edge_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
+    logging.info(edge_files)
     c = t = e = 0
     for file in edge_files:
         logging.info(file)
@@ -102,8 +112,11 @@ def transform(
             for line in ins:
                 try:
                     edge = ujson.loads(line)
+                    if 'Phenotype:' not in edge['gid']:
+                        logging.info('Edge {} has no phenotypes that need transformation. skipping.'.format(file))
+                        break
+
                     # get edge components
-                    label = edge['label']
                     from_ = edge['from']
                     to = edge['to']
                     data = edge['data']
@@ -114,11 +127,16 @@ def transform(
                     if from_ in phenotype_cache:
                         from_ = phenotype_cache[from_].gid()
 
+                    etype = re.sub(".Edge.json.*", "", os.path.basename(file)).split(".")[-1]
+                    from_label, edge_label, to_label = etype.split("_")
+                    from_cls = globals()[from_label]
+                    to_cls = globals()[to_label]
+                    edge_cls = globals()[etype]
+
                     emitter.emit_edge(
-                        GenericEdge(
-                            from_gid=from_,
-                            to_gid=to,
-                            edge_label=label,
+                        edge_cls(
+                            from_gid=from_cls._gid_cls(from_),
+                            to_gid=to_cls._gid_cls(to),
                             data=data
                         )
                     )

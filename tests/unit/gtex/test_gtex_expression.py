@@ -20,11 +20,10 @@ def validate(helpers, emitter_directory, gct_file, project_lookup_path):
     """ run xform and test results"""
     gene_expression_file = os.path.join(emitter_directory, 'GeneExpression.Vertex.json.gz')
 
-    gene_expressions_edge_file = os.path.join(emitter_directory, 'gene_expressions.Edge.json.gz')
-    aliquot_edge_file = os.path.join(emitter_directory, 'aliquot.Edge.json.gz')
+    agg_edge_file = os.path.join(emitter_directory, 'Aliquot_GeneExpressions_GeneExpression.Edge.json.gz')
+    gaa_edge_file = os.path.join(emitter_directory, 'GeneExpression_Aliquot_Aliquot.Edge.json.gz')
 
-    all_files = [gene_expression_file,
-                 gene_expressions_edge_file, aliquot_edge_file]
+    all_files = [gene_expression_file, agg_edge_file, gaa_edge_file]
 
     # remove output
     with contextlib.suppress(FileNotFoundError):

@@ -11,20 +11,8 @@ from bmeg.stores import new_store
 
 ALL_FILES = """
 normalized.Phenotype.Vertex.json.gz
-normalized.PhenotypeOf.Edge.json.gz
-normalized.HasPhenotype.Edge.json.gz
-""".strip().split()
-
-
-VERTEX_FILES = """
-ccle/Phenotype.Vertex.json
-g2p/Phenotype.Vertex.json
-""".strip().split()
-
-
-EDGE_FILES = """
-ccle/PhenotypeOf.Edge.json
-g2p/HasPhenotype.Edge.json
+normalized.Sample_Phenotypes_Phenotype.Edge.json.gz
+normalized.G2PAssociation_Phenotypes_Phenotype.Edge.json.gz
 """.strip().split()
 
 
@@ -50,10 +38,7 @@ def validate(helpers, emitter_directory, output_dir, store_path):
         os.remove(store_path)
 
     # create output
-    vertex_files = [os.path.join(output_dir, f) for f in VERTEX_FILES]
-    edge_files = [os.path.join(output_dir, f) for f in EDGE_FILES]
-    transform(vertex_files=vertex_files,
-              edge_files=edge_files,
+    transform(output_dir=output_dir,
               emitter_directory=emitter_directory,
               store_path=store_path)
 
@@ -65,7 +50,7 @@ def validate(helpers, emitter_directory, output_dir, store_path):
     helpers.assert_edge_file_valid(phenotype_of)
     helpers.assert_edge_file_valid(has_phenotype)
     # validate vertex for all edges exist
-    helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot', 'G2PAssociation'])
+    helpers.assert_edge_joins_valid(all_files, exclude_labels=['Sample', 'G2PAssociation'])
 
     # ensure the store was created
     store = new_store('key-val', path=store_path)

@@ -33,13 +33,15 @@ def source_wildcard(request):
 def validate(helpers, source_path, id_map_file, gene_map_file, emitter_directory):
     """ run xform and test results"""
     gene_expression_file = os.path.join(emitter_directory, 'ACC.GeneExpression.Vertex.json.gz')
-    gene_expressions_edge_file = os.path.join(emitter_directory, 'ACC.gene_expressions.Edge.json.gz')
     transcript_expression_file = os.path.join(emitter_directory, 'ACC.TranscriptExpression.Vertex.json.gz')
-    transcript_expressions_edge_file = os.path.join(emitter_directory, 'ACC.transcript_expressions.Edge.json.gz')
-    aliquot_edge_file = os.path.join(emitter_directory, 'ACC.aliquot.Edge.json.gz')
+
+    agg_edge_file = os.path.join(emitter_directory, 'ACC.Aliquot_GeneExpressions_GeneExpression.Edge.json.gz')
+    gaa_edge_file = os.path.join(emitter_directory, 'ACC.GeneExpression_Aliquot_Aliquot.Edge.json.gz')
+    att_edge_file = os.path.join(emitter_directory, 'ACC.Aliquot_TranscriptExpressions_TranscriptExpression.Edge.json.gz')
+    taa_edge_file = os.path.join(emitter_directory, 'ACC.TranscriptExpression_Aliquot_Aliquot.Edge.json.gz')
 
     all_files = [gene_expression_file, transcript_expression_file,
-                 gene_expressions_edge_file, transcript_expressions_edge_file, aliquot_edge_file]
+                 agg_edge_file, gaa_edge_file, att_edge_file, taa_edge_file]
 
     # remove output
     with contextlib.suppress(FileNotFoundError):

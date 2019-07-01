@@ -81,7 +81,7 @@ def transform(source_path,
 
         g = GeneExpression(
             id=GeneExpression.make_gid(aliquot_id),
-            metric="GENE_TPM",
+            metric="TPM",
             method="Illumina Hiseq",
             values=geneValues,
             project_id=Project.make_gid(project_id)

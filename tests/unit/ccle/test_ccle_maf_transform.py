@@ -31,12 +31,14 @@ def validate(helpers, emitter_directory, maf_file, cellline_lookup_path, project
     allele_file = os.path.join(emitter_directory, 'maf.Allele.Vertex.json.gz')
     callset_file = os.path.join(emitter_directory, 'maf.Callset.Vertex.json.gz')
 
-    callsets_edge_file = os.path.join(emitter_directory, 'maf.callsets.Edge.json.gz')
-    aliquots_edge_file = os.path.join(emitter_directory, 'maf.aliquots.Edge.json.gz')
-    alleles_edge_file = os.path.join(emitter_directory, 'maf.alleles.Edge.json.gz')
+    aliquot_callset_edge_file = os.path.join(emitter_directory, 'maf.Aliquot_Callsets_Callset.Edge.json.gz')
+    callset_aliquot_edge_file = os.path.join(emitter_directory, 'maf.Callset_Aliquots_Aliquot.Edge.json.gz')
+    allele_callset_edge_file = os.path.join(emitter_directory, 'maf.Allele_Callsets_Callset.Edge.json.gz')
+    callset_allele_edge_file = os.path.join(emitter_directory, 'maf.Callset_Alleles_Allele.Edge.json.gz')
 
-    all_files = [allele_file, callset_file, callsets_edge_file,
-                 aliquots_edge_file, alleles_edge_file]
+    all_files = [allele_file, callset_file,
+                 aliquot_callset_edge_file, callset_aliquot_edge_file,
+                 allele_callset_edge_file, callset_allele_edge_file]
 
     # remove output
     with contextlib.suppress(FileNotFoundError):
@@ -66,7 +68,7 @@ def validate(helpers, emitter_directory, maf_file, cellline_lookup_path, project
             assert 'Aliquot' not in callset['data']['tumor_aliquot_id'], 'tumor_aliquot_id should not have Aliquot gid'
 
     # test alleles edge contents
-    with reader(alleles_edge_file) as f:
+    with reader(allele_callset_edge_file) as f:
         for line in f:
             # should be json
             allelecall = json.loads(line)

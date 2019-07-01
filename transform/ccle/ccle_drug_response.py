@@ -71,7 +71,6 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         else:
             cellline_id = i
         drug_response.id = DrugResponse.make_gid("CCLE", cellline_id, drug_response.submitter_compound_id)
-        drug_response.submitter_id = drug_response.id
 
         project_id = "CCLE_%s" % (projects.get(cellline_id, "Unknown"))
         proj = Project(id=Project.make_gid(project_id),

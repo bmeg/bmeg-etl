@@ -32,7 +32,6 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
     prog = Program(id=Program.make_gid("CTRP"),
-                   submitter_id="CTRP",
                    program_id="CTRP")
     emitter.emit_vertex(prog)
 
@@ -87,7 +86,6 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
 
         project_id = "CTRP_%s" % (projects.get(cellline_id, "Unknown"))
         proj = Project(id=Project.make_gid(project_id),
-                       submitter_id=project_id,
                        project_id=project_id)
         if proj.gid() not in emitted_projects:
             emitter.emit_vertex(proj)

@@ -23,7 +23,7 @@ def transform(gct_file="source/gtex/GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_ge
     for sample, values in tdata.iterrows():
         g = GeneExpression(
             id=GeneExpression.make_gid(sample),
-            metric="GENE_TPM",
+            metric="TPM",
             method="Illumina HiSeq",
             values=values.to_dict(),
             project_id=Project.make_gid(projects.get(sample, None))

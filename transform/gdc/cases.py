@@ -78,6 +78,7 @@ def transform(input_path="source/gdc/cases.json",
 
             # case
             c = Case(id=Case.make_gid(row["id"]),
+                     submitter_id=row["submitter_id"],
                      case_id=row["id"],
                      gdc_attributes=extract(row, keep_case_fields),
                      project_id=project_gid)
@@ -98,6 +99,7 @@ def transform(input_path="source/gdc/cases.json",
             )
             # sample
             s = Sample(id=Sample.make_gid(sample["sample_id"]),
+                       submitter_id=sample["submitter_id"],
                        sample_id=sample["sample_id"],
                        gdc_attributes=sample_fields,
                        project_id=project_gid)
@@ -130,6 +132,7 @@ def transform(input_path="source/gdc/cases.json",
                         fields.update(aliquot_fields)
                         # aliquot
                         a = Aliquot(id=Aliquot.make_gid(aliquot["aliquot_id"]),
+                                    submitter_id=aliquot["submitter_id"],
                                     aliquot_id=aliquot["aliquot_id"],
                                     gdc_attributes=fields,
                                     project_id=project_gid)

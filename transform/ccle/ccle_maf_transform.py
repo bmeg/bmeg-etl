@@ -64,7 +64,6 @@ class CCLE_MAFTransformer(MAFTransformer):
         project_id = "CCLE_%s" % (PROJECT_CONVERSION_TABLE.get(cellline_id, "Unknown"))
         callset = Callset(
             id=Callset.make_gid("CCLE", tumor_aliquot_id, None),
-            submitter_id=Callset.make_gid("CCLE", tumor_aliquot_id, None),
             tumor_aliquot_id=tumor_aliquot_id,
             normal_aliquot_id=None,
             project_id=Project.make_gid(project_id)

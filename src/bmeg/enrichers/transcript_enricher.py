@@ -37,7 +37,6 @@ def normalize(ensembl_transcript_id):
         strand = '-'
     return Transcript(
         id=Transcript.make_gid(response['id']),
-        submitter_id=response['id'],
         transcript_id=response['id'],
         chromosome=response['seq_region_name'],
         start=response['start'],

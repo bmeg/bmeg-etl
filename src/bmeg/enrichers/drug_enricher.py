@@ -31,7 +31,6 @@ for line in read_tsv('source/drug_enricher/drug_alias.tsv'):
 def compound_factory(name):
     """ create a stub compound for downstream normalization """
     return Compound(id=Compound.make_gid('TODO:{}'.format(name)),
-                    submitter_id=name,
                     term_id='TODO:{}'.format(name),
                     term='TODO',
                     name=name,

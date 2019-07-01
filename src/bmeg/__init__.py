@@ -64,11 +64,7 @@ class BMEGDataDictionary(DataDictionary):
 
 
 def validate(props, schema):
-    try:
-        jsonschema.validate(props, schema)
-    except jsonschema.ValidationError as e:
-        e.schema = "src/bmeg/bmeg-dictionary/gdcdictionary/schemas/{}.yaml".format(e.schema['id'])
-        raise e
+    jsonschema.validate(props, schema)
     return
 
 
@@ -85,9 +81,10 @@ class ClassInstance:
 
     def props(self, preserve_null=False):
         data = self._props.copy()
+        keep = ["submitter_id"]
         remove = ["id"]
         if not preserve_null:
-            nulls = [k for k in data if data[k] is None and k not in remove]
+            nulls = [k for k in data if data[k] is None and k not in remove and k not in keep]
             remove += nulls
         for k in remove:
             del data[k]
@@ -130,7 +127,7 @@ class ClassInstance:
 def capitalize(label):
     label = "".join([(lambda x: x[0].upper() + x[1:])(x) for x in re.split("_| +", label)])
     if label.startswith("G2p"):
-        label = "G2PAssoctiaion"
+        label = "G2PAssociation"
     return label
 
 
@@ -140,24 +137,6 @@ class Vertex:
 
 class Edge:
     pass
-
-
-@enforce_types
-@dataclasses.dataclass(frozen=True)
-class GenericEdge(Edge):
-    from_gid: str
-    to_gid: str
-    edge_label: str
-    data: dict = dataclasses.field(default_factory=dict)
-
-    def label(self):
-        return self.edge_label
-
-    def validate(self):
-        return
-
-    def props(self, preserve_null=False):
-        return get_edge_props(self, preserve_null)
 
 
 @enforce_types
@@ -192,7 +171,7 @@ class Deadletter(Vertex):
 _schemaPath = pkg_resources.resource_filename(__name__, "bmeg-dictionary/gdcdictionary/schemas")
 _schema = BMEGDataDictionary(root_dir=_schemaPath)
 
-__all__ = ['Vertex', 'Edge', 'Deadletter', 'GenericEdge']
+__all__ = ['Vertex', 'Edge', 'Deadletter']
 for k, schema in _schema.schema.items():
     name = capitalize(schema["id"])
     if name not in gid_factories:
