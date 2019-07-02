@@ -10,7 +10,7 @@ def test_gzip_emitter_md5():
     """Two different files, with same content, should have same hash."""
     name = 'test'
     compound = Compound(term_id='TODO:{}'.format(name), term='TODO', name=name, project_id=name)
-    compound.submitter_id = Compound.make_gid(compound.term_id)
+    compound.id = Compound.make_gid(compound.term_id)
     path1 = _path(_dir(), 'test')
     emitter = JSONEmitter(path1)
     emitter.emit_vertex(compound)

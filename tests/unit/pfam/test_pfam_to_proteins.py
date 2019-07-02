@@ -13,15 +13,14 @@ def data_path(request):
 
 def test_simple(helpers, emitter_directory, data_path):
     protein_structure_file = os.path.join(emitter_directory, "ProteinStructure.Vertex.json.gz")
-    pfam_families_edge_file = os.path.join(emitter_directory, "pfam_families.Edge.json.gz")
-    protein_structures_edge_file = os.path.join(emitter_directory, "protein_structures.Edge.json.gz")
-    proteins_edge_file = os.path.join(emitter_directory, "proteins.Edge.json.gz")
-    protein_edge_file = os.path.join(emitter_directory, "protein.Edge.json.gz")
+    protein_pfam_edge_file = os.path.join(emitter_directory, "Protein_PfamFamilies_PfamFamily.Edge.json.gz")
+    pfam_protein_edge_file = os.path.join(emitter_directory, "PfamFamily_Proteins_Protein.Edge.json.gz")
+    protein_struct_edge_file = os.path.join(emitter_directory, "Protein_ProteinStructures_ProteinStructure.Edge.json.gz")
+    struct_protein_edge_file = os.path.join(emitter_directory, "ProteinStructure_Protein_Protein.Edge.json.gz")
 
     all_files = [
-        protein_structure_file, pfam_families_edge_file,
-        protein_structures_edge_file, proteins_edge_file,
-        protein_edge_file
+        protein_structure_file, protein_pfam_edge_file, pfam_protein_edge_file,
+        protein_struct_edge_file, struct_protein_edge_file
     ]
 
     # remove output

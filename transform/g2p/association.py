@@ -1,6 +1,6 @@
 
 import json
-from bmeg import G2pAssociation, Project
+from bmeg import G2PAssociation, Project
 
 
 def create_association(hit):
@@ -14,8 +14,8 @@ def create_association(hit):
     for f in ['description', 'evidence_label', 'response_type',
               'oncogenic', 'source_url']:
         association_parms[f] = association.get(f, None)
-    return G2pAssociation(
-        id=G2pAssociation.make_gid(**association_parms),
+    return G2PAssociation(
+        id=G2PAssociation.make_gid(**association_parms),
         project_id=Project.make_gid("Reference"),
         **association_parms
     )

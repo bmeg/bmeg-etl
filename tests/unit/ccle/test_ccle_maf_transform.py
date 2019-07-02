@@ -29,12 +29,12 @@ def project_lookup_path(request):
 
 def validate(helpers, emitter_directory, maf_file, cellline_lookup_path, project_lookup_path):
     allele_file = os.path.join(emitter_directory, 'maf.Allele.Vertex.json.gz')
-    callset_file = os.path.join(emitter_directory, 'maf.Callset.Vertex.json.gz')
+    callset_file = os.path.join(emitter_directory, 'maf.SomaticCallset.Vertex.json.gz')
 
-    aliquot_callset_edge_file = os.path.join(emitter_directory, 'maf.Aliquot_Callsets_Callset.Edge.json.gz')
-    callset_aliquot_edge_file = os.path.join(emitter_directory, 'maf.Callset_Aliquots_Aliquot.Edge.json.gz')
-    allele_callset_edge_file = os.path.join(emitter_directory, 'maf.Allele_Callsets_Callset.Edge.json.gz')
-    callset_allele_edge_file = os.path.join(emitter_directory, 'maf.Callset_Alleles_Allele.Edge.json.gz')
+    aliquot_callset_edge_file = os.path.join(emitter_directory, 'maf.Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz')
+    callset_aliquot_edge_file = os.path.join(emitter_directory, 'maf.SomaticCallset_Aliquots_Aliquot.Edge.json.gz')
+    allele_callset_edge_file = os.path.join(emitter_directory, 'maf.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz')
+    callset_allele_edge_file = os.path.join(emitter_directory, 'maf.SomaticCallset_Alleles_Allele.Edge.json.gz')
 
     all_files = [allele_file, callset_file,
                  aliquot_callset_edge_file, callset_aliquot_edge_file,

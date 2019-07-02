@@ -17,8 +17,8 @@ def id_map_file(request):
 
 
 def test_simple(helpers, emitter_directory, gaf_file, id_map_file):
-    genes_edge_file = os.path.join(emitter_directory, "genes.Edge.json.gz")
-    gene_ontology_terms_edge_file = os.path.join(emitter_directory, "gene_ontology_terms.Edge.json.gz")
+    gene_go_edge_file = os.path.join(emitter_directory, "Gene_GeneOntologyTerms_GeneOntologyTerm.Edge.json.gz")
+    go_gene_edge_file = os.path.join(emitter_directory, "GeneOntologyTerm_Genes_Gene.Edge.json.gz")
 
     # remove output
     with contextlib.suppress(FileNotFoundError):
@@ -30,5 +30,5 @@ def test_simple(helpers, emitter_directory, gaf_file, id_map_file):
               emitter_directory=emitter_directory)
 
     # ratify
-    helpers.assert_edge_file_valid(genes_edge_file)
-    helpers.assert_edge_file_valid(gene_ontology_terms_edge_file)
+    helpers.assert_edge_file_valid(gene_go_edge_file)
+    helpers.assert_edge_file_valid(go_gene_edge_file)

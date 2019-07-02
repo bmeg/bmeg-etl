@@ -3,7 +3,6 @@ import os
 import shutil
 import pytest
 from transform.ctrp.cases import transform
-from transform.ccle.depmap_cases import transform as depmap_transform
 
 
 @pytest.fixture
@@ -68,7 +67,7 @@ def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_pat
     pcc_edge_file = os.path.join(emitter_directory, 'Project_Cases_Case.Edge.json.gz')
     scc_edge_file = os.path.join(emitter_directory, 'Sample_Case_Case.Edge.json.gz')
     css_edge_file = os.path.join(emitter_directory, 'Case_Samples_Sample.Edge.json.gz')
-    ass_edge_file = os.path.join(emitter_directory, 'Aliquot_Samples_Sample.Edge.json.gz')
+    ass_edge_file = os.path.join(emitter_directory, 'Aliquot_Sample_Sample.Edge.json.gz')
     saa_edge_file = os.path.join(emitter_directory, 'Sample_Aliquots_Aliquot.Edge.json.gz')
     case_pp_edge_file = os.path.join(emitter_directory, 'Case_Phenotypes_Phenotype.Edge.json.gz')
     pheno_cc_edge_file = os.path.join(emitter_directory, 'Phenotype_Cases_Case.Edge.json.gz')
@@ -90,12 +89,6 @@ def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_pat
         shutil.rmtree(emitter_directory)
 
     # create output
-    depmap_transform(
-        path=cellline_meta_path,
-        phenotype_lookup_path=phenotype_lookup_path,
-        emitter_prefix="depmap",
-        emitter_directory=emitter_directory
-    )
     transform(
         cellline_lookup_path=cellline_lookup_path,
         project_lookup_path=project_lookup_path,

@@ -13,8 +13,8 @@ from transform.g2p.publications import normalize as publication_normalize
 import bmeg.ioutils
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
-from bmeg import (G2pAssociation_Publications_Publication, G2pAssociation_Genes_Gene, G2pAssociation_Alleles_Allele,
-                  G2pAssociation_Phenotypes_Phenotype, G2pAssociation_Compounds_Compound, G2pAssociation_GenomicFeatures_GenomicFeature,
+from bmeg import (G2PAssociation_Publications_Publication, G2PAssociation_Genes_Gene, G2PAssociation_Alleles_Allele,
+                  G2PAssociation_Phenotypes_Phenotype, G2PAssociation_Compounds_Compound, G2PAssociation_GenomicFeatures_GenomicFeature,
                   Allele_Gene_Gene, GenomicFeature_Genes_Gene)
 from bmeg import Deadletter
 from bmeg.emitter import new_emitter
@@ -59,7 +59,7 @@ def toGraph(normalized_association, emitter):
     # assume pubmed transformer creating publication vertex
     for publication_gid in na.publications:
         emitter.emit_edge(
-            G2pAssociation_Publications_Publication(
+            G2PAssociation_Publications_Publication(
                 from_gid=association.gid(),
                 to_gid=publication_gid
             ),
@@ -68,7 +68,7 @@ def toGraph(normalized_association, emitter):
     # note we assume gene vertexes are already created
     for gene_gid in na.genes:
         emitter.emit_edge(
-            G2pAssociation_Genes_Gene(
+            G2PAssociation_Genes_Gene(
                 association.gid(),
                 gene_gid
             ),
@@ -78,7 +78,7 @@ def toGraph(normalized_association, emitter):
         emitter.emit_vertex(allele)
     for feature_gid in na.features:
         emitter.emit_edge(
-            G2pAssociation_Alleles_Allele(
+            G2PAssociation_Alleles_Allele(
                 association.gid(),
                 feature_gid
             ),
@@ -89,7 +89,7 @@ def toGraph(normalized_association, emitter):
         emitter.emit_vertex(allele)
     for feature_gid in na.genomic_features:
         emitter.emit_edge(
-            G2pAssociation_GenomicFeatures_GenomicFeature(
+            G2PAssociation_GenomicFeatures_GenomicFeature(
                 association.gid(),
                 feature_gid
             ),
@@ -124,7 +124,7 @@ def toGraph(normalized_association, emitter):
         emitter.emit_vertex(phenotype)
     for phenotype_gid in na.phenotypes:
         emitter.emit_edge(
-            G2pAssociation_Phenotypes_Phenotype(
+            G2PAssociation_Phenotypes_Phenotype(
                 association.gid(),
                 phenotype_gid
             ),
@@ -137,7 +137,7 @@ def toGraph(normalized_association, emitter):
         if environment_gid in HAS_ENVIRONMENT_CACHE:
             continue
         emitter.emit_edge(
-            G2pAssociation_Compounds_Compound(
+            G2PAssociation_Compounds_Compound(
                 association.gid(),
                 environment_gid
             ),

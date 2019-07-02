@@ -127,7 +127,7 @@ class ClassInstance:
 def capitalize(label):
     label = "".join([(lambda x: x[0].upper() + x[1:])(x) for x in re.split("_| +", label)])
     if label.startswith("G2p"):
-        label = "G2PAssociation"
+        label = "G2P" + label[3:]
     return label
 
 

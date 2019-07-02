@@ -16,7 +16,7 @@ def transform(
         output_dir="outputs",
         emitter_directory="publication",
         vertex_names="**/*Publication.Vertex.json*",
-        edge_names="**/*publications.Edge.json*"
+        edge_names="**/*Publication*.Edge.json*"
 ):
     # get the existing publication vertices
     path = '{}/{}'.format(output_dir, vertex_names)

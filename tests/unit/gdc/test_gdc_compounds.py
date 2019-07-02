@@ -28,15 +28,16 @@ def validate(helpers, emitter_directory, compounds_path, id_lookup_path, project
     """ run xform and test results"""
     compound_file = os.path.join(emitter_directory, 'Compound.Vertex.json.gz')
 
-    compounds_edge_file = os.path.join(emitter_directory, 'compounds.Edge.json.gz')
-    cases_edge_file = os.path.join(emitter_directory, 'cases.Edge.json.gz')
-    projects_edge_file = os.path.join(emitter_directory, 'projects.Edge.json.gz')
+    compounds_edge_file = os.path.join(emitter_directory, 'Case_Compounds_Compound.Edge.json.gz')
+    cases_edge_file = os.path.join(emitter_directory, 'Compound_Cases_Case.Edge.json.gz')
+    cpp_edge_file = os.path.join(emitter_directory, 'Compound_Projects_Project.Edge.json.gz')
+    pcc_edge_file = os.path.join(emitter_directory, 'Project_Compounds_Compound.Edge.json.gz')
 
     all_files = [
         # vertices
         compound_file,
         # edges
-        projects_edge_file, cases_edge_file, compounds_edge_file
+        cases_edge_file, compounds_edge_file, cpp_edge_file, pcc_edge_file
     ]
 
     # remove output

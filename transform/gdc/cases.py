@@ -13,7 +13,7 @@ from bmeg import (Sample, Aliquot, Case, Project, Program,
                   Sample_Projects_Project,
                   Aliquot_Projects_Project,
                   Project_Programs_Program)
-from gdcutils import extract
+from .gdcutils import extract
 
 
 # These are the fields we want to keep from the GDC Case (BMEG Case).

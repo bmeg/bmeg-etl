@@ -4,7 +4,7 @@ from bmeg import Gene
 import logging
 
 # keep track of what we've already exported
-EXPORTED_GENES = []
+# EXPORTED_GENES = []
 
 
 def gene_gid(symbol):
@@ -34,7 +34,9 @@ def normalize(hit):
             logging.debug(e)
             missing_vertexes.append({'target_label': 'Gene', 'data': feature})
 
-    gene_gids = [gid for gid in gene_gids if gid not in EXPORTED_GENES]
+    gene_gids = [gid for gid in gene_gids]
+    # gene_gids = [gid for gid in gene_gids if gid not in EXPORTED_GENES]
+    # EXPORTED_GENES.extend(gene_gids)
     hit['genes'] = gene_gids
-    EXPORTED_GENES.extend(gene_gids)
+
     return (hit, gene_gids, missing_vertexes)

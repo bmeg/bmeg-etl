@@ -13,8 +13,8 @@ def obo_file(request):
 
 def test_simple(helpers, emitter_directory, obo_file):
     gene_ontology_term_file = os.path.join(emitter_directory, "GeneOntologyTerm.Vertex.json.gz")
-    parents_edge_file = os.path.join(emitter_directory, "parent_terms.Edge.json.gz")
-    children_edge_file = os.path.join(emitter_directory, "child_terms.Edge.json.gz")
+    parents_edge_file = os.path.join(emitter_directory, "GeneOntologyTerm_ParentTerms_GeneOntologyTerm.Edge.json.gz")
+    children_edge_file = os.path.join(emitter_directory, "GeneOntologyTerm_ChildTerms_GeneOntologyTerm.Edge.json.gz")
 
     # remove output
     with contextlib.suppress(FileNotFoundError):

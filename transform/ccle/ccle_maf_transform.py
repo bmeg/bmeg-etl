@@ -3,7 +3,7 @@
 
 from glob import glob
 import bmeg.ioutils
-from bmeg import Callset, Gene, Project
+from bmeg import SomaticCallset, Gene, Project
 from bmeg.emitter import new_emitter
 from bmeg.maf.maf_transform import get_value, MAFTransformer
 
@@ -62,8 +62,8 @@ class CCLE_MAFTransformer(MAFTransformer):
         cellline_id = self.barcode_to_aliquot_id(line[TUMOR_SAMPLE_BARCODE])
         tumor_aliquot_id = "CCLE:%s:Callset" % (cellline_id)
         project_id = "CCLE_%s" % (PROJECT_CONVERSION_TABLE.get(cellline_id, "Unknown"))
-        callset = Callset(
-            id=Callset.make_gid("CCLE", tumor_aliquot_id, None),
+        callset = SomaticCallset(
+            id=SomaticCallset.make_gid("CCLE", tumor_aliquot_id, None),
             tumor_aliquot_id=tumor_aliquot_id,
             normal_aliquot_id=None,
             project_id=Project.make_gid(project_id)

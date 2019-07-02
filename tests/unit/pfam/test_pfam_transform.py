@@ -20,14 +20,15 @@ def test_simple(helpers, emitter_directory, pfam_xmls, clans_file):
     pfam_clan_file = os.path.join(emitter_directory, "PfamClan.Vertex.json.gz")
     pfam_family_file = os.path.join(emitter_directory, "PfamFamily.Vertex.json.gz")
 
-    pfam_clans_edge_file = os.path.join(emitter_directory, "pfam_clans.Edge.json.gz")
-    pfam_families_edge_file = os.path.join(emitter_directory, "pfam_families.Edge.json.gz")
-    gene_ontology_terms_edge_file = os.path.join(emitter_directory, "gene_ontology_terms.Edge.json.gz")
+    clan_family_edge_file = os.path.join(emitter_directory, "PfamClan_PfamFamilies_PfamFamily.Edge.json.gz")
+    family_clan_edge_file = os.path.join(emitter_directory, "PfamFamily_PfamClans_PfamClan.Edge.json.gz")
+    go_family_edge_file = os.path.join(emitter_directory, "GeneOntologyTerm_PfamFamilies_PfamFamily.Edge.json.gz")
+    family_go_edge_file = os.path.join(emitter_directory, "PfamFamily_GeneOntologyTerms_GeneOntologyTerm.Edge.json.gz")
 
     all_files = [
         pfam_clan_file, pfam_family_file,
-        pfam_clans_edge_file, pfam_families_edge_file,
-        gene_ontology_terms_edge_file
+        clan_family_edge_file, family_clan_edge_file,
+        go_family_edge_file, family_go_edge_file
     ]
 
     # remove output

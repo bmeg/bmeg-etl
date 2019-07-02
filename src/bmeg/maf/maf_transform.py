@@ -6,8 +6,8 @@ import gzip
 import sys
 
 from bmeg import (Allele, Aliquot, Deadletter, Project,
-                  Callset_Aliquots_Aliquot,
-                  Callset_Alleles_Allele,
+                  SomaticCallset_Aliquots_Aliquot,
+                  SomaticCallset_Alleles_Allele,
                   Allele_Gene_Gene)
 from bmeg.emitter import new_emitter
 from bmeg.util.cli import default_argument_parser
@@ -186,7 +186,7 @@ class MAFTransformer():
                     call_data = call_tuple[0]
                     callset_gid = call_tuple[1]
                     emitter.emit_edge(
-                        Callset_Alleles_Allele(
+                        SomaticCallset_Alleles_Allele(
                             from_gid=callset_gid,
                             to_gid=allele.gid(),
                             data=call_data
@@ -199,7 +199,7 @@ class MAFTransformer():
                         emitter.emit_vertex(callset)
                         if callset.normal_aliquot_id:
                             emitter.emit_edge(
-                                Callset_Aliquots_Aliquot(
+                                SomaticCallset_Aliquots_Aliquot(
                                     from_gid=callset.gid(),
                                     to_gid=Aliquot.make_gid(callset.normal_aliquot_id),
                                 ),
@@ -207,7 +207,7 @@ class MAFTransformer():
                             )
                         if callset.tumor_aliquot_id:
                             emitter.emit_edge(
-                                Callset_Aliquots_Aliquot(
+                                SomaticCallset_Aliquots_Aliquot(
                                     from_gid=callset.gid(),
                                     to_gid=Aliquot.make_gid(callset.tumor_aliquot_id),
                                 ),

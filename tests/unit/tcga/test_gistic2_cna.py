@@ -32,8 +32,8 @@ def project_lookup_path(request):
 def validate(helpers, emitter_directory, source_path, id_lookup_path, project_lookup_path):
     """ run xform and test results"""
     cna_file = os.path.join(emitter_directory, 'TCGA-ACC.CopyNumberAlteration.Vertex.json.gz')
-    cna_edge_file = os.path.join(emitter_directory, 'TCGA-ACC.copy_number_alterations.Edge.json.gz')
-    aliquot_edge_file = os.path.join(emitter_directory, 'TCGA-ACC.aliquot.Edge.json.gz')
+    cna_edge_file = os.path.join(emitter_directory, 'TCGA-ACC.Aliquot_CopyNumberAlterations_CopyNumberAlteration.Edge.json.gz')
+    aliquot_edge_file = os.path.join(emitter_directory, 'TCGA-ACC.CopyNumberAlteration_Aliquot_Aliquot.Edge.json.gz')
 
     all_files = [cna_file, cna_edge_file, aliquot_edge_file]
     # remove output

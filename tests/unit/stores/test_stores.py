@@ -27,7 +27,7 @@ def validate(s):
 def compound_factory(name):
     """ create a stub compound """
     term_id = 'TODO:{}'.format(name)
-    return Compound(submitter_id=Compound.make_gid(term_id),
+    return Compound(id=Compound.make_gid(term_id),
                     term_id=term_id, term='TODO', name=name,
                     project_id=Project.make_gid("Reference"))
 

@@ -5,7 +5,7 @@ from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
 from bmeg.enrichers.drug_enricher import normalize
 from bmeg.stores import new_store
-from bmeg import *
+from bmeg import *  # noqa: F403
 
 import logging
 import glob

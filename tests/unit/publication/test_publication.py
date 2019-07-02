@@ -14,7 +14,7 @@ def output_dir(request):
 
 def validate(helpers, emitter_directory, output_dir):
     publication_file = os.path.join(emitter_directory, 'stub.Publication.Vertex.json.gz')
-    publications_edge_file = os.path.join(output_dir, 'g2p/publications.Edge.json.gz')
+    publications_edge_file = os.path.join(output_dir, 'g2p/G2PAssociation_Publications_Publication.Edge.json.gz')
 
     # remove output
     with contextlib.suppress(FileNotFoundError):

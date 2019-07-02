@@ -60,13 +60,13 @@ def project_lookup_path(request):
 
 def validate(helpers, maf_file, emitter_directory, id_lookup_path, project_lookup_path):
     allele_file = os.path.join(emitter_directory, 'Allele.Vertex.json.gz')
-    callset_file = os.path.join(emitter_directory, 'Callset.Vertex.json.gz')
+    callset_file = os.path.join(emitter_directory, 'SomaticCallset.Vertex.json.gz')
     # deadletter_file = os.path.join(emitter_directory, 'Deadletter.Vertex.json.gz')
 
-    aliquot_callset_edge_file = os.path.join(emitter_directory, 'Aliquot_Callsets_Callset.Edge.json.gz')
-    callset_aliquot_edge_file = os.path.join(emitter_directory, 'Callset_Aliquots_Aliquot.Edge.json.gz')
-    allele_callset_edge_file = os.path.join(emitter_directory, 'Allele_Callsets_Callset.Edge.json.gz')
-    callset_allele_edge_file = os.path.join(emitter_directory, 'Callset_Alleles_Allele.Edge.json.gz')
+    aliquot_callset_edge_file = os.path.join(emitter_directory, 'Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz')
+    callset_aliquot_edge_file = os.path.join(emitter_directory, 'SomaticCallset_Aliquots_Aliquot.Edge.json.gz')
+    allele_callset_edge_file = os.path.join(emitter_directory, 'Allele_SomaticCallsets_SomaticCallset.Edge.json.gz')
+    callset_allele_edge_file = os.path.join(emitter_directory, 'SomaticCallset_Alleles_Allele.Edge.json.gz')
 
     all_files = [allele_file, callset_file,
                  aliquot_callset_edge_file, callset_aliquot_edge_file,
@@ -100,7 +100,7 @@ def validate(helpers, maf_file, emitter_directory, id_lookup_path, project_looku
         for line in f:
             # should be json
             allelecall = json.loads(line)
-            if not (allelecall['from'].startswith("Callset") and allelecall['to'].startswith("Allele")):
+            if not (allelecall['from'].startswith("SomaticCallset") and allelecall['to'].startswith("Allele")):
                 continue
             # optional keys, if set should be non null
             for k in MC3_EXTENSION_CALLSET_KEYS:
@@ -126,18 +126,18 @@ def validate(helpers, maf_file, emitter_directory, id_lookup_path, project_looku
         for line in f:
             # should be json
             callset = json.loads(line)
-            assert callset['gid'].startswith('Callset:MC3:'), 'should start with Callset:MC3:xxx'
-            assert not callset['gid'].startswith('Callset:MC3:Aliquot:'), 'should NOT start with Callset:MC3:Aliquot:xxx'
+            assert callset['gid'].startswith('SomaticCallset:MC3:'), 'should start with SomaticCallset:MC3:xxx'
+            assert not callset['gid'].startswith('SomaticCallset:MC3:Aliquot:'), 'should NOT start with SomaticCallset:MC3:Aliquot:xxx'
             assert callset['data']['tumor_aliquot_id'] != callset['data']['normal_aliquot_id'], 'tumor should not equal normal'
             assert 'Aliquot:' not in callset['data']['tumor_aliquot_id'], 'tumor_aliquot_id should not have Aliquot gid'
             assert 'Aliquot:' not in callset['data']['normal_aliquot_id'], 'normal_aliquot_id should not have Aliquot gid'
 
     # check callsetfor
-    with reader(aliquot_callset_edge_file) as f:
+    with reader(callset_aliquot_edge_file) as f:
         for line in f:
             # should be json
             callsetfor = json.loads(line)
-            assert callsetfor['from'].startswith('Callset:MC3:'), 'from should be a callset'
+            assert callsetfor['from'].startswith('SomaticCallset:MC3:'), 'from should be a callset'
             assert callsetfor['to'].startswith('Aliquot:'), 'to should be an aliquot'
 
     # validate vertex for all edges exist

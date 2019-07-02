@@ -5,7 +5,7 @@ import pandas
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
 from bmeg import (Sample, Aliquot, Case, Project, Program,
-                  Aliquot_Samples_Sample,
+                  Aliquot_Sample_Sample,
                   Sample_Case_Case,
                   Case_Projects_Project,
                   Sample_Projects_Project,
@@ -151,7 +151,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             emitter.emit_vertex(a)
             # aliquot <-> sample edges
             emitter.emit_edge(
-                Aliquot_Samples_Sample(
+                Aliquot_Sample_Sample(
                     from_gid=a.gid(),
                     to_gid=s.gid()
                 ),

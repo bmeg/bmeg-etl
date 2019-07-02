@@ -1,6 +1,6 @@
 
 """ transform a maf file into vertexs[variant, allele]   """
-from bmeg import Callset, Gene, Project
+from bmeg import SomaticCallset, Gene, Project
 
 from bmeg.maf.maf_transform import get_value, MAFTransformer, maf_default_argument_parser
 from bmeg.emitter import new_emitter
@@ -74,8 +74,8 @@ class MC3_MAFTransformer(MAFTransformer):
         tumor_aliquot_gid = self.barcode_to_aliquot_id(line['Tumor_Sample_Barcode'])
         normal_aliquot_gid = self.barcode_to_aliquot_id(line['Matched_Norm_Sample_Barcode'])
         project_id = PROJECT_CONVERSION_TABLE.get(tumor_aliquot_gid, None)
-        sample_callset = Callset(
-            id=Callset.make_gid("MC3", tumor_aliquot_gid, normal_aliquot_gid),
+        sample_callset = SomaticCallset(
+            id=SomaticCallset.make_gid("MC3", tumor_aliquot_gid, normal_aliquot_gid),
             tumor_aliquot_id=tumor_aliquot_gid,
             normal_aliquot_id=normal_aliquot_gid,
             project_id=Project.make_gid(project_id)

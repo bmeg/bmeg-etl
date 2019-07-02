@@ -15,20 +15,40 @@ def g2p_file(request):
 
 
 def validate(helpers, g2p_file, emitter_directory):
-    association_file = os.path.join(emitter_directory, 'G2pAssociation.Vertex.json.gz')
-    publication_edge_file = os.path.join(emitter_directory, 'publications.Edge.json.gz')
-    gene_edge_file = os.path.join(emitter_directory, 'genes.Edge.json.gz')
-    allele_edge_file = os.path.join(emitter_directory, 'alleles.Edge.json.gz')
-    allele_file = os.path.join(emitter_directory, 'Allele.Vertex.json.gz')
+    association_file = os.path.join(emitter_directory, 'G2PAssociation.Vertex.json.gz')
     phenotype_file = os.path.join(emitter_directory, 'Phenotype.Vertex.json.gz')
-    phenotype_edge_file = os.path.join(emitter_directory, 'phenotypes.Edge.json.gz')
     deadletter_file = os.path.join(emitter_directory, 'Deadletter.Vertex.json.gz')
     genomic_feature_file = os.path.join(emitter_directory, 'GenomicFeature.Vertex.json.gz')
-    genomic_feature_edge_file = os.path.join(emitter_directory, 'genomic_features.Edge.json.gz')
-    allele_in_edge_file = os.path.join(emitter_directory, 'gene.Edge.json.gz')
-    environment_in_edge_file = os.path.join(emitter_directory, 'compounds.Edge.json.gz')
-    environment_file = os.path.join(emitter_directory, 'Compound.Vertex.json.gz')
-    g2p_edges_file = os.path.join(emitter_directory, 'g2p_associations.Edge.json.gz')
+    allele_file = os.path.join(emitter_directory, 'Allele.Vertex.json.gz')
+    compound_file = os.path.join(emitter_directory, 'Compound.Vertex.json.gz')
+
+    pub_edge_file = os.path.join(emitter_directory, 'G2PAssociation_Publications_Publication.Edge.json.gz')
+    pub_g2p_edge_file = os.path.join(emitter_directory, 'Publication_G2PAssociations_G2PAssociation.Edge.json.gz')
+
+    gene_edge_file = os.path.join(emitter_directory, 'G2PAssociation_Genes_Gene.Edge.json.gz')
+    gene_g2p_edge_file = os.path.join(emitter_directory, 'Gene_G2PAssociations_G2PAssociation.Edge.json.gz')
+
+    allele_edge_file = os.path.join(emitter_directory, 'G2PAssociation_Alleles_Allele.Edge.json.gz')
+    allele_g2p_edge_file = os.path.join(emitter_directory, 'Allele_G2PAssociations_G2PAssociation.Edge.json.gz')
+
+    phenotype_edge_file = os.path.join(emitter_directory, 'G2PAssociation_Phenotypes_Phenotype.Edge.json.gz')
+    phenotype_g2p_edge_file = os.path.join(emitter_directory, 'Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz')
+
+    genomic_feature_edge_file = os.path.join(emitter_directory, 'G2PAssociation_GenomicFeatures_GenomicFeature.Edge.json.gz')
+    genomic_feature_g2p_edge_file = os.path.join(emitter_directory, 'GenomicFeature_G2PAssociations_G2PAssociation.Edge.json.gz')
+
+    compound_edge_file = os.path.join(emitter_directory, 'G2PAssociation_Compounds_Compound.Edge.json.gz')
+    compound_g2p_edge_file = os.path.join(emitter_directory, 'Compound_G2PAssociations_G2PAssociation.Edge.json.gz')
+
+    allele_gene_edge_file = os.path.join(emitter_directory, 'Allele_Gene_Gene.Edge.json.gz')
+    gene_allele_edge_file = os.path.join(emitter_directory, 'Gene_Alleles_Allele.Edge.json.gz')
+
+    all_files = [
+        association_file, phenotype_file, deadletter_file, genomic_feature_file, allele_file, compound_file,
+        pub_edge_file, pub_g2p_edge_file, gene_edge_file, gene_g2p_edge_file, allele_edge_file, allele_g2p_edge_file,
+        phenotype_edge_file, phenotype_g2p_edge_file, genomic_feature_edge_file, genomic_feature_g2p_edge_file,
+        compound_edge_file, compound_g2p_edge_file, allele_gene_edge_file, gene_allele_edge_file
+    ]
 
     # remove output
     with contextlib.suppress(FileNotFoundError):
@@ -37,18 +57,22 @@ def validate(helpers, g2p_file, emitter_directory):
     # create output
     transform(g2p_file, prefix=emitter_directory)
 
-    # test/G2PAssociation.Vertex.json
+    for f in all_files:
+        if "Vertex.json.gz" in f:
+            helpers.assert_vertex_file_valid(f)
+        elif "Edge.json.gz" in f:
+            helpers.assert_edge_file_valid(f)
+
     association_count = helpers.assert_vertex_file_valid(association_file)
     assert association_count == 29, 'There should be 29 associations'
-    # test/publications.Edge.json
-    helpers.assert_edge_file_valid(publication_edge_file)
-    # genes.Edge.json.gz
+
     gene_count = helpers.assert_edge_file_valid(gene_edge_file)
-    assert 52 == gene_count, 'There should be 52 edges to genes'
+    assert gene_count == 46, 'There should be 46 edges to genes {}'.format(gene_edge_file)
+    gene_count = helpers.assert_edge_file_valid(gene_g2p_edge_file)
+    assert gene_count == 46, 'There should be 46 edges to genes {}'.format(gene_g2p_edge_file)
 
     from_tos = {}
     to_froms = {}
-    # gene_edge_file = 'outputs/g2p/genes.Edge.json.gz'
     for edge in helpers.parse_edge_file(gene_edge_file):
         from_ = edge['from']
         to_ = edge['to']
@@ -73,39 +97,30 @@ def validate(helpers, g2p_file, emitter_directory):
             multiple_count += 1
     assert multiple_count > 0, 'at least one gene should have multiple associations {}'.format(to_froms)
 
-    # test/alleles.Edge.json
     allele_count = helpers.assert_edge_file_valid(allele_edge_file)
-    assert 78 == allele_count, 'There should be 78 alleles {}'.format(allele_edge_file)
-    # test/Allele.Vertex.json
-    helpers.assert_vertex_file_valid(allele_file)
-    # test/Phenotype.Vertex.json
+    assert allele_count == 40, 'There should be 40 alleles {}'.format(allele_edge_file)
+    allele_count = helpers.assert_edge_file_valid(allele_g2p_edge_file)
+    assert allele_count == 40, 'There should be 40 alleles {}'.format(allele_g2p_edge_file)
+
     phenotype_count = helpers.assert_vertex_file_valid(phenotype_file)
     assert phenotype_count == 209, 'There should be 209 phenotypes'
-    # test/phenotypes.Edge.json
-    has_phenotype_count = helpers.assert_edge_file_valid(phenotype_edge_file)
-    assert has_phenotype_count == 295, 'There should be 295 has_phenotype edges'
-    # test/Deadletter.Vertex.json
-    helpers.assert_vertex_file_valid(deadletter_file)
-    # test/GenomicFeature.Vertex.json
-    helpers.assert_vertex_file_valid(genomic_feature_file)
-    # test/Environment.Vertex.json
-    compound_count = helpers.assert_vertex_file_valid(environment_file)
-    assert compound_count == 46, 'There should be 46 compounds'
-    # test/GenomicFeature.Vertex.json
+
+    phenotype_edge_count = helpers.assert_edge_file_valid(phenotype_edge_file)
+    assert phenotype_edge_count == 295, 'There should be 295 phenotype edges {}'.format(phenotype_edge_file)
+    phenotype_edge_count = helpers.assert_edge_file_valid(phenotype_g2p_edge_file)
+    assert phenotype_edge_count == 295, 'There should be 295 phenotype edges {}'.format(phenotype_g2p_edge_file)
+
     genomic_feature_edge_count = helpers.assert_edge_file_valid(genomic_feature_edge_file)
-    assert genomic_feature_edge_count == 25, 'There should be 25 edges between G2PAssociation and GenomicFeature'
-    # test/gene.Edge.json
-    helpers.assert_edge_file_valid(allele_in_edge_file)
-    # test/compounds.Edge.json
-    helpers.assert_edge_file_valid(environment_in_edge_file)
-    # test/g2p_associations.Edge.json
-    helpers.assert_edge_file_valid(g2p_edges_file)
+    assert genomic_feature_edge_count == 13, 'There should be 13 edges between G2PAssociation and GenomicFeature {}'.format(genomic_feature_edge_file)
+    genomic_feature_edge_count = helpers.assert_edge_file_valid(genomic_feature_g2p_edge_file)
+    assert genomic_feature_edge_count == 13, 'There should be 13 edges between G2PAssociation and GenomicFeature {}'.format(genomic_feature_g2p_edge_file)
+
+    compound_count = helpers.assert_vertex_file_valid(compound_file)
+    assert compound_count == 46, 'There should be 46 compounds'
 
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(
-        [association_file, publication_edge_file, gene_edge_file, allele_edge_file, allele_file,
-         phenotype_file, phenotype_edge_file, genomic_feature_file, genomic_feature_edge_file,
-         allele_in_edge_file, environment_in_edge_file, environment_file, g2p_edges_file],
+        all_files,
         exclude_labels=['Publication', 'Gene']
     )
 
@@ -124,8 +139,8 @@ def test_genes():
     assert normalized == ({'genes': ['ENSG00000141510']}, ['ENSG00000141510'], []), 'We should have a modified hit and a gene vertex gid'
     normalized = gene_normalize({'genes': ['TP53', 'EGFR']})
     print(normalized)
-    assert normalized[0] == {'genes': ['ENSG00000146648']}, 'should return both genes'
-    assert 'ENSG00000146648' in normalized[1] and 'ENSG00000141510' not in normalized[1], 'should return both genes'
+    assert normalized[0] == {'genes': ['ENSG00000141510', 'ENSG00000146648']}, 'should return both genes'
+    assert 'ENSG00000146648' in normalized[1] and 'ENSG00000141510' in normalized[1], 'should return both genes'
 
 
 def test_genes_nofind():

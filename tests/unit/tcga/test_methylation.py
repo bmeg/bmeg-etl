@@ -28,12 +28,15 @@ def validate(helpers, emitter_directory, source_path, id_lookup_path, project_lo
     methylation_probe_file = os.path.join(emitter_directory, 'IlluminaHumanMethylation450.MethylationProbe.Vertex.json.gz')
     methylation_file = os.path.join(emitter_directory, 'IlluminaHumanMethylation450.Methylation.Vertex.json.gz')
 
-    methylation_probes_edge_file = os.path.join(emitter_directory, 'IlluminaHumanMethylation450.methylation_probes.Edge.json.gz')
-    methylations_edge_file = os.path.join(emitter_directory, 'IlluminaHumanMethylation450.methylations.Edge.json.gz')
-    aliquot_edge_file = os.path.join(emitter_directory, 'IlluminaHumanMethylation450.aliquot.Edge.json.gz')
+    methylation_probes_edge_file = os.path.join(emitter_directory, 'IlluminaHumanMethylation450.MethylationProbe_Gene_Gene.Edge.json.gz')
+    genes_edge_file = os.path.join(emitter_directory, 'IlluminaHumanMethylation450.Gene_MethylationProbes_MethylationProbe.Edge.json.gz')
+    methylations_edge_file = os.path.join(emitter_directory, 'IlluminaHumanMethylation450.Methylation_Aliquot_Aliquot.Edge.json.gz')
+    aliquot_edge_file = os.path.join(emitter_directory, 'IlluminaHumanMethylation450.Aliquot_Methylations_Methylation.Edge.json.gz')
 
     all_files = [methylation_probe_file, methylation_file,
-                 methylation_probes_edge_file, methylations_edge_file, aliquot_edge_file]
+                 methylation_probes_edge_file, genes_edge_file,
+                 methylations_edge_file, aliquot_edge_file]
+
     # remove output
     with contextlib.suppress(FileNotFoundError):
         shutil.rmtree(emitter_directory)
