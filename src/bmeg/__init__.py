@@ -68,6 +68,15 @@ def validate(props, schema):
     return
 
 
+def get_props(data, preserve_null=False, keep=[], remove=[]):
+    if not preserve_null:
+        nulls = [k for k in data if data[k] is None and k not in remove and k not in keep]
+        remove += nulls
+        for k in remove:
+            del data[k]
+        return data
+
+
 class ClassInstance:
 
     def __init__(self, **kwargs):
@@ -79,16 +88,8 @@ class ClassInstance:
         for k, v in kwargs.items():
             self.__setattr__(k, v)
 
-    def props(self, preserve_null=False):
-        data = self._props.copy()
-        keep = ["submitter_id"]
-        remove = ["id"]
-        if not preserve_null:
-            nulls = [k for k in data if data[k] is None and k not in remove and k not in keep]
-            remove += nulls
-        for k in remove:
-            del data[k]
-        return data
+    def props(self, preserve_null=False, keep=["submitter_id"], remove=["id"]):
+        return get_props(self._props.copy(), preserve_null=False, keep=["submitter_id"], remove=["id"])
 
     def schema(self):
         return self._schema
@@ -191,16 +192,6 @@ for k, schema in _schema.schema.items():
     globals()[name] = cls
     __all__.append(name)
 
-
-def get_edge_props(self, preserve_null=False):
-    _data = self.data.copy()
-    if not preserve_null:
-        remove = [k for k in _data if _data[k] is None]
-        for k in remove:
-            del _data[k]
-    return _data
-
-
 for k, schema in _schema.schema.items():
     for link in schema['links']:
         # TODO: handle link subgroup?
@@ -231,7 +222,7 @@ for k, schema in _schema.schema.items():
                     'schema': lambda self: self._schema,
                     'validate': lambda self: validate(self.props(), self.schema()),
                     'label': lambda self: self.__label,
-                    'props': get_edge_props
+                    'props': lambda self: get_props(self.data.copy())
                 }
             )
         )
@@ -257,7 +248,7 @@ for k, schema in _schema.schema.items():
                     'schema': lambda self: self._schema,
                     'validate': lambda self: validate(self.props(), self.schema()),
                     'label': lambda self: self.__label,
-                    'props': get_edge_props
+                    'props': lambda self: get_props(self.data.copy())
                 }
             )
         )

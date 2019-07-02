@@ -35,6 +35,7 @@ def normalize(hit):
             missing_vertexes.append({'target_label': 'Gene', 'data': feature})
 
     gene_gids = [gid for gid in gene_gids]
+    gene_gids.sort()
     # gene_gids = [gid for gid in gene_gids if gid not in EXPORTED_GENES]
     # EXPORTED_GENES.extend(gene_gids)
     hit['genes'] = gene_gids
