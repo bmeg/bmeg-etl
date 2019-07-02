@@ -56,6 +56,7 @@ def transform(cases_path="source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.tx
         # case
         c = Case(
             id=Case.make_gid(case_id),
+            submitter_id=case_id,
             case_id=case_id,
             gtex_attributes=case_props[case_id],
             project_id=proj.gid()
@@ -75,6 +76,7 @@ def transform(cases_path="source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.tx
         # sample
         s = Sample(
             id=Sample.make_gid(sample_id),
+            submitter_id=sample_id,
             sample_id=sample_id,
             gtex_attributes=row,
             project_id=proj.gid()
@@ -100,6 +102,7 @@ def transform(cases_path="source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.tx
         # aliquot
         a = Aliquot(
             id=Aliquot.make_gid(sample_id),
+            submitter_id=sample_id,
             aliquot_id=sample_id,
             project_id=proj.gid()
         )
