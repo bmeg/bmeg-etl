@@ -68,13 +68,16 @@ def validate(props, schema):
     return
 
 
-def get_props(data, preserve_null=False, keep=[], remove=[]):
+def get_props(in_data, preserve_null=False, keep=[], remove=[]):
+    data = in_data.copy()
+    to_keep = keep.copy()
+    to_remove = remove.copy()
     if not preserve_null:
-        nulls = [k for k in data if data[k] is None and k not in remove and k not in keep]
-        remove += nulls
-        for k in remove:
+        nulls = [k for k in data if data[k] is None and k not in to_remove and k not in to_keep]
+        to_remove += nulls
+        for k in to_remove:
             del data[k]
-        return data
+    return data
 
 
 class ClassInstance:
@@ -89,7 +92,7 @@ class ClassInstance:
             self.__setattr__(k, v)
 
     def props(self, preserve_null=False, keep=["submitter_id"], remove=["id"]):
-        return get_props(self._props.copy(), preserve_null=False, keep=["submitter_id"], remove=["id"])
+        return get_props(in_data=self._props, preserve_null=preserve_null, keep=keep, remove=remove)
 
     def schema(self):
         return self._schema
@@ -222,7 +225,7 @@ for k, schema in _schema.schema.items():
                     'schema': lambda self: self._schema,
                     'validate': lambda self: validate(self.props(), self.schema()),
                     'label': lambda self: self.__label,
-                    'props': lambda self: get_props(self.data.copy())
+                    'props': lambda self: get_props(self.data)
                 }
             )
         )
@@ -248,7 +251,7 @@ for k, schema in _schema.schema.items():
                     'schema': lambda self: self._schema,
                     'validate': lambda self: validate(self.props(), self.schema()),
                     'label': lambda self: self.__label,
-                    'props': lambda self: get_props(self.data.copy())
+                    'props': lambda self: get_props(self.data)
                 }
             )
         )
