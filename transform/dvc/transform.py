@@ -1,24 +1,23 @@
 import yaml
 import glob
+import os
+
 from bmeg import File, Command, Command_Writes_File, Command_Reads_File
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
 from bmeg.emitter import new_emitter
-""" simple transform of dvc into md """
-
-
-DEFAULT_DIRECTORY = 'meta'
 
 
 def transform(
-    dvc_path="./*.dvc",
+    dvc_path="**/*.dvc",
     emitter_name="json",
     output_dir="outputs",
-    emitter_directory=DEFAULT_DIRECTORY,
+    emitter_directory="meta",
 ):
     emitter = new_emitter(name=emitter_name, directory=emitter_directory)
     file_keys = ['path', 'md5']
     dups = []
+    dvc_path = os.path.join(output_dir, dvc_path)
     for filename in glob.iglob(dvc_path, recursive=False):
         with open(filename, 'r') as stream:
             dvc = yaml.safe_load(stream)

@@ -63,8 +63,10 @@ EXCEPTIONS = [
     # Meta files
     "outputs/meta/Command.Vertex.json.gz",
     "outputs/meta/File.Vertex.json.gz",
-    "outputs/meta/Reads.Edge.json.gz",
-    "outputs/meta/Writes.Edge.json.gz",
+    "outputs/meta/Command_Reads_File.json.gz",
+    "outputs/meta/File_InputTo_Command.json.gz",
+    "outputs/meta/Command_Writes_File.Edge.json.gz",
+    "outputs/meta/File_CreatedBy_Command.json.gz",
     "outputs/meta/bmeg_file_manifest.txt",
     # Methylation
     "outputs/tcga/IlluminaHumanMethylation450.Methylation.Vertex.json.gz",
