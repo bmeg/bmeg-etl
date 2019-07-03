@@ -5,45 +5,74 @@ import shlex
 import yaml
 
 
-files = glob.glob("outputs.*.dvc")
+files = glob.glob("outputs/**/*.dvc")
 
 EXCEPTIONS = [
-    "outputs/ccle/ccle.PhenotypeOf.Edge.json.gz",
+    # unnormalized Phenotypes
     "outputs/ccle/ccle.Phenotype.Vertex.json.gz",
-    "outputs/ccle/drug_response.Compound.Vertex.json.gz",
-    "outputs/ccle/drug_response.ResponseTo.Edge.json.gz",
-    "outputs/ccle/drug_response.TestedIn.Edge.json.gz",
-    "outputs/ccle/maf.Allele.Vertex.json.gz",
-    "outputs/ccle/maf.Deadletter.Vertex.json.gz",
-    "outputs/ctrp/ctrp.Compound.Vertex.json.gz",
-    "outputs/ctrp/ctrp.PhenotypeOf.Edge.json.gz",
     "outputs/ctrp/ctrp.Phenotype.Vertex.json.gz",
-    "outputs/ctrp/ctrp.ResponseTo.Edge.json.gz",
-    "outputs/ctrp/ctrp.TestedIn.Edge.json.gz",
-    "outputs/g2p/Allele.Vertex.json.gz",
-    "outputs/g2p/Compound.Vertex.json.gz",
-    "outputs/g2p/Deadletter.Vertex.json.gz",
-    "outputs/g2p/HasEnvironment.Edge.json.gz",
-    "outputs/g2p/HasPhenotype.Edge.json.gz",
     "outputs/g2p/Phenotype.Vertex.json.gz",
-    "outputs/gdc/Compound.Vertex.json.gz",
-    "outputs/gdc/TreatedWith.Edge.json.gz",
-    "outputs/gdsc/gdsc.Compound.Vertex.json.gz",
-    "outputs/gdsc/gdsc.PhenotypeOf.Edge.json.gz",
     "outputs/gdsc/gdsc.Phenotype.Vertex.json.gz",
-    "outputs/gdsc/gdsc.ResponseTo.Edge.json.gz",
-    "outputs/gdsc/gdsc.TestedIn.Edge.json.gz",
-    "outputs/mc3/Allele.Vertex.json.gz",
+    # unnormalized Phenotype edges
+    "outputs/ccle/drug_response.DrugResponse_Compounds_Compound.Edge.json.gz",
+    "outputs/ccle/drug_response.Compound_DrugResponses_DrugResponse.Edge.json.gz",
+    "outputs/ctrp/drug_response.DrugResponse_Compounds_Compound.Edge.json.gz",
+    "outputs/ctrp/drug_response.Compound_DrugResponses_DrugResponse.Edge.json.gz",
+    "outputs/gdsc/drug_response.DrugResponse_Compounds_Compound.Edge.json.gz",
+    "outputs/gdsc/drug_response.Compound_DrugResponses_DrugResponse.Edge.json.gz",
+    "outputs/g2p/G2PAssociation_Compounds_Compound.Edge.json.gz",
+    "outputs/g2p/Compound_G2PAssociations_G2PAssociation.Edge.json.gz",
+    "outputs/gdc/Case_Compounds_Compound.Edge.json.gz",
+    "outputs/gdc/Compound_Cases_Case.Edge.json.gz",
+    "outputs/gdc/Compound_Projects_Project.Edge.json.gz ",
+    "outputs/gdc/Project_Compounds_Compound.Edge.json.gz",
+    "outputs/ccle/drug_response.Project_Compounds_Compound.Edge.json.gz",
+    "outputs/ccle/drug_response.Compound_Projects_Project.Edge.json.gz",
+    "outputs/ctrp/drug_response.Project_Compounds_Compound.Edge.json.gz",
+    "outputs/ctrp/drug_response.Compound_Projects_Project.Edge.json.gz",
+    "outputs/gdsc/drug_response.Project_Compounds_Compound.Edge.json.gz",
+    "outputs/gdsc/drug_response.Compound_Projects_Project.Edge.json.gz",
+    # unnormalized Compounds
+    "outputs/ccle/drug_response.Compound.Vertex.json.gz",
+    "outputs/ctrp/ctrp.Compound.Vertex.json.gz",
+    "outputs/g2p/Compound.Vertex.json.gz",
+    "outputs/gdc/Compound.Vertex.json.gz",
+    "outputs/gdsc/gdsc.Compound.Vertex.json.gz",
+    # unnormalized Compound edges
+    "outputs/ccle/ccle.Case_Phenotypes_Phenotype.Edge.json.gz",
+    "outputs/ccle/ccle.Phenotype_Cases_Case.Edge.json.gz",
+    "outputs/ccle/ccle.Sample_Phenotypes_Phenotype.Edge.json.gz",
+    "outputs/ccle/ccle.Phenotype_Samples_Sample.Edge.json.gz",
+    "outputs/ctrp/ctrp.Case_Phenotypes_Phenotype.Edge.json.gz",
+    "outputs/ctrp/ctrp.Phenotype_Cases_Case.Edge.json.gz",
+    "outputs/ctrp/ctrp.Sample_Phenotypes_Phenotype.Edge.json.gz",
+    "outputs/ctrp/ctrp.Phenotype_Samples_Sample.Edge.json.gz",
+    "outputs/gdsc/gdsc.Case_Phenotypes_Phenotype.Edge.json.gz",
+    "outputs/gdsc/gdsc.Phenotype_Cases_Case.Edge.json.gz",
+    "outputs/gdsc/gdsc.Sample_Phenotypes_Phenotype.Edge.json.gz",
+    "outputs/gdsc/gdsc.Phenotype_Samples_Sample.Edge.json.gz",
+    "outputs/g2p/G2PAssociation_Phenotypes_Phenotype.Edge.json.gz",
+    "outputs/g2p/Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz",
+    # Deadletter
+    "outputs/g2p/Deadletter.Vertex.json.gz",
     "outputs/mc3/Deadletter.Vertex.json.gz",
+    # unnormalized Allele
+    "outputs/ccle/maf.Allele.Vertex.json.gz",
+    "outputs/g2p/Allele.Vertex.json.gz",
+    "outputs/mc3/Allele.Vertex.json.gz",
+    # Meta files
     "outputs/meta/Command.Vertex.json.gz",
     "outputs/meta/File.Vertex.json.gz",
     "outputs/meta/Reads.Edge.json.gz",
     "outputs/meta/Writes.Edge.json.gz",
     "outputs/meta/bmeg_file_manifest.txt",
+    # Methylation
     "outputs/tcga/IlluminaHumanMethylation450.Methylation.Vertex.json.gz",
-    "outputs/tcga/IlluminaHumanMethylation450.MethylationOf.Edge.json.gz",
     "outputs/tcga/IlluminaHumanMethylation450.MethylationProbe.Vertex.json.gz",
-    "outputs/tcga/IlluminaHumanMethylation450.MethylationProbeFor.Edge.json.gz",
+    "outputs/tcga/IlluminaHumanMethylation450.Aliquot_Methylations_Methylation.Edge.json.gz",
+    "outputs/tcga/IlluminaHumanMethylation450.Methylation_Aliquot_Aliquot.Edge.json.gz",
+    "outputs/tcga/IlluminaHumanMethylation450.MethylationProbe_Gene_Gene.Edge.json.gz",
+    "outputs/tcga/IlluminaHumanMethylation450.Gene_MethylationProbes_MethylationProbe.Edge.json.gz"
 ]
 
 print("generating DVC command...")
