@@ -10,7 +10,7 @@ from bmeg.emitter import JSONEmitter
 # AS-IS: ftp://ftp.ensembl.org/pub/release-93/json/homo_sapiens/homo_sapiens.json
 # TODO ?: ftp://ftp.ensembl.org/pub/grch37/release-94/rdf/homo_sapiens.ttl.gz
 def transform(data_path='source/pfam/homo_sapiens.json',
-              emitter_prefix='toproteins',
+              emitter_prefix=None,
               emitter_directory='pfam'):
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
