@@ -1,9 +1,0 @@
-cmd: python3 transform/tcga/download_methylation.py
-deps:
-- md5: 6808ca805661622ad65ae014a4b2a094
-  path: source/tcga/methylation/version.txt
-md5: 3d6001b8dc6a656b85716369ce5b0b18
-outs:
-- cache: true
-  md5: c3e5ab440c94c37a676767a6afa685de
-  path: source/tcga/methylation/IlluminaHumanMethylation450.tar.gz

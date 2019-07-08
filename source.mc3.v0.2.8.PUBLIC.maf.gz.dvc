@@ -1,8 +1,0 @@
-deps:
-- etag: 98853ac331663626a2f40624bad344dd-90
-  path: remote://source/mc3/mc3.v0.2.8.PUBLIC.maf.gz
-md5: 24e2c59801bd82deb2eddaf12aa92d90
-outs:
-- cache: true
-  md5: 639ad8f8386e98dacc22e439188aa8fa
-  path: source/mc3/mc3.v0.2.8.PUBLIC.maf.gz

@@ -1,9 +1,0 @@
-cmd: ' wget -nH --cut-dirs=1 --recursive -P source/pubmed/ ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/'
-deps:
-- md5: d91c8bc98f0e6f2134e23bd90cb84227
-  path: source/pubmed/version.txt
-md5: 6f63784d299c33fe004975a9382b9ba6
-outs:
-- cache: true
-  md5: cd7f54a498d233fdf2710af816ca06b7.dir
-  path: source/pubmed/baseline
