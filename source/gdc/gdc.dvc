@@ -1,0 +1,19 @@
+md5: c009ed9ffa5155b8fcb0118554764f75
+cmd: python3 transform/gdc/download.py
+wdir: ../..
+deps:
+- md5: 9dfe573ca4e79445e6591801e4a7ab1b
+  path: transform/gdc/download.py
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/gdc/version.txt
+outs:
+- md5: 4a22e8c3b57df070b9401a71aa166180
+  path: source/gdc/cases.json
+  cache: true
+  metric: false
+  persist: false
+- md5: 52c1659f52406869466253844f48fe1c.dir
+  path: source/gdc/compounds
+  cache: true
+  metric: false
+  persist: false

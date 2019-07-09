@@ -1,0 +1,12 @@
+md5: 890530ab12ac3bb1863d3ab77b939d13
+cmd: wget https://osf.io/7qpsg/download -O source/tcga/expression/transcript-level/TCGA_ID_MAP.csv
+wdir: ../..
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/tcga/version.txt
+outs:
+- md5: 07b930da26e4a06dcf8c9a0faff57be1
+  path: source/tcga/expression/transcript-level/TCGA_ID_MAP.csv
+  cache: true
+  metric: false
+  persist: false

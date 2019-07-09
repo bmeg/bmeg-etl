@@ -1,0 +1,14 @@
+md5: 15ff9346b79902541c52573490b8c218
+cmd: curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 360 --retry
+  128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ensembl.org/pub/release-93/json/homo_sapiens/homo_sapiens.json
+  --output source/pfam/homo_sapiens.json
+wdir: ../..
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/pfam/version.txt
+outs:
+- md5: a716f3864b3883ef8b4a29adebc29533
+  path: source/pfam/homo_sapiens.json
+  cache: true
+  metric: false
+  persist: false

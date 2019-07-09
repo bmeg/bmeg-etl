@@ -1,0 +1,34 @@
+md5: 8f8616a3855a039dab07ec830c0434f7
+cmd: curl -o source/ctrp/CTRPv2.0_2015_ctd2_ExpandedDataset.zip ftp://anonymous:guest@caftpd.nci.nih.gov/pub/OCG-DCC/CTD2/Broad/CTRPv2.0_2015_ctd2_ExpandedDataset/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
+  && unzip -d source/ctrp/ source/ctrp/CTRPv2.0_2015_ctd2_ExpandedDataset.zip && rm
+  source/ctrp/CTRPv2.0_2015_ctd2_ExpandedDataset.zip
+wdir: ../..
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/ctrp/version.txt
+outs:
+- md5: 08ee08009c543d7a6ab4c4e34c54649e
+  path: source/ctrp/v20.meta.per_compound.txt
+  cache: true
+  metric: false
+  persist: false
+- md5: 30381766e5a0deb1c50c50c7bab546de
+  path: source/ctrp/v20.meta.per_cell_line.txt
+  cache: true
+  metric: false
+  persist: false
+- md5: 62fb9c1cc9e51074fdfbc826481e5c91
+  path: source/ctrp/v20.data.curves_post_qc.txt
+  cache: true
+  metric: false
+  persist: false
+- md5: 91e2d3763385ad1e69fa201be70c722c
+  path: source/ctrp/v20.meta.per_experiment.txt
+  cache: true
+  metric: false
+  persist: false
+- md5: 33a8c30659874b027dda316f257e12e1
+  path: source/ctrp/v20.data.per_cpd_post_qc.txt
+  cache: true
+  metric: false
+  persist: false

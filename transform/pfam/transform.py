@@ -106,7 +106,7 @@ def xml_transform(dom, emit):
             )
 
 
-def transform(pfam_xmls="source/pfam/*.xml",
+def transform(pfam_xmls="source/pfam/xmls/*.xml",
               clans_file="source/pfam/clans.tsv",
               emitter_prefix=None,
               emitter_directory='pfam'):

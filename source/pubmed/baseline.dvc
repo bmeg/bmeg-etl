@@ -1,0 +1,12 @@
+md5: 77f250194a4b62988f1cd05386cff642
+cmd: wget -nH --cut-dirs=1 --recursive -P source/pubmed/ ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/
+wdir: ../..
+deps:
+- md5: d91c8bc98f0e6f2134e23bd90cb84227
+  path: source/pubmed/version.txt
+outs:
+- md5: cd7f54a498d233fdf2710af816ca06b7.dir
+  path: source/pubmed/baseline
+  cache: true
+  metric: false
+  persist: false

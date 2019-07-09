@@ -1,0 +1,12 @@
+md5: 48f20820dc8dbf2366dfa6b2cad15c1b
+cmd: curl https://s3-us-west-2.amazonaws.com/g2p-0.12/all.json | gzip > source/g2p/all.json.gz
+wdir: ../..
+deps:
+- md5: 0baa36c0aa8d1883b5ded91b5fc5bb5b
+  path: source/g2p/version.txt
+outs:
+- md5: 4847030bbc64da3821f5a7f57570a783
+  path: source/g2p/all.json.gz
+  cache: true
+  metric: false
+  persist: false

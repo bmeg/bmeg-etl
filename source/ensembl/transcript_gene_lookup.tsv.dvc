@@ -1,0 +1,14 @@
+md5: b72931bc3a80d58ea74dde15142095d9
+cmd: paste <(zcat source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz | sed '1d'
+  | cut -f 2) <(zcat source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz | sed '1d'
+  | cut -f 1) > source/ensembl/transcript_gene_lookup.tsv
+wdir: ../..
+deps:
+- md5: 020ecb8e355c0999f19c0dbd2ae50756
+  path: source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz
+outs:
+- md5: 7e1809c19af84a187d4c6f79c02f9f11
+  path: source/ensembl/transcript_gene_lookup.tsv
+  cache: true
+  metric: false
+  persist: false
