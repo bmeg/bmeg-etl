@@ -24,7 +24,9 @@ def allele(feature):
         ),
         'project_id': Project.make_gid("Reference")
     }
-    return Allele(**params)
+    a = Allele(**params)
+    a.validate()
+    return a
 
 
 def genomic_feature(feature):
@@ -44,7 +46,9 @@ def genomic_feature(feature):
         'project_id': Project.make_gid("Reference")
     }
 
-    return GenomicFeature(**params)
+    gf = GenomicFeature(**params)
+    gf.validate()
+    return gf
 
 
 def normalize(hit):

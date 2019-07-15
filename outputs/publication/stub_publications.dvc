@@ -1,0 +1,18 @@
+md5: a768ecc8365708b69e5141a285335efa
+cmd: python3 transform/publication/transform.py --debug
+wdir: ../..
+deps:
+- md5: 15fc6631cd700953dc7bcc74728c44fa
+  path: transform/publication/transform.py
+- md5: 4d27c856fce5b21f47245dd43ef4294b
+  path: outputs/g2p/G2PAssociation_Publications_Publication.Edge.json.gz
+- md5: 08108bb2cf1812e81ddaa54ca81e1b12
+  path: outputs/g2p/Publication_G2PAssociations_G2PAssociation.Edge.json.gz
+- md5: 74fca1e8317c7fe7cc6863fb1d934d16.dir
+  path: outputs/pubmed
+outs:
+- md5: ed7f301f1a7d1cefea86aa5ac5bec81a
+  path: outputs/publication/stub.Publication.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false

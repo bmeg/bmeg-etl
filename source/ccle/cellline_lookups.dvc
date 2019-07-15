@@ -1,5 +1,5 @@
-md5: de34d35ced979b1bccc108f71b605ce6
-cmd: ' python3 transform/ccle/cellline_lookups.py'
+md5: 0a3e34c46e22ca335b178f9d46268e62
+cmd: python3 transform/ccle/cellline_lookups.py
 wdir: ../..
 deps:
 - md5: ea9d774ca9ccf8052343f7ebbfabb9a6

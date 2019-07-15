@@ -17,7 +17,7 @@ from bmeg.util.logging import default_logging
 
 def transform(source_path,
               id_map_file="source/tcga/expression/transcript-level/TCGA_ID_MAP.csv",
-              gene_map_file="source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.trans_gene.tsv",
+              gene_map_file="source/ensembl/transcript_gene_lookup.tsv",
               emitter_directory="tcga"):
 
     # check if we are doing one file at time

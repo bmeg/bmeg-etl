@@ -1,0 +1,53 @@
+md5: 2488929a86d11d19ecb8b62d0a042a27
+cmd: python3 transform/ccle/ccle_drug_response.py
+wdir: ../..
+deps:
+- md5: a1998165746eb39f24a7305a792e9de9
+  path: transform/ccle/ccle_drug_response.py
+- md5: e6d1bc2ea16ca63f03474a27ea27034e
+  path: source/ccle/cellline_lookup.tsv
+- md5: 7ef860f52bd8a7c6028adb8183a624ff
+  path: source/ccle/cellline_project_lookup.tsv
+- md5: 917f411573d5e68f9d61234e9e1bb539
+  path: source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv
+outs:
+- md5: 072045242b01adb0789e82202bc3b816
+  path: outputs/ccle/drug_response.Compound.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 45f3eb81006febd98dd818ae4cf2888e
+  path: outputs/ccle/drug_response.DrugResponse.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: dca63c9bcbf31ceac31f9120e7d4aec1
+  path: outputs/ccle/drug_response.Aliquot_DrugResponse_DrugResponse.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 442690ddbd40f22c0b2bc5db07a3ebd3
+  path: outputs/ccle/drug_response.DrugResponse_Aliquot_Aliquot.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 848566e573744e2303b49f6c0986a413
+  path: outputs/ccle/drug_response.DrugResponse_Compounds_Compound.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 430ad1dac006e74fc1972b7e51cbd942
+  path: outputs/ccle/drug_response.Compound_DrugResponses_DrugResponse.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 7e78ec6311fca7f7d13bb8b1cdb74b91
+  path: outputs/ccle/drug_response.Project_Compounds_Compound.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: ccd6e531e1f7bc47a4fad5bd303ec63b
+  path: outputs/ccle/drug_response.Compound_Projects_Project.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false

@@ -34,7 +34,8 @@ def normalizeAssociations(path):
     NormalizedAssociation = collections.namedtuple(
         'NormalizedAssociation',
         ['vertices', 'genes', 'features', 'environments', 'phenotypes',
-         'publications', 'association', 'genomic_features', 'missing_vertexes'])
+         'publications', 'association', 'genomic_features', 'missing_vertexes']
+    )
     for line in input_stream:
         hit = json.loads(line)
         if hit['source'] == 'litvar':
@@ -54,8 +55,10 @@ def normalizeAssociations(path):
 def toGraph(normalized_association, emitter):
     """ tuple to graph edges and vertexes """
     na = normalized_association
+
     association = na.association
     emitter.emit_vertex(association)
+
     # assume pubmed transformer creating publication vertex
     for publication_gid in na.publications:
         emitter.emit_edge(
@@ -65,6 +68,7 @@ def toGraph(normalized_association, emitter):
             ),
             emit_backref=True
         )
+
     # note we assume gene vertexes are already created
     for gene_gid in na.genes:
         emitter.emit_edge(
@@ -74,6 +78,7 @@ def toGraph(normalized_association, emitter):
             ),
             emit_backref=True
         )
+
     for allele in na.vertices['features']:
         emitter.emit_vertex(allele)
     for feature_gid in na.features:
@@ -85,8 +90,8 @@ def toGraph(normalized_association, emitter):
             emit_backref=True
         )
 
-    for allele in na.vertices['genomic_features']:
-        emitter.emit_vertex(allele)
+    for feature in na.vertices['genomic_features']:
+        emitter.emit_vertex(feature)
     for feature_gid in na.genomic_features:
         emitter.emit_edge(
             G2PAssociation_GenomicFeatures_GenomicFeature(

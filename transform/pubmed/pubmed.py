@@ -195,7 +195,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-l", action="store_true", default=False)
-    parser.add_argument("-o", "--output", default="pubmed")
+    parser.add_argument("-o", "--output", default="pubmed/baseline")
     parser.add_argument("--scan", default="source/pubmed")
     parser.add_argument("files", nargs="*")
     args = parser.parse_args()

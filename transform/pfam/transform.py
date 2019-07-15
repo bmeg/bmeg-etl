@@ -1,5 +1,4 @@
-#!/usr/bin/env python3
-
+import csv
 from glob import glob
 
 from xml.dom.minidom import parseString
@@ -9,7 +8,6 @@ from bmeg import (PfamFamily, PfamClan, GeneOntologyTerm, Project,
                   PfamClan_PfamFamilies_PfamFamily)
 
 from bmeg.emitter import JSONEmitter
-from bmeg.ioutils import read_tsv
 
 
 def getText(nodelist):
@@ -118,7 +116,10 @@ def transform(pfam_xmls="source/pfam/xmls/*.xml",
             dom = parseString(handle.read())
             xml_transform(dom, emitter)
 
-    tsv_in = read_tsv(clans_file, fieldnames=["accession", "id", "description"])
+    fh = open(clans_file, "r")
+    tsv_in = csv.DictReader(filter(lambda row: row[0] != '#', fh),
+                            delimiter="\t",
+                            fieldnames=["accession", "id", "description"])
     for line in tsv_in:
         # accession	id	description
         c = PfamClan(
@@ -129,7 +130,7 @@ def transform(pfam_xmls="source/pfam/xmls/*.xml",
             project_id=Project.make_gid("Reference")
         )
         emitter.emit_vertex(c)
-
+    fh.close()
     emitter.close()
 
 

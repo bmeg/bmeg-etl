@@ -1,0 +1,34 @@
+md5: fe35799bb14a7c33ed47d209eda26664
+cmd: python3 transform/gdc/compounds.py
+wdir: ../..
+deps:
+- md5: 6d7485ba6234273602108e0da5c2df7f
+  path: transform/gdc/compounds.py
+- md5: 52c1659f52406869466253844f48fe1c.dir
+  path: source/gdc/compounds
+outs:
+- md5: 349a8a1b17f6356b3947f20b8d4e29b7
+  path: outputs/gdc/gdc.Compound.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: bea15dc9e40b2c9a8e918092dafaec0e
+  path: outputs/gdc/gdc.Case_Compounds_Compound.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 717cfe9a69a5c10660b20e0fca57ca6d
+  path: outputs/gdc/gdc.Compound_Cases_Case.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 32c494315d7d5cfc011c6f9e459f4075
+  path: outputs/gdc/gdc.Compound_Projects_Project.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 9b369a4d8475b6c9e8758bc6d2d2e175
+  path: outputs/gdc/gdc.Project_Compounds_Compound.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false

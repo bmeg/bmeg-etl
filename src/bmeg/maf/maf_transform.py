@@ -179,6 +179,12 @@ class MAFTransformer():
                 allele = self.allele_maker(line)
                 # save the allele that was created
                 emitter.emit_vertex(allele)
+            except Exception as exc:
+                logging.exception(exc)
+                e += 1
+                emitter.emit_vertex(Deadletter(target_label='Allele', data=line))
+
+            try:
                 # create edge between the allele and the callset
                 call_tuples, callsets = self.callset_maker(line, method)
                 # save the calls
@@ -214,23 +220,19 @@ class MAFTransformer():
                                 emit_backref=True
                             )
                         my_callsets_ids[callset.gid()] = True
-
                 # create edge to gene
-                try:
-                    gene_gid = self.create_gene_gid(line)
-                    if gene_gid:
-                        emitter.emit_edge(
-                            Allele_Gene_Gene(
-                                from_gid=allele.gid(),
-                                to_gid=gene_gid
-                            )
-                        )
-                except Exception as exc:
-                    logging.exception(exc)
+                gene_gid = self.create_gene_gid(line)
+                if gene_gid:
+                    emitter.emit_edge(
+                        Allele_Gene_Gene(
+                            from_gid=allele.gid(),
+                            to_gid=gene_gid
+                        ),
+                        emit_backref=True
+                    )
             except Exception as exc:
-                logging.exception(exc)
                 e += 1
-                emitter.emit_vertex(Deadletter(target_label='Allele', data=line))
+                logging.exception(exc)
 
             # log progress
             c += 1

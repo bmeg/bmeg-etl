@@ -9,6 +9,7 @@ def create_association(hit):
     association_parms = {
         'source': hit['source'],
         'source_document': json.dumps(hit[hit['source']],
+                                      sort_keys=True,
                                       separators=(',', ':')),
     }
     for f in ['description', 'evidence_label', 'response_type',
