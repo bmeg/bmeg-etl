@@ -137,9 +137,6 @@ def transform(vertex_names="**/*Compound.Vertex.json*",
 
 if __name__ == '__main__':  # pragma: no cover
     parser = default_argument_parser()
-    parser.add_argument('--vertex_files', nargs='+', help='vertex list', required=True)
-    parser.add_argument('--edge_files', nargs='+', help='edge list', required=True)
     options = parser.parse_args(sys.argv[1:])
     default_logging(options.loglevel)
-
-    transform(vertex_files=options.vertex_files, edge_files=options.edge_files)
+    transform()

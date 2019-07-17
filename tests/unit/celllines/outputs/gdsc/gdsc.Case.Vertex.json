@@ -1,0 +1,9 @@
+{"_id": "Case:GDSC:ACH-000956", "gid": "Case:GDSC:ACH-000956", "label": "Case", "data": {"case_id": "ACH-000956", "project_id": "Project:GDSC_Prostate_Cancer", "submitter_id": "22RV1"}}
+{"_id": "Case:GDSC:ACH-000323", "gid": "Case:GDSC:ACH-000323", "label": "Case", "data": {"case_id": "ACH-000323", "project_id": "Project:GDSC_Brain_Cancer", "submitter_id": "42-MG-BA"}}
+{"_id": "Case:GDSC:ACH-000905", "gid": "Case:GDSC:ACH-000905", "label": "Case", "data": {"case_id": "ACH-000905", "project_id": "Project:GDSC_Bladder_Cancer", "submitter_id": "5637"}}
+{"_id": "Case:GDSC:ACH-000973", "gid": "Case:GDSC:ACH-000973", "label": "Case", "data": {"case_id": "ACH-000973", "project_id": "Project:GDSC_Bladder_Cancer", "submitter_id": "639-V"}}
+{"_id": "Case:GDSC:ACH-000070", "gid": "Case:GDSC:ACH-000070", "label": "Case", "data": {"case_id": "ACH-000070", "project_id": "Project:GDSC_Leukemia", "submitter_id": "697"}}
+{"_id": "Case:GDSC:ACH-000411", "gid": "Case:GDSC:ACH-000411", "label": "Case", "data": {"case_id": "ACH-000411", "project_id": "Project:GDSC_Kidney_Cancer", "submitter_id": "769-P"}}
+{"_id": "Case:GDSC:ACH-000649", "gid": "Case:GDSC:ACH-000649", "label": "Case", "data": {"case_id": "ACH-000649", "project_id": "Project:GDSC_Kidney_Cancer", "submitter_id": "786-0"}}
+{"_id": "Case:GDSC:ACH-001306", "gid": "Case:GDSC:ACH-001306", "label": "Case", "data": {"case_id": "ACH-001306", "project_id": "Project:GDSC_Thyroid_Cancer", "submitter_id": "8305C"}}
+{"_id": "Case:GDSC:ACH-001307", "gid": "Case:GDSC:ACH-001307", "label": "Case", "data": {"case_id": "ACH-001307", "project_id": "Project:GDSC_Thyroid_Cancer", "submitter_id": "8505C"}}

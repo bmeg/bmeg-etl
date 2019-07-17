@@ -29,15 +29,15 @@ def transform(
 
     path = '{}/{}'.format(output_dir, vertex_names)
     vertex_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
-    logging.info(vertex_files)
+    logging.info("vertex files: %s", vertex_files)
 
-    logging.info(store_path)
+    logging.info("store path: %s", store_path)
     store = new_store('key-val', path=store_path, index=True)
     store.index()  # default is no index
 
     c = t = e = 0
     for file in vertex_files:
-        logging.info(file)
+        logging.info("processing file: %s", file)
         with reader(file) as ins:
             for line in ins:
                 try:
@@ -104,10 +104,10 @@ def transform(
     # get the edges
     path = '{}/{}'.format(output_dir, edge_names)
     edge_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
-    logging.info(edge_files)
+    logging.info("edge files: %s", edge_files)
     c = t = e = 0
     for file in edge_files:
-        logging.info(file)
+        logging.info("processing file: %s", file)
         with reader(file) as ins:
             for line in ins:
                 try:
@@ -156,8 +156,6 @@ def transform(
 
 if __name__ == '__main__':  # pragma: no cover
     parser = default_argument_parser()
-    parser.add_argument('--vertex_files', nargs='+', help='vertex list', required=True)
-    parser.add_argument('--edge_files', nargs='+', help='edge list', required=True)
     options = parser.parse_args(sys.argv[1:])
     default_logging(options.loglevel)
-    transform(vertex_files=options.vertex_files, edge_files=options.edge_files)
+    transform()

@@ -98,7 +98,8 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             )
             emitted_projects[proj.gid()] = None
 
-        c = Case(id=Case.make_gid(cellline_id),
+        case_id = "CTRP:%s" % (cellline_id)
+        c = Case(id=Case.make_gid(case_id),
                  submitter_id=i,
                  case_id=cellline_id,
                  project_id=proj.gid())

@@ -74,8 +74,8 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             )
             emitted_projects[proj.gid()] = None
 
-        # cellline cases belong to multiple projects so we leave project_id blank...
-        c = Case(id=Case.make_gid(cellline_id),
+        case_id = "GDSC:%s" % (cellline_id)
+        c = Case(id=Case.make_gid(case_id),
                  submitter_id=str(row["Sample Name"]),
                  case_id=cellline_id,
                  project_id=proj.gid())
