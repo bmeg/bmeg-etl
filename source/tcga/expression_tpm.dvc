@@ -1,10 +1,11 @@
-md5: 2f6806e5acc9a027550e7315eda77a25
-cmd: unzip -j source/tcga/expression/transcript-level/tcga-genomics.zip *_tpm.tsv.gz
-  -d source/tcga/expression/transcript-level
+md5: cd90edb38c568d60a5692daf4f4202fe
+cmd: wget https://files.osf.io/v1/resources/gqrz9/providers/osfstorage/578518706c613b01f0a8325f/?zip=
+  -O source/tcga/expression/transcript-level/tcga-genomics.zip && unzip -j source/tcga/expression/transcript-level/tcga-genomics.zip
+  *_tpm.tsv.gz -d source/tcga/expression/transcript-level && rm source/tcga/expression/transcript-level/tcga-genomics.zip
 wdir: ../..
 deps:
-- md5: c91abbc4c77009a8ae965f060405b9b5
-  path: source/tcga/expression/transcript-level/tcga-genomics.zip
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/tcga/version.txt
 outs:
 - md5: 15525092ad0e0598b95b874c9660bf6c
   path: source/tcga/expression/transcript-level/TCGA_ACC_tpm.tsv.gz

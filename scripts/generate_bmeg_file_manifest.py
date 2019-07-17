@@ -103,6 +103,9 @@ for f in files:
                     outputs.append(of)
 
 for o in sorted(set(outputs)):
+    if not (o.endswith(".Edge.json.gz") or o.endswith(".Vertex.json.gz")):
+        print("excluding {}...".format(o))
+        continue
     DVC_CMD += " -d {}".format(o)
 
 DVC_CMD += ' "echo generating file manifest..."'
