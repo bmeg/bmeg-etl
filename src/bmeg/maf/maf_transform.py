@@ -64,14 +64,18 @@ FEATURE_TYPE = "Feature_type"  # 49
 dbSNP_RS = "dbSNP_RS"  # 13
 
 
-def get_value(d, keys, default):
+def get_value(d, key, default):
     """utility get value from list"""
-    if isinstance(keys, list):
-        for k in keys:
+    val = None
+    if isinstance(key, list):
+        for k in key:
             if k in d:
-                return d[k]
-    elif keys in d:
-        return d[keys]
+                val = d[k]
+                break
+    elif key in d:
+        val = d[key]
+    if val is not None and val != "":
+        return val
     return default
 
 
@@ -118,15 +122,15 @@ class MAFTransformer():
         # collect CURIES that apply to allele
         record = {
             'genome': genome,
-            'chromosome': line[CHROMOSOME],
+            'chromosome': get_value(line, CHROMOSOME, None),
             'start': int(get_value(line, START, None)),
             'end': int(get_value(line, END, None)),
-            'reference_bases': line[REFERENCE_ALLELE],
-            'alternate_bases': line[self.TUMOR_ALLELE],
-            'strand': line[STRAND]
+            'reference_bases': get_value(line, REFERENCE_ALLELE, None),
+            'alternate_bases': get_value(line, self.TUMOR_ALLELE, None),
+            'strand': get_value(line, STRAND, None)
         }
         for key, data_key in STANDARD_MAF_KEYS.items():
-            value = line.get(key, None)
+            value = get_value(line, key, None)
             if value:
                 record[data_key] = value
         return record

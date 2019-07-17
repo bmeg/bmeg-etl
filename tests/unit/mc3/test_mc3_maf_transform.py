@@ -31,7 +31,7 @@ def gz_file(request):
 @pytest.fixture
 def no_center_file(request):
     """ get the full path of the test fixture """
-    return os.path.join(request.fspath.dirname, 'source/mc3/tcga_test-no-center.maf')
+    return os.path.join(request.fspath.dirname, 'source/mc3/tcga_test-NO_CENTER.maf')
 
 
 @pytest.fixture
@@ -169,7 +169,7 @@ def test_no_center(helpers, no_center_file, emitter_directory, id_lookup_path, p
 
 
 def test_NO_REF_ALT(helpers, NO_REF_ALT_file, emitter_directory, id_lookup_path, project_lookup_path):
-    """ no start """
+    """ no ref or alt bases  """
     with pytest.raises(AssertionError):
         validate(helpers, NO_REF_ALT_file, emitter_directory, id_lookup_path, project_lookup_path)
     deadletter_file = os.path.join(emitter_directory, 'Deadletter.Vertex.json.gz')
@@ -182,13 +182,5 @@ def test_NO_REF_ALT(helpers, NO_REF_ALT_file, emitter_directory, id_lookup_path,
 
 
 def test_NO_BARCODE(helpers, NO_BARCODE_file, emitter_directory, id_lookup_path, project_lookup_path):
-    """ no start """
-    with pytest.raises(AssertionError):
-        validate(helpers, NO_BARCODE_file, emitter_directory, id_lookup_path, project_lookup_path)
-    deadletter_file = os.path.join(emitter_directory, 'Deadletter.Vertex.json.gz')
-    with reader(deadletter_file) as f:
-        c = 0
-        for line in f:
-            json.loads(line)
-            c += 1
-        assert c == 1, 'We should have 1 dead letter'
+    """ no barcode """
+    validate(helpers, NO_BARCODE_file, emitter_directory, id_lookup_path, project_lookup_path)
