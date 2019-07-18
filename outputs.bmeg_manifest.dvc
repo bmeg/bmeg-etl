@@ -1,4 +1,4 @@
-md5: e8305c2ed318f5678c6f959d9ee4b289
+md5: e7be6c100f09f780302e72fef767ee81
 cmd: echo generating file manifest...
 wdir: .
 deps:
@@ -62,6 +62,8 @@ deps:
   path: outputs/ccle/maf.SomaticCallset_Aliquots_Aliquot.Edge.json.gz
 - md5: f51d2d2849ad0fcf80a25c289584c6dc
   path: outputs/ccle/maf.SomaticCallset_Alleles_Allele.Edge.json.gz
+- md5: 00364823893d8d2535f926195b1ac21c
+  path: outputs/celllines/Case_SameAs_Case.Edge.json.gz
 - md5: 6e13188b84b8efde54212508317ae08e
   path: outputs/compound/normalized.Case_Compounds_Compound.Edge.json.gz
 - md5: ea225d8f1a72c00afd050fd782d6bea5

@@ -28,6 +28,7 @@ outputs/ccle/maf.Gene_Alleles_Allele.Edge.json.gz
 outputs/ccle/maf.SomaticCallset.Vertex.json.gz
 outputs/ccle/maf.SomaticCallset_Aliquots_Aliquot.Edge.json.gz
 outputs/ccle/maf.SomaticCallset_Alleles_Allele.Edge.json.gz
+outputs/celllines/Case_SameAs_Case.Edge.json.gz
 outputs/compound/normalized.Case_Compounds_Compound.Edge.json.gz
 outputs/compound/normalized.Compound.Vertex.json.gz
 outputs/compound/normalized.Compound_Cases_Case.Edge.json.gz
