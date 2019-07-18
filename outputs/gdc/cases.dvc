@@ -1,8 +1,8 @@
-md5: d299e21c35c6e96d5275fa8878b64375
-cmd: python3 transform/gdc/cases.py
+md5: 814b1830dd515ece24a5e72ecfc947b8
+cmd: python3 -m transform.gdc.cases
 wdir: ../..
 deps:
-- md5: 45a1fca31a0a9661fb144df3b46901fd
+- md5: 46ad099892556385d2694937864245a4
   path: transform/gdc/cases.py
 - md5: 4a22e8c3b57df070b9401a71aa166180
   path: source/gdc/cases.json

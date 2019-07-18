@@ -1,10 +1,10 @@
-md5: 560efa3028df06db4fe8bba8956b2258
+md5: f0ce5199f606d2569ee84560f7f09897
 cmd: python3 transform/ccle/ccle_maf_transform.py
 wdir: ../..
 deps:
 - md5: b63446d548c958898a0ee94e6d3351fc
   path: transform/ccle/ccle_maf_transform.py
-- md5: f30edf31fc40a325435c685c357472ab
+- md5: a15516572fa9d1c96c626a71e22e1155
   path: src/bmeg/maf/maf_transform.py
 - md5: e6d1bc2ea16ca63f03474a27ea27034e
   path: source/ccle/cellline_lookup.tsv
@@ -3167,7 +3167,7 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: 0146580f08a23b39f0dd4c4e4b1d4bfc
+- md5: f51d2d2849ad0fcf80a25c289584c6dc
   path: outputs/ccle/maf.SomaticCallset_Alleles_Allele.Edge.json.gz
   cache: true
   metric: false
