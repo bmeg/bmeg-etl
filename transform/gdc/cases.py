@@ -92,67 +92,67 @@ def transform(input_path="source/gdc/cases.json",
                 emit_backref=True
             )
 
-        for sample in row.get("samples", []):
-            sample_fields = extract(
-                sample,
-                ["tumor_descriptor", "sample_type", "submitter_id"],
-            )
-            # sample
-            s = Sample(id=Sample.make_gid(sample["sample_id"]),
-                       submitter_id=sample["submitter_id"],
-                       sample_id=sample["sample_id"],
-                       gdc_attributes=sample_fields,
-                       project_id=project_gid)
-            emitter.emit_vertex(s)
-            # sample <-> case edges
-            emitter.emit_edge(
-                Sample_Case_Case(
-                    from_gid=s.gid(),
-                    to_gid=c.gid()
-                ),
-                emit_backref=True
-            )
-            # sample <-> project edges
-            emitter.emit_edge(
-                Sample_Projects_Project(
-                    from_gid=s.gid(),
-                    to_gid=project_gid
-                ),
-                emit_backref=True
-            )
+            for sample in row.get("samples", []):
+                sample_fields = extract(
+                    sample,
+                    ["tumor_descriptor", "sample_type", "submitter_id"],
+                )
+                # sample
+                s = Sample(id=Sample.make_gid(sample["sample_id"]),
+                           submitter_id=sample["submitter_id"],
+                           sample_id=sample["sample_id"],
+                           gdc_attributes=sample_fields,
+                           project_id=project_gid)
+                emitter.emit_vertex(s)
+                # sample <-> case edges
+                emitter.emit_edge(
+                    Sample_Case_Case(
+                        from_gid=s.gid(),
+                        to_gid=c.gid()
+                    ),
+                    emit_backref=True
+                )
+                # sample <-> project edges
+                emitter.emit_edge(
+                    Sample_Projects_Project(
+                        from_gid=s.gid(),
+                        to_gid=project_gid
+                    ),
+                    emit_backref=True
+                )
 
-            for portion in sample.get("portions", []):
-                for analyte in portion.get("analytes", []):
-                    for aliquot in analyte.get("aliquots", []):
-                        aliquot_fields = extract(
-                            aliquot,
-                            ["analyte_type", "submitter_id", "aliquot_id"],
-                        )
-                        fields = dict(sample_fields)
-                        fields.update(aliquot_fields)
-                        # aliquot
-                        a = Aliquot(id=Aliquot.make_gid(aliquot["aliquot_id"]),
-                                    submitter_id=aliquot["submitter_id"],
-                                    aliquot_id=aliquot["aliquot_id"],
-                                    gdc_attributes=fields,
-                                    project_id=project_gid)
-                        emitter.emit_vertex(a)
-                        # aliquot <-> sample edges
-                        emitter.emit_edge(
-                            Aliquot_Sample_Sample(
-                                from_gid=a.gid(),
-                                to_gid=s.gid()
-                            ),
-                            emit_backref=True
-                        )
-                        # aliquot <-> project edges
-                        emitter.emit_edge(
-                            Aliquot_Projects_Project(
-                                from_gid=a.gid(),
-                                to_gid=project_gid
-                            ),
-                            emit_backref=True
-                        )
+                for portion in sample.get("portions", []):
+                    for analyte in portion.get("analytes", []):
+                        for aliquot in analyte.get("aliquots", []):
+                            aliquot_fields = extract(
+                                aliquot,
+                                ["analyte_type", "submitter_id", "aliquot_id"],
+                            )
+                            fields = dict(sample_fields)
+                            fields.update(aliquot_fields)
+                            # aliquot
+                            a = Aliquot(id=Aliquot.make_gid(aliquot["aliquot_id"]),
+                                        submitter_id=aliquot["submitter_id"],
+                                        aliquot_id=aliquot["aliquot_id"],
+                                        gdc_attributes=fields,
+                                        project_id=project_gid)
+                            emitter.emit_vertex(a)
+                            # aliquot <-> sample edges
+                            emitter.emit_edge(
+                                Aliquot_Sample_Sample(
+                                    from_gid=a.gid(),
+                                    to_gid=s.gid()
+                                ),
+                                emit_backref=True
+                            )
+                            # aliquot <-> project edges
+                            emitter.emit_edge(
+                                Aliquot_Projects_Project(
+                                    from_gid=a.gid(),
+                                    to_gid=project_gid
+                                ),
+                                emit_backref=True
+                            )
     emitter.close()
 
 
