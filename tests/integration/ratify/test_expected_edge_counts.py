@@ -9,9 +9,9 @@ import json
 import logging
 
 EXPECTED_COUNTS = [
-    {'_from': 'Sample', 'to': 'Case', 'via': 'SampleFor', 'expected_count': 75127, 'expected_time': 22},
-    {'_from': 'Case', 'to': 'Project', 'via': 'InProject', 'expected_count': 45792, 'expected_time': 11},
-    {'_from': 'Aliquot', 'to': 'Sample', 'via': 'AliquotFor', 'expected_count': 195804, 'expected_time': 50},
+    {'_from': 'Sample', 'to': 'Case', 'via': 'SampleFor', 'expected_count': 76883, 'expected_time': 22},
+    {'_from': 'Case', 'to': 'Project', 'via': 'InProject', 'expected_count': 45459, 'expected_time': 11},
+    {'_from': 'Aliquot', 'to': 'Sample', 'via': 'AliquotFor', 'expected_count': 849801, 'expected_time': 50},
     {'_from': 'Protein', 'to': 'PFAMFamily', 'via': 'PFAMAlignment', 'expected_count': 87547, 'expected_time': 30},
     {'_from': 'Protein', 'to': 'Transcript', 'via': 'ProteinFor', 'expected_count': 94446, 'expected_time': 29},
 ]
@@ -81,7 +81,7 @@ def test_expected_exon_transcript(V, caplog):
 
 
 def test_expected_drug_response(V, caplog):
-    """ subset only for one chromosome """
+    """Tests count of samples with drugresponse."""
     caplog.set_level(logging.INFO)
     q = (
         V

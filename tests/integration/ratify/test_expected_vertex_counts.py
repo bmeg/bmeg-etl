@@ -5,16 +5,16 @@ a set of very basic queries - simply ensure the counts of label
 
 
 EXPECTED_COUNTS = {
-    'Case': 35596,
-    'Sample': 75127,
-    'Project': 196,
-    'Aliquot': 195804,
-    'DrugResponse': 596490,
+    'Case': 35577,
+    'Sample': 76883,
+    'Project': 172,
+    'Aliquot': 849801,
+    'DrugResponse': 641610,
     'G2PAssociation': 50099,
     'Gene': 63677,
     'GenomicFeature': 5941,
     'Allele': 4023292,
-    'Phenotype': 3447,
+    'Phenotype': 3234,
     'Exon': 737019,
     'Protein': 94575,
     'PFAMFamily': 17929,
