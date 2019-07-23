@@ -102,14 +102,16 @@ for f in files:
                         continue
                     outputs.append(of)
 
+final_outputs = []
 for o in sorted(set(outputs)):
     if not (o.endswith(".Edge.json.gz") or o.endswith(".Vertex.json.gz")):
         print("excluding {}...".format(o))
         continue
     DVC_CMD += " -d {}".format(o)
+    final_outputs.append(o)
 
 DVC_CMD += ' "echo generating file manifest..."'
 args = shlex.split(DVC_CMD)
 subprocess.call(args)
 with open('scripts/bmeg_file_manifest.txt', 'w+') as fobj:
-    fobj.write('\n'.join(sorted(set(outputs))))
+    fobj.write('\n'.join(final_outputs))

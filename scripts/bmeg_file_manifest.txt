@@ -1426,4 +1426,3 @@ outputs/tcga/UVM.GeneExpression.Vertex.json.gz
 outputs/tcga/UVM.GeneExpression_Aliquot_Aliquot.Edge.json.gz
 outputs/tcga/UVM.TranscriptExpression.Vertex.json.gz
 outputs/tcga/UVM.TranscriptExpression_Aliquot_Aliquot.Edge.json.gz
-source/compound/sqlite.db
