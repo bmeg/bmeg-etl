@@ -31,7 +31,7 @@ def transform(source_path,
     id_map = {}
     project_map = {}
     for row in r:
-        id_map[row["CGHubAnalysisID"]] = row["Aliquot_id"]
+        id_map[row["CGHubAnalysisID"]] = row["Aliquot_id"].lower()
         project_map[row["CGHubAnalysisID"]] = "TCGA-" + row["Disease"]
 
     reader = csv.reader(gzip.open(source_path, "rt"), delimiter="\t")

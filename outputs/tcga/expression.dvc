@@ -1,8 +1,8 @@
-md5: 262ca0de11f9ff51faee852ce50beec4
+md5: 3a71c89a8761a14914da90d2cf5afbd3
 cmd: python3 transform/tcga/expression.py
 wdir: ../..
 deps:
-- md5: e3ae6f4d0adb68ce89d7fdc328538a80
+- md5: 36089c23354ce08258854e3780156a6a
   path: transform/tcga/expression.py
 - md5: 7e1809c19af84a187d4c6f79c02f9f11
   path: source/ensembl/transcript_gene_lookup.tsv
@@ -105,92 +105,92 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: 4da7cf02a5283c314b33f2ca12b35b09
+- md5: 63393c4e80774db21f39415e9a3b6fcd
   path: outputs/tcga/BLCA.TranscriptExpression.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: f781f1c46888c0fa45809c8bd783575e
+- md5: 71fb159cd41ea31c21938cc1c8031902
   path: outputs/tcga/BLCA.GeneExpression.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 373381289eb289a2f985a52a2f9b8847
+- md5: bb3e83e202847cb965d700324db0ef5f
   path: outputs/tcga/BLCA.Aliquot_TranscriptExpressions_TranscriptExpression.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 723ac55ceb0ab9638f63d7abf742db4e
+- md5: 84fd41c68c1a9a9ec98593fb11a73660
   path: outputs/tcga/BLCA.Aliquot_GeneExpressions_GeneExpression.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: ee900849b5c8fd1db93b629cfbb92fdd
+- md5: cd7ebd2c2f0ce9f60a7345747ff8189c
   path: outputs/tcga/BLCA.TranscriptExpression_Aliquot_Aliquot.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 9004aed3b212dbde2828689bab3bdb8d
+- md5: 9334ff1206868e31753916d7e314b1c8
   path: outputs/tcga/BLCA.GeneExpression_Aliquot_Aliquot.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 8affb14c8f17a82bb648207c36f3ddc6
+- md5: 90b956b3ff8687f5d884d21931b754c5
   path: outputs/tcga/BRCA.TranscriptExpression.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 649bd807512296326420dc2438e1ee83
+- md5: a08d61a63750636bf4a6775b111fd43f
   path: outputs/tcga/BRCA.GeneExpression.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 5defb51af328aa7666bafc50b1cb6cff
+- md5: 639d4433a1c9b6f3b50e25253855fdb2
   path: outputs/tcga/BRCA.Aliquot_TranscriptExpressions_TranscriptExpression.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 62e105136bc74ef94509ef15a71bb3d2
+- md5: b427f74ac225b9a51ba2588be0198a9c
   path: outputs/tcga/BRCA.Aliquot_GeneExpressions_GeneExpression.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: cd822abfc58b57ed124ca1c9fa8b2cbc
+- md5: 8c1a3740b21c1246e6d5d5889671bf4e
   path: outputs/tcga/BRCA.TranscriptExpression_Aliquot_Aliquot.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 40276bd8a34e0bcf47ca9545fdabe5f3
+- md5: 54a7b1f905a243c481ecf0ffce5c091d
   path: outputs/tcga/BRCA.GeneExpression_Aliquot_Aliquot.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 4cd08221f4f9d877326e464f60515e71
+- md5: 774c744c98161f14123cb36bb8ecb708
   path: outputs/tcga/CESC.TranscriptExpression.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 659ae953b2dc6e0790a8b8c022bc8e42
+- md5: 4781d2c84826394f9a55d963eac4c352
   path: outputs/tcga/CESC.GeneExpression.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 08afcf83f83639f31873fe7eed2bd88b
+- md5: 8c792ad3b82515be95c9312592d0f688
   path: outputs/tcga/CESC.Aliquot_TranscriptExpressions_TranscriptExpression.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 2188c4cfba5094013c78c6a6c7f87a21
+- md5: 3e66c4834867787a34c74f61487486ef
   path: outputs/tcga/CESC.Aliquot_GeneExpressions_GeneExpression.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: ac43927586904c8ea9e21c86849ce78a
+- md5: b3dd2f5444b2a97216a1005727a9f144
   path: outputs/tcga/CESC.TranscriptExpression_Aliquot_Aliquot.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 79ba7a0ae0c3ed8f6404901e995f4e23
+- md5: 58ca30eef5ccaed3cdc1515b722fefb1
   path: outputs/tcga/CESC.GeneExpression_Aliquot_Aliquot.Edge.json.gz
   cache: true
   metric: false
@@ -825,32 +825,32 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: b473b63337a574a3909f358a5a36fdc3
+- md5: a92892c73708de6385216ab30cd6f17b
   path: outputs/tcga/SKCM.TranscriptExpression.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 4f5a89d40899d8503baff8540fe0827a
+- md5: 63fc4f8d7273e6cf95cf19f6e5a5e001
   path: outputs/tcga/SKCM.GeneExpression.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 4e730a2acc53b9224ff85dc53506d164
+- md5: a89f3a6daf9e358d378742dbe1ae4727
   path: outputs/tcga/SKCM.Aliquot_TranscriptExpressions_TranscriptExpression.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 157727bde3ab2b2d4b48e470808fd8ce
+- md5: 1b37905d6272239dd67e3d91c4521138
   path: outputs/tcga/SKCM.Aliquot_GeneExpressions_GeneExpression.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 4bdc80f2c27b5ee3066f63807b3855b5
+- md5: b187fbd3fc181a9a4fb9615d26a9ff9a
   path: outputs/tcga/SKCM.TranscriptExpression_Aliquot_Aliquot.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: bd028eba806f132cff322d219c7d8155
+- md5: 4e0dc33808c8d788f7cafa2fd12713fb
   path: outputs/tcga/SKCM.GeneExpression_Aliquot_Aliquot.Edge.json.gz
   cache: true
   metric: false
@@ -915,32 +915,32 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: 1271e7db89a08b3c7f06f1a736b2b626
+- md5: 8c4be6f89077bb77edd4de77e528c75b
   path: outputs/tcga/THCA.TranscriptExpression.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 85ed934eadb38a9a9181ac9e77469563
+- md5: f3186f8fff4fbc5a9e803590fe371254
   path: outputs/tcga/THCA.GeneExpression.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: df885d5a53c88062d65aaa5165f05c7b
+- md5: 791ad842328fed189c84c1aad1c363f9
   path: outputs/tcga/THCA.Aliquot_TranscriptExpressions_TranscriptExpression.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 8542b5d7ae168e06ca5f5c868aacccd0
+- md5: a9898d5d52e18d2a35b328c5a57a03b7
   path: outputs/tcga/THCA.Aliquot_GeneExpressions_GeneExpression.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 24efcffa502b4b27704fbde4660d6070
+- md5: 675781adc23aa3277c980fe138390cb8
   path: outputs/tcga/THCA.TranscriptExpression_Aliquot_Aliquot.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 0f18549ece24ec48d2199aff52d099d2
+- md5: a4f2c22fe71960f001ccfd7f4ce0e10b
   path: outputs/tcga/THCA.GeneExpression_Aliquot_Aliquot.Edge.json.gz
   cache: true
   metric: false
