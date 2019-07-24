@@ -1,4 +1,4 @@
-md5: 7bd73a89ac09b209690abd806bbeb7e3
+md5: 5d57f6d94e85392d52451d547364c881
 cmd: echo generating file manifest...
 wdir: .
 deps:
@@ -234,8 +234,12 @@ deps:
   path: outputs/go/GeneOntologyTerm.Vertex.json.gz
 - md5: 2279a4f3c798b50a23657de0367fe236
   path: outputs/go/GeneOntologyTerm_ChildTerms_GeneOntologyTerm.Edge.json.gz
+- md5: 7a4569abe9bd8bbf1da616d36652a243
+  path: outputs/go/GeneOntologyTerm_Genes_Gene.Edge.json.gz
 - md5: f5c2aa869e865b15b89fa29f274aaaba
   path: outputs/go/GeneOntologyTerm_ParentTerms_GeneOntologyTerm.Edge.json.gz
+- md5: 33f6a227055afa3f2eb5c47af97a1b96
+  path: outputs/go/Gene_GeneOntologyTerms_GeneOntologyTerm.Edge.json.gz
 - md5: fc27aa9182f7a14e018ac3ab924e3646
   path: outputs/gtex/Aliquot_GeneExpressions_GeneExpression.Edge.json.gz
 - md5: 40d40e8b015df12879c47921b3c15e54

@@ -114,7 +114,9 @@ outputs/gdsc/gdsc.Sample_Aliquots_Aliquot.Edge.json.gz
 outputs/gdsc/gdsc.Sample_Case_Case.Edge.json.gz
 outputs/go/GeneOntologyTerm.Vertex.json.gz
 outputs/go/GeneOntologyTerm_ChildTerms_GeneOntologyTerm.Edge.json.gz
+outputs/go/GeneOntologyTerm_Genes_Gene.Edge.json.gz
 outputs/go/GeneOntologyTerm_ParentTerms_GeneOntologyTerm.Edge.json.gz
+outputs/go/Gene_GeneOntologyTerms_GeneOntologyTerm.Edge.json.gz
 outputs/gtex/Aliquot_GeneExpressions_GeneExpression.Edge.json.gz
 outputs/gtex/GeneExpression.Vertex.json.gz
 outputs/gtex/GeneExpression_Aliquot_Aliquot.Edge.json.gz

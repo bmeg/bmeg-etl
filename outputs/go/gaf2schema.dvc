@@ -1,0 +1,21 @@
+md5: 4b3eda2a3af1a33eb64dd4a2a8908033
+cmd: python3 transform/go/go_gaf2schema.py
+wdir: ../..
+deps:
+- md5: 68f4d80dcddc9fbaa462b89ea8fc689a
+  path: transform/go/go_gaf2schema.py
+- md5: 280da72af17cbaddf6a50dd52d742ee9
+  path: source/go/goa_human.gaf.gz
+- md5: a0b523fe129cabbfce672b1cd658ad2b
+  path: source/go/HUMAN_9606_idmapping.dat.gz
+outs:
+- md5: 7a4569abe9bd8bbf1da616d36652a243
+  path: outputs/go/GeneOntologyTerm_Genes_Gene.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 33f6a227055afa3f2eb5c47af97a1b96
+  path: outputs/go/Gene_GeneOntologyTerms_GeneOntologyTerm.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false

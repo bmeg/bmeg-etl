@@ -7,3 +7,5 @@
 /gene_ontology_terms.Edge.json.gz
 /GeneOntologyTerm_ChildTerms_GeneOntologyTerm.Edge.json.gz
 /GeneOntologyTerm_ParentTerms_GeneOntologyTerm.Edge.json.gz
+/GeneOntologyTerm_Genes_Gene.Edge.json.gz
+/Gene_GeneOntologyTerms_GeneOntologyTerm.Edge.json.gz
