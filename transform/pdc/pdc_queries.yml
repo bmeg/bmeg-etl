@@ -1,0 +1,1069 @@
+studyExperimentalDesign: |
+    {
+    studyExperimentalDesign {
+    acquisition_type
+    analyte
+    experiment_number
+    experiment_type
+    itraq_114
+    itraq_115
+    itraq_116
+    itraq_117
+    label_free
+    number_of_fractions
+    plex_dataset_name
+    study_id
+    study_run_metadata_id
+    study_run_metadata_submitter_id
+    study_submitter_id
+    tmt10_126
+    tmt10_127c
+    tmt10_127n
+    tmt10_128c
+    tmt10_128n
+    tmt10_129c
+    tmt10_129n
+    tmt10_130c
+    tmt10_130n
+    tmt10_131
+    }
+    }
+
+biospecimenPerStudy: |
+    {
+    biospecimenPerStudy {
+    aliquot_id
+    aliquot_status
+    aliquot_submitter_id
+    case_id
+    case_status
+    case_submitter_id
+    disease_type
+    primary_site
+    project_name
+    sample_id
+    sample_status
+    sample_submitter_id
+    sample_type
+    }
+    }
+
+clinicalPerStudy: |
+    {
+    clinicalPerStudy {
+    case_id
+    case_submitter_id
+    disease_type
+    ethnicity
+    gdc_case_id
+    gender
+    morphology
+    primary_diagnosis
+    primary_site
+    race
+    site_of_resection_or_biopsy
+    status
+    tissue_or_organ_of_origin
+    tumor_grade
+    tumor_stage
+    }
+    }
+
+protocolPerStudy: |
+    {
+    protocolPerStudy {
+    acquistion_type
+    alkylation_reagent
+    amount_on_column
+    amount_on_column_uom
+    auxiliary_data
+    chromatography_dimensions_count
+    column_inner_diameter
+    column_inner_diameter_uom
+    column_length
+    column_length_uom
+    column_type
+    cud_label
+    dda_topn
+    dia_ims
+    dia_multiplexing
+    digestion_reagent
+    dissociation_type
+    document_name
+    enrichment
+    enrichment_strategy
+    experiment_type
+    fractions_anatyzed_count
+    gradient_length
+    gradient_length_uom
+    instrument_make
+    instrument_model
+    isobaric_labeling_reagent
+    label_free_quantitation
+    labeled_quantitation
+    ms1_resolution
+    ms2_resolution
+    normalized_collision_energy
+    one_d_chromatography_type
+    particle_size
+    particle_size_uom
+    particle_type
+    program_id
+    program_submitter_id
+    project_submitter_id
+    protocol_date
+    protocol_id
+    protocol_name
+    protocol_submitter_id
+    quantitation_strategy
+    reporter_ion_ms_level
+    starting_amount
+    starting_amount_uom
+    study {
+    acquisition_type
+    aliquots_count
+    analytical_fraction
+    cases_count
+    disease_type
+    experiment_type
+    primary_site
+    program_id
+    program_name
+    project_id
+    project_name
+    project_submitter_id
+    study_id
+    study_name
+    study_submitter_id
+    submitter_id_name }
+
+    study_id
+    study_submitter_id
+    two_d_chromatography_type
+    }
+    }
+
+study: |
+    {
+    study {
+    acquisition_type
+    aliquots_count
+    analytical_fraction
+    cases { case_id case_submitter_id count days_to_lost_to_followup disease_type gdc_case_id index_date lost_to_followup primary_site project_submitter_id tissue_source_site_code }
+
+    cases_count
+    diagnoses { age_at_diagnosis ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant case_id case_submitter_id cases_count cause_of_death circumferential_resection_margin classification_of_tumor colon_polyps_history days_to_best_overall_response days_to_birth days_to_death days_to_diagnosis days_to_hiv_diagnosis days_to_last_follow_up days_to_last_known_disease_status days_to_new_event days_to_recurrence diagnosis_id diagnosis_submitter_id disease_type figo_stage gdc_case_id hiv_positive hpv_positive_type hpv_status iss_stage last_known_disease_status laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis morphology new_event_anatomic_site new_event_type overall_survival perineural_invasion_present primary_diagnosis prior_malignancy prior_treatment progression_free_survival progression_free_survival_event progression_or_recurrence project_id project_submitter_id residual_disease site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage vascular_invasion_present vital_status year_of_diagnosis }
+
+    disease_type
+    experiment_type
+    files { data_category downloadable file_id file_location file_name file_size file_type files_count md5sum study_submitter_id }
+
+    filesCount { data_category downloadable file_id file_location file_name file_size file_type files_count md5sum study_submitter_id }
+
+    primary_site
+    program_id
+    program_name
+    project {
+    name
+    project_id
+    project_submitter_id }
+
+    project_id
+    project_name
+    project_submitter_id
+    study_id
+    study_name
+    study_run_metadata { acquisition_file_name alias analyte condition date experiment_number experiment_type folder_name fraction instrument itraq_114 itraq_115 itraq_116 itraq_117 label_free operator pcc replicate_number study_run_metadata_id study_run_metadata_submitter_id tmt10_126 tmt10_127c tmt10_127n tmt10_128c tmt10_128n tmt10_129c tmt10_129cc tmt10_129n tmt10_130n tmt10_131 }
+
+    study_submitter_id
+    submitter_id_name
+    }
+    }
+
+clinicalMetadata: |
+    {
+    clinicalMetadata {
+    aliquot_submitter_id
+    morphology
+    primary_diagnosis
+    tumor_grade
+    tumor_stage
+    }
+    }
+
+experimentalMetadata: |
+    {
+    experimentalMetadata {
+    analytical_fraction
+    experiment_type
+    instrument
+    study_run_metadata { acquisition_file_name alias analyte condition date experiment_number experiment_type folder_name fraction instrument itraq_114 itraq_115 itraq_116 itraq_117 label_free operator pcc replicate_number study_run_metadata_id study_run_metadata_submitter_id tmt10_126 tmt10_127c tmt10_127n tmt10_128c tmt10_128n tmt10_129c tmt10_129cc tmt10_129n tmt10_130n tmt10_131 }
+
+    study_submitter_id
+    }
+    }
+
+uiSunburstChart: |
+    {
+    uiSunburstChart {
+    cases_count
+    disease_type
+    project_submitter_id
+    sample_type
+    tissue_or_organ_of_origin
+    }
+    }
+
+quantitiveDataCPTAC2: |
+    {
+    quantitiveDataCPTAC2 {
+    aliquot_alias
+    aliquot_id
+    aliquot_run_metadata_id
+    aliquot_submitter_id
+    analytical_fraction
+    cud_label
+    experiment_type
+    gene_abundance_id
+    gene_id
+    gene_name
+    log2_ratio
+    precursor_area
+    project_id
+    project_submitter_id
+    study_id
+    study_run_metadata_id
+    study_run_metadata_submitter_id
+    study_submitter_id
+    unshared_log2_ratio
+    unshared_precursor_area
+    }
+    }
+
+programsProjectsStudies: |
+    {
+    programsProjectsStudies {
+    end_date
+    name
+    program_id
+    program_manager
+    program_submitter_id
+    projects { name project_id project_submitter_id }
+
+    sponsor
+    start_date
+    }
+    }
+
+fileMetadata: |
+    {
+    fileMetadata {
+    aliquots { aliquot_id aliquot_quantity aliquot_submitter_id aliquot_volume amount analyte_type case_id case_submitter_id concentration label sample_id sample_submitter_id }
+
+    analyte
+    data_category
+    experiment_type
+    file_format
+    file_id
+    file_location
+    file_name
+    file_size
+    file_submitter_id
+    file_type
+    fraction
+    instrument
+    md5sum
+    plex_or_dataset_name
+    study_run_metadata_id
+    study_run_metadata_submitter_id
+    }
+    }
+
+casePerFile: |
+    {
+    casePerFile {
+    case_id
+    case_submitter_id
+    file_id
+    }
+    }
+
+allCases: |
+    {
+    allCases {
+    case_id
+    case_submitter_id
+    count
+    days_to_lost_to_followup
+    demographics { cause_of_death days_to_birth days_to_death demographic_id demographic_submitter_id ethnicity gender race vital_status year_of_birth year_of_death }
+
+    diagnoses { age_at_diagnosis ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant case_id case_submitter_id cases_count cause_of_death circumferential_resection_margin classification_of_tumor colon_polyps_history days_to_best_overall_response days_to_birth days_to_death days_to_diagnosis days_to_hiv_diagnosis days_to_last_follow_up days_to_last_known_disease_status days_to_new_event days_to_recurrence diagnosis_id diagnosis_submitter_id disease_type figo_stage gdc_case_id hiv_positive hpv_positive_type hpv_status iss_stage last_known_disease_status laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis morphology new_event_anatomic_site new_event_type overall_survival perineural_invasion_present primary_diagnosis prior_malignancy prior_treatment progression_free_survival progression_free_survival_event progression_or_recurrence project_id project_submitter_id residual_disease site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage vascular_invasion_present vital_status year_of_diagnosis }
+
+    disease_type
+    gdc_case_id
+    index_date
+    lost_to_followup
+    primary_site
+    project {
+    name
+    project_id
+    project_submitter_id }
+
+    project_submitter_id
+    samples { biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method gdc_project_id gdc_sample_id initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_id sample_submitter_id sample_type sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor }
+
+    tissue_source_site_code
+    }
+    }
+
+allPrograms: |
+    {
+    allPrograms {
+    end_date
+    name
+    program_id
+    program_manager
+    program_submitter_id
+    projects { name project_id project_submitter_id }
+
+    sponsor
+    start_date
+    }
+    }
+
+tissueSitesAvailable: |
+    {
+    tissueSitesAvailable {
+    age_at_diagnosis
+    ajcc_clinical_m
+    ajcc_clinical_n
+    ajcc_clinical_stage
+    ajcc_clinical_t
+    ajcc_pathologic_m
+    ajcc_pathologic_n
+    ajcc_pathologic_stage
+    ajcc_pathologic_t
+    ann_arbor_b_symptoms
+    ann_arbor_clinical_stage
+    ann_arbor_extranodal_involvement
+    ann_arbor_pathologic_stage
+    best_overall_response
+    burkitt_lymphoma_clinical_variant
+    case {
+    case_id
+    case_submitter_id
+    count
+    days_to_lost_to_followup
+    disease_type
+    gdc_case_id
+    index_date
+    lost_to_followup
+    primary_site
+    project_submitter_id
+    tissue_source_site_code }
+
+    case_id
+    case_submitter_id
+    cases_count
+    cause_of_death
+    circumferential_resection_margin
+    classification_of_tumor
+    colon_polyps_history
+    days_to_best_overall_response
+    days_to_birth
+    days_to_death
+    days_to_diagnosis
+    days_to_hiv_diagnosis
+    days_to_last_follow_up
+    days_to_last_known_disease_status
+    days_to_new_event
+    days_to_recurrence
+    diagnosis_id
+    diagnosis_submitter_id
+    disease_type
+    figo_stage
+    gdc_case_id
+    hiv_positive
+    hpv_positive_type
+    hpv_status
+    iss_stage
+    last_known_disease_status
+    laterality
+    ldh_level_at_diagnosis
+    ldh_normal_range_upper
+    lymph_nodes_positive
+    lymphatic_invasion_present
+    method_of_diagnosis
+    morphology
+    new_event_anatomic_site
+    new_event_type
+    overall_survival
+    perineural_invasion_present
+    primary_diagnosis
+    prior_malignancy
+    prior_treatment
+    progression_free_survival
+    progression_free_survival_event
+    progression_or_recurrence
+    project {
+    name
+    project_id
+    project_submitter_id }
+
+    project_id
+    project_submitter_id
+    residual_disease
+    site_of_resection_or_biopsy
+    studies { acquisition_type aliquots_count analytical_fraction cases_count disease_type experiment_type primary_site program_id program_name project_id project_name project_submitter_id study_id study_name study_submitter_id submitter_id_name }
+
+    tissue_or_organ_of_origin
+    tumor_grade
+    tumor_stage
+    vascular_invasion_present
+    vital_status
+    year_of_diagnosis
+    }
+    }
+
+diseasesAvailable: |
+    {
+    diseasesAvailable {
+    age_at_diagnosis
+    ajcc_clinical_m
+    ajcc_clinical_n
+    ajcc_clinical_stage
+    ajcc_clinical_t
+    ajcc_pathologic_m
+    ajcc_pathologic_n
+    ajcc_pathologic_stage
+    ajcc_pathologic_t
+    ann_arbor_b_symptoms
+    ann_arbor_clinical_stage
+    ann_arbor_extranodal_involvement
+    ann_arbor_pathologic_stage
+    best_overall_response
+    burkitt_lymphoma_clinical_variant
+    case {
+    case_id
+    case_submitter_id
+    count
+    days_to_lost_to_followup
+    disease_type
+    gdc_case_id
+    index_date
+    lost_to_followup
+    primary_site
+    project_submitter_id
+    tissue_source_site_code }
+
+    case_id
+    case_submitter_id
+    cases_count
+    cause_of_death
+    circumferential_resection_margin
+    classification_of_tumor
+    colon_polyps_history
+    days_to_best_overall_response
+    days_to_birth
+    days_to_death
+    days_to_diagnosis
+    days_to_hiv_diagnosis
+    days_to_last_follow_up
+    days_to_last_known_disease_status
+    days_to_new_event
+    days_to_recurrence
+    diagnosis_id
+    diagnosis_submitter_id
+    disease_type
+    figo_stage
+    gdc_case_id
+    hiv_positive
+    hpv_positive_type
+    hpv_status
+    iss_stage
+    last_known_disease_status
+    laterality
+    ldh_level_at_diagnosis
+    ldh_normal_range_upper
+    lymph_nodes_positive
+    lymphatic_invasion_present
+    method_of_diagnosis
+    morphology
+    new_event_anatomic_site
+    new_event_type
+    overall_survival
+    perineural_invasion_present
+    primary_diagnosis
+    prior_malignancy
+    prior_treatment
+    progression_free_survival
+    progression_free_survival_event
+    progression_or_recurrence
+    project {
+    name
+    project_id
+    project_submitter_id }
+
+    project_id
+    project_submitter_id
+    residual_disease
+    site_of_resection_or_biopsy
+    studies { acquisition_type aliquots_count analytical_fraction cases_count disease_type experiment_type primary_site program_id program_name project_id project_name project_submitter_id study_id study_name study_submitter_id submitter_id_name }
+
+    tissue_or_organ_of_origin
+    tumor_grade
+    tumor_stage
+    vascular_invasion_present
+    vital_status
+    year_of_diagnosis
+    }
+    }
+
+allExperimentTypes: |
+    {
+    allExperimentTypes {
+    disease_type
+    experiment_type
+    tissue_or_organ_of_origin
+    }
+    }
+
+diseaseTypesPerProject: |
+    {
+    diseaseTypesPerProject {
+    acquisition_type
+    aliquots_count
+    analytical_fraction
+    cases { case_id case_submitter_id count days_to_lost_to_followup disease_type gdc_case_id index_date lost_to_followup primary_site project_submitter_id tissue_source_site_code }
+
+    cases_count
+    diagnoses { age_at_diagnosis ajcc_clinical_m ajcc_clinical_n ajcc_clinical_stage ajcc_clinical_t ajcc_pathologic_m ajcc_pathologic_n ajcc_pathologic_stage ajcc_pathologic_t ann_arbor_b_symptoms ann_arbor_clinical_stage ann_arbor_extranodal_involvement ann_arbor_pathologic_stage best_overall_response burkitt_lymphoma_clinical_variant case_id case_submitter_id cases_count cause_of_death circumferential_resection_margin classification_of_tumor colon_polyps_history days_to_best_overall_response days_to_birth days_to_death days_to_diagnosis days_to_hiv_diagnosis days_to_last_follow_up days_to_last_known_disease_status days_to_new_event days_to_recurrence diagnosis_id diagnosis_submitter_id disease_type figo_stage gdc_case_id hiv_positive hpv_positive_type hpv_status iss_stage last_known_disease_status laterality ldh_level_at_diagnosis ldh_normal_range_upper lymph_nodes_positive lymphatic_invasion_present method_of_diagnosis morphology new_event_anatomic_site new_event_type overall_survival perineural_invasion_present primary_diagnosis prior_malignancy prior_treatment progression_free_survival progression_free_survival_event progression_or_recurrence project_id project_submitter_id residual_disease site_of_resection_or_biopsy tissue_or_organ_of_origin tumor_grade tumor_stage vascular_invasion_present vital_status year_of_diagnosis }
+
+    disease_type
+    experiment_type
+    files { data_category downloadable file_id file_location file_name file_size file_type files_count md5sum study_submitter_id }
+
+    filesCount { data_category downloadable file_id file_location file_name file_size file_type files_count md5sum study_submitter_id }
+
+    primary_site
+    program_id
+    program_name
+    project {
+    name
+    project_id
+    project_submitter_id }
+
+    project_id
+    project_name
+    project_submitter_id
+    study_id
+    study_name
+    study_run_metadata { acquisition_file_name alias analyte condition date experiment_number experiment_type folder_name fraction instrument itraq_114 itraq_115 itraq_116 itraq_117 label_free operator pcc replicate_number study_run_metadata_id study_run_metadata_submitter_id tmt10_126 tmt10_127c tmt10_127n tmt10_128c tmt10_128n tmt10_129c tmt10_129cc tmt10_129n tmt10_130n tmt10_131 }
+
+    study_submitter_id
+    submitter_id_name
+    }
+    }
+
+projectsPerExperimentType: |
+    {
+    projectsPerExperimentType {
+    experiment_type
+    name
+    project_submitter_id
+    }
+    }
+
+filesCountPerStudy: |
+    {
+    filesCountPerStudy {
+    data_category
+    downloadable
+    file_id
+    file_location
+    file_name
+    file_size
+    file_type
+    files_count
+    md5sum
+    studies { acquisition_type aliquots_count analytical_fraction cases_count disease_type experiment_type primary_site program_id program_name project_id project_name project_submitter_id study_id study_name study_submitter_id submitter_id_name }
+
+    study_run_metadata { acquisition_file_name alias analyte condition date experiment_number experiment_type folder_name fraction instrument itraq_114 itraq_115 itraq_116 itraq_117 label_free operator pcc replicate_number study_run_metadata_id study_run_metadata_submitter_id tmt10_126 tmt10_127c tmt10_127n tmt10_128c tmt10_128n tmt10_129c tmt10_129cc tmt10_129n tmt10_130n tmt10_131 }
+
+    study_submitter_id
+    }
+    }
+
+filesPerStudy: |
+    {
+    filesPerStudy {
+    data_category
+    file_format
+    file_id
+    file_location
+    file_name
+    file_size
+    file_submitter_id
+    file_type
+    md5sum
+    study_id
+    study_name
+    study_submitter_id
+    }
+    }
+
+projectsPerInstrument: |
+    {
+    projectsPerInstrument {
+    acquistion_type
+    alkylation_reagent
+    amount_on_column
+    amount_on_column_uom
+    auxiliary_data
+    chromatography_dimensions_count
+    column_inner_diameter
+    column_inner_diameter_uom
+    column_length
+    column_length_uom
+    column_type
+    cud_label
+    dda_topn
+    dia_ims
+    dia_multiplexing
+    digestion_reagent
+    dissociation_type
+    document_name
+    enrichment
+    enrichment_strategy
+    experiment_type
+    fractions_anatyzed_count
+    gradient_length
+    gradient_length_uom
+    instrument_make
+    instrument_model
+    isobaric_labeling_reagent
+    label_free_quantitation
+    labeled_quantitation
+    ms1_resolution
+    ms2_resolution
+    normalized_collision_energy
+    one_d_chromatography_type
+    particle_size
+    particle_size_uom
+    particle_type
+    program_id
+    program_submitter_id
+    project_submitter_id
+    protocol_date
+    protocol_id
+    protocol_name
+    protocol_submitter_id
+    quantitation_strategy
+    reporter_ion_ms_level
+    starting_amount
+    starting_amount_uom
+    study {
+    acquisition_type
+    aliquots_count
+    analytical_fraction
+    cases_count
+    disease_type
+    experiment_type
+    primary_site
+    program_id
+    program_name
+    project_id
+    project_name
+    project_submitter_id
+    study_id
+    study_name
+    study_submitter_id
+    submitter_id_name }
+
+    study_id
+    study_submitter_id
+    two_d_chromatography_type
+    }
+    }
+
+uiProtocol: |
+    {
+    uiProtocol {
+    acquistion_type
+    alkylation_reagent
+    amount_on_column
+    amount_on_column_uom
+    auxiliary_data
+    chromatography_dimensions_count
+    column_inner_diameter
+    column_inner_diameter_uom
+    column_length
+    column_length_uom
+    column_type
+    cud_label
+    dda_topn
+    dia_ims
+    dia_multiplexing
+    digestion_reagent
+    dissociation_type
+    document_name
+    enrichment
+    enrichment_strategy
+    experiment_type
+    fractions_anatyzed_count
+    gradient_length
+    gradient_length_uom
+    instrument_make
+    instrument_model
+    isobaric_labeling_reagent
+    label_free_quantitation
+    labeled_quantitation
+    ms1_resolution
+    ms2_resolution
+    normalized_collision_energy
+    one_d_chromatography_type
+    particle_size
+    particle_size_uom
+    particle_type
+    program_id
+    program_submitter_id
+    project_submitter_id
+    protocol_date
+    protocol_id
+    protocol_name
+    protocol_submitter_id
+    quantitation_strategy
+    reporter_ion_ms_level
+    starting_amount
+    starting_amount_uom
+    study {
+    acquisition_type
+    aliquots_count
+    analytical_fraction
+    cases_count
+    disease_type
+    experiment_type
+    primary_site
+    program_id
+    program_name
+    project_id
+    project_name
+    project_submitter_id
+    study_id
+    study_name
+    study_submitter_id
+    submitter_id_name }
+
+    study_id
+    study_submitter_id
+    two_d_chromatography_type
+    }
+    }
+
+pdcDataStats: |
+    {
+    pdcDataStats {
+    data_file
+    data_label
+    data_size
+    peptide
+    program
+    project
+    protein
+    spectra
+    study
+    }
+    }
+
+workflowMetadata: |
+    {
+    workflowMetadata {
+    analytical_fraction
+    cdap_reports
+    cptac_dcc_mzidentml
+    cptac_dcc_tools
+    cptac_galaxy_tools
+    cptac_galaxy_workflows
+    cptac_study_id
+    experiment_type
+    gene_to_prot
+    hgnc_version
+    instrument
+    ms1_data_analysis
+    mzidentml_refseq
+    mzidentml_uniprot
+    phosphosite_localization
+    protocol_submitter_id
+    psm_report_generation
+    raw_data_conversion
+    raw_data_processing
+    refseq_database_version
+    search_database_parameters
+    sequence_database_search
+    study_submitter_id
+    study_submitter_name
+    submitter_id_name
+    uniport_database_version
+    workflow_metadata_submitter_id
+    }
+    }
+
+uiStudy: |
+    {
+    uiStudy {
+    aliquots_count
+    analytical_fraction
+    cases_count
+    disease_type
+    embargo_date
+    experiment_type
+    filesCount { data_category downloadable file_id file_location file_name file_size file_type files_count md5sum study_submitter_id }
+
+    primary_site
+    program_name
+    project_name
+    study_description
+    study_submitter_id
+    submitter_id_name
+    }
+    }
+
+uiCase: |
+    {
+    uiCase {
+    aliquot_id
+    aliquot_status
+    aliquot_submitter_id
+    case_id
+    case_status
+    case_submitter_id
+    disease_type
+    primary_site
+    program_name
+    project_name
+    sample_id
+    sample_status
+    sample_submitter_id
+    sample_type
+    }
+    }
+
+uiFile: |
+    {
+    uiFile {
+    access
+    data_category
+    downloadable
+    file_id
+    file_name
+    file_size
+    file_type
+    md5sum
+    project_name
+    study_id
+    study_run_metadata_submitter_id
+    submitter_id_name
+    }
+    }
+
+uiTissueSiteCaseCount: |
+    {
+    uiTissueSiteCaseCount {
+    age_at_diagnosis
+    ajcc_clinical_m
+    ajcc_clinical_n
+    ajcc_clinical_stage
+    ajcc_clinical_t
+    ajcc_pathologic_m
+    ajcc_pathologic_n
+    ajcc_pathologic_stage
+    ajcc_pathologic_t
+    ann_arbor_b_symptoms
+    ann_arbor_clinical_stage
+    ann_arbor_extranodal_involvement
+    ann_arbor_pathologic_stage
+    best_overall_response
+    burkitt_lymphoma_clinical_variant
+    case {
+    case_id
+    case_submitter_id
+    count
+    days_to_lost_to_followup
+    disease_type
+    gdc_case_id
+    index_date
+    lost_to_followup
+    primary_site
+    project_submitter_id
+    tissue_source_site_code }
+
+    case_id
+    case_submitter_id
+    cases_count
+    cause_of_death
+    circumferential_resection_margin
+    classification_of_tumor
+    colon_polyps_history
+    days_to_best_overall_response
+    days_to_birth
+    days_to_death
+    days_to_diagnosis
+    days_to_hiv_diagnosis
+    days_to_last_follow_up
+    days_to_last_known_disease_status
+    days_to_new_event
+    days_to_recurrence
+    diagnosis_id
+    diagnosis_submitter_id
+    disease_type
+    figo_stage
+    gdc_case_id
+    hiv_positive
+    hpv_positive_type
+    hpv_status
+    iss_stage
+    last_known_disease_status
+    laterality
+    ldh_level_at_diagnosis
+    ldh_normal_range_upper
+    lymph_nodes_positive
+    lymphatic_invasion_present
+    method_of_diagnosis
+    morphology
+    new_event_anatomic_site
+    new_event_type
+    overall_survival
+    perineural_invasion_present
+    primary_diagnosis
+    prior_malignancy
+    prior_treatment
+    progression_free_survival
+    progression_free_survival_event
+    progression_or_recurrence
+    project {
+    name
+    project_id
+    project_submitter_id }
+
+    project_id
+    project_submitter_id
+    residual_disease
+    site_of_resection_or_biopsy
+    studies { acquisition_type aliquots_count analytical_fraction cases_count disease_type experiment_type primary_site program_id program_name project_id project_name project_submitter_id study_id study_name study_submitter_id submitter_id_name }
+
+    tissue_or_organ_of_origin
+    tumor_grade
+    tumor_stage
+    vascular_invasion_present
+    vital_status
+    year_of_diagnosis
+    }
+    }
+
+uiAnalyticalFractionsCount: |
+    {
+    uiAnalyticalFractionsCount {
+    analytical_fraction
+    cases_count
+    disease_type
+    experiment_type
+    }
+    }
+
+uiExperimentBar: |
+    {
+    uiExperimentBar {
+    analytical_fraction
+    cases_count
+    disease_type
+    experiment_type
+    }
+    }
+
+uiExperimentPie: |
+    {
+    uiExperimentPie {
+    analytical_fraction
+    cases_count
+    disease_type
+    experiment_type
+    }
+    }
+
+uiPublication: |
+    {
+    uiPublication {
+    publication_id
+    pubmed_id
+    title
+    }
+    }
+
+uiExperimentFileCount: |
+    {
+    uiExperimentFileCount {
+    acquisition_type
+    data_category
+    experiment_type
+    file_type
+    files_count
+    submitter_id_name
+    }
+    }
+
+uiDataCategoryFileCount: |
+    {
+    uiDataCategoryFileCount {
+    acquisition_type
+    data_category
+    experiment_type
+    file_type
+    files_count
+    submitter_id_name
+    }
+    }
+
+uiGeneStudySpectralCount: |
+    {
+    uiGeneStudySpectralCount {
+    aliquot_id
+    aliquots_count
+    distinct_peptide
+    experiment_type
+    label
+    log2_ratio
+    plex
+    plexes_count
+    precursor_area
+    spectral_count
+    study_submitter_id
+    submitter_id_name
+    unshared_log2_ratio
+    unshared_peptide
+    unshared_precursor_area
+    }
+    }
+
+uiGeneAliquotSpectralCount: |
+    {
+    uiGeneAliquotSpectralCount {
+    aliquot_id
+    aliquots_count
+    distinct_peptide
+    experiment_type
+    label
+    log2_ratio
+    plex
+    plexes_count
+    precursor_area
+    spectral_count
+    study_submitter_id
+    submitter_id_name
+    unshared_log2_ratio
+    unshared_peptide
+    unshared_precursor_area
+    }
+    }
+
+paginatedCasesSamplesAliquots: |
+    { paginatedCasesSamplesAliquots(offset:$offset limit: $limit) { total casesSamplesAliquots { case_id case_submitter_id gdc_case_id tissue_source_site_code days_to_lost_to_followup disease_type index_date lost_to_followup primary_site samples { sample_id sample_submitter_id sample_type sample_type_id gdc_sample_id gdc_project_id biospecimen_anatomic_site composition current_weight days_to_collection days_to_sample_procurement diagnosis_pathologically_confirmed freezing_method initial_weight intermediate_dimension is_ffpe longest_dimension method_of_sample_procurement oct_embedded pathology_report_uuid preservation_method sample_type_id shortest_dimension time_between_clamping_and_freezing time_between_excision_and_freezing tissue_type tumor_code tumor_code_id tumor_descriptor aliquots { aliquot_id aliquot_submitter_id aliquot_quantity aliquot_volume amount analyte_type } } } pagination { count sort from page total pages size } } }
