@@ -139,7 +139,7 @@ def toGraph(normalized_association, emitter):
         emitter.emit_vertex(environment)
 
     for environment_gid in na.environments:
-        if environment_gid in HAS_ENVIRONMENT_CACHE:
+        if (association.gid(), environment_gid) in HAS_ENVIRONMENT_CACHE:
             continue
         emitter.emit_edge(
             G2PAssociation_Compounds_Compound(
@@ -148,7 +148,7 @@ def toGraph(normalized_association, emitter):
             ),
             emit_backref=True
         )
-        HAS_ENVIRONMENT_CACHE.append(environment_gid)
+        HAS_ENVIRONMENT_CACHE.append((association.gid(), environment_gid))
 
     for missing_vertex in na.missing_vertexes:
         emitter.emit_vertex(Deadletter(**missing_vertex))

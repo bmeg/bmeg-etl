@@ -118,6 +118,33 @@ def validate(helpers, g2p_file, emitter_directory):
     compound_count = helpers.assert_vertex_file_valid(compound_file)
     assert compound_count == 46, 'There should be 46 compounds'
 
+    compound_edge_file_count = helpers.assert_edge_file_valid(compound_edge_file)
+    assert compound_edge_file_count == 52, 'There should be 52 edges between G2PAssociation and Compound {}'.format(compound_edge_file)
+    from_tos = {}
+    to_froms = {}
+    for edge in helpers.parse_edge_file(compound_edge_file):
+        from_ = edge['from']
+        to_ = edge['to']
+
+        tos = from_tos.get(from_, set())
+        tos.add(to_)
+        from_tos[from_] = tos
+
+        froms = to_froms.get(to_, set())
+        froms.add(from_)
+        to_froms[to_] = froms
+    multiple_count = 0
+    for to_ in to_froms:
+        if len(to_froms[to_]) > 1:
+            multiple_count += 1
+    assert multiple_count > 0, 'at least one compound should have multiple associations {}'.format(to_froms)
+    multiple_count = 0
+    for from_ in from_tos:
+        if len(from_tos[from_]) > 1:
+            multiple_count += 1
+    assert multiple_count > 0, 'at least one association should have multiple compounds {}'.format(to_froms)
+
+
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(
         all_files,

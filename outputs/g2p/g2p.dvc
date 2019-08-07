@@ -1,4 +1,4 @@
-md5: 09250dc6a5ac62471344221f8715287c
+md5: c90a01c62d661c323a59ff8ad438333a
 cmd: python3 -m transform.g2p.transform
 wdir: ../..
 deps:
@@ -14,7 +14,7 @@ deps:
   path: transform/g2p/phenotypes.py
 - md5: 5c266d87e1cfa37447412015ee5d4269
   path: transform/g2p/publications.py
-- md5: 2f03b9c6201bcef382fde49eefe333ea
+- md5: e2a2258bbaf3872f143558e246e79dfe
   path: transform/g2p/transform.py
 - md5: 4847030bbc64da3821f5a7f57570a783
   path: source/g2p/all.json.gz
@@ -26,7 +26,7 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: cd316aa9693cfba797cabe472db8d75e
+- md5: 3141d2548121896dcf897ec42594b6f7
   path: outputs/g2p/Compound.Vertex.json.gz
   cache: true
   metric: false
@@ -41,12 +41,12 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: 03789bea7b3aad45adf075e8395bfe4b
+- md5: c3e15ec4d66c53d9d156b4943e80bafa
   path: outputs/g2p/GenomicFeature.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: b20d99a9f2d79659ac7a7abd71d0c8b6
+- md5: f419c4bf9dd6eedc002d228bb7724d93
   path: outputs/g2p/Phenotype.Vertex.json.gz
   cache: true
   metric: false
@@ -61,12 +61,12 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: 08c53d4eda48e0eb12f174e2fc696571
+- md5: d2effe85b96ef40bb838ce40e101866e
   path: outputs/g2p/G2PAssociation_Compounds_Compound.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 93f501441866234de23866113fc08b86
+- md5: 6a019c79266c07c082abd11020b17142
   path: outputs/g2p/Compound_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false
@@ -91,12 +91,12 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: 56dd6ea8e14baea759efb648c55676fb
+- md5: 310cadd2d855f294e2ec08bffcb70b3f
   path: outputs/g2p/G2PAssociation_Phenotypes_Phenotype.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 8dea255d8d6f0d15d889078c23da7b07
+- md5: 51f88ad7afdb611a7ad3c93f13c32ea0
   path: outputs/g2p/Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false
