@@ -1,10 +1,10 @@
-md5: b09f380d0f12b894d8db4abf0a1d9d38
+md5: cb41a53b6062bda76221e0af3acecf45
 cmd: python3 transform/compound/transform.py
 wdir: ../..
 deps:
 - md5: c369ae630caf728af448f6abe66aa958
   path: transform/compound/transform.py
-- md5: cd316aa9693cfba797cabe472db8d75e
+- md5: 3141d2548121896dcf897ec42594b6f7
   path: outputs/g2p/Compound.Vertex.json.gz
 - md5: 349a8a1b17f6356b3947f20b8d4e29b7
   path: outputs/gdc/gdc.Compound.Vertex.json.gz
@@ -26,9 +26,9 @@ deps:
   path: outputs/gdsc/drug_response.DrugResponse_Compounds_Compound.Edge.json.gz
 - md5: fb8d3e99a6c72fe6cbd967dd1dcf9f9e
   path: outputs/gdsc/drug_response.Compound_DrugResponses_DrugResponse.Edge.json.gz
-- md5: 08c53d4eda48e0eb12f174e2fc696571
+- md5: d2effe85b96ef40bb838ce40e101866e
   path: outputs/g2p/G2PAssociation_Compounds_Compound.Edge.json.gz
-- md5: 93f501441866234de23866113fc08b86
+- md5: 6a019c79266c07c082abd11020b17142
   path: outputs/g2p/Compound_G2PAssociations_G2PAssociation.Edge.json.gz
 - md5: bea15dc9e40b2c9a8e918092dafaec0e
   path: outputs/gdc/gdc.Case_Compounds_Compound.Edge.json.gz
@@ -51,7 +51,7 @@ deps:
 - md5: 991c580d8354294781105155bf773d88
   path: outputs/gdsc/drug_response.Compound_Projects_Project.Edge.json.gz
 outs:
-- md5: ea225d8f1a72c00afd050fd782d6bea5
+- md5: 440ddb7a4863fd18576057183d04bede
   path: outputs/compound/normalized.Compound.Vertex.json.gz
   cache: true
   metric: false
@@ -86,17 +86,17 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: d75a4756a276cffc3ddf9e2d15408bb2
+- md5: c46e318733050e03fa5fdb95c84ca43c
   path: outputs/compound/normalized.G2PAssociation_Compounds_Compound.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 36f305afe82af4b01de0a979e2c7e415
+- md5: b8d69bf0090ea5233bfb59dac023dab8
   path: outputs/compound/normalized.Compound_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 35ce541253ea44736baf56bfde87a995
+- md5: 793a42a2839db23f92fb9965df9c47da
   path: source/compound/sqlite.db
   cache: true
   metric: false
