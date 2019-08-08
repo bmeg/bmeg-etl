@@ -144,7 +144,6 @@ def validate(helpers, g2p_file, emitter_directory):
             multiple_count += 1
     assert multiple_count > 0, 'at least one association should have multiple compounds {}'.format(to_froms)
 
-
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(
         all_files,
