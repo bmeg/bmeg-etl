@@ -3,12 +3,14 @@ import re
 
 from urllib.parse import unquote
 
+from bmeg import (Exon, Gene, Transcript, Project,
+                  Transcript_Gene_Gene, Exon_Transcripts_Transcript)
+
 import bmeg.ioutils
-from bmeg.vertex import Gene, Transcript, Exon
-from bmeg.edge import TranscriptFor, ExonFor
 from bmeg.emitter import JSONEmitter
 
 
+PROJECT_ID = Project.make_gid("Reference")
 GENOME_BUILD = "GRCh37"
 DEFAULT_DIRECTORY = "ensembl"
 
@@ -49,12 +51,14 @@ def get_parent_transcript(parent):
 
 def transform(
     emitter_directory=DEFAULT_DIRECTORY,
+    # gff3_path="tests/unit/ensembl/source/ensembl/Homo_sapiens.GRCh37.87.gff3.gz"
     gff3_path="source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz"
 ):
     """
     Transform the file downloaded from:
         ftp://ftp.ensembl.org/pub/grch37/release-94/gff3/homo_sapiens/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz
     """
+
     emitter = JSONEmitter(directory=emitter_directory, prefix=None)
 
     inhandle = bmeg.ioutils.reader(gff3_path)
@@ -90,47 +94,59 @@ def transform(
                 transcript_id = get_parent_transcript(attrs["Parent"])
                 transcripts.append(transcript_id)
             attrs = aset[0]
-            e = Exon(exon_id=attrs["exon_id"],
-                     transcript_id=transcripts,
+            e = Exon(id=Exon.make_gid(attrs["exon_id"]),
+                     exon_id=attrs["exon_id"],
                      chromosome=attrs["seqId"],
                      start=attrs["start"],
                      end=attrs["end"],
                      strand=attrs["strand"],
-                     genome=GENOME_BUILD)
+                     genome=GENOME_BUILD,
+                     project_id=PROJECT_ID)
             emitter.emit_vertex(e)
 
             for transcript_id in transcripts:
-                emitter.emit_edge(ExonFor(),
-                                  from_gid=e.gid(),
-                                  to_gid=Transcript.make_gid(transcript_id))
+                emitter.emit_edge(
+                    Exon_Transcripts_Transcript(
+                        from_gid=e.gid(),
+                        to_gid=Transcript.make_gid(transcript_id)
+                    ),
+                    emit_backref=True
+                )
 
                 if transcript_id not in emitted_transcripts:
                     for attrs in features[transcript_id]:
                         gene_id = get_parent_gene(attrs["Parent"])
-                        t = Transcript(transcript_id=attrs["transcript_id"],
-                                       gene_id=gene_id,
+                        t = Transcript(id=Transcript.make_gid(attrs["transcript_id"]),
+                                       transcript_id=attrs["transcript_id"],
                                        chromosome=attrs["seqId"],
                                        start=int(attrs["start"]),
                                        end=int(attrs["end"]),
                                        strand=attrs["strand"],
                                        biotype=attrs["type"],
-                                       genome=GENOME_BUILD)
+                                       genome=GENOME_BUILD,
+                                       project_id=PROJECT_ID)
                         emitter.emit_vertex(t)
-                        emitter.emit_edge(TranscriptFor(),
-                                          from_gid=t.gid(),
-                                          to_gid=Gene.make_gid(gene_id))
+                        emitter.emit_edge(
+                            Transcript_Gene_Gene(
+                                from_gid=t.gid(),
+                                to_gid=Gene.make_gid(gene_id)
+                            ),
+                            emit_backref=True
+                        )
                         emitted_transcripts[transcript_id] = True
 
                         if gene_id not in emitted_genes:
                             for attrs in features[gene_id]:
-                                g = Gene(gene_id=attrs["gene_id"],
+                                g = Gene(id=Gene.make_gid(attrs["gene_id"]),
+                                         gene_id=attrs["gene_id"],
                                          symbol=attrs["Name"],
                                          description=attrs.get("description", ""),
                                          chromosome=attrs["seqId"],
                                          start=int(attrs["start"]),
                                          end=int(attrs["end"]),
                                          strand=attrs["strand"],
-                                         genome=GENOME_BUILD)
+                                         genome=GENOME_BUILD,
+                                         project_id=PROJECT_ID)
                                 emitter.emit_vertex(g)
                                 emitted_genes[gene_id] = True
     emitter.close()

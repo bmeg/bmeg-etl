@@ -1,8 +1,0 @@
-deps:
-- etag: abf44cc36694a0d300fb6d3c5b1fd021-512
-  path: remote://source/myvariant.info/biothings_current_old_hg19.json.gz
-md5: 30502efdaa4f3157d7c1c483cf301408
-outs:
-- cache: true
-  md5: c390251bd07b4220eb4bf824a5240b08
-  path: source/myvariant.info/biothings_current_old_hg19.json.gz

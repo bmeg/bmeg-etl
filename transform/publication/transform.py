@@ -3,23 +3,20 @@ from bmeg.emitter import new_emitter
 from bmeg.ioutils import reader
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
-from bmeg.vertex import Publication
-from bmeg.edge import *  # noqa
+from bmeg import Publication, Project
 
 import glob
 import logging
 import sys
 import ujson
 
-DEFAULT_DIRECTORY = 'publication'
-
 
 def transform(
         emitter_name="json",
         output_dir="outputs",
-        emitter_directory=DEFAULT_DIRECTORY,
+        emitter_directory="publication",
         vertex_names="**/*Publication.Vertex.json*",
-        edge_names="**/*HasSupportingReference.Edge.json*"
+        edge_names="**/*Publication*.Edge.json*"
 ):
     # get the existing publication vertices
     path = '{}/{}'.format(output_dir, vertex_names)
@@ -68,8 +65,11 @@ def transform(
                         continue
                     dedup[to] = True
                     url = to.replace('Publication:', 'http://')
-                    title = abstract = text = date = author = citation = None
-                    publication = Publication(url, title, abstract, text, date, author, citation)
+                    publication = Publication(
+                        id=Publication.make_gid(url),
+                        url=url,
+                        project_id=Project.make_gid("Reference")
+                    )
                     emitter.emit_vertex(publication)
                     e += 1
                 except Exception as exc:

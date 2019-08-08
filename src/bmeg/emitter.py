@@ -2,15 +2,11 @@ import atexit
 import json
 import os
 import sys
-import typing
-import dataclasses
 from datetime import datetime
 import gzip
 
-from bmeg.edge import Edge
-from bmeg.gid import GID
-from bmeg.utils import enforce_types, ensure_directory
-from bmeg.vertex import Vertex
+from bmeg import Vertex, Edge
+from bmeg.utils import ensure_directory
 
 
 class DebugEmitter:
@@ -20,9 +16,13 @@ class DebugEmitter:
     def close(self):
         self.emitter.close()
 
-    def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
-        d = self.emitter.emit_edge(obj, from_gid, to_gid)
+    def emit_edge(self, obj: Edge, emit_backref: bool = False):
+        d = self.emitter.emit_edge(obj)
         print(json.dumps(d, indent=True))
+        if emit_backref:
+            if not obj.backref():
+                raise ValueError("{} has no valid backref".format(obj))
+            self.emit_edge(obj.backref())
 
     def emit_vertex(self, obj: Vertex):
         d = self.emitter.emit_vertex(obj)
@@ -38,8 +38,8 @@ class JSONEmitter:
         self.handles.close()
         self.emitter.close()
 
-    def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
-        d = self.emitter.emit_edge(obj, from_gid, to_gid)
+    def emit_edge(self, obj: Edge, emit_backref: bool = False):
+        d = self.emitter.emit_edge(obj)
         fh = self.handles[obj]
         if self.handles.compresslevel > 0:
             fh.write(json.dumps(d).encode())
@@ -47,6 +47,10 @@ class JSONEmitter:
         else:
             fh.write(json.dumps(d))
             fh.write(os.linesep)
+        if emit_backref:
+            if not obj.backref():
+                raise ValueError("{} has no valid backref".format(obj))
+            self.emit_edge(obj.backref())
 
     def emit_vertex(self, obj: Vertex):
         d = self.emitter.emit_vertex(obj)
@@ -102,48 +106,34 @@ class BaseEmitter:
     emitters, such as validation checks, data cleanup, etc.
     """
 
-    def __init__(self, preserve_null=False):
-        self.preserve_null = preserve_null
+    def __init__(self):
         self.rate = Rate()
 
     def close(self):
         self.rate.close()
 
-    def _get_data(self, obj: typing.Union[Edge, Vertex]):
-        # this util recurses and unravels embedded dataclasses
-        # see https://docs.python.org/3/library/dataclasses.html#dataclasses.asdict
-        data = dataclasses.asdict(obj)
-        # delete null values
-        if not self.preserve_null:
-            remove = [k for k in data if data[k] is None]
-            for k in remove:
-                del data[k]
-
-        return data
-
-    @enforce_types
-    def emit_edge(self, obj: Edge, from_gid: GID, to_gid: GID):
+    def emit_edge(self, obj: Edge):
+        obj.validate()
+        gid = "(%s)--%s->(%s)" % (obj.from_gid, obj.label(), obj.to_gid)
         dumped = {
-            "_id": obj.make_gid(from_gid, to_gid),
-            "gid": obj.make_gid(from_gid, to_gid),
+            "_id": gid,
+            "gid": gid,
             "label": obj.label(),
-            "from": from_gid,
-            "to": to_gid,
-            "data": self._get_data(obj)
+            "from": obj.from_gid,
+            "to": obj.to_gid,
+            "data": obj.props()
         }
-
         self.rate.tick()
         return dumped
 
-    @enforce_types
     def emit_vertex(self, obj: Vertex):
+        obj.validate()
         dumped = {
             "_id": obj.gid(),
             "gid": obj.gid(),
             "label": obj.label(),
-            "data": self._get_data(obj)
+            "data": obj.props()
         }
-
         self.rate.tick()
         return dumped
 

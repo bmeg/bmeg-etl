@@ -1,5 +1,5 @@
 
-from bmeg.vertex import Publication
+from bmeg import Publication, Project
 
 # keep track of what we've already exported
 EXPORTED_PUBLICATIONS = []
@@ -15,7 +15,8 @@ def normalize(hit):
     if evidence.get('info', None):
         for url in evidence['info'].get('publications', []):
             publications.append(
-                Publication(url=url.strip(), title=None, abstract=None, text=None, date=None, author=None, citation=None)
+                Publication(url=url.strip(), title=None, abstract=None, text=None, date=None, author=None, citation=None,
+                            id=Publication.make_gid(url.strip()), project_id=Project.make_gid("Reference"))
             )
     hit['publications'] = publications
     publication_gids = [p.gid() for p in publications if p.gid() not in EXPORTED_PUBLICATIONS]

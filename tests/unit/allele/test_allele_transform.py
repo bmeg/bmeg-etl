@@ -6,7 +6,6 @@ import pytest
 import logging
 import json
 from transform.allele.transform import transform, sort_allele_files
-from bmeg.vertex import Allele
 from bmeg.ioutils import reader
 
 
@@ -14,12 +13,6 @@ from bmeg.ioutils import reader
 def output_directory(request):
     """ get the full path of the test fixture """
     return os.path.join(request.fspath.dirname, 'outputs')
-
-
-@pytest.fixture
-def emitter_path_prefix(request):
-    """ get the full path of the test output """
-    return os.path.join(request.fspath.dirname, 'test')
 
 
 @pytest.fixture
@@ -41,19 +34,20 @@ def validate_myvariantinfo_count(allele_file):
     assert myvariantinfo_count == 44, 'we should have had myvariantinfo hits'
 
 
-def validate(helpers, output_directory, emitter_path_prefix, myvariantinfo_path):
-    allele_file = os.path.join(emitter_path_prefix, 'Allele.Vertex.json.gz')
+def validate(helpers, output_directory, emitter_directory, myvariantinfo_path):
+    allele_file = os.path.join(emitter_directory, 'Allele.Vertex.json.gz')
     # remove output
     with contextlib.suppress(FileNotFoundError):
         os.remove(allele_file)
 
     # check using memory store
     transform(output_directory,
-              prefix=emitter_path_prefix,
-              vertex_filename_pattern='**/Allele.Vertex.json',
+              prefix=emitter_directory,
+              vertex_filename_pattern='**/Allele.Vertex.json.gz',
               myvariantinfo_path=myvariantinfo_path)
+
     # test/test.Allele.Vertex.json
-    helpers.assert_vertex_file_valid(Allele, allele_file)
+    helpers.assert_vertex_file_valid(allele_file)
     # validate_myvariantinfo_count(allele_file)
 
     # remove output
@@ -62,18 +56,18 @@ def validate(helpers, output_directory, emitter_path_prefix, myvariantinfo_path)
 
     # check using sqllite
     transform(output_directory,
-              prefix=emitter_path_prefix,
-              vertex_filename_pattern='**/Allele.Vertex.json')
+              prefix=emitter_directory,
+              vertex_filename_pattern='**/Allele.Vertex.json.gz')
 
     # test/Allele.Vertex.json
-    helpers.assert_vertex_file_valid(Allele, allele_file)
+    helpers.assert_vertex_file_valid(allele_file)
     # validate_myvariantinfo_count(allele_file)
 
 
-def test_simple(caplog, helpers, output_directory, emitter_path_prefix, myvariantinfo_path):
+def test_simple(caplog, helpers, output_directory, emitter_directory, myvariantinfo_path):
     """ simple test """
     caplog.set_level(logging.DEBUG)
-    validate(helpers, output_directory, emitter_path_prefix, myvariantinfo_path)
+    validate(helpers, output_directory, emitter_directory, myvariantinfo_path)
 
 
 def test_sort_allele_files(output_directory):
@@ -82,7 +76,7 @@ def test_sort_allele_files(output_directory):
     with contextlib.suppress(FileNotFoundError):
         os.remove(sorted_allele_file)
 
-    path = '{}/{}'.format(output_directory, '**/Allele.Vertex.json')
+    path = '{}/{}'.format(output_directory, '**/Allele.Vertex.json.gz')
     sorted_allele_file = sort_allele_files(path, sorted_allele_file)
     with reader(sorted_allele_file) as ins:
         _id = ''
@@ -140,6 +134,6 @@ def test_sort_allele_files(output_directory):
 #     assert allele.annotations.myvariantinfo, 'should return an allele.annotations.myvariantinfo'
 
 
-# def test_harvest(helpers, output_directory, emitter_path_prefix, myvariantinfo_path):
+# def test_harvest(helpers, output_directory, emitter_directory, myvariantinfo_path):
 #     # check using sqllite
 #     harvest(allele_store_name='dataclass', allele_store_path='/tmp/sqlite.db')

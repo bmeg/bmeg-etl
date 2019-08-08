@@ -1,0 +1,24 @@
+md5: 0a3e34c46e22ca335b178f9d46268e62
+cmd: python3 transform/ccle/cellline_lookups.py
+wdir: ../..
+deps:
+- md5: ea9d774ca9ccf8052343f7ebbfabb9a6
+  path: transform/ccle/cellline_lookups.py
+- md5: 6d66a59fb75c31cd3a1b320eefe1efc8
+  path: source/ccle/DepMap-2019q1-celllines.csv_v2.csv
+outs:
+- md5: e6d1bc2ea16ca63f03474a27ea27034e
+  path: source/ccle/cellline_lookup.tsv
+  cache: true
+  metric: false
+  persist: false
+- md5: 7ef860f52bd8a7c6028adb8183a624ff
+  path: source/ccle/cellline_project_lookup.tsv
+  cache: true
+  metric: false
+  persist: false
+- md5: fa20d168f701af36d82bd2ff76bcce4a
+  path: source/ccle/cellline_phenotype_lookup.tsv
+  cache: true
+  metric: false
+  persist: false

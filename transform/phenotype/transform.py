@@ -1,43 +1,43 @@
-
 from bmeg.emitter import new_emitter
 from bmeg.ioutils import reader
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
-from bmeg.vertex import Phenotype
-from bmeg.edge import *  # noqa
 from bmeg.enrichers.phenotype_enricher import normalize
-from bmeg.gid import GID
 from bmeg.stores import new_store
+from bmeg import *  # noqa: F403
 
-import glob
 import logging
+import glob
+import os
+import re
 import sys
 import ujson
 
-DEFAULT_DIRECTORY = 'phenotype'
-
 
 def transform(
-    emitter_name="json",
-    output_dir="outputs",
-    emitter_directory=DEFAULT_DIRECTORY,
     vertex_names="**/*Phenotype.Vertex.json*",
-    edge_names="**/*.Edge.json*",
+    edge_names="**/*Phenotype*.Edge.json*",
+    output_dir="outputs",
+    emitter_name="json",
+    emitter_directory="phenotype",
     store_path="source/phenotype/sqlite.db"
 ):
     batch_size = 1000
     phenotype_cache = {}
     dups = {}
     emitter = new_emitter(name=emitter_name, directory=emitter_directory, prefix='normalized')
+
     path = '{}/{}'.format(output_dir, vertex_names)
-    files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
-    logging.info(files)
-    logging.info(store_path)
+    vertex_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
+    logging.info("vertex files: %s", vertex_files)
+
+    logging.info("store path: %s", store_path)
     store = new_store('key-val', path=store_path, index=True)
     store.index()  # default is no index
+
     c = t = e = 0
-    for file in files:
-        logging.info(file)
+    for file in vertex_files:
+        logging.info("processing file: %s", file)
         with reader(file) as ins:
             for line in ins:
                 try:
@@ -56,14 +56,17 @@ def transform(
                                 # no hits? set term and id to name
                                 phenotype['term'] = phenotype['name']
                                 phenotype['term_id'] = 'NO_ONTOLOGY~{}'.format(phenotype['term'])
+                                phenotype['id'] = Phenotype.make_gid('NO_ONTOLOGY~{}'.format(phenotype['term']))
                             else:
                                 # hits: set term and id to normalized term
                                 phenotype['term'] = ontology_terms[0]['label']
                                 phenotype['term_id'] = ontology_terms[0]['ontology_term']
+                                phenotype['id'] = Phenotype.make_gid(ontology_terms[0]['ontology_term'])
                             # save it for next time
                             store.put(phenotype['name'], phenotype)
                         else:
                             phenotype = stored_phenotype
+                            phenotype['id'] = Phenotype.make_gid(phenotype['term_id'])
                     else:
                         if 'MONDO' not in phenotype['term_id']:
                             # we prefer MONDO
@@ -76,11 +79,13 @@ def transform(
                                     # hits: set term and id to normalized term
                                     phenotype['term'] = ontology_terms[0]['label']
                                     phenotype['term_id'] = ontology_terms[0]['ontology_term']
+                                    phenotype['id'] = Phenotype.make_gid(ontology_terms[0]['ontology_term'])
 
-                    # we have a phenotype with a term already
-                    store.put(phenotype.get('name', phenotype.get('term')), phenotype)
+                        # we have a phenotype with a term already
+                        phenotype['id'] = Phenotype.make_gid(phenotype['term_id'])
+                        store.put(phenotype.get('name', phenotype.get('term')), phenotype)
 
-                    phenotype = Phenotype.from_dict(phenotype)
+                    phenotype = Phenotype(**phenotype)
                     if phenotype.gid() not in dups:
                         emitter.emit_vertex(phenotype)
                         dups[phenotype.gid()] = None
@@ -98,10 +103,11 @@ def transform(
 
     # get the edges
     path = '{}/{}'.format(output_dir, edge_names)
-    files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
+    edge_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
+    logging.info("edge files: %s", edge_files)
     c = t = e = 0
-    for file in files:
-        logging.info(file)
+    for file in edge_files:
+        logging.info("processing file: %s", file)
         with reader(file) as ins:
             for line in ins:
                 try:
@@ -109,25 +115,32 @@ def transform(
                     if 'Phenotype:' not in edge['gid']:
                         logging.info('Edge {} has no phenotypes that need transformation. skipping.'.format(file))
                         break
+
                     # get edge components
-                    label = edge['label']
                     from_ = edge['from']
                     to = edge['to']
                     data = edge['data']
+
                     # replace with normalized phenotype
                     if to in phenotype_cache:
                         to = phenotype_cache[to].gid()
                     if from_ in phenotype_cache:
                         from_ = phenotype_cache[from_].gid()
-                    cls = globals()[label]
-                    edge = cls()
-                    if data:
-                        edge = cls(data=data)
+
+                    etype = re.sub(".Edge.json.*", "", os.path.basename(file)).split(".")[-1]
+                    from_label, edge_label, to_label = etype.split("_")
+                    from_cls = globals()[from_label]
+                    to_cls = globals()[to_label]
+                    edge_cls = globals()[etype]
+
                     emitter.emit_edge(
-                        edge,
-                        GID(from_),
-                        GID(to)
+                        edge_cls(
+                            from_gid=from_cls._gid_cls(from_),
+                            to_gid=to_cls._gid_cls(to),
+                            data=data
+                        )
                     )
+
                     c += 1
                     t += 1
                 except Exception as exc:

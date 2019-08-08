@@ -13,9 +13,10 @@ from transform.g2p.publications import normalize as publication_normalize
 import bmeg.ioutils
 from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
-
-from bmeg.edge import HasSupportingReference, HasGeneFeature, HasAlleleFeature, HasPhenotype, HasEnvironment, HasGenomicFeature, AlleleIn, GenomicFeatureIn
-from bmeg.vertex import Deadletter
+from bmeg import (G2PAssociation_Publications_Publication, G2PAssociation_Genes_Gene, G2PAssociation_Alleles_Allele,
+                  G2PAssociation_Phenotypes_Phenotype, G2PAssociation_Compounds_Compound, G2PAssociation_GenomicFeatures_GenomicFeature,
+                  Allele_Gene_Gene, GenomicFeature_Genes_Gene)
+from bmeg import Deadletter
 from bmeg.emitter import new_emitter
 
 files = {}
@@ -33,7 +34,8 @@ def normalizeAssociations(path):
     NormalizedAssociation = collections.namedtuple(
         'NormalizedAssociation',
         ['vertices', 'genes', 'features', 'environments', 'phenotypes',
-         'publications', 'association', 'genomic_features', 'missing_vertexes'])
+         'publications', 'association', 'genomic_features', 'missing_vertexes']
+    )
     for line in input_stream:
         hit = json.loads(line)
         if hit['source'] == 'litvar':
@@ -53,72 +55,100 @@ def normalizeAssociations(path):
 def toGraph(normalized_association, emitter):
     """ tuple to graph edges and vertexes """
     na = normalized_association
+
     association = na.association
     emitter.emit_vertex(association)
+
     # assume pubmed transformer creating publication vertex
     for publication_gid in na.publications:
-        emitter.emit_edge(HasSupportingReference(),
-                          association.gid(),
-                          publication_gid
-                          )
+        emitter.emit_edge(
+            G2PAssociation_Publications_Publication(
+                from_gid=association.gid(),
+                to_gid=publication_gid
+            ),
+            emit_backref=True
+        )
+
     # note we assume gene vertexes are already created
     for gene_gid in na.genes:
-        emitter.emit_edge(HasGeneFeature(),
-                          association.gid(),
-                          gene_gid
-                          )
+        emitter.emit_edge(
+            G2PAssociation_Genes_Gene(
+                association.gid(),
+                gene_gid
+            ),
+            emit_backref=True
+        )
+
     for allele in na.vertices['features']:
         emitter.emit_vertex(allele)
     for feature_gid in na.features:
-        emitter.emit_edge(HasAlleleFeature(),
-                          association.gid(),
-                          feature_gid
-                          )
+        emitter.emit_edge(
+            G2PAssociation_Alleles_Allele(
+                association.gid(),
+                feature_gid
+            ),
+            emit_backref=True
+        )
 
-    for allele in na.vertices['genomic_features']:
-        emitter.emit_vertex(allele)
+    for feature in na.vertices['genomic_features']:
+        emitter.emit_vertex(feature)
     for feature_gid in na.genomic_features:
-        emitter.emit_edge(HasGenomicFeature(),
-                          association.gid(),
-                          feature_gid
-                          )
+        emitter.emit_edge(
+            G2PAssociation_GenomicFeatures_GenomicFeature(
+                association.gid(),
+                feature_gid
+            ),
+            emit_backref=True
+        )
 
     for allele_has_gene in na.vertices['allele_has_gene']:
         if allele_has_gene in ALLELE_HAS_GENE_CACHE:
             continue
-        emitter.emit_edge(AlleleIn(),
-                          allele_has_gene[0],
-                          allele_has_gene[1],
-                          )
+        emitter.emit_edge(
+            Allele_Gene_Gene(
+                allele_has_gene[0],
+                allele_has_gene[1],
+            ),
+            emit_backref=True
+        )
         ALLELE_HAS_GENE_CACHE.append(allele_has_gene)
 
     for genomic_feature_has_gene in na.vertices['genomic_feature_has_gene']:
         if genomic_feature_has_gene in GENOMIC_FEATURE_HAS_GENE_CACHE:
             continue
-        emitter.emit_edge(GenomicFeatureIn(),
-                          genomic_feature_has_gene[0],
-                          genomic_feature_has_gene[1],
-                          )
+        emitter.emit_edge(
+            GenomicFeature_Genes_Gene(
+                genomic_feature_has_gene[0],
+                genomic_feature_has_gene[1],
+            ),
+            emit_backref=True
+        )
         GENOMIC_FEATURE_HAS_GENE_CACHE.append(genomic_feature_has_gene)
 
     for phenotype in na.vertices['phenotypes']:
         emitter.emit_vertex(phenotype)
     for phenotype_gid in na.phenotypes:
-        emitter.emit_edge(HasPhenotype(),
-                          association.gid(),
-                          phenotype_gid
-                          )
+        emitter.emit_edge(
+            G2PAssociation_Phenotypes_Phenotype(
+                association.gid(),
+                phenotype_gid
+            ),
+            emit_backref=True
+        )
     for environment in na.vertices['environments']:
         emitter.emit_vertex(environment)
 
     for environment_gid in na.environments:
-        if environment_gid in HAS_ENVIRONMENT_CACHE:
+        if (association.gid(), environment_gid) in HAS_ENVIRONMENT_CACHE:
             continue
-        emitter.emit_edge(HasEnvironment(),
-                          association.gid(),
-                          environment_gid
-                          )
-        HAS_ENVIRONMENT_CACHE.append(environment_gid)
+        emitter.emit_edge(
+            G2PAssociation_Compounds_Compound(
+                association.gid(),
+                environment_gid
+            ),
+            emit_backref=True
+        )
+        HAS_ENVIRONMENT_CACHE.append((association.gid(), environment_gid))
 
     for missing_vertex in na.missing_vertexes:
         emitter.emit_vertex(Deadletter(**missing_vertex))

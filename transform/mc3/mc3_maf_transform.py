@@ -1,13 +1,11 @@
 
 """ transform a maf file into vertexs[variant, allele]   """
-from bmeg.vertex import Callset, Gene
-from bmeg.edge import AlleleCall
+from bmeg import SomaticCallset, Gene, Project
 
 from bmeg.maf.maf_transform import get_value, MAFTransformer, maf_default_argument_parser
 from bmeg.emitter import new_emitter
 from bmeg.util.logging import default_logging
-from bmeg.ioutils import reader
-import json
+import bmeg.ioutils
 import sys
 import logging
 
@@ -43,24 +41,22 @@ class MC3_MAFTransformer(MAFTransformer):
 
     # override the alt allele column
     TUMOR_ALLELE = "Tumor_Seq_Allele2"  # 11
-    # callset source
-    SOURCE = 'mc3'
-    DEFAULT_PREFIX = SOURCE
     DEFAULT_MAF_FILE = 'source/mc3/mc3.v0.2.8.PUBLIC.maf.gz'
 
     def barcode_to_aliquot_id(self, barcode):
         """ create tcga sample barcode """
-        global ALIQUOT_CONVERSION_TABLE
-        if barcode not in ALIQUOT_CONVERSION_TABLE:
-            logging.warning('{} not found in ALIQUOT_CONVERSION_TABLE'.format(barcode))
-        return ALIQUOT_CONVERSION_TABLE[barcode]
+        global ID_CONVERSION_TABLE
+        if barcode not in ID_CONVERSION_TABLE:
+            logging.warning('{} not found in ID_CONVERSION_TABLE'.format(barcode))
+            return barcode
+        return ID_CONVERSION_TABLE[barcode]
 
     def create_gene_gid(self, line):  # pragma nocover
         """ override, create gene_gid from line """
         ensembl_id = line.get('Gene', None)
-        return Gene.make_gid(gene_id=ensembl_id)
+        return Gene.make_gid(ensembl_id)
 
-    def allele_call_maker(self, allele, line=None):
+    def allele_call_maker(self, line, method):
         """ create call from line """
         info = {}
         for k, kn in MC3_EXTENSION_CALLSET_KEYS.items():
@@ -70,54 +66,64 @@ class MC3_MAFTransformer(MAFTransformer):
         call_methods = line.get('CENTERS', '')
         call_methods = [call_method.replace('*', '') for call_method in call_methods.split("|")]
         info['methods'] = call_methods
-        return AlleleCall(**info)
+        return info
 
-    def callset_maker(self, allele, source, centerCol, method, line):
+    def callset_maker(self, line, method):
         """ create callset from line """
+        global PROJECT_CONVERSION_TABLE
         tumor_aliquot_gid = self.barcode_to_aliquot_id(line['Tumor_Sample_Barcode'])
         normal_aliquot_gid = self.barcode_to_aliquot_id(line['Matched_Norm_Sample_Barcode'])
-
-        sample_callset = Callset(tumor_aliquot_id=tumor_aliquot_gid,
-                                 normal_aliquot_id=normal_aliquot_gid,
-                                 source=source)
-        sample_call = (self.allele_call_maker(allele, line), sample_callset.gid())
-
+        project_id = PROJECT_CONVERSION_TABLE.get(tumor_aliquot_gid, None)
+        sample_callset = SomaticCallset(
+            id=SomaticCallset.make_gid("MC3", tumor_aliquot_gid, normal_aliquot_gid),
+            tumor_aliquot_id=tumor_aliquot_gid,
+            normal_aliquot_id=normal_aliquot_gid,
+            project_id=Project.make_gid(project_id)
+        )
+        sample_call = (self.allele_call_maker(line, method), sample_callset.gid())
         return [sample_call], [sample_callset]
 
 
-def transform(mafpath, prefix, gdc_aliquot_path, source=MC3_MAFTransformer.SOURCE, emitter_name='json', skip=0, transformer=MC3_MAFTransformer()):
-    """ entry point """
+def transform(mafpath='source/mc3/mc3.v0.2.8.PUBLIC.maf.gz',
+              id_lookup_path='source/gdc/id_lookup.tsv',
+              project_lookup_path='source/gdc/project_lookup.tsv',
+              skip=0,
+              emitter_name='json',
+              emitter_directory='mc3'):
 
-    # ensure that we have a lookup from CCLE native barcode to gdc derived uuid
-    global ALIQUOT_CONVERSION_TABLE
-    with reader(gdc_aliquot_path) as f:
-        for line in f:
-            aliquot = json.loads(line)
-            ALIQUOT_CONVERSION_TABLE[aliquot['data']['gdc_attributes']['submitter_id']] = aliquot['data']['aliquot_id']
-    emitter = new_emitter(name=emitter_name, directory=prefix)
-    transformer.maf_convert(emitter=emitter, mafpath=mafpath, skip=skip, source=source)
+    # ensure that we have a lookup from TCGA barcode to gdc uuid
+    global ID_CONVERSION_TABLE
+    ID_CONVERSION_TABLE = bmeg.ioutils.read_lookup(id_lookup_path)
+
+    # ensure that we have a lookup from TCGA id to project id
+    global PROJECT_CONVERSION_TABLE
+    PROJECT_CONVERSION_TABLE = bmeg.ioutils.read_lookup(project_lookup_path)
+
+    transformer = MC3_MAFTransformer()
+    emitter = new_emitter(name=emitter_name, directory=emitter_directory)
+
+    transformer.maf_convert(
+        emitter=emitter,
+        mafpath=mafpath,
+        skip=skip
+    )
 
     emitter.close()
 
 
 def main(transformer=MC3_MAFTransformer()):  # pragma: no cover
     parser = maf_default_argument_parser(transformer)
-    parser.add_argument('--gdc_aliquot_path', type=str,
-                        help='Path to the directory containing gdc.Aliquot.Vertex.json',
-                        default='outputs/gdc/Aliquot.Vertex.json.gz')
     # We don't need the first argument, which is the program name
     options = parser.parse_args(sys.argv[1:])
     default_logging(options.loglevel)
     if not options.maf_file:
         options.maf_file = 'source/mc3/mc3.v0.2.8.PUBLIC.maf.gz'
 
-    transform(mafpath=options.maf_file,
-              prefix=options.prefix,
-              skip=options.skip,
-              source=transformer.SOURCE,
-              emitter_name=options.emitter,
-              gdc_aliquot_path=options.gdc_aliquot_path,
-              transformer=transformer)
+    transform(
+        mafpath=options.maf_file,
+        emitter_name=options.emitter,
+        skip=options.skip
+    )
 
 
 if __name__ == '__main__':  # pragma: no cover

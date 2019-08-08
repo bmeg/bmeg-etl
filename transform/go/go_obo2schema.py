@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
 import re
-import sys
 
-from bmeg.vertex import GeneOntologyTerm
-from bmeg.edge import GeneOntologyIsA
+from bmeg import GeneOntologyTerm, Project, GeneOntologyTerm_ParentTerms_GeneOntologyTerm
 from bmeg.emitter import JSONEmitter
+
 
 re_section = re.compile(r'^\[(.*)\]')
 re_field = re.compile(r'^(\w+): (.*)$')
@@ -44,11 +43,13 @@ def unquote(s):
     return s
 
 
-if __name__ == "__main__":
+def transform(obo_file="source/go/go.obo",
+              emitter_prefix=None,
+              emitter_directory="go"):
 
-    emitter = JSONEmitter(sys.argv[2])
+    emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
-    with open(sys.argv[1]) as handle:
+    with open(obo_file) as handle:
         for rec in obo_parse(handle):
             go_id = rec['id'][0]
             go_name = rec['name'][0]
@@ -66,16 +67,28 @@ if __name__ == "__main__":
             if 'xref' in rec:
                 for i in rec['xref']:
                     xref.append(i.split(" ")[0])
-            emitter.emit_vertex(GeneOntologyTerm(
-                go_id=go_id, name=go_name,
-                definition=go_definition, namespace=go_namespace,
-                synonym=synonym, xref=xref
-            ))
+            got = GeneOntologyTerm(
+                id=GeneOntologyTerm.make_gid(go_id),
+                go_id=go_id,
+                name=go_name,
+                definition=go_definition,
+                namespace=go_namespace,
+                synonym=synonym,
+                xref=xref,
+                project_id=Project.make_gid("Reference")
+            )
+            emitter.emit_vertex(got)
             for i in is_a:
                 emitter.emit_edge(
-                    GeneOntologyIsA(),
-                    from_gid=GeneOntologyTerm.make_gid(go_id),
-                    to_gid=GeneOntologyTerm.make_gid(i)
+                    GeneOntologyTerm_ParentTerms_GeneOntologyTerm(
+                        from_gid=GeneOntologyTerm.make_gid(go_id),
+                        to_gid=GeneOntologyTerm.make_gid(i)
+                    ),
+                    emit_backref=True
                 )
 
     emitter.close()
+
+
+if __name__ == "__main__":
+    transform()

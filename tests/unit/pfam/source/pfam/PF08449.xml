@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- information on Pfam-A family PF08449 (UAA), generated: 03:59:50 14-Aug-2018 -->
+<pfam xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns="https://pfam.xfam.org/"
+      xsi:schemaLocation="https://pfam.xfam.org/
+                          https://pfam.xfam.org/static/documents/schemas/pfam_family.xsd"
+      release="31.0"
+      release_date="2017-03-01">
+  <entry entry_type="Pfam-A" accession="PF08449" id="UAA">
+    <description>
+<![CDATA[
+UAA transporter family
+]]>
+    </description>
+    <comment>
+<![CDATA[
+This family includes transporters with a specificity for UDP-N-acetylglucosamine [1].
+]]>
+    </comment>
+    <clan_membership clan_acc="CL0184" clan_id="DMT" />
+    <go_terms>
+      <category name="process">
+        <term go_id="GO:0055085">transmembrane transport</term>
+      </category>
+    </go_terms>
+    <curation_details>
+      <status>CHANGED</status>
+      <seed_source>Pfam-B_606 (release 18.0)</seed_source>
+      <num_archs>61</num_archs>
+      <num_seqs>
+        <seed>17</seed>
+        <full>2794</full>
+      </num_seqs>
+      <num_species>797</num_species>
+      <num_structures>0</num_structures>
+      <percentage_identity>22</percentage_identity>
+      <av_length>273.10</av_length>
+      <av_coverage>73.83</av_coverage>
+      <type>Family</type>
+    </curation_details>
+    <hmm_details hmmer_version="3.1b2" model_version="10" model_length="302">
+      <build_commands>hmmbuild  -o /dev/null HMM SEED</build_commands>
+      <search_commands>hmmsearch -Z 26740544 -E 1000 --cpu 4 HMM pfamseq</search_commands>
+      <cutoffs>
+        <gathering>
+          <sequence>26.2</sequence>
+          <domain>26.2</domain>
+        </gathering>
+        <trusted>
+          <sequence>26.2</sequence>
+          <domain>26.2</domain>
+        </trusted>
+        <noise>
+          <sequence>26.1</sequence>
+          <domain>26.1</domain>
+        </noise>
+      </cutoffs>
+    </hmm_details>
+  </entry>
+</pfam>
+

@@ -1,0 +1,12 @@
+md5: 1bd29d821ec33385a7d8f87f3ac32027
+cmd: curl -L -o source/ccle/CCLE_depMap_19Q1_TPM_transcripts.csv https://depmap.org/portal/download/api/download/external?file_name=ccle%2Fdepmap-rnaseq-expression-data-ccd0.12%2FCCLE_depMap_19Q1_TPM_transcripts.csv
+wdir: ../..
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/ccle/version.txt
+outs:
+- md5: d907322a3f1b98712ef577c89e5cdfeb
+  path: source/ccle/CCLE_depMap_19Q1_TPM_transcripts.csv
+  cache: true
+  metric: false
+  persist: false

@@ -1,7 +1,9 @@
 import pytest
 import os
+import contextlib
+import shutil
+
 from transform.ensembl.missing_transcripts import transform
-from bmeg.vertex import Transcript
 
 
 @pytest.fixture
@@ -12,8 +14,14 @@ def missing_transcript_ids_filename(request):
 
 def test_simple(emitter_directory, missing_transcript_ids_filename, helpers):
     """ get the missing transcripts """
+
+    # remove output
+    with contextlib.suppress(FileNotFoundError):
+        shutil.rmtree(emitter_directory)
+
     transform(output_dir=emitter_directory,
               prefix='missing',
               missing_transcript_ids_filename=missing_transcript_ids_filename)
-    transcript_count = helpers.assert_vertex_file_valid(Transcript, '{}/missing.Transcript.Vertex.json.gz'.format(emitter_directory))
+
+    transcript_count = helpers.assert_vertex_file_valid('{}/missing.Transcript.Vertex.json.gz'.format(emitter_directory))
     assert transcript_count == 3

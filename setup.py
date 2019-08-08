@@ -1,6 +1,5 @@
 import io
 import os
-
 from setuptools import setup
 
 
@@ -22,12 +21,15 @@ setup(
     license="MIT",
     package_dir={"": "src/"},
     packages=["bmeg", "bmeg.util", "bmeg.maf", "bmeg.enrichers"],
+    package_data={"": ["bmeg-dictionary/gdcdictionary/schemas/*.yaml"]},
+    zip_safe=False,
     python_requires=">=3.6, <4",
     install_requires=[
         "dataclasses>=0.6",
-        "mygene>=3.0.0",
+        "jsonschema==3.0.1",
         "requests>=2.19.1",
         "requests-cache>=0.4.13",
+        "dictionaryutils==2.0.7"
     ],
     extras_require={
         "test": [
@@ -35,13 +37,15 @@ setup(
             "flake8>=3.5.0",
         ]
     },
+    dependency_links=[
+        "git+https://github.com/uc-cdis/dictionaryutils.git@2.0.7"
+    ],
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
         "Natural Language :: English",
         "License :: OSI Approved :: MIT License",
         "Topic :: Software Development :: Libraries",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
     ],
 )

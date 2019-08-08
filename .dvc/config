@@ -8,3 +8,6 @@ remote = ceph
 ['remote "source"']
 url = s3://bmeg/source
 endpointurl = https://ceph.acc.ohsu.edu
+[cache]
+type = "reflink,hardlink,copy"
+protected = true

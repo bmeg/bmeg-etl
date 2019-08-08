@@ -10,12 +10,11 @@ def default_argument_parser(prefix_default=None):  # pragma: no cover
     # Construct the parser
     parser = argparse.ArgumentParser(
         description=__doc__,
-        formatter_class=argparse.RawDescriptionHelpFormatter)
-
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
     parser.add_argument('--prefix', type=str,
                         default=prefix_default,
                         help='Path prefix for output files')
-
     parser.add_argument(
         '-d', '--debug',
         help="Print lots of debugging statements",
@@ -29,6 +28,6 @@ def default_argument_parser(prefix_default=None):  # pragma: no cover
     )
     parser.add_argument('--emitter', type=str,
                         default='json',
+                        choices=["json", "debug"],
                         help='emitter type [json, debug]')
-
     return parser

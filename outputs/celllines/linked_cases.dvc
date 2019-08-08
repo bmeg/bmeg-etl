@@ -1,0 +1,18 @@
+md5: dc29d4770873817ff80efad78b74e5ab
+cmd: python3 transform/celllines/link_cases.py
+wdir: ../..
+deps:
+- md5: c479aa8d57666809344c368d7ea80f41
+  path: transform/celllines/link_cases.py
+- md5: 59693ee330862b18f36de69e8f27da4b
+  path: outputs/ccle/ccle.Case.Vertex.json.gz
+- md5: fc8ff82f460155ed61f0ac59ce444a22
+  path: outputs/ctrp/ctrp.Case.Vertex.json.gz
+- md5: bdd157dea608004029cffb9f4adc4bc2
+  path: outputs/gdsc/gdsc.Case.Vertex.json.gz
+outs:
+- md5: 00364823893d8d2535f926195b1ac21c
+  path: outputs/celllines/Case_SameAs_Case.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false

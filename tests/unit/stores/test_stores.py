@@ -1,5 +1,5 @@
 import contextlib
-from bmeg.vertex import Compound
+from bmeg import Compound, Project
 from bmeg.stores import new_store
 
 
@@ -26,7 +26,10 @@ def validate(s):
 
 def compound_factory(name):
     """ create a stub compound """
-    return Compound(term_id='TODO:{}'.format(name), term='TODO', name=name)
+    term_id = 'TODO:{}'.format(name)
+    return Compound(id=Compound.make_gid(term_id),
+                    term_id=term_id, term='TODO', name=name,
+                    project_id=Project.make_gid("Reference"))
 
 
 def validate_dataclass(s):

@@ -1,0 +1,24 @@
+md5: 22056a43ba575d546a9b86d0513582b6
+cmd: python3 transform/ensembl/proteins.py
+wdir: ../..
+deps:
+- md5: 97d8d550f2983e51f0dc2bb64eca1f2e
+  path: transform/ensembl/proteins.py
+- md5: 020ecb8e355c0999f19c0dbd2ae50756
+  path: source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz
+outs:
+- md5: a2597a5e42cb274b56f0be994d13d410
+  path: outputs/ensembl/Protein.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: b20c590f8b234eb56689a14e6f8e22cc
+  path: outputs/ensembl/Transcript_Protein_Protein.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 0a32c808277f6fe25ab4e0c317dbcfc8
+  path: outputs/ensembl/Protein_Transcript_Transcript.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false

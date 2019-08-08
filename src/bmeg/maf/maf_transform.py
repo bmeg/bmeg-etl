@@ -5,12 +5,13 @@ import csv
 import gzip
 import sys
 
-from bmeg.vertex import Allele, Deadletter, Aliquot
-from bmeg.edge import CallsetFor, AlleleIn
+from bmeg import (Allele, Aliquot, Deadletter, Project,
+                  SomaticCallset_Aliquots_Aliquot,
+                  SomaticCallset_Alleles_Allele,
+                  Allele_Gene_Gene)
 from bmeg.emitter import new_emitter
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
-
 
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import as_completed
@@ -63,14 +64,18 @@ FEATURE_TYPE = "Feature_type"  # 49
 dbSNP_RS = "dbSNP_RS"  # 13
 
 
-def get_value(d, keys, default):
-    """ utility get value from list"""
-    if isinstance(keys, list):
-        for k in keys:
+def get_value(d, key, default):
+    """utility get value from list"""
+    val = None
+    if isinstance(key, list):
+        for k in key:
             if k in d:
-                return d[k]
-    elif keys in d:
-        return d[keys]
+                val = d[k]
+                break
+    elif key in d:
+        val = d[key]
+    if val is not None and val != "":
+        return val
     return default
 
 
@@ -80,7 +85,7 @@ class MAFTransformer():
     # options argument
     DEFAULT_MAF_FILE = None
 
-    def read_maf(self, mafpath, gz, skip=0, harvest=True):
+    def read_maf(self, mafpath, gz, skip=0):
         """ generator for each line in maf """
         if gz or 'gz' in mafpath:
             inhandle = gzip.open(mafpath, mode='rt')
@@ -95,7 +100,7 @@ class MAFTransformer():
             yield line
         inhandle.close()
 
-    def allele_call_maker(self, allele, line=None):
+    def allele_call_maker(self, line, method):
         """ override, create call from line """
         pass
 
@@ -103,7 +108,7 @@ class MAFTransformer():
         """ override, decode barcode """
         return barcode
 
-    def callset_maker(self, allele, source, centerCol, method, line):  # noqa pragma nocover
+    def callset_maker(self, line, method):  # noqa pragma nocover
         """ override, create callset from line """
         logging.error('override me')
         pass
@@ -117,15 +122,15 @@ class MAFTransformer():
         # collect CURIES that apply to allele
         record = {
             'genome': genome,
-            'chromosome': line[CHROMOSOME],
+            'chromosome': get_value(line, CHROMOSOME, None),
             'start': int(get_value(line, START, None)),
             'end': int(get_value(line, END, None)),
-            'reference_bases': line[REFERENCE_ALLELE],
-            'alternate_bases': line[self.TUMOR_ALLELE],
-            'strand': line[STRAND]
+            'reference_bases': get_value(line, REFERENCE_ALLELE, None),
+            'alternate_bases': get_value(line, self.TUMOR_ALLELE, None),
+            'strand': get_value(line, STRAND, None)
         }
         for key, data_key in STANDARD_MAF_KEYS.items():
-            value = line.get(key, None)
+            value = get_value(line, key, None)
             if value:
                 record[data_key] = value
         return record
@@ -133,9 +138,16 @@ class MAFTransformer():
     def allele_maker(self, line):
         """ worker task to create and/or harvest allele from line """
         allele_dict = self.create_allele_dict(line)
+        allele_dict['id'] = Allele.make_gid(
+            allele_dict['genome'], allele_dict['chromosome'],
+            allele_dict['start'], allele_dict['end'],
+            allele_dict['reference_bases'], allele_dict['alternate_bases']
+        )
+        allele_dict['submitter_id'] = allele_dict['id'].strip("Allele:")
+        allele_dict['project_id'] = Project.make_gid('Reference')
         return Allele(**allele_dict)
 
-    def multithreading(self, func, lines, max_workers, harvest, filter):
+    def multithreading(self, func, lines, max_workers):
         """
         Create a thread pool and create alleles
         """
@@ -144,18 +156,18 @@ class MAFTransformer():
 
         for chunk in chunked(lines, max_workers):
             with ThreadPoolExecutor(max_workers=max_workers) as executor:
-                futures = (executor.submit(func, line, harvest, filter) for line in chunk)  # noqa
+                futures = (executor.submit(func, line) for line in chunk)  # noqa
                 for future in as_completed(futures):
                     yield future.result()
 
-    def maf_convert(self, emitter, mafpath, source,
+    def maf_convert(self, emitter, mafpath,
                     genome='GRCh37',
-                    method='variant', gz=False, centerCol='Center', skip=0,
-                    harvest=True, filter=[]):
+                    method='Unknown',
+                    gz=False,
+                    skip=0):
         """
         emitter -  a way to write output
         mafpath - a file to read
-        source - special handling if 'tcga'
         genome - reference_genome e.g. GRCh37
         method - call's method
         gz - is mafpath a gz
@@ -163,7 +175,7 @@ class MAFTransformer():
         """
 
         logging.info('converting maf: ' + mafpath)
-        my_callsets_ids = set()
+        my_callsets_ids = {}
         c = skip
         e = 0
         for line in self.read_maf(mafpath, gz, skip):
@@ -171,39 +183,60 @@ class MAFTransformer():
                 allele = self.allele_maker(line)
                 # save the allele that was created
                 emitter.emit_vertex(allele)
-                # create edge between the allele and the callset
-                call_tuples, callsets = self.callset_maker(allele, source, centerCol, method, line)
-                # save the calls
-                for call_tuple in call_tuples:
-                    call = call_tuple[0]
-                    callset_gid = call_tuple[1]
-                    emitter.emit_edge(call, callset_gid, allele.gid())
-                # many callsets can be created, emit only uniques
-                for callset in callsets:
-                    if callset.gid not in my_callsets_ids:
-                        my_callsets_ids.add(callset.gid)
-                        emitter.emit_vertex(callset)
-                        if callset.normal_aliquot_id:
-                            emitter.emit_edge(CallsetFor(),
-                                              callset.gid(),
-                                              Aliquot.make_gid(callset.normal_aliquot_id),
-                                              )
-                        emitter.emit_edge(CallsetFor(),
-                                          callset.gid(),
-                                          Aliquot.make_gid(callset.tumor_aliquot_id),
-                                          )
-
-                # create edge to gene
-                try:
-                    gene_gid = self.create_gene_gid(line)
-                    if gene_gid:
-                        emitter.emit_edge(AlleleIn(), allele.gid(), gene_gid)
-                except Exception as exc:
-                    logging.exception(exc)
             except Exception as exc:
                 logging.exception(exc)
                 e += 1
                 emitter.emit_vertex(Deadletter(target_label='Allele', data=line))
+
+            try:
+                # create edge between the allele and the callset
+                call_tuples, callsets = self.callset_maker(line, method)
+                # save the calls
+                for call_tuple in call_tuples:
+                    call_data = call_tuple[0]
+                    callset_gid = call_tuple[1]
+                    emitter.emit_edge(
+                        SomaticCallset_Alleles_Allele(
+                            from_gid=callset_gid,
+                            to_gid=allele.gid(),
+                            data=call_data
+                        ),
+                        emit_backref=True
+                    )
+                # many callsets can be created, emit only uniques
+                for callset in callsets:
+                    if callset.gid() not in my_callsets_ids:
+                        emitter.emit_vertex(callset)
+                        if callset.normal_aliquot_id:
+                            emitter.emit_edge(
+                                SomaticCallset_Aliquots_Aliquot(
+                                    from_gid=callset.gid(),
+                                    to_gid=Aliquot.make_gid(callset.normal_aliquot_id),
+                                ),
+                                emit_backref=True
+                            )
+                        if callset.tumor_aliquot_id:
+                            emitter.emit_edge(
+                                SomaticCallset_Aliquots_Aliquot(
+                                    from_gid=callset.gid(),
+                                    to_gid=Aliquot.make_gid(callset.tumor_aliquot_id),
+                                ),
+                                emit_backref=True
+                            )
+                        my_callsets_ids[callset.gid()] = True
+                # create edge to gene
+                gene_gid = self.create_gene_gid(line)
+                if gene_gid:
+                    emitter.emit_edge(
+                        Allele_Gene_Gene(
+                            from_gid=allele.gid(),
+                            to_gid=gene_gid
+                        ),
+                        emit_backref=True
+                    )
+            except Exception as exc:
+                e += 1
+                logging.exception(exc)
 
             # log progress
             c += 1
@@ -212,16 +245,16 @@ class MAFTransformer():
         logging.info('imported {}'.format(c))
 
 
-def transform(mafpath, prefix, source, emitter_name='json', skip=0, transformer=MAFTransformer()):
+def transform(mafpath, emitter_directory, emitter_name='json', skip=0, transformer=MAFTransformer()):
     """ entry point """
-    emitter = new_emitter(name=emitter_name, directory=prefix)
-    transformer.maf_convert(emitter=emitter, mafpath=mafpath, skip=skip, source=source)
+    emitter = new_emitter(name=emitter_name, directory=emitter_directory)
+    transformer.maf_convert(emitter=emitter, mafpath=mafpath, skip=skip)
     emitter.close()
 
 
 def maf_default_argument_parser(transformer):
     """ add our default arguments """
-    parser = default_argument_parser(transformer.DEFAULT_PREFIX)
+    parser = default_argument_parser()
     parser.add_argument('--maf_file', type=str,
                         help='Path to the maf you want to import',
                         default=transformer.DEFAULT_MAF_FILE)
@@ -240,9 +273,8 @@ def main(transformer, maf_file=None):  # pragma: no cover
     default_logging(options.loglevel)
 
     transform(mafpath=options.maf_file,
-              prefix=options.prefix,
+              emitter_directory=transformer.DEFAULT_PREFIX,
               skip=options.skip,
-              source=transformer.SOURCE,
               emitter_name=options.emitter,
               transformer=transformer)
 

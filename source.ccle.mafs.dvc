@@ -1,9 +1,0 @@
-cmd: ' ./tools/run_vcfdir2maf.sh source/ccle/vcfs source/ccle/mafs'
-deps:
-- md5: 9c7b5eca364544bf04f63c390dde7f6e.dir
-  path: source/ccle/vcfs
-md5: 47f93c28f754255c68e6c68192db8adb
-outs:
-- cache: true
-  md5: b27c1c94960f44252d4138c85d2f1e73.dir
-  path: source/ccle/mafs

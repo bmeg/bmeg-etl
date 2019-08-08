@@ -1,13 +1,13 @@
-#!/usr/bin/env python3
-
+import csv
 from glob import glob
 
 from xml.dom.minidom import parseString
 
-from bmeg.vertex import PFAMFamily, PFAMClan, GeneOntologyTerm
-from bmeg.edge import GeneOntologyAnnotation, PFAMClanMember
+from bmeg import (PfamFamily, PfamClan, GeneOntologyTerm, Project,
+                  GeneOntologyTerm_PfamFamilies_PfamFamily,
+                  PfamClan_PfamFamilies_PfamFamily)
+
 from bmeg.emitter import JSONEmitter
-from bmeg.ioutils import read_tsv
 
 
 def getText(nodelist):
@@ -74,37 +74,65 @@ def xml_transform(dom, emit):
         out.comments = comments.strip()
         """
 
-        out = PFAMFamily(
-            pfam_id=pfam_id, accession=pfam_acc, type=pfam_type,
-            description=description.strip(), comments=comments.strip()
+        out = PfamFamily(
+            id=PfamFamily.make_gid(pfam_acc),
+            pfam_id=pfam_id,
+            accession=pfam_acc,
+            type=pfam_type,
+            description=description.strip(),
+            comments=comments.strip(),
+            project_id=Project.make_gid("Reference")
         )
         emit.emit_vertex(out)
         for g in go_terms:
             emit.emit_edge(
-                GeneOntologyAnnotation(evidence="NA", title="", references=[]),
-                from_gid=GeneOntologyTerm.make_gid(g),
-                to_gid=out.gid()
+                GeneOntologyTerm_PfamFamilies_PfamFamily(
+                    from_gid=GeneOntologyTerm.make_gid(g),
+                    to_gid=out.gid(),
+                    data={'evidence': None, 'title': None, 'references': None}
+                ),
+                emit_backref=True
             )
+
         for c in clans:
             emit.emit_edge(
-                PFAMClanMember(),
-                from_gid=PFAMClan.make_gid(c),
-                to_gid=out.gid()
+                PfamClan_PfamFamilies_PfamFamily(
+                    from_gid=PfamClan.make_gid(c),
+                    to_gid=out.gid()
+                ),
+                emit_backref=True
             )
 
 
-emitter = JSONEmitter("pfam")
+def transform(pfam_xmls="source/pfam/xmls/*.xml",
+              clans_file="source/pfam/clans.tsv",
+              emitter_prefix=None,
+              emitter_directory='pfam'):
 
-for f in glob("source/pfam/*.xml"):
-    with open(f) as handle:
-        dom = parseString(handle.read())
-        xml_transform(dom, emitter)
+    emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
-path = "source/pfam/clans.tsv"
-tsv_in = read_tsv(path)
-for line in tsv_in:
-    # accession	id	description
-    emitter.emit_vertex(PFAMClan.from_dict(line))
+    for f in glob(pfam_xmls):
+        with open(f) as handle:
+            dom = parseString(handle.read())
+            xml_transform(dom, emitter)
+
+    fh = open(clans_file, "r")
+    tsv_in = csv.DictReader(filter(lambda row: row[0] != '#', fh),
+                            delimiter="\t",
+                            fieldnames=["accession", "id", "description"])
+    for line in tsv_in:
+        # accession	id	description
+        c = PfamClan(
+            id=PfamClan.make_gid(line["accession"]),
+            accession=line["accession"],
+            clan_id=line["id"],
+            description=line["description"],
+            project_id=Project.make_gid("Reference")
+        )
+        emitter.emit_vertex(c)
+    fh.close()
+    emitter.close()
 
 
-emitter.close()
+if __name__ == '__main__':  # pragma: no cover
+    transform()

@@ -1,10 +1,11 @@
 import csv
 
 import bmeg.ioutils
-from bmeg.vertex import Protein, Transcript
-from bmeg.edge import ProteinFor
+from bmeg import Protein, Transcript, Project, Protein_Transcript_Transcript
 from bmeg.emitter import JSONEmitter
 
+
+PROJECT_ID = Project.make_gid("Reference")
 GENOME_BUILD = "GRCh37"
 DEFAULT_DIRECTORY = "ensembl"
 
@@ -27,15 +28,18 @@ def transform(protein_table_path='source/ensembl/Homo_sapiens.GRCh37.85.uniprot.
                 uniprot_id = line['xref']
 
         if protein_id != "-" and protein_id not in emitted_proteins:
-            p = Protein(protein_id=protein_id,
-                        transcript_id=transcript_id,
+            p = Protein(id=Protein.make_gid(protein_id),
+                        protein_id=protein_id,
                         uniprot_id=uniprot_id,
-                        genome=GENOME_BUILD)
+                        genome=GENOME_BUILD,
+                        project_id=PROJECT_ID)
             emitter.emit_vertex(p)
             emitter.emit_edge(
-                ProteinFor(),
-                from_gid=p.gid(),
-                to_gid=Transcript.make_gid(transcript_id)
+                Protein_Transcript_Transcript(
+                    from_gid=p.gid(),
+                    to_gid=Transcript.make_gid(transcript_id)
+                ),
+                emit_backref=True
             )
             emitted_proteins.append(protein_id)
 

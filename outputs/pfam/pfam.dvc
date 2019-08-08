@@ -1,0 +1,43 @@
+md5: 01a648981d9d79272b932669434ae6c6
+cmd: python3 transform/pfam/transform.py
+wdir: ../..
+deps:
+- md5: f541a15438144fef7ca56ec5542673cd
+  path: transform/pfam/transform.py
+- md5: cdbd7a10599c2538a5678016611a47c7.dir
+  path: source/pfam/xmls
+- md5: b1114a53a92234d94023ac18bdbdb677
+  path: source/pfam/clans.tsv
+- md5: a716f3864b3883ef8b4a29adebc29533
+  path: source/pfam/homo_sapiens.json
+outs:
+- md5: 55785b3cfe1307dc4f8144db9ca9a131
+  path: outputs/pfam/PfamClan.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: f8d5931de9c6f94e0c0888680ab9b956
+  path: outputs/pfam/PfamFamily.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 453604230398fce2558be8f7c073051b
+  path: outputs/pfam/PfamClan_PfamFamilies_PfamFamily.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: ed15d58aaa6c436bdda1a59aff3b330b
+  path: outputs/pfam/PfamFamily_PfamClans_PfamClan.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: fffda07cbdd2d76010be558a7f6e5b90
+  path: outputs/pfam/GeneOntologyTerm_PfamFamilies_PfamFamily.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 838a2b8601973a6748a77dfda9208eab
+  path: outputs/pfam/PfamFamily_GeneOntologyTerms_GeneOntologyTerm.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false

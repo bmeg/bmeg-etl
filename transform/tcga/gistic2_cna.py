@@ -2,24 +2,23 @@ from collections import defaultdict
 import csv
 from glob import glob
 import os.path
-import gzip
-import json
 import logging
 import subprocess
 import sys
 
 import bmeg.enrichers.gene_enricher as gene_enricher
-from bmeg.vertex import Aliquot, CopyNumberAlteration
-from bmeg.edge import CopyNumberAlterationOf
+from bmeg import Aliquot, CopyNumberAlteration, Project, CopyNumberAlteration_Aliquot_Aliquot
 from bmeg.emitter import JSONEmitter
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
+from bmeg.ioutils import read_lookup
 
 
 def transform(source_path,
-              aliquot_path="outputs/gdc/Aliquot.Vertex.json.gz",
+              id_lookup_path='source/gdc/id_lookup.tsv',
+              project_lookup_path='source/gdc/project_lookup.tsv',
+              emitter_prefix=None,
               emitter_directory="tcga",
-              source="tcga",
               method="gistic2"):
 
     # check if we are doing one file at time
@@ -28,13 +27,8 @@ def transform(source_path,
     emitter = JSONEmitter(directory=emitter_directory, prefix=prefix)
     logging.debug('individual file prefix {}'.format(prefix))
 
-    aliquot_lookup = {}
-    with gzip.open(aliquot_path) as handle:
-        for line in handle:
-            a = json.loads(line)
-            barcode = a["data"]["gdc_attributes"]["submitter_id"]
-            gdc_id = a["data"]["gdc_attributes"]["aliquot_id"]
-            aliquot_lookup[barcode] = gdc_id
+    aliquot_lookup = read_lookup(id_lookup_path)
+    project_lookup = read_lookup(project_lookup_path)
 
     reader = csv.reader(open(source_path, "rt"), delimiter="\t")
     header = next(reader)
@@ -59,17 +53,20 @@ def transform(source_path,
 
     for aliquot_barcode, values in collect.items():
         aliquot_id = aliquot_lookup[aliquot_barcode]
+        project_id = project_lookup[aliquot_barcode]
         cna = CopyNumberAlteration(
-            id=aliquot_id,
-            source=source,
+            id=CopyNumberAlteration.make_gid(aliquot_id),
             method=method,
             values=values,
+            project_id=Project.make_gid(project_id)
         )
         emitter.emit_vertex(cna)
         emitter.emit_edge(
-            CopyNumberAlterationOf(),
-            from_gid=cna.gid(),
-            to_gid=Aliquot.make_gid(aliquot_id)
+            CopyNumberAlteration_Aliquot_Aliquot(
+                from_gid=cna.gid(),
+                to_gid=Aliquot.make_gid(aliquot_id)
+            ),
+            emit_backref=True
         )
     emitter.close()
 

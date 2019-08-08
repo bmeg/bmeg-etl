@@ -1,0 +1,12 @@
+md5: 0bd6d449357af81945ca2008dbee58bd
+cmd: wget http://pfam.xfam.org/clans?output=text -O source/pfam/clans.tsv
+wdir: ../..
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/pfam/version.txt
+outs:
+- md5: b1114a53a92234d94023ac18bdbdb677
+  path: source/pfam/clans.tsv
+  cache: true
+  metric: false
+  persist: false

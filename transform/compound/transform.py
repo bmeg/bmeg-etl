@@ -3,30 +3,34 @@ from bmeg.emitter import new_emitter
 from bmeg.ioutils import reader
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
-from bmeg.vertex import Compound
-from bmeg.edge import *  # noqa
 from bmeg.enrichers.drug_enricher import normalize
-from bmeg.gid import GID
 from bmeg.stores import new_store
+from bmeg import *  # noqa: F403
 
 import logging
+import glob
+import os
+import re
 import sys
 import ujson
 
-DEFAULT_DIRECTORY = 'compound'
 
-
-def transform(vertex_files, edge_files,
+def transform(vertex_names="**/*Compound.Vertex.json*",
+              edge_names="**/*Compound*.Edge.json*",
+              output_dir="outputs",
               emitter_name="json",
-              emitter_directory=DEFAULT_DIRECTORY,
+              emitter_directory="compound",
               store_path="source/compound/sqlite.db"):
+
     batch_size = 1000
     compound_cache = {}
+    dups = {}
     emitter = new_emitter(name=emitter_name, directory=emitter_directory, prefix='normalized')
+    path = '{}/{}'.format(output_dir, vertex_names)
+    vertex_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
     logging.info(vertex_files)
     store = new_store('key-val', path=store_path, index=True)
     c = t = e = 0
-    dups = []
     for file in vertex_files:
         logging.info(file)
         with reader(file) as ins:
@@ -47,22 +51,27 @@ def transform(vertex_files, edge_files,
                                 # no hits? set term and id to name
                                 compound['term'] = compound['name']
                                 compound['term_id'] = 'NO_ONTOLOGY~{}'.format(compound['term'])
+                                compound['id'] = Compound.make_gid('NO_ONTOLOGY~{}'.format(compound['term']))
                             else:
                                 # hits: set term and id to normalized term
                                 compound['term'] = ontology_terms[0]['synonym']
                                 compound['term_id'] = ontology_terms[0]['ontology_term']
+                                compound['id'] = Compound.make_gid(ontology_terms[0]['ontology_term'])
                             # save it for next time
                             store.put(compound['name'], compound)
                         else:
                             compound = stored_compound
+                            compound['id'] = Compound.make_gid(compound['term_id'])
                     else:
                         # we have a compound with a term already
+                        compound['id'] = Compound.make_gid(compound['term_id'])
                         store.put(compound['name'], compound)
-                    compound = Compound.from_dict(compound)
+
+                    compound = Compound(**compound)
                     if compound.gid() not in dups:
                         emitter.emit_vertex(compound)
+                        dups[compound.gid()] = None
                     compound_cache[compound_gid] = compound
-                    dups.append(compound.gid())
                     c += 1
                     t += 1
                 except Exception as exc:
@@ -75,6 +84,8 @@ def transform(vertex_files, edge_files,
         logging.info('transforming read: {} errors: {}'.format(t, e))
 
     # get the edges
+    path = '{}/{}'.format(output_dir, edge_names)
+    edge_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
     c = t = e = 0
     for file in edge_files:
         logging.info(file)
@@ -85,25 +96,32 @@ def transform(vertex_files, edge_files,
                     if 'Compound:' not in edge['gid']:
                         logging.info('Edge {} has no compounds that need transformation. skipping.'.format(file))
                         break
+
                     # get edge components
-                    label = edge['label']
                     from_ = edge['from']
                     to = edge['to']
                     data = edge['data']
-                    # replace with normalized compound
+
+                    # replace with normalized compound if available
                     if to in compound_cache:
                         to = compound_cache[to].gid()
                     if from_ in compound_cache:
                         from_ = compound_cache[from_].gid()
-                    cls = globals()[label]
-                    edge = cls()
-                    if data:
-                        edge = cls(data=data)
+
+                    etype = re.sub(".Edge.json.*", "", os.path.basename(file)).split(".")[-1]
+                    from_label, edge_label, to_label = etype.split("_")
+                    from_cls = globals()[from_label]
+                    to_cls = globals()[to_label]
+                    edge_cls = globals()[etype]
+
                     emitter.emit_edge(
-                        edge,
-                        GID(from_),
-                        GID(to),
+                        edge_cls(
+                            from_gid=from_cls._gid_cls(from_),
+                            to_gid=to_cls._gid_cls(to),
+                            data=data
+                        )
                     )
+
                     c += 1
                     t += 1
                 except Exception as exc:
@@ -119,9 +137,6 @@ def transform(vertex_files, edge_files,
 
 if __name__ == '__main__':  # pragma: no cover
     parser = default_argument_parser()
-    parser.add_argument('--vertex_files', nargs='+', help='vertex list', required=True)
-    parser.add_argument('--edge_files', nargs='+', help='edge list', required=True)
     options = parser.parse_args(sys.argv[1:])
     default_logging(options.loglevel)
-
-    transform(vertex_files=options.vertex_files, edge_files=options.edge_files)
+    transform()

@@ -1,6 +1,6 @@
 """ given disease name, return Phenotype """
 
-from bmeg.vertex import Phenotype
+from bmeg import Phenotype, Project
 import urllib.parse
 import logging
 import re
@@ -20,7 +20,11 @@ if not API_KEY:
 
 def phenotype_factory(name):
     """ create a stub compound for downstream normalization """
-    return Phenotype(term_id='TODO:{}'.format(name), term='TODO', name=name)
+    return Phenotype(id=Phenotype.make_gid('TODO:{}'.format(name)),
+                     term_id='TODO:{}'.format(name),
+                     term='TODO',
+                     name=name,
+                     project_id=Project.make_gid("Reference"))
 
 
 disease_alias = {}
@@ -41,6 +45,7 @@ def normalize_bioontology(name):
     quoted_name = urllib.parse.quote_plus(name)
     url = 'http://data.bioontology.org/search?q={}&apikey={}'.format(quoted_name, API_KEY)  # NOQA
     r = requests.get(url, timeout=20)
+    r.raise_for_status()
     response = r.json()
     terms = []
     if 'collection' in response and len(response['collection']) > 0:
@@ -96,6 +101,7 @@ def normalize_ebi(name):
     """  # NOQA
 
     r = requests.get(url, timeout=20)
+    r.raise_for_status()
     rsp = r.json()
     if 'response' not in rsp:
         logging.info('{} in disease_normalizer.NOFINDS'.format(name))

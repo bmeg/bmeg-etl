@@ -20,7 +20,7 @@ def transform(
     dups = []
     for filename in glob.iglob(dvc_path, recursive=False):
         with open(filename, 'r') as stream:
-            dvc = yaml.load(stream)
+            dvc = yaml.safe_load(stream)
             if 'cmd' not in dvc:
                 dvc['cmd'] = '# unknown'
             dvc['filename'] = filename

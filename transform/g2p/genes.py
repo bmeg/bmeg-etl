@@ -1,8 +1,9 @@
 
 import bmeg.enrichers.gene_enricher as gene_enricher
-from bmeg.vertex import Gene
+from bmeg import Gene
 import logging
 
+# keep track of what we've already exported
 # EXPORTED_GENES = []
 
 
@@ -10,7 +11,7 @@ def gene_gid(symbol):
     """ return gene gid """
     symbol = symbol.replace('Wild-Type', '').strip()
     gene = gene_enricher.get_gene(symbol)
-    return Gene.make_gid(gene_id=gene['ensembl_gene_id'])
+    return Gene.make_gid(gene['ensembl_gene_id'])
 
 
 def normalize(hit):
@@ -33,8 +34,10 @@ def normalize(hit):
             logging.debug(e)
             missing_vertexes.append({'target_label': 'Gene', 'data': feature})
 
-    hit['genes'] = gene_gids
+    gene_gids = [gid for gid in gene_gids]
+    gene_gids.sort()
     # gene_gids = [gid for gid in gene_gids if gid not in EXPORTED_GENES]
     # EXPORTED_GENES.extend(gene_gids)
-    gene_gids = [gid for gid in gene_gids]
+    hit['genes'] = gene_gids
+
     return (hit, gene_gids, missing_vertexes)

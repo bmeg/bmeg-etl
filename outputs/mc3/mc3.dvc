@@ -1,0 +1,55 @@
+md5: 7246b37210b8adf108dd5e78d6c13dce
+cmd: python3 transform/mc3/mc3_maf_transform.py
+wdir: ../..
+deps:
+- md5: f7e3914ff6b35aa2d170caf54b2a36e4
+  path: transform/mc3/mc3_maf_transform.py
+- md5: a15516572fa9d1c96c626a71e22e1155
+  path: src/bmeg/maf/maf_transform.py
+- md5: 2e4f946f03d6cd1eb46116019b9d4289
+  path: source/gdc/id_lookup.tsv
+- md5: 5e16decad73888885cc6c8a5aabbdd51
+  path: source/gdc/project_lookup.tsv
+- md5: 639ad8f8386e98dacc22e439188aa8fa
+  path: source/mc3/mc3.v0.2.8.PUBLIC.maf.gz
+outs:
+- md5: 820a7dfbf003ca5d0dfc72988ed2a067
+  path: outputs/mc3/Allele.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: aa32f4389d890da14004332f4914e1ae
+  path: outputs/mc3/SomaticCallset.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: a9b126a930f8324c292af9f9721fc95c
+  path: outputs/mc3/Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: dd0fb722f234bfb01cc14ba3297f88e5
+  path: outputs/mc3/SomaticCallset_Aliquots_Aliquot.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 5f078baacdd731d17c708ebd32ae9b05
+  path: outputs/mc3/SomaticCallset_Alleles_Allele.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: c509500272cf38f35de8c194864d1504
+  path: outputs/mc3/Allele_SomaticCallsets_SomaticCallset.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: b4ee22b59a6eacb57327bc3b2bfcf776
+  path: outputs/mc3/Allele_Gene_Gene.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 1801788cfc28721e91e0da533f268f78
+  path: outputs/mc3/Gene_Alleles_Allele.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false

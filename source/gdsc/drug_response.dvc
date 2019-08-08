@@ -1,0 +1,19 @@
+md5: 1a8e51d4b716f1fc89227d38d480d11c
+cmd: wget https://depmap.org/portal/download/api/download/external?file_name=processed_portal_downloads%2Fsanger-gdsc-545e.2%2FGDSC_AUC.csv
+  -O source/gdsc/GDSC_AUC.csv && wget https://depmap.org/portal/download/api/download/external?file_name=processed_portal_downloads%2Fsanger-gdsc-545e.2%2FGDSC_IC50.csv
+  -O source/gdsc/GDSC_IC50.csv
+wdir: ../..
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/gdsc/version.txt
+outs:
+- md5: 6f149d87dc3d75f5bab686b3e871f5e3
+  path: source/gdsc/GDSC_AUC.csv
+  cache: true
+  metric: false
+  persist: false
+- md5: 4ed0013c5a77169f7402b05f5e0fb7b2
+  path: source/gdsc/GDSC_IC50.csv
+  cache: true
+  metric: false
+  persist: false

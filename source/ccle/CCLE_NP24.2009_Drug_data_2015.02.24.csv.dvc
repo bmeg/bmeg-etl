@@ -1,0 +1,13 @@
+md5: 1343c131cb52434aa1807773d7681fe4
+cmd: wget https://data.broadinstitute.org/ccle_legacy_data/pharmacological_profiling/CCLE_NP24.2009_Drug_data_2015.02.24.csv
+  -O source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv
+wdir: ../..
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/ccle/version.txt
+outs:
+- md5: 917f411573d5e68f9d61234e9e1bb539
+  path: source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv
+  cache: true
+  metric: false
+  persist: false

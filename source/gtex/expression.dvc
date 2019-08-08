@@ -1,0 +1,13 @@
+md5: 50b185a0d969d6ec1c64401c48696fe1
+cmd: wget https://storage.googleapis.com/gtex_analysis_v7/rna_seq_data/GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_tpm.gct.gz
+  -O source/gtex/GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_tpm.gct.gz
+wdir: ../..
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/gtex/version.txt
+outs:
+- md5: e027506deca6a62f50e316561c6cb8cb
+  path: source/gtex/GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_tpm.gct.gz
+  cache: true
+  metric: false
+  persist: false

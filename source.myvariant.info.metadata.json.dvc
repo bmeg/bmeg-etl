@@ -1,8 +1,0 @@
-deps:
-- etag: e684d344d13e70a33a5605327a789360
-  path: remote://source/myvariant.info/metadata.json
-md5: fe105bccb7144bfcea44e605058afa49
-outs:
-- cache: true
-  md5: e684d344d13e70a33a5605327a789360
-  path: source/myvariant.info/metadata.json

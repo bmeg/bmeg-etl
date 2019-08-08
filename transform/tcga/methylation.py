@@ -1,30 +1,25 @@
 from collections import defaultdict
-import gzip
 import logging
-import json
 import os.path
 import tarfile
 
 import bmeg.enrichers.gene_enricher as gene_enricher
-from bmeg.vertex import Methylation, MethylationProbe, Aliquot, Gene
-from bmeg.edge import MethylationOf, MethylationProbeFor
+from bmeg import (Methylation, MethylationProbe, Aliquot, Gene, Project,
+                  Methylation_Aliquot_Aliquot, MethylationProbe_Gene_Gene)
 from bmeg.emitter import JSONEmitter
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
+from bmeg.ioutils import read_lookup
 
 
 def transform(source_path,
-              aliquot_path="outputs/gdc/Aliquot.Vertex.json.gz",
+              id_lookup_path='source/gdc/id_lookup.tsv',
+              project_lookup_path='source/gdc/project_lookup.tsv',
+              emitter_prefix=None,
               emitter_directory="tcga"):
 
-    logging.debug("building aliquot lookup...")
-    aliquot_lookup = {}
-    with gzip.open(aliquot_path) as handle:
-        for line in handle:
-            a = json.loads(line)
-            barcode = a["data"]["gdc_attributes"]["submitter_id"]
-            gdc_id = a["data"]["gdc_attributes"]["aliquot_id"]
-            aliquot_lookup[barcode] = gdc_id
+    aliquot_lookup = read_lookup(id_lookup_path)
+    project_lookup = read_lookup(project_lookup_path)
 
     # check if we are doing one file at time
     p, file_name = os.path.split(source_path)
@@ -71,24 +66,29 @@ def transform(source_path,
             # only emit probe vertices when processing the first file
             if i == 0:
                 p = MethylationProbe(
-                    id=probe_id,
+                    id=MethylationProbe.make_gid(probe_id),
+                    probe_id=probe_id,
                     target=symbol,
                     chromosome=row[chromosome_idx],
                     position=int(row[coordinate_idx]),
+                    project_id=Project.make_gid("Reference")
                 )
                 emitter.emit_vertex(p)
 
                 if symbol.startswith("ENSG"):
                     emitter.emit_edge(
-                        MethylationProbeFor(),
-                        from_gid=p.gid(),
-                        to_gid=Gene.make_gid(symbol)
+                        MethylationProbe_Gene_Gene(
+                            from_gid=p.gid(),
+                            to_gid=Gene.make_gid(symbol)
+                        ),
+                        emit_backref=True
                     )
 
             # http://gdac.broadinstitute.org/runs/sampleReports/latest/SKCM_Notifications.html
             if aliquot_barcode == "TCGA-XV-AB01-01A-12D-A408-05":
                 aliquot_barcode = "TCGA-XV-AB01-06A-12D-A408-05"
             aliquot_id = aliquot_lookup[aliquot_barcode]
+            project_id = project_lookup[aliquot_barcode]
             beta_val = row[bval_idx]
             if beta_val == "NA":
                 bval = None
@@ -98,17 +98,19 @@ def transform(source_path,
 
         for aliquot_id, values in collect.items():
             m = Methylation(
-                id=aliquot_id,
-                source="tcga",
+                id=Methylation.make_gid(aliquot_id),
                 metric="Methylation beta value",
                 method=prefix,
                 values=values,
+                project_id=Project.make_gid(project_id)
             )
             emitter.emit_vertex(m)
             emitter.emit_edge(
-                MethylationOf(),
-                from_gid=m.gid(),
-                to_gid=Aliquot.make_gid(aliquot_id)
+                Methylation_Aliquot_Aliquot(
+                    from_gid=m.gid(),
+                    to_gid=Aliquot.make_gid(aliquot_id)
+                ),
+                emit_backref=True
             )
 
         logging.debug("finished processing: %s", member.name)

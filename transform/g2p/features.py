@@ -1,48 +1,54 @@
-
-from bmeg.vertex import Allele, GenomicFeature
-import bmeg.enrichers.gene_enricher as gene_enricher
-from bmeg.vertex import Gene
+from transform.g2p.genes import gene_gid
+from bmeg import Allele, GenomicFeature, Project
 import re
 
 # keep track of what we've already exported
 EXPORTED_ALLELES = []
 
 
-def gene_gid(symbol):
-    """ return gene gid """
-    symbol = symbol.replace('Wild-Type', '').strip()
-    gene = gene_enricher.get_gene(symbol)
-    return Gene.make_gid(gene_id=gene['ensembl_gene_id'])
-
-
 def allele(feature):
-    """ return compound gid """
+    """ return alle """
     params = {
         'genome': feature['referenceName'],
         'chromosome': feature['chromosome'],
         'start': feature['start'],
         'end': feature['end'],
-        'reference_bases': feature.get('ref', None),
-        'alternate_bases': feature.get('alt', None),
+        'reference_bases': feature['ref'],
+        'alternate_bases': feature['alt'],
         'strand': '+',
         'hugo_symbol': feature.get('geneSymbol', None),
+        'id': Allele.make_gid(
+            feature['referenceName'], feature['chromosome'],
+            feature['start'], feature['end'],
+            feature['ref'], feature['alt']
+        ),
+        'project_id': Project.make_gid("Reference")
     }
-
-    return Allele(**params)
+    a = Allele(**params)
+    a.validate()
+    return a
 
 
 def genomic_feature(feature):
-    """ return compound gid """
+    """ return genomic feature """
     params = {
         'genome': feature.get('referenceName', None),
         'chromosome': feature.get('chromosome', None),
         'start': feature.get('start', None),
         'end': feature.get('end', None),
         'type': feature.get('biomarker_type', None),
-        'name': feature.get('description', feature.get('name', None))
+        'name': feature.get('description', feature.get('name', None)),
+        'id': GenomicFeature.make_gid(
+            feature.get('referenceName', None), feature.get('chromosome', None),
+            feature.get('start', None), feature.get('end', None),
+            feature.get('biomarker_type', None), feature.get('name', None)
+        ),
+        'project_id': Project.make_gid("Reference")
     }
 
-    return GenomicFeature(**params)
+    gf = GenomicFeature(**params)
+    gf.validate()
+    return gf
 
 
 def normalize(hit):

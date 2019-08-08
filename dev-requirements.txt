@@ -10,9 +10,12 @@ more-itertools==4.2.0
 # grip
 git+https://github.com/bmeg/grip.git#subdirectory=gripql/python
 # faster json
+ijson==2.3
 ujson==1.35
 # dataclass serialization
 dacite==0.0.16
 pydash==4.7.3
-dvc==0.35.7
 xlrd==1.2.0
+jsonschema==3.0.1
+dictionaryutils==2.0.7
+dvc>=0.50.1

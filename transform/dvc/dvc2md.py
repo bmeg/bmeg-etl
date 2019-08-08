@@ -64,7 +64,7 @@ def transform(
 
         for filename in glob.iglob(path, recursive=True):
             with open(filename, 'r') as stream:
-                dvc = yaml.load(stream)
+                dvc = yaml.safe_load(stream)
                 if 'cmd' not in dvc:
                     dvc['cmd'] = ''
                 dvc = types.SimpleNamespace(**dvc)

@@ -1,0 +1,41 @@
+md5: cb5426e0b8ffb26c569725f2fabbe9d8
+cmd: python3 transform/ccle/ccle_expression.py
+wdir: ../..
+deps:
+- md5: 5f753c0bd952abd92ea52c953e004932
+  path: transform/ccle/ccle_expression.py
+- md5: 6f69af2dd6a8e0bd8c916d8ec5b79061
+  path: source/ccle/CCLE_depMap_19Q1_TPM.csv
+- md5: d907322a3f1b98712ef577c89e5cdfeb
+  path: source/ccle/CCLE_depMap_19Q1_TPM_transcripts.csv
+outs:
+- md5: b5c01c255394aed2e8b4acff06f47cd4
+  path: outputs/ccle/TranscriptExpression.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: ff129cef752e9ac1e1edf922987658bf
+  path: outputs/ccle/GeneExpression.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: a57829680dd7a54e37389cdb8c7c99e1
+  path: outputs/ccle/Aliquot_GeneExpressions_GeneExpression.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 4e17cfa35100b5875d8f20120203215c
+  path: outputs/ccle/GeneExpression_Aliquot_Aliquot.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 9f5b67382a19adb49bc3e6fed00eb3b5
+  path: outputs/ccle/Aliquot_TranscriptExpressions_TranscriptExpression.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 6873d4f9d8ee64b7976eefed092c2446
+  path: outputs/ccle/TranscriptExpression_Aliquot_Aliquot.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false

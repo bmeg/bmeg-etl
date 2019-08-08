@@ -13,7 +13,7 @@ def transform():
     for filename in sys.stdin:
         filename = filename.strip()
         with open(filename, 'r') as stream:
-            dvc = yaml.load(stream)
+            dvc = yaml.safe_load(stream)
             # not a command, an import
             if 'cmd' not in dvc:
                 print('#')

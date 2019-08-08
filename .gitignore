@@ -26,26 +26,23 @@ eggs/
 
 .cache/
 .pytest_cache/
-/outputs
+# ignore all vertex and edge files
+outputs/**/*Vertex.json*
+outputs/**/*Edge.json*
+!tests/unit/**/outputs/**/*.json*
 
 # ignore everything except markdown documents in source
 source/**/*.*
-!source/*/version.txt
+!source/**/version.txt
 !source/**/*.md
 !source/**/*.dvc
 !source/**/.gitignore
 !source/phenotype_enricher/disease_alias.tsv
 !source/drug_enricher/drug_alias.tsv
+
 tests/unit/allele/source/myvariantinfo/sqlite.db
-!tests/unit/mc3/outputs/**/*.json
 tests/unit/compound/source/compound/sqlite.db
-!tests/unit/compound/source/compound/README.md
-
-!tests/unit/compound/source/*/*.json
-!tests/unit/compound/outputs/**/*.*
-
-!tests/unit/phenotype/source/*/*.json
-!tests/unit/phenotype/outputs/**/*.*
+tests/unit/*/test/*.json.gz
 
 .DS_Store
-tests/unit/*/test/*.json.gz
+
