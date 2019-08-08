@@ -5,12 +5,13 @@ from string import Template
 import yaml
 import pathlib
 
-
+PDC_SCHEMA = None
 # see https://pdc.esacinc.com/data-dictionary/publicapi-documentation/#!/Paginated_Records/getPaginatedCases_0
 # https://pdc.esacinc.com/data-dictionary/harmonization.html
 
 def get_pdc_schema():
     """Returns (entities, queries)"""
+    global PDC_SCHEMA
 
     introspection_query = """
 
@@ -109,6 +110,7 @@ def get_pdc_schema():
     """
     r = requests.get('https://pdc.esacinc.com/graphql?query={}'.format(introspection_query))
     pdc = AttrDict(r.json())
+    PDC_SCHEMA = pdc
 
     # xform
     entities = {t['name']: [f for f in t['fields']] for t in pdc.data['__schema']['types'] if t['kind'] == 'OBJECT' and not t['name'].startswith('_')}
@@ -160,7 +162,7 @@ def run_query(query):
                 if k in ['total', 'pagination']:
                     continue
                 if isinstance(k,dict):
-                    results['data'][entity].extend(k)
+                    results['data'][entity].append(k)
                 else:
                     results['data'][entity].extend(response_entity[k])
         if 'pagination' not in results:
@@ -172,12 +174,17 @@ def run_query(query):
 def save_query(obj, query):
     if 'data' in obj:
         entity = list(obj['data'].keys())[0]
-        print(entity, len(obj['data'][entity]))
+        if entity:
+            entities = obj['data'][entity]
+        else:
+            entities = obj['data']
+        with open('source/pdc/{}.json'.format(query), 'w') as outs:
+            for e in entities:
+                json.dump(e, outs, separators=(',', ':'))
+                outs.write('\n')
     else:
         print(query, obj)
         raise Exception('No data')
-    with open('source/pdc/{}.json'.format(query), 'w') as outs:
-        json.dump(obj, outs)
 
 
 def parse_query_name(query):
@@ -237,8 +244,46 @@ def generate_queries():
 # read yaml files
 
 def read_queries():
-    with open('transform/pdc/pdc_queries.yml', 'r') as infile:
+    with open('pdc_queries.yml', 'r') as infile:
         return yaml.load(infile, Loader=yaml.FullLoader)
+
+
+def paginatedCasesSamplesAliquots(queries=None):
+    # expected to run without issue
+    if not queries:
+        queries = read_queries()
+    query_name = 'paginatedCasesSamplesAliquots'
+    graphql = queries[query_name]
+    save_query(run_query(graphql), query_name)
+
+
+def allCases(queries=None):
+    if not queries:
+        queries = read_queries()
+    query_name = 'allCases'
+    graphql = queries[query_name]
+    save_query(run_query(graphql), query_name)
+
+
+def allPrograms(queries=None):
+    if not queries:
+        queries = read_queries()
+    query_name = 'allPrograms'
+    graphql = queries[query_name]
+    save_query(run_query(graphql), query_name)
+
+def getPaginatedFiles(queries=None):
+    if not queries:
+        queries = read_queries()
+    query_name = 'getPaginatedFiles'
+    graphql = queries[query_name]
+    save_query(run_query(graphql), query_name)
+
+def run_and_save(query_name, queries=None):
+    if not queries:
+        queries = read_queries()
+    graphql = queries[query_name]
+    save_query(run_query(graphql), query_name)
 
 
 def transform():
@@ -247,7 +292,7 @@ def transform():
     pathlib.Path("source/pdc").mkdir(parents=True, exist_ok=True)
 
     need_no_parameters = ['studyExperimentalDesign', 'biospecimenPerStudy', 'clinicalPerStudy', 'protocolPerStudy', 'study', 'clinicalMetadata', 'uiSunburstChart', 'quantitiveDataCPTAC2', 'programsProjectsStudies', 'fileMetadata', 'allCases', 'allPrograms', 'tissueSitesAvailable', 'diseasesAvailable', 'allExperimentTypes', 'diseaseTypesPerProject', 'projectsPerExperimentType', 'filesCountPerStudy', 'filesPerStudy', 'projectsPerInstrument', 'uiProtocol', 'pdcDataStats', 'workflowMetadata', 'uiStudy', 'uiCase', 'uiFile', 'uiTissueSiteCaseCount', 'uiAnalyticalFractionsCount', 'uiExperimentBar', 'uiExperimentPie', 'uiPublication']
-    needs_parameters = ['experimentalMetadata', 'casePerFile', 'uiExperimentFileCount', 'uiDataCategoryFileCount', 'uiGeneStudySpectralCount', 'uiGeneAliquotSpectralCount']
+    needs_parameters = ['experimentalMetadata', 'casePerFile', 'uiExperimentFileCount', 'uiDataCategoryFileCount', 'uiGeneStudySpectralCount', 'uiGeneAliquotSpectralCount', 'getPaginatedFiles']
 
     queries = read_queries()
 

@@ -81,7 +81,8 @@ def transform(api_key):
     get_patient()
     get_patient_study()
     get_series()
-    get_sop_uids()
+    # takes too f___ long.
+    # get_sop_uids()
 
 
 if __name__ == '__main__':
