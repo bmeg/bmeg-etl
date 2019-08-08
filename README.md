@@ -4,7 +4,7 @@
 BMEG-ETL
 ========
 
-BMEG-ETL is a project that defines the transformers for BMEG. The schema is described [here](src/bmeg/bmeg-dictionary).
+BMEG-ETL is a project that defines the transformers for BMEG. The schema is described here: https://github.com/bmeg/bmeg-dictionary
 
 
 DVC
