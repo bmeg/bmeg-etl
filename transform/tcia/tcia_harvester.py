@@ -94,11 +94,11 @@ def load(name):
 
 
 def load_all():
-    """Returns a tuple of generators"""
-    all_patients = load('patients')
-    all_patient_study = load('patient_study')
-    all_series = load('series')
-    return ([all_patients], [all_patient_study], [all_series])
+    """Returns a tuple of object arrays"""
+    all_patients = [o for o in load('patients')]
+    all_patient_study = [o for o in load('patient_study')]
+    all_series = [o for o in load('series')]
+    return (all_patients, all_patient_study, all_series)
 
 
 if __name__ == '__main__':
