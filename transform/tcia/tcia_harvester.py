@@ -4,6 +4,7 @@ import logging
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
 import pathlib
+from attrdict import AttrDict
 
 from transform.tcia.tciaclient import TCIAClient
 
@@ -90,7 +91,7 @@ def load(name):
     """Loads a file"""
     with open('source/tcia/{}.json'.format(name), 'r') as ins:
         for line in ins:
-            yield json.loads(line)
+            yield AttrDict(json.loads(line))
 
 
 def load_all():

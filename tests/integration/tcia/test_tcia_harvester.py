@@ -8,4 +8,4 @@ def test_harvester():
     # harvest(os.environ['TCIA_APIKEY'])
     (all_patients, all_patient_study, all_series) = load_all()
     for a in [all_patients, all_patient_study, all_series]:
-        assert len(a) > 0, 'Should be > 0'
+        assert len(a) > 10, 'Should be > 10'
