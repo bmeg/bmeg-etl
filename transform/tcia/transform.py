@@ -3,7 +3,6 @@ import click
 import logging
 from pathlib import Path
 from dotenv import find_dotenv, load_dotenv
-import os
 import pathlib
 
 from tciaclient import TCIAClient
@@ -16,8 +15,7 @@ def transform(api_key):
         cleaned data ready to be analyzed (saved in ../processed).
     """
     assert api_key, 'Please set --api_key or export TCIA_APIKEY=...'
-    logger = logging.getLogger(__name__)
-    tcia_client = TCIAClient(apiKey=api_key, baseUrl="https://services.cancerimagingarchive.net/services/v3",resource = "TCIA")
+    tcia_client = TCIAClient(apiKey=api_key, baseUrl="https://services.cancerimagingarchive.net/services/v3", resource="TCIA")
 
     def get_patient():
         with tcia_client.get_patient() as response:
@@ -31,6 +29,7 @@ def transform(api_key):
                         outs.write('\n')
                         c += 1
                 print('patients {}'.format(c))
+
     def get_patient_study():
         with tcia_client.get_patient_study() as response:
             if response.status == 200:
@@ -75,8 +74,6 @@ def transform(api_key):
                         c += 1
                         outs.write('\n')
         print('sop_uids {}'.format(c))
-
-
 
     get_patient()
     get_patient_study()
