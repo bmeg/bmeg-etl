@@ -38,7 +38,10 @@ class PDCTransformer():
         """Creates graph"""
         G = nx.MultiDiGraph()
 
+        G.add_node('pdc', label= 'Source')
         G.add_nodes_from(set([case.project_submitter_id for case in self.all_cases]), label='Project')
+        G.add_edges_from([('pdc',k) for k in set([case.project_submitter_id for case in self.all_cases])], label='projects')
+        
         G.add_nodes_from(set([case.case_submitter_id for case in self.all_cases]), label='Case')
 
         G.add_edges_from([(case.project_submitter_id, case.case_submitter_id) for case in self.all_cases], label='cases')

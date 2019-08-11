@@ -13,7 +13,11 @@ class TCIATransformer():
     def graph(self):
         """Creates graph"""
         G = nx.MultiDiGraph()
+        G.add_node('tcia', label= 'Source')
+        
         G.add_nodes_from(set([case.Collection for case in self.all_patients]), label='Project')
+        G.add_edges_from([('tcia',k) for k in set([case.Collection for case in self.all_patients])], label='projects')
+
         G.add_nodes_from(set([case.PatientID for case in self.all_patients]), label='Case')
         G.add_edges_from([(case.Collection, case.PatientID) for case in self.all_patients], label='cases')
 
