@@ -85,6 +85,22 @@ def publication_gid(url: str):
     return "Publication:{}".format(url)
 
 
+def pathway_gid(url: str):
+    rec = re.compile(r"https?://(www\.)?")
+    url = rec.sub("", url).strip()
+    return "{}".format(url)
+
+
+def pathway_component_gid(url: str):
+    rec = re.compile(r"https?://(www\.)?")
+    url = rec.sub("", url).strip()
+    return "{}".format(url)
+
+
+def interaction_gid(participant_a: str, interaction_type: str, participant_b: str):
+    return "Interaction:{}:{}:{}".format(participant_a, interaction_type, participant_b)
+
+
 # cast the result of the above gid functions to the proper type
 def cast_gid(func):
     @wraps(func)
@@ -106,5 +122,8 @@ gid_factories = {
     'Allele': allele_gid,
     'GenomicFeature': genomic_feature_gid,
     'G2PAssociation': g2p_association_gid,
-    'Publication': publication_gid
+    'Publication': publication_gid,
+    'Pathway': pathway_gid,
+    'PathwayComponent': pathway_component_gid,
+    'Interaction': interaction_gid
 }
