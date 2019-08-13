@@ -1,13 +1,18 @@
+import csv
 import logging
-import bmeg.enrichers.gene_enricher as gene_enricher
+import sys
 
+import bmeg.enrichers.gene_enricher as gene_enricher
 from bmeg import (Pathway, PathwayComponent, Interaction, Gene, Publication, Project,
-                  Pathway_PathwayComponents_PathwayComponent, Pathway_Interactions_Interaction, Pathway_Genes_Gene, Pathway_SubPathway_Pathway,
+                  Pathway_PathwayComponents_PathwayComponent, Pathway_Interactions_Interaction, Pathway_Genes_Gene, Pathway_SubPathways_Pathway,
                   PathwayComponent_Interactions_Interaction, PathwayComponent_Genes_Gene,
                   Interaction_Genes_Gene, Interaction_Publications_Publication,
                   Gene_PathwayComponents_PathwayComponent, Gene_Interactions_Interaction)
 from bmeg.emitter import JSONEmitter
 from bmeg.ioutils import read_tsv
+
+
+csv.field_size_limit(sys.maxsize)
 
 
 def get_participant(p):
@@ -23,7 +28,7 @@ def get_participant(p):
     return v
 
 
-def transform(sif_file="source/pathway_commons/pc11.details.sif",
+def transform(sif_file="source/pathway_commons/pc11.detailed.sif",
               pathways_file="source/pathway_commons/pathways.txt",
               emitter_prefix=None,
               emitter_directory="pathway_commons"):
@@ -33,10 +38,10 @@ def transform(sif_file="source/pathway_commons/pc11.details.sif",
     sif = read_tsv(sif_file,
                    fieldnames=["PARTICIPANT_A", "INTERACTION_TYPE", "PARTICIPANT_B",
                                "MEDIATOR", "PUBMED", "PMC", "COMMENTS", "PATHWAY",
-                               "PATHWAY_URI", "RESOURCE", "SOURCE_LOC", "TARGET_LOC"])
+                               "PATHWAY_URI", "RESOURCE", "SOURCE_LOC", "TARGET_LOC"],
+                   quoting=csv.QUOTE_NONE)
 
     components = {}
-    pathways = {}
     path_comp = {}
     path_int = {}
     gene_comp = {}
@@ -48,7 +53,7 @@ def transform(sif_file="source/pathway_commons/pc11.details.sif",
 
         i = Interaction(
             id=Interaction.make_gid(line["PARTICIPANT_A"], line["INTERACTION_TYPE"], line["PARTICIPANT_B"]),
-            Project=Project.make_gid("Reference"),
+            project_id=Project.make_gid("Reference"),
             source=line["RESOURCE"],
             type=line["INTERACTION_TYPE"]
         )
@@ -89,7 +94,7 @@ def transform(sif_file="source/pathway_commons/pc11.details.sif",
         for m in line["MEDIATOR"].split(";"):
             comp = PathwayComponent(
                 id=PathwayComponent.make_gid(m),
-                Project=Project.make_gid("Reference")
+                project_id=Project.make_gid("Reference"),
             )
             if m not in components:
                 emitter.emit_vertex(comp)
@@ -125,12 +130,7 @@ def transform(sif_file="source/pathway_commons/pc11.details.sif",
                 if p != "":
                     pathway = Pathway(
                         id=Pathway.make_gid(p),
-                        Project=Project.make_gid("Reference"),
-                        name=line["PATHWAY"]
                     )
-                    if pathway.gid() not in pathways:
-                        emitter.emit_vertex(pathway)
-                        pathways[pathway.gid()] = True
                     if comp.gid() not in path_comp:
                         emitter.emit_edge(
                             Pathway_PathwayComponents_PathwayComponent(
@@ -171,16 +171,25 @@ def transform(sif_file="source/pathway_commons/pc11.details.sif",
 
     # emit pathway hierarchy
     # PATHWAY_URI	DISPLAY_NAME	DIRECT_SUB_PATHWAY_URIS	ALL_SUB_PATHWAY_URIS
+    paths = {}
     sub_paths = {}
-    pathways = read_tsv(pathways_file)
+    pathways = read_tsv(pathways_file,
+                        quoting=csv.QUOTE_NONE)
     for line in pathways:
-        pathway_gid = Pathway.make_gid(line["PATHWAY_URI"])
+        pathway = Pathway(
+            id=Pathway.make_gid(line["PATHWAY_URI"]),
+            project_id=Project.make_gid("Reference"),
+            name=line["DISPLAY_NAME"]
+        )
+        if pathway.gid() not in paths:
+            emitter.emit_vertex(paths)
+            pathways[pathway.gid()] = True
         for sub in line["ALL_SUB_PATHWAY_URIS"].split(";"):
             sub_gid = Pathway.make_gid(line[sub])
             if sub_gid not in sub_paths:
                 emitter.emit_edge(
-                    Pathway_SubPathway_Pathway(
-                        from_gid=pathway_gid,
+                    Pathway_SubPathways_Pathway(
+                        from_gid=pathway.gid(),
                         to_gid=sub_gid,
                     ),
                     emit_backref=True
