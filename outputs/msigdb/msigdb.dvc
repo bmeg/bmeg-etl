@@ -1,0 +1,34 @@
+md5: d09bbae23d34af0a2608f909f5b323f3
+cmd: python3 transform/msigdb/transform.py
+wdir: ../..
+deps:
+- md5: 73ab87babe8bfa246a6523c6dc26c27a
+  path: source/msigdb/msigdb_v6.2.xml
+- md5: 7502b3bcf1f571d844f26cca4618bfed
+  path: transform/msigdb/transform.py
+outs:
+- md5: 5791641988a11cf23eee0cf9b63ef20a
+  path: outputs/msigdb/GeneSet.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 573c49e95daea60987976105925f3223
+  path: outputs/msigdb/Gene_GeneSets_GeneSet.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: c2d91f307a75163bc5dec6d4dda4440d
+  path: outputs/msigdb/GeneSet_Genes_Gene.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: c7b863f20541385d1c46b46d3a885e96
+  path: outputs/msigdb/GeneSet_Publications_Publication.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 7feb8063bd265b0933cf9d1f7aa7923c
+  path: outputs/msigdb/Publication_GeneSets_GeneSet.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
