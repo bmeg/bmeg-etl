@@ -133,9 +133,11 @@ def transform(sif_file="source/pathway_commons/pc11.detailed.sif",
             name=line["DISPLAY_NAME"]
         )
         if pathway.gid() not in paths:
-            emitter.emit_vertex(paths)
-            pathways[pathway.gid()] = True
+            emitter.emit_vertex(pathway)
+            paths[pathway.gid()] = True
         for sub in line["ALL_SUB_PATHWAY_URIS"].split(";"):
+            if sub == "":
+                continue
             sub_gid = Pathway.make_gid(line[sub])
             if sub_gid not in sub_paths:
                 emitter.emit_edge(
