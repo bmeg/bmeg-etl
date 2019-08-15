@@ -5,7 +5,7 @@ import sys
 import bmeg.enrichers.gene_enricher as gene_enricher
 from bmeg import (Pathway, Interaction, Gene, Publication, Project,
                   Pathway_Interactions_Interaction, Pathway_Genes_Gene, Pathway_SubPathways_Pathway,
-                  Interaction_Genes_Gene, Gene_Interactions_Interaction, Interaction_Publications_Publication)
+                  Interaction_InteractionOutput_Gene, Gene_InteractionInput_Interaction, Interaction_Publications_Publication)
 from bmeg.emitter import JSONEmitter
 from bmeg.ioutils import read_tsv
 
@@ -60,14 +60,14 @@ def transform(sif_file="source/pathway_commons/pc11.detailed.sif",
             continue
         emitter.emit_vertex(i)
         emitter.emit_edge(
-            Gene_Interactions_Interaction(
+            Gene_InteractionInput_Interaction(
                 from_gid=pa.gid(),
                 to_gid=i.gid()
             ),
             emit_backref=False
         )
         emitter.emit_edge(
-            Interaction_Genes_Gene(
+            Interaction_InteractionOutput_Gene(
                 from_gid=i.gid(),
                 to_gid=pb.gid()
             ),

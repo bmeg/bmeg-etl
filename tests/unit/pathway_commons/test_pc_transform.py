@@ -24,8 +24,8 @@ def validate(helpers, emitter_directory, sif, pathways):
     gene_pathway_edge = os.path.join(emitter_directory, 'Gene_Pathways_Pathway.Edge.json.gz')
     pathway_interaction_edge = os.path.join(emitter_directory, 'Pathway_Interactions_Interaction.Edge.json.gz')
     interaction_pathway_edge = os.path.join(emitter_directory, 'Interaction_Pathways_Pathway.Edge.json.gz')
-    interaction_gene_edge = os.path.join(emitter_directory, 'Interaction_Genes_Gene.Edge.json.gz')
-    gene_interaction_edge = os.path.join(emitter_directory, 'Gene_Interactions_Interaction.Edge.json.gz')
+    interaction_gene_edge = os.path.join(emitter_directory, 'Interaction_InteractionOutput_Gene.Edge.json.gz')
+    gene_interaction_edge = os.path.join(emitter_directory, 'Gene_InteractionInput_Interaction.Edge.json.gz')
     interaction_publication_edge = os.path.join(emitter_directory, 'Interaction_Publications_Publication.Edge.json.gz')
     publication_interaction_edge = os.path.join(emitter_directory, 'Publication_Interactions_Interaction.Edge.json.gz')
 
