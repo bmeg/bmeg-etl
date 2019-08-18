@@ -46,3 +46,5 @@ tests/unit/*/test/*.json.gz
 
 .DS_Store
 
+notebooks/.ipynb_checkpoints/ transform/.ipynb_checkpoints/
+**/.ipynb_checkpoints/

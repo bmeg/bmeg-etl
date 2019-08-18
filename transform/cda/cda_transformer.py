@@ -29,8 +29,20 @@ class CDATransformer():
         self.gdc = gdc
 
     def graph(self):
-        """Adds `same_as` edge on `Case` vertex in composed cga networkx graph."""
+        """Applies xforms, adds `same_as` edge on `Case` vertex in composed cga networkx graph."""
 
+        # xform
+        for k,v in self.tcia.nodes.data():
+            if v['label'] == 'Patient':
+                self.tcia.nodes[k]['label'] = 'Subject'        
+        for k,v in self.pdc.nodes.data():
+            if v['label'] == 'Case':
+                self.pdc.nodes[k]['label'] = 'Subject'        
+        for k,v in self.gdc.nodes.data():
+            if v['label'] == 'Case':
+                self.gdc.nodes[k]['label'] = 'Subject'        
+
+                
         g = nx.compose(self.tcia,  nx.compose(self.pdc, self.gdc))
 
         # load cases
@@ -38,6 +50,7 @@ class CDATransformer():
         pdc_cases = load('allCases')
         tcia_cases = [o for o in tcia_loader('patients')]
 
+        
         # create maps
         gdc_submitter_id_map =  {
             c.data.submitter_id: {
@@ -113,6 +126,33 @@ class CDATransformer():
 
         return project_shared_counts
 
+
+    def shared_cases_details(self):
+        """Summarizes of shared_cases."""
+        same_as_cases = set([(u,v) for u,v,d in self.cda.edges.data() if d['label'] == 'same_as'])
+
+        def precedents(_id):
+            path = 'cases.projects'.split('.')
+            r = {}
+            for label in path:
+                for source, target, data in self.cda.in_edges(_id, data=True):
+                    if data['label'] == label:
+                        r[self.cda.node[_id]['label']] = _id
+                        _id = source
+            r[self.cda.node[_id]['label']] = _id
+            return r
+
+        project_shared_details = defaultdict(set)
+        for same_as in same_as_cases:
+            precedents_0 = precedents(same_as[0])
+            precedents_1 = precedents(same_as[1])
+            source_0 = precedents_0['Source']
+            source_1 = precedents_1['Source']
+            project_shared_details[source_0].add(same_as)
+            project_shared_details[source_1].add(same_as)
+        return project_shared_details
+    
+    
     def same_as_graph(self):
         """Constructs a subgraph with only 'same_as' cases"""
         same_as_cases = set([(u,v) for u,v,d in self.cda.edges.data() if d['label'] == 'same_as'])

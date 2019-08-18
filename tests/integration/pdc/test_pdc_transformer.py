@@ -11,20 +11,12 @@ def test_transformer():
     assert len(pdc_transformer.sample_gdc_projects.keys()) == 4, 'Should have 4 projects'
 
     G = pdc_transformer.graph()
-    assert len(G.nodes) == 42471, 'Should have lots of nodes'
+    assert len(G.nodes) == 42472, 'Should have lots of nodes'
 
     node_counts = defaultdict(int)
     for k, v in list(G.nodes.data()):
         node_counts[v['label']] += 1
     actual = sorted(node_counts.items())
-    expected = [
-        ('Aliquot', 1725),
-        ('Case', 977),
-        ('Demographic', 977),
-        ('Diagnosis', 977),
-        ('File', 36461),
-        ('Project', 4),
-        ('Sample', 1330),
-        ('Study', 20)
-    ]
+    print(actual)
+    expected = [('Aliquot', 1725), ('Case', 977), ('Demographic', 977), ('Diagnosis', 977), ('File', 36461), ('Project',4), ('Sample', 1330), ('Source', 1), ('Study', 20)]
     assert actual == expected, 'Graph should have expected number of nodes'
