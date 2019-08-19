@@ -1,0 +1,47 @@
+cmd: python3 transform/pathway_commons/transform.pyb
+wdir: ../..
+deps:
+- path: transform/pathway_commons/transform.py
+- path: source/pathway_commons/pc11.detailed.sif
+- path: source/pathway_commons/pathways.txt.gz
+outs:
+- path: outputs/pathway_commons/Pathway.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- path: outputs/pathway_commons/Interaction.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- path: outputs/pathway_commons/Gene_Interactions_Interaction.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- path: outputs/pathway_commons/Gene_Pathways_Pathway.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- path: outputs/pathway_commons/Interaction_Genes_Gene.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- path: outputs/pathway_commons/Interaction_Pathways_Pathway.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- path: outputs/pathway_commons/Interaction_Publications_Publication.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- path: outputs/pathway_commons/Pathway_Genes_Gene.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- path: outputs/pathway_commons/Pathway_Interactions_Interaction.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- path: outputs/pathway_commons/Publication_Interactions_Interaction.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false

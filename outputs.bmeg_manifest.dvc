@@ -1,4 +1,4 @@
-md5: 27101d320ab330bcda9d1c632b23a6bb
+md5: eb3c82cb76a5b7d22fdc1116fc42db5c
 cmd: echo generating file manifest...
 wdir: .
 deps:
@@ -286,6 +286,36 @@ deps:
   path: outputs/mc3/SomaticCallset_Aliquots_Aliquot.Edge.json.gz
 - md5: 5f078baacdd731d17c708ebd32ae9b05
   path: outputs/mc3/SomaticCallset_Alleles_Allele.Edge.json.gz
+- md5: 5791641988a11cf23eee0cf9b63ef20a
+  path: outputs/msigdb/GeneSet.Vertex.json.gz
+- md5: c2d91f307a75163bc5dec6d4dda4440d
+  path: outputs/msigdb/GeneSet_Genes_Gene.Edge.json.gz
+- md5: c7b863f20541385d1c46b46d3a885e96
+  path: outputs/msigdb/GeneSet_Publications_Publication.Edge.json.gz
+- md5: 573c49e95daea60987976105925f3223
+  path: outputs/msigdb/Gene_GeneSets_GeneSet.Edge.json.gz
+- md5: 7feb8063bd265b0933cf9d1f7aa7923c
+  path: outputs/msigdb/Publication_GeneSets_GeneSet.Edge.json.gz
+- md5: 64c4182289c3d7924af51e15ac5497f4
+  path: outputs/pathway_commons/Gene_Interactions_Interaction.Edge.json.gz
+- md5: 5498ed942604fcd735d7aece7c1c4db4
+  path: outputs/pathway_commons/Gene_Pathways_Pathway.Edge.json.gz
+- md5: ca007c6a34fb336b524ea8f634c5c8b3
+  path: outputs/pathway_commons/Interaction.Vertex.json.gz
+- md5: 86625324ae1e1e927121e909e5744a94
+  path: outputs/pathway_commons/Interaction_Genes_Gene.Edge.json.gz
+- md5: 239d7afa0017e7b1277dd52ae59fc8de
+  path: outputs/pathway_commons/Interaction_Pathways_Pathway.Edge.json.gz
+- md5: a0341597a0aa8a96bcce46d8513ed109
+  path: outputs/pathway_commons/Interaction_Publications_Publication.Edge.json.gz
+- md5: 2f02a1ebb19eafa2d30317429d54b0c6
+  path: outputs/pathway_commons/Pathway.Vertex.json.gz
+- md5: 41465ea4b4f7373fccada343cc41b7bd
+  path: outputs/pathway_commons/Pathway_Genes_Gene.Edge.json.gz
+- md5: 32545c213eecf10379d77887bacbaf5b
+  path: outputs/pathway_commons/Pathway_Interactions_Interaction.Edge.json.gz
+- md5: 6381ab2738b55712095a487b26d3785d
+  path: outputs/pathway_commons/Publication_Interactions_Interaction.Edge.json.gz
 - md5: fffda07cbdd2d76010be558a7f6e5b90
   path: outputs/pfam/GeneOntologyTerm_PfamFamilies_PfamFamily.Edge.json.gz
 - md5: 55785b3cfe1307dc4f8144db9ca9a131
