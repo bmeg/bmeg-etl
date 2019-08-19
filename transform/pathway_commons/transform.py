@@ -127,6 +127,9 @@ def transform(sif_file="source/pathway_commons/pc11.detailed.sif",
     pathways = read_tsv(pathways_file,
                         quoting=csv.QUOTE_NONE)
     for line in pathways:
+        # pathways.txt.gz has a second header line at line 4797
+        if line["PATHWAY_URI"] == "PATHWAY_URI":
+            break
         pathway = Pathway(
             id=Pathway.make_gid(line["PATHWAY_URI"]),
             project_id=Project.make_gid("Reference"),
@@ -138,7 +141,7 @@ def transform(sif_file="source/pathway_commons/pc11.detailed.sif",
         for sub in line["ALL_SUB_PATHWAY_URIS"].split(";"):
             if sub == "":
                 continue
-            sub_gid = Pathway.make_gid(line[sub])
+            sub_gid = Pathway.make_gid(sub)
             if sub_gid not in sub_paths:
                 emitter.emit_edge(
                     Pathway_SubPathways_Pathway(
