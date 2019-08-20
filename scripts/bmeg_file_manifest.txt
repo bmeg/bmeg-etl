@@ -145,10 +145,10 @@ outputs/msigdb/GeneSet_Genes_Gene.Edge.json.gz
 outputs/msigdb/GeneSet_Publications_Publication.Edge.json.gz
 outputs/msigdb/Gene_GeneSets_GeneSet.Edge.json.gz
 outputs/msigdb/Publication_GeneSets_GeneSet.Edge.json.gz
-outputs/pathway_commons/Gene_Interactions_Interaction.Edge.json.gz
+outputs/pathway_commons/Gene_InteractionInput_Interaction.Edge.json.gz
 outputs/pathway_commons/Gene_Pathways_Pathway.Edge.json.gz
 outputs/pathway_commons/Interaction.Vertex.json.gz
-outputs/pathway_commons/Interaction_Genes_Gene.Edge.json.gz
+outputs/pathway_commons/Interaction_InteractionOutput_Gene.Edge.json.gz
 outputs/pathway_commons/Interaction_Pathways_Pathway.Edge.json.gz
 outputs/pathway_commons/Interaction_Publications_Publication.Edge.json.gz
 outputs/pathway_commons/Pathway.Vertex.json.gz
