@@ -19,7 +19,6 @@ def transform(interactions_file="source/dgidb/interactions.tsv",
     interactions = read_tsv(interactions_file)
     # gene_name gene_claim_name entrez_id interaction_claim_source interaction_types drug_claim_name drug_claim_primary_name drug_name drug_chembl_id PMIDs
     for line in interactions:
-        print(line)
         assoc_params = {
             "source": line["interaction_claim_source"],
             "source_document": json.dumps(line),
@@ -34,15 +33,29 @@ def transform(interactions_file="source/dgidb/interactions.tsv",
             project_id=Project.make_gid("Reference"),
             **assoc_params
         )
+        gene_name = None
+        if line["entrez_id"] is not None and line["entrez_id"] != "":
+            gene_name = line["entrez_id"]
+        elif line["gene_name"] is not None and line["gene_name"] != "":
+            gene_name = line["gene_name"]
+        else:
+            gene_name = line["gene_claim_name"]
         try:
-            gene = gene_enricher.get_gene(line["entrez_id"])
+            gene = gene_enricher.get_gene(gene_name)
             ens_id = gene.get("ensembl_gene_id", None)
             if ens_id is None:
-                raise ValueError("No ensembl id found for entrez_id: {}".format(line["entrez_id"]))
+                raise ValueError("No ensembl id found for: {}".format(gene_name))
         except Exception as e:
             logging.error(e)
             continue
-        compound = compound_factory(name=line["drug_chembl_id"])
+        chem_name = None
+        if line["drug_chembl_id"] is not None and line["drug_chembl_id"] != "":
+            chem_name = line["drug_chembl_id"]
+        elif line["drug_name"] is not None and line["drug_name"] != "":
+            chem_name = line["drug_name"]
+        else:
+            chem_name = line["drug_claim_name"]
+        compound = compound_factory(name=chem_name)
         emitter.emit_vertex(compound)
         emitter.emit_vertex(assoc)
         emitter.emit_edge(
