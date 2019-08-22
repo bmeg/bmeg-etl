@@ -16,6 +16,7 @@ def transform(interactions_file="source/dgidb/interactions.tsv",
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
+    emitted_compounds = {}
     interactions = read_tsv(interactions_file)
     # gene_name gene_claim_name entrez_id interaction_claim_source interaction_types drug_claim_name drug_claim_primary_name drug_name drug_chembl_id PMIDs
     for line in interactions:
@@ -56,7 +57,9 @@ def transform(interactions_file="source/dgidb/interactions.tsv",
         else:
             chem_name = line["drug_claim_name"]
         compound = compound_factory(name=chem_name)
-        emitter.emit_vertex(compound)
+        if compound.gid() not in emitted_compounds:
+            emitter.emit_vertex(compound)
+            emitted_compounds[compound.gid()] = True
         emitter.emit_vertex(assoc)
         emitter.emit_edge(
             G2PAssociation_Compounds_Compound(

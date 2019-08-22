@@ -1,10 +1,10 @@
-md5: 4f24130089cf5e9b217b3dd64a3eff93
+md5: 1ce49f76573d96061dd562437d54945d
 cmd: python3 transform/dgidb/transform.py
 wdir: ../..
 deps:
 - md5: 7adcf4f9a4580908139f3e16877003f3
   path: source/dgidb/interactions.tsv
-- md5: 3f3207cfa4cb41bdd3470d273f2da2c6
+- md5: 7a2891fbf258973aeee47d31fb194721
   path: transform/dgidb/transform.py
 outs:
 - md5: c3cf3ed730b54c1b2e3083f50a052e15
@@ -12,7 +12,7 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: 5e8eb7d036129f5fb823b31c4f730c8b
+- md5: e898d3d272e2d3ff689c505d7fd2ae25
   path: outputs/dgidb/Compound.Vertex.json.gz
   cache: true
   metric: false
