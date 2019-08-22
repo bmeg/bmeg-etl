@@ -8,11 +8,8 @@ import re
 import logging
 import pydash
 
-NOFINDS = []
-
-NOFINDS_PUBCHEM_SUBSTANCE = []
-NOFINDS_PUBCHEM = []
-NOFINDS_BIOTHINGS = []
+NOFINDS = {}
+NOFINDS_BIOTHINGS = {}
 
 requests = Client('drug_enricher')
 
@@ -24,7 +21,7 @@ ALIASES = {}
 # get aliases
 for line in read_tsv('source/drug_enricher/drug_alias.tsv'):
     if line['alias'] == 'NO-FIND':
-        NOFINDS.append(line['name'])
+        NOFINDS[line['name']] = True
     ALIASES[line['name']] = line['alias']
 
 
@@ -65,245 +62,198 @@ def _decompose(name):
             logging.debug('returning pairs + name_parts {}'.format(pairs + name_parts))
             return [name] + pairs + name_parts
     except Exception as e:
-        logging.error(name)
+        logging.error("_decompose {}".format(name))
         logging.exception(e)
     logging.debug('returning [name] [no_punct] + pairs + name_parts {}'.format([no_punct] + pairs + name_parts))
     return [name] + [no_punct] + pairs + name_parts
 
 
-def normalize_pubchem_substance(name):
-    """ call pubchem and retrieve compound_id and most common synonym
-        see https://pubchem.ncbi.nlm.nih.gov/rdf/#_Toc421254632
-    """
-    if name in NOFINDS_PUBCHEM_SUBSTANCE:
-        logging.info("NOFINDS_PUBCHEM_SUBSTANCE {}".format(name))
-        return []
-    name_parts = _decompose(name)
-    compounds = []
+def _process_biothings_query(name, url):
+    "returns => compound: dict, score: float"
+
     try:
-        for name_part in name_parts:
-            if len(name_part) < NAME_PART_MIN_LEN:
-                continue
-            if name_part in NOFINDS_PUBCHEM_SUBSTANCE:
-                continue
-            url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/substance/name/{}/synonyms/JSON'.format(name_part)
+        retries = 0
+        while retries < 5:
+            logging.debug("_process_biothings_query: {}".format(url))
             r = requests.get(url, timeout=60)
             rsp = r.json()
-            if 'InformationList' in rsp:
-                informationList = r.json()['InformationList']
-                information = informationList['Information'][0]
-                compounds.append({'ontology_term':
-                                  'SID{}'.format(information['SID']),
-                                  'synonym': information['Synonym'][0],
-                                  'source': 'http://rdf.ncbi.nlm.nih.gov/pubchem/substance'})
+            if 'hits' not in rsp:
+                retries += 1
+                continue
             else:
-                logging.info("NOFINDS_PUBCHEM_SUBSTANCE {}".format(name_part))
-                NOFINDS_PUBCHEM_SUBSTANCE.append(name_part)
-        if len(compounds) == 0:
-            NOFINDS_PUBCHEM_SUBSTANCE.append(name)
-        return compounds
+                break
+        if 'hits' in rsp:
+            hits = rsp['hits']
+            logging.debug('len(hits) {}'.format(len(hits)))
+            if len(hits) == 0:
+                logging.debug('no hit for {}'.format(name))
+                return None, 0.0
+            # sort to get best hit
+            hits = sorted(hits, key=lambda k: k['_score'], reverse=True)
+            hit = hits[0]
+
+            # hit doesn't contain the required information
+            if 'pubchem' not in hit and 'chebi' not in hit and 'chembl' not in hit:
+                logging.debug('no pubchem or chebi or chembl for {}'
+                              .format(name))
+                return None, 0.0
+
+            # The higher the _score, the more relevant the document.
+            if hit['_score'] < MIN_BIOTHINGS_SCORE:
+                logging.debug(
+                    'discarded hit for {}, score too low {}'
+                    .format(name, hit['_score'])
+                )
+                return None, 0.0
+
+            score = hit['_score']
+            chembl = hit.get('chembl', {})
+            synonym_fda = synonym_usan = synonym_inn = synonym_usp = None
+            if 'molecule_synonyms' in chembl:
+                molecule_synonyms = chembl['molecule_synonyms']
+                if type(molecule_synonyms) is list:
+                    for molecule_synonym in molecule_synonyms:
+                        if molecule_synonym['syn_type'] == 'FDA':
+                            synonym_fda = molecule_synonym['synonyms'].encode('utf8')
+                        if molecule_synonym['syn_type'] == 'USAN':
+                            synonym_usan = molecule_synonym['synonyms'].encode('utf8')
+                        if molecule_synonym['syn_type'] == 'INN':
+                            synonym_inn = molecule_synonym['synonyms'].encode('utf8')
+                        if molecule_synonym['syn_type'] == 'USP':
+                            synonym_usp = molecule_synonym['synonyms'].encode('utf8')
+                else:
+                    if molecule_synonyms['syn_type'] == 'FDA':
+                        synonym_fda = molecule_synonyms['synonyms'].encode('utf8')
+                    if molecule_synonyms['syn_type'] == 'USAN':
+                        synonym_usan = molecule_synonyms['synonyms'].encode('utf8')
+                    if molecule_synonyms['syn_type'] == 'INN':
+                        synonym_inn = molecule_synonyms['synonyms'].encode('utf8')
+                    if molecule_synonyms['syn_type'] == 'USP':
+                        synonym_usp = molecule_synonyms['synonyms'].encode('utf8')
+
+            toxicity = pydash.get(hit,
+                                  'drugbank.pharmacology.toxicity',
+                                  None)
+            taxonomy = pydash.get(hit,
+                                  'drugbank.taxonomy',
+                                  None)
+
+            usan_stem = pydash.get(hit,
+                                   'chembl.usan_stem_definition',
+                                   None)
+            approved_countries = []
+            products = pydash.get(hit, 'drugbank.products', [])
+            if type(products) is list:
+                for product in products:
+                    if product['approved']:
+                        approved_countries.append(product['country'])
+            else:
+                product = products
+                if product['approved']:
+                    approved_countries.append(product['country'])
+
+            approved_countries = sorted(list(set(approved_countries)))
+
+            ontology_term = None
+            source = None
+            if 'pubchem' in hit:
+                ontology_term = 'CID{}'.format(hit['pubchem']['cid'])
+                source = 'http://rdf.ncbi.nlm.nih.gov/pubchem/compound'
+            elif 'chebi' in hit:
+                ontology_term = hit['chebi']['id']
+                source = 'http://purl.obolibrary.org/obo/chebi'
+            elif 'chembl' in hit:
+                ontology_term = hit['chembl']['molecule_chembl_id']
+                source = 'http://rdf.ebi.ac.uk/terms/chembl'
+
+            compound = {
+                'ontology_term': ontology_term,
+                'synonym': synonym_fda or synonym_usan or synonym_inn or synonym_usp or name,
+                'source': source,
+                'source_url': url
+            }
+
+            if toxicity:
+                compound['toxicity'] = toxicity
+            if taxonomy:
+                compound['taxonomy'] = taxonomy
+            if len(approved_countries) > 0:
+                compound['approved_countries'] = approved_countries
+            if usan_stem:
+                compound['usan_stem'] = usan_stem
+
     except Exception as e:
-        logging.warning(e)
-        return []
+        logging.exception(e)
+        return None, 0.0
 
-
-def normalize_pubchem(name):
-    """ call pubchem and retrieve compound_id and most common synonym
-        see https://pubchem.ncbi.nlm.nih.gov/rdf/#_Toc421254632
-    """
-    if name in NOFINDS_PUBCHEM:
-        logging.info("NOFINDS_PUBCHEM {}".format(name))
-        return []
-    name_parts = _decompose(name)
-    compounds = []
-    for name_part in name_parts:
-        if len(name_part) < NAME_PART_MIN_LEN:
-            continue
-        url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/{}/synonyms/JSON'.format(name_part)
-        r = requests.get(url, timeout=60)
-        rsp = r.json()
-        if 'InformationList' in rsp:
-            informationList = r.json()['InformationList']
-            information = informationList['Information'][0]
-            compounds.append({'ontology_term':
-                              'CID{}'.format(information['CID']),
-                              'source': 'http://rdf.ncbi.nlm.nih.gov/pubchem/compound',
-                              'synonym': information['Synonym'][0]})
-    if len(compounds) == 0:
-        NOFINDS_PUBCHEM.append(name)
-    return compounds
+    return compound, score
 
 
 def normalize_biothings(name):
     """
      curl 'http://mychem.info/v1/query?q=chembl.molecule_synonyms.synonyms:aspirin&fields=pubchem.cid,chembl.molecule_synonyms,chembl.molecule_chembl_id,chebi.chebi_id' | jq .
     """
-    try:
-        if name in NOFINDS_BIOTHINGS:
-            logging.info("NOFINDS_BIOTHINGS {}".format(name))
-            return []
-        name_parts = _decompose(name)
-        logging.debug(name_parts)
-        compounds = []
-        for name_part in name_parts:
-            logging.debug('checking {}'.format(name_part))
-            if len(name_part) < NAME_PART_MIN_LEN:
-                continue
-            fields = 'fields=pubchem.cid,chebi.chebi_id'\
-                ',chembl.molecule_chembl_id'\
-                ',chembl.molecule_synonyms,drugbank.pharmacology.toxicity,' \
-                'drugbank.products.approved,drugbank.products.country,' \
-                'drugbank.taxonomy.class,drugbank.taxonomy.direct-parent,' \
-                'drugbank.taxonomy.kingdom,drugbank.taxonomy.subclass,' \
-                'drugbank.taxonomy.superclass,' \
-                'chembl.usan_stem_definition'
-            url = 'http://mychem.info/v1/query?q=chembl.pref_name:{}&{}'.format(name_part, fields)
-            logging.debug(url)
-            r = requests.get(url, timeout=60)
-            rsp = r.json()
-            hits = rsp['hits']
-            logging.debug('len(hits) {}'.format(len(hits)))
-            if len(hits) == 0:
-                url = 'http://mychem.info/v1/query?q=chembl.molecule_synonyms.synonyms:{}&{}'.format(name_part, fields)
-                logging.debug(url)
-                r = requests.get(url, timeout=60)
-                rsp = r.json()
-                logging.debug(rsp)
-
-            if 'hits' in rsp:
-                hits = rsp['hits']
-                logging.debug('len(hits) {}'.format(len(hits)))
-                if len(hits) == 0:
-                    continue
-                # sort to get best hit
-                hits = sorted(hits, key=lambda k: k['_score'], reverse=True)
-                hit = hits[0]
-                if 'pubchem' not in hit and 'chebi' not in hit and 'chembl' not in hit:
-                    logging.warning('no pubchem or chebi or chembl for {}'
-                                    .format(name))
-                    continue
-                # The higher the _score, the more relevant the document.
-                if hit['_score'] < MIN_BIOTHINGS_SCORE:
-                    logging.debug(
-                        'discarded, score too low {}'.format(hit['_score'])
-                    )
-                    continue
-
-                chembl = hit['chembl']
-                synonym_fda = synonym_usan = synonym_inn = None
-                if 'molecule_synonyms' in chembl:
-                    molecule_synonyms = chembl['molecule_synonyms']
-                    if type(molecule_synonyms) is list:
-                        for molecule_synonym in molecule_synonyms:
-                            if molecule_synonym['syn_type'] == 'FDA':
-                                synonym_fda = molecule_synonym['synonyms'].encode('utf8')
-                            if molecule_synonym['syn_type'] == 'USAN':
-                                synonym_usan = molecule_synonym['synonyms'].encode('utf8')
-                            if molecule_synonym['syn_type'] == 'INN':
-                                synonym_inn = molecule_synonym['synonyms'].encode('utf8')
-                    else:
-                        if molecule_synonyms['syn_type'] == 'FDA':
-                            synonym_fda = molecule_synonyms['synonyms'].encode('utf8')
-                        if molecule_synonyms['syn_type'] == 'USAN':
-                            synonym_usan = molecule_synonyms['synonyms'].encode('utf8')
-                        if molecule_synonyms['syn_type'] == 'INN':
-                            synonym_inn = molecule_synonyms['synonyms'].encode('utf8')
-
-                toxicity = pydash.get(hit,
-                                      'drugbank.pharmacology.toxicity',
-                                      None)
-                taxonomy = pydash.get(hit,
-                                      'drugbank.taxonomy',
-                                      None)
-
-                usan_stem = pydash.get(hit,
-                                       'chembl.usan_stem_definition',
-                                       None)
-                approved_countries = []
-                products = pydash.get(hit, 'drugbank.products', [])
-                if type(products) is list:
-                    for product in products:
-                        if product['approved']:
-                            approved_countries.append(product['country'])
-                else:
-                    product = products
-                    if product['approved']:
-                        approved_countries.append(product['country'])
-
-                approved_countries = sorted(list(set(approved_countries)))
-
-                ontology_term = None
-                source = None
-                if 'pubchem' in hit:
-                    ontology_term = 'CID{}'.format(hit['pubchem']['cid'])
-                    source = 'http://rdf.ncbi.nlm.nih.gov/pubchem/compound'
-                if not ontology_term and 'chebi' in hit:
-                    ontology_term = hit['chebi']['chebi_id']
-                    source = 'http://purl.obolibrary.org/obo/chebi'
-                if not ontology_term and 'chembl' in hit:
-                    ontology_term = hit['chembl']['molecule_chembl_id']
-                    source = 'http://rdf.ebi.ac.uk/terms/chembl'
-
-                compound = {'ontology_term': ontology_term,
-                            'synonym': synonym_fda or synonym_usan or synonym_inn or name_part,
-                            'source': source
-                            }
-                if toxicity:
-                    compound['toxicity'] = toxicity
-                if taxonomy:
-                    compound['taxonomy'] = taxonomy
-                if len(approved_countries) > 0:
-                    compound['approved_countries'] = approved_countries
-                if usan_stem:
-                    compound['usan_stem'] = usan_stem
-                compounds.append(compound)
-        if len(compounds) == 0:
-            NOFINDS_BIOTHINGS.append(name)
-        return compounds
-    except Exception as e:
-        logging.warning(e)
-        return []
-
-
-def normalize_chembl(name):
-    """ chembl """
-    name_parts = _decompose(name)
     compounds = []
+
+    if name in NOFINDS_BIOTHINGS:
+        logging.info("NOFINDS_BIOTHINGS {}".format(name))
+        return None
+
+    fields = [
+        'chebi.id', 'chebi.inchi', 'chebi.inchi_key', 'chebi.name',
+        'chembl.molecule_chembl_id', 'chembl.pref_name', 'chembl.inchi', 'chembl.inchi_key', 'chembl.molecule_synonyms', 'chembl.usan_stem_definition',
+        'pubchem.cid', 'pubchem.inchi', 'pubchem.inchi_key',
+        'drugbank.id', 'drugbank.inchi', 'drugbank.inchi_key',
+        'drugbank.pharmacology.toxicity',
+        'drugbank.products.approved', 'drugbank.products.country',
+        'drugbank.taxonomy.class', 'drugbank.taxonomy.direct-parent',
+        'drugbank.taxonomy.kingdom', 'drugbank.taxonomy.subclass',
+        'drugbank.taxonomy.superclass'
+    ]
+    fields = ','.join(fields)
+
+    # search for exact matches first
+    # id_fields = ['chebi.id', 'chembl.molecule_chembl_id', 'pubchem.cid']
+    if name.lower().startswith("chebi"):
+        idf = 'chebi.id'
+    elif name.lower().startswith("chembl"):
+        idf = 'chembl.molecule_chembl_id'
+    elif re.match(r'^[0-9]+$', name):
+        idf = 'pubchem.cid'
+    else:
+        idf = None
+
+    if idf is not None:
+        url = 'http://mychem.info/v1/query?q={}:{}&fields={}&size=1'.format(idf, name, fields)
+        compound, score = _process_biothings_query(name, url)
+        if compound is not None:
+            compounds.append((compound, score))
+
+    name_parts = _decompose(name)
+    logging.debug('name parts: {}'.format(name_parts))
     for name_part in name_parts:
+        logging.debug('checking {}'.format(name_part))
         if len(name_part) < NAME_PART_MIN_LEN:
             continue
-        try:
-            url = 'https://www.ebi.ac.uk/chembl/api/data/chembl_id_lookup/search?q={}'.format(name_part)
-            r = requests.get(url,
-                             headers={'Accept': 'application/json'},
-                             timeout=5)
-            rsp = r.json()
-            if 'chembl_id_lookups' in rsp and len(rsp['chembl_id_lookups']) > 0:
-                lookup = rsp['chembl_id_lookups'][0]
-                url = 'https://www.ebi.ac.uk{}'.format(lookup['resource_url'])
-                data = requests.get(url,
-                                    headers={'Accept': 'application/json'},
-                                    timeout=5).json()
-                if 'molecule_synonyms' not in data:
-                    continue
-                molecule_synonyms = data['molecule_synonyms']
-                synonym_fda = synonym_usan = synonym_inn = None
-                for molecule_synonym in molecule_synonyms:
-                    if molecule_synonym['syn_type'] == 'FDA':
-                        synonym_fda = molecule_synonym['synonyms'].encode('utf8')
-                    if molecule_synonym['syn_type'] == 'USAN':
-                        synonym_usan = molecule_synonym['synonyms'].encode('utf8')
-                    if molecule_synonym['syn_type'] == 'INN':
-                        synonym_inn = molecule_synonym['synonyms'].encode('utf8')
-                if not (synonym_fda or synonym_usan or synonym_inn):
-                    continue
-                compounds.append({'ontology_term':
-                                  '{}'.format(lookup['chembl_id']),
-                                  'synonym': synonym_fda or synonym_usan or synonym_inn,
-                                  'source': 'http://rdf.ebi.ac.uk/terms/chembl'})
-        except Exception:
-            pass
-    return compounds
+        url = 'http://mychem.info/v1/query?q=chembl.pref_name:{}&fields={}&size=1'.format(name_part, fields)
+        compound, score = _process_biothings_query(name_part, url)
+        if compound is not None:
+            compounds.append((compound, score))
+        else:
+            url = 'http://mychem.info/v1/query?q=chembl.molecule_synonyms.synonyms:{}&fields={}&size=1'.format(name_part, fields)
+            compound, score = _process_biothings_query(name_part, url)
+            if compound is not None:
+                compounds.append((compound, score))
+            else:
+                NOFINDS_BIOTHINGS[name_part] = True
+
+    if len(compounds) == 0:
+        NOFINDS_BIOTHINGS[name] = True
+        return None
+
+    # sort by score and return the top hit
+    compounds = sorted(compounds, key=lambda t: t[1], reverse=True)
+    return compounds[0][0]
 
 
 def normalize(name):
@@ -313,11 +263,14 @@ def normalize(name):
         return []
     if name in NOFINDS:
         return []
+
+    # ensure name is a string
     try:
         name = name.decode('utf8')
     except Exception:
         pass
     name = str(name).strip()
+
     # do we have a better name?
     if ALIASES.get(name, None):
         logging.debug('The alias was {}'.format(ALIASES.get(name)))
@@ -325,33 +278,20 @@ def normalize(name):
         logging.debug('There was no alias for {}'.format(name))
     name = ALIASES.get(name, name)
 
-    drugs = normalize_biothings(name)
-    if len(drugs) == 0:
-        # print 'normalize_pubchem', name
-        drugs = normalize_pubchem(name)
-    if len(drugs) == 0:
-        # print 'normalize_pubchem_substance', name
-        drugs = normalize_pubchem_substance(name)
-    if len(drugs) == 0:
-        # print 'normalize_chembl'
-        # drugs = normalize_chembl(name)
-        pass
-    if len(drugs) == 0:
-        logging.warning('normalize_drugs NOFIND {}'
-                        .format(name))
+    compound = normalize_biothings(name)
+    if compound is None:
+        logging.warning('normalize_drugs NOFIND {}'.format(name))
         # skip next time
-        NOFINDS.append(name)
-    # de-dup
-    ontology_terms = {}
-    for d in drugs:
-        try:
-            d['synonym'] = d['synonym'].decode()
-        except AttributeError:
-            pass
-        if d['ontology_term'] not in ontology_terms:
-            ontology_terms[d['ontology_term']] = d
+        NOFINDS[name] = True
+        return []
+
     # ensure synonym is a str, not bytes
-    return list(ontology_terms.values())
+    try:
+        compound['synonym'] = compound['synonym'].decode()
+    except AttributeError:
+        pass
+
+    return [compound]
 
 
 def spell_check(name):
