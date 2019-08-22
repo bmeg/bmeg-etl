@@ -15,8 +15,8 @@ import sys
 import ujson
 
 
-def transform(vertex_names="**/*Compound.Vertex.json*",
-              edge_names="**/*Compound*.Edge.json*",
+def transform(vertex_names="**/dgidb/*Compound.Vertex.json*",
+              edge_names="**/dgidb/*Compound*.Edge.json*",
               output_dir="outputs",
               emitter_name="json",
               emitter_directory="compound",
@@ -41,32 +41,30 @@ def transform(vertex_names="**/*Compound.Vertex.json*",
                     compound_gid = compound['gid']
                     compound = compound['data']
                     # if un-normalized, normalize it
-                    if compound['term'] == 'TODO':
+                    if compound['id_source'] == 'TODO':
                         # do we have it already?
-                        stored_compound = store.get(compound['name'])
+                        stored_compound = store.get(compound['submitter_id'])
                         if not stored_compound:
                             # nope, fetch it
-                            ontology_terms = normalize(compound['name'])
-                            if len(ontology_terms) == 0:
+                            cinfo = normalize(compound['submitter_id'])
+                            if cinfo is None:
                                 # no hits? set term and id to name
-                                compound['term'] = compound['name']
-                                compound['term_id'] = 'NO_ONTOLOGY~{}'.format(compound['term'])
-                                compound['id'] = Compound.make_gid('NO_ONTOLOGY~{}'.format(compound['term']))
+                                compound['id_source'] = 'NO_ONTOLOGY'
+                                compound['id'] = Compound.make_gid('NO_ONTOLOGY:{}'.format(compound['submitter_id']))
                             else:
-                                # hits: set term and id to normalized term
-                                compound['term'] = ontology_terms[0]['synonym']
-                                compound['term_id'] = ontology_terms[0]['ontology_term']
-                                compound['id'] = Compound.make_gid(ontology_terms[0]['ontology_term'])
+                                compound.update(cinfo)
+                                compound['id'] = Compound.make_gid(compound['id'])
                             # save it for next time
-                            store.put(compound['name'], compound)
+                            store.put(compound['submitter_id'], compound)
                         else:
                             compound = stored_compound
-                            compound['id'] = Compound.make_gid(compound['term_id'])
+                            compound['id'] = Compound.make_gid(compound['id'].strip('Compound:'))
                     else:
                         # we have a compound with a term already
-                        compound['id'] = Compound.make_gid(compound['term_id'])
-                        store.put(compound['name'], compound)
+                        compound['id'] = Compound.make_gid(compound['id'].strip('Compound:'))
+                        store.put(compound['submitter_id'], compound)
 
+                    # create compound and emit
                     compound = Compound(**compound)
                     if compound.gid() not in dups:
                         emitter.emit_vertex(compound)
