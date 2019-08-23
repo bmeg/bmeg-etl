@@ -1,0 +1,24 @@
+md5: 9db3a77dc0c8b4b9ca8dd75e5f955b6f
+cmd: python3 transform/mondo/transform.py
+wdir: ../..
+deps:
+- md5: b943f05cb640ecd017372d67489143c6
+  path: source/mondo/mondo.json
+- md5: ec7377785d5fb5c89f0d19f99ba31482
+  path: transform/mondo/transform.py
+outs:
+- md5: d30bd7c36fa5ca4172f20c860a054b97
+  path: outputs/mondo/Phenotype.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 7bb91ba379ea1d2d2788ad7f0889a358
+  path: outputs/mondo/Phenotype_ChildTerms_Phenotype.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 32882118702d9a19943880621528edeb
+  path: outputs/mondo/Phenotype_ParentTerms_Phenotype.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
