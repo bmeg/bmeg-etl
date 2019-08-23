@@ -3,10 +3,10 @@ import logging
 
 from bmeg.ioutils import read_tsv
 from bmeg.emitter import JSONEmitter
-from bmeg import (Gene, G2PAssociation, Project, Publication,
+from bmeg import (Gene, G2PAssociation, Project, Publication, Compound,
                   G2PAssociation_Compounds_Compound, G2PAssociation_Genes_Gene,
                   G2PAssociation_Publications_Publication)
-from bmeg.enrichers.drug_enricher import compound_factory
+from bmeg.enrichers.drug_enricher import normalize
 import bmeg.enrichers.gene_enricher as gene_enricher
 
 
@@ -16,6 +16,7 @@ def transform(interactions_file="source/dgidb/interactions.tsv",
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
+    normalized_compounds = {}
     emitted_compounds = {}
     interactions = read_tsv(interactions_file)
     # gene_name gene_claim_name entrez_id interaction_claim_source interaction_types drug_claim_name drug_claim_primary_name drug_name drug_chembl_id PMIDs
@@ -56,7 +57,19 @@ def transform(interactions_file="source/dgidb/interactions.tsv",
             chem_name = line["drug_name"]
         else:
             chem_name = line["drug_claim_name"]
-        compound = compound_factory(name=chem_name)
+        if chem_name in normalized_compounds:
+            cinfo = normalized_compounds[chem_name]
+        else:
+            cinfo = normalize(name=chem_name)
+            normalized_compounds[chem_name] = cinfo
+        # excluding compounds we couldn't match since the interactions file contains things
+        # that obviously are not referencing specific compounds
+        if cinfo is None:
+            continue
+        cinfo["id"] = Compound.make_gid(cinfo["id"])
+        cinfo["submitter_id"] = chem_name
+        cinfo["project_id"] = Project.make_gid("Reference")
+        compound = Compound(**cinfo)
         if compound.gid() not in emitted_compounds:
             emitter.emit_vertex(compound)
             emitted_compounds[compound.gid()] = True

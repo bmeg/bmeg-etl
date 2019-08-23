@@ -58,10 +58,10 @@ def transform(vertex_names="**/*Compound.Vertex.json*",
                             store.put(compound['submitter_id'], compound)
                         else:
                             compound = stored_compound
-                            compound['id'] = Compound.make_gid(compound['id'].strip('Compound:'))
+                            compound['id'] = Compound.make_gid(compound['id'].replace('Compound:', ''))
                     else:
                         # we have a compound with a term already
-                        compound['id'] = Compound.make_gid(compound['id'].strip('Compound:'))
+                        compound['id'] = Compound.make_gid(compound_gid.replace('Compound:', ''))
                         store.put(compound['submitter_id'], compound)
 
                     # create compound and emit

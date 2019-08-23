@@ -22,6 +22,7 @@ ALIASES = {}
 for line in read_tsv('source/drug_enricher/drug_alias.tsv'):
     if line['alias'] == 'NO-FIND':
         NOFINDS[line['name']] = True
+        continue
     ALIASES[line['name']] = line['alias']
 
 
@@ -203,14 +204,14 @@ def _process_biothings_query(name, url):
                 approved_countries.append(product['country'])
         approved_countries = sorted(list(set(approved_countries)))
 
-        id_term = pubchem_id or chebi_id or chembl_id or drugbank_id
+        id_term = pubchem_id or chembl_id or chebi_id or drugbank_id
         id_source = None
         if pubchem_id:
             id_source = "PUBCHEM"
-        elif chebi_id:
-            id_source = "CHEBI"
         elif chembl_id:
             id_source = "CHEMBL"
+        elif chebi_id:
+            id_source = "CHEBI"
         elif drugbank_id:
             id_source = "DRUGBANK"
 
@@ -266,6 +267,9 @@ def normalize_biothings(name):
         idf = 'chebi.id'
     elif name.lower().startswith("chembl"):
         idf = 'chembl.molecule_chembl_id'
+    elif name.lower().startswith("cid"):
+        name = name.lower().strip("cid")
+        idf = 'pubchem.cid'
     elif re.match(r'^[0-9]+$', name):
         idf = 'pubchem.cid'
     else:
@@ -293,7 +297,8 @@ def normalize_biothings(name):
             if compound is not None:
                 compounds.append((compound, score))
             else:
-                NOFINDS_BIOTHINGS[name_part] = True
+                if name_part != name:
+                    NOFINDS_BIOTHINGS[name_part] = True
 
     if len(compounds) == 0:
         NOFINDS_BIOTHINGS[name] = True
