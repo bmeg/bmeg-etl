@@ -15,8 +15,8 @@ import sys
 import ujson
 
 
-def transform(vertex_names="**/dgidb/*Compound.Vertex.json*",
-              edge_names="**/dgidb/*Compound*.Edge.json*",
+def transform(vertex_names="**/*Compound.Vertex.json*",
+              edge_names="**/*Compound*.Edge.json*",
               output_dir="outputs",
               emitter_name="json",
               emitter_directory="compound",
