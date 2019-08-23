@@ -12,7 +12,10 @@ from bmeg import (Sample, Aliquot, Case, Project, Program,
                   Case_Projects_Project,
                   Sample_Projects_Project,
                   Aliquot_Projects_Project,
-                  Project_Programs_Program)
+                  Project_Programs_Program,
+                  Case_Phenotypes_Phenotype,
+                  Sample_Phenotypes_Phenotype)
+from bmeg.enrichers.phenotype_enricher import phenotype_factory
 from transform.gdc.gdcutils import extract
 
 
@@ -45,6 +48,7 @@ def transform(input_path="source/gdc/cases.json",
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
+    phenotypes = {}
     programs = {}
     projects = {}
     with open(input_path, "r") as fh:
@@ -92,6 +96,29 @@ def transform(input_path="source/gdc/cases.json",
                 emit_backref=True
             )
 
+            # create phenotype
+            if "TCGA" in project_gid or "BEATAML" in project_gid or "NCICCR-DLBCL" in project_gid:
+                diagnoses = row.get('diagnoses', [])
+                pheno_name = diagnoses[0]["primary_diagnosis"]
+            elif "TARGET" in project_gid:
+                pheno_name = row["disease_type"]
+            else:
+                # "FM-AD" "HCMI-CMDC" "VAREPOP-APOLLO" "CTSP-DLBCL1"
+                pheno_name = "{} {}".format(row["primary_site"], row["disease_type"])
+            pheno = phenotype_factory(pheno_name)
+            if pheno.gid() not in phenotypes:
+                emitter.emit_vertex(pheno)
+                phenotypes[pheno.gid()] = None
+            
+            # case <-> phenotype edges
+            emitter.emit_edge(
+                Case_Phenotypes_Phenotype(
+                    from_gid=c.gid(),
+                    to_gid=pheno.gid()
+                ),
+                emit_backref=True
+            )
+
             for sample in row.get("samples", []):
                 sample_fields = extract(
                     sample,
@@ -120,6 +147,15 @@ def transform(input_path="source/gdc/cases.json",
                     ),
                     emit_backref=True
                 )
+                if "Normal" not in sample_fields["sample_type"]:
+                    # sample <-> phenotype edges
+                    emitter.emit_edge(
+                        Sample_Phenotypes_Phenotype(
+                            from_gid=s.gid(),
+                            to_gid=pheno.gid()
+                        ),
+                        emit_backref=True
+                    )
 
                 for portion in sample.get("portions", []):
                     for analyte in portion.get("analytes", []):

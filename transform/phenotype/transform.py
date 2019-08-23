@@ -28,7 +28,7 @@ def transform(
     emitter = new_emitter(name=emitter_name, directory=emitter_directory, prefix='normalized')
 
     path = '{}/{}'.format(output_dir, vertex_names)
-    vertex_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
+    vertex_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename and 'mondo' not in filename]
     logging.info("vertex files: %s", vertex_files)
 
     logging.info("store path: %s", store_path)
@@ -103,8 +103,9 @@ def transform(
 
     # get the edges
     path = '{}/{}'.format(output_dir, edge_names)
-    edge_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
+    edge_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename and 'mondo' not in filename]
     logging.info("edge files: %s", edge_files)
+
     c = t = e = 0
     for file in edge_files:
         logging.info("processing file: %s", file)
