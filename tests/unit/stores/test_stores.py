@@ -1,6 +1,7 @@
 import contextlib
-from bmeg import Compound, Project
+from bmeg import Compound
 from bmeg.stores import new_store
+from bmeg.enrichers.drug_enricher import compound_factory
 
 
 def validate_put_get(s):
@@ -24,23 +25,15 @@ def validate(s):
     assert s.backend(), 'should return implementation backend'
 
 
-def compound_factory(name):
-    """ create a stub compound """
-    term_id = 'TODO:{}'.format(name)
-    return Compound(id=Compound.make_gid(term_id),
-                    term_id=term_id, term='TODO', name=name,
-                    project_id=Project.make_gid("Reference"))
-
-
 def validate_dataclass(s):
     c = compound_factory('foo')
     c_id = c.gid()
     s.put(c)
     c = s.get(c_id)
-    assert c.name == 'foo', 'should get what we put'
+    assert c.submitter_id == 'foo', 'should get what we put'
     batch = [compound_factory('foo'), compound_factory('bar')]
     s.load_many(batch)
-    batch2 = [b.name for b in s.all()]
+    batch2 = [b.submitter_id for b in s.all()]
     assert ['foo', 'bar'] == batch2, 'should get all what we loaded'
     ids = sorted([k for k in s.all_ids()])
     assert sorted(['Compound:TODO:foo', 'Compound:TODO:bar']) == ids, 'should get all ids loaded'
