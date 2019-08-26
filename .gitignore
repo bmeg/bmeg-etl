@@ -46,5 +46,4 @@ tests/unit/*/test/*.json.gz
 
 .DS_Store
 tests/integration/*/test/*.json.gz
-
 tests/integration/gen3/outputs
