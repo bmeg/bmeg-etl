@@ -16,12 +16,9 @@ ujson==1.35
 dacite==0.0.16
 pydash==4.7.3
 xlrd==1.2.0
-<<<<<<< HEAD
 jsonschema==3.0.1
 dictionaryutils==2.0.7
 dvc>=0.50.1
-=======
->>>>>>> 61975790e29e16693798f300d8905743e0ccad84
 inflection==0.3.1
 networkx==2.2
 matplotlib==3.1.0
