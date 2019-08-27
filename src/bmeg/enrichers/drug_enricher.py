@@ -328,10 +328,10 @@ def search_pubchem(name):
     logging.debug('search pubchem: {}'.format(url))
     r = requests.get(url, timeout=60)
     rsp = r.json()
-    logging.debug("response: {}".format(rsp))
-    info = pydash.get(rsp, 'InformationList.Information', None)
+    info = pydash.get(rsp, 'InformationList.Information.0', None)
     if info:
         rsp = {'IdentifierList': info}
+    logging.debug("response: {}".format(rsp))
     cids = pydash.get(rsp, 'IdentifierList.CID', [])
     if len(cids) > 0:
         return 'CID{}'.format(cids[0])

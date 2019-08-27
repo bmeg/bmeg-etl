@@ -66,10 +66,12 @@ def transform(interactions_file="source/dgidb/interactions.tsv",
         # that obviously are not referencing specific compounds
         if cinfo is None:
             continue
-        cinfo["id"] = Compound.make_gid(cinfo["id"])
-        cinfo["submitter_id"] = chem_name
-        cinfo["project_id"] = Project.make_gid("Reference")
-        compound = Compound(**cinfo)
+        compound = Compound(
+            submitter_id=chem_name,
+            project_id=Project.make_gid("Reference"),
+            **cinfo
+        )
+        compound.id = Compound.make_gid(cinfo["id"])
         if compound.gid() not in emitted_compounds:
             emitter.emit_vertex(compound)
             emitted_compounds[compound.gid()] = True

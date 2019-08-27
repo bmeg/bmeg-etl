@@ -1,48 +1,48 @@
-md5: 185ef77d06b46215827751e1f0376070
+md5: 219ced51787dbd741691d029ef9a332f
 cmd: python3 transform/dgidb/transform.py
 wdir: ../..
 deps:
 - md5: 7adcf4f9a4580908139f3e16877003f3
   path: source/dgidb/interactions.tsv
-- md5: 91862ef71f3948d7962b744e4d278f37
+- md5: e738a1f112c6a31342d98f6313a09f60
   path: transform/dgidb/transform.py
 outs:
-- md5: 781f5c1f7e3f46684fdd05998e437962
+- md5: b67274ada3c9deabfd39d7e4f246ed6b
   path: outputs/dgidb/G2PAssociation.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 460bd87e2d08632cabd919fd1a9a3241
+- md5: 957bd30274e77148fb5a6d864fc791e4
   path: outputs/dgidb/Compound.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 5e69915010815d06db37ac02b48f8b14
+- md5: 22100541bc4688b9e140664d0fd624ca
   path: outputs/dgidb/G2PAssociation_Genes_Gene.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 63e6858d791aecfc1e8d6b55f7acd1ec
+- md5: e925c77528bc2a68ef1fbaf1da2c6dcf
   path: outputs/dgidb/G2PAssociation_Publications_Publication.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 43bba6bbb13f01b250c0e77d0427fdb3
+- md5: 03e3518d725df7eceb5996fedbf2073d
   path: outputs/dgidb/G2PAssociation_Compounds_Compound.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: f19cc7860154c12416624f928e038afb
+- md5: 2d01db33e6fd49f78af50d1fae0a14bc
   path: outputs/dgidb/Publication_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 30b8e499033baf0125873f53888e6882
+- md5: 47ff6128623d4e46dc6e9f15911a53be
   path: outputs/dgidb/Gene_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: bf32c5e2ff8ceec1d19cc80427c92f70
+- md5: 068131a8e65c05bb509d273a776e2554
   path: outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false

@@ -69,6 +69,7 @@ def transform(vertex_names="**/*Compound.Vertex.json*",
                     if compound.gid() not in dups:
                         emitter.emit_vertex(compound)
                         dups[compound.gid()] = None
+
                     compound_cache[compound_gid] = compound
                     c += 1
                     t += 1
