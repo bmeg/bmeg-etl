@@ -11,11 +11,7 @@ import logging
 EXPECTED_COUNTS = [
     {'_from': 'Sample', 'to': 'Case', 'via': 'SampleFor', 'expected_count': 76883, 'expected_time': 22},
     {'_from': 'Case', 'to': 'Project', 'via': 'InProject', 'expected_count': 45459, 'expected_time': 11},
-<<<<<<< HEAD
     {'_from': 'Aliquot', 'to': 'Sample', 'via': 'AliquotFor', 'expected_count': 849801, 'expected_time': 50},
-=======
-    {'_from': 'Aliquot', 'to': 'Sample', 'via': 'AliquotFor', 'expected_count': 849801, 'expected_time': 200},
->>>>>>> 61975790e29e16693798f300d8905743e0ccad84
     {'_from': 'Protein', 'to': 'PFAMFamily', 'via': 'PFAMAlignment', 'expected_count': 87547, 'expected_time': 30},
     {'_from': 'Protein', 'to': 'Transcript', 'via': 'ProteinFor', 'expected_count': 94446, 'expected_time': 29},
 ]
