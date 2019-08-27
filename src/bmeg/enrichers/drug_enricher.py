@@ -10,6 +10,7 @@ import pydash
 
 NOFINDS = {}
 NOFINDS_BIOTHINGS = {}
+NOFINDS_PUBCHEM = {}
 
 requests = Client('drug_enricher')
 
@@ -50,13 +51,12 @@ def _decompose(name):
     no_punct = ' '.join(name_parts).strip()
     name_parts = no_punct.split()
     pairs = [' '.join(c) for c in _chunks(name_parts, 2)]
-    logging.debug('pairs {} {} >{}<'.format(pairs, len(name_parts), no_punct))
     try:
         if len(name_parts) == 1:
-            logging.debug('returning [no_punct] {}'.format([no_punct]))
+            logging.debug('returning no_punct {}'.format([no_punct]))
             return [name] + [no_punct]
         if name_parts == no_punct.split():
-            logging.debug('<<< returning [name_parts] {}'.format(name_parts))
+            logging.debug('returning name_parts {}'.format(name_parts))
             return [name] + ['{} {}'.format(name_parts[0], name_parts[1])] + name_parts
         if [no_punct] == pairs:
             logging.debug('returning pairs + name_parts {}'.format(pairs + name_parts))
@@ -64,7 +64,7 @@ def _decompose(name):
     except Exception as e:
         logging.error("_decompose {}".format(name))
         logging.exception(e)
-    logging.debug('returning [name] [no_punct] + pairs + name_parts {}'.format([no_punct] + pairs + name_parts))
+    logging.debug('returning no_punct + pairs + name_parts {}'.format([no_punct] + pairs + name_parts))
     return [name] + [no_punct] + pairs + name_parts
 
 
@@ -87,9 +87,8 @@ def _process_biothings_query(name, url):
             return None, 0.0
 
         hits = rsp['hits']
-        logging.debug('len(hits) {}'.format(len(hits)))
+        logging.debug('query: {} len(hits) {}'.format(name, len(hits)))
         if len(hits) == 0:
-            logging.debug('no hit for {}'.format(name))
             return None, 0.0
         # sort to get best hit
         hits = sorted(hits, key=lambda k: k['_score'], reverse=True)
@@ -282,9 +281,7 @@ def normalize_biothings(name):
             compounds.append((compound, score))
 
     name_parts = _decompose(name)
-    logging.debug('name parts: {}'.format(name_parts))
     for name_part in name_parts:
-        logging.debug('checking {}'.format(name_part))
         if len(name_part) < NAME_PART_MIN_LEN:
             continue
         url = 'http://mychem.info/v1/query?q=chembl.pref_name:{}&fields={}&size=1'.format(name_part, fields)
@@ -307,6 +304,26 @@ def normalize_biothings(name):
     # sort by score and return the top hit
     compounds = sorted(compounds, key=lambda t: t[1], reverse=True)
     return compounds[0][0]
+
+
+def search_pubchem(name):
+    """
+    seach pubchem and retrieve compound_id and most common synonym
+    """
+    if name in NOFINDS_PUBCHEM:
+        logging.info("NOFINDS_PUBCHEM {}".format(name))
+        return None
+    url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/{}/cids/JSON'.format(name)
+    logging.debug('search pubchem: {}'.format(url))
+    r = requests.get(url, timeout=60)
+    rsp = r.json()
+    logging.debug("response: {}".format(rsp))
+    if 'IdentifierList' in rsp:
+        rsp = rsp['IdentifierList']
+        if 'CID' in rsp and len(rsp['CID']) > 0:
+            return 'CID{}'.format(rsp['CID'][0])
+    NOFINDS_PUBCHEM[name] = True
+    return None
 
 
 def normalize(name):
@@ -332,6 +349,17 @@ def normalize(name):
     name = ALIASES.get(name, name)
 
     compound = normalize_biothings(name)
+    if compound is None:
+        for name_part in _decompose(name):
+            if len(name_part) < NAME_PART_MIN_LEN:
+                continue
+            cid = search_pubchem(name)
+            logging.error("cid: %s", cid)
+            if cid:
+                compound = normalize_biothings(cid)
+                if compound:
+                    break
+
     if compound is None:
         logging.warning('normalize_drugs NOFIND {}'.format(name))
         # skip next time
