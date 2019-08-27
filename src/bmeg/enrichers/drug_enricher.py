@@ -267,7 +267,7 @@ def normalize_biothings(name):
     elif name.lower().startswith("chembl"):
         idf = 'chembl.molecule_chembl_id'
     elif name.lower().startswith("cid"):
-        name = name.lower().strip("cid")
+        name = re.sub('cid([\ \-_:]+)?', '', name.lower())
         idf = 'pubchem.cid'
     elif re.match(r'^[0-9]+$', name):
         idf = 'pubchem.cid'
@@ -313,15 +313,29 @@ def search_pubchem(name):
     if name in NOFINDS_PUBCHEM:
         logging.info("NOFINDS_PUBCHEM {}".format(name))
         return None
-    url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/{}/cids/JSON'.format(name)
+
+    search_term = name.lower()
+    url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/{}/cids/JSON'.format(search_term)
+    if search_term.startswith("cid"):
+        search_term = re.sub('cid([\ \-_:]+)?', '', search_term)
+        url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/cid/{}/cids/JSON'.format(search_term)
+        r = requests.get(url, timeout=60)
+        rsp = r.json()
+    elif search_term.startswith("sid"):
+        search_term = re.sub('sid([\ \-_:]+)?', '', search_term)
+        url = 'https://pubchem.ncbi.nlm.nih.gov/rest/pug/substance/sid/{}/cids/JSON'.format(search_term)
+
     logging.debug('search pubchem: {}'.format(url))
     r = requests.get(url, timeout=60)
     rsp = r.json()
     logging.debug("response: {}".format(rsp))
-    if 'IdentifierList' in rsp:
-        rsp = rsp['IdentifierList']
-        if 'CID' in rsp and len(rsp['CID']) > 0:
-            return 'CID{}'.format(rsp['CID'][0])
+    info = pydash.get(rsp, 'InformationList.Information', None)
+    if info:
+        rsp = {'IdentifierList': info}
+    cids = pydash.get(rsp, 'IdentifierList.CID', [])
+    if len(cids) > 0:
+        return 'CID{}'.format(cids[0])
+
     NOFINDS_PUBCHEM[name] = True
     return None
 
@@ -354,7 +368,6 @@ def normalize(name):
             if len(name_part) < NAME_PART_MIN_LEN:
                 continue
             cid = search_pubchem(name)
-            logging.error("cid: %s", cid)
             if cid:
                 compound = normalize_biothings(cid)
                 if compound:
