@@ -1,4 +1,4 @@
-md5: 753287213d5889d26bb637c9289d1db4
+md5: a95b410761ec4bb2b16dc0fdd746411f
 cmd: python3 transform/ccle/ccle_cases.py
 wdir: ../..
 deps:
@@ -8,7 +8,7 @@ deps:
   path: source/ccle/cellline_lookup.tsv
 - md5: 7ef860f52bd8a7c6028adb8183a624ff
   path: source/ccle/cellline_project_lookup.tsv
-- md5: fa20d168f701af36d82bd2ff76bcce4a
+- md5: 9427377ca0e7b1cc14e35848b84f764c
   path: source/ccle/cellline_phenotype_lookup.tsv
 - md5: 917f411573d5e68f9d61234e9e1bb539
   path: source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv
@@ -3178,7 +3178,7 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: c6025e5d1d2dd9b4b57c6795617e8af9
+- md5: 0d7b212b7ecf10c1a841731475255e37
   path: outputs/ccle/ccle.Phenotype.Vertex.json.gz
   cache: true
   metric: false
@@ -3223,22 +3223,22 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: 6c579bd6f4dad3ea1065923c8bcd2ee1
+- md5: d0f48497761a4ddb380a815c70a7bc17
   path: outputs/ccle/ccle.Case_Phenotypes_Phenotype.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 14608a802dcf882f38f0961cce0c259f
+- md5: d9d41780bba0aa9164050a396cb93af8
   path: outputs/ccle/ccle.Phenotype_Cases_Case.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 2280d5bb9e4d00b2bed361ac2330ee28
+- md5: 1638f1536b7f86b6e6770aa03445986a
   path: outputs/ccle/ccle.Sample_Phenotypes_Phenotype.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 16b6b4abd14e5752d413478433348e5f
+- md5: b7a2c7fabc5ec09ad6770373cef893e4
   path: outputs/ccle/ccle.Phenotype_Samples_Sample.Edge.json.gz
   cache: true
   metric: false

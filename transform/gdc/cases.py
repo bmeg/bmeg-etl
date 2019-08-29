@@ -3,6 +3,7 @@ Bulk download case, sample, project, etc. data from GDC.
 https://gdc.cancer.gov/
 """
 import json
+import pydash
 
 from bmeg.util.cli import default_argument_parser
 from bmeg.emitter import JSONEmitter
@@ -97,19 +98,21 @@ def transform(input_path="source/gdc/cases.json",
             )
 
             # create phenotype
-            if "TCGA" in project_gid or "BEATAML" in project_gid or "NCICCR-DLBCL" in project_gid:
-                diagnoses = row.get('diagnoses', [])
-                pheno_name = diagnoses[0]["primary_diagnosis"]
-            elif "TARGET" in project_gid:
-                pheno_name = row["disease_type"]
-            else:
-                # "FM-AD" "HCMI-CMDC" "VAREPOP-APOLLO" "CTSP-DLBCL1"
-                pheno_name = "{} {}".format(row["primary_site"], row["disease_type"])
+            site = pydash.get(row, "primary_site", "").lower()
+            if site == "" or site == "unknown" or "other" in site:
+                s = pydash.get(row, "diagnoses.0.site_of_resection_or_biopsy", "")
+                if s != "Not Reported" and s != "":
+                    site = s
+            site = site.lower().replace(", nos", "")
+            if site == "unknown":
+                site = ""
+            disease = row.get("disease_type", "").lower().replace(", nos", "")
+            pheno_name = "{} {}".format(site, disease).strip()
             pheno = phenotype_factory(pheno_name)
             if pheno.gid() not in phenotypes:
                 emitter.emit_vertex(pheno)
                 phenotypes[pheno.gid()] = None
-            
+
             # case <-> phenotype edges
             emitter.emit_edge(
                 Case_Phenotypes_Phenotype(

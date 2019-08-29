@@ -1,8 +1,8 @@
-md5: 62f45ff2238279542358215c5c3a72b8
+md5: 3c2d3c3f4e14fb09e6cf68a9043b3a59
 cmd: python3 -m transform.gdc.cases
 wdir: ../..
 deps:
-- md5: a7a81e4a50cabe8df58cc38bb0fa5ea5
+- md5: 9aafff8e0c647353bac24dd22f43cc57
   path: transform/gdc/cases.py
 - md5: 4a22e8c3b57df070b9401a71aa166180
   path: source/gdc/cases.json
@@ -29,6 +29,11 @@ outs:
   persist: false
 - md5: 70a7d2293ed5b23498bc363bc250a7a1
   path: outputs/gdc/Program.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: ca13f1f79cec9dd0f6e6a5d6f380fa36
+  path: outputs/gdc/Phenotype.Vertex.json.gz
   cache: true
   metric: false
   persist: false
@@ -69,6 +74,26 @@ outs:
   persist: false
 - md5: 2d77a0ed1753018be388e3e36aaa2014
   path: outputs/gdc/Sample_Aliquots_Aliquot.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 302285fdf413809eda3e1a1346df4d23
+  path: outputs/gdc/Case_Phenotypes_Phenotype.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 69ff9db8cca1092860d020d41b86786b
+  path: outputs/gdc/Phenotype_Cases_Case.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 5b1e470db9d842142a1bd2f4dc51aa2d
+  path: outputs/gdc/Sample_Phenotypes_Phenotype.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 1e9865263779fea8d932913a228871b3
+  path: outputs/gdc/Phenotype_Samples_Sample.Edge.json.gz
   cache: true
   metric: false
   persist: false

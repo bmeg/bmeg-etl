@@ -42,10 +42,10 @@ def create_phenotype_lookup(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv
     input_stream = bmeg.ioutils.read_csv(path)
     for line in input_stream:
         phenotype_name = line.get('Primary Disease', None)
-        if phenotype_name is None or is_blank(phenotype_name) or phenotype_name == "unknown":
-            phenotype_name = "Unknown"
+        if phenotype_name is None or is_blank(phenotype_name):
+            phenotype_name = "unknown"
 
-        lookup[line["DepMap_ID"]] = phenotype_name
+        lookup[line["DepMap_ID"]] = phenotype_name.lower()
 
     assert len(lookup.keys()), "Phenotype lookup is empty!"
 
