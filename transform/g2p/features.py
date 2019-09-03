@@ -3,7 +3,9 @@ from bmeg import Allele, GenomicFeature, Project
 import re
 
 # keep track of what we've already exported
-EXPORTED_ALLELES = []
+EXPORTED_ALLELES = {}
+ALLELE_HAS_GENE_CACHE = {}
+GENOMIC_FEATURE_HAS_GENE_CACHE = {}
 
 
 def allele(feature):
@@ -54,46 +56,60 @@ def genomic_feature(feature):
 def normalize(hit):
     """ return the hit modified replacing 'features'
     with allele_gids; allele_gids we haven't seen before """
-    alleles = []
+    alleles = set([])
     missing_vertexes = []
-    genomic_features = []
-    allele_has_gene = []
-    genomic_feature_has_gene = []
+    genomic_features = set([])
+    allele_has_gene = set([])
+    genomic_feature_has_gene = set([])
     for feature in hit['features']:
         if feature.get('provenance_rule', None) == 'gene_only':
             continue
         try:
             a = allele(feature)
-            # skip if we already processed it
-            if a.gid() in [_a.gid() for _a in alleles]:
-                continue
-
-            alleles.append(a)
+            alleles.add(a)
             try:
-                allele_has_gene.append((a.gid(), gene_gid(feature['geneSymbol'])))
+                allele_has_gene.add((a.gid(), gene_gid(feature['geneSymbol'])))
             except Exception:
                 missing_vertexes.append({'target_label': 'Gene', 'data': feature})
         except Exception:
             try:
                 a = genomic_feature(feature)
-                genomic_features.append(a)
+                genomic_features.add(a)
                 try:
                     # this check for geneSymbol should be in g2p, not here
                     description_parts = re.split(' +', feature['description'].strip())
                     geneSymbol = feature.get('geneSymbol', description_parts[0])
-                    genomic_feature_has_gene.append((a.gid(), gene_gid(geneSymbol)))
+                    genomic_feature_has_gene.add((a.gid(), gene_gid(geneSymbol)))
                 except Exception:
                     missing_vertexes.append({'target_label': 'Gene', 'data': feature})
             except Exception:
                 missing_vertexes.append({'target_label': 'Allele', 'data': feature})
 
-    hit['features'] = [a for a in alleles if a.gid() not in EXPORTED_ALLELES]
-    hit['allele_has_gene'] = allele_has_gene
-    hit['genomic_features'] = list(set([a for a in genomic_features if a.gid() not in EXPORTED_ALLELES]))
-    hit['genomic_feature_has_gene'] = genomic_feature_has_gene
+    hit['features'] = []
+    for a in alleles:
+        if a.gid() not in EXPORTED_ALLELES:
+            hit['features'].append(a)
+            EXPORTED_ALLELES[a.gid()] = True
 
-    allele_gids = [a.gid() for a in alleles]
-    EXPORTED_ALLELES.extend(list(set(allele_gids)))
-    genomic_feature_gids = [a.gid() for a in genomic_features]
-    EXPORTED_ALLELES.extend(list(set(genomic_feature_gids)))
+    hit['genomic_features'] = []
+    for a in genomic_features:
+        if a.gid() not in EXPORTED_ALLELES:
+            hit['genomic_features'].append(a)
+            EXPORTED_ALLELES[a.gid()] = True
+
+    hit['allele_has_gene'] = []
+    for a in allele_has_gene:
+        if a not in ALLELE_HAS_GENE_CACHE:
+            hit['allele_has_gene'].append(a)
+            ALLELE_HAS_GENE_CACHE[a] = True
+
+    hit['genomic_feature_has_gene'] = []
+    for a in genomic_feature_has_gene:
+        if a not in GENOMIC_FEATURE_HAS_GENE_CACHE:
+            hit['genomic_feature_has_gene'].append(a)
+            GENOMIC_FEATURE_HAS_GENE_CACHE[a] = True
+
+    allele_gids = list(set([a.gid() for a in alleles]))
+    genomic_feature_gids = list(set([a.gid() for a in genomic_features]))
+
     return (hit, allele_gids, genomic_feature_gids, missing_vertexes)

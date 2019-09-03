@@ -3,10 +3,10 @@ from bmeg import Compound, Project
 from bmeg.enrichers.drug_enricher import compound_factory
 
 # keep track of what we've already exported
-EXPORTED_COMPOUNDS = []
+EXPORTED_COMPOUNDS = {}
 
 
-def compound(environment):
+def make_compound(environment):
     """ return compound gid """
     if 'term' in environment and environment.get('id', None):
         return Compound(
@@ -24,17 +24,13 @@ def normalize(hit):
     compounds = set([])
     association = hit['association']
     for environment in association.get('environmentalContexts', []):
-        compounds.add(compound(environment))
+        compounds.add(make_compound(environment))
 
     hit['environments'] = []
-    dups = []
     for c in compounds:
         if c.gid() in EXPORTED_COMPOUNDS:
             continue
-        if c.gid() in dups:
-            continue
         hit['environments'].append(c)
-        dups.append(c.gid())
-    compound_gids = [compound.gid() for compound in compounds]
-    EXPORTED_COMPOUNDS.extend(compound_gids)
+        EXPORTED_COMPOUNDS[c.gid()] = True
+    compound_gids = list(set([compound.gid() for compound in compounds]))
     return (hit, compound_gids)

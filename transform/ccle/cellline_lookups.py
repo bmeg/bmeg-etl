@@ -17,7 +17,6 @@ def create_project_lookup(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv",
     for line in input_stream:
         # TODO: convert to TCGA project short codes
         project_id = "_".join(line["Primary Disease"].split())
-        # project_id = line["Subtype Disease"]
         if not project_id or is_blank(project_id):
             continue
         lookup[line["DepMap_ID"]] = project_id

@@ -56,6 +56,10 @@ def transform(input_path="source/gdc/cases.json",
         for row in fh:
             row = json.loads(row)
 
+            # only emit TCGA data
+            if pydash.get(row, "project.program.name", "") != "TCGA":
+                continue
+
             # program
             prog = Program(id=Program.make_gid(row["project"]["program"]["name"]),
                            program_id=row["project"]["program"]["name"],
@@ -98,21 +102,11 @@ def transform(input_path="source/gdc/cases.json",
             )
 
             # create phenotype
-            site = pydash.get(row, "primary_site", "").lower()
-            if site == "" or site == "unknown" or "other" in site:
-                s = pydash.get(row, "diagnoses.0.site_of_resection_or_biopsy", "")
-                if s != "Not Reported" and s != "":
-                    site = s
-            site = site.lower().replace(", nos", "")
-            if site == "unknown":
-                site = ""
-            disease = row.get("disease_type", "").lower().replace(", nos", "")
-            pheno_name = "{} {}".format(site, disease).strip()
+            pheno_name = pydash.get(row, "project.project_id", "unknown").replace("TCGA-", "")
             pheno = phenotype_factory(pheno_name)
             if pheno.gid() not in phenotypes:
                 emitter.emit_vertex(pheno)
                 phenotypes[pheno.gid()] = None
-
             # case <-> phenotype edges
             emitter.emit_edge(
                 Case_Phenotypes_Phenotype(

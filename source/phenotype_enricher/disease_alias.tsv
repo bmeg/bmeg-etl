@@ -1,4 +1,6 @@
-#original alias
+## --------------------
+## G2P aliases
+## --------------------
 Thyroid	Thyroid cancer
 BCL	B-Cell Lymphoma
 Lung squamous cell	lung squamous cell carcinoma
@@ -12,7 +14,6 @@ LINC	Liver Cancer
 RT	Rhabdoid Tumor
 Malignant peripheral nerve sheat tumor	malignant peripheral nerve sheath tumor
 salivary duct carcinoma	salivary gland carcinoma
-UVM	Uveal Melanoma
 Billiary tract	biliary tract neoplasm
 L	Lung Cancer
 lung	Lung Cancer
@@ -22,13 +23,7 @@ Solid tumor	Cancer
 Neoplasm of respiratory system	respiratory system cancer
 PACA	Pancreatic Cancer
 EOPC	Early Onset Prostate Cancer
-BRCA	Breast Cancer
-OV	Ovarian Cancer
 OS	Osteosarcoma
-KICH	Kidney Chromophobe
-DLBC	Lymphoid Neoplasm Diffuse Large B-cell Lymphoma
-GBM	Glioblastoma Multiforme
-STAD	Stomach Adenocarcinoma
 Neoplasm of breast	Breast Cancer
 Non-small cell lung	non-small cell lung carcinoma
 Neoplasm of colon	Neoplasm of the colon
@@ -39,25 +34,17 @@ MALY	Lymphoma
 Malignant Lymphoma	Lymphoma
 Gastrointestinal stromal	Gastrointestinal stromal tumor
 CER	cervical cancer
-SKCM	Skin Cutaneous Melanoma
 GACA	Gastric Cancer
 SKCA	Skin Adenocarcinoma
 Neoplasm of colorectum	rectal neoplasm
-PRAD	Prostate Cancer
 Tumour of prostate	Prostate Cancer
 CLLE	Chronic Lymphocytic Leukemia
 Chronic lymphoid leukaemia, disease	Chronic Lymphocytic Leukemia
 Ovary	ovarian cancer
-UCS	Uterine Carcinosarcoma
-ESCA	Esophageal Cancer
-COREAD	Colorectal adenocarcinoma
-PAAD	Pancreatic Cancer
 MELA	Skin Cancer
 UC	bladder urachal urothelial carcinoma
 ESAD	Esophageal Adenocarcinoma
-ACC	Adrenocortical Carcinoma
 Neoplasm of digestive system	gastrointestinal system cancer
-READ	Rectum Adenocarcinoma
 BCC	Basal cell carcinoma
 UTCA	Uterine Cancer
 All Solid Tumors	Cancer
@@ -65,12 +52,9 @@ Neoplasm of rectum	rectum cancer
 CML - Chronic myeloid leukaemia	chronic myeloid leukemia
 CCSK	Clear Cell Sarcoma of the Kidney
 LIRI	Liver Cancer
-HNSC	Head and Neck Squamous Cell Carcinoma
 COCA	Colorectal Cancer
 NBL	Neuroblastoma
-UCEC	Uterine Corpus Endometrial Carcinoma
 CH	Cholangiocarcinoma
-LUSC	Lung Cancer
 LICA	Liver Cancer
 urothelial carcinoma	bladder urachal urothelial carcinoma
 MM - Malignant melanoma of skin	skin melanoma
@@ -81,43 +65,23 @@ LMS	Soft tissue cancer
 Solid tumors	Cancer
 PAEN	Pancreatic Endocrine Neoplasms
 RECA	Renal Cancer
-LGG	Brain Lower Grade Glioma
-THCA	Thyroid Cancer
-BLCA	Bladder Cancer
-PCPG	Pheochromocytoma and Paraganglioma
 B Lymphoblastic Leukemia/Lymphoma	B-cell adult acute lymphocytic leukemia
 Malignant tumor of breast	Breast Cancer
-CESC	Cervical Squamous Cell Carcinoma
 LIHM	Liver Cancer
-THYM	Thymoma
 CA - Carcinoma of breast	Breast Cancer
-LIHC	Liver Hepatocellular Carcinoma
-CHOL	Cholangiocarcinoma
 TH	Thyroid Cancer
-COAD	Colon Adenocarcinoma
 ORCA	Oral Cancer
 Diffuse Large B Cell Lymphoma	diffuse large B-cell lymphoma
 CNS	central nervous system cancer
-TGCT	Testicular Germ Cell Tumors
 PTC - Papillary thyroid carcinoma	papillary thyroid carcinoma
 LIAD	Benign Liver Tumour
-MESO	Mesothelioma
 CMDI	Chronic Myeloid Disorders
 Malignant neoplastic disease	Cancer
 Neoplasm of respiratory tract	respiratory system cancer
 Carcinoma of ovary	ovarian cancer
-SARC	Sarcoma
-KIRP	Kidney Renal Papillary Cell Carcinoma
 NKTL	Blood Cancer
-LAML	Acute Myeloid Leukemia
 All Tumors	Cancer
-LUAD	Lung Adenocarcinoma
-KIRC	Kidney Renal Clear Cell Carcinoma
 PBCA	Pediatric Brain Cancer
-BREAST-OVARIAN CANCER, FAMILIAL, SUSCEPTIBILITY TO, 1; BROVCA1 (604370	Breast Cancer
-BREAST-OVARIAN CANCER, FAMILIAL, SUSCEPTIBILITY TO, 1; BROVCA1 (604370)	Breast Cancer
-BREAST-OVARIAN CANCER, FAMILIAL, SUSCEPTIBILITY TO, 2; BROVCA2 (612555)	Breast Cancer
-BREAST-OVARIAN CANCER, FAMILIAL, SUSCEPTIBILITY TO, 2; BROVCA2 (612555	Breast Cancer
 Leukaemia	leukemia
 HIV - Human immunodeficiency virus infection	human immunodeficiency virus infectious disease
 HF - Heart failure	Heart failure
@@ -267,7 +231,6 @@ MM - Malignant melanoma of eye	ocular melanoma
 Neoplasm of common bile duct	common bile duct neoplasm
 Neoplasm of gallbladder	gallbladder cancer
 Refractory anemia with sideroblasts	Refractory anemia with ringed sideroblasts
-EGFR mutated GBM	glioblastoma multiforme
 HIV associated Hodgkin Lymphoma	non-Hodgkin lymphoma
 Hepatosplenic T-cell lymphoma	T-cell lymphoma
 Neoplasm of small intestine	small intestine neoplasm
@@ -323,13 +286,62 @@ Congenital neutropenia	neutropenia
 Neoplasm of the colon	colon neoplasm
 Cutaneous leiomyoma	leiomyoma cutis
 Myelodisplasic syndrome	myelodisplastic syndrome
-COADREAD	Colorectal adenocarcinoma
-DLBC	diffuse large B-cell lymphoma
-KIRC	Kidney Chromophobe
-KIRP	clear cell renal cell carcinoma
-LGG	Brain Glioma
-LIHC	hepatocellular carcinoma
-MESO	benign mesothelioma
-PCPG	adrenal gland pheochromocytoma;Paraganglioma
-SKCM	skin melanoma
-TGCT	testicular germ cell cancer
+BREAST-OVARIAN CANCER, FAMILIAL, SUSCEPTIBILITY TO, 1; BROVCA1 (604370	Breast Cancer
+BREAST-OVARIAN CANCER, FAMILIAL, SUSCEPTIBILITY TO, 1; BROVCA1 (604370)	Breast Cancer
+BREAST-OVARIAN CANCER, FAMILIAL, SUSCEPTIBILITY TO, 2; BROVCA2 (612555)	Breast Cancer
+BREAST-OVARIAN CANCER, FAMILIAL, SUSCEPTIBILITY TO, 2; BROVCA2 (612555	Breast Cancer
+## --------------------
+## TCGA aliases
+## --------------------
+ACC	adrenal cortex carcinoma
+BLCA	Bladder Urothelial Carcinoma
+BRCA	Breast Carcinoma
+CESC	Cervical Squamous Cell Carcinoma
+CHOL	Cholangiocarcinoma
+COAD	Colon Adenocarcinoma
+COADREAD	Colorectal Adenocarcinoma
+COAD-READ	Colorectal Adenocarcinoma
+COAD/READ	Colorectal Adenocarcinoma
+COREAD	Colorectal adenocarcinoma
+DLBC	Lymphoid Neoplasm Diffuse Large B-cell Lymphoma
+ESCA	Esophageal Carcinoma
+FPPP	FFPE Pilot Phase II
+GBM	glioblastoma (disease)
+HNSC	Head and Neck Squamous Cell Carcinoma
+KICH	Kidney Chromophobe
+KIRC	Kidney Renal Clear Cell Carcinoma
+KIRP	Kidney Renal Papillary Cell Carcinoma
+LAML	Acute Myeloid Leukemia
+LGG	Brain Lower Grade Glioma
+LIHC	Liver Hepatocellular Carcinoma
+LUAD	Lung Adenocarcinoma
+LUSC	Lung Suamous Cell Carcinoma
+MESO	Mesothelioma
+MISC	Miscellaneous
+OV	Ovarian Serous Cystadenocarcinoma
+PAAD	Pancreatic Adenocarcinoma
+PCPG	sympathetic paraganglioma
+PRAD	Prostate Adenocarcinoma
+READ	Rectum Adenocarcinoma
+SARC	Sarcoma
+SKCM	cutaneous melanoma (disease)
+STAD	gastric adenocarcinoma
+TGCT	Testicular Germ Cell Tumors
+THCA	Thyroid Carcinoma
+THYM	Thymoma
+UCEC	Uterine Corpus Endometrial Carcinoma
+UCS	Uterine Carcinosarcoma
+UVM	Uveal Melanoma
+## --------------------
+## cell line aliases
+## --------------------
+eye cancer	ocular cancer
+pancreatic cancer	malignant pancreatic neoplasm
+leukemia	leukemia (disease)
+rhabdoid	rhabdoid tumor
+unknown	IGNORE
+fibroblast	IGNORE
+immortalized	IGNORE
+primary cells	IGNORE
+non-cancerous	IGNORE
+not reported	IGNORE
