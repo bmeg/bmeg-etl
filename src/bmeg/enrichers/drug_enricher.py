@@ -242,7 +242,6 @@ def normalize_biothings(name):
     """
      curl 'http://mychem.info/v1/query?q=chembl.molecule_synonyms.synonyms:aspirin&fields=pubchem.cid,chembl.molecule_synonyms,chembl.molecule_chembl_id,chebi.chebi_id' | jq .
     """
-    compounds = []
 
     if name in NOFINDS_BIOTHINGS:
         logging.info("NOFINDS_BIOTHINGS {}".format(name))
@@ -266,6 +265,8 @@ def normalize_biothings(name):
         idf = 'chebi.id'
     elif name.lower().startswith("chembl"):
         idf = 'chembl.molecule_chembl_id'
+    elif name.lower().startswith("db"):
+        idf = 'drugbank.id'
     elif name.lower().startswith("cid"):
         name = re.sub('cid([\ \-_:]+)?', '', name.lower())
         idf = 'pubchem.cid'
@@ -275,35 +276,61 @@ def normalize_biothings(name):
         idf = None
 
     if idf is not None:
-        url = 'http://mychem.info/v1/query?q={}:{}&fields={}&size=1'.format(idf, name, fields)
+        url = 'http://mychem.info/v1/query?q={}:"{}"&fields={}&size=1'.format(idf, name, fields)
         compound, score = _process_biothings_query(name, url)
         if compound is not None:
-            compounds.append((compound, score))
+            return compound
 
-    name_parts = _decompose(name)
-    for name_part in name_parts:
-        if len(name_part) < NAME_PART_MIN_LEN:
-            continue
-        url = 'http://mychem.info/v1/query?q=chembl.pref_name:{}&fields={}&size=1'.format(name_part, fields)
-        compound, score = _process_biothings_query(name_part, url)
+    # search for matches
+    search_fields = [
+        # names
+        'chembl.pref_name',
+        'chebi.name',
+        'drugbank.name',
+        'pharmgkb.name',
+        # lists of aliases
+        'chebi.brand_names',
+        'chebi.synonyms'
+        'pharmgkb.trade_names',
+        'pharmgkb.generic_names',
+        'drugbank.synonyms'
+        # 'chembl.molecule_synonyms.synonyms',
+    ]
+
+    # search for a good match
+    for sfield in search_fields:
+        url = 'http://mychem.info/v1/query?q={}:"{}"&fields={}&size=1'.format(sfield, name, fields)
+        compound, score = _process_biothings_query(name, url)
         if compound is not None:
-            compounds.append((compound, score))
-        else:
-            url = 'http://mychem.info/v1/query?q=chembl.molecule_synonyms.synonyms:{}&fields={}&size=1'.format(name_part, fields)
-            compound, score = _process_biothings_query(name_part, url)
+            return compound
+
+        # search for all name parts in field
+        name_parts = re.split('\W+', name)
+        if len(name_parts) > 1:
+
+            query_term = " AND ".join(["{}:{}".format(sfield, n) for n in name_parts])
+            url = 'http://mychem.info/v1/query?q={}&fields={}&size=1'.format(query_term, fields)
+            compound, score = _process_biothings_query(name, url)
             if compound is not None:
-                compounds.append((compound, score))
-            else:
-                if name_part != name:
-                    NOFINDS_BIOTHINGS[name_part] = True
+                return compound
 
-    if len(compounds) == 0:
-        NOFINDS_BIOTHINGS[name] = True
-        return None
+    # try fuzzy matching
+    for sfield in search_fields:
+        url = 'http://mychem.info/v1/query?q={}:{}~&fields={}&size=1'.format(sfield, name, fields)
+        compound, score = _process_biothings_query(name, url)
+        if compound is not None:
+            return compound
 
-    # sort by score and return the top hit
-    compounds = sorted(compounds, key=lambda t: t[1], reverse=True)
-    return compounds[0][0]
+        name_parts = re.split('\W+', name)
+        if len(name_parts) > 1:
+            query_term = " AND ".join(["{}:{}~".format(sfield, n) for n in name_parts])
+            url = 'http://mychem.info/v1/query?q={}&fields={}&size=1'.format(query_term, fields)
+            compound, score = _process_biothings_query(name, url)
+            if compound is not None:
+                return compound
+
+    NOFINDS_BIOTHINGS[name] = True
+    return None
 
 
 def search_pubchem(name):
@@ -364,14 +391,9 @@ def normalize(name):
 
     compound = normalize_biothings(name)
     if compound is None:
-        for name_part in _decompose(name):
-            if len(name_part) < NAME_PART_MIN_LEN:
-                continue
-            cid = search_pubchem(name)
-            if cid:
-                compound = normalize_biothings(cid)
-                if compound:
-                    break
+        cid = search_pubchem(name)
+        if cid:
+            compound = normalize_biothings(cid)
 
     if compound is None:
         logging.warning('normalize_drugs NOFIND {}'.format(name))
