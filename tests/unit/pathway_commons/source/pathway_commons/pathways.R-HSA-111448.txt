@@ -1,0 +1,2 @@
+PATHWAY_URI	DISPLAY_NAME	DIRECT_SUB_PATHWAY_URIS	ALL_SUB_PATHWAY_URIS
+http://identifiers.org/reactome/R-HSA-111448	Activation of NOXA and translocation to mitochondria		

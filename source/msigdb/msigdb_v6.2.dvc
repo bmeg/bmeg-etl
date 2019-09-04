@@ -1,0 +1,12 @@
+md5: 4baa9ea25d7161e83ccb10dfe57b7a80
+cmd: wget --verbose -O source/msigdb/msigdb_v6.2.xml ftp://ftp.broadinstitute.org/pub/gsea/xml/msigdb_v6.2.xml
+wdir: ../..
+deps:
+- md5: d41d8cd98f00b204e9800998ecf8427e
+  path: source/msigdb/version.txt
+outs:
+- md5: 73ab87babe8bfa246a6523c6dc26c27a
+  path: source/msigdb/msigdb_v6.2.xml
+  cache: true
+  metric: false
+  persist: false
