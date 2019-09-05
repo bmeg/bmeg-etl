@@ -1,8 +1,8 @@
-md5: d51a514de67a46a13557d92e8cb3e879
+md5: 19890577e53cb509e2fad598d3f42088
 cmd: python3 transform/ccle/cellline_lookups.py
 wdir: ../..
 deps:
-- md5: a043a7f352586ae40a64bbc9329cdb7e
+- md5: e2a46f39c1aa90b43155c129da5e9657
   path: transform/ccle/cellline_lookups.py
 - md5: 6d66a59fb75c31cd3a1b320eefe1efc8
   path: source/ccle/DepMap-2019q1-celllines.csv_v2.csv
