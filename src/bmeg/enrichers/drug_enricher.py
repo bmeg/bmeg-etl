@@ -35,39 +35,6 @@ def compound_factory(name):
                     project_id=Project.make_gid('Reference'))
 
 
-def _chunks(l, n):
-    """Yield successive n-sized chunks from l."""
-    for i in range(0, len(l), n):
-        yield l[i:i + n]
-
-
-def _decompose(name):
-    """given a name, split into an array of searchable terms"""
-    try:
-        name = name.decode("utf-8")
-    except Exception:
-        pass
-    name_parts = re.split('\W+', name)
-    no_punct = ' '.join(name_parts).strip()
-    name_parts = no_punct.split()
-    pairs = [' '.join(c) for c in _chunks(name_parts, 2)]
-    try:
-        if len(name_parts) == 1:
-            logging.debug('returning no_punct {}'.format([no_punct]))
-            return [name] + [no_punct]
-        if name_parts == no_punct.split():
-            logging.debug('returning name_parts {}'.format(name_parts))
-            return [name] + ['{} {}'.format(name_parts[0], name_parts[1])] + name_parts
-        if [no_punct] == pairs:
-            logging.debug('returning pairs + name_parts {}'.format(pairs + name_parts))
-            return [name] + pairs + name_parts
-    except Exception as e:
-        logging.error("_decompose {}".format(name))
-        logging.exception(e)
-    logging.debug('returning no_punct + pairs + name_parts {}'.format([no_punct] + pairs + name_parts))
-    return [name] + [no_punct] + pairs + name_parts
-
-
 def _process_biothings_query(name, url):
     "returns => compound: dict, score: float"
 
@@ -238,7 +205,7 @@ def _process_biothings_query(name, url):
     return compound, score
 
 
-def normalize_biothings(name):
+def normalize_biothings(name, fuzzy=False):
     """
      curl 'http://mychem.info/v1/query?q=chembl.molecule_synonyms.synonyms:aspirin&fields=pubchem.cid,chembl.molecule_synonyms,chembl.molecule_chembl_id,chebi.chebi_id' | jq .
     """
@@ -294,40 +261,28 @@ def normalize_biothings(name):
         'pharmgkb.trade_names',
         'pharmgkb.generic_names',
         'drugbank.synonyms'
-        # 'chembl.molecule_synonyms.synonyms',
+        'chembl.molecule_synonyms.synonyms',
     ]
 
+    fuzzy_match = "~" if fuzzy else ""
     # search for a good match
     for sfield in search_fields:
-        url = 'http://mychem.info/v1/query?q={}:"{}"&fields={}&size=1'.format(sfield, name, fields)
-        compound, score = _process_biothings_query(name, url)
-        if compound is not None:
-            return compound
+        name_parts = re.split('\W+', name)
+        # search for exact match in field if multiple words are present
+        if len(name_parts) > 1:
+            url = 'http://mychem.info/v1/query?q={}:"{}"&fields={}&size=1'.format(sfield, name, fields)
+            compound, score = _process_biothings_query(name, url)
+            if compound is not None:
+                return compound
 
         # search for all name parts in field
-        name_parts = re.split('\W+', name)
-        if len(name_parts) > 1:
-
-            query_term = " AND ".join(["{}:{}".format(sfield, n) for n in name_parts])
-            url = 'http://mychem.info/v1/query?q={}&fields={}&size=1'.format(query_term, fields)
-            compound, score = _process_biothings_query(name, url)
-            if compound is not None:
-                return compound
-
-    # try fuzzy matching
-    for sfield in search_fields:
-        url = 'http://mychem.info/v1/query?q={}:{}~&fields={}&size=1'.format(sfield, name, fields)
+        query_term = " AND ".join([
+            "{}:{}{}".format(sfield, n, fuzzy_match) for n in name_parts
+        ])
+        url = 'http://mychem.info/v1/query?q={}&fields={}&size=1'.format(query_term, fields)
         compound, score = _process_biothings_query(name, url)
         if compound is not None:
             return compound
-
-        name_parts = re.split('\W+', name)
-        if len(name_parts) > 1:
-            query_term = " AND ".join(["{}:{}~".format(sfield, n) for n in name_parts])
-            url = 'http://mychem.info/v1/query?q={}&fields={}&size=1'.format(query_term, fields)
-            compound, score = _process_biothings_query(name, url)
-            if compound is not None:
-                return compound
 
     NOFINDS_BIOTHINGS[name] = True
     return None
@@ -373,6 +328,7 @@ def normalize(name):
     if name == "N/A":
         return None
     if name in NOFINDS:
+        logging.warning('NOFINDS {}'.format(name))
         return None
 
     # ensure name is a string
@@ -384,19 +340,24 @@ def normalize(name):
 
     # do we have a better name?
     if ALIASES.get(name, None):
-        logging.debug('The alias was {}'.format(ALIASES.get(name)))
-    else:
-        logging.debug('There was no alias for {}'.format(name))
+        logging.debug('renamed {} to {}'.format(name, ALIASES.get(name)))
     name = ALIASES.get(name, name)
 
-    compound = normalize_biothings(name)
+    compound = normalize_biothings(name, fuzzy=False)
     if compound is None:
         cid = search_pubchem(name)
         if cid:
             compound = normalize_biothings(cid)
 
     if compound is None:
-        logging.warning('normalize_drugs NOFIND {}'.format(name))
+        compound = normalize_biothings(name, fuzzy=True)
+
+    if compound is None:
+        drug_name = re.search("([A-Za-z0-9]+)(\ +?\(.*\))?", name).group(1)
+        if drug_name != name:
+            compound = normalize(drug_name)
+
+    if compound is None:
         # skip next time
         NOFINDS[name] = True
         return None

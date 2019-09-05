@@ -85,17 +85,23 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         )
 
         # create an edge to compound
-        compound = compound_factory(name=cpd_name)
-        if compound.gid() not in emitted_compounds:
-            emitter.emit_vertex(compound)
-            emitted_compounds[compound.gid()] = None
-        emitter.emit_edge(
-            DrugResponse_Compounds_Compound(
-                from_gid=dr.gid(),
-                to_gid=compound.gid()
-            ),
-            emit_backref=True
-        )
+        if "mol/mol" in cpd_name:
+            cpds = cpd_name.split()[0].split(":")
+        else:
+            cpds = [cpd_name]
+
+        for cpd in cpds:
+            compound = compound_factory(name=cpd)
+            if compound.gid() not in emitted_compounds:
+                emitter.emit_vertex(compound)
+                emitted_compounds[compound.gid()] = None
+                emitter.emit_edge(
+                    DrugResponse_Compounds_Compound(
+                        from_gid=dr.gid(),
+                        to_gid=compound.gid()
+                    ),
+                    emit_backref=True
+                )
 
         # create edge from compound to project
         if compound.gid() not in project_compounds[proj.gid()]:
