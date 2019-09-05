@@ -20,6 +20,37 @@ def phenotype_factory(name):
                      project_id=Project.make_gid("Reference"))
 
 
+def normalize_monarch(name):
+    min_score = 20
+    url = "https://api.monarchinitiative.org/api/search/entity/{}?category=disease&prefix=MONDO&rows=1&start=0".format(name.replace("/", " "))
+    logging.debug("normalize_monarch: {}".format(url))
+    try:
+        r = requests.get(url, timeout=60)
+        rsp = r.json()
+        if len(rsp.get('docs', [])) < 1:
+            return None
+        hit = rsp['docs'][0]
+        score = hit['score']
+        if score < min_score:
+            logging.debug(
+                'discarded hit for {}, score too low {}'
+                .format(name, score)
+            )
+            return None
+        disease = {"ontology_term": hit["id"],
+                   "label": pydash.get(hit, "label.0", name),
+                   'source': "https://monarchinitiative.org/disease/{}".format(hit["id"]),
+                   'provenance': url}
+
+        print(name, disease.get('label', 'NONE'), score, sep='\t')
+        return disease
+
+    except Exception as e:
+        logging.exception(e)
+
+    return None
+
+
 def normalize_biothings(name):
     fields = ["mondo.label"]
     fields = ','.join(fields)
@@ -85,21 +116,13 @@ def normalize_biothings(name):
 
 def _normalize_biothings(name, url):
     # TODO figure out score threshold
-    min_score = 7
+    min_score = 7.0
     disease = None
 
     try:
-        retries = 0
-        while retries < 5:
-            logging.debug("normalize_biothings: {}".format(url))
-            r = requests.get(url, timeout=60)
-            rsp = r.json()
-            if 'hits' not in rsp:
-                retries += 1
-                continue
-            else:
-                break
-
+        logging.debug("normalize_biothings: {}".format(url))
+        r = requests.get(url, timeout=60)
+        rsp = r.json()
         if 'hits' not in rsp:
             return None
 
@@ -119,13 +142,16 @@ def _normalize_biothings(name, url):
             )
             return None
         score = hit['_score']
-        disease = {"id": hit["_id"], "term": pydash.get(hit, "mondo.label")}
+        disease = {"ontology_term": hit["_id"],
+                   "label": pydash.get(hit, "mondo.label"),
+                   'source': None,
+                   'provenance': url}
 
     except Exception as e:
         logging.exception(e)
         return None
 
-    print(name, disease, score)
+    print(name, disease.get('label', 'NONE'), score, sep='\t')
     return disease
 
 
@@ -141,7 +167,7 @@ def normalize(name):
         logging.debug('skipping {}'.format(name))
         return None
 
-    normalized = normalize_biothings(name)
+    normalized = normalize_monarch(name)
     if normalized is None:
         logging.warning('normalize_phenotype NOFIND {}'.format(original_name))
         # skip next time

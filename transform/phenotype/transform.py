@@ -46,41 +46,28 @@ def transform(
                     phenotype_gid = phenotype['gid']
                     phenotype = phenotype['data']
                     # if un-normalized, normalize it
-                    if phenotype['term'] == 'TODO':
+                    if phenotype['term'] == 'TODO' or not phenotype['term_id'].startswith('MONDO'):
                         # do we have it already?
                         stored_phenotype = store.get(phenotype['name'])
                         if not stored_phenotype:
                             # nope, fetch it
-                            ontology_terms = normalize(phenotype['name'])
-                            if len(ontology_terms) == 0:
+                            ontology_term = normalize(phenotype['name'])
+                            if ontology_term is None:
                                 # no hits? set term and id to name
                                 phenotype['term'] = phenotype['name']
-                                phenotype['term_id'] = 'NO_ONTOLOGY~{}'.format(phenotype['term'])
-                                phenotype['id'] = Phenotype.make_gid('NO_ONTOLOGY~{}'.format(phenotype['term']))
+                                phenotype['term_id'] = 'NO_ONTOLOGY:{}'.format(phenotype['term'])
+                                phenotype['id'] = Phenotype.make_gid('NO_ONTOLOGY:{}'.format(phenotype['term']))
                             else:
                                 # hits: set term and id to normalized term
-                                phenotype['term'] = ontology_terms[0]['label']
-                                phenotype['term_id'] = ontology_terms[0]['ontology_term']
-                                phenotype['id'] = Phenotype.make_gid(ontology_terms[0]['ontology_term'])
+                                phenotype['term'] = ontology_term['label']
+                                phenotype['term_id'] = ontology_term['ontology_term']
+                                phenotype['id'] = Phenotype.make_gid(ontology_term['ontology_term'])
                             # save it for next time
                             store.put(phenotype['name'], phenotype)
                         else:
                             phenotype = stored_phenotype
                             phenotype['id'] = Phenotype.make_gid(phenotype['term_id'])
                     else:
-                        if 'MONDO' not in phenotype['term_id']:
-                            # we prefer MONDO
-                            # do we have it already?
-                            stored_phenotype = store.get(phenotype['term'])
-                            if not stored_phenotype:
-                                # nope, fetch it
-                                ontology_terms = normalize(phenotype['term'])
-                                if len(ontology_terms) > 0:
-                                    # hits: set term and id to normalized term
-                                    phenotype['term'] = ontology_terms[0]['label']
-                                    phenotype['term_id'] = ontology_terms[0]['ontology_term']
-                                    phenotype['id'] = Phenotype.make_gid(ontology_terms[0]['ontology_term'])
-
                         # we have a phenotype with a term already
                         phenotype['id'] = Phenotype.make_gid(phenotype['term_id'])
                         store.put(phenotype.get('name', phenotype.get('term')), phenotype)

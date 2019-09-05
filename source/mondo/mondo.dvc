@@ -1,11 +1,11 @@
-md5: 4855aaf8a2e8c50874e5daf9208b8c19
+md5: 4a14483680c132df2a9ef18915839067
 cmd: wget -O source/mondo/mondo.json http://purl.obolibrary.org/obo/mondo.json
 wdir: ../..
 deps:
 - md5: d41d8cd98f00b204e9800998ecf8427e
   path: source/mondo/version.txt
 outs:
-- md5: b943f05cb640ecd017372d67489143c6
+- md5: 7c7253f0cef3635fc8185e5562a84146
   path: source/mondo/mondo.json
   cache: true
   metric: false

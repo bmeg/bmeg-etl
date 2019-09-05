@@ -5,7 +5,6 @@ import logging
 import os
 import pkg_resources
 import re
-import sys
 import types
 
 from copy import deepcopy
