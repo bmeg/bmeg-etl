@@ -38,18 +38,13 @@ def compound_factory(name):
 def _process_biothings_query(name, url):
     "returns => compound: dict, score: float"
 
-    try:
-        retries = 0
-        while retries < 5:
-            logging.debug("_process_biothings_query: {}".format(url))
-            r = requests.get(url, timeout=60)
-            rsp = r.json()
-            if 'hits' not in rsp:
-                retries += 1
-                continue
-            else:
-                break
+    if not name:
+        return None, 0.0
 
+    try:
+        logging.debug("_process_biothings_query: {}".format(url))
+        r = requests.get(url, timeout=60)
+        rsp = r.json()
         if 'hits' not in rsp:
             return None, 0.0
 
@@ -210,6 +205,9 @@ def normalize_biothings(name, fuzzy=False):
      curl 'http://mychem.info/v1/query?q=chembl.molecule_synonyms.synonyms:aspirin&fields=pubchem.cid,chembl.molecule_synonyms,chembl.molecule_chembl_id,chebi.chebi_id' | jq .
     """
 
+    if not name:
+        return None
+
     if name in NOFINDS_BIOTHINGS:
         logging.info("NOFINDS_BIOTHINGS {}".format(name))
         return None
@@ -292,6 +290,9 @@ def search_pubchem(name):
     """
     seach pubchem and retrieve compound_id and most common synonym
     """
+    if not name:
+        return None
+
     if name in NOFINDS_PUBCHEM:
         logging.info("NOFINDS_PUBCHEM {}".format(name))
         return None
@@ -325,7 +326,7 @@ def search_pubchem(name):
 def normalize(name):
     """ given a drug name """
 
-    if name == "N/A":
+    if name == "" or name == "N/A" or name == "NA" or name is None:
         return None
     if name in NOFINDS:
         logging.warning('NOFINDS {}'.format(name))
