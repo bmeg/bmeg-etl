@@ -42,6 +42,7 @@ source/**/*.*
 
 tests/unit/allele/source/myvariantinfo/sqlite.db
 tests/unit/compound/source/compound/sqlite.db
+tests/unit/phenotype/source/phenotype/sqlite.db
 tests/unit/*/test/*.json.gz
 
 .DS_Store

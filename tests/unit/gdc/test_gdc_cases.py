@@ -20,7 +20,7 @@ def validate(helpers, emitter_directory, case_path):
     case_file = os.path.join(emitter_directory, 'Case.Vertex.json.gz')
     project_file = os.path.join(emitter_directory, 'Project.Vertex.json.gz')
     program_file = os.path.join(emitter_directory, 'Program.Vertex.json.gz')
-    # phenotype_file = os.path.join(emitter_directory, 'Phenotype.Vertex.json.gz')
+    phenotype_file = os.path.join(emitter_directory, 'Phenotype.Vertex.json.gz')
 
     proj_pp_edge_file = os.path.join(emitter_directory, 'Project_Programs_Program.Edge.json.gz')
     prog_pps_edge_file = os.path.join(emitter_directory, 'Program_Projects_Project.Edge.json.gz')
@@ -30,19 +30,19 @@ def validate(helpers, emitter_directory, case_path):
     css_edge_file = os.path.join(emitter_directory, 'Case_Samples_Sample.Edge.json.gz')
     ass_edge_file = os.path.join(emitter_directory, 'Aliquot_Sample_Sample.Edge.json.gz')
     saa_edge_file = os.path.join(emitter_directory, 'Sample_Aliquots_Aliquot.Edge.json.gz')
-    # case_pp_edge_file = os.path.join(emitter_directory, 'Case_Phenotypes_Phenotype.Edge.json.gz')
-    # pheno_cc_edge_file = os.path.join(emitter_directory, 'Phenotype_Cases_Case.Edge.json.gz')
-    # sample_pp_edge_file = os.path.join(emitter_directory, 'Sample_Phenotypes_Phenotype.Edge.json.gz')
-    # pheno_sample_edge_file = os.path.join(emitter_directory, 'Phenotype_Samples_Sample.Edge.json.gz')
+    case_pp_edge_file = os.path.join(emitter_directory, 'Case_Phenotypes_Phenotype.Edge.json.gz')
+    pheno_cc_edge_file = os.path.join(emitter_directory, 'Phenotype_Cases_Case.Edge.json.gz')
+    sample_pp_edge_file = os.path.join(emitter_directory, 'Sample_Phenotypes_Phenotype.Edge.json.gz')
+    pheno_sample_edge_file = os.path.join(emitter_directory, 'Phenotype_Samples_Sample.Edge.json.gz')
 
     all_files = [
         # vertices
         aliquot_file, sample_file, case_file, project_file,
-        program_file,  # phenotype_file,
+        program_file, phenotype_file,
         # edges
         proj_pp_edge_file, prog_pps_edge_file, cpp_edge_file, pcc_edge_file,
-        scc_edge_file, css_edge_file, ass_edge_file, saa_edge_file
-        # case_pp_edge_file, pheno_cc_edge_file, sample_pp_edge_file, pheno_sample_edge_file
+        scc_edge_file, css_edge_file, ass_edge_file, saa_edge_file,
+        case_pp_edge_file, pheno_cc_edge_file, sample_pp_edge_file, pheno_sample_edge_file
     ]
 
     # remove output

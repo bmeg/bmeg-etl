@@ -19,11 +19,6 @@ from bmeg import (G2PAssociation_Publications_Publication, G2PAssociation_Genes_
 from bmeg import Deadletter
 from bmeg.emitter import new_emitter
 
-files = {}
-ALLELE_HAS_GENE_CACHE = []
-HAS_ENVIRONMENT_CACHE = []
-GENOMIC_FEATURE_HAS_GENE_CACHE = []
-
 
 def normalizeAssociations(path):
     """ create a record from input """
@@ -102,8 +97,6 @@ def toGraph(normalized_association, emitter):
         )
 
     for allele_has_gene in na.vertices['allele_has_gene']:
-        if allele_has_gene in ALLELE_HAS_GENE_CACHE:
-            continue
         emitter.emit_edge(
             Allele_Gene_Gene(
                 allele_has_gene[0],
@@ -111,11 +104,8 @@ def toGraph(normalized_association, emitter):
             ),
             emit_backref=True
         )
-        ALLELE_HAS_GENE_CACHE.append(allele_has_gene)
 
     for genomic_feature_has_gene in na.vertices['genomic_feature_has_gene']:
-        if genomic_feature_has_gene in GENOMIC_FEATURE_HAS_GENE_CACHE:
-            continue
         emitter.emit_edge(
             GenomicFeature_Genes_Gene(
                 genomic_feature_has_gene[0],
@@ -123,7 +113,6 @@ def toGraph(normalized_association, emitter):
             ),
             emit_backref=True
         )
-        GENOMIC_FEATURE_HAS_GENE_CACHE.append(genomic_feature_has_gene)
 
     for phenotype in na.vertices['phenotypes']:
         emitter.emit_vertex(phenotype)
@@ -135,12 +124,10 @@ def toGraph(normalized_association, emitter):
             ),
             emit_backref=True
         )
+
     for environment in na.vertices['environments']:
         emitter.emit_vertex(environment)
-
     for environment_gid in na.environments:
-        if (association.gid(), environment_gid) in HAS_ENVIRONMENT_CACHE:
-            continue
         emitter.emit_edge(
             G2PAssociation_Compounds_Compound(
                 association.gid(),
@@ -148,10 +135,14 @@ def toGraph(normalized_association, emitter):
             ),
             emit_backref=True
         )
-        HAS_ENVIRONMENT_CACHE.append((association.gid(), environment_gid))
 
-    for missing_vertex in na.missing_vertexes:
-        emitter.emit_vertex(Deadletter(**missing_vertex))
+    EMITTED_DEADLETTER = {}
+    for m in na.missing_vertexes:
+        dl = Deadletter(**m)
+        if dl.gid() in EMITTED_DEADLETTER:
+            continue
+        emitter.emit_vertex(dl)
+        EMITTED_DEADLETTER[dl.gid()] = True
 
 
 def transform(input_path, prefix, emitter_class='json'):

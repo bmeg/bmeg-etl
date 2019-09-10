@@ -3,9 +3,6 @@ import bmeg.enrichers.gene_enricher as gene_enricher
 from bmeg import Gene
 import logging
 
-# keep track of what we've already exported
-# EXPORTED_GENES = []
-
 
 def gene_gid(symbol):
     """ return gene gid """
@@ -36,8 +33,6 @@ def normalize(hit):
 
     gene_gids = [gid for gid in gene_gids]
     gene_gids.sort()
-    # gene_gids = [gid for gid in gene_gids if gid not in EXPORTED_GENES]
-    # EXPORTED_GENES.extend(gene_gids)
     hit['genes'] = gene_gids
 
     return (hit, gene_gids, missing_vertexes)

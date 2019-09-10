@@ -8,12 +8,13 @@ import yaml
 files = glob.glob("outputs/**/*.dvc")
 
 EXCEPTIONS = [
-    # unnormalized Phenotypes
-    "outputs/ccle/ccle.Phenotype.Vertex.json.gz",
-    "outputs/ctrp/ctrp.Phenotype.Vertex.json.gz",
-    "outputs/g2p/Phenotype.Vertex.json.gz",
-    "outputs/gdsc/gdsc.Phenotype.Vertex.json.gz",
-    # unnormalized Phenotype edges
+    # unnormalized Compounds
+    "outputs/ccle/drug_response.Compound.Vertex.json.gz",
+    "outputs/ctrp/drug_response.Compound.Vertex.json.gz",
+    "outputs/gdsc/drug_response.Compound.Vertex.json.gz",
+    "outputs/g2p/Compound.Vertex.json.gz",
+    "outputs/gdc/Compound.Vertex.json.gz",
+    # unnormalized Compound edges
     "outputs/ccle/drug_response.DrugResponse_Compounds_Compound.Edge.json.gz",
     "outputs/ccle/drug_response.Compound_DrugResponses_DrugResponse.Edge.json.gz",
     "outputs/ctrp/drug_response.DrugResponse_Compounds_Compound.Edge.json.gz",
@@ -32,13 +33,12 @@ EXCEPTIONS = [
     "outputs/ctrp/drug_response.Compound_Projects_Project.Edge.json.gz",
     "outputs/gdsc/drug_response.Project_Compounds_Compound.Edge.json.gz",
     "outputs/gdsc/drug_response.Compound_Projects_Project.Edge.json.gz",
-    # unnormalized Compounds
-    "outputs/ccle/drug_response.Compound.Vertex.json.gz",
-    "outputs/ctrp/ctrp.Compound.Vertex.json.gz",
-    "outputs/g2p/Compound.Vertex.json.gz",
-    "outputs/gdc/Compound.Vertex.json.gz",
-    "outputs/gdsc/gdsc.Compound.Vertex.json.gz",
-    # unnormalized Compound edges
+    # unnormalized Phenotypes
+    "outputs/ccle/ccle.Phenotype.Vertex.json.gz",
+    "outputs/ctrp/ctrp.Phenotype.Vertex.json.gz",
+    "outputs/g2p/Phenotype.Vertex.json.gz",
+    "outputs/gdsc/gdsc.Phenotype.Vertex.json.gz",
+    # unnormalized Phenotype edges
     "outputs/ccle/ccle.Case_Phenotypes_Phenotype.Edge.json.gz",
     "outputs/ccle/ccle.Phenotype_Cases_Case.Edge.json.gz",
     "outputs/ccle/ccle.Sample_Phenotypes_Phenotype.Edge.json.gz",
@@ -53,6 +53,10 @@ EXCEPTIONS = [
     "outputs/gdsc/gdsc.Phenotype_Samples_Sample.Edge.json.gz",
     "outputs/g2p/G2PAssociation_Phenotypes_Phenotype.Edge.json.gz",
     "outputs/g2p/Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz",
+    "outputs/gdc/Case_Phenotypes_Phenotype.Edge.json.gz",
+    "outputs/gdc/Phenotype_Cases_Case.Edge.json.gz",
+    "outputs/gdc/Sample_Phenotypes_Phenotype.Edge.json.gz",
+    "outputs/gdc/Phenotype_Samples_Sample.Edge.json.gz",
     # Deadletter
     "outputs/g2p/Deadletter.Vertex.json.gz",
     "outputs/mc3/Deadletter.Vertex.json.gz",

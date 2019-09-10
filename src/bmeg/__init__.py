@@ -1,10 +1,10 @@
 import dataclasses
 import hashlib
 import jsonschema
+import logging
 import os
 import pkg_resources
 import re
-import sys
 import types
 
 from copy import deepcopy
@@ -179,7 +179,7 @@ __all__ = ['Vertex', 'Edge', 'Deadletter']
 for k, schema in _schema.schema.items():
     name = capitalize(schema["id"])
     if name not in gid_factories:
-        print("using default gid factory for '{}'".format(name), file=sys.stderr)
+        logging.debug("using default gid factory for '{}'".format(name))
         gid_factory = partial(default_gid, name)
     else:
         gid_factory = gid_factories[name]

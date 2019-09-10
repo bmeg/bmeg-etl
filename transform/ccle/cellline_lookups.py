@@ -17,7 +17,6 @@ def create_project_lookup(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv",
     for line in input_stream:
         # TODO: convert to TCGA project short codes
         project_id = "_".join(line["Primary Disease"].split())
-        # project_id = line["Subtype Disease"]
         if not project_id or is_blank(project_id):
             continue
         lookup[line["DepMap_ID"]] = project_id
@@ -41,14 +40,11 @@ def create_phenotype_lookup(path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv
     lookup = {}
     input_stream = bmeg.ioutils.read_csv(path)
     for line in input_stream:
-        phenotype_name = line.get('Subtype Disease', None)
-        if not phenotype_name or is_blank(phenotype_name):
-            phenotype_name = line.get('Primary Disease', None)
+        phenotype_name = line.get('Primary Disease', None)
+        if phenotype_name is None or is_blank(phenotype_name):
+            phenotype_name = "unknown"
 
-        if not phenotype_name or is_blank(phenotype_name):
-            continue
-
-        lookup[line["DepMap_ID"]] = phenotype_name
+        lookup[line["DepMap_ID"]] = phenotype_name.lower()
 
     assert len(lookup.keys()), "Phenotype lookup is empty!"
 

@@ -1,6 +1,5 @@
-md5: 824037ca6a8c34290458ede3fa9ab96c
+md5: 66d7c85c3639c0b3cfb0dbbdb1d50797
 cmd: echo generating file manifest...
-wdir: .
 deps:
 - md5: de92fd37fca1bed73a64aa545e422d3a
   path: outputs/allele/Allele.Vertex.json.gz
@@ -64,23 +63,23 @@ deps:
   path: outputs/ccle/maf.SomaticCallset_Alleles_Allele.Edge.json.gz
 - md5: 00364823893d8d2535f926195b1ac21c
   path: outputs/celllines/Case_SameAs_Case.Edge.json.gz
-- md5: 6e13188b84b8efde54212508317ae08e
+- md5: ff3a773eb5b9d94e7dd610877e98ca09
   path: outputs/compound/normalized.Case_Compounds_Compound.Edge.json.gz
-- md5: 440ddb7a4863fd18576057183d04bede
+- md5: 5cc68b032d90e1e816917208371ea1ec
   path: outputs/compound/normalized.Compound.Vertex.json.gz
-- md5: e0739d8827cb11be13c9f64e17a203ea
+- md5: 658656d0822e1e19ea5f27ac75acc671
   path: outputs/compound/normalized.Compound_Cases_Case.Edge.json.gz
-- md5: 7c4cb7745826ca9bdbbb556803cb6f0c
+- md5: 1d4d2105e6764d92c334cb0fe8809681
   path: outputs/compound/normalized.Compound_DrugResponses_DrugResponse.Edge.json.gz
-- md5: b8d69bf0090ea5233bfb59dac023dab8
+- md5: 46ab0464c5c890799337be1a903d381b
   path: outputs/compound/normalized.Compound_G2PAssociations_G2PAssociation.Edge.json.gz
-- md5: ac6953d09949f15f0a59dfeb7c78a424
+- md5: 6b2cef27015df068681fb69d190dbb65
   path: outputs/compound/normalized.Compound_Projects_Project.Edge.json.gz
-- md5: ceebab8c0b5674182e49340183107459
+- md5: f0986ba1dc4871b1e63052136a76ccf8
   path: outputs/compound/normalized.DrugResponse_Compounds_Compound.Edge.json.gz
-- md5: c46e318733050e03fa5fdb95c84ca43c
+- md5: 55fb649b25e4ecd0d91462323e6b849c
   path: outputs/compound/normalized.G2PAssociation_Compounds_Compound.Edge.json.gz
-- md5: 128fab44e335d7261d0b067efa747984
+- md5: 6811037d05def6894d0d9297ffd621ba
   path: outputs/compound/normalized.Project_Compounds_Compound.Edge.json.gz
 - md5: b919a6e32e86aee7ead98c20f6572c0c
   path: outputs/ctrp/ctrp.Aliquot.Vertex.json.gz
@@ -110,8 +109,6 @@ deps:
   path: outputs/ctrp/ctrp.Sample_Case_Case.Edge.json.gz
 - md5: 97efefaec5b4bc0452acbf621f33a3b1
   path: outputs/ctrp/drug_response.Aliquot_DrugResponse_DrugResponse.Edge.json.gz
-- md5: 8ca200604bb2d0c25235eccc5e063774
-  path: outputs/ctrp/drug_response.Compound.Vertex.json.gz
 - md5: 2bbfe52a8fd4643d2b16db62a7340914
   path: outputs/ctrp/drug_response.DrugResponse.Vertex.json.gz
 - md5: 50804cc666bd19c2d88baf263890abdd
@@ -136,55 +133,57 @@ deps:
   path: outputs/ensembl/Transcript_Gene_Gene.Edge.json.gz
 - md5: b20c590f8b234eb56689a14e6f8e22cc
   path: outputs/ensembl/Transcript_Protein_Protein.Edge.json.gz
-- md5: 4aa2b3fb29c5ccf95bc73ea6272f69ea
+- md5: 980d93cd07610a36e66a3b29040dc411
   path: outputs/g2p/Allele_G2PAssociations_G2PAssociation.Edge.json.gz
-- md5: 0cccf278fac9ee872fdde1b317f96150
+- md5: a0e275c4ce3e76d90db386acc6ca2081
   path: outputs/g2p/Allele_Gene_Gene.Edge.json.gz
-- md5: cbb28b72f151d864c98580540776ca33
+- md5: d0268cbe8c452d051628e730a6c9beb3
   path: outputs/g2p/G2PAssociation.Vertex.json.gz
-- md5: 38a1635cad5852f4c0fc34159a65f693
+- md5: ef3e85c1e344b91cd2761334844abd0a
   path: outputs/g2p/G2PAssociation_Alleles_Allele.Edge.json.gz
-- md5: 06c4b4d4faceb72cf462db28c98f3230
+- md5: 556cef0bf8eb8d3207f138d53713e47b
   path: outputs/g2p/G2PAssociation_Genes_Gene.Edge.json.gz
-- md5: 7c0ea0b73a9f11fa9180cd69e103828d
+- md5: 80cbdb647b0993e8a6ba26beabbe0664
   path: outputs/g2p/G2PAssociation_GenomicFeatures_GenomicFeature.Edge.json.gz
-- md5: 4d27c856fce5b21f47245dd43ef4294b
+- md5: 00c3ffcd7e394df0d16590e67dbae355
   path: outputs/g2p/G2PAssociation_Publications_Publication.Edge.json.gz
-- md5: 48cefa5cfad6a98e0b1cc584bfe5b7a2
+- md5: 56adda158687dd952ec5da6d4c981b8e
   path: outputs/g2p/Gene_Alleles_Allele.Edge.json.gz
-- md5: 2352faf0c19078345aa867f46c675291
+- md5: 9042209864981c33e79f7845a2f0d7d5
   path: outputs/g2p/Gene_G2PAssociations_G2PAssociation.Edge.json.gz
-- md5: c3e15ec4d66c53d9d156b4943e80bafa
+- md5: ccbcd35e4aca05c7040ceff874681fae
   path: outputs/g2p/GenomicFeature.Vertex.json.gz
-- md5: 50337a1a8872f2e348c871f6892c7a59
+- md5: 4aeb7e8e2df57467ff8bf71fd8fd6f96
   path: outputs/g2p/GenomicFeature_G2PAssociations_G2PAssociation.Edge.json.gz
-- md5: 08108bb2cf1812e81ddaa54ca81e1b12
+- md5: 9f77299999fc5cf362252c8437da435d
   path: outputs/g2p/Publication_G2PAssociations_G2PAssociation.Edge.json.gz
-- md5: 89440cba4d193ea437ae69866a9ef24e
+- md5: ce59c30dc135d6b46c71294ed33e2ec2
   path: outputs/gdc/Aliquot.Vertex.json.gz
-- md5: 2bae0cb04512774bda2d1ed3e370aa0e
+- md5: 22e33a38b76574b84e2d117b3cab38c2
   path: outputs/gdc/Aliquot_Sample_Sample.Edge.json.gz
-- md5: d93da5f004c7850f66651bcbd77d36f2
+- md5: 465ba6f176f62eb6ee74912caac79458
   path: outputs/gdc/Case.Vertex.json.gz
-- md5: 4defda55366bb97002e6e1a49e4db1db
+- md5: b42e848ab6b8fe4fe4805a9e0d9e4095
   path: outputs/gdc/Case_Projects_Project.Edge.json.gz
-- md5: 37cb721f9faed87b3f0b382ceecfce25
+- md5: 9abd70e98b1e239c2604d1696ad07053
   path: outputs/gdc/Case_Samples_Sample.Edge.json.gz
-- md5: 70a7d2293ed5b23498bc363bc250a7a1
+- md5: bc2a90b50f0bbebb2d4b245a00b7171b
+  path: outputs/gdc/Phenotype.Vertex.json.gz
+- md5: e9da26332a65037b9178fe488d10b586
   path: outputs/gdc/Program.Vertex.json.gz
-- md5: c470bf4aa0f83cefdf95e1eef15960d5
+- md5: 63184727668445bf9defa1c07c0814e2
   path: outputs/gdc/Program_Projects_Project.Edge.json.gz
-- md5: 8b7b43359767448a8b2f38c75e681b21
+- md5: b6d530af40167d2a4eb505027204aa57
   path: outputs/gdc/Project.Vertex.json.gz
-- md5: c5480c6e8991f7c7b2fe9fb109642d59
+- md5: b0de4f1b8642725c547a9cee94346d27
   path: outputs/gdc/Project_Cases_Case.Edge.json.gz
-- md5: 58bd90bea04f2de654afb12414690c26
+- md5: f439488b6dec64bdeee0c1eb1b355f4f
   path: outputs/gdc/Project_Programs_Program.Edge.json.gz
-- md5: 3e3b3b3920fb02c1432cd86427d3f1be
+- md5: 4e27045772f854d18d93ad51f0eb2500
   path: outputs/gdc/Sample.Vertex.json.gz
-- md5: 2d77a0ed1753018be388e3e36aaa2014
+- md5: 5ef5bd156fa6cab108542a25946b78d8
   path: outputs/gdc/Sample_Aliquots_Aliquot.Edge.json.gz
-- md5: 27cc3d0840b491eea9ba7d89ff8fe9a1
+- md5: be90f1aa8cd50e9c4cfb4b6341519699
   path: outputs/gdc/Sample_Case_Case.Edge.json.gz
 - md5: bea15dc9e40b2c9a8e918092dafaec0e
   path: outputs/gdc/gdc.Case_Compounds_Compound.Edge.json.gz
@@ -198,8 +197,6 @@ deps:
   path: outputs/gdc/gdc.Project_Compounds_Compound.Edge.json.gz
 - md5: a9476e76c9428cff14b14c596ffa07e9
   path: outputs/gdsc/drug_response.Aliquot_DrugResponse_DrugResponse.Edge.json.gz
-- md5: 2150d7a6f09a3bdbe1e17ce7703f600c
-  path: outputs/gdsc/drug_response.Compound.Vertex.json.gz
 - md5: 930515d96a4d3132cfd6a8b6ab189203
   path: outputs/gdsc/drug_response.DrugResponse.Vertex.json.gz
 - md5: d8257c80e72a9a9ea233a026b7806058
@@ -286,6 +283,12 @@ deps:
   path: outputs/mc3/SomaticCallset_Aliquots_Aliquot.Edge.json.gz
 - md5: 5f078baacdd731d17c708ebd32ae9b05
   path: outputs/mc3/SomaticCallset_Alleles_Allele.Edge.json.gz
+- md5: f74256271bf70a3409b344b45e1d0acd
+  path: outputs/mondo/Phenotype.Vertex.json.gz
+- md5: bc2fb9909a0fc99a43f5c7825f7c44ad
+  path: outputs/mondo/Phenotype_ChildTerms_Phenotype.Edge.json.gz
+- md5: 52afb7279f70cef24867d5952df17e5e
+  path: outputs/mondo/Phenotype_ParentTerms_Phenotype.Edge.json.gz
 - md5: 0c4f83ca809d8f3fdcfacc9313764bc0
   path: outputs/msigdb/GeneSet.Vertex.json.gz
 - md5: e60644f9d6c125c283e5d3bc8fa0057c
@@ -338,21 +341,21 @@ deps:
   path: outputs/pfam/Protein_PfamFamilies_PfamFamily.Edge.json.gz
 - md5: b3285b8a6f919127e42fda9a2124cfa5
   path: outputs/pfam/Protein_ProteinStructures_ProteinStructure.Edge.json.gz
-- md5: 9095129ec804273e065a29f8a26129ee
+- md5: a219a2d07366aad37532069ee045c0fe
   path: outputs/phenotype/normalized.Case_Phenotypes_Phenotype.Edge.json.gz
-- md5: f22028d8bbb66a71a6949623f53f8472
+- md5: 18e8e87227af2c003794f9fa632c67d1
   path: outputs/phenotype/normalized.G2PAssociation_Phenotypes_Phenotype.Edge.json.gz
-- md5: be2965dfaf80e810089d65ae890386eb
+- md5: 3354ed275aa699a3000f7332db471489
   path: outputs/phenotype/normalized.Phenotype.Vertex.json.gz
-- md5: 518c9f0fe121d6c66fdf38a8226bc22c
+- md5: 3b1d1aff04d951926db9ddc4138f3a82
   path: outputs/phenotype/normalized.Phenotype_Cases_Case.Edge.json.gz
-- md5: c1eebd7176ce75d43ae93b47f681074d
+- md5: a2b67da2a99a1aa39dc7dc03b9ddc3be
   path: outputs/phenotype/normalized.Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz
-- md5: 9de5c493e343856670cea03b23e7efd6
+- md5: 3adadbbdf9975aff5b620684770a52a7
   path: outputs/phenotype/normalized.Phenotype_Samples_Sample.Edge.json.gz
-- md5: 7f877c7f21a72db7a6bfcb8650ff1291
+- md5: 2068dedca47d3a14bb26df905023e716
   path: outputs/phenotype/normalized.Sample_Phenotypes_Phenotype.Edge.json.gz
-- md5: ed7f301f1a7d1cefea86aa5ac5bec81a
+- md5: 652878b15d0c96d83fda38ac7bd234dc
   path: outputs/publication/stub.Publication.Vertex.json.gz
 - md5: 6bdd6ef5f03bc16023a4c59bfcec95db
   path: outputs/pubmed/baseline/pubmed19n0001.Publication.Vertex.json.gz

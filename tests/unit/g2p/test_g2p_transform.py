@@ -103,12 +103,12 @@ def validate(helpers, g2p_file, emitter_directory):
     assert allele_count == 40, 'There should be 40 alleles {}'.format(allele_g2p_edge_file)
 
     phenotype_count = helpers.assert_vertex_file_valid(phenotype_file)
-    assert phenotype_count == 209, 'There should be 209 phenotypes'
+    assert phenotype_count == 35, 'There should be 35 phenotypes'
 
     phenotype_edge_count = helpers.assert_edge_file_valid(phenotype_edge_file)
-    assert phenotype_edge_count == 295, 'There should be 295 phenotype edges {}'.format(phenotype_edge_file)
+    assert phenotype_edge_count == 46, 'There should be 295 phenotype edges {}'.format(phenotype_edge_file)
     phenotype_edge_count = helpers.assert_edge_file_valid(phenotype_g2p_edge_file)
-    assert phenotype_edge_count == 295, 'There should be 295 phenotype edges {}'.format(phenotype_g2p_edge_file)
+    assert phenotype_edge_count == 46, 'There should be 295 phenotype edges {}'.format(phenotype_g2p_edge_file)
 
     genomic_feature_edge_count = helpers.assert_edge_file_valid(genomic_feature_edge_file)
     assert genomic_feature_edge_count == 13, 'There should be 13 edges between G2PAssociation and GenomicFeature {}'.format(genomic_feature_edge_file)

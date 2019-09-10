@@ -15,10 +15,10 @@ transitional_cell_carcinoma
 """.strip().split("\n")
 
 EXPECTED = [
-    [{'label': 'bone cancer', 'name': 'BOCA', 'ontology_term': 'MONDO:0002129', 'provenance': 'https://www.ebi.ac.uk/ols/api/search?q=Bone+Cancer&groupField=iri&exact=on&start=0&ontology=mondo', 'source': 'http://purl.obolibrary.org/obo/MONDO_0002129'}],
-    [{'family': 'neoplasm (disease)', 'label': 'cancer', 'name': 'cancer', 'ontology_term': 'MONDO:0004992', 'provenance': 'https://www.ebi.ac.uk/ols/api/search?q=cancer&groupField=iri&exact=on&start=0&ontology=mondo', 'source': 'http://purl.obolibrary.org/obo/MONDO_0004992'}],
-    [{'family': 'lymphoid neoplasm', 'label': 'lymphoma', 'name': 'Hodgkin_lymphoma', 'ontology_term': 'MONDO:0005062', 'provenance': 'https://www.ebi.ac.uk/ols/api/search?q=lymphoma&groupField=iri&exact=on&start=0&ontology=mondo', 'source': 'http://purl.obolibrary.org/obo/MONDO_0005062'}],
-    [{'family': 'carcinoma', 'label': 'transitional cell carcinoma', 'name': 'transitional_cell_carcinoma', 'ontology_term': 'MONDO:0006474', 'provenance': 'https://www.ebi.ac.uk/ols/api/search?q=transitional+cell+carcinoma&groupField=iri&exact=on&start=0&ontology=mondo', 'source': 'http://purl.obolibrary.org/obo/MONDO_0006474'}, {'family': 'cancer', 'label': 'carcinoma', 'name': 'transitional_cell_carcinoma', 'ontology_term': 'MONDO:0004993', 'provenance': 'https://www.ebi.ac.uk/ols/api/search?q=carcinoma&groupField=iri&exact=on&start=0&ontology=mondo', 'source': 'http://purl.obolibrary.org/obo/MONDO_0004993'}],
+    {'ontology_term': 'MONDO:0002129', 'label': 'bone cancer', 'source': 'https://monarchinitiative.org/disease/MONDO:0002129', 'provenance': 'https://api.monarchinitiative.org/api/search/entity/bone cancer?category=disease&prefix=MONDO&start=0&rows=5'},
+    {'ontology_term': 'MONDO:0004992', 'label': 'cancer', 'source': 'https://monarchinitiative.org/disease/MONDO:0004992', 'provenance': 'https://api.monarchinitiative.org/api/search/entity/cancer?category=disease&prefix=MONDO&start=0&rows=5'},
+    {'ontology_term': 'MONDO:0004952', 'label': 'Hodgkins lymphoma', 'source': 'https://monarchinitiative.org/disease/MONDO:0004952', 'provenance': 'https://api.monarchinitiative.org/api/search/entity/hodgkin_lymphoma?category=disease&prefix=MONDO&start=0&rows=5'},
+    {'ontology_term': 'MONDO:0006474', 'label': 'transitional cell carcinoma', 'source': 'https://monarchinitiative.org/disease/MONDO:0006474', 'provenance': 'https://api.monarchinitiative.org/api/search/entity/transitional_cell_carcinoma?category=disease&prefix=MONDO&start=0&rows=5'}
 ]
 
 
@@ -30,10 +30,9 @@ def test_simple(caplog):
         try:
             assert actual, 'Should return value for {}'.format(name)
             assert len(actual) == len(expected), 'Should return same number of hits for {}'.format(name)
-            for i, val in enumerate(expected):
-                for f in expected[i].keys():
-                    assert f in actual[i], '{} not found in actual'.format(f)
-                    assert actual[i][f] == expected[i][f], '{} mismatch'.format(f)
+            for f in expected:
+                assert f in actual, '{} not found in actual'.format(f)
+                assert actual[f] == expected[f], '{} mismatch'.format(f)
         except Exception as e:
             print(str(e))
             pprint(actual)

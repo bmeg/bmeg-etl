@@ -28,7 +28,7 @@ def transform(
     emitter = new_emitter(name=emitter_name, directory=emitter_directory, prefix='normalized')
 
     path = '{}/{}'.format(output_dir, vertex_names)
-    vertex_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
+    vertex_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename and 'mondo' not in filename]
     logging.info("vertex files: %s", vertex_files)
 
     logging.info("store path: %s", store_path)
@@ -51,39 +51,48 @@ def transform(
                         stored_phenotype = store.get(phenotype['name'])
                         if not stored_phenotype:
                             # nope, fetch it
-                            ontology_terms = normalize(phenotype['name'])
-                            if len(ontology_terms) == 0:
+                            ontology_term = normalize(phenotype['name'])
+                            if ontology_term is None:
                                 # no hits? set term and id to name
                                 phenotype['term'] = phenotype['name']
-                                phenotype['term_id'] = 'NO_ONTOLOGY~{}'.format(phenotype['term'])
-                                phenotype['id'] = Phenotype.make_gid('NO_ONTOLOGY~{}'.format(phenotype['term']))
+                                phenotype['term_id'] = 'NO_ONTOLOGY:{}'.format(phenotype['term'])
+                                phenotype['id'] = Phenotype.make_gid('NO_ONTOLOGY:{}'.format(phenotype['term']))
                             else:
                                 # hits: set term and id to normalized term
-                                phenotype['term'] = ontology_terms[0]['label']
-                                phenotype['term_id'] = ontology_terms[0]['ontology_term']
-                                phenotype['id'] = Phenotype.make_gid(ontology_terms[0]['ontology_term'])
+                                phenotype['term'] = ontology_term['label']
+                                phenotype['term_id'] = ontology_term['ontology_term']
+                                phenotype['id'] = Phenotype.make_gid(ontology_term['ontology_term'])
                             # save it for next time
                             store.put(phenotype['name'], phenotype)
                         else:
                             phenotype = stored_phenotype
                             phenotype['id'] = Phenotype.make_gid(phenotype['term_id'])
+                    elif not phenotype['term_id'].startswith('MONDO'):
+                        stored_phenotype = store.get(phenotype['term_id'])
+                        if not stored_phenotype:
+                            # nope, fetch it
+                            ontology_term = normalize(phenotype['term_id'])
+                            if ontology_term is None:
+                                ontology_term = normalize(phenotype['term'])
+                            if ontology_term is None:
+                                phenotype['term'] = phenotype['term']
+                                phenotype['term_id'] = 'NO_ONTOLOGY:{}'.format(phenotype['term_id'])
+                                phenotype['id'] = Phenotype.make_gid('NO_ONTOLOGY:{}'.format(phenotype['term_id']))
+                            else:
+                                # hits: set term and id to normalized term
+                                phenotype['term'] = ontology_term['label']
+                                phenotype['term_id'] = ontology_term['ontology_term']
+                                phenotype['id'] = Phenotype.make_gid(ontology_term['ontology_term'])
+                            # save it for next time
+                            store.put(phenotype['term_id'], phenotype)
+                        else:
+                            phenotype = stored_phenotype
+                            phenotype['id'] = Phenotype.make_gid(phenotype['term_id'])
                     else:
-                        if 'MONDO' not in phenotype['term_id']:
-                            # we prefer MONDO
-                            # do we have it already?
-                            stored_phenotype = store.get(phenotype['term'])
-                            if not stored_phenotype:
-                                # nope, fetch it
-                                ontology_terms = normalize(phenotype['term'])
-                                if len(ontology_terms) > 0:
-                                    # hits: set term and id to normalized term
-                                    phenotype['term'] = ontology_terms[0]['label']
-                                    phenotype['term_id'] = ontology_terms[0]['ontology_term']
-                                    phenotype['id'] = Phenotype.make_gid(ontology_terms[0]['ontology_term'])
-
                         # we have a phenotype with a term already
                         phenotype['id'] = Phenotype.make_gid(phenotype['term_id'])
-                        store.put(phenotype.get('name', phenotype.get('term')), phenotype)
+                        store.put(phenotype['term_id'], phenotype)
+                        store.put(phenotype['term'], phenotype)
 
                     phenotype = Phenotype(**phenotype)
                     if phenotype.gid() not in dups:
@@ -103,8 +112,9 @@ def transform(
 
     # get the edges
     path = '{}/{}'.format(output_dir, edge_names)
-    edge_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
+    edge_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename and 'mondo' not in filename]
     logging.info("edge files: %s", edge_files)
+
     c = t = e = 0
     for file in edge_files:
         logging.info("processing file: %s", file)

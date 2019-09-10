@@ -3,6 +3,7 @@ Bulk download case, sample, project, etc. data from GDC.
 https://gdc.cancer.gov/
 """
 import json
+import pydash
 
 from bmeg.util.cli import default_argument_parser
 from bmeg.emitter import JSONEmitter
@@ -12,7 +13,10 @@ from bmeg import (Sample, Aliquot, Case, Project, Program,
                   Case_Projects_Project,
                   Sample_Projects_Project,
                   Aliquot_Projects_Project,
-                  Project_Programs_Program)
+                  Project_Programs_Program,
+                  Case_Phenotypes_Phenotype,
+                  Sample_Phenotypes_Phenotype)
+from bmeg.enrichers.phenotype_enricher import phenotype_factory
 from transform.gdc.gdcutils import extract
 
 
@@ -45,11 +49,16 @@ def transform(input_path="source/gdc/cases.json",
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
+    phenotypes = {}
     programs = {}
     projects = {}
     with open(input_path, "r") as fh:
         for row in fh:
             row = json.loads(row)
+
+            # only emit TCGA data
+            if pydash.get(row, "project.program.name", "") != "TCGA":
+                continue
 
             # program
             prog = Program(id=Program.make_gid(row["project"]["program"]["name"]),
@@ -92,6 +101,21 @@ def transform(input_path="source/gdc/cases.json",
                 emit_backref=True
             )
 
+            # create phenotype
+            pheno_name = pydash.get(row, "project.project_id", "unknown").replace("TCGA-", "")
+            pheno = phenotype_factory(pheno_name)
+            if pheno.gid() not in phenotypes:
+                emitter.emit_vertex(pheno)
+                phenotypes[pheno.gid()] = None
+            # case <-> phenotype edges
+            emitter.emit_edge(
+                Case_Phenotypes_Phenotype(
+                    from_gid=c.gid(),
+                    to_gid=pheno.gid()
+                ),
+                emit_backref=True
+            )
+
             for sample in row.get("samples", []):
                 sample_fields = extract(
                     sample,
@@ -120,6 +144,15 @@ def transform(input_path="source/gdc/cases.json",
                     ),
                     emit_backref=True
                 )
+                if "Normal" not in sample_fields["sample_type"]:
+                    # sample <-> phenotype edges
+                    emitter.emit_edge(
+                        Sample_Phenotypes_Phenotype(
+                            from_gid=s.gid(),
+                            to_gid=pheno.gid()
+                        ),
+                        emit_backref=True
+                    )
 
                 for portion in sample.get("portions", []):
                     for analyte in portion.get("analytes", []):

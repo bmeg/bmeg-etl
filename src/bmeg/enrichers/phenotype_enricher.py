@@ -1,30 +1,21 @@
 """ given disease name, return Phenotype """
 
-from bmeg import Phenotype, Project
-import urllib.parse
 import logging
-import re
 import os
+import pydash
+import unicodedata
+import urllib
+import re
 
+
+from bmeg import Phenotype, Project
 from bmeg.requests import Client
 requests = Client('phenotype_enricher')
 
-
-NOFINDS = []
-BIOONTOLOGY_NOFINDS = []
+NOFINDS = {}
+BIOONTOLOGY_NOFINDS = {}
 
 API_KEY = os.environ.get('BIOONTOLOGY_API_KEY')
-if not API_KEY:
-    raise ValueError('Please set BIOONTOLOGY_API_KEY in environment')
-
-
-def phenotype_factory(name):
-    """ create a stub compound for downstream normalization """
-    return Phenotype(id=Phenotype.make_gid('TODO:{}'.format(name)),
-                     term_id='TODO:{}'.format(name),
-                     term='TODO',
-                     name=name,
-                     project_id=Project.make_gid("Reference"))
 
 
 disease_alias = {}
@@ -36,8 +27,20 @@ with open('source/phenotype_enricher/disease_alias.tsv', "r") as f:
         disease_alias[inline_list[0].lower()] = inline_list[1]
 
 
+def phenotype_factory(name):
+    """ create a stub compound for downstream normalization """
+    return Phenotype(id=Phenotype.make_gid('TODO:{}'.format(name)),
+                     term_id='TODO:{}'.format(name),
+                     term='TODO',
+                     name=name,
+                     project_id=Project.make_gid("Reference"))
+
+
 def normalize_bioontology(name):
     """ call bioontology & retrieve """
+    if not API_KEY:
+        raise ValueError('Please set BIOONTOLOGY_API_KEY in environment')
+
     if name in BIOONTOLOGY_NOFINDS:
         logging.info('{} in disease_normalizer.BIOONTOLOGY_NOFINDS'
                      .format(name))
@@ -64,7 +67,7 @@ def normalize_bioontology(name):
         if family:
             term['family'] = family
     else:
-        BIOONTOLOGY_NOFINDS.append(name)
+        BIOONTOLOGY_NOFINDS[name] = True
     return terms
 
 
@@ -97,7 +100,6 @@ def normalize_ebi(name):
         }
       ]
     }
-
     """  # NOQA
 
     r = requests.get(url, timeout=20)
@@ -133,7 +135,12 @@ def normalize_ebi(name):
 
 
 def get_family(ontology_id):
-    # get the hierarchy
+    """
+    get the hierarchy
+    """
+    if not API_KEY:
+        raise ValueError('Please set BIOONTOLOGY_API_KEY in environment')
+
     url = r = None
     try:
         if ontology_id.startswith('DOID'):
@@ -185,50 +192,204 @@ def get_hierarchy_family(_a):
     return _a[midpoint]
 
 
-def normalize(name):
+def normalize_monarch(name):
     try:
-        diseases = []
-        original_name = name
-        name = project_lookup(name)
-        if name:
-            # find in ebi
-            normalized_diseases = normalize_ebi(name)
-            if len(normalized_diseases) > 0:
-                diseases = diseases + normalized_diseases
-            else:
-                names = re.split("[\,;_]+", name)
-                names.insert(0, ' '.join(names))
-                for name_part in names:
-                    name_part = project_lookup(name_part)
-                    logging.debug("name_part {}".format(name_part))
-                    normalized_diseases = normalize_ebi(name_part)
-                    diseases = diseases + normalized_diseases
-            if len(diseases) == 0:
-                diseases = normalize_bioontology(name)
-        # add the original name back
-        for d in diseases:
-            d['name'] = original_name
-        # dedupe
-        ontology_terms = {}
-        for d in diseases:
-            for f in d.keys():
-                try:
-                    d[f] = d[f].decode()
-                except AttributeError:
-                    pass
-            if d['ontology_term'] not in ontology_terms:
-                ontology_terms[d['ontology_term']] = d
-        return diseases
+        name = unicodedata.normalize('NFD', name)\
+                          .encode('ascii', 'ignore')\
+                          .decode()\
+                          .replace("'", "")
+    except Exception:
+        logging.warning("failed to normalize string")
+    min_score = 35
+    size = 5
+    url_parts = [
+        'https://api.monarchinitiative.org/api/search/entity/{}?'.format(name.replace('/', ' ')),
+        'category=disease&',
+        'prefix=MONDO&',
+        'start=0&',
+        'rows={}'.format(size)
+    ]
+    url = ''.join(url_parts)
+    logging.debug('normalize_monarch: {}'.format(url))
+    try:
+        r = requests.get(url, timeout=60)
+        rsp = r.json()
+        if len(rsp.get('docs', [])) < 1:
+            return None
+        # sort to get best hit
+        hits = rsp['docs']
+        # hits = sorted(hits, key=lambda k: k['score'], reverse=True)
+        hit = hits[0]
+        # check the scores
+        if hits[0]['score'] < min_score:
+            logging.debug(
+                'discarded hit for {}, score too low {}'
+                .format(name, hits[0]['score'])
+            )
+            return None
+        # apply some basic logic if there are several equally scored hits
+        if len(hits) > 1 and hits[0]['score'] == hits[1]['score']:
+            logging.debug(
+                'multiple hits with same score for {}'
+                .format(name)
+            )
+            found = False
+            for h in [x for x in hits if x['score'] == hits[0]['score']]:
+                if name == h['label'][0]:
+                    hit = h
+                    found = True
+            if not found:
+                for h in [x for x in hits if x['score'] == hits[0]['score']]:
+                    if name in h['label'][0]:
+                        hit = h
+                        found = True
+            if not found:
+                logging.warning(
+                    'ambiguous hits with same score for {}; using first hit'
+                    .format(name)
+                )
+
+        disease = {'ontology_term': hit['id'],
+                   'label': pydash.get(hit, 'label.0', name),
+                   'source': 'https://monarchinitiative.org/disease/{}'.format(hit['id']),
+                   'provenance': url}
+        # print(name, disease.get('ontology_term', 'NONE'), disease.get('label', 'NONE'), hit['score'], sep='\t')
+        return disease
+
     except Exception as e:
         logging.exception(e)
-        logging.warning("Could not normalize {}".format(name))
-        return []
+
+    return None
 
 
-def project_lookup(name):
-    disease = disease_alias.get(name.lower())
-    if not disease == name and disease:
-        logging.debug('renamed {} to {}'.format(name, disease))
-    if not disease:
-        disease = name
+def normalize_biothings(name):
+    fields = ['mondo.label']
+    fields = ','.join(fields)
+
+    # exact name in label
+    url = 'http://mydisease.info/v1/query?q=mondo.label:"{}"&fields={}&size=5'.format(name, fields)
+    pheno = _normalize_biothings(name, url)
+    if pheno:
+        return pheno
+
+    name_parts = re.split('\W+', name)
+
+    if len(name_parts) > 1:
+        # all name parts in label
+        query_term = ' AND '.join(['mondo.label:{}'.format(n) for n in name_parts])
+        url = 'http://mydisease.info/v1/query?q={}&fields={}&size=5'.format(query_term, fields)
+        pheno = _normalize_biothings(name, url)
+        if pheno:
+            return pheno
+
+        # fuzzy match
+        query_term = ' AND '.join(['mondo.label:{}~'.format(n) for n in name_parts])
+        url = 'http://mydisease.info/v1/query?q={}&fields={}&size=5'.format(query_term, fields)
+        pheno = _normalize_biothings(name, url)
+        if pheno:
+            return pheno
+
+        # OR match
+        query_term = ' OR '.join(['mondo.label:{}'.format(n) for n in name_parts])
+        url = 'http://mydisease.info/v1/query?q={}&fields={}&size=5'.format(query_term, fields)
+        pheno = _normalize_biothings(name, url)
+        if pheno:
+            return pheno
+
+        # OR fuzzy
+        # query_term = ' OR '.join(['mondo.label:{}~'.format(n) for n in name_parts])
+        # url = 'http://mydisease.info/v1/query?q={}&fields={}&size=5'.format(query_term, fields)
+        # pheno = _normalize_biothings(name, url)
+        # if pheno:
+        #     return pheno
+
+    else:
+        # fuzzy match
+        url = 'http://mydisease.info/v1/query?q=mondo.label:{}~&fields={}&size=5'.format(name, fields)
+        pheno = _normalize_biothings(name, url)
+        if pheno:
+            return pheno
+
+    # exact match in any field
+    url = 'http://mydisease.info/v1/query?q="{}"&fields={}&size=5'.format(name, fields)
+    pheno = _normalize_biothings(name, url)
+    if pheno:
+        return pheno
+
+    # hail mary
+    # url = 'http://mydisease.info/v1/query?q={}&fields={}&size=5'.format(name, fields)
+    # pheno = _normalize_biothings(name, url)
+    # if pheno:
+    #     return pheno
+
+    return None
+
+
+def _normalize_biothings(name, url):
+    # TODO figure out score threshold
+    min_score = 7.0
+    disease = None
+
+    try:
+        logging.debug('normalize_biothings: {}'.format(url))
+        r = requests.get(url, timeout=60)
+        rsp = r.json()
+        if 'hits' not in rsp:
+            return None
+
+        hits = rsp['hits']
+        logging.debug('query: {} len(hits) {}'.format(name, len(hits)))
+        if len(hits) == 0:
+            return None
+        # sort to get best hit
+        hits = [h for h in hits if h['_id'].startswith('MONDO')]
+        hits = sorted(hits, key=lambda k: k['_score'], reverse=True)
+        hit = hits[0]
+        # The higher the _score, the more relevant the document.
+        if hit['_score'] < min_score:
+            logging.debug(
+                'discarded hit for {}, score too low {}'
+                .format(name, hit['_score'])
+            )
+            return None
+        score = hit['_score']
+        disease = {'ontology_term': hit['_id'],
+                   'label': pydash.get(hit, 'mondo.label'),
+                   'source': None,
+                   'provenance': url}
+
+    except Exception as e:
+        logging.exception(e)
+        return None
+
+    print(name, disease.get('label', 'NONE'), score, sep='\t')
     return disease
+
+
+def normalize(name):
+    name = name.strip()
+    if name in NOFINDS:
+        return None
+
+    original_name = name
+    name = lookup_alias(name)
+
+    if name == 'ignore':
+        logging.debug('skipping {}'.format(name))
+        return None
+
+    normalized = normalize_monarch(name)
+    if normalized is None:
+        logging.warning('normalize_phenotype NOFIND {}'.format(original_name))
+        # skip next time
+        NOFINDS[original_name] = True
+        return None
+
+    return normalized
+
+
+def lookup_alias(name):
+    disease = disease_alias.get(name.lower(), name)
+    if disease != name:
+        logging.debug('found alias for {}: {}'.format(name, disease))
+    return disease.lower()

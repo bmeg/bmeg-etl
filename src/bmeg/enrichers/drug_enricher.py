@@ -320,9 +320,9 @@ def normalize(name):
     name = str(name).strip()
     # do we have a better name?
     if ALIASES.get(name, None):
-        logging.info('The alias was {}'.format(ALIASES.get(name)))
+        logging.debug('The alias was {}'.format(ALIASES.get(name)))
     else:
-        logging.info('There was no alias for {}'.format(name))
+        logging.debug('There was no alias for {}'.format(name))
     name = ALIASES.get(name, name)
 
     drugs = normalize_biothings(name)
