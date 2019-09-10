@@ -1,6 +1,5 @@
 md5: 66d7c85c3639c0b3cfb0dbbdb1d50797
 cmd: echo generating file manifest...
-wdir: .
 deps:
 - md5: de92fd37fca1bed73a64aa545e422d3a
   path: outputs/allele/Allele.Vertex.json.gz

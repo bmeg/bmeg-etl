@@ -218,7 +218,7 @@ def normalize_monarch(name):
             return None
         # sort to get best hit
         hits = rsp['docs']
-        hits = sorted(hits, key=lambda k: k['score'], reverse=True)
+        # hits = sorted(hits, key=lambda k: k['score'], reverse=True)
         hit = hits[0]
         # check the scores
         if hits[0]['score'] < min_score:
@@ -245,10 +245,9 @@ def normalize_monarch(name):
                         found = True
             if not found:
                 logging.warning(
-                    'ambiguous hits with same score for {}'
+                    'ambiguous hits with same score for {}; using first hit'
                     .format(name)
                 )
-                return None
 
         disease = {'ontology_term': hit['id'],
                    'label': pydash.get(hit, 'label.0', name),

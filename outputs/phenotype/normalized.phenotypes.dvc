@@ -1,7 +1,9 @@
-md5: 94e8db6a21370f1b606e8a87714207aa
+md5: b47d48711af8e3bcba4c37857e883b67
 cmd: python3 transform/phenotype/transform.py
 wdir: ../..
 deps:
+- md5: be244efd8815e4fbc6b9698c122941f0
+  path: src/bmeg/enrichers/phenotype_enricher.py
 - md5: 0e339a712d8be1f304cb9200283f9cc5
   path: transform/phenotype/transform.py
 - md5: 0d7b212b7ecf10c1a841731475255e37
