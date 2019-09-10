@@ -108,7 +108,31 @@ outs:
   persist: false
 ```
 
-Provenance
+File Manifest Generation
 ------
 
 To generate [bmeg_file_manifest.txt](scripts/bmeg_file_manifest.txt) run `python scripts/generate_bmeg_file_manifest.py`.
+
+GRIP Schema Generation
+------
+Use the `generate-schema` executable in the `scripts/` directory to create a schema for the graph. 
+This program will dump the graph schema in JSON or YAML format to stdout.
+
+You can rebuild `generate-schema` by running `GOARCH=amd64 GOOS=linux go build -o scripts/generate-schema-linux scripts/generate-schema.go`. 
+See https://golang.org/cmd/go/#hdr-Generate_Go_files_by_processing_source for more details or if you need to compile the 
+program for another system.
+
+```
+$ ./scripts/generate-schema-linux --help
+Usage:
+  generate-schema [flags]
+
+  Flags:
+    -n, --graph-name string       name of the graph
+    -h, --help                help for generate-schema
+    -m, --manifest string     file manifest listing vertex and edge files
+    -s, --sample int          number of elements to sample from each file (default 100)
+    -v, --verbose             turn on verbose logging
+    -w, --workers int         number of workers to use to read the files and determine the schema (default 10)
+    --yaml                    output schema in YAML rather than JSON format
+```
