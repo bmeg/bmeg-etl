@@ -1,12 +1,12 @@
-md5: 292c95e902e497985a52e5f281300cb9
+md5: e01759a412af6ddf090ed7a0106d746d
 cmd: python3 transform/publication/transform.py
 wdir: ../..
 deps:
 - md5: 15fc6631cd700953dc7bcc74728c44fa
   path: transform/publication/transform.py
-- md5: 00c3ffcd7e394df0d16590e67dbae355
+- md5: d22babdc88657986e5abe17f7c912386
   path: outputs/g2p/G2PAssociation_Publications_Publication.Edge.json.gz
-- md5: 9f77299999fc5cf362252c8437da435d
+- md5: 78e4c7cdbfad334978b576eeaeee2e86
   path: outputs/g2p/Publication_G2PAssociations_G2PAssociation.Edge.json.gz
 - md5: 2a69a3d9fe9acd1c5465afc03be20cd2.dir
   path: outputs/pubmed/baseline
@@ -19,7 +19,7 @@ deps:
 - md5: a0341597a0aa8a96bcce46d8513ed109
   path: outputs/pathway_commons/Interaction_Publications_Publication.Edge.json.gz
 outs:
-- md5: 652878b15d0c96d83fda38ac7bd234dc
+- md5: 05da1b15f56e10fb29e885f93609df49
   path: outputs/publication/stub.Publication.Vertex.json.gz
   cache: true
   metric: false
