@@ -379,3 +379,15 @@ def spell_check(name):
     spellings = r.json()
     suggestions = spellings[1]
     return suggestions
+
+
+def get_pubchem_autocomplete_suggestion(name):
+    """
+    use pubchem's autocomplete service to find alternate spelling for the compound
+    """
+    search_term = name.lower()
+    url = "https://pubchem.ncbi.nlm.nih.gov/rest/autocomplete/compound/{}/json?limit=1".format(search_term)
+    r = requests.get(url, timeout=60)
+    rsp = r.json()
+    alt_name = pydash.get(rsp, 'dictionary_terms.compound.0', None)
+    return alt_name
