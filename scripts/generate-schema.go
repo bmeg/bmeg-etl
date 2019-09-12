@@ -3,11 +3,9 @@ package main
 import (
 	"bufio"
 	"bytes"
-	"context"
 	"fmt"
 	"io"
 	"os"
-	"os/signal"
 	"path"
 	"regexp"
 	"strings"
@@ -25,20 +23,20 @@ import (
 )
 
 var (
-	manifest         = ""
-	graphName        = ""
+	manifest      = ""
+	graphName     = ""
 	sampleN   int = 100
 	workers   int = 10
-	yaml             = false
-	verbose          = false
+	yaml          = false
+	verbose       = false
 )
 
 var rootCmd = &cobra.Command{
-	Use:   "generate-schema",
-	Short: "",
-	Long:  ``,
+	Use:          "generate-schema",
+	Short:        "",
+	Long:         ``,
 	SilenceUsage: true,
-	Args:  cobra.ExactArgs(0),
+	Args:         cobra.ExactArgs(0),
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if verbose {
 			log.SetLevel(log.DebugLevel)
@@ -62,23 +60,13 @@ var rootCmd = &cobra.Command{
 		vChan := make(chan *vertex, 100)
 		eChan := make(chan *edge, 100)
 		wp := workerpool.New(workers)
-		ctx, cancel := context.WithCancel(context.Background())
-		c := make(chan os.Signal, 1)
-		signal.Notify(c, os.Interrupt)
-		var exitErr error
-		go func() {
-			s := <-c
-			exitErr = fmt.Errorf("got signal: %v", s)
-			cancel()
-			wp.Stop()
-		}()
 
 		for _, fname := range files {
 			fname := fname
 			wp.Submit(func() {
-				objSchema, err := getSchema(ctx, fname, sampleN)
+				objSchema, err := getSchema(fname, sampleN)
 				if err != nil {
-					log.Error("error: %v", err)
+					log.Errorf("error: %v", err)
 					return
 				}
 				if strings.HasSuffix(fname, ".Vertex.json.gz") {
@@ -109,9 +97,6 @@ var rootCmd = &cobra.Command{
 		close(vChan)
 		close(eChan)
 		log.Debug("workers finished")
-		if exitErr != nil {
-			return exitErr
-		}
 
 		vertexMap := map[string]*vertex{}
 		for v := range vChan {
@@ -199,41 +184,38 @@ func readLines(path string) ([]string, error) {
 	return lines, scanner.Err()
 }
 
-func getSchema(ctx context.Context, file string, n int) (map[string]interface{}, error) {
+func getSchema(file string, n int) (map[string]interface{}, error) {
 	reader, err := golib.ReadGzipLines(file)
-	m := jsonpb.Unmarshaler{AllowUnknownFields: true}
 	if err != nil {
 		return nil, err
 	}
+	m := jsonpb.Unmarshaler{AllowUnknownFields: true}
 	schema := map[string]interface{}{}
 	i := 0
 	log.WithFields(log.Fields{"file": file}).Debugf("processed %v / %v records", i, n)
+
 	for line := range reader {
-		select {
-		case <-ctx.Done():
-			return nil, ctx.Err()
-		default:
-			if i >= n {
-				return schema, nil
-			}
-			// all verts should be able to be unmarshalled into an Edge struct
-			obj := &gripql.Edge{}
-			err = m.Unmarshal(bytes.NewReader(line), obj)
-			if err == io.EOF {
-				break
-			}
-			if err != nil {
-				return nil, fmt.Errorf("unmarshaling: %v", err)
-			}
-			data := protoutil.AsMap(obj.Data)
-			ds := gripql.GetDataFieldTypes(data)
-			util.MergeMaps(schema, ds)
-			i++
-			if i%100 == 0 {
-				log.WithFields(log.Fields{"file": file}).Debugf("processed %v / %v records", i, n)
-			}
+		if i >= n {
+			return schema, nil
+		}
+		// all verts should be able to be unmarshalled into an Edge struct
+		obj := &gripql.Edge{}
+		err = m.Unmarshal(bytes.NewReader(line), obj)
+		if err == io.EOF {
+			break
+		}
+		if err != nil {
+			return nil, fmt.Errorf("unmarshaling: %v", err)
+		}
+		data := protoutil.AsMap(obj.Data)
+		ds := gripql.GetDataFieldTypes(data)
+		util.MergeMaps(schema, ds)
+		i++
+		if i%50 == 0 {
+			log.WithFields(log.Fields{"file": file}).Debugf("processed %v / %v records", i, n)
 		}
 	}
+
 	return schema, nil
 }
 
