@@ -141,8 +141,9 @@ var rootCmd = &cobra.Command{
 			if wp.WaitingQueueSize() != 0 {
 				log.Infof("queued tasks: %v", wp.WaitingQueueSize())
 				time.Sleep(2 * time.Second)
-			} else {
+			} else {				
 				log.Infof("queued tasks: %v", wp.WaitingQueueSize())
+				wp.StopWait()
 				break
 			}
 		}
