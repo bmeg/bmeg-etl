@@ -1,0 +1,12 @@
+md5: e9c66205821d1e4769086ed793b14a7a
+cmd: wget --verbose -O source/dgidb/interactions.tsv http://www.dgidb.org/data/interactions.tsv
+wdir: ../..
+deps:
+- md5: d41d8cd98f00b204e9800998ecf8427e
+  path: source/dgidb/version.txt
+outs:
+- md5: 7adcf4f9a4580908139f3e16877003f3
+  path: source/dgidb/interactions.tsv
+  cache: true
+  metric: false
+  persist: false

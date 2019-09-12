@@ -1,5 +1,3 @@
-""" test maf_transform """
-
 import os
 import contextlib
 import pytest

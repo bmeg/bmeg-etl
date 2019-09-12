@@ -54,6 +54,11 @@ outputs/ctrp/ctrp.Sample_Case_Case.Edge.json.gz
 outputs/ctrp/drug_response.Aliquot_DrugResponse_DrugResponse.Edge.json.gz
 outputs/ctrp/drug_response.DrugResponse.Vertex.json.gz
 outputs/ctrp/drug_response.DrugResponse_Aliquot_Aliquot.Edge.json.gz
+outputs/dgidb/G2PAssociation.Vertex.json.gz
+outputs/dgidb/G2PAssociation_Genes_Gene.Edge.json.gz
+outputs/dgidb/G2PAssociation_Publications_Publication.Edge.json.gz
+outputs/dgidb/Gene_G2PAssociations_G2PAssociation.Edge.json.gz
+outputs/dgidb/Publication_G2PAssociations_G2PAssociation.Edge.json.gz
 outputs/ensembl/Exon.Vertex.json.gz
 outputs/ensembl/Exon_Transcripts_Transcript.Edge.json.gz
 outputs/ensembl/Gene.Vertex.json.gz

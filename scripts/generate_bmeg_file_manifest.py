@@ -14,6 +14,7 @@ EXCEPTIONS = [
     "outputs/gdsc/drug_response.Compound.Vertex.json.gz",
     "outputs/g2p/Compound.Vertex.json.gz",
     "outputs/gdc/Compound.Vertex.json.gz",
+    "outputs/dgidb/Compound.Vertex.json.gz",
     # unnormalized Compound edges
     "outputs/ccle/drug_response.DrugResponse_Compounds_Compound.Edge.json.gz",
     "outputs/ccle/drug_response.Compound_DrugResponses_DrugResponse.Edge.json.gz",
@@ -33,6 +34,8 @@ EXCEPTIONS = [
     "outputs/ctrp/drug_response.Compound_Projects_Project.Edge.json.gz",
     "outputs/gdsc/drug_response.Project_Compounds_Compound.Edge.json.gz",
     "outputs/gdsc/drug_response.Compound_Projects_Project.Edge.json.gz",
+    "outputs/dgidb/G2PAssociation_Compounds_Compound.Edge.json.gz",
+    "outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz",
     # unnormalized Phenotypes
     "outputs/ccle/ccle.Phenotype.Vertex.json.gz",
     "outputs/ctrp/ctrp.Phenotype.Vertex.json.gz",

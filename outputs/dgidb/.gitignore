@@ -1,0 +1,8 @@
+/G2PAssociation.Vertex.json.gz
+/Compound.Vertex.json.gz
+/G2PAssociation_Genes_Gene.Edge.json.gz
+/G2PAssociation_Publications_Publication.Edge.json.gz
+/G2PAssociation_Compounds_Compound.Edge.json.gz
+/Publication_G2PAssociations_G2PAssociation.Edge.json.gz
+/Gene_G2PAssociations_G2PAssociation.Edge.json.gz
+/Compound_G2PAssociations_G2PAssociation.Edge.json.gz

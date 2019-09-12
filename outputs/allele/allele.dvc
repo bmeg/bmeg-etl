@@ -1,4 +1,4 @@
-md5: a989793da950286d551d943b548d0fb9
+md5: 0cbfd9342b226accdf1b96deb717e58c
 cmd: python3 transform/allele/transform.py -v
 wdir: ../..
 deps:
@@ -6,7 +6,7 @@ deps:
   path: transform/allele/transform.py
 - md5: 75dbe62c7070715157526c4188c2a7e2
   path: outputs/ccle/maf.Allele.Vertex.json.gz
-- md5: f5cb62a0203d8651cedeb72affe0e161
+- md5: c6a9e038cc7573b05d511e6b5e91d569
   path: outputs/g2p/Allele.Vertex.json.gz
 - md5: 820a7dfbf003ca5d0dfc72988ed2a067
   path: outputs/mc3/Allele.Vertex.json.gz

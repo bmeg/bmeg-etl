@@ -1,7 +1,3 @@
-"""
-maintains drug alias
-"""
-
 from bmeg.ioutils import reader
 from bmeg.enrichers.drug_enricher import spell_check, _decompose, NAME_PART_MIN_LEN, normalize
 import ujson
@@ -9,14 +5,17 @@ from nltk.metrics import edit_distance
 import sys
 
 
-def transform(path='outputs/compound/normalized.Compound.Vertex.json', store_path='source/drug_enricher/aliases.db'):
+def transform(path='outputs/compound/normalized.Compound.Vertex.json.gz'):
+    """
+    used to create source/drug_enricher/drug_alias.tsv
+    """
     suggestions = {}
     with reader(path) as ins:
         for line in ins:
             compound = ujson.loads(line)
             if 'NO_ONTOLOGY' not in compound['gid']:
                 continue
-            original_name = compound['data']['name']
+            original_name = compound['data']['submitter_id']
             name_parts = _decompose(original_name)
             for name_part in name_parts:
                 if len(name_part) < NAME_PART_MIN_LEN:
@@ -28,7 +27,7 @@ def transform(path='outputs/compound/normalized.Compound.Vertex.json', store_pat
                 if original_name.lower() == suggestion:
                     distance = 9999
                 else:
-                    if len(normalize(suggestion)) == 0:
+                    if normalize(suggestion) is None:
                         distance = 9999
                 if distance < 11:
                     suggestions[name_part] = suggestion
