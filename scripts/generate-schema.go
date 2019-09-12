@@ -3,15 +3,16 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"compress/gzip"
 	"fmt"
 	"io"
 	"os"
 	"path"
 	"regexp"
 	"strings"
+	"sync"
 	"time"
 
-	"github.com/bmeg/golib"
 	"github.com/bmeg/grip/gripql"
 	"github.com/bmeg/grip/protoutil"
 	"github.com/bmeg/grip/util"
@@ -61,6 +62,15 @@ var rootCmd = &cobra.Command{
 		eChan := make(chan *edge, 100)
 		wp := workerpool.New(workers)
 
+		vertRE, err := regexp.Compile("(.*\\.)?(.*)(\\.Vertex.json.gz$)")
+		if err != nil {
+			return err
+		}
+		edgeRE, err := regexp.Compile("(.*\\.)?(.*)_(.*)_(.*)(\\.Edge.json.gz$)")
+		if err != nil {
+			return err
+		}
+
 		for _, fname := range files {
 			fname := fname
 			wp.Submit(func() {
@@ -70,13 +80,19 @@ var rootCmd = &cobra.Command{
 					return
 				}
 				if strings.HasSuffix(fname, ".Vertex.json.gz") {
-					re := regexp.MustCompile("(.*\\.)?(.*)(\\.Vertex.json.gz$)")
-					match := re.FindStringSubmatch(path.Base(fname))
+					match := vertRE.FindStringSubmatch(path.Base(fname))
+					if len(match) != 4 {
+						log.Error("vertex match error", path.Base(fname))
+						return
+					}
 					label := match[2]
 					vChan <- &vertex{label: label, data: objSchema}
 				} else if strings.HasSuffix(fname, ".Edge.json.gz") {
-					re := regexp.MustCompile("(.*\\.)?(.*)_(.*)_(.*)(\\.Edge.json.gz$)")
-					match := re.FindStringSubmatch(path.Base(fname))
+					match := edgeRE.FindStringSubmatch(path.Base(fname))
+					if len(match) != 6 {
+						log.Error("edge match error", path.Base(fname))
+						return
+					}
 					from := match[2]
 					label := strcase.ToSnake(match[3])
 					to := match[4]
@@ -91,35 +107,61 @@ var rootCmd = &cobra.Command{
 			})
 		}
 
-		// wait for all workers to finish
-		log.Debug("waiting for workers to complete")
-		wp.StopWait()
-		close(vChan)
-		close(eChan)
-		log.Debug("workers finished")
+		var waitgroup sync.WaitGroup
+		waitgroup.Add(2)
 
 		vertexMap := map[string]*vertex{}
-		for v := range vChan {
-			if vert, ok := vertexMap[v.label]; ok {
-				data := util.MergeMaps(vert.data, v.data)
-				v.data = data.(map[string]interface{})
+		go func() {
+			for v := range vChan {
+				if vert, ok := vertexMap[v.label]; ok {
+					data := util.MergeMaps(vert.data, v.data)
+					v.data = data.(map[string]interface{})
+				}
+				vertexMap[v.label] = v
 			}
-			vertexMap[v.label] = v
-		}
+			waitgroup.Done()
+		}()
 
 		edgeMap := map[edgeKey]*edge{}
-		for e := range eChan {
-			k := edgeKey{to: e.to, from: e.from, label: e.label}
-			if edge, ok := edgeMap[k]; ok {
-				data := util.MergeMaps(edge.data, e.data)
-				e.data = data.(map[string]interface{})
+		go func() {
+			for e := range eChan {
+				k := edgeKey{to: e.to, from: e.from, label: e.label}
+				if edge, ok := edgeMap[k]; ok {
+					data := util.MergeMaps(edge.data, e.data)
+					e.data = data.(map[string]interface{})
+				}
+				edgeMap[k] = e
 			}
-			edgeMap[k] = e
+			waitgroup.Done()
+		}()
+
+		// wait for all workers to finish
+		log.Info("waiting for workers to complete")
+		for {
+			if wp.WaitingQueueSize() != 0 {
+				log.Infof("queued tasks: %v", wp.WaitingQueueSize())
+				time.Sleep(2 * time.Second)
+			} else {
+				log.Infof("queued tasks: %v", wp.WaitingQueueSize())
+				break
+			}
 		}
+		close(vChan)
+		close(eChan)
+		log.Info("workers finished")
+
+		log.Info("waiting for schema processors to complete")
+		waitgroup.Wait()
+		log.Info("schema processors finished")
 
 		vList := []*gripql.Vertex{}
 		for label, v := range vertexMap {
-			vList = append(vList, &gripql.Vertex{Gid: label, Label: label, Data: protoutil.AsStruct(v.data)})
+			vSchema := &gripql.Vertex{
+				Gid:   label,
+				Label: label,
+				Data:  protoutil.AsStruct(v.data),
+			}
+			vList = append(vList, vSchema)
 		}
 
 		eList := []*gripql.Edge{}
@@ -167,8 +209,37 @@ func main() {
 	}
 }
 
-// readLines reads a whole file into memory
-// and returns a slice of its lines.
+func streamGzipLines(path string, n int) (chan []byte, error) {
+	file, err := os.Open(path)
+	if err != nil {
+		return nil, err
+	}
+	r, err := gzip.NewReader(file)
+	if err != nil {
+		return nil, err
+	}
+	out := make(chan []byte, 100)
+	go func() {
+		defer file.Close()
+		defer close(out)
+		reader := bufio.NewReaderSize(r, 102400)
+		var isPrefix bool = true
+		var err error = nil
+		var line, ln []byte
+		i := 0
+		for err == nil && i <= n {
+			line, isPrefix, err = reader.ReadLine()
+			ln = append(ln, line...)
+			if !isPrefix {
+				out <- ln
+				ln = []byte{}
+				i++
+			}
+		}
+	}()
+	return out, nil
+}
+
 func readLines(path string) ([]string, error) {
 	file, err := os.Open(path)
 	if err != nil {
@@ -185,24 +256,19 @@ func readLines(path string) ([]string, error) {
 }
 
 func getSchema(file string, n int) (map[string]interface{}, error) {
-	log.WithFields(log.Fields{"file": file}).Info("processing")
+	log.WithFields(log.Fields{"file": file}).Debug("processing")
 	if strings.Contains(file, "Expression.Vertex.json") || strings.Contains(file, "CopyNumberAlteration.Vertex.json") {
 		n = 1
 		log.WithFields(log.Fields{"file": file}).Debugf("override n to %v", n)
 	}
-	reader, err := golib.ReadGzipLines(file)
+	reader, err := streamGzipLines(file, n)
 	if err != nil {
 		return nil, err
 	}
 	m := jsonpb.Unmarshaler{AllowUnknownFields: true}
 	schema := map[string]interface{}{}
 	i := 0
-	log.WithFields(log.Fields{"file": file}).Debugf("processed %v / %v records", i, n)
-
 	for line := range reader {
-		if i >= n {
-			return schema, nil
-		}
 		// all verts should be able to be unmarshalled into an Edge struct
 		obj := &gripql.Edge{}
 		err = m.Unmarshal(bytes.NewReader(line), obj)
@@ -220,7 +286,6 @@ func getSchema(file string, n int) (map[string]interface{}, error) {
 			log.WithFields(log.Fields{"file": file}).Debugf("processed %v / %v records", i, n)
 		}
 	}
-
 	return schema, nil
 }
 
