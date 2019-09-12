@@ -1,4 +1,4 @@
-md5: 45bdc97e89dc04e0890ee032025a84fc
+md5: 8ad37d3291b9aec059b4c4f8331efa43
 cmd: echo generating file manifest...
 deps:
 - md5: de92fd37fca1bed73a64aa545e422d3a
@@ -193,8 +193,6 @@ deps:
   path: outputs/gdc/Sample_Aliquots_Aliquot.Edge.json.gz
 - md5: be90f1aa8cd50e9c4cfb4b6341519699
   path: outputs/gdc/Sample_Case_Case.Edge.json.gz
-- md5: 60e24188073c5032f0d524c7ac0e1599
-  path: outputs/gdc/gdc.Compound_Projects_Project.Edge.json.gz
 - md5: a9476e76c9428cff14b14c596ffa07e9
   path: outputs/gdsc/drug_response.Aliquot_DrugResponse_DrugResponse.Edge.json.gz
 - md5: 930515d96a4d3132cfd6a8b6ab189203

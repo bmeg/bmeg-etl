@@ -94,7 +94,6 @@ outputs/gdc/Project_Programs_Program.Edge.json.gz
 outputs/gdc/Sample.Vertex.json.gz
 outputs/gdc/Sample_Aliquots_Aliquot.Edge.json.gz
 outputs/gdc/Sample_Case_Case.Edge.json.gz
-outputs/gdc/gdc.Compound_Projects_Project.Edge.json.gz
 outputs/gdsc/drug_response.Aliquot_DrugResponse_DrugResponse.Edge.json.gz
 outputs/gdsc/drug_response.DrugResponse.Vertex.json.gz
 outputs/gdsc/drug_response.DrugResponse_Aliquot_Aliquot.Edge.json.gz

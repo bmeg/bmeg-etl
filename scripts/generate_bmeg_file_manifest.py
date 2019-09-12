@@ -32,7 +32,7 @@ EXCEPTIONS = [
     "outputs/g2p/Compound_G2PAssociations_G2PAssociation.Edge.json.gz",
     "outputs/gdc/gdc.Case_Compounds_Compound.Edge.json.gz",
     "outputs/gdc/gdc.Compound_Cases_Case.Edge.json.gz",
-    "outputs/gdc/gdc.Compound_Projects_Project.Edge.json.gz ",
+    "outputs/gdc/gdc.Compound_Projects_Project.Edge.json.gz",
     "outputs/gdc/gdc.Project_Compounds_Compound.Edge.json.gz",
     "outputs/dgidb/G2PAssociation_Compounds_Compound.Edge.json.gz",
     "outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz",
