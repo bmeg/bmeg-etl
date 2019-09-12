@@ -1,4 +1,4 @@
-md5: 2557b6bf6ca6d92070d1981b63b2f6f1
+md5: 45bdc97e89dc04e0890ee032025a84fc
 cmd: echo generating file manifest...
 deps:
 - md5: de92fd37fca1bed73a64aa545e422d3a
@@ -177,8 +177,6 @@ deps:
   path: outputs/gdc/Case_Projects_Project.Edge.json.gz
 - md5: 9abd70e98b1e239c2604d1696ad07053
   path: outputs/gdc/Case_Samples_Sample.Edge.json.gz
-- md5: bc2a90b50f0bbebb2d4b245a00b7171b
-  path: outputs/gdc/Phenotype.Vertex.json.gz
 - md5: e9da26332a65037b9178fe488d10b586
   path: outputs/gdc/Program.Vertex.json.gz
 - md5: 63184727668445bf9defa1c07c0814e2
@@ -195,16 +193,8 @@ deps:
   path: outputs/gdc/Sample_Aliquots_Aliquot.Edge.json.gz
 - md5: be90f1aa8cd50e9c4cfb4b6341519699
   path: outputs/gdc/Sample_Case_Case.Edge.json.gz
-- md5: 52fac277f2abf7743b83d145789e48e2
-  path: outputs/gdc/gdc.Case_Compounds_Compound.Edge.json.gz
-- md5: ac2dc267e85ae35b42676b63cdfeb03f
-  path: outputs/gdc/gdc.Compound.Vertex.json.gz
-- md5: 2b9bee0cce24df8774c6cd679f23c5fe
-  path: outputs/gdc/gdc.Compound_Cases_Case.Edge.json.gz
 - md5: 60e24188073c5032f0d524c7ac0e1599
   path: outputs/gdc/gdc.Compound_Projects_Project.Edge.json.gz
-- md5: 088dad4200a6eadc0ad86b3015948648
-  path: outputs/gdc/gdc.Project_Compounds_Compound.Edge.json.gz
 - md5: a9476e76c9428cff14b14c596ffa07e9
   path: outputs/gdsc/drug_response.Aliquot_DrugResponse_DrugResponse.Edge.json.gz
 - md5: 930515d96a4d3132cfd6a8b6ab189203

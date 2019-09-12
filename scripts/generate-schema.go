@@ -185,6 +185,11 @@ func readLines(path string) ([]string, error) {
 }
 
 func getSchema(file string, n int) (map[string]interface{}, error) {
+	log.WithFields(log.Fields{"file": file}).Info("processing")
+	if strings.Contains(file, "Expression.Vertex.json") || strings.Contains(file, "CopyNumberAlteration.Vertex.json") {
+		n = 1
+		log.WithFields(log.Fields{"file": file}).Debugf("override n to %v", n)
+	}
 	reader, err := golib.ReadGzipLines(file)
 	if err != nil {
 		return nil, err
