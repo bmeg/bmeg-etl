@@ -95,13 +95,13 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             if compound.gid() not in emitted_compounds:
                 emitter.emit_vertex(compound)
                 emitted_compounds[compound.gid()] = None
-                emitter.emit_edge(
-                    DrugResponse_Compounds_Compound(
-                        from_gid=dr.gid(),
-                        to_gid=compound.gid()
-                    ),
-                    emit_backref=True
-                )
+            emitter.emit_edge(
+                DrugResponse_Compounds_Compound(
+                    from_gid=dr.gid(),
+                    to_gid=compound.gid()
+                ),
+                emit_backref=True
+            )
 
         # create edge from compound to project
         if compound.gid() not in project_compounds[proj.gid()]:

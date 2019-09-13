@@ -44,17 +44,12 @@ name	alias
 6 Thiguanine	'Tioguanine'
 6 Thiguanine	6-thioguanine
 6-MERCAPTOPURINE	Tioguanine
-81C6	81C6
 9 AMINOCAMPTOTHECIN	9-AMINOCAMPTOTHECIN
 9 Aminocamptothecin	Aminocamptothecin
 9 IMMUNOAMINO CAMPTNETECIN	9-AMINOCAMPTOTHECIN
-90Y-HU3S193	90Y-HU3S193
 90Y-HU3S193	Hu3S193
 97212	NO-FIND
 A202171 Protocol	NOS
-A443654	A443654
-A769662	A769662
-A770041	A770041
 ABRAXANE	Paclitaxel
 ABT-888	Veliparib
 ABT-888 PARP INHIBITOR	Veliparib
@@ -69,25 +64,19 @@ ADRIAMYCIN	Doxorubicin
 ADRIMYCIN	Doxorubicin
 AE 788	AE788
 AE-37	AE37
-AFATINIB	AFATINIB
 AFINITOR	Everolimus
-AICAR	AICAR
 AKT inhibitor VIII (1)	akt inhibitor viii
 ALBUMIN-BOUND PACLITAXEL	Paclitaxel
 ALIMTA	Pemetrexed
 ALMITA	Pemetrexed
-ALPHA INTERFERON	Alpha interferon
 AMG 102	Rilotumumab
 AMG 706	Motesanib
 AMG 706	motesanib
 AMG706	motesanib
 AMGEN 706	motesanib
-AMINOPTERIN	AMINOPTERIN
 AMITOSTIN	Amifostine
 AMITOSTINE	Amifostine
-ANASTROZOLE	Anastrozole
 ANASTROZOLE (ARIMIDEX)	Anastrozole
-ANGIOCEPT	Angiocept
 ANTI NEOPASTONS	Anti Neoplastons
 AP-23573 (ARIAD)	Ridaforolimus
 AP24534	ponatinib
@@ -98,30 +87,20 @@ ARMIDEX	Anastrozole
 AROMASIN	Exemestane
 AROMASIN (EXEMESTANE)	Exemestane
 ARSENIC TNOXIDE	ARSENIC TRIOXIDE
-ARSENIC TRIOXIDE	ARSENIC TRIOXIDE
-AS601245	AS601245
 AT 101	AT-101
-AT-101	AT-101
 ATTAC	NO-FIND
-AUY922	AUY922
 AVASTIN	Bevacizumab
 AVASTIN (BEVACIZUMAB)	Bevacizumab
 AVASTIN/BEVACIZUMAB/PLACEBO	Bevacizumab
-AXITINIB	Axitinib
 AZ628	Sorafenib tosylate
-AZD	AZD
 AZD 2281	Olaparib
 AZD0530	saracatinib
 AZD2281	Olaparib
 AZD6244	Selumetinib
-AZD6482	AZD6482
-AZD7762	AZD7762
-AZD8055	AZD8055
 Abagovomab or Placebo	Abagovomab
 Abagovomab vs Placebo	Abagovomab
 Abagovomag	abagovomab
 Abagovomag vs Placebo	Abagovomab
-Abiraterone	Abiraterone
 Abraxane	Paclitaxel
 Acctuane	accutane
 Actinomycin-D	Dactinomycin
@@ -132,13 +111,10 @@ Adriamycin/Cytoxan	Doxorubicin+Cyclophosphamide
 Adriamyicin	Doxorubicin
 Adrimycin	Doxorubicin
 Adrimycin	adriamycin
-Afatinib	Afatinib
 Afinitor	Everolimus
-Aflibercept	Aflibercept
 Aflibercept/ Placebo Study	Aflibercept
 Agent	NO-FIND
 Albumin-Bound Paclitaxel	Paclitaxel
-Alferon	Alferon
 Alimta	Pemetrexed
 Alkeran	Melphalan
 Almita	Pemetrexed
@@ -146,17 +122,12 @@ Almita	alimta
 Aloxi	Palonosetron
 Alpha Interferon	Alferon
 Altima	Pemetrexed
-Alvesin	Alvesin
 Amatuximab (MORab-009)	Amatuximab
 Amgen 706	Motesanib
 Amgen 706	amg 706 amgen
-Amifostine	Amifostine
-Aminopterin	Aminopterin
 Amitostin	Amifostine
 Amitostine	Amifostine
 Anastrazole	Anastrozole
-Anastrozole	Anastrozole
-Angiocal	Angiocal
 Anti necplatens	Antineoplastons
 Arimidex	Anastrozole
 Arimidex (Anastrozole)	Anastrozole
@@ -168,39 +139,22 @@ Aromasin (Exemestane)	Exemestane
 Avastin	Bevacizumab
 Avastin (Bevacizumab)	Bevacizumab
 Avastin/bevacizumab/placebo	Bevacizumab
-Axitinib	Axitinib
 Axitnib	Axitinib
 B12	Cyanocobalamin
 BA4 43	Sorafenib
 BA4 43 9006	Sorafenib
 BAY-439006	Sorafenib
-BAY613606	BAY613606
-BCG	BCG
 BCG, Intravesicular	BCG
 BCNU	Carmustine
 BCNU (CARMUSTINE)	Carmustine
 BCNU (Carmustine)	Carmustine
 BCNU (carmustine)	Carmustine
-BEVACIZUMAB	Bevacizumab
 BEVACIZUMAB (AVASTIN)/PLACEBO PROVIDED BY STUDY	Bevacizumab
 BEVACIZUMAB AVASTIN	Bevacizumab
-BEVACIZUmab	Bevacizumab
-BEVACIZumab	Bevacizumab
 BEVACOZIMAB	Bevacizumab
-BEXAROTENE	Bexarotene
-BI2536	BI2536
 BIBW 2992	Afatinib
 BIBW2992	Afatinib
-BICALUTAMIDE	Bicalutamide
-BID1870	BID1870
-BIRB0796	BIRB0796
 BISPHOPHONATE (ZOLEDRONIC ACID)	zoledronate
-BLEOMYCIN	Bleomycin
-BMS509744	BMS509744
-BMS536924	BMS536924
-BMS754807	BMS754807
-BORTEZOMIB	Bortezomib
-BOSUTINIB	Bosutinib
 BRAF inhibitor	Vemurafenib
 BROMO DEOXYURIDINE	Bromodeoxyuridine
 BRYOSTATIN1	Bryostatin 1
@@ -208,15 +162,12 @@ BS1 201	Iniparib
 BS1-201	Iniparib
 BS1-201	Iniparib
 BSI-201	Iniparib
-BX795	BX795
 BX796	NO-FIND
 Bacillus Calmette-Guerin (BCG)	BCG
 Bay-439006	Sorafenib
-Belinostat	Belinostat
 Benzylguanine	O6-Benzylguanine
 Bevacizamab	bevacizumab
 Bevacizamab/Placebo	Bevacizumab
-Bevacizumab	Bevacizumab
 Bevacizumab or Placebo	Bevacizumab
 Bevacizumab or placebo	Bevacizumab
 Bevacizumab vs Placebo	Bevacizumab
@@ -224,43 +175,29 @@ Bevacizumiab/ versus Placebo	Bevacizumab
 Bevacozimab	bevacizumab
 Bevcizumab	bevacizumab
 Bicalutamid	Bicalutamide
-Bicalutamide	Bicalutamide
-Bleomycin	Bleomycin
-Bortezomib	Bortezomib
-Brivanib	Brivanib
 Bromo deoxyuridine	Bromodeoxyuridine
 C1 FOLFIRI/Zaltrap	Leucovorin+Fluorouracil+Irinotecan+Aflibercept
-CAI NABIT 9712	CAI NABIT 9712
 CALCIUM FOLIATUM	Calcium Folate
 CALCIUM FOLIATUM 420MG	Calcium Folate
 CAMPTOSAR	Irinotecan
-CAMPTOTHECIN	Camptothecin
 CAPECETABINE	Capecitabine
 CAPECITABIN	Capecitabine
-CAPECITABINE	Capecitabine
 CARBO	Carboplatin
 CARBOBPLATIN	Carboplatin
 CARBOPALTIN	Carboplatin
 CARBOPLASTIN	Carboplatin
-CARBOPLATIN	Carboplatin
 CARBOPLATIN #1	Carboplatin
-CARBOPLATIN & PACLITAXEL	CARBOPLATIN & PACLITAXEL
 CARBOPLATIN 6TH	Carboplatin
 CARBOPLATINUM	Carboplatin
 CARBOXY AMIDO TRIAZOLE	Carboxyamidotriazole
-CARBOplatin	Carboplatin
 CARBPLATIN	Carboplatin
 CARMUSTIN	Carmustine
-CARMUSTINE	Carmustine
 CARMUSTINE (BCNU)	Carmustine
 CARMUSTINE BCNU	Carmustine
 CASODEX	Bicalutamide
 CATUMAXUMAB	Catumaxomab
 CAV Trial	Cyclophosphamide+Dactinomycin+Vincristine
-CBP501	CBP501
 CCDP	Cisplatin
-CCNG	CCNG
-CCNU	CCNU
 CCNU	Lomustine
 CCNu	Lomustine
 CDDP	Cisplatin
@@ -271,38 +208,23 @@ CEP 11981	CEP -11981
 CEP 11981	CEP11981
 CEP701	Lestaurtinib
 CEPECITABINE	CAPECITABINE
-CETUXIMAB	Cetuximab
 CETUXIMEB	Cetuximab
-CETUXimab	Cetuximab
-CGP082996	CGP082996
-CGP60474	CGP60474
-CH81C6	CH81C6
-CHIR99021	CHIR99021
-CHLORAMBUCIL	Chlorambucil
-CHLOROQUINE	Chloroquine
 CHOP	Cyclophosphamide+Doxorubicin+Vincristine+Prednisone
 CI 980	CI-980
-CI-980	CI-980
 CI1040	CI-1040
 CI980	CI-980
 CILENAITIDE	Cilengitide
-CILENGITIDE	Cilengitide
 CIPLASTIN	Cisplatin
-CIS RETINOIC ACID	Cis Retinoic Acid
 CIS Retinoic Acid	Isotretinoin
 CIS-RETINOIC ACID	Cis Retinoic Acid
 CISPLASTIN	Cisplatin
 CISPLATAIN	Cisplatin
-CISPLATIN	Cisplatin
 CISPLATIN #2-7	Cisplatin
-CISPLATIN/GEMZAR	CISPLATIN/GEMZAR
 CISPLATINUM	Cisplatin
 CISPLATINUM 120MG	Cisplatin
 CISTPLATIN	Cisplatin
 CISplatinum	Cisplatin
 CLODRONATE	Clodronic acid
-CLODRONIC ACID	Clodronic acid
-CLORETAZINE	Cloretazine
 CMK	KIN001-128
 COPOLANG CAPS	Cyclophosphamide+Polysaccharide-K
 CPT 11	Irinotecan
@@ -314,18 +236,14 @@ CT2103 TAXANE ANALOG	CT-2103
 CT2103 Taxane Analog	Paclitaxel
 CVAD	Cyclophosphamide+Vincristine+Doxorubicin+Dexamethasone
 CYC-116/Cyclocel	Cyclophosphamide+CYC116
-CYCLOPAMINE	Cyclopamine
 CYCLOPHASPHAMIDE	Cyclophosphamide
 CYCLOPHOSPAMIDE	Cyclophosphamide
 CYCLOPHOSPHAMID+METOTREKSAT+  FLUOROURACIL	Cyclophosphamide+Methotrexate+Fluorouracil
-CYCLOPHOSPHAMIDE	Cyclophosphamide
 CYOTXAN	Cyclophosphamide
-CYTARABINE	Cytarabine
 CYTOXAN	Cyclophosphamide
 CYTOXAN AND TAXOTERE	Cyclophosphamide+Docetaxel
 CYTOXEN	Cyclophosphamide
 CYTOXIN	Cyclophosphamide
-Cabazitaxel	Cabazitaxel
 Calcium Foliatum	Leucovorin
 Calcium Foliatum, fluorouracilum, oxaliplatinum, dexamethassone	Leucovorin+Oxaliplatin+Fluorouracil+Dexamethasone
 Camptosar	Irinotecan
@@ -333,13 +251,11 @@ Cancer Vax	Polyvalent Melanoma Vaccine
 Capecetabine	Capecitabine
 Capecetabine	capecitabine
 Capecitabin	Capecitabine
-Capecitabine	Capecitabine
 Capecitabine -xeloda	Capecitabine
 Capecytabinum	Capecitabine
 Carbo	Carboplatin
 CarboPlatinum	Carboplatin
 Carbobplatin	Carboplatin
-Carboplatin	Carboplatin
 Carboplatin #1	Carboplatin
 Carboplatin & Paclitaxel	Carboplatin
 Carboplatin 5 AUC	Carboplatin
@@ -354,21 +270,18 @@ Carboplatinum	Carboplatin
 Carbplatin	Carboplatin
 Carbplatin	carboplatin
 Carmustin	Carmustine
-Carmustine	Carmustine
 Carmustine (BCNU)	Carmustine
 Carmustine BCNU	Carmustine
 Casodex	Bicalutamide
 Catumaxumab	Catumaxomab
 Catumaxumab	catumaxomab
 Cedicanib	Cediranib
-Cediranib	Cediranib
 Cediranib Placebo	Cediranib
 CeeNU	Lomustine
 Celbrex	celebrex
 Celebrex	Celecoxib
 Cepecitabine	Capecitabine
 Cepecitabine	capecitabine
-Cetuximab	Cetuximab
 Cetuximab Study drug	Cetuximab
 Chemo	NO-FIND
 Chemo Multi	NO-FIND
@@ -376,16 +289,13 @@ Chemo NOS	NO-FIND
 Chemo, Multi-Agent, NOS	NOS
 Chemo, NOS	NO-FIND
 Chemo, NOS	NOS
-Chlorambucil	Chlorambucil
 Ciclosporin	Cyclosporine
 Cilenaitide	Cilengitide
-Cilengitide	Cilengitide
 Cilengtide	Cilengitide
 Ciplastin	Cisplatin
 Ciplastin	cisplatin
 Cis Retinoic Acid	Isotretinoin
 Cisplatain	cisplatin
-Cisplatin	Cisplatin
 Cisplatin #2-7	Cisplatin
 Cisplatin, pemetrexed	Cisplatin+Pemetrexed
 Cisplatin-xrt	Cisplatin
@@ -396,14 +306,12 @@ Cisplatnin	Cisplatin
 Clinical Trial	NOS
 Clinical Trial-Study Agent	NOS
 Clinical trial	NOS
-Clodronate	Clodronate
 Cloretazine	Laromustine
 Copolang	Cyclophosphamide+Polysaccharide-K
 Cyclophasphamide	Cyclophosphamide
 Cyclophasphamide	cyclophosphamide
 Cyclophospamide	Cyclophosphamide
 Cyclophospamide	cyclophosphamide
-Cyclophosphamide	Cyclophosphamide
 Cyclophosphane	Cyclophosphamide
 Cyotxan	Cyclophosphamide
 Cyotxan	cytoxan
@@ -414,24 +322,19 @@ Cytoxan, vincristine and dacarbazine	Cyclophosphamide+Vincristine+Dacarbazine
 Cytoxen	Cyclophosphamide
 Cytoxen	cytoxan
 Cytoxin	Cyclophosphamide
-DACLIZUMAB	Daclizumab
-DASATINIB	Dasatinib
 DECODRON	Dexamethasone
 DEXAETHASONE	Dexamethasone
 DEXAMETHASOME	Dexamethasone
-DEXAMETHASONE	Dexamethasone
 DEXAMETHASSONE	Dexamethasone
 DEXAMETHAZONE	Dexamethasone
 DEXAMETHSONE	Dexamethasone
 DEXAMTHASONE	Dexamethasone
 DEXMETHASONE	Dexamethasone
 DMOG	Dimethyloxaloylglycine
-DOCETAXEL	Docetaxel
 DOCETOXEL/TAXOTERE	Docetaxel
 DOXETAXEL	Docetaxel
 DOXIL	Doxorubicin
 DOXORIBICIN	Doxorubicin
-DOXORUBICIN	Doxorubicin
 DOXORUBICIN HCI LIIPOSOMAL	Doxorubicin
 DOXORUBICIN HCI LIPSOME	Doxorubicin
 DOXORUBICIN HCL	Doxorubicin
@@ -441,27 +344,18 @@ DOXORUBICIN+CYCLOPHOSPHAMID	Cyclophosphamide+Doxorubicin
 DOXORUBICINE CYCLOPHOSPHAMIDE (ENDOXAN ADVIBLASTIN)	Cyclophosphamide+Doxorubicin
 DOXORUBINCIN	Doxorubicin
 DOXORUBINCIN HCL	Doxorubicin
-DS-8273a	DS-8273a
 DTIC	Dacarbazine
 DTIC, Dacarbazine	Dacarbazine
-Dabrafenib	Dabrafenib
 Dacabarzine	Dacarbazine
-Dacarbazine	Dacarbazine
 Dacarbazine (DTIC)	Dacarbazine
-Dasatinib	Dasatinib
 Decodron	Dexamethasone
 Decodron	decadron
-Denosumab	Denosumab
 Dexaethasone	dexamethasone
 Dexamethasome	dexamethasone
-Dexamethasone	Dexamethasone
 Dexamethasone phosphate	Dexamethasone
 Dexamethsone	dexamethasone
 Dexamthasone	dexamethasone
 Dexmethasone	dexamethasone
-Didox	Didox
-Diphencyprone	Diphencyprone
-Docetaxel	Docetaxel
 Docetaxel +/- Zactima	Docetaxel+Vandetanib
 Docetaxelum	Docetaxel
 Docetoxel/Taxotere	Docetaxel
@@ -471,13 +365,11 @@ Doxetaxel	docetaxel
 Doxetaxol	Docetaxel
 Doxetaxol	docetaxel
 Doxifluridin	Doxifluridine
-Doxifluridine	Doxifluridine
 Doxil	Doxorubicin
 Doxil & Carboplatin	Doxorubicin+Carboplatin
 Doxirubicin	Doxorubicin
 Doxobubicin	Doxorubicin
 Doxorubican	doxorubicin
-Doxorubicin	Doxorubicin
 Doxorubicin HCI Liiposomal	Doxorubicin
 Doxorubicin HCI Lipsome	Doxorubicin
 Doxorubicin HCL	Doxorubicin
@@ -489,63 +381,42 @@ Doxorubicinum	Doxorubicin
 Doxorubincin	doxorubicin
 Doxorubincin HCL	Doxorubicin
 E-75	Nelipepimut-S
-ELESCLOMOL	Elesclomol
-EMBELIN	embelin
 EMD	NOS
 EMD 121974	Cilengitide
-ENZASTAURIN	Enzastaurin
-EPIRUBICIN	Epirubicin
 EPIRUBICINUM 70MG	Epirubicin
 EPOCH	Etoposide+Prednisone+Vincristine+Doxorubicin
 EPOTHILONEB	epothilone
 ERBITUX	Cetuximab
 ERLOTINIB	Erlotonib
-ERLOTONIB	Erlotonib
-ESTRAMUSTINE	Estramustine
 ET-743	Trabectedin
 ETC Posidum	Etoposide
 ETOPOSDIE	Etoposide
-ETOPOSIDE	Etoposide
 ETOPOSIDE (VP16)	Etoposide
 ETOPSIDE	Etoposide
-EVEROLIMUS	Everolimus
-EVERolimus	Everolimus
-EXEMESTANE	Exemestane
 EXEMESTANE (AROMASIN)	Exemestane
-EZN-2968	EZN-2968
 Eligard	Leuprolide
 Eloxatin	Oxaliplatin
 Eloxatin(oxaliplatin)	Oxaliplatin
 Enoticumab	REGN421
-Epirubicin	Epirubicin
 Epirubicoin	Epirubicin
 Erbitux	Cetuximab
-Eribulin	Eribulin
-Erlotinib	Erlotinib
 Erlotonib	Erlotinib
 Erlotonib	erlotinib
 Erythropoietin	Epoetin
 Etoposid	Etoposide
-Etoposide	Etoposide
 Etoposide (VP16)	Etoposide
 Etoposide phosphate	Etoposide
 Etopside	Etoposide
-Everolimus	Everolimus
 Everolimus, Gemcitabine, and Cisplatin	Everolimus+Gemcitabine+Cisplatin
-Exemestane	Exemestane
 FARESTON	Toremifene
 FASLODEX	Fulvestrant
 FEMARA	Letrozole
 FEMARA (LETROZOLE)	Letrozole
-FENRETINIDE	Fenretinide
-FH535	FH535
 FILGRASTIM (G-CSF)	Filgrastim
 FLC	NOS
 FLOURORACIL	Fluorouracil
 FLOUROURACIL	Fluorouracil
 FLOUROURACIL	fluorouracil
-FLOXURIDINE	Floxuridine
-FLUOROURACIL	Fluorouracil
 FLUOROURACILUM	Fluorouracil
 FLUOROURACILUM 2100MG	Fluorouracil
 FOLFIRI	Leucovorin+Fluorouracil+Irinotecan
@@ -553,14 +424,12 @@ FOLFIRI/Avastin	Leucovorin+Fluorouracil+Irinotecan+Bevacizumab
 FOLFOX	Leucovorin+Fluorouracil+Oxaliplatin
 FOLINIC ACID	Leucovorin
 FOTEMUSTINA	Fotemustine
-FOTEMUSTINE	Fotemustine
 FT	Ftorafur
 FTI277	FTI-277
 FU7	NOS
 FUDR (FLOXURIDINE)	Floxuridine
 FUDR (Floxuridine)	Floxuridine
 FULUESTRANT	Fulvestrant
-FULVESTRANT	Fulvestrant
 FULVESTRANT (FASLODEX)	Fulvestrant
 Fareston	Toremifene
 Faslodex	Fulvestrant
@@ -570,7 +439,6 @@ Filgrastim (G-CSF)	Filgrastim
 Firmagon	Degarelix
 Flourouracil	fluorouracil
 Floxuridine	Fluorouracil
-Fluorouracil	Fluorouracil
 Fluorouracil (5-FU)	Fluorouracil
 Fluorouracil IV Continuous infusion over 46 hours	Fluorouracil
 Fluorouracilum	Fluorouracil
@@ -581,20 +449,15 @@ Folfiri	Leucovorin+Fluorouracil+Irinotecan
 Folfox	Leucovorin+Fluorouracil+Oxaliplatin
 Folinic Acid	Leucovorin
 Folinic acid	Leucovorin
-Fotemustine	Fotemustine
 Fuluestrant	Fulvestrant
 Fuluestrant	fulvestrant
-Fulvestrant	Fulvestrant
 Fulvestrant (Faslodex)	Fulvestrant
 GAMINOCAMPTOTHECIN	aminocamptothecin
 GAMZAR	Gemcitabine
-GDC-0980	GDC-0980
 GDC0449	Vismodegib
 GDC0941	GDC-0941
-GEFITINIB	Gefitinib
 GEMAR	Gemcitabine
 GEMCITABIN	Gemcitabine
-GEMCITABINE	Gemcitabine
 GEMCITABINE HCI	Gemcitabine
 GEMCITABINE HCL	Gemcitabine
 GEMCITABINE/CISPLATIN	Gemcitabine+Cisplatin
@@ -607,7 +470,6 @@ GEMZAR	Gemcitabine
 GEMZAR (GEMCITABINE)	Gemcitabine
 GEMZET	Gemcitabine
 GEZMAR	Gemcitabine
-GL-ONC1	GL-ONC1
 GLEEVAC	Imatinib
 GLEEVEC	Imatinib
 GLIADEL	Carmustine implant
@@ -619,24 +481,15 @@ GLIADEL WAFERS	Carmustine implant
 GLIADEL WATERS	Carmustine implant
 GLIADLE WAFER	Carmustine implant
 GM-CSF	Sargramostim
-GOG 218	GOG 218
 GOG182	GOG 182
 GOMZAR	Gemcitabine
-GOSERELIN	GOSERELIN
 GP-100	GP100
-GP100	GP100
 GSK Braf Inhibitor	Dabrafenib
-GSK269962A	GSK269962A
-GSK650394	GSK650394
-GW441756	GW441756
-GW843682X	GW843682X
 Gadoinium	gadolinium
 Gaminocamptothecin	Aminocamptothecin
 Gamzar	Gemcitabine
 Gamzar	gemzar
-Gefitinib	gefitinib
 Gemar	Gemcitabine
-Gemcitabine	Gemcitabine
 Gemcitabine (Gemzar)	Gemcitabine
 Gemcitabine HCI	Gemcitabine
 Gemcitabine HCL	Gemcitabine
@@ -663,7 +516,6 @@ Gliadel Wafer	Carmustine
 Gliadel Wafers	Carmustine
 Gliadel wafers	Carmustine
 Gomzar	Gemcitabine
-Goserelin	Goserelin
 HEC.1 - Sorafenib vs Sorafenib plus Doxorubicin	HEC.1
 HERCEPTIN	Trastuzumab
 HERCPTIN	Trastuzumab
@@ -686,7 +538,6 @@ HYRDROXYUREA	Hydroxycarbamide
 HYROXYUREA	Hydroxycarbamide
 Halaven	Eribulin
 Halichondrin	Halichondrin B
-Halichondrin B	Halichondrin B
 Herceptin	Trastuzumab
 Hexalen	Altretamine
 Hexalin	Altretamine
@@ -700,11 +551,9 @@ Hormone, NOS	NOS
 Hydoxyurea	Hydroxyurea
 Hydoxyurea	hydroxyurea
 Hydrochoroquine	hydroxychloroquine
-Hydrocortisone	Hydrocortisone
 Hydroxurea	hydroxyurea
 Hydroxydaunomycin	Doxorubicin
 Hydroxyuerea	hydroxyurea
-Hydroxyurea	Hydroxyurea
 Hydroyurea	Hydroxyurea
 Hydroyurea	hydroxyurea
 Hyrdroxyurea	hydroxyurea
@@ -714,11 +563,9 @@ I-131	Iodine-131
 I131-81C6	81C6
 ICE	Ifosfamide+Carboplatin+Etoposide
 ICT 107	NO-FIND
-ICT-107	ICT-107
 ICT-107	NO-FIND
 IFN-ALPHA (INTRON)	Hydroxycarbamide
 IFN-Alpha (Intron)	Interferon A
-IFOSFAMIDE	Ifosfamide
 IFOSTAMIDE	Ifosfamide
 IL 12	INTERLEUKIN-12
 IL 12	Interleukin-12
@@ -729,7 +576,6 @@ IL 13PE	NO-FIND
 IL 2	Aldesleukin
 IL 2	INTERLEUKIN-2
 IL-13 PSEUDOMONAS EXOTOXIN	IL-13 WITH PSEUDOMONAS EXOTOXIN
-IL-13 WITH PSEUDOMONAS EXOTOXIN	IL-13 WITH PSEUDOMONAS EXOTOXIN
 IL-13-PE38QQR CYTOXIN	IL-13 WITH PSEUDOMONAS EXOTOXIN
 IL-13PE	Cintredekin
 IL-13PE	IL-13 WITH PSEUDOMONAS EXOTOXIN
@@ -741,42 +587,27 @@ IL-2 (high dose)	Aldesleukin
 IL-2 THEARPY (INTERLEUKIN)	INTERLEUKIN-2
 IL-2 Therapy (interleukin)	Aldesleukin
 IL2	Aldesleukin
-IMATINIB	Imatinib
 IMC-A12	Cixutumumab
 INF	Infliximab
-INTERFERON	INTERFERON
-INTERFERON ALPHA	INTERFERON ALPHA
-INTERFERON GAMMA	INTERFERON GAMMA
 INTERFERON-ALPHA	INTERFERON ALPHA
 INTERLEUKIN 2-HIGH DOSE	INTERLEUKIN-2
-INTERLEUKIN-12	INTERLEUKIN-12
-INTERLEUKIN-2	INTERLEUKIN-2
 INVESTIGAL DRUG AVASTIN	Bevacizumab
-IPILIMUMAB	Ipilimumab
 IRESSA	Gefitinib
 IRESSA PLACEBO VS. DRUG	Gefitinib
 IRESSA placebo vs. drug	Gefitinib
 IRINOTEACAN	Irinotecan
-IRINOTECAN	Irinotecan
 IRINOTECAN HCL	Irinotecan
 IRINOTECAN+5-fluorouracilim	Irinotecan+Fluorouracil
 IRINOtecan HCl	Irinotecan
 IRINTOTECAN	Irinotecan
-IROLFLUVIN	Irolfluvin
 IRONOTECAN	Irinotecan
 IRRESSA	Gefitinib
 IRUNOTECAN	Irinotecan
 ISOTRECTINOIN (ACCCUTANE)	Isotretinoin
-ISOTRETINOIN	Isotretinoin
-IXABEPILONE	Ixabepilone
-Ibandronate	Ibandronate
 Ifex	Ifosfamide
 Ifosfamid	Ifosfamide
-Ifosfamide	Ifosfamide
 Ifostamide	Ifosfamide
 Ifostamide	ifosfamide
-Imatinib	Imatinib
-Imiquimod	Imiquimod
 Infusion	NO-FIND
 Inhibitor	NO-FIND
 Interferon	NOS
@@ -789,14 +620,11 @@ Interferon-?2	Aldesleukin
 Interferon-alfa	Interferon A
 Interleukin - 2	Aldesleukin
 Interleukin 2-high dose	Aldesleukin
-Interleukin-12	Interleukin-12
 Interleukin-2	Aldesleukin
 Intrathecal Methotrexate	Methotrexate
 Intron A	Interferon A
 Investigal drug Avastin	Bevacizumab
-Ipilimumab	Ipilimumab
 Iressa	Gefitinib
-Irinotecan	Irinotecan
 Irinotecan + Cetuximab	Irinotecan+Cetuximab
 Irinotecan HCL	Irinotecan
 Irinotecan HCl	Irinotecan
@@ -809,17 +637,13 @@ Ironotecan	Irinotecan
 Ironotecan	irinotecan
 Irressa	Gefitinib
 Isotrectinoin (acccutane)	Isotretinoin
-Isotretinoin	Isotretinoin
-Ixabepilone	Ixabepilone
 JQ1 (1)	NO-FIND
 JQ1 (2)	NO-FIND
 JQ1 1	NO-FIND
 JQ1 2	NO-FIND
 JW-7-24-1	NO-FIND
 JW-7-52-1	NO-FIND
-JW7521	JW7521
 KARERLTECIN	karenitecin
-KETOCONAZOLE	Ketoconazole
 KIN001	NO-FIND
 KIN001 236	NO-FIND
 KIN001 244	NO-FIND
@@ -831,47 +655,29 @@ KIN001-244	NO-FIND
 KIN001-260	NO-FIND
 KIN001-266	NO-FIND
 KIN001-270	NO-FIND
-KIN001135	KIN001135
-KU55933	KU55933
-Karenitecin	Karenitecin
 Karerltecin	Karenitecin
-Ketoconazole	Ketoconazole
-LAPATINIB	LAPATINIB
-LENALIDOMIDE	Lenalidomide
-LETROZOLE	Letrozole
 LETROZOLE (FEMARA)	Letrozole
-LEUCOVORIN	Leucovorin
 LEUCOVORIN CALCIUM	Leucovorin
 LEUPROLIDE ACETATE (LUPRON)	Leuprolide
-LEUPRORELIN	Leuprorelin
 LEVCOVORIN	Leucovorin
 LEVENRACETAM	Levetiracetam
-LEVETIRACETAM	Levetiracetam
-LFMA13	LFMA13
 LHRH Agonist	LHRH
 LHRH Agonist and Anti-Androgens Combined Androgen Blockade	LHRH
 LIOSOMAL DOCORUBICIN	Liposomal doxorubicin
 LIPOSOMAL DOXORUBICAN	Liposomal doxorubicin
-LIPOSOMAL DOXORUBICIN	Liposomal doxorubicin
 LOMUSTIN	Lomustine
-LOMUSTINE	Lomustine
 LOMUSTINE (CCNU)	Lomustine
 LUMUSTINE	Lomustine
 LUPRON	Leuprolide
-LY228820	LY228820
 LY317615	Enzastaurin
 Laferon	Interferon A
-Lapatinib	Lapatinib
 Lestauritinib	lestaurtinib
 Letrozol	Letrozole
-Letrozole	Letrozole
 Letrozole (Femara)	Letrozole
-Leucovorin	Leucovorin
 Leucovorin Calcium	Leucovorin
 Leucovorin calcium	Leucovorin
 Leukine	Sargramostim
 Leuocvorin	Leucovorin
-Leuprolide	Leuprolide
 Leuprolide Acetate	Leuprolide
 Leuprolide acetate	Leuprolide
 Leuprorelin	Leuprolide
@@ -879,7 +685,6 @@ Levcovorin	Leucovorin
 Levcovorin	leucovorin
 Levenracetam	Levetiracetam
 Levothroid	Levothyroxine
-Levothyroxine	Levothyroxine
 Levoxyl	Levothyroxine
 Liosomal	NO-FIND
 Liosomal Docorubicin	Doxorubicin
@@ -889,7 +694,6 @@ Liposomal Doxorubican	liposomal doxorubicin
 Liposomal Doxorubicin	Doxorubicin
 Liposomal doxorubicin	Doxorubicin
 Lomustin	Lomustine
-Lomustine	Lomustine
 Lomustine (CCNU)	Lomustine
 Lumustine	lomustine
 Luprolide Depot	Leuprolide
@@ -901,46 +705,31 @@ MAB I	MABI131
 MAB I 131	MABI131
 MAB I-131	MABI131
 MAB I131	MABI131
-MABI131	MABI131
-MAGE-3	MAGE-3
 MAGE3	mage3 graphite
 MAGI131-81C6	MABI131
 MAGI131-81c6	81C6
-MARIMASTAT	Marimastat
 MAb I	NO-FIND
 MDX-1106 CLINICAL TRIAL	MDX-1106
 MDX-1106 clinical trial	Nivolumab
 MEGACE	Megestrol
 MEGACE (ORAL)	Megestrol
 MEL-44	Sargramostim
-MELPHALAN	Melphalan
 MELPHALON	Melphalan
-MESNA	Mesna
 MESNA-1	Mesna
 MESNA-2	Mesna
 METEXAFIN GADOLINIUM	MOTEXAFIN GADOLINIUM
-METFORMIN	Metformin
-METHOTREXATE	Methotrexate
 METRONOMIC TEMODAR	Temozolomide
-MG132	MG132
 MGI 114	Irofulven
 MGI 114	MGI-114
-MIDOSTAURIN	Midostaurin
 MITHRAMYCIN	Plicamycin
 MITOMYCIN C	Mitomycin
 MITOMYCINC	Mitomycin
-MITOXANTRONE	Mitoxantrone
 MK2206	MK-2206
-MK2206	MK2206
 MLN8237	Alisertib
-MORAb-004	MORAb-004
-MOTEXAFIN GADOLINIUM	Motexafin gadolinium
 MOTEXATIN GADOINIUM	Motexafin gadolinium
 MPS 1	NO-FIND
 MPS-1-IN-1	NO-FIND
-MR1-1	MR1-1
 MS275	Entinostat
-MU81C6	MU81C6
 Mage A3	MAGE-A3
 Mayo 425	NO-FIND
 Mayo 425-20	NOS
@@ -948,18 +737,11 @@ Medrol	Methylprednisolone
 Megace	Megestrol
 Megace (oral)	Megestrol
 Megestrol Acetate	Megestrol
-Melphalan	Melphalan
 Melphalon	Melphalan
 Melphalon	melphalan
-Mesna	Mesna
-Metformin	Metformin
-Methotrexate	Methotrexate
-Mibefradil	mibefradil
 Micomycin	Mitomycin C
 Mithramycin	Plicamycin
 Mitomycin	Mitomycin C
-Mitomycin C	Mitomycin C
-Mitoxantrone	Mitoxantrone
 Motexatin Gadoinium	Motexafin gadolinium
 Multi	NO-FIND
 Mustophoran	Fotemustine
@@ -970,23 +752,15 @@ NAVELBINE	Vinorelbine
 NEULASTA	Pegfilgrastim
 NEXAVAAR	Sorafenib
 NEXAVAR	Sorafenib
-NILOTINIB	Nilotinib
 NOLVADEX	Tamoxifen
 NPK76	NO-FIND
-NSC87877	NSC87877
-NU7441	NU7441
 NUTLIN3A	Nutlin-3A
-NVPBEZ235	NVPBEZ235
-NVPTAE684	NVPTAE684
 Navelbine	Vinorelbine
 Naxavar	Sorafenib
 Neulasta	Pegfilgrastim
 Nexavaar	Sorafenib
 Nexavaar	nexavar
 Nexavar	Sorafenib
-Nilutamide	Nilutamide
-Nimustine	Nimustine
-Nivolumab	Nivolumab
 Nolvadex	Tamoxifen
 Not otherwise	NO-FIND
 Not otherwise specified	NO-FIND
@@ -995,9 +769,7 @@ Not specified	NO-FIND
 Not specified	NOS
 O ICE	Ifosfamide+Carboplatin+Etoposide
 O-ICE	Ifosfamide+Carboplatin+Etoposide
-O6BG	O6BG
 OBATOCLAXMESYLATE	Obatoclax mesylate
-ONYX-015	ONYX-015
 ORAL ETOPOSIDE	Etoposide
 OS1-774	Tarceva
 OSI906	Linsitinib
@@ -1005,11 +777,8 @@ OVAREX MA6 B43.13	ovarex
 OVAREX STUDY	ovarex
 OVAREX/IND	ovarex
 OVAREX/PLACEBO	ovarex
-OXALIPLATIN	Oxaliplatin
 OXALIPLATINUM	Oxaliplatin
-OXCARBAZEPINE	Oxcarbazepine
 Oca Rex Oregovomab	Oregovomab
-Ofatumumab	Ofatumumab
 Oncophage	Vitespen
 Oncovin	Vincristine
 Oral Etoposide	Etoposide
@@ -1018,7 +787,6 @@ Ovarex Study	Oregovomab
 Ovarex/IND	Oregovomab
 Ovarex/Placebo	Oregovomab
 Ovarex/placebo	Oregovomab
-Oxaliplatin	Oxaliplatin
 Oxaliplatin, Folinic acid, Fluorouracil	Oxaliplatin+Leucovorin+Fluorouracil
 Oxaliplatinum	Oxaliplatin
 Oxaloplatin	Oxaliplatin
@@ -1029,59 +797,32 @@ PACILTAXLE	Paclitaxel
 PACITAXEL	Paclitaxel
 PACLIATXEL	Paclitaxel
 PACLILTAXEL	Paclitaxel
-PACLITAXEL	Paclitaxel
 PACLITAXEL (PROTEIN-BOUND)	Paclitaxel
 PACLITAXEL; ALBUMIN-BOUNT	Paclitaxel
 PACLITAXIL	Paclitaxel
-PANITUMUMAB	Panitumumab
-PANZEM	Panzem
 PARAPLATIN	Carboplatin
-PARAPLATIN	PARAPLATIN
-PARTHENOLIDE	Parthenolide
-PATUPILONE	PATUPILONE
 PAXLITAXEL	Paclitaxel
-PAZOPANIB	Pazopanib
 PCV	Procarbazine+Lomustine+Vincristine
 PD 0332991	Palbociclib
-PD0325901	PD0325901
-PD0332991	PD0332991
-PD173074	PD173074
-PEGFILGRASTIM	Pegfilgrastim
 PEGFILGRASTIM (PEG G-CSF)	Pegfilgrastim
 PEMETHEXED	Pemetrexed
-PEMETREXED	Pemetrexed
 PEMETREXED DISODIUM	Pemetrexed
 PEP3 KLH	PEP-3-KLH
-PERIFOSINE	Perifosine
 PF02341066	crizotinib
 PF2341066	crizotinib
-PF562271	PF562271
-PHA665752	PHA665752
-PHENYTOIN SODIUM	PHENYTOIN SODIUM
 PI88	PI-88
-PLFE	PLFE
 PLFE/FLO	PLFE+Leucovorin+Fluorouracil+Oxaliplatin
-PLX4720	PLX4720
-PNU-159548	PNU-159548
 PORTEC3-radiation alone	NOS
-PREDNISONE	Prednisone
 PREMETREXED	Pemetrexed
-PROCARBAZINE	Procarbazine
 PROCARBAZINE/CCNU/VINCRISTINE	Procarbazine
 PROCARBIZINE	Procarbazine
-PROLEUKIN	Proleukin
 PROLEUKIN (IL-2)	Proleukin
 PROVERA	Medroxyprogesterone
 PS 341	Bortezomib
 PS-341 BORTREZOMIB	Bortezomib
 PS-341 Bortrezomib	Bortezomib
-PSC833	PSC833
 PSC833	Valspodar
-PSMA DNA Vaccine	PSMA DNA Vaccine
 PTK-ZK	Vatalanib
-PV-10	PV-10
-PYRAZINAMIDE	Pyrazinamide
-PYRIMETHAMINE	Pyrimethamine
 Pacilatxel	Paclitaxel
 Paciltaxal	Paclitaxel
 Paciltaxel	Paclitaxel
@@ -1090,45 +831,30 @@ Pacitaxel	Paclitaxel
 Pacitaxol	Paclitaxel
 Pacliatxel	Paclitaxel
 Pacliltaxel	Paclitaxel
-Paclitaxel	Paclitaxel
 Paclitaxel (Protein-Bound)	Paclitaxel
 Paclitaxel; Albumin-Bount	Paclitaxel
 Paclitaxil	Paclitaxel
 Paclitaxol	Paclitaxel
 Palixtaxel	Paclitaxel
-Pamidronate	Pamidronate
 Pamidronic acid	Pamidronate
-Panitumumab	Panitumumab
 Paraplatin	Carboplatin
 Patrin	Lomeguatrib
-Patupilone	Patupilone
-Pazopanib	Pazopanib
-Pegfilgrastim	Pegfilgrastim
 Pegfilgrastim (Peg G-CSF)	Pegfilgrastim
-Pembrolizumab	Pembrolizumab
-Pemetrexed	Pemetrexed
 Pemetrexed (Alimta)	Pemetrexed
 Pemetrexed disodium	Pemetrexed
-Perifosine	Perifosine
 Placebo	NO-FIND
 Platinol	Cisplatin
-Platinum	Platinum
-Poly E	Poly E
 Polyplatillen	Cisplatin
 Porfimer Sodium (Photofin)	Porfimer
 Porfimer Sodium (Photofrin)	Porfimer
 Porfimer Sodium(Photofin)	Porfimer
 Posidum	NO-FIND
 Predisone	Prednisone
-Prednisolone	Prednisolone
-Prednisone	Prednisone
-Procarbazine	Procarbazine
 Procarbizine	Procarbazine
 Procarbizine	procarbazine
 Proleukin	Aldesleukin
 Protocol	NO-FIND
 Provera	Medroxyprogesterone
-Pyrazinamide	Pyrazinamide
 QL VIII	NO-FIND
 QL XI	NO-FIND
 QL XII	NO-FIND
@@ -1141,80 +867,48 @@ R1507	Teprotumumab
 RAD001	Everolimus
 RAPAMCYIN	Sirolimus
 RAPAMYCIN	Sirolimus
-RBBX 01	RBBX 01
 RBBX 01	rBBX-01
-RDEA119	RDEA119
 REINOID/CIS RETINOIC ACID	Cis Retinoic Acid
-RITUXIMAB	Rituximab
-RO3306	RO3306
-ROFERON-A	ROFERON-A
 ROSCOVITINE	Seliciclib
-Raltitrexed	Raltitrexed
 Rapamcyin	rapamycin
 Ras Inhibitor	NO-FIND
-Regorafenib	Regorafenib
 Reinoid	retinoid
 Reinoid/CIS retinoic acid	retinoid
 RenAmin	Amino Acids
-Reolysin	Reolysin
-Resiquimod	Resiquimod
 Revlimid	Lenalidomide
 Rhumab	Erlizumab
 Rituxan	Rituximab
-Rituximab	Rituximab
 Roferon-A	Interferon A
 SAHA	Vorinostat
 SAHA/Vorinostat	Vorinostat
-SALUBRINAL	Salubrinal
-SARASAR	SARASAR
-SARGRAMOSTIN	SARGRAMOSTIN
-SB216763	SB216763
-SB590885	SB590885
 SCH 58500	NO-FIND
-SCH 58500	SCH 58500
 SCH 58500	SCH58500
-SCH63666	SCH63666
 SCH66336	Lonafarnib
-SCH6636	SCH6636
-SHIKONIN	Shikonin
-SIROLIMUS	Sirolimus
-SL01011	SL01011
 SNS 595	Voreloxin
 SNS 595	Vosaroxin
 SOM 230	Pasireotide
-SORAFENIB	Sorafenib
 SORAFENIB (BAY 43-9006)	Sorafenib
 SORAFENIB - NEXAVAR	Sorafenib
 SOVATENIB	Sorafenib
-STREPTOZOCIN	STREPTOZOCIN
-STRITYLLCYSTEINE	STRITYLLCYSTEINE
 STUDY DRUG AMG 655	NA
 SU101	leflunomide
-SUNITINIB	Sunitinib
 SUNITINIB (SUTENT)	Sunitinib
-SURAMIN	SURAMIN
 SUTENT	Sunitinib
 SUTENT (SUNITINIB)	Sunitinib
 SYNTHROID	Levothyroxine
 Sarafenib	Sorafenib
 Sargramostin	Sargramostim
 Sargramostin	sargramostim
-Sorafenib	Sorafenib
 Sorafenib (Bay 43-9006)	Sorafenib
 Sorafenib - Nexavar	Sorafenib
 Sorafinib ( Nexavar)	Sorafenib
 Study	NO-FIND
 Study drug	study drugs
 Study drug AMG 655	Conatumumab
-Sulindac	Sulindac
-Sunitinib	Sunitinib
-Suramin	Suramin
 Sutent	Sunitinib
 Sutent (Sunitinib)	Sunitinib
 Sylatron	Peginterferon alfa-2a
 Synthroid	Levothyroxine
-TAE684	NA
-TAMOXIFEN	Tamoxifen
 TAMOXIFEN & MEGACE	NA
 TAMOXIFEN (NOVADEX)	Tamoxifen
 TAMOXITEN	Tamoxifen
@@ -1237,16 +931,11 @@ TEMODOR	Temozolomide
 TEMOXOLOMIDE	Temozolomide
 TEMOZLOMIDE	Temozolomide
 TEMOZOLAMIDE	Temozolomide
-TEMOZOLOMIDE	Temozolomide
 TEMOZOLOMOIDE	Temozolomide
 TEMOZOMIDE	Temozolomide
-TEMSIROLIMUS	Temsirolimus
 TEMUDAR	Temozolomide
-THALIDOMIDE	Thalidomide
 THALOMID	Thalidomide
-THAPSIGARGIN	THAPSIGARGIN
 TIPFARNIB (R115777)	Tipifarnib
-TIPIFARNIB	Tipifarnib
 TIPIFARNIB (R115777)	Tipifarnib
 TL-1-85	NO-FIND
 TL-2-105	NO-FIND
@@ -1254,20 +943,14 @@ TL32711	Birinapant
 TOMAXIFEN	Tamoxifen
 TOPECAN	TOPOTECAN
 TOPETECAN	TOPOTECAN
-TOPOTECAN	TOPOTECAN
 TOPOTECAN HCL	TOPOTECAN
 TOPOTECAN/CARBOPLATIN	TOPOTECAN+CARBOPLATIN
 TOPTECAN	TOPOTECAN
 TORISEL	Temsirolimus
 TOXOTERE	Docetaxel
-TRABECTEDIN	Trabectedin
 TRANSTUZUMAB	TRASTUZUMAB
-TRASTUZUMAB	TRASTUZUMAB
-TRASTUZUMAB	Trastuzumab
-TRIPTORELIN	Triptorelin
 TS-1	Tegafur+Gimeracil+Oteracil
 Talimogene Laherparepvec (T-VEC)	Talimogene
-Tamoxifen	Tamoxifen
 Tamoxifen & Megace	Tamoxifen+Megestrol
 Tamoxiten	Tamoxifen
 Tamoxiten	tamoxifen
@@ -1293,91 +976,53 @@ Temoxolomide	temozolomide
 Temozlomide	Temozolomide
 Temozlomide	temozolomide
 Temozolamide	Temozolomide
-Temozolomide	Temozolomide
 Temozolomode	temozolomide
 Temozomide	Temozolomide
 Temozomide	temozolomide
-Temsirolimus	Temsirolimus
-Teniposide	Teniposide
-Tesetaxel	Tesetaxel
 Tetrathiomolybdate	Tiomolibdate
-Thalidomide	Thalidomide
 Themozolomide	Temozolomide
 Thiguanine	thioguanine
-ThioTepa	Thiotepa
 Threshold-302	Evofosfamide
-Tipifarnib	Tipifarnib
 Tivantinib (ARQ-197)	Tivantinib
-Tivozanib	Tivozanib
 Tomaxifen	Tamoxifen
 Tomaxifen	tamoxifen
 Topecan	Topotecan
 Topecan	topotecan
 Topetecan	Topotecan
-Topotecan	Topotecan
 Topotecan HCL	Topotecan
 Topotecan HCl	Topotecan
 Topotecan/Carboplatin	Topotecan+Carboplatin
 Toptecan	Topotecan
 Toptecan	topotecan
 Torisel	Temsirolimus
-Trabectedin	Trabectedin
-Trametinib	Trametinib
-Trastuzumab	Trastuzumab
 Trelstar	Triptorelin
 Trenantone	Leuprolide
-Treosulfan	Treosulfan
-Triptorelin	Triptorelin
 Trustuzumab	Trastuzumab
 Trustuzumab	trastuzumab
 Tyrosine kinase inhibitor	NOS
 Unkown	NOS
-VALPROIC ACID	VALPROIC ACID
-VAMYDEX	VAMYDEX
-VANDETANIB	Vandetanib
 VATALANIB (PTK787)	Vatalanib
 VECTIBIX	Panitumumab
 VEGF-TRAP	Aflibercept
 VELCADE	Bortezomib
-VEMURAFENIB	Vemurafenib
-VINBLASTINE	VINBLASTINE
 VINCRISTIN	Vincristine
-VINCRISTINE	Vincristine
-VINORELBINE	Vinorelbine
 VINORELBINE TARTRATE	Vinorelbine
-VMCL	VMCL
 VNLG 124	NO-FIND
 VNLG/124	NO-FIND
-VORINOSTAT	Vorinostat
 VOTRIENT	Pazopanib
 VP 16	Etoposide
 VP 16 (ETOPOSIDE)	Etoposide
 VP-16	Etoposide
 VP16	Etoposide
-VX680	VX680
-VX702	VX702
-Vaccine	vaccine
-Valproic Acid	Valproic Acid
-Vamydex	Vamydex
 Velcade	Dortezomib
-Vemurafenib	Vemurafenib
 Vepesid	Etoposide
-Vinblastine	Vinblastine
-Vincristine	Vincristine
 Vincristine (sulfate)	Vincristine
 Vinorelbin	Vinorelbine
 Vinorelbin Tartrate	Vinorelbine
-Vinorelbine	Vinorelbine
 Vinorelbine Tartrate	Vinorelbine
-Vorinostat	Vorinostat
 Votrient	Pazopanib
-WH4023	WH4023
-WT-1 Vaccine	WT-1 Vaccine
 WZ-1-84	NO-FIND
-WZ184	WZ184
 Wafer	NO-FIND
-X17AAG	X17AAG
-X681640	X681640
 XELODA	Capecitabine
 XELODA (CAPECITABINE)	Capecitabine
 XMD11	NO-FIND
@@ -1391,7 +1036,6 @@ XMD15 27	NO-FIND
 XMD15-27	NO-FIND
 XMD8 85	NO-FIND
 XMD8-85	NO-FIND
-XMD885	XMD885
 XYOTAX	paclitaxel poliglumex
 Xeloda	Capecitabine
 Xeloda (Capecitabine)	Capecitabine
@@ -1404,16 +1048,11 @@ Yondelis	Trabectedin
 ZD6474	Vandetanib
 ZG 10	NO-FIND
 ZG-10	NO-FIND
-ZM447439	ZM447439
 ZOLADEX	goserelin
-ZOLEDRONIC ACID	Zoledronic acid
 ZOLEDRONIC ACID	zoledronate
 ZOLENDRONIC ACID	zoledronate
-ZOMETA	ZOMETA
 Zofran	Ondansetron
 Zoladex	Goserelin
-Zoledronic Acid	Zoledronic acid
-Zoledronic acid	Zoledronic acid
 Zometa	Zoledronic acid
 abraxane	Paclitaxel
 ac	Doxorubicin+Cyclophosphamide
@@ -1436,42 +1075,25 @@ aromasin	Exemestane
 aromatase exemestane	Exemestane
 autologous vaccine	ATCV
 avastin	Bevacizumab
-azaTHIOprine	Azathioprine
-bevacizumab	Bevacizumab
-bleomycin	Bleomycin
-cabazitaxel	Cabazitaxel
 camptosar	Irinotecan
-capecitabine	Capecitabine
 carbopaltin	Carboplatin
-carboplatin	Carboplatin
 carboplatinum	Carboplatin
 casodex	Bicalutamide
-cetuximab	Cetuximab
 ciclofosfamida	Cyclophosphamide
 cis-retinoic acid	Isotretinoin
 cisplatim	Cisplatin
-cisplatin	Cisplatin
 cisplatinum	Cisplatin
-clodronate	Clodronate
 clodronic acid	Clodronate
 cyclophosphamid	Cyclophosphamide
-cyclophosphamide	Cyclophosphamide
 cyclophosphamide+methotrexatum+fluorouracillum	Cyclophosphamide+Methotrexatum+Fluorouracil
 cyclophosphamide, vincristine, and dacarbazine	Cyclophosphamide+Vincristine+Dacarbazine
 cyclophosphamidum	Cyclophosphamide
-cytarabine	Cytarabine
 cytomel	Liothyronine
 cytoxan	Cyclophosphamide
-dacarbazine	Dacarbazine
-dasatinib	Dasatinib
 dcVax	NO-FIND
 decadron	Dexamethasone
-degarelix	Degarelix
-dexamethasone	Dexamethasone
 discido	NO-FIND
-docetaxel	Docetaxel
 doxil	Doxorubicin
-doxorubicin	Doxorubicin
 doxorubicin HCL	Doxorubicin
 doxorubicin+ cyclophosphamide	Doxorubicin+Cyclophosphamide
 doxorubicin+cyclophosphamid	Doxorubicin+Cyclophosphamide
@@ -1480,82 +1102,49 @@ doxorubicine	Doxorubicin
 doxorubicine cyclophosphamide tamoxifen	Doxorubicin+Cyclophosphamide+Tamoxifen
 doxorubicine+cyclophosphamide	Doxorubicin+Cyclophosphamide
 doxorubicine+cyclophosphamide+tamoxifen	Doxorubicin+Cyclophosphamide+Tamoxifen
-epirubicin	Epirubicin
 epirubicinum	Epirubicin
 erbitux	Cetuximab
-etoposide	Etoposide
 etoposide (VP-16)	Etoposide
-everolimus	Everolimus
 faslodex	Fulvestrant
 femara	Letrozole
-fluorouracil	Fluorouracil
 fluorouracilum	Fluorouracil
 folinian	Leucovorin
 folinic acid	Leucovorin
-fosaprepitant	Fosaprepitant
-fotemustine	Fotemustine
-fulvestrant	Fulvestrant
-gemcitabine	Gemcitabine
 gemcitabine HCL	Gemcitabine
 gemzar	Gemcitabine
 herceptin	Trastuzumab
-ifosfamide	Ifosfamide
-imatinib	Imatinib
 interferon	NOS
 interferon alpha	Interferon A
 interferon-alpha	Interferon A
 interleukin-2	Aldesleukin
 intrathecal methotrexate	Methotrexate
 intron a	Interferon A
-ipilimumab	Ipilimumab
-irinotecan	Irinotecan
 jevtana	Cabazitaxel
-ketoconazole	Ketoconazole
-lapatinib	Lapatinib
-letrozole	Letrozole
 letrozole femara	Letrozole
 letrozolum	Letrozole
-leucovorin	Leucovorin
 leucovorin calcium	Leucovorin
-leuprolide	Leuprolide
-levothyroxine	Levothyroxine
 levoxyl	Levothyroxine
-lomustine	Lomustine
 lupron	Leuprolide
-melphalan	Melphalan
-methotrexate	Methotrexate
 methotrexate+5 fluorouracil+cyclophosphamide	Methotrexate+Fluorouracil+Cyclophosphamide
 metilprednisona	Methylprednisolone
 metotreksat	Methotrexate
-mitotane	Mitotane
 nab-rapamycin	Rapamycin
 name	alias
 navelbine	Vinorelbine
 neulasta	Pegfilgrastim
-nivolumab	Nivolumab
 nolvadex	Tamoxifen
 oncophage vaccine	Vitespen
 otherwise	NO-FIND
-oxaliplatin	Oxaliplatin
 oxaliplatinum + 5-FU	Oxaliplatin+Fluorouracil
 oxaliplatinum+ 5-FU	Oxaliplatin+Fluorouracil
 oxaliplatinum+5 fluorouracilum	Oxaliplatin+Fluorouracil
 oxaliplatinum+5-FU	Oxaliplatin+Fluorouracil
-paclitaxel	Paclitaxel
 paclitaxelum	Paclitaxel
-panitumumab	Panitumumab
-pazopanib	Pazopanib
-pembrolizumab	Pembrolizumab
-pemetrexed	Pemetrexed
 pemetrexed disodium	Pemetrexed
-platinum	Platinum
 prednisona	Prednisone
 premetrexed	Pemetrexed
-procarbazine	Procarbazine
 proleukin (IL-2)	Aldesleukin
-px-866	px-866
 rTRAIL	trail blazers
-raloxifene	Raloxifene
 rec MAGE	MAGE-3-AS-AS15-ASCI
 rec MAGE 3-AS + AS15 ACS1 / Placebo Vaccine	MAGE-3-AS-AS15-ASCI
 rec MAGE3-AS+AS15 ASCI vs Placebo	MAGE-3-AS-AS15-ASCI
@@ -1563,19 +1152,12 @@ recMAGE- A3	MAGE-A3
 recMAGE3-AS+AS15 ASCI/Placebo vaccine	MAGE-3-AS-AS15-ASCI
 recPRAME+AS15	GSK2302025A
 recPRAME+AS15 ASCI	GSK2302025A
-regorafenib	Regorafenib
 retinoic	retinoic acid
-rigosertib	Rigosertib
-rituximab	Rituximab
-sorafenib	Sorafenib
 specified	NO-FIND
-streptozocin	Streptozocin
-sunitinib	Sunitinib
 sunitinib (sutent)	Sunitinib
 sutent	Sunitinib
 sutent (sunitinib)	Sunitinib
 synthroid	Levothyroxine
-tamoxifen	Tamoxifen
 tamoxifen citrate	Tamoxifen
 tamoxiphen	tamoxifen
 tamoxiphen+anastrazolum	Tamoxifen+Anastrozole
@@ -1588,21 +1170,9 @@ taxol+adriamycin+cyclophosphamide+herceptin	Paclitaxel+Doxorubicin+Cyclophospham
 taxotere	Docetaxel
 tc	Docetaxel+Cyclophosphamide
 temodar	Temozolomide
-temozolomide	Temozolomide
-temsirolimus	Temsirolimus
-thalidomide	Thalidomide
-topotecan	Topotecan
-trabectedin	Trabectedin
-trastuzumab	Trastuzumab
-triptorelin	Triptorelin
-vaccine	vaccine
 vectibix	Panitumumab
-vemurafenib	Vemurafenib
-vinblastine	Vinblastine
 vincristina	Vincristine
-vincristine	Vincristine
 xeloda	Capecitabine
-zoledronic acid	Zoledronic acid
 acctuane	Accutane
 adriamyicin	Adriamycin
 adrimicin	Adimicin
@@ -1629,14 +1199,11 @@ carbplatin	carboplatin
 cedicanib	Cediranib
 celbrex	Celebrex
 cepecitabine	CAPECITABINE
-ceranib-2	Ceranib-2
-CHEBI:50694	CHEBI:50694
 cilenaitide	Cilengitide
 cilengtide	Cilengitide
 ciplastin	cisplatinum
 cisplatain	cisplatinum
 cisplatnin	cisplatinum
-CMK	CMK
 cyclophasphamide	cyclophosphamide
 cyclophospamide	cyclophosphamide
 cyotxan	Cytoxan
@@ -1659,13 +1226,11 @@ doxifluridin	doxifluridine
 doxirubicin	doxorubicin
 doxobubicin	doxorubicin
 doxorubincin	doxorubicin
-eligard	Eligard
 eloxatin	Eloxatin (TN)
 epirubicoin	Epirubicin
 erlotonib	Erlotinib
 etoposid	etoposide
 flourouracil	5-Fluorouracil
-fluoruracil	Fluoruracil
 folinic	folinic acid
 fuluestrant	Fulvestrant
 gamzar	Gemzar
@@ -1683,7 +1248,6 @@ hexamethymelamine	HEXAMETHYLMELAMINE
 hydoxyurea	hydroxyurea
 hydrochoroquine	HYDROXYCHLOROQUINE SULFATE
 hydroxurea	hydroxyurea
-hydroxydaunomycin	hydroxydaunomycin
 hydroxyuerea	hydroxyurea
 hydroyurea	hydroxyurea
 hyrdroxyurea	hydroxyurea
@@ -1699,7 +1263,6 @@ leuocvorin	leucovorin
 levcovorin	leucovorin
 levenracetam	Levetiracetam
 Linsitnib	Linsitinib
-lomustin	lomustin
 lumustine	lomustine
 luprolide	leuprolide
 melphalon	melphalan
@@ -1707,7 +1270,6 @@ mustophoran	Mustophorane
 nab	nabumetone
 naxavar	Nexavar
 nexavaar	Nexavar
-oxaliplatinum	Oxaliplatinum
 oxaloplatin	Oxaliplatinum
 pacilatxel	paclitaxel
 paciltaxal	paclitaxel
@@ -1719,7 +1281,6 @@ pacliatxel	paclitaxel
 pacliltaxel	paclitaxel
 paclitaxil	paclitaxel
 palixtaxel	paclitaxel
-paraplatin	Paraplatin
 predisone	prednisone
 procarbizine	procarbazine
 sarafenib	Sorafenib
@@ -1727,7 +1288,6 @@ sargramostin	Sarcostin
 sovatenib	Sorafenib
 tamoxiten	tamoxifen
 tanceva	Tarceva
-tarceva	Tarceva
 tarveca	Tarceva
 TASIN-1	CASIN
 taxel	Paclitaxel (Taxol)
@@ -1747,4 +1307,3 @@ topetecan	topotecan
 toptecan	topotecan
 trenantone	Trenbolone acetate
 unkown	UNKNOWN
-votrient	Votrient
