@@ -7,7 +7,7 @@ import requests_cache
 from bmeg.utils import ensure_directory
 
 
-def Client(prefix, cache_name="requests_cache", retries=3, backoff_factor=0.3,
+def Client(prefix, cache_name="requests_cache", retries=5, backoff_factor=0.3,
            status_forcelist=(500, 502, 504), session=None):
     """
     Client provides a requests session that is configured with automatic
