@@ -1,8 +1,8 @@
-md5: 77497335a9e10740e6f5432fba851758
+md5: 10b27316a57dbb7695497a134b04ee43
 cmd: python3 transform/ctrp/drug_response.py
 wdir: ../..
 deps:
-- md5: d0ff9cbe75984d854629dcb630def2d3
+- md5: 6e7cc08cd961e4b800af3df7791329b3
   path: transform/ctrp/drug_response.py
 - md5: e6d1bc2ea16ca63f03474a27ea27034e
   path: source/ccle/cellline_lookup.tsv
@@ -39,12 +39,12 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: 4ce6263e26f45203398d7717f9ac32f8
+- md5: a22fd0a502d0f5e80d5d2fd855702276
   path: outputs/ctrp/drug_response.DrugResponse_Compounds_Compound.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: cf3668aa9b6771d98c333a4127c403b1
+- md5: 2b43f24831ae141ce16fe3b5988f2264
   path: outputs/ctrp/drug_response.Compound_DrugResponses_DrugResponse.Edge.json.gz
   cache: true
   metric: false
