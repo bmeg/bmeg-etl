@@ -1,4 +1,4 @@
-md5: 3aa860104eeb583a59252cc5a4391743
+md5: 70d7653ce0fa3ae51e3bbb8e49203d6f
 cmd: python3 transform/compound/transform.py
 wdir: ../..
 deps:
@@ -22,9 +22,9 @@ deps:
   path: outputs/ccle/drug_response.DrugResponse_Compounds_Compound.Edge.json.gz
 - md5: 430ad1dac006e74fc1972b7e51cbd942
   path: outputs/ccle/drug_response.Compound_DrugResponses_DrugResponse.Edge.json.gz
-- md5: 4ce6263e26f45203398d7717f9ac32f8
+- md5: a22fd0a502d0f5e80d5d2fd855702276
   path: outputs/ctrp/drug_response.DrugResponse_Compounds_Compound.Edge.json.gz
-- md5: cf3668aa9b6771d98c333a4127c403b1
+- md5: 2b43f24831ae141ce16fe3b5988f2264
   path: outputs/ctrp/drug_response.Compound_DrugResponses_DrugResponse.Edge.json.gz
 - md5: b3fb3e072a7283e46c6d929ba2dc3573
   path: outputs/gdsc/drug_response.DrugResponse_Compounds_Compound.Edge.json.gz
@@ -64,12 +64,12 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: f1449a2c5146d4e2709dd79b69945afb
+- md5: 086ef043be327bb1694204d9739fb318
   path: outputs/compound/normalized.DrugResponse_Compounds_Compound.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: b48e2a6ba4311219104bb501d8f47c18
+- md5: 37ec1a8da6c0602b01e54596e7cf52fb
   path: outputs/compound/normalized.Compound_DrugResponses_DrugResponse.Edge.json.gz
   cache: true
   metric: false

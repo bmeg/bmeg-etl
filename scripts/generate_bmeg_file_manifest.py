@@ -121,5 +121,5 @@ for o in sorted(set(outputs)):
 DVC_CMD += ' "echo generating file manifest..."'
 args = shlex.split(DVC_CMD)
 subprocess.call(args)
-with open('scripts/bmeg_file_manifest.txt', 'w+') as fobj:
+with open('bmeg_file_manifest.txt', 'w+') as fobj:
     fobj.write('\n'.join(final_outputs))
