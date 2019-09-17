@@ -1,48 +1,52 @@
-md5: 219ced51787dbd741691d029ef9a332f
+md5: e5c5c7205616731514966f5f7b3d74c4
 cmd: python3 transform/dgidb/transform.py
 wdir: ../..
 deps:
 - md5: 7adcf4f9a4580908139f3e16877003f3
   path: source/dgidb/interactions.tsv
-- md5: e738a1f112c6a31342d98f6313a09f60
+- md5: 8a36c7915e0fefdc2d8deec16b883802
+  path: source/drug_enricher/drug_alias.tsv
+- md5: 27eb3c4eae8744024ec3260572db08ee
+  path: src/bmeg/enrichers/drug_enricher.py
+- md5: 936873de1ea7a748293263ff126a2967
   path: transform/dgidb/transform.py
 outs:
-- md5: b67274ada3c9deabfd39d7e4f246ed6b
+- md5: 08f562eb2f651d243650313d27025f19
   path: outputs/dgidb/G2PAssociation.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 957bd30274e77148fb5a6d864fc791e4
+- md5: 0bd6b1df399d8557ce48d4836886a2c3
   path: outputs/dgidb/Compound.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 22100541bc4688b9e140664d0fd624ca
+- md5: bace58822c69e0b08c338011e2013dfd
   path: outputs/dgidb/G2PAssociation_Genes_Gene.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: e925c77528bc2a68ef1fbaf1da2c6dcf
+- md5: 8873040bd458078834079b4963215c6f
   path: outputs/dgidb/G2PAssociation_Publications_Publication.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 03e3518d725df7eceb5996fedbf2073d
+- md5: 5046608b07201c85d11907303c1cb507
   path: outputs/dgidb/G2PAssociation_Compounds_Compound.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 2d01db33e6fd49f78af50d1fae0a14bc
+- md5: 39b8a79b90738115d8912142bd12f71a
   path: outputs/dgidb/Publication_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 47ff6128623d4e46dc6e9f15911a53be
+- md5: 7f9a0b4f819d366ec099e84b6abbe82c
   path: outputs/dgidb/Gene_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 068131a8e65c05bb509d273a776e2554
+- md5: ce10deaafb0d2bef94c8256c9c356571
   path: outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false
