@@ -42,7 +42,7 @@ def transform(sif_file="source/pathway_commons/pc11.detailed.sif",
     path_int = {}
     gene_path = {}
     for line in sif:
-        # ignore compounds production for now
+        # ignore compounds for now
         if line["PARTICIPANT_A"].startswith("CHEBI") or line["PARTICIPANT_B"].startswith("CHEBI"):
             continue
 
