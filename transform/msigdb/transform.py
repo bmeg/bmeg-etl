@@ -32,6 +32,10 @@ def transform(input_path="source/msigdb/msigdb_v6.2.xml",
             if k.lower() in keep_props:
                 props[k.lower()] = v
 
+        # skip pathways since those are defined elsewhere
+        if props["sub_category_code"] == "C2" and props["sub_category_code"] == "CP":
+            continue
+
         # skip data with license restrictions
         # http://software.broadinstitute.org/gsea/msigdb_license_terms.jsp
         if props["standard_name"].startswith("BIOCARTA_") or \
@@ -39,13 +43,9 @@ def transform(input_path="source/msigdb/msigdb_v6.2.xml",
            props["standard_name"].startswith("KEGG_"):
             continue
 
-        # skip pathways since those are defined elsewhere
-        # if props["sub_category_code"] == "C2" and props["sub_category_code"] == "CP":
-        #     continue
-
         # skip gene ontologies since those are defined elsewhere
-        # if props["sub_category_code"] == "C5":
-        #     continue
+        if props["sub_category_code"] == "C5":
+            continue
 
         props['id'] = GeneSet.make_gid(props["standard_name"])
         props['project_id'] = Project.make_gid("Reference")
