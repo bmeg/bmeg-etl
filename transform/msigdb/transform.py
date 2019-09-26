@@ -33,7 +33,7 @@ def transform(input_path="source/msigdb/msigdb_v6.2.xml",
                 props[k.lower()] = v
 
         # skip pathways since those are defined elsewhere
-        if props["sub_category_code"] == "C2" and props["sub_category_code"] == "CP":
+        if props["category_code"] == "C2" and props["sub_category_code"] == "CP":
             continue
 
         # skip data with license restrictions
@@ -44,7 +44,7 @@ def transform(input_path="source/msigdb/msigdb_v6.2.xml",
             continue
 
         # skip gene ontologies since those are defined elsewhere
-        if props["sub_category_code"] == "C5":
+        if props["category_code"] == "C5":
             continue
 
         props['id'] = GeneSet.make_gid(props["standard_name"])
