@@ -1,11 +1,11 @@
-md5: a15b17e58e79361cd91ea24c40b4f6dd
+md5: ab8f13798f8cec247ccb51755bcb046f
 cmd: python3 transform/pathway_commons/transform.py
 wdir: ../..
 deps:
-- md5: acd261436174e4691808cbc392c42b0d
+- md5: f505dcb35fee063eeaf2491b4446b8ac
   path: transform/pathway_commons/transform.py
-- md5: dc1de915f00c5d7b37cfe7cd57b2f2b8
-  path: source/pathway_commons/pc11.detailed.sif
+- md5: 388d4680850f9ab3c24a9036f0b1c530
+  path: source/pathway_commons/pc11.all.sif
 - md5: 475d63e91f5e1a7af2b36233dc462a56
   path: source/pathway_commons/pathways.txt.gz
 outs:
@@ -14,47 +14,47 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: ca007c6a34fb336b524ea8f634c5c8b3
+- md5: 377b95536fd909520ded6d189145e665
   path: outputs/pathway_commons/Interaction.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 44b3473c8506169f16ed973e9521c4ad
+- md5: 340814c755cbfc44b71e5c91f5b8df01
   path: outputs/pathway_commons/Gene_InteractionInput_Interaction.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 5498ed942604fcd735d7aece7c1c4db4
+- md5: 25359033cf924e7031d0780b26d4f75b
   path: outputs/pathway_commons/Gene_Pathways_Pathway.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 9d4b8673dba5aaec47520f4987467c43
+- md5: 3bcc1bb158d17e20d87dd5339d69ae6e
   path: outputs/pathway_commons/Interaction_InteractionOutput_Gene.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 239d7afa0017e7b1277dd52ae59fc8de
+- md5: c77dc642d24095dce583d747e61438ef
   path: outputs/pathway_commons/Interaction_Pathways_Pathway.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: a0341597a0aa8a96bcce46d8513ed109
+- md5: 737bc587e7faef80a008f30b9f310643
   path: outputs/pathway_commons/Interaction_Publications_Publication.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 41465ea4b4f7373fccada343cc41b7bd
+- md5: e5b0c497ffd4fe1528f5f7a2cb03909a
   path: outputs/pathway_commons/Pathway_Genes_Gene.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 32545c213eecf10379d77887bacbaf5b
+- md5: 4342a981012fb96a987efd2e54df9d9b
   path: outputs/pathway_commons/Pathway_Interactions_Interaction.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 6381ab2738b55712095a487b26d3785d
+- md5: 34ce068f620964c170cc5a297a1f5803
   path: outputs/pathway_commons/Publication_Interactions_Interaction.Edge.json.gz
   cache: true
   metric: false
