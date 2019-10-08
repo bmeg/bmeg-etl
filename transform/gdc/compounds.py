@@ -41,7 +41,7 @@ def transform(compounds="source/gdc/compounds/*.tsv",
                     drug_name == "not otherwise specified"]):
                 continue
 
-            drug_name = re.search("([A-Za-z0-9]+)(\ +?\(.*\))?", drug_name).group(1)
+            drug_name = re.search("([A-Za-z0-9-_ ]+)(\(.*\))?", drug_name).group(1).strip()
             cpd_names = [x.strip() for x in re.split(",|\+", drug_name)]
             for cpd_name in cpd_names:
                 if "placebo" in cpd_name:
