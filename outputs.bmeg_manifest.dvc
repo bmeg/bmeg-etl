@@ -1,4 +1,4 @@
-md5: 010e91f1ce0be22a4b276f81e8559350
+md5: a49937fe0fba16dd03ef1412485bb952
 cmd: echo generating file manifest...
 deps:
 - md5: de92fd37fca1bed73a64aa545e422d3a
@@ -63,23 +63,23 @@ deps:
   path: outputs/ccle/maf.SomaticCallset_Alleles_Allele.Edge.json.gz
 - md5: 00364823893d8d2535f926195b1ac21c
   path: outputs/celllines/Case_SameAs_Case.Edge.json.gz
-- md5: 01a7c9c9d89170faf93b9d05557e3945
+- md5: 8e8e11059b5cbd3c1ae85573b30dabb0
   path: outputs/compound/normalized.Case_Compounds_Compound.Edge.json.gz
-- md5: 0a5cd11e0f91ca8da6ce769942b5814e
+- md5: ef8e005a6a56f34904dd4bfd7948355d
   path: outputs/compound/normalized.Compound.Vertex.json.gz
-- md5: 1283639410fda8478d05e5bedf02ade0
+- md5: 488eee20c9e4f0c99070eb6dfbb3fdb7
   path: outputs/compound/normalized.Compound_Cases_Case.Edge.json.gz
-- md5: 37ec1a8da6c0602b01e54596e7cf52fb
+- md5: 65e90f12066d8eba49f2a7c6401573d9
   path: outputs/compound/normalized.Compound_DrugResponses_DrugResponse.Edge.json.gz
-- md5: 300b73f60897b6c68b24b394b7781e10
+- md5: 3a44e58080ed69ba3ac95861a9f6fa67
   path: outputs/compound/normalized.Compound_G2PAssociations_G2PAssociation.Edge.json.gz
-- md5: 65f668e75679d68b86882d815f4f27de
+- md5: 8fe1e1cb0721e8d8f8efb46e99ed7514
   path: outputs/compound/normalized.Compound_Projects_Project.Edge.json.gz
-- md5: 086ef043be327bb1694204d9739fb318
+- md5: 9a9fae017188f7f50f06ea922ef085d1
   path: outputs/compound/normalized.DrugResponse_Compounds_Compound.Edge.json.gz
-- md5: b96ce39187eefa958e9b92e0a36e1f3f
+- md5: 155190bbebf30deaaa01f11c72d3eb22
   path: outputs/compound/normalized.G2PAssociation_Compounds_Compound.Edge.json.gz
-- md5: 4083e6035935fe8d19715d16f340bb13
+- md5: 5a0a0aa5f5795c2960172004f2aad976
   path: outputs/compound/normalized.Project_Compounds_Compound.Edge.json.gz
 - md5: b919a6e32e86aee7ead98c20f6572c0c
   path: outputs/ctrp/ctrp.Aliquot.Vertex.json.gz
@@ -113,15 +113,15 @@ deps:
   path: outputs/ctrp/drug_response.DrugResponse.Vertex.json.gz
 - md5: 50804cc666bd19c2d88baf263890abdd
   path: outputs/ctrp/drug_response.DrugResponse_Aliquot_Aliquot.Edge.json.gz
-- md5: b67274ada3c9deabfd39d7e4f246ed6b
+- md5: 83f55521629daf5d4e26bcb7ddb330d8
   path: outputs/dgidb/G2PAssociation.Vertex.json.gz
-- md5: 22100541bc4688b9e140664d0fd624ca
+- md5: 4845214655fae54a07b80dc1afc0a460
   path: outputs/dgidb/G2PAssociation_Genes_Gene.Edge.json.gz
-- md5: e925c77528bc2a68ef1fbaf1da2c6dcf
+- md5: 4491baeade2f848aa19eebe5934bb892
   path: outputs/dgidb/G2PAssociation_Publications_Publication.Edge.json.gz
-- md5: 47ff6128623d4e46dc6e9f15911a53be
+- md5: a6875d57805787affd94295283674917
   path: outputs/dgidb/Gene_G2PAssociations_G2PAssociation.Edge.json.gz
-- md5: 2d01db33e6fd49f78af50d1fae0a14bc
+- md5: 28b8818ec139029fb607e6b8eb815999
   path: outputs/dgidb/Publication_G2PAssociations_G2PAssociation.Edge.json.gz
 - md5: 3f89bd640983b7ea76b5dbbbcd846941
   path: outputs/ensembl/Exon.Vertex.json.gz
