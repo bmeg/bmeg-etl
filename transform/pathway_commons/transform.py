@@ -26,7 +26,7 @@ def get_participant(p):
     return v
 
 
-def transform(sif_file="source/pathway_commons/pc11.detailed.sif",
+def transform(sif_file="source/pathway_commons/pc11.all.sif",
               pathways_file="source/pathway_commons/pathways.txt.gz",
               emitter_prefix=None,
               emitter_directory="pathway_commons"):
@@ -42,7 +42,7 @@ def transform(sif_file="source/pathway_commons/pc11.detailed.sif",
     path_int = {}
     gene_path = {}
     for line in sif:
-        # ignore compounds production for now
+        # ignore compounds for now
         if line["PARTICIPANT_A"].startswith("CHEBI") or line["PARTICIPANT_B"].startswith("CHEBI"):
             continue
 

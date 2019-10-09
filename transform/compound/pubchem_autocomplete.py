@@ -17,7 +17,7 @@ def transform(path='outputs/compound/normalized.Compound.Vertex.json.gz'):
             original_name = compound['data']['submitter_id'].strip()
             suggestion = get_pubchem_autocomplete_suggestion(original_name)
             if not suggestion:
-                suggestion = 'NO-FIND'
+                continue
 
             sys.stdout.write('{}{}{}{}'.format(original_name.strip(), '\t', suggestion.strip(), '\n'))
 

@@ -1,52 +1,52 @@
-md5: e5c5c7205616731514966f5f7b3d74c4
+md5: e720598cc16fd7bb5918bd09f0397589
 cmd: python3 transform/dgidb/transform.py
 wdir: ../..
 deps:
 - md5: 7adcf4f9a4580908139f3e16877003f3
   path: source/dgidb/interactions.tsv
-- md5: 8a36c7915e0fefdc2d8deec16b883802
+- md5: c228b8450fa2537a4acbb4f23f62964f
   path: source/drug_enricher/drug_alias.tsv
-- md5: 27eb3c4eae8744024ec3260572db08ee
+- md5: 64e7a82c87e7151a7c49846469157547
   path: src/bmeg/enrichers/drug_enricher.py
 - md5: 936873de1ea7a748293263ff126a2967
   path: transform/dgidb/transform.py
 outs:
-- md5: 08f562eb2f651d243650313d27025f19
+- md5: 3fa57b7c369e2c8dd2dc0d0b6c44766e
   path: outputs/dgidb/G2PAssociation.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 0bd6b1df399d8557ce48d4836886a2c3
+- md5: f7a2bbfb7436d76e09b9e13bd3d0c9ff
   path: outputs/dgidb/Compound.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: bace58822c69e0b08c338011e2013dfd
+- md5: 166177ce31138f0ee32dc339fdfdd987
   path: outputs/dgidb/G2PAssociation_Genes_Gene.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 8873040bd458078834079b4963215c6f
+- md5: 4f99308481017576d6cc208b6f514eab
   path: outputs/dgidb/G2PAssociation_Publications_Publication.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 5046608b07201c85d11907303c1cb507
+- md5: 9c4627785660215fa9adbf7c9f6cf172
   path: outputs/dgidb/G2PAssociation_Compounds_Compound.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 39b8a79b90738115d8912142bd12f71a
+- md5: 03f13f3513d5282b8a1f309429ae81f0
   path: outputs/dgidb/Publication_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 7f9a0b4f819d366ec099e84b6abbe82c
+- md5: 97282e6b782ab81889884ba6d9ba368e
   path: outputs/dgidb/Gene_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: ce10deaafb0d2bef94c8256c9c356571
+- md5: fa0ae005deb28af2d935cc818c1394b4
   path: outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false

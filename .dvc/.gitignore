@@ -21,3 +21,4 @@ cache
 /state-wal
 /cache
 /repos
+/tmp

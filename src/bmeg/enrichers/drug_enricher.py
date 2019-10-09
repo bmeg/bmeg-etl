@@ -209,7 +209,6 @@ def normalize_biothings(name, fuzzy=False):
         return None
 
     if name in NOFINDS_BIOTHINGS:
-        logging.info("NOFINDS_BIOTHINGS {}".format(name))
         return None
 
     fields = [
@@ -282,6 +281,7 @@ def normalize_biothings(name, fuzzy=False):
         if compound is not None:
             return compound
 
+    logging.info("NOFINDS_BIOTHINGS {}".format(name))
     NOFINDS_BIOTHINGS[name] = True
     return None
 
@@ -329,7 +329,6 @@ def normalize(name):
     if name == "" or name == "N/A" or name == "NA" or name is None:
         return None
     if name in NOFINDS:
-        logging.warning('NOFINDS {}'.format(name))
         return None
 
     # ensure name is a string
@@ -344,22 +343,26 @@ def normalize(name):
         logging.debug('renamed {} to {}'.format(name, ALIASES.get(name)))
     name = ALIASES.get(name, name)
 
-    compound = normalize_biothings(name, fuzzy=False)
+    compound = None
+    cid = search_pubchem(name)
+    if cid:
+        compound = normalize_biothings(cid)
+
     if compound is None:
-        cid = search_pubchem(name)
-        if cid:
-            compound = normalize_biothings(cid)
+        compound = normalize_biothings(name, fuzzy=False)
 
     if compound is None:
         compound = normalize_biothings(name, fuzzy=True)
 
     if compound is None:
-        drug_name = re.search("([A-Za-z0-9]+)(\ +?\(.*\))?", name).group(1)
+        drug_name = re.search("([A-Za-z0-9-_ ]+)(\(.*\))?", name).group(1).strip()
         if drug_name != name:
+            logging.debug('searching for alternate name: {} -> {}'.format(name, drug_name))
             compound = normalize(drug_name)
 
     if compound is None:
         # skip next time
+        logging.warning('NOFINDS {}'.format(name))
         NOFINDS[name] = True
         return None
 
