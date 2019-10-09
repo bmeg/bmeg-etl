@@ -21,8 +21,12 @@ def transform(interactions_file="source/dgidb/interactions.tsv",
     interactions = read_tsv(interactions_file)
     # gene_name gene_claim_name entrez_id interaction_claim_source interaction_types drug_claim_name drug_claim_primary_name drug_name drug_chembl_id PMIDs
     for line in interactions:
+        source = line["interaction_claim_source"]
+        # remove associations already brought in by VICC G2P
+        if source in ["CGI", "CIViC", "OncoKB", "CKB"]:
+            continue
         assoc_params = {
-            "source": line["interaction_claim_source"],
+            "source": source,
             "source_document": json.dumps(line),
             "description": "{} {} {}".format(line["drug_chembl_id"], line["interaction_types"], line["gene_name"]),
             "evidence_label": None,
