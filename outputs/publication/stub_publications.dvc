@@ -1,4 +1,4 @@
-md5: e01759a412af6ddf090ed7a0106d746d
+md5: 443f917e8b79b3bc6b071f4a9474cacd
 cmd: python3 transform/publication/transform.py
 wdir: ../..
 deps:
@@ -8,18 +8,22 @@ deps:
   path: outputs/g2p/G2PAssociation_Publications_Publication.Edge.json.gz
 - md5: 78e4c7cdbfad334978b576eeaeee2e86
   path: outputs/g2p/Publication_G2PAssociations_G2PAssociation.Edge.json.gz
+- md5: 4f99308481017576d6cc208b6f514eab
+  path: outputs/dgidb/G2PAssociation_Publications_Publication.Edge.json.gz
+- md5: 03f13f3513d5282b8a1f309429ae81f0
+  path: outputs/dgidb/Publication_G2PAssociations_G2PAssociation.Edge.json.gz
 - md5: 2a69a3d9fe9acd1c5465afc03be20cd2.dir
   path: outputs/pubmed/baseline
 - md5: 7feb8063bd265b0933cf9d1f7aa7923c
   path: outputs/msigdb/Publication_GeneSets_GeneSet.Edge.json.gz
 - md5: c7b863f20541385d1c46b46d3a885e96
   path: outputs/msigdb/GeneSet_Publications_Publication.Edge.json.gz
-- md5: 6381ab2738b55712095a487b26d3785d
+- md5: 34ce068f620964c170cc5a297a1f5803
   path: outputs/pathway_commons/Publication_Interactions_Interaction.Edge.json.gz
-- md5: a0341597a0aa8a96bcce46d8513ed109
+- md5: 737bc587e7faef80a008f30b9f310643
   path: outputs/pathway_commons/Interaction_Publications_Publication.Edge.json.gz
 outs:
-- md5: 05da1b15f56e10fb29e885f93609df49
+- md5: 6d0f476db147dd592b4b507f68272f0e
   path: outputs/publication/stub.Publication.Vertex.json.gz
   cache: true
   metric: false
