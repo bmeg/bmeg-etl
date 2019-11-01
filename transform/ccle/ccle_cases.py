@@ -1,4 +1,5 @@
 from glob import glob
+import json
 import os
 import pandas
 
@@ -16,37 +17,49 @@ from bmeg import (Sample, Aliquot, Case, Project, Program,
 from bmeg.enrichers.phenotype_enricher import phenotype_factory
 
 
-def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
-              project_lookup_path="source/ccle/cellline_project_lookup.tsv",
+def transform(cellline_lookup_path="source/ccle/cellline_id_lookup.tsv",
+              properties_lookup_path="source/ccle/cellline_properties_lookup.tsv",
               phenotype_lookup_path="source/ccle/cellline_phenotype_lookup.tsv",
-              drug_response_path='source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv',
+              pharmacodb_cells_path="source/pharmacodb/cells.csv",
+              pharmacodb_experiments_path="source/pharmacodb/experiments.csv",
               expression_path="source/ccle/CCLE_depMap_19Q1_TPM.csv",
               maf_dir="source/ccle/mafs/*",
               emitter_prefix="ccle",
               emitter_directory="ccle"):
 
+    emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
+
     celllines = bmeg.ioutils.read_lookup(cellline_lookup_path)
-    projects = bmeg.ioutils.read_lookup(project_lookup_path)
+    properties = bmeg.ioutils.read_lookup(properties_lookup_path)
     phenotypes = bmeg.ioutils.read_lookup(phenotype_lookup_path)
 
-    emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
     prog = Program(id=Program.make_gid("CCLE"),
                    program_id="CCLE")
     emitter.emit_vertex(prog)
 
-    raw_ids = {}
-    drugs = {}
+    proj = Project(id=Project.make_gid("CCLE"),
+                   project_id="CCLE")
+    emitter.emit_vertex(proj)
+    emitter.emit_edge(
+        Project_Programs_Program(
+            from_gid=proj.gid(),
+            to_gid=prog.gid(),
+        ),
+        emit_backref=True
+    )
 
-    input_stream = bmeg.ioutils.read_csv(drug_response_path)
-    for line in input_stream:
-        k = line['CCLE Cell Line Name']
+    raw_ids = {}
+
+    pharmacodb = pandas.merge(
+        pandas.read_csv(pharmacodb_experiments_path)[["cell_id", "dataset_id"]],
+        pandas.read_csv(pharmacodb_cells_path)[["cell_id", "cell_name"]],
+        on="cell_id"
+    ).drop_duplicates()
+    pharmacodb_ccle = pharmacodb[pharmacodb.dataset_id == 1]
+
+    for k in pharmacodb_ccle.cell_name.tolist():
         if k not in raw_ids:
             raw_ids[k] = None
-        d = line['Compound']
-        if k in drugs:
-            drugs[k].append(d)
-        else:
-            drugs[k] = [d]
 
     input_stream = pandas.read_csv(expression_path, sep=",", index_col=0)
     for k, vals in input_stream.iterrows():
@@ -59,7 +72,6 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
             raw_ids[k] = None
 
     emitted_celllines = {}
-    emitted_projects = {}
     emitted_phenotypes = {}
     for raw_id in raw_ids:
         if raw_id in celllines:
@@ -72,24 +84,15 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         if cellline_id in emitted_celllines:
             continue
 
-        project_id = "CCLE_%s" % (projects.get(cellline_id, "Unknown"))
-        proj = Project(id=Project.make_gid(project_id),
-                       project_id=project_id)
-        if proj.gid() not in emitted_projects:
-            emitter.emit_vertex(proj)
-            emitter.emit_edge(
-                Project_Programs_Program(
-                    from_gid=proj.gid(),
-                    to_gid=prog.gid(),
-                ),
-                emit_backref=True
-            )
-            emitted_projects[proj.gid()] = None
+        props = properties.get(cellline_id, None)
+        if props:
+            props = json.loads(props)
 
         case_id = "CCLE:%s" % (cellline_id)
         c = Case(id=Case.make_gid(case_id),
                  submitter_id=raw_id,
                  case_id=cellline_id,
+                 cellline_attributes=props,
                  project_id=proj.gid())
         emitter.emit_vertex(c)
         # case <-> project edges
@@ -105,6 +108,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         s = Sample(id=Sample.make_gid(sample_id),
                    submitter_id=raw_id,
                    sample_id=cellline_id,
+                   cellline_attributes=props,
                    project_id=proj.gid())
         emitter.emit_vertex(s)
         # sample <-> case edges
@@ -119,6 +123,30 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         emitter.emit_edge(
             Sample_Projects_Project(
                 from_gid=s.gid(),
+                to_gid=proj.gid()
+            ),
+            emit_backref=True
+        )
+
+        aliquot_id = "CCLE:%s" % (cellline_id)
+        a = Aliquot(id=Aliquot.make_gid(aliquot_id),
+                    submitter_id=raw_id,
+                    aliquot_id=cellline_id,
+                    cellline_attributes=props,
+                    project_id=proj.gid())
+        emitter.emit_vertex(a)
+        # aliquot <-> Sample edges
+        emitter.emit_edge(
+            Aliquot_Sample_Sample(
+                from_gid=a.gid(),
+                to_gid=s.gid()
+            ),
+            emit_backref=True
+        )
+        # aliquot <-> project edges
+        emitter.emit_edge(
+            Aliquot_Projects_Project(
+                from_gid=a.gid(),
                 to_gid=proj.gid()
             ),
             emit_backref=True
@@ -146,44 +174,6 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
                 ),
                 emit_backref=True
             )
-
-        def emit_aliquot(emitter, a, s, proj):
-            # aliquot
-            emitter.emit_vertex(a)
-            # aliquot <-> sample edges
-            emitter.emit_edge(
-                Aliquot_Sample_Sample(
-                    from_gid=a.gid(),
-                    to_gid=s.gid()
-                ),
-                emit_backref=True
-            )
-            # aliquot <-> project edges
-            emitter.emit_edge(
-                Aliquot_Projects_Project(
-                    from_gid=a.gid(),
-                    to_gid=proj.gid()
-                ),
-                emit_backref=True
-            )
-            return
-
-        for experiement_type in ["DrugResponse", "TranscriptExpression", "GeneExpression", "Callset"]:
-            if experiement_type == "DrugResponse":
-                for drug in drugs.get(raw_id, []):
-                    aliquot_id = "CCLE:%s:%s:%s" % (cellline_id, experiement_type, drug)
-                    a = Aliquot(id=Aliquot.make_gid(aliquot_id),
-                                submitter_id=raw_id,
-                                aliquot_id=cellline_id,
-                                project_id=proj.gid())
-                    emit_aliquot(emitter, a, s, proj)
-            else:
-                aliquot_id = "CCLE:%s:%s" % (cellline_id, experiement_type)
-                a = Aliquot(id=Aliquot.make_gid(aliquot_id),
-                            submitter_id=raw_id,
-                            aliquot_id=cellline_id,
-                            project_id=proj.gid())
-                emit_aliquot(emitter, a, s, proj)
 
         emitted_celllines[cellline_id] = None
 

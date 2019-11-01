@@ -1,7 +1,6 @@
 from bmeg import (GeneExpression, TranscriptExpression, Aliquot, Project,
                   GeneExpression_Aliquot_Aliquot, TranscriptExpression_Aliquot_Aliquot)
 
-import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
 from bmeg.gct import parse_gct, split_ensembl_id
 from bmeg.utils import ensure_directory
@@ -12,11 +11,8 @@ import pandas
 
 
 def transform_rpkm(path="source/depmap/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct",
-                   project_lookup_path="source/ccle/cellline_project_lookup.tsv",
                    emitter_prefix=None,
                    emitter_directory="ccle"):
-
-    projects = bmeg.ioutils.read_lookup(project_lookup_path)
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
     outdir = os.path.join("outputs", emitter_directory)
@@ -31,13 +27,13 @@ def transform_rpkm(path="source/depmap/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct
             metric="RPKM",
             method="Unknown",
             values=values,
-            project_id=Project.make_gid("CCLE_%s" % (projects.get(sample, "Unknown")))
+            project_id=Project.make_gid("CCLE")
         )
         emitter.emit_vertex(g)
         emitter.emit_edge(
             GeneExpression_Aliquot_Aliquot(
                 from_gid=g.gid(),
-                to_gid=Aliquot.make_gid("CCLE:%s:GeneExpression" % (sample))
+                to_gid=Aliquot.make_gid("CCLE:%s" % (sample))
             ),
             emit_backref=True
         )
@@ -46,11 +42,8 @@ def transform_rpkm(path="source/depmap/CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct
 
 
 def transform_gene_tpm(path="source/ccle/CCLE_depMap_19Q1_TPM.csv",
-                       project_lookup_path="source/ccle/cellline_project_lookup.tsv",
                        emitter_prefix=None,
                        emitter_directory="ccle"):
-
-    projects = bmeg.ioutils.read_lookup(project_lookup_path)
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
     outdir = os.path.join("outputs", emitter_directory)
@@ -64,13 +57,13 @@ def transform_gene_tpm(path="source/ccle/CCLE_depMap_19Q1_TPM.csv",
             metric="TPM",
             method="Unknown",
             values=values.to_dict(),
-            project_id=Project.make_gid("CCLE_%s" % (projects.get(sample, "Unknown")))
+            project_id=Project.make_gid("CCLE")
         )
         emitter.emit_vertex(g)
         emitter.emit_edge(
             GeneExpression_Aliquot_Aliquot(
                 from_gid=g.gid(),
-                to_gid=Aliquot.make_gid("CCLE:%s:GeneExpression" % (sample))
+                to_gid=Aliquot.make_gid("CCLE:%s" % (sample))
             ),
             emit_backref=True
         )
@@ -79,11 +72,8 @@ def transform_gene_tpm(path="source/ccle/CCLE_depMap_19Q1_TPM.csv",
 
 
 def transform_tpm(path="source/ccle/CCLE_depMap_19Q1_TPM_transcripts.csv",
-                  project_lookup_path="source/ccle/cellline_project_lookup.tsv",
                   emitter_prefix=None,
                   emitter_directory="ccle"):
-
-    projects = bmeg.ioutils.read_lookup(project_lookup_path)
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
     outdir = os.path.join("outputs", emitter_directory)
@@ -97,13 +87,13 @@ def transform_tpm(path="source/ccle/CCLE_depMap_19Q1_TPM_transcripts.csv",
             metric="TPM",
             method="Unknown",
             values=values.to_dict(),
-            project_id=Project.make_gid("CCLE_%s" % (projects.get(sample, "Unknown")))
+            project_id=Project.make_gid("CCLE")
         )
         emitter.emit_vertex(t)
         emitter.emit_edge(
             TranscriptExpression_Aliquot_Aliquot(
                 from_gid=t.gid(),
-                to_gid=Aliquot.make_gid("CCLE:%s:TranscriptExpression" % (sample))
+                to_gid=Aliquot.make_gid("CCLE:%s" % (sample))
             ),
             emit_backref=True
         )

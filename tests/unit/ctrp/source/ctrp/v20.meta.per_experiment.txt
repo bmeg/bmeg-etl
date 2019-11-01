@@ -1,4 +1,0 @@
-experiment_id	run_id	experiment_date	culture_media	baseline_signal	cells_per_well	growth_mode	snp_fp_status	master_ccl_id
-4	7024-01-A01-02-02	20120504	DMEM001	2.225e-001	500	adherent	SNP-unconfirmed	9
-14	7024-01-A01-02-03	20120507	DMEM001	2.225e-001	500	adherent	SNP-unconfirmed	8
-191	7024-01-A01-02-18	20120706	RPMI001	1.195e-001	500	adherent	SNP-matched-reference	538

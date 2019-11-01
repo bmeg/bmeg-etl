@@ -1,3 +1,4 @@
+import json
 import pandas
 
 import bmeg.ioutils
@@ -15,63 +16,47 @@ from bmeg.emitter import JSONEmitter
 
 
 def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
-              project_lookup_path="source/ccle/cellline_project_lookup.tsv",
+              properties_lookup_path="source/ccle/cellline_properties_lookup.tsv",
               phenotype_lookup_path="source/ccle/cellline_phenotype_lookup.tsv",
-              metadrugPath='source/ctrp/v20.meta.per_compound.txt',
-              metacelllinePath="source/ctrp/v20.meta.per_cell_line.txt",
-              responsePath="source/ctrp/v20.data.curves_post_qc.txt",
-              metaexperimentPath="source/ctrp/v20.meta.per_experiment.txt",
-              curvePath="source/ctrp/v20.data.per_cpd_post_qc.txt",
+              pharmacodb_cells_path="source/pharmacodb/cells.csv",
+              pharmacodb_experiments_path="source/pharmacodb/experiments.csv",
               emitter_prefix='ctrp',
               emitter_directory='ctrp'):
 
-    celllines = bmeg.ioutils.read_lookup(cellline_lookup_path)
-    projects = bmeg.ioutils.read_lookup(project_lookup_path)
-    phenotypes = bmeg.ioutils.read_lookup(phenotype_lookup_path)
-
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
+
+    celllines = bmeg.ioutils.read_lookup(cellline_lookup_path)
+    properties = bmeg.ioutils.read_lookup(properties_lookup_path)
+    phenotypes = bmeg.ioutils.read_lookup(phenotype_lookup_path)
 
     prog = Program(id=Program.make_gid("CTRP"),
                    program_id="CTRP")
     emitter.emit_vertex(prog)
 
-    compound_df = pandas.read_table(metadrugPath)
-    compound_df = compound_df.set_index("master_cpd_id")
+    proj = Project(id=Project.make_gid("CTRP"),
+                   project_id="CTRP")
+    emitter.emit_vertex(proj)
+    emitter.emit_edge(
+        Project_Programs_Program(
+            from_gid=proj.gid(),
+            to_gid=prog.gid(),
+        ),
+        emit_backref=True
+    )
 
-    ccl_df = pandas.read_table(metacelllinePath)
-    ccl_df = ccl_df.set_index("master_ccl_id")
-
-    response_df = pandas.read_table(responsePath)
-
-    metaexperiment_df = pandas.read_table(metaexperimentPath)
-    metaexperiment_df = metaexperiment_df.drop_duplicates("experiment_id")
-    metaexperiment_df = metaexperiment_df.set_index("experiment_id")
-
-    curve_df = pandas.read_table(curvePath)
-    curve_df = curve_df.set_index(["experiment_id", "master_cpd_id"])
+    pharmacodb = pandas.merge(
+        pandas.read_csv(pharmacodb_experiments_path)[["cell_id", "dataset_id"]],
+        pandas.read_csv(pharmacodb_cells_path)[["cell_id", "cell_name"]],
+        on="cell_id"
+    ).drop_duplicates()
+    pharmacodb_ctrp = pharmacodb[pharmacodb.dataset_id == 2]
 
     raw_ids = {}
-    drugs = {}
-    for i, row in response_df.iterrows():
-        cpd_id = row['master_cpd_id']
-        cpd_name = compound_df.loc[cpd_id]['cpd_name']
-        exp_id = row['experiment_id']
-        ccl_id = metaexperiment_df.loc[exp_id]['master_ccl_id']
-        ccl_name = ccl_df.loc[ccl_id]['ccl_name']
-
-        # both ids map to ACH-000991
-        if ccl_name in ["697", "SNU81"]:
-            ccl_name = "SNU81"
-
-        if ccl_name not in raw_ids:
-            raw_ids[ccl_name] = None
-        if ccl_name in drugs:
-            drugs[ccl_name].append(cpd_name)
-        else:
-            drugs[ccl_name] = [cpd_name]
+    for k in pharmacodb_ctrp.cell_name.tolist():
+        if k not in raw_ids:
+            raw_ids[k] = None
 
     emitted_celllines = {}
-    emitted_projects = {}
     emitted_phenotypes = {}
     for i in raw_ids:
         if i in celllines:
@@ -84,24 +69,15 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         if cellline_id in emitted_celllines:
             continue
 
-        project_id = "CTRP_%s" % (projects.get(cellline_id, "Unknown"))
-        proj = Project(id=Project.make_gid(project_id),
-                       project_id=project_id)
-        if proj.gid() not in emitted_projects:
-            emitter.emit_vertex(proj)
-            emitter.emit_edge(
-                Project_Programs_Program(
-                    from_gid=proj.gid(),
-                    to_gid=prog.gid(),
-                ),
-                emit_backref=True
-            )
-            emitted_projects[proj.gid()] = None
+        props = properties.get(cellline_id, None)
+        if props:
+            props = json.loads(props)
 
         case_id = "CTRP:%s" % (cellline_id)
         c = Case(id=Case.make_gid(case_id),
                  submitter_id=i,
                  case_id=cellline_id,
+                 cellline_attributes=props,
                  project_id=proj.gid())
         emitter.emit_vertex(c)
         # case <-> project edges
@@ -117,6 +93,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         s = Sample(id=Sample.make_gid(sample_id),
                    submitter_id=i,
                    sample_id=cellline_id,
+                   cellline_attributes=props,
                    project_id=proj.gid())
         emitter.emit_vertex(s)
         # sample <-> case edges
@@ -131,6 +108,30 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         emitter.emit_edge(
             Sample_Projects_Project(
                 from_gid=s.gid(),
+                to_gid=proj.gid()
+            ),
+            emit_backref=True
+        )
+
+        aliquot_id = "CTRP:%s" % (cellline_id)
+        a = Aliquot(id=Aliquot.make_gid(aliquot_id),
+                    submitter_id=i,
+                    aliquot_id=cellline_id,
+                    cellline_attributes=props,
+                    project_id=proj.gid())
+        emitter.emit_vertex(a)
+        # aliquot <-> Sample edges
+        emitter.emit_edge(
+            Aliquot_Sample_Sample(
+                from_gid=a.gid(),
+                to_gid=s.gid()
+            ),
+            emit_backref=True
+        )
+        # aliquot <-> project edges
+        emitter.emit_edge(
+            Aliquot_Projects_Project(
+                from_gid=a.gid(),
                 to_gid=proj.gid()
             ),
             emit_backref=True
@@ -155,31 +156,6 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
                 Sample_Phenotypes_Phenotype(
                     from_gid=s.gid(),
                     to_gid=pheno.gid()
-                ),
-                emit_backref=True
-            )
-
-        experiement_type = "DrugResponse"
-        for drug in drugs.get(i, []):
-            aliquot_id = "CTRP:%s:%s:%s" % (cellline_id, experiement_type, drug)
-            a = Aliquot(id=Aliquot.make_gid(aliquot_id),
-                        submitter_id=i,
-                        aliquot_id=cellline_id,
-                        project_id=proj.gid())
-            emitter.emit_vertex(a)
-            # aliquot <-> sample edges
-            emitter.emit_edge(
-                Aliquot_Sample_Sample(
-                    from_gid=a.gid(),
-                    to_gid=s.gid()
-                ),
-                emit_backref=True
-            )
-            # aliquot <-> project edges
-            emitter.emit_edge(
-                Aliquot_Projects_Project(
-                    from_gid=a.gid(),
-                    to_gid=proj.gid()
                 ),
                 emit_backref=True
             )

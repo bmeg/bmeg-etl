@@ -6,28 +6,23 @@ from transform.gdsc.cases import transform
 
 
 @pytest.fixture
-def metadrugPath(request):
-    return os.path.join(request.fspath.dirname, 'source/gdsc/Screened_Compounds.xlsx')
+def pharmacodb_cells_path(request):
+    return os.path.join(request.fspath.dirname, 'source/pharmacodb/cells.csv')
 
 
 @pytest.fixture
-def metacelllinePath(request):
-    return os.path.join(request.fspath.dirname, 'source/gdsc/Cell_Lines_Details.xlsx')
-
-
-@pytest.fixture
-def cellline_meta_path(request):
-    return os.path.join(request.fspath.dirname, 'source/ccle/DepMap-2019q1-celllines.csv_v2.csv')
+def pharmacodb_experiments_path(request):
+    return os.path.join(request.fspath.dirname, 'source/pharmacodb/experiments.csv')
 
 
 @pytest.fixture
 def cellline_lookup_path(request):
-    return os.path.join(request.fspath.dirname, 'source/ccle/cellline_lookup.tsv')
+    return os.path.join(request.fspath.dirname, 'source/ccle/cellline_id_lookup.tsv')
 
 
 @pytest.fixture
-def project_lookup_path(request):
-    return os.path.join(request.fspath.dirname, 'source/ccle/cellline_project_lookup.tsv')
+def properties_lookup_path(request):
+    return os.path.join(request.fspath.dirname, 'source/ccle/cellline_properties_lookup.tsv')
 
 
 @pytest.fixture
@@ -35,8 +30,8 @@ def phenotype_lookup_path(request):
     return os.path.join(request.fspath.dirname, 'source/ccle/cellline_phenotype_lookup.tsv')
 
 
-def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_path,
-             project_lookup_path, phenotype_lookup_path, metadrugPath, metacelllinePath):
+def validate(helpers, emitter_directory, cellline_lookup_path, properties_lookup_path,
+             phenotype_lookup_path, pharmacodb_cells_path, pharmacodb_experiments_path):
     """ run xform and test results"""
     aliquot_file = os.path.join(emitter_directory, 'Aliquot.Vertex.json.gz')
     sample_file = os.path.join(emitter_directory, 'Sample.Vertex.json.gz')
@@ -75,10 +70,10 @@ def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_pat
     # create output
     transform(
         cellline_lookup_path=cellline_lookup_path,
-        project_lookup_path=project_lookup_path,
+        properties_lookup_path=properties_lookup_path,
         phenotype_lookup_path=phenotype_lookup_path,
-        drugs_meta_path=metadrugPath,
-        cellline_meta_path=metacelllinePath,
+        pharmacodb_cells_path=pharmacodb_cells_path,
+        pharmacodb_experiments_path=pharmacodb_experiments_path,
         emitter_prefix=None,
         emitter_directory=emitter_directory
     )
@@ -95,8 +90,8 @@ def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_pat
     )
 
 
-def test_simple(helpers, emitter_directory, cellline_meta_path, cellline_lookup_path,
-                project_lookup_path, phenotype_lookup_path, metadrugPath, metacelllinePath):
+def test_simple(helpers, emitter_directory, cellline_lookup_path, properties_lookup_path,
+                phenotype_lookup_path, pharmacodb_cells_path, pharmacodb_experiments_path):
 
-    validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_path,
-             project_lookup_path, phenotype_lookup_path, metadrugPath, metacelllinePath)
+    validate(helpers, emitter_directory, cellline_lookup_path, properties_lookup_path,
+             phenotype_lookup_path, pharmacodb_cells_path, pharmacodb_experiments_path)

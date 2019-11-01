@@ -1,8 +1,8 @@
-md5: 89544bcdf78e52414690335e95360c91
+md5: 058853cafbb324406f9a2231de701699
 cmd: python3 transform/ccle/cellline_lookups.py
 wdir: ../..
 deps:
-- md5: bd0d74acd0a34901826873f3c1b5542c
+- md5: 569a67d9878816b2f00e2eaaf4c36be1
   path: transform/ccle/cellline_lookups.py
 - md5: 6d66a59fb75c31cd3a1b320eefe1efc8
   path: source/ccle/DepMap-2019q1-celllines.csv_v2.csv
@@ -23,7 +23,7 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: 44e86471fac6ffe72252ae659f73065a
+- md5: ae2b19dc73056b43adb8f6736c726a79
   path: source/ccle/cellline_properties_lookup.tsv
   cache: true
   metric: false
