@@ -18,9 +18,6 @@ outputs/ccle/ccle.Project_Programs_Program.Edge.json.gz
 outputs/ccle/ccle.Sample.Vertex.json.gz
 outputs/ccle/ccle.Sample_Aliquots_Aliquot.Edge.json.gz
 outputs/ccle/ccle.Sample_Case_Case.Edge.json.gz
-outputs/ccle/drug_response.Aliquot_DrugResponse_DrugResponse.Edge.json.gz
-outputs/ccle/drug_response.DrugResponse.Vertex.json.gz
-outputs/ccle/drug_response.DrugResponse_Aliquot_Aliquot.Edge.json.gz
 outputs/ccle/maf.Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz
 outputs/ccle/maf.Allele_Gene_Gene.Edge.json.gz
 outputs/ccle/maf.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz
@@ -51,9 +48,6 @@ outputs/ctrp/ctrp.Project_Programs_Program.Edge.json.gz
 outputs/ctrp/ctrp.Sample.Vertex.json.gz
 outputs/ctrp/ctrp.Sample_Aliquots_Aliquot.Edge.json.gz
 outputs/ctrp/ctrp.Sample_Case_Case.Edge.json.gz
-outputs/ctrp/drug_response.Aliquot_DrugResponse_DrugResponse.Edge.json.gz
-outputs/ctrp/drug_response.DrugResponse.Vertex.json.gz
-outputs/ctrp/drug_response.DrugResponse_Aliquot_Aliquot.Edge.json.gz
 outputs/dgidb/G2PAssociation.Vertex.json.gz
 outputs/dgidb/G2PAssociation_Genes_Gene.Edge.json.gz
 outputs/dgidb/G2PAssociation_Publications_Publication.Edge.json.gz
@@ -94,9 +88,6 @@ outputs/gdc/Project_Programs_Program.Edge.json.gz
 outputs/gdc/Sample.Vertex.json.gz
 outputs/gdc/Sample_Aliquots_Aliquot.Edge.json.gz
 outputs/gdc/Sample_Case_Case.Edge.json.gz
-outputs/gdsc/drug_response.Aliquot_DrugResponse_DrugResponse.Edge.json.gz
-outputs/gdsc/drug_response.DrugResponse.Vertex.json.gz
-outputs/gdsc/drug_response.DrugResponse_Aliquot_Aliquot.Edge.json.gz
 outputs/gdsc/gdsc.Aliquot.Vertex.json.gz
 outputs/gdsc/gdsc.Aliquot_Sample_Sample.Edge.json.gz
 outputs/gdsc/gdsc.Case.Vertex.json.gz
@@ -167,6 +158,9 @@ outputs/pfam/ProteinStructure.Vertex.json.gz
 outputs/pfam/ProteinStructure_Protein_Protein.Edge.json.gz
 outputs/pfam/Protein_PfamFamilies_PfamFamily.Edge.json.gz
 outputs/pfam/Protein_ProteinStructures_ProteinStructure.Edge.json.gz
+outputs/pharmacodb/Aliquot_DrugResponse_DrugResponse.Edge.json.gz
+outputs/pharmacodb/DrugResponse.Vertex.json.gz
+outputs/pharmacodb/DrugResponse_Aliquot_Aliquot.Edge.json.gz
 outputs/phenotype/normalized.Case_Phenotypes_Phenotype.Edge.json.gz
 outputs/phenotype/normalized.G2PAssociation_Phenotypes_Phenotype.Edge.json.gz
 outputs/phenotype/normalized.Phenotype.Vertex.json.gz

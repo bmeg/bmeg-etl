@@ -60,7 +60,7 @@ def transform(cellline_lookup_path='source/ccle/cellline_id_lookup.tsv',
         cell_name = cellline_id_lookup.get(row.cell_name, row.cell_name)
         dr = DrugResponse(
             id=DrugResponse.make_gid(row.dataset_name, cell_name, row.drug_name),
-            einf=row.EINF,
+            einf=row.Einf,
             ec50=row.EC50,
             ic50=row.IC50,
             aac=row.AAC,
@@ -78,7 +78,7 @@ def transform(cellline_lookup_path='source/ccle/cellline_id_lookup.tsv',
 
         drug_name = row.drug_name
         if not pandas.isna(row.pubchem):
-            drug_name = "CID%s" % row.pubchem
+            drug_name = "CID{}".format(int(row.pubchem))
         compound = compound_factory(name=drug_name)
 
         if compound.gid() not in emitted_compounds:
@@ -98,13 +98,13 @@ def transform(cellline_lookup_path='source/ccle/cellline_id_lookup.tsv',
                 from_gid=dr.gid(),
                 to_gid=compound.gid()
             ),
-            emite_backred=True,
+            emit_backref=True,
         )
         # add edge to aliquot
         emitter.emit_edge(
             DrugResponse_Aliquot_Aliquot(
                 from_gid=dr.gid(),
-                to_gid=Aliquot.make_gid("%s:%s" % (row.dataset_name, cell_name))
+                to_gid=Aliquot.make_gid("{}:{}".format(row.dataset_name, cell_name))
             ),
             emit_backref=True
         )
