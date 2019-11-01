@@ -12,3 +12,5 @@
 /cellline_phenotype_lookup.tsv
 /CCLE_DepMap_18q3_RNAseq_RPKM_20180718.gct
 /CCLE_DepMap_18q3_maf_20180718.txt
+/cellline_id_lookup.tsv
+/cellline_properties_lookup.tsv
