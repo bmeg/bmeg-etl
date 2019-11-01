@@ -1,17 +1,19 @@
-md5: a95b410761ec4bb2b16dc0fdd746411f
+md5: b82d5a35d111b4850b086a54a6e6db57
 cmd: python3 transform/ccle/ccle_cases.py
 wdir: ../..
 deps:
-- md5: e7b6c1d2dbc2aff1914fb53e15687aa9
+- md5: a64614223d0d1ad9e5102856b8af676b
   path: transform/ccle/ccle_cases.py
-- md5: e6d1bc2ea16ca63f03474a27ea27034e
-  path: source/ccle/cellline_lookup.tsv
-- md5: 7ef860f52bd8a7c6028adb8183a624ff
-  path: source/ccle/cellline_project_lookup.tsv
-- md5: 9427377ca0e7b1cc14e35848b84f764c
+- md5: c7366e85a1b94bb952e7019b83fa4556
+  path: source/ccle/cellline_id_lookup.tsv
+- md5: ae2b19dc73056b43adb8f6736c726a79
+  path: source/ccle/cellline_properties_lookup.tsv
+- md5: 40a75b111028f0f2951196a7dd712a23
   path: source/ccle/cellline_phenotype_lookup.tsv
-- md5: 917f411573d5e68f9d61234e9e1bb539
-  path: source/ccle/CCLE_NP24.2009_Drug_data_2015.02.24.csv
+- md5: bc3e80ee596ef5666efc3ddcb462586f
+  path: source/pharmacodb/cells.csv
+- md5: 40c48b5d89beadaca0391f1b721bcf2e
+  path: source/pharmacodb/experiments.csv
 - md5: 6f69af2dd6a8e0bd8c916d8ec5b79061
   path: source/ccle/CCLE_depMap_19Q1_TPM.csv
 - md5: 078c811212df6ace75b90c0927c94467
@@ -3153,22 +3155,22 @@ deps:
 - md5: a339758e2a8edb9152251c24eaeceadd
   path: source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf
 outs:
-- md5: 592c3fbe9b2abe239204ce45234b7d14
+- md5: 2b01af982205c33141c07766aaf13a06
   path: outputs/ccle/ccle.Aliquot.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: b9f2fc6fb776c264eb6aaafa77dae488
+- md5: 9174dde868ec752bce8d733943651434
   path: outputs/ccle/ccle.Sample.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 59693ee330862b18f36de69e8f27da4b
+- md5: 0f76a2141dacf26959b193a487d20c85
   path: outputs/ccle/ccle.Case.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: f5f4151b9d171dd49b2354caaf2ef304
+- md5: 4c1710fe73b3566f754df48b3c4a10a2
   path: outputs/ccle/ccle.Project.Vertex.json.gz
   cache: true
   metric: false
@@ -3178,67 +3180,67 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: 0d7b212b7ecf10c1a841731475255e37
+- md5: 2c2682d0b331b43f9a9285dff26c2128
   path: outputs/ccle/ccle.Phenotype.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 4964a7c2e8c838d3c3193ff6367b8801
+- md5: a02103b5c95ac3029525bdc7077e5277
   path: outputs/ccle/ccle.Project_Programs_Program.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 526d9834acd7d282afee6906cbef961f
+- md5: 7f6c230c95a69e84c98b454931450c70
   path: outputs/ccle/ccle.Program_Projects_Project.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: a6ab1eb04ca8fa1e494040ef792aedfb
+- md5: e870721ca92249251f69fa6db99665d3
   path: outputs/ccle/ccle.Case_Projects_Project.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: a41a90a5cc634ffa8367065e7c4081a0
+- md5: e640574e215869e842d60e5833adabcb
   path: outputs/ccle/ccle.Project_Cases_Case.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 08d566bfe662484041c0450849841693
+- md5: ae2e83c6151bc8c95cacae0e67921bd4
   path: outputs/ccle/ccle.Sample_Case_Case.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 56637e8473c7965c33a09559ea9ab8e7
+- md5: 0b1d81e9273de0dd9debb5baf46412ee
   path: outputs/ccle/ccle.Case_Samples_Sample.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 1e33e9ff334d17ec8b950da9c89b64c5
+- md5: 3168e598bc9f773152cadd27d2b571ff
   path: outputs/ccle/ccle.Aliquot_Sample_Sample.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: a175074c4c5067a017a3f49c8d370a43
+- md5: e4dfd0d223f9aa338eec5c13be03be53
   path: outputs/ccle/ccle.Sample_Aliquots_Aliquot.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: d0f48497761a4ddb380a815c70a7bc17
+- md5: f02b7d6310cc4cd2c52444c80701e22c
   path: outputs/ccle/ccle.Case_Phenotypes_Phenotype.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: d9d41780bba0aa9164050a396cb93af8
+- md5: a2b1f7a3b5bd6017b92afe500b9c5e51
   path: outputs/ccle/ccle.Phenotype_Cases_Case.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 1638f1536b7f86b6e6770aa03445986a
+- md5: c4d56064c6c9b0cc8fe452dcc69af8fa
   path: outputs/ccle/ccle.Sample_Phenotypes_Phenotype.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: b7a2c7fabc5ec09ad6770373cef893e4
+- md5: 1877a35340fde00b983679822c0eb275
   path: outputs/ccle/ccle.Phenotype_Samples_Sample.Edge.json.gz
   cache: true
   metric: false
