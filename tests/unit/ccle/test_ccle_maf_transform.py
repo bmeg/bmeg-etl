@@ -19,7 +19,7 @@ def maf_file(request):
 
 @pytest.fixture
 def cellline_lookup_path(request):
-    return os.path.join(request.fspath.dirname, 'source/ccle/cellline_lookup.tsv')
+    return os.path.join(request.fspath.dirname, 'source/ccle/cellline_id_lookup.tsv')
 
 
 def validate(helpers, emitter_directory, maf_file, cellline_lookup_path):
