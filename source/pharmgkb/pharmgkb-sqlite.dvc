@@ -1,0 +1,33 @@
+md5: b598e296ce534c405053267d0b1f84ba
+cmd: transform/pharmgkb/load_sqlite.sh
+wdir: ../..
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/pharmgkb/version.txt
+- md5: 2b0083d04ff6483afe31679980ceb364
+  path: source/pharmgkb/chemicals.zip
+- md5: 4e44dea4e4afea8d3f2fb45025e7eebb
+  path: source/pharmgkb/drugs.zip
+- md5: 7e6299c6ff80b51cbb6d2c2570435844
+  path: source/pharmgkb/genes.zip
+outs:
+- md5: bc50889ff2c1ce7ba912cb8db72fc82c
+  path: source/pharmgkb/work.sqlite
+  cache: true
+  metric: false
+  persist: false
+- md5: b494b3446b4ae3d6c25578630bb723a8
+  path: outputs/pharmgkb/refsnp_requests_cache.sqlite
+  cache: true
+  metric: false
+  persist: false
+- md5: ca0e0be9075927349cdc73a578c6df64
+  path: outputs/pharmgkb/pharmgkb_haplotype_requests_cache.sqlite
+  cache: true
+  metric: false
+  persist: false
+- md5: 6b633d927e7864244e3dec3c865f9279
+  path: outputs/pharmgkb/pharmgkb_variant_requests_cache.sqlite
+  cache: true
+  metric: false
+  persist: false

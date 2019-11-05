@@ -21,3 +21,4 @@ jsonschema>=3.0.1
 dictionaryutils==2.0.7
 # data management
 dvc>=0.50.1
+stringcase==1.2.0

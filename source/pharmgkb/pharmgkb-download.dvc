@@ -1,0 +1,62 @@
+md5: 20b4a07c8ca919d1cf646d3976dc5414
+cmd: transform/pharmgkb/download.sh
+wdir: ../..
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/pharmgkb/version.txt
+outs:
+- md5: 281658799b556c5cb99e608098ff19f0
+  path: source/pharmgkb/annotations.zip
+  cache: true
+  metric: false
+  persist: false
+- md5: c50ff4e653c45420875de6d69a2e152d
+  path: source/pharmgkb/automated_annotations.zip
+  cache: true
+  metric: false
+  persist: false
+- md5: 2b0083d04ff6483afe31679980ceb364
+  path: source/pharmgkb/chemicals.zip
+  cache: true
+  metric: false
+  persist: false
+- md5: a9bcbf652db2afb3635062a2ca027053
+  path: source/pharmgkb/drugLabels.zip
+  cache: true
+  metric: false
+  persist: false
+- md5: 4e44dea4e4afea8d3f2fb45025e7eebb
+  path: source/pharmgkb/drugs.zip
+  cache: true
+  metric: false
+  persist: false
+- md5: 7e6299c6ff80b51cbb6d2c2570435844
+  path: source/pharmgkb/genes.zip
+  cache: true
+  metric: false
+  persist: false
+- md5: 8b544f23a7b62b1dd548946ceed4d79b
+  path: source/pharmgkb/pathways-biopax.zip
+  cache: true
+  metric: false
+  persist: false
+- md5: 0b8727c1eac916482b1a6e32be37411a
+  path: source/pharmgkb/phenotypes.zip
+  cache: true
+  metric: false
+  persist: false
+- md5: 07bdcf351df20fece66d5faa3ac830c4
+  path: source/pharmgkb/relationships.zip
+  cache: true
+  metric: false
+  persist: false
+- md5: 81f9225f344fa3761d8cf93eed535e6f
+  path: source/pharmgkb/variants.zip
+  cache: true
+  metric: false
+  persist: false
+- md5: a460f2a9d144e9197faf46b0c8120af2
+  path: source/pharmgkb/clinicalVariants.zip
+  cache: true
+  metric: false
+  persist: false

@@ -17,13 +17,13 @@ def transform():
             # not a command, an import
             if 'cmd' not in dvc:
                 print('#')
-                print('dvc import --file {} --yes \\'.format(filename))
+                print('dvc import --file {} --overwrite-dvcfile -w ../.. \\'.format(filename))
                 print(' {}\\'.format(dvc['deps'][0]['path']))
                 print(' {}'.format(dvc['outs'][0]['path']))
                 continue
             # a dvc run
             print('#')
-            print('dvc run --file {} --yes \\'.format(filename))
+            print('dvc run --file {} --overwrite-dvcfile -w ../.. \\'.format(filename))
             for dep in dvc.get('deps', []):
                 print('  -d {} \\'.format(dep['path']))
             for out in dvc.get('outs', []):

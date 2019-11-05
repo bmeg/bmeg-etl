@@ -13,6 +13,7 @@ EXCEPTIONS = [
     "outputs/g2p/Compound.Vertex.json.gz",
     "outputs/gdc/gdc.Compound.Vertex.json.gz",
     "outputs/dgidb/Compound.Vertex.json.gz",
+    "outputs/pharmgkb/Compound.Vertex.json.gz",
     # unnormalized Compound edges
     "outputs/pharmacodb/DrugResponse_Compounds_Compound.Edge.json.gz",
     "outputs/pharmacodb/Compound_DrugResponses_DrugResponse.Edge.json.gz",
@@ -26,12 +27,15 @@ EXCEPTIONS = [
     "outputs/gdc/gdc.Project_Compounds_Compound.Edge.json.gz",
     "outputs/dgidb/G2PAssociation_Compounds_Compound.Edge.json.gz",
     "outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz",
+    "outputs/pharmgkb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz",
+    "outputs/pharmgkb/G2PAssociation_Compounds_Compound.Edge.json.gz",
     # unnormalized Phenotypes
     "outputs/ccle/ccle.Phenotype.Vertex.json.gz",
     "outputs/ctrp/ctrp.Phenotype.Vertex.json.gz",
     "outputs/gdsc/gdsc.Phenotype.Vertex.json.gz",
     "outputs/g2p/Phenotype.Vertex.json.gz",
     "outputs/gdc/Phenotype.Vertex.json.gz",
+    "outputs/pharmgkb/Phenotype.Vertex.json.gz",
     # unnormalized Phenotype edges
     "outputs/ccle/ccle.Case_Phenotypes_Phenotype.Edge.json.gz",
     "outputs/ccle/ccle.Phenotype_Cases_Case.Edge.json.gz",
@@ -51,6 +55,8 @@ EXCEPTIONS = [
     "outputs/gdc/Phenotype_Cases_Case.Edge.json.gz",
     "outputs/gdc/Sample_Phenotypes_Phenotype.Edge.json.gz",
     "outputs/gdc/Phenotype_Samples_Sample.Edge.json.gz",
+    "outputs/pharmgkb/Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz",
+    "outputs/pharmgkb/G2PAssociation_Phenotypes_Phenotype.Edge.json.gz",
     # Deadletter
     "outputs/g2p/Deadletter.Vertex.json.gz",
     "outputs/mc3/Deadletter.Vertex.json.gz",
@@ -58,6 +64,7 @@ EXCEPTIONS = [
     "outputs/ccle/maf.Allele.Vertex.json.gz",
     "outputs/g2p/Allele.Vertex.json.gz",
     "outputs/mc3/Allele.Vertex.json.gz",
+    "outputs/pharmgkb/Allele.Vertex.json.gz",
     # Meta files
     "outputs/meta/Command.Vertex.json.gz",
     "outputs/meta/File.Vertex.json.gz",

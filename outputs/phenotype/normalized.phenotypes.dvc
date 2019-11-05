@@ -1,4 +1,4 @@
-md5: 913dffd7d2968bed0329f10070a1cf39
+md5: 45f29cc413869f9499a6ecdd8230c84c
 cmd: python3 transform/phenotype/transform.py
 wdir: ../..
 deps:
@@ -54,38 +54,44 @@ deps:
   path: outputs/gdc/Sample_Phenotypes_Phenotype.Edge.json.gz
 - md5: 93ecdd0050c6ccb832aa62e656544085
   path: outputs/gdc/Phenotype_Samples_Sample.Edge.json.gz
+- md5: ff0b50050e9e2b45b510b22117411306
+  path: outputs/pharmgkb/G2PAssociation_Phenotypes_Phenotype.Edge.json.gz
+- md5: d54042c46f0edd252a8a23d71c9d52b0
+  path: outputs/pharmgkb/Phenotype.Vertex.json.gz
+- md5: 9e10d4a6dd7d47b0d67a08fc27c06f85
+  path: outputs/pharmgkb/Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz
 outs:
-- md5: 5abbf2b9772c2d416c92e26c34969640
+- md5: 65089e37ffcd80f7f08bc586f850faf6
   path: outputs/phenotype/normalized.Phenotype.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: f77777265c01d65e41d3efc229a93a13
+- md5: a219fb343a54241cd10500e5680c64c1
   path: outputs/phenotype/normalized.Case_Phenotypes_Phenotype.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 8d7a441be4d7785c30dadf9d2df580ef
+- md5: 0e91656b06cad06e5315622501f0281e
   path: outputs/phenotype/normalized.Phenotype_Cases_Case.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 92e5a9d36f70943b7a2a7afe6b6de4f8
+- md5: bbaac9b3d5c0d6eae9819f8b32ae9cd9
   path: outputs/phenotype/normalized.Sample_Phenotypes_Phenotype.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 140a5a1419cda611c766b906afb80a75
+- md5: 1fb45a815f97ce006e53c4338949f1a3
   path: outputs/phenotype/normalized.Phenotype_Samples_Sample.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: fbf9b44287e4c1f248121e17e7119247
+- md5: ad7a14b96bbba9911dcec81ea4eaed4e
   path: outputs/phenotype/normalized.G2PAssociation_Phenotypes_Phenotype.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 27f90c0aa3537424172ebad8bfd623f6
+- md5: 520b7181c19a5c7bf16638a415c75edc
   path: outputs/phenotype/normalized.Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false

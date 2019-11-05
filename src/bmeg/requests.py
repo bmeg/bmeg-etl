@@ -8,7 +8,7 @@ from bmeg.utils import ensure_directory
 
 
 def Client(prefix, cache_name="requests_cache", retries=5, backoff_factor=0.3,
-           status_forcelist=(500, 502, 504), session=None):
+           status_forcelist=(500, 502, 504), session=None, method_whitelist=Retry.DEFAULT_METHOD_WHITELIST):
     """
     Client provides a requests session that is configured with automatic
     retries, caching, and more.
@@ -23,6 +23,7 @@ def Client(prefix, cache_name="requests_cache", retries=5, backoff_factor=0.3,
         connect=retries,
         backoff_factor=backoff_factor,
         status_forcelist=status_forcelist,
+        method_whitelist=method_whitelist
     )
     adapter = HTTPAdapter(max_retries=retry)
     session.mount('http://', adapter)

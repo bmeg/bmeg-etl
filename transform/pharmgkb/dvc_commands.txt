@@ -1,0 +1,155 @@
+
+cd source/pharmgkb
+
+dvc run \
+  -w ../.. \
+  --file pharmgkb-download.dvc \
+  -d source/pharmgkb/version.txt \
+  -o source/pharmgkb/annotations.zip \
+  -o source/pharmgkb/automated_annotations.zip \
+  -o source/pharmgkb/chemicals.zip \
+  -o source/pharmgkb/drugLabels.zip \
+  -o source/pharmgkb/drugs.zip \
+  -o source/pharmgkb/genes.zip \
+  -o source/pharmgkb/pathways-biopax.zip \
+  -o source/pharmgkb/phenotypes.zip \
+  -o source/pharmgkb/relationships.zip \
+  -o source/pharmgkb/variants.zip \
+  -o source/pharmgkb/clinicalVariants.zip \
+  transform/pharmgkb/download.sh
+
+dvc run \
+  --overwrite-dvcfile \
+  -w ../.. \
+  --file pharmgkb-sqlite.dvc \
+  -d source/pharmgkb/version.txt \
+  -d source/pharmgkb/chemicals.zip \
+  -d source/pharmgkb/drugs.zip \
+  -d source/pharmgkb/genes.zip \
+  -o source/pharmgkb/work.sqlite \
+  -o outputs/pharmgkb/refsnp_requests_cache.sqlite \
+  -o outputs/pharmgkb/pharmgkb_haplotype_requests_cache.sqlite \
+  -o outputs/pharmgkb/pharmgkb_variant_requests_cache.sqlite \
+  transform/pharmgkb/load_sqlite.sh
+
+
+cd outputs/pharmgkb
+dvc run \
+  --overwrite-dvcfile \
+  -w ../.. \
+  --file pharmgkb-transform.dvc \
+  -d source/pharmgkb/work.sqlite \
+  -o outputs/pharmgkb/Allele.Vertex.json.gz \
+  -o outputs/pharmgkb/Allele_G2PAssociations_G2PAssociation.Edge.json.gz \
+  -o outputs/pharmgkb/Allele_Gene_Gene.Edge.json.gz \
+  -o outputs/pharmgkb/Compound.Vertex.json.gz \
+  -o outputs/pharmgkb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz \
+  -o outputs/pharmgkb/G2PAssociation.Vertex.json.gz \
+  -o outputs/pharmgkb/G2PAssociation_Alleles_Allele.Edge.json.gz \
+  -o outputs/pharmgkb/G2PAssociation_Compounds_Compound.Edge.json.gz \
+  -o outputs/pharmgkb/G2PAssociation_Genes_Gene.Edge.json.gz \
+  -o outputs/pharmgkb/G2PAssociation_GenomicFeatures_GenomicFeature.Edge.json.gz \
+  -o outputs/pharmgkb/G2PAssociation_Phenotypes_Phenotype.Edge.json.gz \
+  -o outputs/pharmgkb/G2PAssociation_Publications_Publication.Edge.json.gz \
+  -o outputs/pharmgkb/Gene_Alleles_Allele.Edge.json.gz \
+  -o outputs/pharmgkb/Gene_G2PAssociations_G2PAssociation.Edge.json.gz \
+  -o outputs/pharmgkb/GenomicFeature.Vertex.json.gz \
+  -o outputs/pharmgkb/GenomicFeature_G2PAssociations_G2PAssociation.Edge.json.gz \
+  -o outputs/pharmgkb/Phenotype.Vertex.json.gz \
+  -o outputs/pharmgkb/Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz \
+  -o outputs/pharmgkb/Publication.Vertex.json.gz \
+  -o outputs/pharmgkb/Publication_G2PAssociations_G2PAssociation.Edge.json.gz \
+  python3 transform/pharmgkb/transform.py
+
+
+cd outputs/allele
+
+nohup dvc run \
+  --overwrite-dvcfile \
+  -w ../.. \
+  --file allele.dvc \
+  -d outputs/ccle/maf.Allele.Vertex.json.gz \
+  -d outputs/g2p/Allele.Vertex.json.gz  \
+  -d outputs/mc3/Allele.Vertex.json.gz \
+  -d outputs/pharmgkb/Allele.Vertex.json.gz \
+  -d transform/allele/transform.py \
+  -o outputs/allele/Allele.Vertex.json.gz \
+  python3 transform/allele/transform.py -v &
+
+cd outputs/compound
+
+nohup dvc run --file normalized.compounds.dvc --overwrite-dvcfile -w ../.. \
+  -d source/drug_enricher/drug_alias.tsv \
+  -d src/bmeg/enrichers/drug_enricher.py \
+  -d transform/compound/transform.py \
+  -d outputs/g2p/Compound.Vertex.json.gz \
+  -d outputs/gdc/gdc.Compound.Vertex.json.gz \
+  -d outputs/pharmacodb/Compound.Vertex.json.gz \
+  -d outputs/dgidb/Compound.Vertex.json.gz \
+  -d outputs/pharmacodb/DrugResponse_Compounds_Compound.Edge.json.gz \
+  -d outputs/pharmacodb/Compound_DrugResponses_DrugResponse.Edge.json.gz \
+  -d outputs/g2p/G2PAssociation_Compounds_Compound.Edge.json.gz \
+  -d outputs/g2p/Compound_G2PAssociations_G2PAssociation.Edge.json.gz \
+  -d outputs/gdc/gdc.Case_Compounds_Compound.Edge.json.gz \
+  -d outputs/gdc/gdc.Compound_Cases_Case.Edge.json.gz \
+  -d outputs/gdc/gdc.Compound_Projects_Project.Edge.json.gz \
+  -d outputs/gdc/gdc.Project_Compounds_Compound.Edge.json.gz \
+  -d outputs/pharmacodb/Project_Compounds_Compound.Edge.json.gz \
+  -d outputs/pharmacodb/Compound_Projects_Project.Edge.json.gz \
+  -d outputs/dgidb/G2PAssociation_Compounds_Compound.Edge.json.gz \
+  -d outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz \
+  -d outputs/pharmgkb/Compound.Vertex.json.gz \
+  -d outputs/pharmgkb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz \
+  -d outputs/pharmgkb/G2PAssociation_Compounds_Compound.Edge.json.gz \
+  -o outputs/compound/normalized.Compound.Vertex.json.gz \
+  -o outputs/compound/normalized.DrugResponse_Compounds_Compound.Edge.json.gz \
+  -o outputs/compound/normalized.Compound_DrugResponses_DrugResponse.Edge.json.gz \
+  -o outputs/compound/normalized.Project_Compounds_Compound.Edge.json.gz \
+  -o outputs/compound/normalized.Compound_Projects_Project.Edge.json.gz \
+  -o outputs/compound/normalized.Compound_Cases_Case.Edge.json.gz \
+  -o outputs/compound/normalized.Case_Compounds_Compound.Edge.json.gz \
+  -o outputs/compound/normalized.G2PAssociation_Compounds_Compound.Edge.json.gz \
+  -o outputs/compound/normalized.Compound_G2PAssociations_G2PAssociation.Edge.json.gz \
+  "python3 transform/compound/transform.py" &
+
+
+cd outputs/phenotype
+
+nohup dvc run --file normalized.phenotypes.dvc --overwrite-dvcfile -w ../.. \
+  -d source/phenotype_enricher/disease_alias.tsv \
+  -d src/bmeg/enrichers/phenotype_enricher.py \
+  -d transform/phenotype/transform.py \
+  -d outputs/ccle/ccle.Phenotype.Vertex.json.gz \
+  -d outputs/ctrp/ctrp.Phenotype.Vertex.json.gz \
+  -d outputs/gdsc/gdsc.Phenotype.Vertex.json.gz \
+  -d outputs/g2p/Phenotype.Vertex.json.gz \
+  -d outputs/gdc/Phenotype.Vertex.json.gz \
+  -d outputs/ccle/ccle.Case_Phenotypes_Phenotype.Edge.json.gz \
+  -d outputs/ccle/ccle.Phenotype_Cases_Case.Edge.json.gz \
+  -d outputs/ccle/ccle.Sample_Phenotypes_Phenotype.Edge.json.gz \
+  -d outputs/ccle/ccle.Phenotype_Samples_Sample.Edge.json.gz \
+  -d outputs/ctrp/ctrp.Case_Phenotypes_Phenotype.Edge.json.gz \
+  -d outputs/ctrp/ctrp.Phenotype_Cases_Case.Edge.json.gz \
+  -d outputs/ctrp/ctrp.Sample_Phenotypes_Phenotype.Edge.json.gz \
+  -d outputs/ctrp/ctrp.Phenotype_Samples_Sample.Edge.json.gz \
+  -d outputs/gdsc/gdsc.Case_Phenotypes_Phenotype.Edge.json.gz \
+  -d outputs/gdsc/gdsc.Phenotype_Cases_Case.Edge.json.gz \
+  -d outputs/gdsc/gdsc.Sample_Phenotypes_Phenotype.Edge.json.gz \
+  -d outputs/gdsc/gdsc.Phenotype_Samples_Sample.Edge.json.gz \
+  -d outputs/g2p/G2PAssociation_Phenotypes_Phenotype.Edge.json.gz \
+  -d outputs/g2p/Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz \
+  -d outputs/gdc/Case_Phenotypes_Phenotype.Edge.json.gz \
+  -d outputs/gdc/Phenotype_Cases_Case.Edge.json.gz \
+  -d outputs/gdc/Sample_Phenotypes_Phenotype.Edge.json.gz \
+  -d outputs/gdc/Phenotype_Samples_Sample.Edge.json.gz \
+  -d outputs/pharmgkb/G2PAssociation_Phenotypes_Phenotype.Edge.json.gz \
+  -d outputs/pharmgkb/Phenotype.Vertex.json.gz \
+  -d outputs/pharmgkb/Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz \
+  -o outputs/phenotype/normalized.Phenotype.Vertex.json.gz \
+  -o outputs/phenotype/normalized.Case_Phenotypes_Phenotype.Edge.json.gz \
+  -o outputs/phenotype/normalized.Phenotype_Cases_Case.Edge.json.gz \
+  -o outputs/phenotype/normalized.Sample_Phenotypes_Phenotype.Edge.json.gz \
+  -o outputs/phenotype/normalized.Phenotype_Samples_Sample.Edge.json.gz \
+  -o outputs/phenotype/normalized.G2PAssociation_Phenotypes_Phenotype.Edge.json.gz \
+  -o outputs/phenotype/normalized.Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz \
+  "python3 transform/phenotype/transform.py" &
