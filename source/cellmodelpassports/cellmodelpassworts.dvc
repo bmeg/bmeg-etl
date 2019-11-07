@@ -1,0 +1,14 @@
+md5: 596783e8dc85999160ca2706a2d04465
+cmd: mkdir source/cellmodelpassports/vcfs && wget https://cog.sanger.ac.uk/cmp/download/cell_line_wes_20180620.zip
+  -O source/cellmodelpassports/cell_line_wes_20180620.zip && unzip source/cellmodelpassports/cell_line_wes_20180620.zip
+  -d source/cellmodelpassports/vcfs
+wdir: ../..
+deps:
+- md5: d41d8cd98f00b204e9800998ecf8427e
+  path: source/cellmodelpassports/version.txt
+outs:
+- md5: aa42de753fcc08539b6c2f9d7da2cfc2.dir
+  path: source/cellmodelpassports/vcfs
+  cache: true
+  metric: false
+  persist: false
