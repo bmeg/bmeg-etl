@@ -131,7 +131,7 @@ def create_cellline_lookups(depmap_path="source/ccle/DepMap-2019q1-celllines.csv
     cell_props = {}
     for index, line in depmap.iterrows():
         broad_id = line["DepMap_ID"]
-        props = line.to_dict()
+        props = line.dropna().to_dict()
         cell_props[broad_id] = json.dumps(props)
 
     assert len(cell_props.keys()), "Cell properties lookup is empty!"

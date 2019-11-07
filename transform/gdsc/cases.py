@@ -15,7 +15,7 @@ from bmeg.enrichers.phenotype_enricher import phenotype_factory
 from bmeg.emitter import JSONEmitter
 
 
-def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
+def transform(cellline_lookup_path="source/ccle/cellline_id_lookup.tsv",
               properties_lookup_path="source/ccle/cellline_properties_lookup.tsv",
               phenotype_lookup_path="source/ccle/cellline_phenotype_lookup.tsv",
               pharmacodb_cells_path="source/pharmacodb/cells.csv",
@@ -59,13 +59,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
     emitted_celllines = {}
     emitted_phenotypes = {}
     for i in raw_ids:
-        if i in celllines:
-            cellline_id = celllines[i]
-        elif i.split("_")[0] in celllines:
-            cellline_id = celllines[i.split("_")[0]]
-        else:
-            cellline_id = i
-
+        cellline_id = celllines.get(i, i)
         if cellline_id in emitted_celllines:
             continue
 

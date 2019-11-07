@@ -1,4 +1,4 @@
-md5: b82d5a35d111b4850b086a54a6e6db57
+md5: 7d163cdbdc9cdf92545ba474a787c234
 cmd: python3 transform/ccle/ccle_cases.py
 wdir: ../..
 deps:
@@ -6,7 +6,7 @@ deps:
   path: transform/ccle/ccle_cases.py
 - md5: c7366e85a1b94bb952e7019b83fa4556
   path: source/ccle/cellline_id_lookup.tsv
-- md5: ae2b19dc73056b43adb8f6736c726a79
+- md5: 77f4188b46654b31edccf0e7ccac33c6
   path: source/ccle/cellline_properties_lookup.tsv
 - md5: 40a75b111028f0f2951196a7dd712a23
   path: source/ccle/cellline_phenotype_lookup.tsv
@@ -3155,17 +3155,17 @@ deps:
 - md5: a339758e2a8edb9152251c24eaeceadd
   path: source/ccle/mafs/BL41_HAEMATOPOIETIC_AND_LYMPHOID_TISSUE_vs_NORMAL/vep.maf
 outs:
-- md5: 2b01af982205c33141c07766aaf13a06
+- md5: ab70bcf172b716d3a6f5dbefb9ca3f05
   path: outputs/ccle/ccle.Aliquot.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 9174dde868ec752bce8d733943651434
+- md5: 0cba025168a0079b8a96a3eb43c704aa
   path: outputs/ccle/ccle.Sample.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 0f76a2141dacf26959b193a487d20c85
+- md5: 9611818b12dfcaa1a80a6a1c16c4fcea
   path: outputs/ccle/ccle.Case.Vertex.json.gz
   cache: true
   metric: false

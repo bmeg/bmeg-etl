@@ -1,5 +1,6 @@
 import pandas
 import bmeg.ioutils
+
 from bmeg.emitter import JSONEmitter
 from bmeg import (Aliquot, DrugResponse, Project,
                   Compound_Projects_Project,
@@ -57,28 +58,29 @@ def transform(cellline_lookup_path='source/ccle/cellline_id_lookup.tsv',
 
     emitted_compounds = {}
     for index, row in merged_data.iterrows():
-        cell_name = cellline_id_lookup.get(row.cell_name, row.cell_name)
+        row = row.dropna().to_dict()
+        cell_name = cellline_id_lookup.get(row["cell_name"], row["cell_name"])
         dr = DrugResponse(
-            id=DrugResponse.make_gid(row.dataset_name, cell_name, row.drug_name),
-            einf=row.Einf,
-            ec50=row.EC50,
-            ic50=row.IC50,
-            aac=row.AAC,
-            hs=row.HS,
-            dss1=row.DSS1,
-            dss2=row.DSS2,
-            dss3=row.DSS3,
-            dose_um=dose_response[dose_response.experiment_id == row.experiment_id].dose.tolist(),
-            response=dose_response[dose_response.experiment_id == row.experiment_id].response.tolist(),
-            source_cell_name=row.cell_name,
-            source_drug_name=row.drug_name,
-            project_id=Project.make_gid(row.dataset_name)
+            id=DrugResponse.make_gid(row["dataset_name"], cell_name, row["drug_name"]),
+            einf=row.get("Einf"),
+            ec50=row.get("EC50"),
+            ic50=row.get("IC50"),
+            aac=row.get("AAC"),
+            hs=row.get("HS"),
+            dss1=row.get("DSS1"),
+            dss2=row.get("DSS2"),
+            dss3=row.get("DSS3"),
+            dose_um=dose_response[dose_response.experiment_id == row["experiment_id"]].dose.tolist(),
+            response=dose_response[dose_response.experiment_id == row["experiment_id"]].response.tolist(),
+            source_cell_name=row.get("cell_name"),
+            source_drug_name=row.get("drug_name"),
+            project_id=Project.make_gid(row["dataset_name"])
         )
         emitter.emit_vertex(dr)
 
-        drug_name = row.drug_name
-        if not pandas.isna(row.pubchem):
-            drug_name = "CID{}".format(int(row.pubchem))
+        drug_name = row["drug_name"]
+        if row.get("pubchem"):
+            drug_name = "CID{}".format(int(row.get("pubchem")))
         compound = compound_factory(name=drug_name)
 
         if compound.gid() not in emitted_compounds:
@@ -86,7 +88,7 @@ def transform(cellline_lookup_path='source/ccle/cellline_id_lookup.tsv',
             emitter.emit_edge(
                 Compound_Projects_Project(
                     from_gid=compound.gid(),
-                    to_gid=Project.make_gid(row.dataset_name)
+                    to_gid=Project.make_gid(row["dataset_name"])
                 ),
                 emit_backref=True
             )
@@ -104,7 +106,7 @@ def transform(cellline_lookup_path='source/ccle/cellline_id_lookup.tsv',
         emitter.emit_edge(
             DrugResponse_Aliquot_Aliquot(
                 from_gid=dr.gid(),
-                to_gid=Aliquot.make_gid("{}:{}".format(row.dataset_name, cell_name))
+                to_gid=Aliquot.make_gid("{}:{}".format(row["dataset_name"], cell_name))
             ),
             emit_backref=True
         )
