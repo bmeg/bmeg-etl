@@ -1,11 +1,11 @@
-md5: 1c12d28080b365e3aeb1bac29a500544
+md5: b62de2b1907c0825a6ba116f8c7a1928
 cmd: python3 transform/pharmacodb/drug_response.py
 wdir: ../..
 deps:
 - md5: b6be874a5a0be5cf7ec204abfc3805ad
   path: transform/pharmacodb/drug_response.py
-- md5: e6d1bc2ea16ca63f03474a27ea27034e
-  path: source/ccle/cellline_lookup.tsv
+- md5: c7366e85a1b94bb952e7019b83fa4556
+  path: source/ccle/cellline_id_lookup.tsv
 - md5: bc3e80ee596ef5666efc3ddcb462586f
   path: source/pharmacodb/cells.csv
 - md5: b2906327f6c4c7389b4c694f58b5091b

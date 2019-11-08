@@ -89,7 +89,7 @@ class CCLE_MAFTransformer(MAFTransformer):
 
 
 def transform(mafpath="source/ccle/mafs/*/vep.maf",
-              cellline_lookup_path="source/ccle/cellline_lookup.tsv",
+              cellline_lookup_path="source/ccle/cellline_id_lookup.tsv",
               emitter_directory="ccle",
               emitter_prefix="maf"):
 
