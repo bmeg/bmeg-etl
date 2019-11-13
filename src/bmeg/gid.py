@@ -49,11 +49,7 @@ def somatic_callset_gid(source: str, tumor_aliquot_id: str, normal_aliquot_id: s
 
 def allele_gid(genome: str, chromosome: str, start: int, end: int,
                reference_bases: str, alternate_bases: str):
-    # TODO
-    # figure out better hashing strategy
-    vid = "{}:{}:{}:{}:{}:{}".format(genome, chromosome,
-                                     start, end, reference_bases,
-                                     alternate_bases)
+    vid = "{}:{}:{}:{}:{}:{}".format(genome, chromosome, start, end, reference_bases, alternate_bases)
     vid = vid.encode('utf-8')
     vidhash = hashlib.sha1()
     vidhash.update(vid)
