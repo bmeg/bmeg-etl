@@ -68,11 +68,10 @@ def transform(
 
 
 if __name__ == '__main__':
-    parser = default_argument_parser(prefix_default='g2p')
+    parser = default_argument_parser()
     parser.add_argument('--dvc_path', type=str,
                         default='./*.dvc',
                         help='Path to dvc files [./*.dvc]')
-    # We don't need the first argument, which is the program name
     options = parser.parse_args()
     default_logging(options.loglevel)
     transform(dvc_path=options.dvc_path)

@@ -145,9 +145,9 @@ def toGraph(normalized_association, emitter):
         EMITTED_DEADLETTER[dl.gid()] = True
 
 
-def transform(input_path, prefix, emitter_class='json'):
+def transform(input_path, emitter_directory, emitter_class):
     """ parse the association and write to graph using emitter"""
-    emitter = new_emitter(directory=prefix)
+    emitter = new_emitter(name=emitter_class, directory=emitter_directory)
     association_cache = []
     for normalized_association in normalizeAssociations(input_path):
         if normalized_association.association.gid() in association_cache:
@@ -158,15 +158,15 @@ def transform(input_path, prefix, emitter_class='json'):
 
 
 def main():  # pragma: no cover
-    parser = default_argument_parser(prefix_default='g2p')
+    parser = default_argument_parser(emitter_directory_default='g2p')
     parser.add_argument('--input_path', type=str,
                         default='source/g2p/all.json.gz',
                         help='Path to g2p associations for import')
-
-    # We don't need the first argument, which is the program name
     options = parser.parse_args()
     default_logging(options.loglevel)
-    transform(options.input_path, prefix=options.prefix, emitter_class=options.emitter)
+    transform(options.input_path,
+              emitter_directory=options.emitter_directory,
+              emitter_class=options.emitter)
 
 
 if __name__ == '__main__':
