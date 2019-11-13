@@ -43,8 +43,7 @@ exac_af_sas = 'ExAC_AF_SAS'
 def make_minimal_allele(maf_line):
     return Allele(
         id=Allele.make_gid(
-            maf_line.get(genome), maf_line.get(chromosome),
-            maf_line.get(start), maf_line.get(end),
+            maf_line.get(genome), maf_line.get(chromosome), maf_line.get(start),
             maf_line.get(reference_bases), maf_line.get(alternate_bases),
         ),
         chromosome=maf_line.get(chromosome),
@@ -58,8 +57,7 @@ def make_minimal_allele(maf_line):
 def make_allele(maf_line):
     return Allele(
         id=Allele.make_gid(
-            maf_line.get(genome), maf_line.get(chromosome),
-            maf_line.get(start), maf_line.get(end),
+            maf_line.get(genome), maf_line.get(chromosome), maf_line.get(start),
             maf_line.get(reference_bases), maf_line.get(alternate_bases),
         ),
         genome=maf_line.get(genome),
@@ -102,3 +100,40 @@ def make_allele(maf_line):
         exac_af_sas=float(maf_line.get(exac_af_sas)) if maf_line.get(exac_af_sas) else None,
         project_id=Project.make_gid('Reference')
     )
+
+
+def make_variant_call_data(maf_line, methods):
+    if isinstance(methods, str):
+        methods = [methods]
+    elif isinstance(methods, list):
+        pass
+    else:
+        raise TypeError("expected a str or list")
+    call_int_keys = {
+        't_depth': 't_depth',
+        't_ref_count': 't_ref_count',
+        't_alt_count': 't_alt_count',
+        'n_depth': 'n_depth',
+        'n_ref_count': 'n_ref_count',
+        'n_alt_count': 'n_alt_count'
+    }
+    call_str_keys = {
+        'Reference_Allele': 'ref',
+        'Tumor_Seq_Allele2': 'alt',
+        'FILTER': 'filter',
+    }
+    info = {
+        "methods": methods
+    }
+    for k, kn in call_str_keys:
+        val = maf_line.get(k, None)
+        if val == "." or val == "" or val is None:
+            val = None
+        info[kn] = val
+    for k, kn in call_int_keys.items():
+        val = maf_line.get(k, None)
+        if val == "." or val == "" or val is None:
+            info[kn] = None
+        else:
+            info[kn] = int(val)
+    return info
