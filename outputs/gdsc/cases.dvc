@@ -1,36 +1,36 @@
-md5: bec4b01671c8b78f08179268d5f19b9d
+md5: 27f548fe2ceb2db5366c5c46d67edcbc
 cmd: python3 transform/gdsc/cases.py
 wdir: ../..
 deps:
-- md5: 66e6c2bb022ed03b842262e1e4901a01
+- md5: 6b9db1e6bdc718e72ba01e1886890778
   path: transform/gdsc/cases.py
-- md5: e6d1bc2ea16ca63f03474a27ea27034e
-  path: source/ccle/cellline_lookup.tsv
-- md5: 7ef860f52bd8a7c6028adb8183a624ff
-  path: source/ccle/cellline_project_lookup.tsv
-- md5: 9427377ca0e7b1cc14e35848b84f764c
+- md5: c7366e85a1b94bb952e7019b83fa4556
+  path: source/ccle/cellline_id_lookup.tsv
+- md5: 77f4188b46654b31edccf0e7ccac33c6
+  path: source/ccle/cellline_properties_lookup.tsv
+- md5: 40a75b111028f0f2951196a7dd712a23
   path: source/ccle/cellline_phenotype_lookup.tsv
-- md5: d3cf88d70b03ea2d7bb9cac9ad0ec689
-  path: source/gdsc/Cell_Lines_Details.xlsx
-- md5: 15ec93d796ceb66f19a1e084d255ceb8
-  path: source/gdsc/Screened_Compounds.xlsx
+- md5: bc3e80ee596ef5666efc3ddcb462586f
+  path: source/pharmacodb/cells.csv
+- md5: 40c48b5d89beadaca0391f1b721bcf2e
+  path: source/pharmacodb/experiments.csv
 outs:
-- md5: 27dc3fc7e40c99c794acbf213a93803c
+- md5: 5450863980ef8b6bc42ff9a7dd578669
   path: outputs/gdsc/gdsc.Aliquot.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: d624bac874a0dff89be871467112c19f
+- md5: 34db3a9098f9b140f3707552c8aaa27e
   path: outputs/gdsc/gdsc.Sample.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: bdd157dea608004029cffb9f4adc4bc2
+- md5: 2830e21ba6fa237c7b8fea5c4a44e39f
   path: outputs/gdsc/gdsc.Case.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 6836b1fc6c3b7e8dd9fbb584f2a1f5ed
+- md5: 087d265bba388b617de06bd69a01f826
   path: outputs/gdsc/gdsc.Project.Vertex.json.gz
   cache: true
   metric: false
@@ -40,67 +40,67 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: 53a6cc857803091d1844413b8a4ca490
+- md5: 1b0f15b9bc305af638b0214a953f7f9e
   path: outputs/gdsc/gdsc.Phenotype.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 86e420c8b5eda344e66c0172e4fa5784
+- md5: 17bb96d3f591a0e5f1b27ac1e5d69ad5
   path: outputs/gdsc/gdsc.Project_Programs_Program.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 8c63c65162c4f8c8142bfb1a3fd7665b
+- md5: 37d0ee8f784d75e4a4ee6764a7b89e8a
   path: outputs/gdsc/gdsc.Program_Projects_Project.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 6554069257cc300fac328f13c5d6f971
+- md5: 9ab89f10182490d6d5326aeef6f0b0f0
   path: outputs/gdsc/gdsc.Case_Projects_Project.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 7952f21dbe8dd0a503421905880239ae
+- md5: 915bbc03b18c53982c70d954699d9b59
   path: outputs/gdsc/gdsc.Project_Cases_Case.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: b03ad4602812690af594237342f3d318
+- md5: 407a2a1f7f42920799794c1466d70be9
   path: outputs/gdsc/gdsc.Sample_Case_Case.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 8adbaa5bd662a00316462ba7e29729fd
+- md5: 528196fbd0f1bb70da1b1f4220a94a25
   path: outputs/gdsc/gdsc.Case_Samples_Sample.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: eab28f12ab3804d04aa8ffb024cc276d
+- md5: b78401566c7d42dc2960f5938383d06f
   path: outputs/gdsc/gdsc.Aliquot_Sample_Sample.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 76ee70499a7eaeba93079649e7b2664d
+- md5: 7484d3153e79010c7c50c3378fd4469a
   path: outputs/gdsc/gdsc.Sample_Aliquots_Aliquot.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: abeb32125f6a4b9d43e3bf9452876a69
+- md5: 7f2de77fb0b1fd3fc4c05022f591ff83
   path: outputs/gdsc/gdsc.Case_Phenotypes_Phenotype.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 94a75ae7326c154fa06a3ede65b7a680
+- md5: 5f8f95dcc586bc910574fd5752f88ad8
   path: outputs/gdsc/gdsc.Phenotype_Cases_Case.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 670c2f4630ddace765a8cf7f3fd31a86
+- md5: 32c6e26688f6dede93e195a95eedfe31
   path: outputs/gdsc/gdsc.Sample_Phenotypes_Phenotype.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 874b543158377cc81133019246778e75
+- md5: 1139b6d9d6b81a169c291134374a4c3a
   path: outputs/gdsc/gdsc.Phenotype_Samples_Sample.Edge.json.gz
   cache: true
   metric: false

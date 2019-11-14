@@ -1,4 +1,0 @@
-master_ccl_id	ccl_name	ccl_availability	ccle_primary_site	ccle_primary_hist	ccle_hist_subtype_1
-8	253J	ccle;public	urinary_tract	carcinoma	transitional_cell_carcinoma
-9	253JBV	ccle;public	urinary_tract	carcinoma	transitional_cell_carcinoma
-538	KMH2	ccle;public	haematopoietic_and_lymphoid_tissue	lymphoid_neoplasm	Hodgkin_lymphoma

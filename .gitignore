@@ -39,6 +39,8 @@ source/**/*.*
 !source/**/.gitignore
 !source/phenotype_enricher/disease_alias.tsv
 !source/drug_enricher/drug_alias.tsv
+!source/pharmacodb/extract_data.sh
+!source/pharmacodb/tables_to_csv.py
 
 tests/unit/allele/source/myvariantinfo/sqlite.db
 tests/unit/compound/source/compound/sqlite.db

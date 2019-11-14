@@ -58,10 +58,9 @@ class CCLE_MAFTransformer(MAFTransformer):
 
     def callset_maker(self, line, method):
         """ create callset from line """
-        global PROJECT_CONVERSION_TABLE
         cellline_id = self.barcode_to_aliquot_id(line[TUMOR_SAMPLE_BARCODE])
-        tumor_aliquot_id = "CCLE:%s:Callset" % (cellline_id)
-        project_id = "CCLE_%s" % (PROJECT_CONVERSION_TABLE.get(cellline_id, "Unknown"))
+        tumor_aliquot_id = "CCLE:%s" % (cellline_id)
+        project_id = "CCLE"
         callset = SomaticCallset(
             id=SomaticCallset.make_gid("CCLE", tumor_aliquot_id, None),
             tumor_aliquot_id=tumor_aliquot_id,
@@ -90,17 +89,13 @@ class CCLE_MAFTransformer(MAFTransformer):
 
 
 def transform(mafpath="source/ccle/mafs/*/vep.maf",
-              cellline_lookup_path="source/ccle/cellline_lookup.tsv",
-              project_lookup_path="source/ccle/cellline_project_lookup.tsv",
+              cellline_lookup_path="source/ccle/cellline_id_lookup.tsv",
               emitter_directory="ccle",
               emitter_prefix="maf"):
 
     # ensure that we have a lookup from CCLE native id to depmap id
     global SAMPLE_CONVERSION_TABLE
     SAMPLE_CONVERSION_TABLE = bmeg.ioutils.read_lookup(cellline_lookup_path)
-    # ensure that we have a lookup from CCLE native id to project id
-    global PROJECT_CONVERSION_TABLE
-    PROJECT_CONVERSION_TABLE = bmeg.ioutils.read_lookup(project_lookup_path)
 
     transformer = CCLE_MAFTransformer()
     emitter = new_emitter(name="json",

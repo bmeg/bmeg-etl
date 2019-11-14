@@ -6,43 +6,23 @@ from transform.ctrp.cases import transform
 
 
 @pytest.fixture
-def metadrugPath(request):
-    return os.path.join(request.fspath.dirname, 'source/ctrp/v20.meta.per_compound.txt')
+def pharmacodb_cells_path(request):
+    return os.path.join(request.fspath.dirname, 'source/pharmacodb/cells.csv')
 
 
 @pytest.fixture
-def metacelllinePath(request):
-    return os.path.join(request.fspath.dirname, 'source/ctrp/v20.meta.per_cell_line.txt')
-
-
-@pytest.fixture
-def responsePath(request):
-    return os.path.join(request.fspath.dirname, 'source/ctrp/v20.data.curves_post_qc.txt')
-
-
-@pytest.fixture
-def metaexperimentPath(request):
-    return os.path.join(request.fspath.dirname, 'source/ctrp/v20.meta.per_experiment.txt')
-
-
-@pytest.fixture
-def curvePath(request):
-    return os.path.join(request.fspath.dirname, 'source/ctrp/v20.data.per_cpd_post_qc.txt')
-
-
-@pytest.fixture
-def cellline_meta_path(request):
-    return os.path.join(request.fspath.dirname, 'source/ccle/DepMap-2019q1-celllines.csv_v2.csv')
+def pharmacodb_experiments_path(request):
+    return os.path.join(request.fspath.dirname, 'source/pharmacodb/experiments.csv')
 
 
 @pytest.fixture
 def cellline_lookup_path(request):
-    return os.path.join(request.fspath.dirname, 'source/ccle/cellline_lookup.tsv')
+    return os.path.join(request.fspath.dirname, 'source/ccle/cellline_id_lookup.tsv')
 
 
 @pytest.fixture
-def project_lookup_path(request):
-    return os.path.join(request.fspath.dirname, 'source/ccle/cellline_project_lookup.tsv')
+def properties_lookup_path(request):
+    return os.path.join(request.fspath.dirname, 'source/ccle/cellline_properties_lookup.tsv')
 
 
 @pytest.fixture
@@ -50,9 +30,8 @@ def phenotype_lookup_path(request):
     return os.path.join(request.fspath.dirname, 'source/ccle/cellline_phenotype_lookup.tsv')
 
 
-def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_path,
-             project_lookup_path, phenotype_lookup_path, metadrugPath,
-             metacelllinePath, responsePath, metaexperimentPath, curvePath):
+def validate(helpers, emitter_directory, cellline_lookup_path, properties_lookup_path,
+             phenotype_lookup_path, pharmacodb_cells_path, pharmacodb_experiments_path):
     """ run xform and test results"""
     aliquot_file = os.path.join(emitter_directory, 'Aliquot.Vertex.json.gz')
     sample_file = os.path.join(emitter_directory, 'Sample.Vertex.json.gz')
@@ -91,13 +70,10 @@ def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_pat
     # create output
     transform(
         cellline_lookup_path=cellline_lookup_path,
-        project_lookup_path=project_lookup_path,
+        properties_lookup_path=properties_lookup_path,
         phenotype_lookup_path=phenotype_lookup_path,
-        metadrugPath=metadrugPath,
-        metacelllinePath=metacelllinePath,
-        responsePath=responsePath,
-        metaexperimentPath=metaexperimentPath,
-        curvePath=curvePath,
+        pharmacodb_cells_path=pharmacodb_cells_path,
+        pharmacodb_experiments_path=pharmacodb_experiments_path,
         emitter_prefix=None,
         emitter_directory=emitter_directory
     )
@@ -114,10 +90,8 @@ def validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_pat
     )
 
 
-def test_simple(helpers, emitter_directory, cellline_meta_path, cellline_lookup_path,
-                project_lookup_path, phenotype_lookup_path, metadrugPath,
-                metacelllinePath, responsePath, metaexperimentPath, curvePath):
+def test_simple(helpers, emitter_directory, cellline_lookup_path, properties_lookup_path,
+                phenotype_lookup_path, pharmacodb_cells_path, pharmacodb_experiments_path):
 
-    validate(helpers, emitter_directory, cellline_meta_path, cellline_lookup_path,
-             project_lookup_path, phenotype_lookup_path, metadrugPath,
-             metacelllinePath, responsePath, metaexperimentPath, curvePath)
+    validate(helpers, emitter_directory, cellline_lookup_path, properties_lookup_path,
+             phenotype_lookup_path, pharmacodb_cells_path, pharmacodb_experiments_path)

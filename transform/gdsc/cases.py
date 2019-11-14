@@ -1,3 +1,4 @@
+import json
 import pandas
 
 import bmeg.ioutils
@@ -14,70 +15,63 @@ from bmeg.enrichers.phenotype_enricher import phenotype_factory
 from bmeg.emitter import JSONEmitter
 
 
-def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
-              project_lookup_path="source/ccle/cellline_project_lookup.tsv",
+def transform(cellline_lookup_path="source/ccle/cellline_id_lookup.tsv",
+              properties_lookup_path="source/ccle/cellline_properties_lookup.tsv",
               phenotype_lookup_path="source/ccle/cellline_phenotype_lookup.tsv",
-              cellline_meta_path="source/gdsc/Cell_Lines_Details.xlsx",
-              drugs_meta_path="source/gdsc/Screened_Compounds.xlsx",
-              emitter_prefix="gdsc",
-              emitter_directory="gdsc"):
-
-    celllines = bmeg.ioutils.read_lookup(cellline_lookup_path)
-    projects = bmeg.ioutils.read_lookup(project_lookup_path)
-    phenotypes = bmeg.ioutils.read_lookup(phenotype_lookup_path)
+              pharmacodb_cells_path="source/pharmacodb/cells.csv",
+              pharmacodb_experiments_path="source/pharmacodb/experiments.csv",
+              emitter_prefix='gdsc',
+              emitter_directory='gdsc'):
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
+
+    celllines = bmeg.ioutils.read_lookup(cellline_lookup_path)
+    properties = bmeg.ioutils.read_lookup(properties_lookup_path)
+    phenotypes = bmeg.ioutils.read_lookup(phenotype_lookup_path)
 
     prog = Program(id=Program.make_gid("GDSC"),
                    program_id="GDSC")
     emitter.emit_vertex(prog)
 
-    drugs_df = pandas.read_excel(drugs_meta_path, sheet_name=0, header=0)
-    cells_df = pandas.read_excel(cellline_meta_path, sheet_name=0, header=0)
-    drugs = drugs_df["DRUG_NAME"].tolist()
+    proj = Project(id=Project.make_gid("GDSC"),
+                   project_id="GDSC")
+    emitter.emit_vertex(proj)
+    emitter.emit_edge(
+        Project_Programs_Program(
+            from_gid=proj.gid(),
+            to_gid=prog.gid(),
+        ),
+        emit_backref=True
+    )
+
+    pharmacodb = pandas.merge(
+        pandas.read_csv(pharmacodb_experiments_path)[["cell_id", "dataset_id"]],
+        pandas.read_csv(pharmacodb_cells_path)[["cell_id", "cell_name"]],
+        on="cell_id"
+    ).drop_duplicates()
+    pharmacodb_gdsc = pharmacodb[pharmacodb.dataset_id == 5]
+
+    raw_ids = {}
+    for k in pharmacodb_gdsc.cell_name.tolist():
+        if k not in raw_ids:
+            raw_ids[k] = None
 
     emitted_celllines = {}
-    emitted_projects = {}
     emitted_phenotypes = {}
-    for i, row in cells_df.iterrows():
-        cosmic = row.get("COSMIC identifier")
-        if pandas.isnull(cosmic):
-            cosmic = None
-        else:
-            cosmic = str(int(cosmic))
-        if cosmic in celllines:
-            cellline_id = celllines[cosmic]
-        elif str(row["Sample Name"]) in celllines:
-            cellline_id = celllines[str(row["Sample Name"])]
-        elif str(row["Sample Name"]).replace("-", "").replace("/", "").upper() in celllines:
-            cellline_id = celllines[str(row["Sample Name"]).replace("-", "").replace("/", "").upper()]
-        else:
-            cellline_id = str(row["Sample Name"])
-
-        if cellline_id == "TOTAL:":
-            continue
-
+    for i in raw_ids:
+        cellline_id = celllines.get(i, i)
         if cellline_id in emitted_celllines:
             continue
 
-        project_id = "GDSC_%s" % (projects.get(cellline_id, "Unknown"))
-        proj = Project(id=Project.make_gid(project_id),
-                       project_id=project_id)
-        if proj.gid() not in emitted_projects:
-            emitter.emit_vertex(proj)
-            emitter.emit_edge(
-                Project_Programs_Program(
-                    from_gid=proj.gid(),
-                    to_gid=prog.gid(),
-                ),
-                emit_backref=True
-            )
-            emitted_projects[proj.gid()] = None
+        props = properties.get(cellline_id, None)
+        if props:
+            props = json.loads(props)
 
         case_id = "GDSC:%s" % (cellline_id)
         c = Case(id=Case.make_gid(case_id),
-                 submitter_id=str(row["Sample Name"]),
+                 submitter_id=i,
                  case_id=cellline_id,
+                 cellline_attributes=props,
                  project_id=proj.gid())
         emitter.emit_vertex(c)
         # case <-> project edges
@@ -91,8 +85,9 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
 
         sample_id = "GDSC:%s" % (cellline_id)
         s = Sample(id=Sample.make_gid(sample_id),
-                   submitter_id=str(row["Sample Name"]),
+                   submitter_id=i,
                    sample_id=cellline_id,
+                   cellline_attributes=props,
                    project_id=proj.gid())
         emitter.emit_vertex(s)
         # sample <-> case edges
@@ -107,6 +102,30 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
         emitter.emit_edge(
             Sample_Projects_Project(
                 from_gid=s.gid(),
+                to_gid=proj.gid()
+            ),
+            emit_backref=True
+        )
+
+        aliquot_id = "GDSC:%s" % (cellline_id)
+        a = Aliquot(id=Aliquot.make_gid(aliquot_id),
+                    submitter_id=i,
+                    aliquot_id=cellline_id,
+                    cellline_attributes=props,
+                    project_id=proj.gid())
+        emitter.emit_vertex(a)
+        # aliquot <-> Sample edges
+        emitter.emit_edge(
+            Aliquot_Sample_Sample(
+                from_gid=a.gid(),
+                to_gid=s.gid()
+            ),
+            emit_backref=True
+        )
+        # aliquot <-> project edges
+        emitter.emit_edge(
+            Aliquot_Projects_Project(
+                from_gid=a.gid(),
                 to_gid=proj.gid()
             ),
             emit_backref=True
@@ -135,35 +154,10 @@ def transform(cellline_lookup_path="source/ccle/cellline_lookup.tsv",
                 emit_backref=True
             )
 
-        experiement_type = "DrugResponse"
-        for drug in drugs:
-            aliquot_id = "GDSC:%s:%s:%s" % (cellline_id, experiement_type, drug)
-            a = Aliquot(id=Aliquot.make_gid(aliquot_id),
-                        submitter_id=str(row["Sample Name"]),
-                        aliquot_id=cellline_id,
-                        project_id=proj.gid())
-            emitter.emit_vertex(a)
-            # aliquot <-> sample edges
-            emitter.emit_edge(
-                Aliquot_Sample_Sample(
-                    from_gid=a.gid(),
-                    to_gid=s.gid()
-                ),
-                emit_backref=True
-            )
-            # aliquot <-> project edges
-            emitter.emit_edge(
-                Aliquot_Projects_Project(
-                    from_gid=a.gid(),
-                    to_gid=proj.gid()
-                ),
-                emit_backref=True
-            )
-
         emitted_celllines[cellline_id] = None
 
     emitter.close()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':  # pragma: no cover
     transform()

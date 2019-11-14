@@ -26,7 +26,7 @@ setup(
     python_requires=">=3.6, <4",
     install_requires=[
         "dataclasses>=0.6",
-        "jsonschema==3.0.1",
+        "jsonschema>=3.0.1",
         "requests>=2.19.1",
         "requests-cache>=0.4.13",
         "dictionaryutils==2.0.7"

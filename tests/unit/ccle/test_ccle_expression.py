@@ -6,11 +6,6 @@ from transform.ccle.ccle_expression import transform_tpm, transform_gene_tpm
 
 
 @pytest.fixture
-def project_lookup_path(request):
-    return os.path.join(request.fspath.dirname, 'source/ccle/cellline_project_lookup.tsv')
-
-
-@pytest.fixture
 def gene_tpm_file(request):
     return os.path.join(request.fspath.dirname, 'source/ccle/CCLE_depMap_19Q1_TPM.csv')
 
@@ -20,7 +15,7 @@ def tpm_file(request):
     return os.path.join(request.fspath.dirname, 'source/ccle/CCLE_depMap_19Q1_TPM_transcripts.csv')
 
 
-def validate(helpers, emitter_directory, gene_tpm_file, tpm_file, project_lookup_path):
+def validate(helpers, emitter_directory, gene_tpm_file, tpm_file):
     """ run xform and test results"""
     gene_expression_file = os.path.join(emitter_directory, 'GeneExpression.Vertex.json.gz')
     transcript_expression_file = os.path.join(emitter_directory, 'TranscriptExpression.Vertex.json.gz')
@@ -39,11 +34,9 @@ def validate(helpers, emitter_directory, gene_tpm_file, tpm_file, project_lookup
 
     # create output
     transform_gene_tpm(path=gene_tpm_file,
-                       project_lookup_path=project_lookup_path,
                        emitter_directory=emitter_directory)
 
     transform_tpm(path=tpm_file,
-                  project_lookup_path=project_lookup_path,
                   emitter_directory=emitter_directory)
 
     # ratify
@@ -56,6 +49,6 @@ def validate(helpers, emitter_directory, gene_tpm_file, tpm_file, project_lookup
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['Aliquot'])
 
 
-def test_simple(helpers, emitter_directory, gene_tpm_file, tpm_file, project_lookup_path):
+def test_simple(helpers, emitter_directory, gene_tpm_file, tpm_file):
     """ just run validate"""
-    validate(helpers, emitter_directory, gene_tpm_file, tpm_file, project_lookup_path)
+    validate(helpers, emitter_directory, gene_tpm_file, tpm_file)
