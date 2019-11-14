@@ -4,10 +4,8 @@ dedupe and harmonize alleles
 import logging
 import glob
 import sys
-import json
 import subprocess
 import os.path
-import threading
 import pandas
 
 from bmeg.util.cli import default_argument_parser
@@ -16,7 +14,7 @@ from bmeg.emitter import new_emitter
 from bmeg import (Gene, Transcript, Protein, PfamFamily,
                   Allele_Gene_Gene, Allele_Transcript_Transcript,
                   Allele_Protein_Protein, Allele_PfamFamily_PfamFamily)
-from bmeg.ioutils import reader
+
 from bmeg.maf.allele import make_allele
 
 
@@ -50,7 +48,7 @@ def create_minimal_maf(path, minimal_maf):
         files = valid_filenames(path)
         assert len(files) > 0
         files = ' '.join(files)
-        cmd = "zcat {} | jq -cr '[.data.chromosome, .data.start, .data.reference_bases, .data.alternate_bases, \"STUBID\"] | @tsv' | sort -u  > {}".format(files, minimal_maf)
+        cmd = "zcat {} | jq -cr '[.data.chromosome, .data.start, .data.reference_bases, .data.alternate_bases, \"STUBID\"] | @tsv' | sort -u > {}".format(files, minimal_maf)
         logging.info('RUNNING: {}'.format(cmd))
         subprocess.check_output(cmd, shell=True)
         return
@@ -82,7 +80,6 @@ def transform(output_dir='outputs',
     dedup alleles & harmonize annotations.
     """
 
-    threading.local().skip_check_types = True
     emitter = new_emitter(name=emitter_name, directory=emitter_directory, prefix=emitter_prefix)
 
     # Step one:
@@ -99,8 +96,10 @@ def transform(output_dir='outputs',
     logging.info('emitting annotated alleles')
     ac = ec = 0
     # allele_lookup = {}
-    for line in pandas.read_csv(annotated_maf_file, sep='\t', comment='#', dtype=str, chunksize=1):
-        line = line.iloc[0, :].dropna().to_dict()
+    maf = pandas.read_csv(annotated_maf_file, sep='\t', comment='#', dtype=str)
+    for index, line in maf.iterrows():
+        line = line.dropna().to_dict()
+
         try:
             allele = make_allele(line)
             emitter.emit_vertex(allele)

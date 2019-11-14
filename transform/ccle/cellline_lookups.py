@@ -9,6 +9,7 @@ def create_cellline_lookups(depmap_path="source/ccle/DepMap-2019q1-celllines.csv
                             cellosaurus_path="source/pharmacodb/cellosaurus.csv",
                             cells_path="source/pharmacodb/cells.csv",
                             source_cell_path="source/pharmacodb/source_cell_names.csv",
+                            cellmodelpassports_path="source/gdsc/model_list_20191104.csv",
                             outdir="source/ccle/"):
     """
     create cell line lookup tables:
@@ -99,6 +100,21 @@ def create_cellline_lookups(depmap_path="source/ccle/DepMap-2019q1-celllines.csv
         if any(stripped_name_check):
             lookup[name] = lookup[stripped_names[stripped_name_check.index(True)]]
             continue
+
+    # map Sanger IDs to Broad IDs
+    sanger = pandas.read_csv(cellmodelpassports_path)
+    for index, row in sanger.iterrows():
+        row = row.dropna().to_dict()
+        broad_id = row.get("BROAD_ID", None)
+        sanger_id = row["model_id"]
+        ids = ['CCLE_ID', 'model_name', 'COSMIC_ID']
+        for i in ids:
+            val = row.get(i, None)
+            if val and val in lookup:
+                broad_id = lookup[val]
+                break
+        if broad_id:
+            lookup[sanger_id] = broad_id
 
     handle = open(os.path.join(outdir, "cellline_id_lookup.tsv"), "w")
     for key, value in lookup.items():

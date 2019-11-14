@@ -1,72 +1,79 @@
 from bmeg import Allele, Project
 
-genome = 'NCBI_Build'
-chromosome = 'Chromosome'
-start = 'Start_Position'
-end = 'End_Position'
-reference_bases = 'Reference_Allele'
-alternate_bases = 'Tumor_Seq_Allele2'
-strand = 'Strand'
-amino_acids = 'Amino_acids'
-codons = 'Codons'
-cds_position = 'CDS_Position'
-cdna_position = 'cDNA_Position'
-protein_position = 'Protein_Position'
-exon_number = 'Exon_Number'
-variant_classification = 'Variant_Classification'
-variant_type = 'Variant_Type'
-biotype = 'BIOTYPE'
-impact = 'IMPACT'
-dbsnp_rs = 'dbSNP_RS'
-hgnc_id = 'HGNC_ID'
-hgvsc = 'HGVSc'
-hgvsp = 'HGVSp'
-hgvsp_short = 'HGVSp_Short'
-ensembl_gene = 'Gene'
-ensembl_transcript = 'Transcript_ID'
-ensembl_protein = 'ENSP'
-hugo_symbol = 'Hugo_Symbol'
+genome = 'ncbi_build'
+chromosome = 'chromosome'
+start = 'start_position'
+end = 'end_position'
+reference_bases = 'reference_allele'
+alternate_bases = 'tumor_seq_allele2'
+strand = 'strand'
+amino_acids = 'amino_acids'
+codons = 'codons'
+cds_position = 'cds_position'
+cdna_position = 'cdna_position'
+protein_position = 'protein_position'
+exon_number = 'exon_number'
+variant_classification = 'variant_classification'
+variant_type = 'variant_type'
+biotype = 'biotype'
+impact = 'impact'
+dbsnp_rs = 'dbsnp_rs'
+hgnc_id = 'hgnc_id'
+hgvsc = 'hgvsc'
+hgvsp = 'hgvsp'
+hgvsp_short = 'hgvsp_short'
+ensembl_gene = 'gene'
+ensembl_transcript = 'transcript_id'
+ensembl_protein = 'ensp'
+hugo_symbol = 'hugo_symbol'
 all_effects = 'all_effects'
-polyphen = 'PolyPhen'
-sift = 'SIFT'
-exac_af = 'ExAC_AF'
-exac_af_afr = 'ExAC_AF_AFR'
-exac_af_amr = 'ExAC_AF_AMR'
-exac_af_adj = 'ExAC_AF_ADJ'
-exac_af_eas = 'ExAC_AF_EAS'
-exac_af_fin = 'ExAC_AF_FIN'
-exac_af_nfe = 'ExAC_AF_NFE'
-exac_af_oth = 'ExAC_AF_OTH'
-exac_af_sas = 'ExAC_AF_SAS'
+polyphen = 'polyphen'
+sift = 'sift'
+exac_af = 'exac_af'
+exac_af_afr = 'exac_af_afr'
+exac_af_amr = 'exac_af_amr'
+exac_af_adj = 'exac_af_adj'
+exac_af_eas = 'exac_af_eas'
+exac_af_fin = 'exac_af_fin'
+exac_af_nfe = 'exac_af_nfe'
+exac_af_oth = 'exac_af_oth'
+exac_af_sas = 'exac_af_sas'
 
 
-def make_minimal_allele(maf_line):
+def make_minimal_allele(maf_line, alternate_bases="tumor_seq_allele2"):
+    assert isinstance(maf_line, dict)
+    maf_line = {k.lower(): v for k, v in maf_line.items()}
+    alternate_bases = alternate_bases.lower()
+    maf_line[genome] = "GRCh37"
     return Allele(
         id=Allele.make_gid(
-            maf_line.get(genome), maf_line.get(chromosome), maf_line.get(start),
-            maf_line.get(reference_bases), maf_line.get(alternate_bases),
+            maf_line[genome], maf_line[chromosome], maf_line[start],
+            maf_line[reference_bases], maf_line[alternate_bases],
         ),
-        chromosome=maf_line.get(chromosome),
-        start=int(maf_line.get(start)),
-        reference_bases=maf_line.get(reference_bases),
-        alternate_bases=maf_line.get(alternate_bases),
+        genome=maf_line[genome],
+        chromosome=maf_line[chromosome],
+        start=int(maf_line[start]),
+        reference_bases=maf_line[reference_bases],
+        alternate_bases=maf_line[alternate_bases],
         project_id=Project.make_gid('Reference')
     )
 
 
 def make_allele(maf_line):
+    assert isinstance(maf_line, dict)
+    maf_line = {k.lower(): v for k, v in maf_line.items()}
     return Allele(
         id=Allele.make_gid(
-            maf_line.get(genome), maf_line.get(chromosome), maf_line.get(start),
-            maf_line.get(reference_bases), maf_line.get(alternate_bases),
+            maf_line[genome], maf_line[chromosome], maf_line[start],
+            maf_line[reference_bases], maf_line[alternate_bases],
         ),
-        genome=maf_line.get(genome),
-        chromosome=maf_line.get(chromosome),
-        start=int(maf_line.get(start)),
-        end=int(maf_line.get(end)),
+        genome=maf_line[genome],
+        chromosome=maf_line[chromosome],
+        start=int(maf_line[start]),
+        end=int(maf_line[end]),
         strand=maf_line.get(strand),
-        reference_bases=maf_line.get(reference_bases),
-        alternate_bases=maf_line.get(alternate_bases),
+        reference_bases=maf_line[reference_bases],
+        alternate_bases=maf_line[alternate_bases],
         amino_acids=maf_line.get(amino_acids),
         codons=maf_line.get(codons),
         cds_position=maf_line.get(cds_position),
@@ -103,6 +110,8 @@ def make_allele(maf_line):
 
 
 def make_variant_call_data(maf_line, methods):
+    assert isinstance(maf_line, dict)
+    maf_line = {k.lower(): v for k, v in maf_line.items()}
     if isinstance(methods, str):
         methods = [methods]
     elif isinstance(methods, list):
@@ -118,14 +127,14 @@ def make_variant_call_data(maf_line, methods):
         'n_alt_count': 'n_alt_count'
     }
     call_str_keys = {
-        'Reference_Allele': 'ref',
-        'Tumor_Seq_Allele2': 'alt',
-        'FILTER': 'filter',
+        'reference_allele': 'ref',
+        'tumor_seq_allele2': 'alt',
+        'filter': 'filter',
     }
     info = {
         "methods": methods
     }
-    for k, kn in call_str_keys:
+    for k, kn in call_str_keys.items():
         val = maf_line.get(k, None)
         if val == "." or val == "" or val is None:
             val = None

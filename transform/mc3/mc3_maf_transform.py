@@ -3,7 +3,7 @@ import pandas
 import bmeg.ioutils
 from bmeg import Aliquot, Project, SomaticCallset, SomaticCallset_Alleles_Allele, SomaticCallset_Aliquots_Aliquot
 from bmeg.emitter import new_emitter
-from bmeg.maf.allele import make_minimal_allele, make_variant_call_data
+from bmeg.maf import make_minimal_allele, make_variant_call_data
 
 
 def transform(mafpath='source/mc3/mc3.v0.2.8.PUBLIC.maf.gz',
@@ -19,8 +19,10 @@ def transform(mafpath='source/mc3/mc3.v0.2.8.PUBLIC.maf.gz',
 
     emitted_alleles = {}
     emitted_callsets = {}
-    for line in pandas.read_csv(mafpath, sep='\t', comment='#', dtype=str, chunksize=1):
-        line = line.iloc[0, :].dropna().to_dict()
+    maf = pandas.read_csv(mafpath, sep='\t', comment='#', dtype=str)
+    for index, line in maf.iterrows():
+        line = line.dropna().to_dict()
+
         allele = make_minimal_allele(line)
         if allele.gid() not in emitted_alleles:
             emitter.emit_vertex(allele)
