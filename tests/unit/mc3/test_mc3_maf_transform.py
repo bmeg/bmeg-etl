@@ -5,9 +5,6 @@
 import pytest
 
 import transform.mc3.mc3_maf_transform as mc3_maf_transform
-from transform.mc3.mc3_maf_transform import MC3_EXTENSION_CALLSET_KEYS
-from bmeg.maf.maf_transform import STANDARD_MAF_KEYS
-from bmeg.maf.maf_transform import get_value
 from bmeg.ioutils import reader
 
 import os
@@ -32,12 +29,6 @@ def gz_file(request):
 def no_center_file(request):
     """ get the full path of the test fixture """
     return os.path.join(request.fspath.dirname, 'source/mc3/tcga_test-NO_CENTER.maf')
-
-
-@pytest.fixture
-def NO_REF_ALT_file(request):
-    """ get the full path of the test fixture """
-    return os.path.join(request.fspath.dirname, 'source/mc3/tcga_test-NO_REF_ALT.maf')
 
 
 @pytest.fixture
@@ -89,12 +80,6 @@ def validate(helpers, maf_file, emitter_directory, id_lookup_path, project_looku
         elif "Edge.json.gz" in f:
             helpers.assert_edge_file_valid(f)
 
-    # validate vertex for all edges exist
-    helpers.assert_edge_joins_valid(
-        all_files,
-        exclude_labels=['Gene', 'Aliquot']
-    )
-
     # test alleles edge contents
     with reader(allele_callset_edge_file) as f:
         for line in f:
@@ -102,10 +87,6 @@ def validate(helpers, maf_file, emitter_directory, id_lookup_path, project_looku
             allelecall = json.loads(line)
             if not (allelecall['from'].startswith("SomaticCallset") and allelecall['to'].startswith("Allele")):
                 continue
-            # optional keys, if set should be non null
-            for k in MC3_EXTENSION_CALLSET_KEYS:
-                if k in allelecall['data']:
-                    assert allelecall['data'][k], 'empty key %s' % k
             assert '|' not in allelecall['data']['methods'], 'call_method should not have a | separator'
             allelecall_methods = set(allelecall['data']['methods'])
             possible_allelecall_methods = set(["RADIA", "MUTECT", "MUSE", "VARSCANS", "INDELOCATOR", "VARSCANI", "PINDEL", "SOMATICSNIPER"])
@@ -117,9 +98,6 @@ def validate(helpers, maf_file, emitter_directory, id_lookup_path, project_looku
             # should be json
             allele = json.loads(line)
             assert allele['data']['reference_bases'] != allele['data']['alternate_bases'], 'reference should not equal alternate'
-            for k in STANDARD_MAF_KEYS:
-                if k in allele['data']:
-                    assert allele['data'][k], 'empty key %s' % k
 
     # check callset
     with reader(callset_file) as f:
@@ -143,7 +121,7 @@ def validate(helpers, maf_file, emitter_directory, id_lookup_path, project_looku
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(
         all_files,
-        exclude_labels=['Gene', 'Aliquot']
+        exclude_labels=['Aliquot']
     )
     return all_files
 
@@ -158,27 +136,9 @@ def test_gz(helpers, gz_file, emitter_directory, id_lookup_path, project_lookup_
     validate(helpers, gz_file, emitter_directory, id_lookup_path, project_lookup_path)
 
 
-def test_get_value():
-    """ test default return"""
-    assert get_value({'foo': 0}, 'bar', 1) == 1
-
-
 def test_no_center(helpers, no_center_file, emitter_directory, id_lookup_path, project_lookup_path):
     """ 'Center column' renamed """
     validate(helpers, no_center_file, emitter_directory, id_lookup_path, project_lookup_path)
-
-
-def test_NO_REF_ALT(helpers, NO_REF_ALT_file, emitter_directory, id_lookup_path, project_lookup_path):
-    """ no ref or alt bases  """
-    with pytest.raises(AssertionError):
-        validate(helpers, NO_REF_ALT_file, emitter_directory, id_lookup_path, project_lookup_path)
-    deadletter_file = os.path.join(emitter_directory, 'Deadletter.Vertex.json.gz')
-    with reader(deadletter_file) as f:
-        c = 0
-        for line in f:
-            json.loads(line)
-            c += 1
-        assert c == 1, 'We should have 1 dead letter'
 
 
 def test_NO_BARCODE(helpers, NO_BARCODE_file, emitter_directory, id_lookup_path, project_lookup_path):

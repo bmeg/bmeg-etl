@@ -2,8 +2,6 @@
 
 import pytest
 from transform.ccle.ccle_maf_transform import transform
-from transform.ccle.ccle_maf_transform import CCLE_EXTENSION_CALLSET_KEYS
-from bmeg.maf.maf_transform import STANDARD_MAF_KEYS
 from bmeg.ioutils import reader
 
 import os
@@ -14,7 +12,7 @@ import json
 
 @pytest.fixture
 def maf_file(request):
-    return os.path.join(request.fspath.dirname, 'source/ccle/mafs/*/vep.maf')
+    return os.path.join(request.fspath.dirname, 'source/ccle/test.maf')
 
 
 @pytest.fixture
@@ -61,35 +59,18 @@ def validate(helpers, emitter_directory, maf_file, cellline_lookup_path):
             # from & to should be ids, not gids
             assert 'Aliquot' not in callset['data']['tumor_aliquot_id'], 'tumor_aliquot_id should not have Aliquot gid'
 
-    # test alleles edge contents
-    with reader(allele_callset_edge_file) as f:
-        for line in f:
-            # should be json
-            allelecall = json.loads(line)
-            # optional keys, if set should be non null
-            for k in CCLE_EXTENSION_CALLSET_KEYS:
-                if k in allelecall['data']:
-                    assert allelecall['data'][k], 'empty key %s' % k
-
     # test Allele contents
     with reader(allele_file) as f:
-        dbSNP_RS_count = 0
         for line in f:
             # should be json
             allele = json.loads(line)
             # ref & allele should be different
             assert allele['data']['reference_bases'] != allele['data']['alternate_bases'], 'reference should not equal alternate'
-            for k in STANDARD_MAF_KEYS:
-                if k in allele['data']:
-                    assert allele['data'][k], 'empty key %s' % k
-            if 'dbSNP_RS' in allele['data']:
-                dbSNP_RS_count += 1
-        assert dbSNP_RS_count > 0, 'should have some dbSNP_RS set'
 
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(
         all_files,
-        exclude_labels=['Gene', 'Aliquot']
+        exclude_labels=['Aliquot']
     )
 
 
