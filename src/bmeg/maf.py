@@ -45,6 +45,12 @@ def make_minimal_allele(maf_line, alternate_bases="tumor_seq_allele2"):
     maf_line = {k.lower(): v for k, v in maf_line.items()}
     alternate_bases = alternate_bases.lower()
     maf_line[genome] = "GRCh37"
+    if reference_bases not in maf_line and alternate_bases not in maf_line:
+        raise ValueError("ref and alt bases are missing for row: %s", maf_line)
+    if reference_bases not in maf_line:
+        maf_line[reference_bases] = "."
+    if alternate_bases not in maf_line:
+        maf_line[alternate_bases] = "."
     return Allele(
         id=Allele.make_gid(
             maf_line[genome], maf_line[chromosome], maf_line[start],
@@ -62,6 +68,12 @@ def make_minimal_allele(maf_line, alternate_bases="tumor_seq_allele2"):
 def make_allele(maf_line):
     assert isinstance(maf_line, dict)
     maf_line = {k.lower(): v for k, v in maf_line.items()}
+    if reference_bases not in maf_line and alternate_bases not in maf_line:
+        raise ValueError("ref and alt bases are missing for row: %s", maf_line)
+    if reference_bases not in maf_line:
+        maf_line[reference_bases] = "."
+    if alternate_bases not in maf_line:
+        maf_line[alternate_bases] = "."
     return Allele(
         id=Allele.make_gid(
             maf_line[genome], maf_line[chromosome], maf_line[start],

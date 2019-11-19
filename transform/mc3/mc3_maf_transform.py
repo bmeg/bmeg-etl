@@ -1,3 +1,4 @@
+import logging
 import pandas
 
 import bmeg.ioutils
@@ -19,9 +20,11 @@ def transform(mafpath='source/mc3/mc3.v0.2.8.PUBLIC.maf.gz',
 
     emitted_alleles = {}
     emitted_callsets = {}
-    maf = pandas.read_csv(mafpath, sep='\t', comment='#', dtype=str)
-    for index, line in maf.iterrows():
-        line = line.dropna().to_dict()
+    maf = pandas.read_csv(mafpath, sep='\t', comment='#', dtype=str, low_memory=False,
+                          na_values=['.', 'null', 'NA', 'N/A'],
+                          keep_default_na=False)
+    for index, row in maf.iterrows():
+        line = row.dropna().to_dict()
 
         allele = make_minimal_allele(line)
         if allele.gid() not in emitted_alleles:

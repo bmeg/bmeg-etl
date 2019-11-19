@@ -46,10 +46,9 @@ def transform(output_dir='outputs',
                             SomaticCallset_Alleles_Allele(
                                 from_gid=SomaticCallset.make_gid(*edge['from'].replace('SomaticCallset:', '').split(':')),
                                 to_gid=Allele.make_gid(*edge['to'].replace('Allele:', '').split(':'),
-                                                       data=edge['data']
-                                ),
-                                emit_backref=True
-                            )
+                                                       data=edge['data']),
+                            ),
+                            emit_backref=True
                         )
                 except Exception as e:
                     logging.error(str(e))
