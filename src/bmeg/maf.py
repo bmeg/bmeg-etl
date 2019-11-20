@@ -121,7 +121,7 @@ def make_allele(maf_line):
     )
 
 
-def make_variant_call_data(maf_line, methods):
+def make_variant_call_data(maf_line, methods=["UNKNOWN"], alternate_bases="tumor_seq_allele2"):
     assert isinstance(maf_line, dict)
     maf_line = {k.lower(): v for k, v in maf_line.items()}
     if isinstance(methods, str):
@@ -140,7 +140,7 @@ def make_variant_call_data(maf_line, methods):
     }
     call_str_keys = {
         'reference_allele': 'ref',
-        'tumor_seq_allele2': 'alt',
+        alternate_bases: 'alt',
         'filter': 'filter',
     }
     info = {

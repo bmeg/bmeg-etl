@@ -1,0 +1,100 @@
+##fileformat=VCFv4.1
+##FILTER=<ID=F001,Description="Pass if Mt > Wt Reads: Likely GERMLINE">
+##FILTER=<ID=F002,Description="No Wt calls in variants over 4bp in length: Likely GERMLINE">
+##FILTER=<ID=F003,Description="Tum low call count strand bias check">
+##FILTER=<ID=F004,Description="Tum medium read depth strand bias check: Calls In 8% Reads Bt Depth 10 And 200 (inclusive)">
+##FILTER=<ID=F005,Description="Tum high read depth strand bias check: Calls In 4% Reads > Depth 200">
+##FILTER=<ID=F006,Description="Small call excessive repeat check: Repeats < 9 && Length > 4">
+##FILTER=<ID=F007,Description="Sufficient Depth: Mt Depth > 5 && Wt > 8%">
+##FILTER=<ID=F008,Description="Wildtype contamination: FAIL When wt reads > 5% mt reads.">
+##FILTER=<ID=F009,Description="Is coding: Pass when in gene footprint.">
+##FILTER=<ID=F010,Description="Variant must not exist within the Unmatched Normal Panel">
+##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">
+##FORMAT=<ID=PP,Number=1,Type=Integer,Description="Pindel calls on the positive strand">
+##FORMAT=<ID=NP,Number=1,Type=Integer,Description="Pindel calls on the negative strand">
+##FORMAT=<ID=PB,Number=1,Type=Integer,Description="BWA calls on the positive strand">
+##FORMAT=<ID=NB,Number=1,Type=Integer,Description="BWA calls on the negative strand">
+##FORMAT=<ID=PD,Number=1,Type=Integer,Description="BWA mapped reads on the positive strand">
+##FORMAT=<ID=ND,Number=1,Type=Integer,Description="BWA mapped reads on the negative strand">
+##FORMAT=<ID=PR,Number=1,Type=Integer,Description="Total mapped reads on the positive strand">
+##FORMAT=<ID=NR,Number=1,Type=Integer,Description="Total mapped reads on the negative strand">
+##FORMAT=<ID=PU,Number=1,Type=Integer,Description="Unique calls on the positive strand">
+##FORMAT=<ID=NU,Number=1,Type=Integer,Description="Unique calls on the negative strand">
+##INFO=<ID=PC,Number=1,Type=String,Description="Pindel call">
+##INFO=<ID=RS,Number=1,Type=Integer,Description="Range start">
+##INFO=<ID=RE,Number=1,Type=Integer,Description="Range end">
+##INFO=<ID=LEN,Number=1,Type=Integer,Description="Length">
+##INFO=<ID=S1,Number=1,Type=Integer,Description="S1">
+##INFO=<ID=S2,Number=1,Type=Float,Description="S2">
+##INFO=<ID=PA,Number=1,Type=String,Description="Annotation on the positive strand">
+##INFO=<ID=NA,Number=1,Type=String,Description="Annotation on the negative strand">
+##INFO=<ID=REP,Number=1,Type=Integer,Description="Change repeat count with range">
+##INFO=<ID=PRV,Number=1,Type=Float,Description="Fraction of reads reporting the most prevalent change">
+##INFO=<ID=F017,Number=0,Type=Flag,Description="Variant must not overlap with a simple repeat">
+##INFO=<ID=VD,Number=1,Type=String,Description="Vagrent Default Annotation">
+##INFO=<ID=VW,Number=1,Type=String,Description="Vagrent Most Deleterious Annotation">
+##SAMPLE=<ID=NORMAL,Description="Normal",Accession=1474009,CGP_Project=54,Platform=HiSeq,Protocol=pulldown,SampleName=PD5924b,Source=COSMIC_SAMPLE_ID>
+##SAMPLE=<ID=TUMOUR,Description="Mutant",Accession=1659818,CGP_Project=786,Platform=HiSeq,Protocol=pulldown,SampleName=MM1S,Source=COSMIC_SAMPLE_ID>
+##cgpAnalysisProc_20130305.1=883491
+##cgpAnalysisProc_20130305.2=882921
+##cgpAnalysisProc_20130305.3=882923
+##contig=<ID=11,assembly=GRCh37,length=135006516,species=HUMAN>
+##contig=<ID=21,assembly=GRCh37,length=48129895,species=HUMAN>
+##contig=<ID=7,assembly=GRCh37,length=159138663,species=HUMAN>
+##contig=<ID=Y,assembly=GRCh37,length=59373566,species=HUMAN>
+##contig=<ID=17,assembly=GRCh37,length=81195210,species=HUMAN>
+##contig=<ID=2,assembly=GRCh37,length=243199373,species=HUMAN>
+##contig=<ID=22,assembly=GRCh37,length=51304566,species=HUMAN>
+##contig=<ID=1,assembly=GRCh37,length=249250621,species=HUMAN>
+##contig=<ID=18,assembly=GRCh37,length=78077248,species=HUMAN>
+##contig=<ID=16,assembly=GRCh37,length=90354753,species=HUMAN>
+##contig=<ID=13,assembly=GRCh37,length=115169878,species=HUMAN>
+##contig=<ID=6,assembly=GRCh37,length=171115067,species=HUMAN>
+##contig=<ID=X,assembly=GRCh37,length=155270560,species=HUMAN>
+##contig=<ID=3,assembly=GRCh37,length=198022430,species=HUMAN>
+##contig=<ID=MT,assembly=GRCh37,length=16569,species=HUMAN>
+##contig=<ID=9,assembly=GRCh37,length=141213431,species=HUMAN>
+##contig=<ID=12,assembly=GRCh37,length=133851895,species=HUMAN>
+##contig=<ID=20,assembly=GRCh37,length=63025520,species=HUMAN>
+##contig=<ID=14,assembly=GRCh37,length=107349540,species=HUMAN>
+##contig=<ID=15,assembly=GRCh37,length=102531392,species=HUMAN>
+##contig=<ID=8,assembly=GRCh37,length=146364022,species=HUMAN>
+##contig=<ID=4,assembly=GRCh37,length=191154276,species=HUMAN>
+##contig=<ID=19,assembly=GRCh37,length=59128983,species=HUMAN>
+##contig=<ID=10,assembly=GRCh37,length=135534747,species=HUMAN>
+##contig=<ID=5,assembly=GRCh37,length=180915260,species=HUMAN>
+##fileDate=20130205
+##reference=genome.fa
+##source_20130305.1=PinMerge2Vcf.pl
+##source_20130305.2=FlagVcf.pl
+##source_20130305.3=VcfAnnotate.pl
+##vcfProcessLog_20130305.1=<InputVCF=<tmp.tab>,InputVCFSource=<PinMerge2Vcf.pl>,InputVCFVer=<4.0.5>,InputVCFParam=<rs=203682278,n=1474009,np=pulldown,tl=HiSeq,r=genome.fa,tp=pulldown,v=GRCh37,s=HUMAN,nl=HiSeq,p=883491,rt=203698036,i=tmp.tab,t=1659818>>
+##vcfProcessLog_20130305.2=<InputVCF=<356529.v2.pindel.raw.vcf.gz>,InputVCFSource=<FlagVcf.pl>,InputVCFVer=<1.0.4>,InputVCFParam=<unmatched=pindel_unmatched_normal_pulldown.gff.gz,rules=PindelFilterRulesPulldown.pm,simrep=gsm_reference_repeat.gff.gz,annot=codingexon_regions.indel.bed.gz>>
+##vcfProcessLog_20130305.3=<InputVCF=<356578.v2.pindel.flag.vcf.gz>,InputVCFSource=<VcfAnnotate.pl>,InputVCFVer=<0.6.2>,InputVCFParam=<gene_footprints=gene_regions.bed.gz,ensembl=58,species=HUMAN,genome=GRCh37>>
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO	FORMAT	NORMAL	TUMOUR
+1	63735	203682278	CCTA	C	180	F009;F010	PC=D;RS=63735;RE=63742;LEN=3;S1=9;S2=320.842;REP=2;PRV=1;F017	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:0:0:0:0:17:0:17:0:0	./.:0:8:0:5:2:27:2:31:0:9
+1	700531	203682279	AT	A	60	F009	PC=D;RS=700531;RE=700534;LEN=1;S1=4;S2=119.714;REP=2;PRV=1;F017	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:0:0:0:27:1:27:1:0:0	./.:3:0:6:0:15:0:15:0:6:0
+1	874950	203682280	T	TCCCTGGAGGACC	148	F007;F001;F008;F002;F009;F003	PC=I;RS=874950;RE=874955;LEN=12;S1=5;S2=131.522;REP=0;PRV=1;F017;VD=NOC2L|CCDS3.1|downstream;VW=SAMD11|CCDS2.2|intronic	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:2:0:0:0:0:6:2:6:2:0	./.:2:0:0:0:0:2:2:2:2:0
+1	878516	203682281	GA	G	180	F007;F009;F003	PC=D;RS=878516;RE=878522;LEN=1;S1=6;S2=119.714;REP=5;PRV=1;F017;VD=NOC2L|CCDS3.1|downstream;VW=SAMD11|CCDS2.2|intronic	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:0:0:0:6:11:6:11:0:0	./.:2:1:2:1:3:1:3:1:2:1
+1	881052	203682282	AG	A	1474	F009	PC=D;RS=881052;RE=881057;LEN=1;S1=110;S2=1002.03;REP=4;PRV=1;F017;VD=NOC2L|CCDS3.1|intronic;VW=NOC2L|CCDS3.1|intronic	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:0:0:0:16:84:16:84:0:0	./.:4:21:5:26:17:71:17:71:5:26
+1	948846	203682283	T	TA	914	F001;F008;F009;F010	PC=I;RS=948846;RE=948848;LEN=1;S1=17;S2=623.021;REP=1;PRV=1;F017;VD=ISG15|CCDS6.1|r.44_45insa|c.?|p.?;VW=ISG15|CCDS6.1|r.44_45insa|c.?|p.?	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:9:0:8:0:8:0:11:0:10:0	./.:7:0:7:0:15:0:15:0:7:0
+1	1098820	203682284	TC	T	180	F007;F009;F003	PC=D;RS=1098820;RE=1098830;LEN=1;S1=6;S2=117.306;REP=9;PRV=1;F017;VD=MIR200B|ENST00000384997|upstream;VW=MIR200B|ENST00000384997|upstream	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:0:0:1:0:1:0:1:0:1	./.:1:2:1:2:1:2:1:2:1:2
+1	1158534	203682285	G	GAC	240	F009;F010	PC=I;RS=1158534;RE=1158543;LEN=2;S1=5;S2=155.605;REP=4;PRV=1;VD=SDF4|CCDS12.1|intronic;VW=SDF4|CCDS12.1|intronic	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:0:0:0:27:3:27:3:0:0	./.:4:0:4:0:12:1:13:1:4:0
+1	1158562	203682286	AAC	A	240	F009;F010	PC=D;RS=1158562;RE=1158569;LEN=2;S1=5;S2=160.421;REP=3;PRV=1;VD=SDF4|CCDS12.1|intronic;VW=SDF4|CCDS12.1|intronic	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:0:0:0:43:1:43:1:0:0	./.:4:0:6:0:17:1:17:1:6:0
+1	1225810	203682287	C	CGG	300	F009	PC=I;RS=1225810;RE=1225817;LEN=2;S1=6;S2=194.506;REP=6;PRV=1;F017;VD=ACAP3|CCDS19.2|downstream;VW=SCNN1D|CCDS18.1|intronic	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:0:0:0:68:22:70:23:0:0	./.:5:0:5:5:19:10:19:10:5:5
+1	1276973	203682288	G	GACAC	979	F001;F008;F009;F010	PC=I;RS=1276973;RE=1276979;LEN=4;S1=20;S2=716.244;REP=2;PRV=1;F017;VD=DVL1L1|CCDS22.1|intronic;VW=DVL1L1|CCDS22.1|intronic	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:13:0:10:1:13:6:18:6:15:1	./.:6:0:4:0:7:2:9:2:6:0
+1	1289367	203682289	CTG	C	2940	F001;F008;F009;F010	PC=D;RS=1289367;RE=1289370;LEN=2;S1=378;S2=1963.96;REP=1;PRV=1;F017;VD=DVL1L1|CCDS22.1|upstream;VW=MXRA8|CCDS24.1|intronic	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:26:4:38:8:39:9:39:9:38:8	./.:15:4:20:4:21:5:21:5:20:4
+1	1314463	203682290	AT	A	457	F006;F007;F001;F008;F009;F003;F010	PC=D;RS=1314463;RE=1314474;LEN=1;S1=9;S2=320.842;REP=10;PRV=1;F017;VD=AURKAIP1|CCDS25.1|upstream;VW=AURKAIP1|CCDS25.1|upstream	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:6:0:14:0:15:0:15:0:14	./.:0:2:0:1:0:3:0:4:0:2
+1	1333827	203682291	AG	A	360	F009	PC=D;RS=1333827;RE=1333832;LEN=1;S1=16;S2=240.632;REP=4;PRV=1;F017;VD=CCNL2|CCDS30558.1|intronic;VW=CCNL2|CCDS30558.1|intronic	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:0:0:0:10:26:10:26:0:0	./.:3:3:3:4:6:13:6:13:3:4
+1	1394663	203682292	AC	A	345	F009	PC=D;RS=1394663;RE=1394667;LEN=1;S1=28;S2=561.474;REP=3;PRV=1;F017;VD=ATAD3C|CCDS44039.1|intronic;VW=ATAD3C|CCDS44039.1|intronic	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:0:0:0:3:50:3:50:0:0	./.:1:13:1:16:1:34:1:34:1:16
+1	1403972	203682293	C	CG	518	F009	PC=I;RS=1403972;RE=1403975;LEN=1;S1=15;S2=553.045;REP=2;PRV=1;F017;VD=ATAD3C|CCDS44039.1|r.2293_2294insg|c.?|p.?;VW=ATAD3C|CCDS44039.1|r.2293_2294insg|c.?|p.?	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:0:0:0:19:18:20:18:0:0	./.:14:0:17:7:23:10:23:10:17:7
+1	1518826	203682294	C	CG	300	F009	PC=I;RS=1518826;RE=1518832;LEN=1;S1=6;S2=197.516;REP=5;PRV=1;F017	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:0:0:0:21:1:21:1:0:0	./.:5:0:6:0:13:0:13:0:6:0
+1	1518907	203682295	C	CT	300	F009	PC=I;RS=1518907;RE=1518908;LEN=1;S1=10;S2=197.516;REP=0;PRV=1;F017	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:0:0:0:17:14:17:14:0:0	./.:1:4:1:5:5:12:5:12:1:5
+1	1588535	203682296	C	CTAA	1147	F001;F008;F009;F010	PC=I;RS=1588535;RE=1588540;LEN=3;S1=32;S2=1187.27;REP=1;PRV=1;F017;VD=ENSG00000189339|CCDS44041.1|downstream;VW=CDK11B|ENST00000407249|intronic	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:21:0:0:0:31:0:54:0:21:0	./.:10:0:0:0:17:0:28:0:10:0
+1	1644425	203682297	CT	C	157	F006;F007;F009;F010	PC=D;RS=1644425;RE=1644441;LEN=1;S1=4;S2=118.51;REP=15;PRV=1;F017;VD=CDK11B|CCDS44042.1|intronic;VW=CDK11B|CCDS44042.1|intronic	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:0:0:0:3:0:3:0:0:0	./.:0:3:2:9:5:54:5:54:2:9
+1	1644440	203682298	T	TT	194	F006;F007;F009;F010	PC=I;RS=1644425;RE=1644441;LEN=1;S1=5;S2=156.207;REP=15;PRV=1;F017;VD=CDK11B|CCDS44042.1|intronic;VW=CDK11B|CCDS44042.1|intronic	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:0:0:0:3:2:3:2:0:0	./.:0:4:0:6:5:61:5:62:0:6
+1	1647900	203682299	T	TTTCTTT	333	F001;F004;F008;F002;F010	PC=I;RS=1647893;RE=1647901;LEN=6;S1=10;S2=328.437;REP=1;PRV=1;F017;VD=CDK11B|CCDS44042.1|r.452_453insaaagaa|c.372_373insAAAGAA|p.E126_R127insKE;VW=CDK11B|CCDS44042.1|r.452_453insaaagaa|c.372_373insAAAGAA|p.E126_R127insKE	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:5:0:0:74:196:75:203:0:5	./.:0:4:0:0:47:78:47:83:0:4
+1	1653332	203682300	GT	G	601	F001;F008;F009;F010	PC=D;RS=1653332;RE=1653335;LEN=1;S1=32;S2=641.685;REP=2;PRV=1;F017;VD=CDK11B|CCDS44042.1|intronic;VW=CDK11B|CCDS44042.1|intronic	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:1:10:0:4:0:7:1:15:1:12	./.:0:5:0:1:0:13:0:17:0:5
+1	1853615	203682301	T	TCTGA	559	F001;F008;F009;F010	PC=I;RS=1853615;RE=1853619;LEN=4;S1=13;S2=442.732;REP=0;PRV=1;F017;VD=CALML6|CCDS30566.1|downstream;VW=AL691432.2|ENST00000508906|intronic	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:6:0:2:1:4:1:9:2:7:1	./.:6:0:4:0:4:0:7:0:6:0
+1	1887091	203682302	CG	C	277	PASS	PC=D;RS=1887091;RE=1887093;LEN=1;S1=12;S2=200.527;REP=1;PRV=1;F017;VD=KIAA1751|ENST00000270720|r.2370delC|c.2214delC|p.G739fs*33;VW=KIAA1751|ENST00000270720|r.2370delC|c.2214delC|p.G739fs*33	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:0:0:0:29:123:29:124:0:0	./.:2:3:2:2:10:35:15:41:2:3
+1	1887091	203682303	CGCCCGCCCACCCTGGCTTGGC	CCCCGCCCACCCTGGCTTGG	407	F008;F002;F010	PC=DI;RS=1887092;RE=1887112;LEN=21;S1=42;S2=0;PA=C1orf222_Coding;NA=C1orf222_Coding;REP=1;PRV=0.909090909090909;F017;VD=KIAA1751|ENST00000270720|r.2350_2370del21insccaagccagggugggcggg|c.2194_2214del21insCCAAGCCAGGGTGGGCGGG|p.A732fs*8;VW=KIAA1751|ENST00000270720|r.2350_2370del21insccaagccagggugggcggg|c.2194_2214del21insCCAAGCCAGGGTGGGCGGG|p.A732fs*8	GT:PP:NP:PB:NB:PD:ND:PR:NR:PU:NU	./.:0:1:0:0:29:120:29:121:0:1	./.:5:5:0:0:11:35:16:41:5:5

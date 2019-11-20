@@ -37,28 +37,19 @@ def transform(mafpath="source/ccle/CCLE_DepMap_18q3_maf_20180718.txt",
         if callset.gid() not in emitted_callsets:
             emitter.emit_vertex(callset)
             emitted_callsets[callset.gid()] = None
-            if callset.normal_aliquot_id:
-                emitter.emit_edge(
-                    SomaticCallset_Aliquots_Aliquot(
-                        from_gid=callset.gid(),
-                        to_gid=Aliquot.make_gid(callset.normal_aliquot_id),
-                    ),
-                    emit_backref=True
-                )
-            if callset.tumor_aliquot_id:
-                emitter.emit_edge(
-                    SomaticCallset_Aliquots_Aliquot(
-                        from_gid=callset.gid(),
-                        to_gid=Aliquot.make_gid(callset.tumor_aliquot_id),
-                    ),
-                    emit_backref=True
-                )
+            emitter.emit_edge(
+                SomaticCallset_Aliquots_Aliquot(
+                    from_gid=callset.gid(),
+                    to_gid=Aliquot.make_gid(callset.tumor_aliquot_id),
+                ),
+                emit_backref=True
+            )
 
         emitter.emit_edge(
             SomaticCallset_Alleles_Allele(
                 from_gid=callset.gid(),
                 to_gid=allele.gid(),
-                data=make_variant_call_data(line, "Unknown")
+                data=make_variant_call_data(line, alternate_bases='Tumor_Seq_Allele1')
             ),
             emit_backref=True
         )

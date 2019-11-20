@@ -1,19 +1,38 @@
+import gzip
+import pandas
+
 from bmeg import Allele, Project
 
-genome = 'NCBI_Build'
-chromosome = 'Chromosome'
-start = 'Start_Position'
-end = 'End_Position'
-reference_bases = 'Reference_Allele'
-alternate_bases = 'Tumor_Seq_Allele2'
-strand = 'Strand'
+chromosome = '#CHROM'
+start = 'POS'
+reference_bases = 'REF'
+alternate_bases = 'ALT'
 
 
-def make_minimal_allele(vcf_line):
+def read_vcf(filename):
+    comments = 0
+    comp = 'gzip' if filename.endswith('.gz') else None
+    fn_open = gzip.open if filename.endswith('.gz') else open
+    with fn_open(filename) as fh:
+        for line in fh:
+            if line.startswith('#CHROM'):
+                break
+            else:
+                comments += 1
+    return pandas.read_table(filename, compression=comp, skiprows=comments, header=0, dtype=str)
+
+
+def make_minimal_allele(vcf_line, genome='GRCh37'):
     assert isinstance(vcf_line, dict)
+    if reference_bases not in vcf_line and alternate_bases not in vcf_line:
+        raise ValueError('ref and alt bases are missing for row: %s', vcf_line)
+    if reference_bases not in vcf_line:
+        vcf_line[reference_bases] = '.'
+    if alternate_bases not in vcf_line:
+        vcf_line[alternate_bases] = '.'
     return Allele(
         id=Allele.make_gid(
-            vcf_line.get(genome), vcf_line.get(chromosome), vcf_line.get(start),
+            genome, vcf_line.get(chromosome), vcf_line.get(start),
             vcf_line.get(reference_bases), vcf_line.get(alternate_bases),
         ),
         chromosome=vcf_line.get(chromosome),
@@ -22,41 +41,3 @@ def make_minimal_allele(vcf_line):
         alternate_bases=vcf_line.get(alternate_bases),
         project_id=Project.make_gid('Reference')
     )
-
-
-def make_variant_call_data(vcf_line, methods):
-    assert isinstance(vcf_line, dict)
-    if isinstance(methods, str):
-        methods = [methods]
-    elif isinstance(methods, list):
-        pass
-    else:
-        raise TypeError("expected a str or list")
-    call_int_keys = {
-        't_depth': 't_depth',
-        't_ref_count': 't_ref_count',
-        't_alt_count': 't_alt_count',
-        'n_depth': 'n_depth',
-        'n_ref_count': 'n_ref_count',
-        'n_alt_count': 'n_alt_count'
-    }
-    call_str_keys = {
-        'Reference_Allele': 'ref',
-        'Tumor_Seq_Allele2': 'alt',
-        'FILTER': 'filter',
-    }
-    info = {
-        "methods": methods
-    }
-    for k, kn in call_str_keys:
-        val = vcf_line.get(k, None)
-        if val == "." or val == "" or val is None:
-            val = None
-        info[kn] = val
-    for k, kn in call_int_keys.items():
-        val = vcf_line.get(k, None)
-        if val == "." or val == "" or val is None:
-            info[kn] = None
-        else:
-            info[kn] = int(val)
-    return info
