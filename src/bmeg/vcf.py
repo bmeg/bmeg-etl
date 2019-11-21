@@ -2,7 +2,7 @@ import gzip
 import pandas
 
 from bmeg import Allele, Project
-
+from bmeg.ioutils import reader
 chromosome = '#CHROM'
 start = 'POS'
 reference_bases = 'REF'
@@ -11,15 +11,13 @@ alternate_bases = 'ALT'
 
 def read_vcf(filename):
     comments = 0
-    comp = 'gzip' if filename.endswith('.gz') else None
-    fn_open = gzip.open if filename.endswith('.gz') else open
-    with fn_open(filename) as fh:
+    with reader(filename) as fh:
         for line in fh:
             if line.startswith('#CHROM'):
                 break
             else:
                 comments += 1
-    return pandas.read_table(filename, compression=comp, skiprows=comments, header=0, dtype=str)
+    return pandas.read_table(filename, skiprows=comments, header=0, dtype=str)
 
 
 def make_minimal_allele(vcf_line, genome='GRCh37'):

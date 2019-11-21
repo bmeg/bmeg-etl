@@ -41,23 +41,31 @@ def parse_genotypes(vcf_line, file_type, sample_name):
     gt_format = vcf_line['FORMAT'].split(':')
     gt_info = vcf_line[sample_name].split(':')
     geno = dict(zip(gt_format, gt_info))
-    if file_type == "pindel":
+    if file_type == 'pindel':
+        p = int(geno.get('PP')) if geno.get('PP') else None
+        n = int(geno.get('NP')) if geno.get('NP') else None
+        d = p + n if p and n else None
         stats = {
-            'depth_of_coverage': int(geno["PP"]) + int(geno["NP"]),
+            'depth_of_coverage': d,
             'ref_depth': None,
             'alt_depth': None
         }
-    elif file_type == "caveman":
+    elif file_type == 'caveman':
         allele_map = {
             'A': 'AA',
             'C': 'CA',
             'G': 'GA',
-            'T': 'GA',
+            'T': 'TA',
         }
+        r = geno.get(allele_map.get(vcf_line.get('REF')))
+        r = int(r) if r else None
+        a = geno.get(allele_map.get(vcf_line.get('ALT')))
+        a = int(a) if a else None
+        d = a + r if a and r else None
         stats = {
-            'depth_of_coverage': int(geno[allele_map[vcf_line['REF']]]) + int(geno[allele_map[vcf_line['ALT']]]),
-            'ref_depth': int(geno[allele_map[vcf_line['REF']]]),
-            'alt_depth': int(geno[allele_map[vcf_line['ALT']]])
+            'depth_of_coverage': d,
+            'ref_depth': r,
+            'alt_depth': a
         }
     else:
         raise ValueError("unknown file_type: {}".format(file_type))
@@ -83,7 +91,7 @@ def make_variant_call_data(vcf_line, method):
     return info
 
 
-def transform(vcf_dir="source/cellmodelpassports/vcfs/*",
+def transform(vcf_dir="source/gdsc/vcfs/*",
               cellline_lookup_path="source/ccle/cellline_id_lookup.tsv",
               emitter_name="json",
               emitter_prefix=None,
@@ -150,13 +158,16 @@ def transform(vcf_dir="source/cellmodelpassports/vcfs/*",
 if __name__ == '__main__':  # pragma: no cover
     parser = default_argument_parser(emitter_directory_default='gdsc',
                                      emitter_prefix_default=None)
-    parser.add_argument('--vcf-dir', type=str,
-                        help='vertex file pattern to glob for',
-                        default="source/cellmodelpassports/vcfs/*")
+    parser.add_argument('--vcf-pattern', type=str,
+                        help='vertex file pattern to glob for [e.g. source/gdsc/vcfs/*.pindel.annot.vcf.gz]',
+                        required=True)
     options = parser.parse_args()
     default_logging(options.loglevel)
 
-    transform(vcf_dir=options.vcf_dir,
+    if not options.emitter_prefix:
+        raise ValueError("must provide value for --emitter-prefix")
+
+    transform(vcf_dir=options.vcf_pattern,
               emitter_directory=options.emitter_directory,
               emitter_prefix=options.emitter_prefix,
               emitter_name=options.emitter)

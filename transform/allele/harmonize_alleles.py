@@ -15,24 +15,23 @@ from bmeg import (Gene, Transcript, Protein, PfamFamily,
                   Allele_Gene_Gene, Allele_Transcript_Transcript,
                   Allele_Protein_Protein, Allele_PfamFamily_PfamFamily)
 
-from bmeg.maf.allele import make_allele
+from bmeg.maf import make_allele
 
 
 def valid_filenames(path):
     """ filter out any we do not want to process """
     filenames = []
-    for filename in glob.iglob(path, recursive=True):
+    files = glob.glob(path, recursive=True)
+    for filename in files:
+        print(filename)
         # myvariant download **DEPRECIATED**
         if 'myvariant' in filename:
             continue
         # pseudo alleles **DEPRECIATED**
         elif 'MinimalAllele' in filename:
             continue
-        # our own output **DEPRECIATED**
-        elif 'allele' in filename:
-            continue
         # our own output
-        elif 'normalized' in filename:
+        elif 'normalized.' in filename:
             continue
         else:
             filenames.append(filename)
@@ -48,7 +47,10 @@ def create_minimal_maf(path, minimal_maf):
         files = valid_filenames(path)
         assert len(files) > 0
         files = ' '.join(files)
-        cmd = "zcat {} | jq -cr '[.data.chromosome, .data.start, .data.reference_bases, .data.alternate_bases, \"STUBID\"] | @tsv' | sort -u > {}".format(files, minimal_maf)
+        cmd = "echo 'Chromosome\tStart_Position\tReference_Allele\tTumor_Seq_Allele2\tTumor_Sample_Barcode' > {}".format(minimal_maf)
+        logging.info('RUNNING: {}'.format(cmd))
+        subprocess.check_output(cmd, shell=True)
+        cmd = "zcat {} | jq -cr '[.data.chromosome, .data.start, .data.reference_bases, .data.alternate_bases, \"STUBID\"] | @tsv' >> {}".format(files, minimal_maf)
         logging.info('RUNNING: {}'.format(cmd))
         subprocess.check_output(cmd, shell=True)
         return
@@ -95,7 +97,6 @@ def transform(output_dir='outputs',
     # emit all alleles and corresponding edges
     logging.info('emitting annotated alleles')
     ac = ec = 0
-    # allele_lookup = {}
     maf = pandas.read_csv(annotated_maf_file, sep='\t', comment='#', dtype=str)
     for index, line in maf.iterrows():
         line = line.dropna().to_dict()
@@ -103,7 +104,6 @@ def transform(output_dir='outputs',
         try:
             allele = make_allele(line)
             emitter.emit_vertex(allele)
-            # allele_lookup[allele.gid()] = allele
             ac += 1
         except Exception as e:
             logging.error(str(e))
