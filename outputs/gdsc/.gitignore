@@ -47,3 +47,15 @@
 /drug_response.Compound_DrugResponses_DrugResponse.Edge.json.gz
 /drug_response.Project_Compounds_Compound.Edge.json.gz
 /drug_response.Compound_Projects_Project.Edge.json.gz
+/caveman.Allele.Vertex.json.gz
+/caveman.SomaticCallset.Vertex.json.gz
+/caveman.Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz
+/caveman.SomaticCallset_Aliquots_Aliquot.Edge.json.gz
+/caveman.SomaticCallset_Alleles_Allele.Edge.json.gz
+/caveman.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz
+/pindel.Allele.Vertex.json.gz
+/pindel.SomaticCallset.Vertex.json.gz
+/pindel.Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz
+/pindel.SomaticCallset_Aliquots_Aliquot.Edge.json.gz
+/pindel.SomaticCallset_Alleles_Allele.Edge.json.gz
+/pindel.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz

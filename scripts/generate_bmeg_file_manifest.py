@@ -58,6 +58,17 @@ EXCEPTIONS = [
     "outputs/ccle/maf.Allele.Vertex.json.gz",
     "outputs/g2p/Allele.Vertex.json.gz",
     "outputs/mc3/Allele.Vertex.json.gz",
+    "outputs/gdsc/caveman.Allele.Vertex.json.gz",
+    "outputs/gdsc/pindel.Allele.Vertex.json.gz",
+    # unnormalized Allele <-> SomaticCallset edges
+    "outputs/ccle/maf.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz",
+    "outputs/ccle/SomaticCallset_Allele_Allele.Edge.json.gz",
+    "outputs/mc3/Allele_SomaticCallsets_SomaticCallset.Edge.json.gz",
+    "outputs/mc3/SomaticCallset_Allele_Allele.Edge.json.gz",
+    "outputs/gdsc/caveman.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz",
+    "outputs/gdsc/caveman.SomaticCallset_Allele_Allele.Edge.json.gz",
+    "outputs/gdsc/pindel.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz",
+    "outputs/gdsc/pindel.SomaticCallset_Allele_Allele.Edge.json.gz",
     # Meta files
     "outputs/meta/Command.Vertex.json.gz",
     "outputs/meta/File.Vertex.json.gz",
