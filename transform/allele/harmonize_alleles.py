@@ -23,7 +23,6 @@ def valid_filenames(path):
     filenames = []
     files = glob.glob(path, recursive=True)
     for filename in files:
-        print(filename)
         # myvariant download **DEPRECIATED**
         if 'myvariant' in filename:
             continue
@@ -47,10 +46,14 @@ def create_minimal_maf(path, minimal_maf):
         files = valid_filenames(path)
         assert len(files) > 0
         files = ' '.join(files)
+        logging.info('FILES: {}'.format(files))
         cmd = "echo 'Chromosome\tStart_Position\tReference_Allele\tTumor_Seq_Allele2\tTumor_Sample_Barcode' > {}".format(minimal_maf)
         logging.info('RUNNING: {}'.format(cmd))
         subprocess.check_output(cmd, shell=True)
-        cmd = "zcat {} | jq -cr '[.data.chromosome, .data.start, .data.reference_bases, .data.alternate_bases, \"STUBID\"] | @tsv' >> {}".format(files, minimal_maf)
+        cmd = "zcat %s | jq -cr '[.data.chromosome, .data.start, .data.reference_bases, .data.alternate_bases, \"STUBID\"] | @tsv' | grep -v -E '^M|^X|^Y' | sort -n -k 1,1 -k 2,2 | uniq  >> %s" % (files, minimal_maf)
+        logging.info('RUNNING: {}'.format(cmd))
+        subprocess.check_output(cmd, shell=True)
+        cmd = "zcat %s | jq -cr '[.data.chromosome, .data.start, .data.reference_bases, .data.alternate_bases, \"STUBID\"] | @tsv' | grep -E '^M|^X|^Y' | sort -k 1,1 -k2,2 | sed 's/^M/MT/g' | uniq >> %s" % (files, minimal_maf)
         logging.info('RUNNING: {}'.format(cmd))
         subprocess.check_output(cmd, shell=True)
         return
@@ -86,12 +89,18 @@ def transform(output_dir='outputs',
 
     # Step one:
     # sort and dedupe the outputs/**/*.Allele.Vertex.json.gz files
-    path = '{}/{}'.format(output_dir, vertex_filename_pattern)
-    create_minimal_maf(path, minimal_maf_file)
+    if not os.path.isfile(minimal_maf_file):
+        path = '{}/{}'.format(output_dir, vertex_filename_pattern)
+        create_minimal_maf(path, minimal_maf_file)
+    else:
+        logging.info('using existing minimal maf file: %s' % minimal_maf_file)
 
     # Step two:
     # run maf2maf on the minimal MAF file from step one
-    run_maf2maf(minimal_maf_file, annotated_maf_file)
+    if not os.path.isfile(annotated_maf_file):
+        run_maf2maf(minimal_maf_file, annotated_maf_file)
+    else:
+        logging.info('using existing annotated maf file: %s' % annotated_maf_file)
 
     # Step three:
     # emit all alleles and corresponding edges
@@ -106,46 +115,49 @@ def transform(output_dir='outputs',
             emitter.emit_vertex(allele)
             ac += 1
         except Exception as e:
-            logging.error(str(e))
+            logging.error("emit allele: %s" % str(e))
 
-        try:
-            emitter.emit_edge(
-                Allele_Gene_Gene(
-                    from_gid=allele.gid(),
-                    to_gid=Gene.make_gid(allele.ensembl_gene)
-                ),
-                emit_backref=True
-            )
-            ec += 1
-        except Exception as e:
-            logging.error(str(e))
+        if allele.ensembl_gene:
+            try:
+                emitter.emit_edge(
+                    Allele_Gene_Gene(
+                        from_gid=allele.gid(),
+                        to_gid=Gene.make_gid(allele.ensembl_gene)
+                    ),
+                    emit_backref=True
+                )
+                ec += 1
+            except Exception as e:
+                logging.error("emit allele -> gene edge: %s" % str(e))
 
-        try:
-            emitter.emit_edge(
-                Allele_Transcript_Transcript(
-                    from_gid=allele.gid(),
-                    to_gid=Transcript.make_gid(allele.ensembl_transcript)
-                ),
-                emit_backref=True
-            )
-            ec += 1
-        except Exception as e:
-            logging.error(str(e))
+        if allele.ensembl_transcript:
+            try:
+                emitter.emit_edge(
+                    Allele_Transcript_Transcript(
+                        from_gid=allele.gid(),
+                        to_gid=Transcript.make_gid(allele.ensembl_transcript)
+                    ),
+                    emit_backref=True
+                )
+                ec += 1
+            except Exception as e:
+                logging.error("emit allele -> transcript edge: %s" % str(e))
 
-        try:
-            emitter.emit_edge(
-                Allele_Protein_Protein(
-                    from_gid=allele.gid(),
-                    to_gid=Protein.make_gid(allele.ensembl_protein)
-                ),
-                emit_backref=True
-            )
-            ec += 1
-        except Exception as e:
-            logging.error(str(e))
+        if allele.ensembl_protein:
+            try:
+                emitter.emit_edge(
+                    Allele_Protein_Protein(
+                        from_gid=allele.gid(),
+                        to_gid=Protein.make_gid(allele.ensembl_protein)
+                    ),
+                    emit_backref=True
+                )
+                ec += 1
+            except Exception as e:
+                logging.error("emit allele -> protein edge: %s" % str(e))
 
-        try:
-            if 'Pfam_domain' in line.get('DOMAINS', ''):
+        if 'Pfam_domain' in line.get('DOMAINS', ''):
+            try:
                 domains = [x.split(':')[1] for x in line.get('DOMAINS', '').split(',') if 'Pfam_domain' in x]
                 for d in domains:
                     emitter.emit_edge(
@@ -156,8 +168,8 @@ def transform(output_dir='outputs',
                         emit_backref=True
                     )
                     ec += 1
-        except Exception as e:
-            logging.error(str(e))
+            except Exception as e:
+                logging.error("emit allele -> PFAM edge: %s" % str(e))
 
         if ac % 10000 == 0:
             logging.info('alleles emitted: {}'.format(ac))
@@ -173,18 +185,19 @@ def main():  # pragma: no cover
     parser = default_argument_parser(emitter_directory_default='allele',
                                      emitter_prefix_default='normalized')
     parser.add_argument('--allele-output-dir', type=str,
-                        help='Path to the directory containing **/*.Allele.Vertex.json',
+                        help='Path to the directory containing **/*.Allele.Vertex.json.gz',
                         default='outputs')
     parser.add_argument('--vertex-file-pattern', type=str,
                         help='vertex file pattern to glob for',
-                        default='**/*.Allele.Vertex.json')
+                        default='**/*Allele.Vertex.json.gz')
     parser.add_argument('--minimal-maf', type=str,
                         help='intermediate minimal maf file',
                         default='source/allele/minimal_alleles.maf')
     parser.add_argument('--annotated-maf', type=str,
                         help='intermediate annotated maf file',
                         default='source/allele/annotated_alleles.maf')
-    parser.add_argument('--keep-intermediate-files', dest='delete_intermediate', action='store_false')
+    parser.add_argument('--leave-intermediate-files', dest='delete_intermediate', action='store_false',
+                        help='do not delete minimal or annotated mafs prior to running')
     parser.set_defaults(delete_intermediate=True)
 
     # We don't need the first argument, which is the program name

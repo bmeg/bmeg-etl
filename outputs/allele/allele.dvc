@@ -1,18 +1,24 @@
-md5: 0cbfd9342b226accdf1b96deb717e58c
-cmd: python3 transform/allele/transform.py -v
+md5: bd2de9fe6f872242bd0d993d3dc2ff47
+cmd: python3 transform/allele/harmonize_alleles.py -v --leave-intermediate-files
 wdir: ../..
 deps:
-- md5: c391892b56f37e040b15d7159de7e1ae
-  path: transform/allele/transform.py
-- md5: 75dbe62c7070715157526c4188c2a7e2
+- md5: 002550b30233c610f8382c5f583b2b79
+  path: transform/allele/harmonize_alleles.py
+- md5: 550e545451c0af371706dba159a6fdf6
+  path: transform/allele/run_maf2maf.sh
+- md5: 2c66e4604eecd16812a2e8088517c0b8
   path: outputs/ccle/maf.Allele.Vertex.json.gz
+- md5: 8f28b30e4efde2a5386b93c0bf8d0a2d
+  path: outputs/gdsc/caveman.Allele.Vertex.json.gz
+- md5: f06f8135ccabc7c92063f98585980634
+  path: outputs/gdsc/pindel.Allele.Vertex.json.gz
 - md5: c6a9e038cc7573b05d511e6b5e91d569
   path: outputs/g2p/Allele.Vertex.json.gz
-- md5: 820a7dfbf003ca5d0dfc72988ed2a067
+- md5: f97e724dbfa6acb04b11aa630968e5ad
   path: outputs/mc3/Allele.Vertex.json.gz
 outs:
-- md5: de92fd37fca1bed73a64aa545e422d3a
-  path: outputs/allele/Allele.Vertex.json.gz
+- md5: a7d1f64b7263b3cb891816102cee06fe
+  path: outputs/allele/normalized.Allele.Vertex.json.gz
   cache: true
   metric: false
   persist: false
