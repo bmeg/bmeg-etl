@@ -26,13 +26,18 @@ def transform(output_dir='outputs',
         else:
             filenames.append(filename)
 
+    logging.info('LOADING NORMALIZED ALLELES')
     alleles = {}
     with reader(annotated_alleles) as ins:
         for line in ins:
             vertex = ujson.loads(line)
             alleles[vertex['gid']] = vertex['data']
+    logging.info('DONE')
 
+    logging.info('FILES: {}'.format(filenames))
+    ec = 0
     for f in filenames:
+        logging.info('READING: {}'.format(f))
         with reader(f) as ins:
             for line in ins:
                 try:
@@ -42,18 +47,29 @@ def transform(output_dir='outputs',
                         edge['data']['ensembl_gene'] = data.get('ensembl_gene')
                         edge['data']['ensembl_transcript'] = data.get('ensembl_transcript')
                         edge['data']['ensembl_protein'] = data.get('ensembl_protein')
+                        allele_gid = Allele.make_gid(data['genome'],
+                                                     data['chromosome'],
+                                                     data['start'],
+                                                     data['reference_bases'],
+                                                     data['alternate_bases'])
+                        assert allele_gid == edge['to']
                         emitter.emit_edge(
                             SomaticCallset_Alleles_Allele(
                                 from_gid=SomaticCallset.make_gid(*edge['from'].replace('SomaticCallset:', '').split(':')),
-                                to_gid=Allele.make_gid(*edge['to'].replace('Allele:', '').split(':'),
-                                                       data=edge['data']),
+                                to_gid=allele_gid,
+                                data=edge['data']
                             ),
                             emit_backref=True
                         )
+                        ec += 1
                 except Exception as e:
                     logging.error(str(e))
 
-        emitter.close()
+                if ec % 10000 == 0:
+                    logging.debug('edges emitted: {}'.format(ec))
+
+    logging.debug('total edges emitted: {}'.format(ec))
+    emitter.close()
 
 
 if __name__ == '__main__':  # pragma: no cover
