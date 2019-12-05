@@ -1,4 +1,3 @@
-import gzip
 import pandas
 
 from bmeg import Allele, Project

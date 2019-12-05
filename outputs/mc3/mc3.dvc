@@ -1,8 +1,8 @@
-md5: 9360f9782e7490710c5780a025fdc5dd
+md5: ce48c9a1319c071dedb73b3ac57b831d
 cmd: python3 transform/mc3/mc3_maf_transform.py
 wdir: ../..
 deps:
-- md5: ac7e5237ab3f9abab41763cbfba968db
+- md5: e4ff780f8abb165a20fcd43a75490c6b
   path: transform/mc3/mc3_maf_transform.py
 - md5: 2e4f946f03d6cd1eb46116019b9d4289
   path: source/gdc/id_lookup.tsv

@@ -1,4 +1,3 @@
-import logging
 import pandas
 
 import bmeg.ioutils

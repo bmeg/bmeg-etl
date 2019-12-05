@@ -1,10 +1,10 @@
-md5: 6d511d18abcb671be76dd9780fe5c1b0
+md5: 467b8aa4e2908f651d404f0f62d2648c
 cmd: python3 transform/allele/harmonize_alleles.py -v
 wdir: ../..
 deps:
 - md5: 002550b30233c610f8382c5f583b2b79
   path: transform/allele/harmonize_alleles.py
-- md5: 550e545451c0af371706dba159a6fdf6
+- md5: eb6a105d619597bf18ce26918ad43c7a
   path: transform/allele/run_maf2maf.sh
 - md5: 2c66e4604eecd16812a2e8088517c0b8
   path: outputs/ccle/maf.Allele.Vertex.json.gz

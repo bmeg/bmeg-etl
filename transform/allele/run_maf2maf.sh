@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if [ "$#" -ne 2 ]; then
 		echo "Illegal number of parameters."
 		echo "Usage: run_maf2maf.sh <minimal-maf> <output-filename>"
@@ -14,7 +16,8 @@ if [ ! -e $ANNOTATED_MAF ]; then
 		echo "running maf2maf..."
 		VEPTMP=source/vep/tmp
 		if [ ! -e $VEPTMP ]; then
-				tar -C $TMP -xzf $PWD/source/vep/vep_supporting_files.tar.gz
+				mkdir -p $VEPTMP
+				tar -C $VEPTMP -xzf source/vep/vep_supporting_files.tar.gz
 		else
 				echo "skipping untar; found $VEPTMP"
 		fi

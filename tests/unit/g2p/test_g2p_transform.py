@@ -38,14 +38,11 @@ def validate(helpers, g2p_file, emitter_directory):
     compound_edge_file = os.path.join(emitter_directory, 'G2PAssociation_Compounds_Compound.Edge.json.gz')
     compound_g2p_edge_file = os.path.join(emitter_directory, 'Compound_G2PAssociations_G2PAssociation.Edge.json.gz')
 
-    allele_gene_edge_file = os.path.join(emitter_directory, 'Allele_Gene_Gene.Edge.json.gz')
-    gene_allele_edge_file = os.path.join(emitter_directory, 'Gene_Alleles_Allele.Edge.json.gz')
-
     all_files = [
         association_file, phenotype_file, deadletter_file, genomic_feature_file, allele_file, compound_file,
         pub_edge_file, pub_g2p_edge_file, gene_edge_file, gene_g2p_edge_file, allele_edge_file, allele_g2p_edge_file,
         phenotype_edge_file, phenotype_g2p_edge_file, genomic_feature_edge_file, genomic_feature_g2p_edge_file,
-        compound_edge_file, compound_g2p_edge_file, allele_gene_edge_file, gene_allele_edge_file
+        compound_edge_file, compound_g2p_edge_file
     ]
 
     # remove output
@@ -53,7 +50,7 @@ def validate(helpers, g2p_file, emitter_directory):
         shutil.rmtree(emitter_directory)
 
     # create output
-    transform(g2p_file, prefix=emitter_directory)
+    transform(g2p_file, emitter_directory=emitter_directory, emitter_class='json')
 
     for f in all_files:
         if "Vertex.json.gz" in f:

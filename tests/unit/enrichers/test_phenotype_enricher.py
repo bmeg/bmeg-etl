@@ -18,7 +18,8 @@ EXPECTED = [
     {'ontology_term': 'MONDO:0002129', 'label': 'bone cancer', 'source': 'https://monarchinitiative.org/disease/MONDO:0002129', 'provenance': 'https://api.monarchinitiative.org/api/search/entity/bone cancer?category=disease&prefix=MONDO&start=0&rows=5'},
     {'ontology_term': 'MONDO:0004992', 'label': 'cancer', 'source': 'https://monarchinitiative.org/disease/MONDO:0004992', 'provenance': 'https://api.monarchinitiative.org/api/search/entity/cancer?category=disease&prefix=MONDO&start=0&rows=5'},
     {'ontology_term': 'MONDO:0004952', 'label': 'Hodgkins lymphoma', 'source': 'https://monarchinitiative.org/disease/MONDO:0004952', 'provenance': 'https://api.monarchinitiative.org/api/search/entity/hodgkin_lymphoma?category=disease&prefix=MONDO&start=0&rows=5'},
-    {'ontology_term': 'MONDO:0006474', 'label': 'transitional cell carcinoma', 'source': 'https://monarchinitiative.org/disease/MONDO:0006474', 'provenance': 'https://api.monarchinitiative.org/api/search/entity/transitional_cell_carcinoma?category=disease&prefix=MONDO&start=0&rows=5'}
+    # {'ontology_term': 'MONDO:0006474', 'label': 'transitional cell carcinoma', 'source': 'https://monarchinitiative.org/disease/MONDO:0006474', 'provenance': 'https://api.monarchinitiative.org/api/search/entity/transitional_cell_carcinoma?category=disease&prefix=MONDO&start=0&rows=5'}
+    {'ontology_term': 'MONDO:0002828', 'label': 'Bartholin gland transitional cell carcinoma', 'source': 'https://monarchinitiative.org/disease/MONDO:0002828', 'provenance': 'https://api.monarchinitiative.org/api/search/entity/transitional_cell_carcinoma?category=disease&prefix=MONDO&start=0&rows=5'}
 ]
 
 
