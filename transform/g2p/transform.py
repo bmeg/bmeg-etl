@@ -15,7 +15,7 @@ from bmeg.util.logging import default_logging
 from bmeg.util.cli import default_argument_parser
 from bmeg import (G2PAssociation_Publications_Publication, G2PAssociation_Genes_Gene, G2PAssociation_Alleles_Allele,
                   G2PAssociation_Phenotypes_Phenotype, G2PAssociation_Compounds_Compound, G2PAssociation_GenomicFeatures_GenomicFeature,
-                  Allele_Gene_Gene, GenomicFeature_Genes_Gene)
+                  GenomicFeature_Genes_Gene)
 from bmeg import Deadletter
 from bmeg.emitter import new_emitter
 
@@ -92,15 +92,6 @@ def toGraph(normalized_association, emitter):
             G2PAssociation_GenomicFeatures_GenomicFeature(
                 association.gid(),
                 feature_gid
-            ),
-            emit_backref=True
-        )
-
-    for allele_has_gene in na.vertices['allele_has_gene']:
-        emitter.emit_edge(
-            Allele_Gene_Gene(
-                allele_has_gene[0],
-                allele_has_gene[1],
             ),
             emit_backref=True
         )

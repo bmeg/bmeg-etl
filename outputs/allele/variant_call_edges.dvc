@@ -1,10 +1,10 @@
-md5: 894178da1c2a1c92e511d6b76c64b2e9
+md5: 5d1d616ad359c483cd5ef26870238b19
 cmd: python3 transform/allele/annotate_variant_calls.py -v
 wdir: ../..
 deps:
 - md5: 3c470f0cab5b3fbcc67efe83a3ad1057
   path: transform/allele/annotate_variant_calls.py
-- md5: a7d1f64b7263b3cb891816102cee06fe
+- md5: c1c0b2bea12e936cf370b45afc096449
   path: outputs/allele/normalized.Allele.Vertex.json.gz
 - md5: 40d47c19c5a89c551df23e352b0c6653
   path: outputs/ccle/maf.SomaticCallset_Alleles_Allele.Edge.json.gz

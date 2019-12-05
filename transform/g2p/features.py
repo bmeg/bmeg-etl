@@ -1,6 +1,8 @@
+import logging
+import re
+
 from transform.g2p.genes import gene_gid
 from bmeg import Allele, GenomicFeature, Project
-import re
 
 # keep track of what we've already exported
 EXPORTED_ALLELES = {}
@@ -14,14 +16,11 @@ def allele(feature):
         'genome': feature['referenceName'],
         'chromosome': feature['chromosome'],
         'start': feature['start'],
-        'end': feature['end'],
         'reference_bases': feature['ref'],
         'alternate_bases': feature['alt'],
-        'strand': '+',
-        'hugo_symbol': feature.get('geneSymbol', None),
         'id': Allele.make_gid(
             feature['referenceName'], feature['chromosome'],
-            feature['start'], feature['end'],
+            feature['start'],
             feature['ref'], feature['alt']
         ),
         'project_id': Project.make_gid("Reference")
@@ -47,7 +46,6 @@ def genomic_feature(feature):
         ),
         'project_id': Project.make_gid("Reference")
     }
-
     gf = GenomicFeature(**params)
     gf.validate()
     return gf
@@ -67,11 +65,8 @@ def normalize(hit):
         try:
             a = allele(feature)
             alleles.add(a)
-            try:
-                allele_has_gene.add((a.gid(), gene_gid(feature['geneSymbol'])))
-            except Exception:
-                missing_vertexes.append({'target_label': 'Gene', 'data': feature})
         except Exception:
+            logging.debug("unable to convert feature into an Allele; creating a GenomicFeature")
             try:
                 a = genomic_feature(feature)
                 genomic_features.add(a)

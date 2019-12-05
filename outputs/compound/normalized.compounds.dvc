@@ -1,4 +1,4 @@
-md5: 1afa81fb967431baee5f39e5dc83b74e
+md5: 16def38c2d968322e16621657f643ff1
 cmd: python3 transform/compound/transform.py
 wdir: ../..
 deps:
@@ -8,7 +8,7 @@ deps:
   path: src/bmeg/enrichers/drug_enricher.py
 - md5: 75929eabe0bb44eee38ad93148a80a41
   path: transform/compound/transform.py
-- md5: b91a5552900b39b0d00ec8c2c2db8faf
+- md5: 6abe369ffcba014b98ce0e274b1db01b
   path: outputs/g2p/Compound.Vertex.json.gz
 - md5: dd0b9b409000fec9cc7aff13c8413c57
   path: outputs/gdc/gdc.Compound.Vertex.json.gz
@@ -20,9 +20,9 @@ deps:
   path: outputs/pharmacodb/DrugResponse_Compounds_Compound.Edge.json.gz
 - md5: 4b706b812f0c32ea26938ba79f1acd3d
   path: outputs/pharmacodb/Compound_DrugResponses_DrugResponse.Edge.json.gz
-- md5: b11351ada7aaf4fb78aaaf31868d045c
+- md5: 95c2550c55e9b071c39c5d4ae01566ad
   path: outputs/g2p/G2PAssociation_Compounds_Compound.Edge.json.gz
-- md5: ea495a03bc6f6c52703487ff94d3ac11
+- md5: 1da9ff658f585f0ae4f32e757656033c
   path: outputs/g2p/Compound_G2PAssociations_G2PAssociation.Edge.json.gz
 - md5: 1c2dceb5d39aeda6c06d1099f618548e
   path: outputs/gdc/gdc.Case_Compounds_Compound.Edge.json.gz
@@ -41,47 +41,47 @@ deps:
 - md5: fa0ae005deb28af2d935cc818c1394b4
   path: outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz
 outs:
-- md5: 06b517a59e1fa40de9063c712597c9e0
+- md5: c2e51dfcbf2066b5edb2852a7cacc6ac
   path: outputs/compound/normalized.Compound.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: fe4123bcf2c7e83f74c1b89d12323320
+- md5: 616920f18d2674a2c58bca179f183ea7
   path: outputs/compound/normalized.DrugResponse_Compounds_Compound.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: d0f67338506af07da4542511abcee964
+- md5: 05695adb112b348a116b8acf289b3799
   path: outputs/compound/normalized.Compound_DrugResponses_DrugResponse.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: c53f52b19e36799ee099edc0ef3d7657
+- md5: a56821071854cc805120007a99728f0e
   path: outputs/compound/normalized.Project_Compounds_Compound.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: a9945dd00371f9ae553098b2b71f4ce8
+- md5: d8cfbd16c89e661cf15df5c37cea5d72
   path: outputs/compound/normalized.Compound_Projects_Project.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 488eee20c9e4f0c99070eb6dfbb3fdb7
+- md5: acb155e76510e2661158e52272338a3c
   path: outputs/compound/normalized.Compound_Cases_Case.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 8e8e11059b5cbd3c1ae85573b30dabb0
+- md5: 015143f9421a9fb5a3311f92043056c2
   path: outputs/compound/normalized.Case_Compounds_Compound.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 61bd9cea68e641c69a96269c623c8d73
+- md5: ebccbc1d2a6a8879e605921f778a7c5f
   path: outputs/compound/normalized.G2PAssociation_Compounds_Compound.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 710e732ae8a92c48204bd5fd33fbcb7c
+- md5: 96b94b5b971dade57568811fc5ad95c9
   path: outputs/compound/normalized.Compound_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false
