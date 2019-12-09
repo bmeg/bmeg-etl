@@ -4,23 +4,25 @@ import (
 	"bufio"
 	"errors"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/bmeg/grip/util"
 	"github.com/cespare/xxhash"
+	"github.com/gammazero/workerpool"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/steakknife/bloomfilter"
 )
 
 var (
-	maxElements    uint64  = 100000000
-	probCollide    float64 = 0.00000001
-	vertexFiles            = []string{}
-	vertexManifest         = ""
-	edgeFiles              = []string{}
-	edgeManifest           = ""
-	verbose                = false
+	maxElements uint64  = 500000000
+	probCollide float64 = 0.00000001
+	manifest            = ""
+	vertexFiles         = []string{}
+	edgeFiles           = []string{}
+	verbose             = false
+	workers     int     = 10
 )
 
 var rootCmd = &cobra.Command{
@@ -33,39 +35,36 @@ var rootCmd = &cobra.Command{
 			log.SetLevel(log.DebugLevel)
 		}
 
-		if vertexManifest != "" {
-			verts, err := readLines(vertexManifest)
-			if err != nil {
-				return err
-			}
-			vertexFiles = append(vertexFiles, verts...)
+		files, err := readLines(manifest)
+		if err != nil {
+			return err
 		}
+
+		for _, fname := range files {
+			if strings.HasSuffix(fname, ".Vertex.json.gz") {
+				vertexFiles = append(vertexFiles, fname)
+			} else if strings.HasSuffix(fname, ".Edge.json.gz") {
+				edgeFiles = append(edgeFiles, fname)
+			}
+		}
+
 		if len(vertexFiles) == 0 {
-			return errors.New("must provide one or more vertex files to load")
+			return errors.New("must provide one or more vertex files in the manifest")
 		}
 
-		if edgeManifest != "" {
-			edges, err := readLines(edgeManifest)
-			if err != nil {
-				return err
-			}
-			edgeFiles = append(edgeFiles, edges...)
-		}
 		if len(edgeFiles) == 0 {
-			return errors.New("must provide one or more edge files to check")
+			return errors.New("must provide one or more edge files in the manifest")
 		}
 
-		return check(vertexFiles, edgeFiles)
+		return check(vertexFiles, edgeFiles, workers)
 	},
 }
 
 func init() {
 	log.SetFormatter(&log.JSONFormatter{TimestampFormat: time.RFC3339})
 	flags := rootCmd.Flags()
-	flags.StringSliceVarP(&vertexFiles, "vertex-file", "v", vertexFiles, "vertex file to load")
-	flags.StringVarP(&vertexManifest, "vertex-manifest", "V", vertexManifest, "vertex file manifest")
-	flags.StringSliceVarP(&edgeFiles, "edge-file", "e", edgeFiles, "edge file to check")
-	flags.StringVarP(&edgeManifest, "edge-manifest", "E", edgeManifest, "edge file manifest")
+	flags.StringVarP(&manifest, "manifest", "m", manifest, "file manifest listing vertex and edge files")
+	flags.IntVarP(&workers, "workers", "w", workers, "number of workers to use to read the files and load bloom filter")
 	flags.BoolVar(&verbose, "verbose", verbose, "verbose mode")
 }
 
@@ -86,52 +85,84 @@ func readLines(path string) ([]string, error) {
 	return lines, scanner.Err()
 }
 
-func check(vertexFiles, edgeFiles []string) error {
+func check(vertexFiles, edgeFiles []string, workers int) error {
 	bf, err := bloomfilter.NewOptimal(maxElements, probCollide)
 	if err != nil {
 		return err
 	}
 
-	count := 0
+	wp := workerpool.New(workers)
 	for _, f := range vertexFiles {
-		log.Debugf("Loading vertices from: %s", f)
-		for v := range util.StreamVerticesFromFile(f) {
-			h := xxhash.New()
-			h.Write([]byte(v.Gid))
-			bf.Add(h)
-			count++
-			if count%1000 == 0 {
-				log.Debugf("Loaded %d vertices", count)
+		f := f
+		wp.Submit(func() {
+			log.WithFields(log.Fields{"file": f}).Debugf("Loading vertices")
+			vChan, err := util.StreamVerticesFromFile(f)
+			if err != nil {
+				log.WithFields(log.Fields{"file": f}).Error(err)
+				return
 			}
-		}
+			count := 0
+			for v := range vChan {
+				h := xxhash.New()
+				_, err := h.Write([]byte(v.Gid))
+				if err != nil {
+					log.Error("xxhash.Write", err)
+					continue
+				}
+				bf.Add(h)
+				count++
+				if count%1000 == 0 {
+					log.WithFields(log.Fields{"file": f}).Debugf("Loaded %d vertices", count)
+				}
+			}
+			log.WithFields(log.Fields{"file": f}).Debugf("Loaded %d vertices", count)
+		})
 	}
-	log.Debugf("Loaded %d vertices", count)
+	wp.StopWait()
 
-	notFound := 0
-	count = 0
+	wp = workerpool.New(workers)
 	for _, f := range edgeFiles {
-		log.Debugf("Loading edges from: %s", f)
-		for e := range util.StreamEdgesFromFile(f) {
-			f := xxhash.New()
-			f.Write([]byte(e.From))
-			if !bf.Contains(f) {
-				notFound++
-				log.WithFields(log.Fields{"Gid": e.Gid, "From": e.From, "To": e.To, "Label": e.Label}).Error("From does not exist")
+		f := f
+		wp.Submit(func() {
+			log.WithFields(log.Fields{"file": f}).Debugf("Loading edges")
+			eChan, err := util.StreamEdgesFromFile(f)
+			if err != nil {
+				log.WithFields(log.Fields{"file": f}).Error(err)
+				return
 			}
-			t := xxhash.New()
-			t.Write([]byte(e.To))
-			if !bf.Contains(t) {
-				notFound++
-				log.WithFields(log.Fields{"Gid": e.Gid, "From": e.From, "To": e.To, "Label": e.Label}).Error("To does not exist")
+			notFound := 0
+			count := 0
+			for e := range eChan {
+				f := xxhash.New()
+				_, err := f.Write([]byte(e.From))
+				if err != nil {
+					log.Error("xxhash.Write", err)
+					continue
+				}
+				if !bf.Contains(f) {
+					notFound++
+					log.WithFields(log.Fields{"Gid": e.Gid, "From": e.From, "To": e.To, "Label": e.Label}).Error("From does not exist")
+				}
+				t := xxhash.New()
+				_, err = t.Write([]byte(e.To))
+				if err != nil {
+					log.Error("xxhash.Write", err)
+					continue
+				}
+				if !bf.Contains(t) {
+					notFound++
+					log.WithFields(log.Fields{"Gid": e.Gid, "From": e.From, "To": e.To, "Label": e.Label}).Error("To does not exist")
+				}
+				count++
+				if count%1000 == 0 {
+					log.Debugf("Checked %d edges", count)
+				}
 			}
-			count++
-			if count%1000 == 0 {
-				log.Debugf("Checked %d edges", count)
-			}
-		}
+			log.WithFields(log.Fields{"file": f}).Debugf("Checked %d edges", count)
+			log.WithFields(log.Fields{"file": f}).Debugf("%d From / To references were not found", notFound)
+		})
 	}
-	log.Debugf("Checked %d edges", count)
-	log.Debugf("%d From / To references were not found", notFound)
+	wp.StopWait()
 
 	return nil
 }
