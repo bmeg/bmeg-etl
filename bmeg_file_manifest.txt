@@ -23,7 +23,6 @@ outputs/ccle/ccle.Sample_Case_Case.Edge.json.gz
 outputs/ccle/maf.Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz
 outputs/ccle/maf.SomaticCallset.Vertex.json.gz
 outputs/ccle/maf.SomaticCallset_Aliquots_Aliquot.Edge.json.gz
-outputs/ccle/maf.SomaticCallset_Alleles_Allele.Edge.json.gz
 outputs/celllines/Case_SameAs_Case.Edge.json.gz
 outputs/compound/normalized.Case_Compounds_Compound.Edge.json.gz
 outputs/compound/normalized.Compound.Vertex.json.gz
@@ -88,7 +87,6 @@ outputs/gdc/Sample_Case_Case.Edge.json.gz
 outputs/gdsc/caveman.Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz
 outputs/gdsc/caveman.SomaticCallset.Vertex.json.gz
 outputs/gdsc/caveman.SomaticCallset_Aliquots_Aliquot.Edge.json.gz
-outputs/gdsc/caveman.SomaticCallset_Alleles_Allele.Edge.json.gz
 outputs/gdsc/gdsc.Aliquot.Vertex.json.gz
 outputs/gdsc/gdsc.Aliquot_Sample_Sample.Edge.json.gz
 outputs/gdsc/gdsc.Case.Vertex.json.gz
@@ -105,7 +103,6 @@ outputs/gdsc/gdsc.Sample_Case_Case.Edge.json.gz
 outputs/gdsc/pindel.Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz
 outputs/gdsc/pindel.SomaticCallset.Vertex.json.gz
 outputs/gdsc/pindel.SomaticCallset_Aliquots_Aliquot.Edge.json.gz
-outputs/gdsc/pindel.SomaticCallset_Alleles_Allele.Edge.json.gz
 outputs/go/GeneOntologyTerm.Vertex.json.gz
 outputs/go/GeneOntologyTerm_ChildTerms_GeneOntologyTerm.Edge.json.gz
 outputs/go/GeneOntologyTerm_Genes_Gene.Edge.json.gz
@@ -130,7 +127,6 @@ outputs/gtex/gtex.Sample_Case_Case.Edge.json.gz
 outputs/mc3/Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz
 outputs/mc3/SomaticCallset.Vertex.json.gz
 outputs/mc3/SomaticCallset_Aliquots_Aliquot.Edge.json.gz
-outputs/mc3/SomaticCallset_Alleles_Allele.Edge.json.gz
 outputs/mondo/Phenotype.Vertex.json.gz
 outputs/mondo/Phenotype_ChildTerms_Phenotype.Edge.json.gz
 outputs/mondo/Phenotype_ParentTerms_Phenotype.Edge.json.gz

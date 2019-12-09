@@ -1,4 +1,4 @@
-md5: 73a5afe0f8a6479a541a24fd0e7cdab7
+md5: 302133963ddc9b5b09269ddccdce28b5
 cmd: echo generating file manifest...
 deps:
 - md5: c1c0b2bea12e936cf370b45afc096449
@@ -51,8 +51,6 @@ deps:
   path: outputs/ccle/maf.SomaticCallset.Vertex.json.gz
 - md5: 1e13cfb5d1081b54d031b2a958010d21
   path: outputs/ccle/maf.SomaticCallset_Aliquots_Aliquot.Edge.json.gz
-- md5: 40d47c19c5a89c551df23e352b0c6653
-  path: outputs/ccle/maf.SomaticCallset_Alleles_Allele.Edge.json.gz
 - md5: 4dfc12d1a89eee58e38ef9109bbd64e4
   path: outputs/celllines/Case_SameAs_Case.Edge.json.gz
 - md5: 015143f9421a9fb5a3311f92043056c2
@@ -181,8 +179,6 @@ deps:
   path: outputs/gdsc/caveman.SomaticCallset.Vertex.json.gz
 - md5: bc15846590d42b233ce2c5f7e217b05e
   path: outputs/gdsc/caveman.SomaticCallset_Aliquots_Aliquot.Edge.json.gz
-- md5: 2929ef2b0f940639be2a883d0ace958e
-  path: outputs/gdsc/caveman.SomaticCallset_Alleles_Allele.Edge.json.gz
 - md5: 5450863980ef8b6bc42ff9a7dd578669
   path: outputs/gdsc/gdsc.Aliquot.Vertex.json.gz
 - md5: b78401566c7d42dc2960f5938383d06f
@@ -215,8 +211,6 @@ deps:
   path: outputs/gdsc/pindel.SomaticCallset.Vertex.json.gz
 - md5: bc15846590d42b233ce2c5f7e217b05e
   path: outputs/gdsc/pindel.SomaticCallset_Aliquots_Aliquot.Edge.json.gz
-- md5: d39a9269cc66a3e6e73f459fe134ad6d
-  path: outputs/gdsc/pindel.SomaticCallset_Alleles_Allele.Edge.json.gz
 - md5: 748d819a66e19091b0edefe31aad0318
   path: outputs/go/GeneOntologyTerm.Vertex.json.gz
 - md5: 2279a4f3c798b50a23657de0367fe236
@@ -265,8 +259,6 @@ deps:
   path: outputs/mc3/SomaticCallset.Vertex.json.gz
 - md5: dd0fb722f234bfb01cc14ba3297f88e5
   path: outputs/mc3/SomaticCallset_Aliquots_Aliquot.Edge.json.gz
-- md5: 36e02d3d58585c71f2352768b467f537
-  path: outputs/mc3/SomaticCallset_Alleles_Allele.Edge.json.gz
 - md5: f74256271bf70a3409b344b45e1d0acd
   path: outputs/mondo/Phenotype.Vertex.json.gz
 - md5: bc2fb9909a0fc99a43f5c7825f7c44ad

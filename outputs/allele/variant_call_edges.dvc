@@ -1,8 +1,8 @@
-md5: 5d1d616ad359c483cd5ef26870238b19
+md5: 2a92abfd6298d98a6541923a91a4d549
 cmd: python3 transform/allele/annotate_variant_calls.py -v
 wdir: ../..
 deps:
-- md5: 3c470f0cab5b3fbcc67efe83a3ad1057
+- md5: fd57ff2bf67367051b49f52e48b27d3f
   path: transform/allele/annotate_variant_calls.py
 - md5: c1c0b2bea12e936cf370b45afc096449
   path: outputs/allele/normalized.Allele.Vertex.json.gz
