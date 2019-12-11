@@ -1,11 +1,11 @@
-md5: 302133963ddc9b5b09269ddccdce28b5
+md5: 65289aedf3e14179ec2fff51d8be1517
 cmd: echo generating file manifest...
 deps:
 - md5: c1c0b2bea12e936cf370b45afc096449
   path: outputs/allele/normalized.Allele.Vertex.json.gz
-- md5: 0051f70be76f45e7b070cd5ffabdc61a
+- md5: 37972caea8d25d60d4d40e7a7e7ea784
   path: outputs/allele/normalized.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz
-- md5: 409220dcf7a6a7c5ee9687ebc52bb9fb
+- md5: d0b92266b826b46fa32ad2074fdb0332
   path: outputs/allele/normalized.SomaticCallset_Alleles_Allele.Edge.json.gz
 - md5: f68b098f7112c69b5e1a3aa9324c6c0d
   path: outputs/ccle/Aliquot_GeneExpressions_GeneExpression.Edge.json.gz

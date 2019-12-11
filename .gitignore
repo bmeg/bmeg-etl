@@ -29,6 +29,7 @@ eggs/
 # ignore all vertex and edge files
 outputs/**/*Vertex.json*
 outputs/**/*Edge.json*
+outputs/allele/sqlite.db
 !tests/unit/**/outputs/**/*.json*
 
 # ignore everything except markdown documents in source

@@ -1,4 +1,4 @@
-md5: 467b8aa4e2908f651d404f0f62d2648c
+md5: ad40421483af9314ff4f41ea3e4dbc97
 cmd: python3 transform/allele/harmonize_alleles.py -v
 wdir: ../..
 deps:
@@ -8,9 +8,9 @@ deps:
   path: transform/allele/run_maf2maf.sh
 - md5: 2c66e4604eecd16812a2e8088517c0b8
   path: outputs/ccle/maf.Allele.Vertex.json.gz
-- md5: 8f28b30e4efde2a5386b93c0bf8d0a2d
+- md5: 952061cd61b2b13049b1a8765cdbe6d3
   path: outputs/gdsc/caveman.Allele.Vertex.json.gz
-- md5: f06f8135ccabc7c92063f98585980634
+- md5: b91976be716f040bbcdfc558bdcc197e
   path: outputs/gdsc/pindel.Allele.Vertex.json.gz
 - md5: 3865611835e14c2296f6b4529fc3e7da
   path: outputs/g2p/Allele.Vertex.json.gz
