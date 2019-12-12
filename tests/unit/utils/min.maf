@@ -1,4 +1,5 @@
 Chromosome	Start_Position	Reference_Allele	Tumor_Seq_Allele2	Tumor_Sample_Barcode
+1	12926	A	C	STUBID
 1	63735	CCTA	C	STUBID
 1	700531	AT	A	STUBID
 1	874950	T	TCCCTGGAGGACC	STUBID

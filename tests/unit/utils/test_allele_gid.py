@@ -2,8 +2,8 @@ import os
 import pandas
 import pytest
 
-from bmeg.vcf import make_minimal_pindel_allele
-from bmeg.maf import make_minimal_allele
+from bmeg.vcf import make_minimal_allele as make_minimal_allele_vcf
+from bmeg.maf import make_minimal_allele as make_minimal_allele_maf
 
 
 @pytest.fixture
@@ -28,8 +28,8 @@ def test_make_minimal_pindel_allele(min_maf_path, anno_maf_path):
                    "REF": min_line["Reference_Allele"],
                    "ALT": min_line["Tumor_Seq_Allele2"]}
         anno_line = anno_maf.iloc[index, :].dropna().to_dict()
-        anno_allele = make_minimal_allele(anno_line)
-        min_allele = make_minimal_pindel_allele(min_vcf)
+        anno_allele = make_minimal_allele_maf(anno_line)
+        min_allele = make_minimal_allele_vcf(min_vcf)
 
         if min_allele.gid() != anno_allele.gid():
             print("original:", min_allele.gid(), min_allele.props())

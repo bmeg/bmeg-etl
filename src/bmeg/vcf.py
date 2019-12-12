@@ -39,29 +39,3 @@ def make_minimal_allele(vcf_line, genome='GRCh37'):
         genome=genome,
         project_id=Project.make_gid('Reference')
     )
-
-
-def make_minimal_pindel_allele(vcf_line, genome='GRCh37'):
-    allele = make_minimal_allele(vcf_line, genome)
-
-    pos = allele.start
-    ref = allele.reference_bases
-    alt = allele.alternate_bases
-
-    if len(ref) > len(alt):
-        ref = ref[1:]
-        if len(alt) == 1:
-            alt = "-"
-        else:
-            alt = alt[1:]
-        pos += 1
-    elif len(ref) < len(alt):
-        alt = alt[1:]
-        if len(ref) == 1:
-            ref = "-"
-        else:
-            ref = ref[1:]
-
-    allele.id = Allele.make_gid(allele.genome, allele.chromosome, pos, ref, alt)
-
-    return allele

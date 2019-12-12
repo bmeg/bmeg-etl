@@ -26,7 +26,6 @@ def allele(feature):
         'project_id': Project.make_gid("Reference")
     }
     a = Allele(**params)
-    a.validate()
     return a
 
 
@@ -47,7 +46,6 @@ def genomic_feature(feature):
         'project_id': Project.make_gid("Reference")
     }
     gf = GenomicFeature(**params)
-    gf.validate()
     return gf
 
 
@@ -77,7 +75,8 @@ def normalize(hit):
                     genomic_feature_has_gene.add((a.gid(), gene_gid(geneSymbol)))
                 except Exception:
                     missing_vertexes.append({'target_label': 'Gene', 'data': feature})
-            except Exception:
+            except Exception as e:
+                logging.debug("unable to convert feature into a GenomicFeature:", str(e))
                 missing_vertexes.append({'target_label': 'Allele', 'data': feature})
 
     hit['features'] = []

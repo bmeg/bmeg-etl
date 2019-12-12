@@ -1,12 +1,12 @@
-md5: 407eeb87af3930198cd0b052ec0afebd
+md5: 58b764ed18461fd12a5d24858b6427d1
 cmd: python3 transform/publication/transform.py
 wdir: ../..
 deps:
 - md5: 15fc6631cd700953dc7bcc74728c44fa
   path: transform/publication/transform.py
-- md5: 948886324746ac6f7f76aecc44a7a27f
+- md5: fa8cc52370e0760530fb545c0fe636f0
   path: outputs/g2p/G2PAssociation_Publications_Publication.Edge.json.gz
-- md5: b9b61ab5687769326a59c06b9114c083
+- md5: d57360dc27298d0d4092ae4c53c165ad
   path: outputs/g2p/Publication_G2PAssociations_G2PAssociation.Edge.json.gz
 - md5: 4f99308481017576d6cc208b6f514eab
   path: outputs/dgidb/G2PAssociation_Publications_Publication.Edge.json.gz
@@ -23,7 +23,7 @@ deps:
 - md5: 737bc587e7faef80a008f30b9f310643
   path: outputs/pathway_commons/Interaction_Publications_Publication.Edge.json.gz
 outs:
-- md5: e7f3dddab00908bc4cb5d91b7ade8e1a
+- md5: 4bf0ed8a15decadcfcff7be30176c159
   path: outputs/publication/stub.Publication.Vertex.json.gz
   cache: true
   metric: false

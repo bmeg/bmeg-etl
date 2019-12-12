@@ -49,6 +49,31 @@ def somatic_callset_gid(source: str, tumor_aliquot_id: str, normal_aliquot_id: s
 
 def allele_gid(genome: str, chromosome: str, start: int,
                reference_bases: str, alternate_bases: str):
+
+    if not all(v is not None for v in [genome, chromosome, start,
+                                       reference_bases, alternate_bases]):
+        raise ValueError("one or more args was None")
+
+    start = int(start)
+
+    if reference_bases == "-" or alternate_bases == "-":
+        pass
+    elif reference_bases[0] != alternate_bases[0]:
+        pass
+    elif len(reference_bases) > len(alternate_bases):
+        reference_bases = reference_bases[1:]
+        if len(alternate_bases) == 1:
+            alternate_bases = "-"
+        else:
+            alternate_bases = alternate_bases[1:]
+        start += 1
+    elif len(reference_bases) < len(alternate_bases):
+        alternate_bases = alternate_bases[1:]
+        if len(reference_bases) == 1:
+            reference_bases = "-"
+        else:
+            reference_bases = reference_bases[1:]
+
     vid = "{}:{}:{}:{}:{}".format(genome, chromosome, start, reference_bases, alternate_bases)
     vid = vid.encode('utf-8')
     vidhash = hashlib.sha1()

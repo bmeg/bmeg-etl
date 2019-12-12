@@ -1,4 +1,4 @@
-md5: 16def38c2d968322e16621657f643ff1
+md5: 24ce98b9e546da14500c288379a14ecb
 cmd: python3 transform/compound/transform.py
 wdir: ../..
 deps:
@@ -8,7 +8,7 @@ deps:
   path: src/bmeg/enrichers/drug_enricher.py
 - md5: 75929eabe0bb44eee38ad93148a80a41
   path: transform/compound/transform.py
-- md5: 6abe369ffcba014b98ce0e274b1db01b
+- md5: 5492a73abc296ebe3a41634a0c8dfce2
   path: outputs/g2p/Compound.Vertex.json.gz
 - md5: dd0b9b409000fec9cc7aff13c8413c57
   path: outputs/gdc/gdc.Compound.Vertex.json.gz
@@ -20,9 +20,9 @@ deps:
   path: outputs/pharmacodb/DrugResponse_Compounds_Compound.Edge.json.gz
 - md5: 4b706b812f0c32ea26938ba79f1acd3d
   path: outputs/pharmacodb/Compound_DrugResponses_DrugResponse.Edge.json.gz
-- md5: 95c2550c55e9b071c39c5d4ae01566ad
+- md5: 45657587e35880547fc04c53d709ccb7
   path: outputs/g2p/G2PAssociation_Compounds_Compound.Edge.json.gz
-- md5: 1da9ff658f585f0ae4f32e757656033c
+- md5: 77032c7b7901dd5e175ca5d7aed330f8
   path: outputs/g2p/Compound_G2PAssociations_G2PAssociation.Edge.json.gz
 - md5: 1c2dceb5d39aeda6c06d1099f618548e
   path: outputs/gdc/gdc.Case_Compounds_Compound.Edge.json.gz
@@ -41,7 +41,7 @@ deps:
 - md5: fa0ae005deb28af2d935cc818c1394b4
   path: outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz
 outs:
-- md5: c2e51dfcbf2066b5edb2852a7cacc6ac
+- md5: 9d8c50eda275b7fb4f2b0e626758e6a8
   path: outputs/compound/normalized.Compound.Vertex.json.gz
   cache: true
   metric: false
@@ -76,12 +76,12 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: ebccbc1d2a6a8879e605921f778a7c5f
+- md5: b83d7f8c7a33cd3f6c52f8d6321a05fb
   path: outputs/compound/normalized.G2PAssociation_Compounds_Compound.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 96b94b5b971dade57568811fc5ad95c9
+- md5: c6c7b48c2268b596bf48c19ff2f8668f
   path: outputs/compound/normalized.Compound_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false

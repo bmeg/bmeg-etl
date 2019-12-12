@@ -1,8 +1,8 @@
-md5: a44477c630b7ab7116d0c3a93a0936f2
+md5: 5562ec219ef1963746658b685a4cc1ea
 cmd: python3 transform/ccle/ccle_maf_transform.py
 wdir: ../..
 deps:
-- md5: c2fd62b246c0a57cebcf806166e22fb7
+- md5: b99b58f6cf2532296a88f14c99bdc7b5
   path: transform/ccle/ccle_maf_transform.py
 - md5: 2f3bcd55c32ac3b5d1f6d58524e5d1f0
   path: source/ccle/cellline_id_lookup.tsv
@@ -19,12 +19,12 @@ outs:
   cache: true
   metric: false
   persist: false
-- md5: 71c65b073f3038b32fdcaec68127c30b
+- md5: 731e7faf01f4110ac39d88e84fd62829
   path: outputs/ccle/maf.Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 1e13cfb5d1081b54d031b2a958010d21
+- md5: 928ad8af9f2904a22758d6b1fcf65959
   path: outputs/ccle/maf.SomaticCallset_Aliquots_Aliquot.Edge.json.gz
   cache: true
   metric: false

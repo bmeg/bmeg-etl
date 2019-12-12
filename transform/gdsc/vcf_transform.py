@@ -8,7 +8,7 @@ from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
 from bmeg import Aliquot, Project, SomaticCallset, SomaticCallset_Alleles_Allele, SomaticCallset_Aliquots_Aliquot
 from bmeg.emitter import new_emitter
-from bmeg.vcf import read_vcf, make_minimal_pindel_allele
+from bmeg.vcf import read_vcf, make_minimal_allele
 
 
 def parse_genotypes(vcf_line, file_type, sample_name):
@@ -120,7 +120,7 @@ def transform(vcf_dir="source/gdsc/vcfs/*",
         for index, line in vcf.iterrows():
             line = line.dropna().to_dict()
 
-            allele = make_minimal_pindel_allele(line)
+            allele = make_minimal_allele(line)
             if allele.gid() not in emitted_alleles:
                 emitter.emit_vertex(allele)
                 emitted_alleles[allele.gid()] = None
@@ -137,7 +137,7 @@ def transform(vcf_dir="source/gdsc/vcfs/*",
                 emitter.emit_edge(
                     SomaticCallset_Aliquots_Aliquot(
                         from_gid=callset.gid(),
-                        to_gid=Aliquot.make_gid(callset.tumor_aliquot_id),
+                        to_gid=Aliquot.make_gid("GDSC:%s" % (callset.tumor_aliquot_id)),
                     ),
                     emit_backref=True
                 )

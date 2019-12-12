@@ -1,4 +1,4 @@
-md5: ad40421483af9314ff4f41ea3e4dbc97
+md5: 1a639202b0222b269045fece0c35b0cf
 cmd: python3 transform/allele/harmonize_alleles.py -v
 wdir: ../..
 deps:
@@ -12,7 +12,7 @@ deps:
   path: outputs/gdsc/caveman.Allele.Vertex.json.gz
 - md5: b91976be716f040bbcdfc558bdcc197e
   path: outputs/gdsc/pindel.Allele.Vertex.json.gz
-- md5: 3865611835e14c2296f6b4529fc3e7da
+- md5: ec54adbb5d00e14536b588dbf6c4c155
   path: outputs/g2p/Allele.Vertex.json.gz
 - md5: f97e724dbfa6acb04b11aa630968e5ad
   path: outputs/mc3/Allele.Vertex.json.gz

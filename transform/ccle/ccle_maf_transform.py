@@ -40,7 +40,7 @@ def transform(mafpath="source/ccle/CCLE_DepMap_18q3_maf_20180718.txt",
             emitter.emit_edge(
                 SomaticCallset_Aliquots_Aliquot(
                     from_gid=callset.gid(),
-                    to_gid=Aliquot.make_gid(callset.tumor_aliquot_id),
+                    to_gid=Aliquot.make_gid("CCLE:%s" % (callset.tumor_aliquot_id)),
                 ),
                 emit_backref=True
             )
