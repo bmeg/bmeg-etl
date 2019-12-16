@@ -61,7 +61,8 @@ def transform(cellline_lookup_path='source/ccle/cellline_id_lookup.tsv',
         row = row.dropna().to_dict()
         cell_name = cellline_id_lookup.get(row["cell_name"], row["cell_name"])
         dr = DrugResponse(
-            id=DrugResponse.make_gid(row["dataset_name"], cell_name, row["drug_name"]),
+            id=DrugResponse.make_gid(row["dataset_name"], row["experiment_id"],
+                                     cell_name, row["drug_name"]),
             einf=row.get("Einf"),
             ec50=row.get("EC50"),
             ic50=row.get("IC50"),

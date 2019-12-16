@@ -39,8 +39,8 @@ def protein_gid(submitter_id: str):
     return "{}".format(submitter_id)
 
 
-def drugresponse_gid(source: str, submitter_id: str, compound_id: str):
-    return "DrugResponse:{}:{}:{}".format(source, submitter_id, compound_id)
+def drugresponse_gid(data_source: str, experiment_id: int, cell_line_id: str, compound_id: str):
+    return "DrugResponse:{}:{}:{}:{}".format(data_source, experiment_id, cell_line_id, compound_id)
 
 
 def somatic_callset_gid(source: str, tumor_aliquot_id: str, normal_aliquot_id: str):
