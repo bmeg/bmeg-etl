@@ -61,6 +61,10 @@ def normalize(hit):
         if feature.get('provenance_rule', None) == 'gene_only':
             continue
         try:
+            if hit['source'] == 'brca':
+                mut = hit['brca']['Genomic_Coordinate_hg37'].split(':')[-1].split('>')
+                feature['ref'] = mut[0]
+                feature['alt'] = mut[1]
             a = allele(feature)
             alleles.add(a)
         except Exception:
