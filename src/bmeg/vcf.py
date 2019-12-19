@@ -24,9 +24,9 @@ def make_minimal_allele(vcf_line, genome='GRCh37'):
     if reference_bases not in vcf_line and alternate_bases not in vcf_line:
         raise ValueError('ref and alt bases are missing for row: %s', vcf_line)
     if reference_bases not in vcf_line:
-        vcf_line[reference_bases] = '.'
+        vcf_line[reference_bases] = '-'
     if alternate_bases not in vcf_line:
-        vcf_line[alternate_bases] = '.'
+        vcf_line[alternate_bases] = '-'
     return Allele(
         id=Allele.make_gid(
             genome, vcf_line.get(chromosome), vcf_line.get(start),

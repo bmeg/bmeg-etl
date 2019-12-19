@@ -1,4 +1,5 @@
 import hashlib
+import os
 import re
 from functools import wraps
 
@@ -55,24 +56,25 @@ def allele_gid(genome: str, chromosome: str, start: int,
         raise ValueError("one or more args was None")
 
     start = int(start)
-
     if reference_bases == "-" or alternate_bases == "-":
         pass
     elif reference_bases[0] != alternate_bases[0]:
         pass
     elif len(reference_bases) > len(alternate_bases):
-        reference_bases = reference_bases[1:]
-        if len(alternate_bases) == 1:
+        common = os.path.commonprefix([reference_bases, alternate_bases])
+        reference_bases = reference_bases[len(common):]
+        if len(alternate_bases) == len(common):
             alternate_bases = "-"
         else:
-            alternate_bases = alternate_bases[1:]
-        start += 1
+            alternate_bases = alternate_bases[len(common):]
+        start += len(common)
     elif len(reference_bases) < len(alternate_bases):
-        alternate_bases = alternate_bases[1:]
-        if len(reference_bases) == 1:
+        common = os.path.commonprefix([reference_bases, alternate_bases])
+        alternate_bases = alternate_bases[len(common):]
+        if len(reference_bases) == len(common):
             reference_bases = "-"
         else:
-            reference_bases = reference_bases[1:]
+            reference_bases = reference_bases[len(common):]
 
     vid = "{}:{}:{}:{}:{}".format(genome, chromosome, start, reference_bases, alternate_bases)
     vid = vid.encode('utf-8')

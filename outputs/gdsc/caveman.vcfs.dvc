@@ -1,6 +1,6 @@
-md5: cfa9ac60f1cf2712b0dec01b62b7382b
-cmd: echo -e 'caveman\npindel' | xargs -L 1 -P 2 -I {} python3 transform/gdsc/vcf_transform.py
-  --emitter-prefix {} --vcf-pattern 'source/gdsc/vcfs/*.{}.annot.vcf.gz'
+md5: 1e7aea2c144cdf5a395fd2decab51d57
+cmd: python3 transform/gdsc/vcf_transform.py
+  --emitter-prefix caveman --vcf-pattern 'source/gdsc/vcfs/*.caveman.annot.vcf.gz'
 wdir: ../..
 deps:
 - md5: 7ef57d3d3b942a7abab3b8b1d7eef01d
@@ -37,36 +37,6 @@ outs:
   persist: false
 - md5: af453ecb38d8bc4999c06b9cae2aa97f
   path: outputs/gdsc/caveman.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: b91976be716f040bbcdfc558bdcc197e
-  path: outputs/gdsc/pindel.Allele.Vertex.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 2bee20c394a6d324a33b6567b580ea4c
-  path: outputs/gdsc/pindel.SomaticCallset.Vertex.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 54df2e1cafb80c21463aa522459cb68c
-  path: outputs/gdsc/pindel.Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: fad9f6c0e83b8aa01d3b2eef0067f620
-  path: outputs/gdsc/pindel.SomaticCallset_Aliquots_Aliquot.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 319495b6739d4ca71b15c038adc7bff3
-  path: outputs/gdsc/pindel.SomaticCallset_Alleles_Allele.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 3c19345eaf1f0ac38432407f3faf61aa
-  path: outputs/gdsc/pindel.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz
   cache: true
   metric: false
   persist: false

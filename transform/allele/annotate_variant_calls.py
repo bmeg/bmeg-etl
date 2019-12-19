@@ -1,8 +1,9 @@
 import logging
 import glob
+import os
 import ujson
-from bmeg.ioutils import reader
 
+from bmeg.ioutils import reader
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
 from bmeg.emitter import new_emitter
@@ -30,12 +31,18 @@ def transform(output_dir='outputs',
 
     logging.info('LOADING NORMALIZED ALLELES')
     logging.info("STORE PATH: %s", store_path)
+    if os.path.isfile(store_path):
+        os.remove(store_path)
     store = new_store('key-val', path=store_path, index=True)
-    store.index()  # default is no index
+    ac = 0
     with reader(annotated_alleles) as ins:
         for line in ins:
             vertex = ujson.loads(line)
             store.put(vertex['gid'], vertex['data'])
+            ac += 1
+            if ac % 100000 == 0:
+                logging.info('alleles read: {}'.format(ac))
+
     logging.info('DONE')
 
     logging.info('FILES: {}'.format(filenames))
@@ -68,7 +75,7 @@ def transform(output_dir='outputs',
                 else:
                     logging.error("no allele found for: {}".format(edge))
 
-                if ec % 10000 == 0:
+                if ec % 100000 == 0:
                     logging.debug('edges emitted: {}'.format(ec))
 
     logging.debug('total edges emitted: {}'.format(ec))

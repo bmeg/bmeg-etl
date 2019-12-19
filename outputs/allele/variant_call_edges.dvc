@@ -1,26 +1,26 @@
-md5: 8870282d9bfe3125a8b64d1a01138a06
+md5: 8fa52e81b8c4d26bb321bb4b09a0928c
 cmd: python3 transform/allele/annotate_variant_calls.py -v
 wdir: ../..
 deps:
-- md5: fd57ff2bf67367051b49f52e48b27d3f
+- md5: b6ccbd8405217ef9cbea60a030512dfc
   path: transform/allele/annotate_variant_calls.py
-- md5: c1c0b2bea12e936cf370b45afc096449
+- md5: b2d2ab73b01758f77505caecc3963f29
   path: outputs/allele/normalized.Allele.Vertex.json.gz
 - md5: 40d47c19c5a89c551df23e352b0c6653
   path: outputs/ccle/maf.SomaticCallset_Alleles_Allele.Edge.json.gz
 - md5: bba2b81f9590b68bda015cdd73686764
   path: outputs/gdsc/caveman.SomaticCallset_Alleles_Allele.Edge.json.gz
-- md5: 319495b6739d4ca71b15c038adc7bff3
+- md5: 70490ea617c19fd84defbdea0989e4cf
   path: outputs/gdsc/pindel.SomaticCallset_Alleles_Allele.Edge.json.gz
 - md5: 36e02d3d58585c71f2352768b467f537
   path: outputs/mc3/SomaticCallset_Alleles_Allele.Edge.json.gz
 outs:
-- md5: d0b92266b826b46fa32ad2074fdb0332
+- md5: a6820a9cec9e7dcbdb6aedc2f8749dc6
   path: outputs/allele/normalized.SomaticCallset_Alleles_Allele.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 37972caea8d25d60d4d40e7a7e7ea784
+- md5: b1a0f76f0163e623b1b6c0f5b3a48aee
   path: outputs/allele/normalized.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz
   cache: true
   metric: false

@@ -1,4 +1,4 @@
-md5: 1a639202b0222b269045fece0c35b0cf
+md5: 2e68e7ee0762c7eb449a91442aa242ac
 cmd: python3 transform/allele/harmonize_alleles.py -v
 wdir: ../..
 deps:
@@ -12,13 +12,53 @@ deps:
   path: outputs/gdsc/caveman.Allele.Vertex.json.gz
 - md5: b91976be716f040bbcdfc558bdcc197e
   path: outputs/gdsc/pindel.Allele.Vertex.json.gz
-- md5: ec54adbb5d00e14536b588dbf6c4c155
+- md5: 3bcdc1e5ac9ecee1b9c6384fa15d7eb6
   path: outputs/g2p/Allele.Vertex.json.gz
 - md5: f97e724dbfa6acb04b11aa630968e5ad
   path: outputs/mc3/Allele.Vertex.json.gz
 outs:
-- md5: c1c0b2bea12e936cf370b45afc096449
+- md5: b2d2ab73b01758f77505caecc3963f29
   path: outputs/allele/normalized.Allele.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 65f3600c408b3e2f315f383d6a837079
+  path: outputs/allele/normalized.Allele_Gene_Gene.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: b0f15de80a4e1284bdcd661cbcc2f1ec
+  path: outputs/allele/normalized.Allele_PfamFamily_PfamFamily.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: fb24467cc96c87bf8b346dbc498c4b10
+  path: outputs/allele/normalized.Allele_Protein_Protein.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 79d5479f702e7b87e861a80e2a2e3ce8
+  path: outputs/allele/normalized.Allele_Transcript_Transcript.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: f501f87a876b84f71a8abc61c3d7147f
+  path: outputs/allele/normalized.Gene_Alleles_Allele.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 93698e250f2b2ec7b13154cb92e1cdb9
+  path: outputs/allele/normalized.PfamFamily_Alleles_Allele.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: c5d467465caf2f23ec338a96bf4053ff
+  path: outputs/allele/normalized.Protein_Alleles_Allele.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: e33a7c2d7ad61adefb4cbaf53b2b1560
+  path: outputs/allele/normalized.Transcript_Alleles_Allele.Edge.json.gz
   cache: true
   metric: false
   persist: false
