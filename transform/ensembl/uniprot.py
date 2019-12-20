@@ -1,7 +1,7 @@
 import csv
 
 import bmeg.ioutils
-from bmeg import Protein, Transcript, Project, Protein_Transcript_Transcript
+from bmeg import Protein, Uniprot, Project, Protein_Uniprot_Uniprot
 from bmeg.emitter import JSONEmitter
 
 
@@ -16,32 +16,42 @@ def transform(protein_table_path='source/ensembl/Homo_sapiens.GRCh37.85.uniprot.
     emitter = JSONEmitter(directory=emitter_directory, prefix=None)
     inhandle = bmeg.ioutils.reader(protein_table_path)
     reader = csv.DictReader(inhandle, delimiter="\t")
-    emitted_proteins = []
+    emitted = {}
     for line in reader:
-        transcript_id = line['transcript_stable_id']
         protein_id = line['protein_stable_id']
-        uniprot_id = None
-        if line['info_type'] == 'DIRECT':
-            uniprot_id = line['xref']
-        elif line['info_type'] == 'SEQUENCE_MATCH':
-            if line['source_identity'] == 100:
-                uniprot_id = line['xref']
+        uniprot_id = line['xref']
 
-        if protein_id != "-" and protein_id not in emitted_proteins:
-            p = Protein(id=Protein.make_gid(protein_id),
-                        protein_id=protein_id,
-                        uniprot_id=uniprot_id,
+        if uniprot_id == "-" or protein_id == "-":
+            continue
+
+        if line['info_type'] == 'DIRECT':
+            line['source_identity'] = 100
+        elif line['info_type'] == 'SEQUENCE_MATCH':
+            line['source_identity'] = int(line['source_identity'])
+        elif line['info_type'] == 'MISC':
+            continue
+        else:
+            continue
+
+        if line['source_identity'] < 50:
+            continue
+
+        if uniprot_id not in emitted:
+            p = Uniprot(id=Uniprot.make_gid(uniprot_id),
                         genome=GENOME_BUILD,
                         project_id=PROJECT_ID)
             emitter.emit_vertex(p)
             emitter.emit_edge(
-                Protein_Transcript_Transcript(
-                    from_gid=p.gid(),
-                    to_gid=Transcript.make_gid(transcript_id)
+                Protein_Uniprot_Uniprot(
+                    from_gid=Protein.make_gid(protein_id),
+                    to_gid=p.gid(),
+                    data={'source': line['db_name'],
+                          'type': line['info_type'],
+                          'sequence_match_percent': int(line['source_identity'])}
                 ),
                 emit_backref=True
             )
-            emitted_proteins.append(protein_id)
+            emitted[uniprot_id] = None
 
     emitter.close()
 

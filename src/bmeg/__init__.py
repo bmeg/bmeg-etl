@@ -256,9 +256,9 @@ for k, schema in _schema.schema.items():
             )
         )
         cls._backref = bkref_cls
-        cls.backref = lambda self: self._backref(from_gid=self.to_gid, to_gid=self.from_gid)
+        cls.backref = lambda self: self._backref(from_gid=self.to_gid, to_gid=self.from_gid, data=self.props())
         bkref_cls._backref = cls
-        bkref_cls.backref = lambda self: self._backref(from_gid=self.to_gid, to_gid=self.from_gid)
+        bkref_cls.backref = lambda self: self._backref(from_gid=self.to_gid, to_gid=self.from_gid, data=self.props())
         globals()[cls_name] = cls
         globals()[bkref] = bkref_cls
         __all__.append(cls_name)

@@ -1,8 +1,8 @@
-md5: ede7d74c15d4fce441e3ae014b47ab22
+md5: e85075047e83610402d72d915ee55d4b
 cmd: python3 transform/ensembl/transform.py
 wdir: ../..
 deps:
-- md5: af1430193048ef1e72421e9f91dc74e8
+- md5: d0896aa46e7ea829269943290c9b433c
   path: transform/ensembl/transform.py
 - md5: 24cfb0003e76c88c0df30f512fa3c148
   path: source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz
@@ -39,6 +39,21 @@ outs:
   persist: false
 - md5: 66c020327fd46eb8c60fa9fa9c114eb1
   path: outputs/ensembl/Transcript_Gene_Gene.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: f1a55adff0271b4dd41eac1b6679d70e
+  path: outputs/ensembl/Protein.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 7416efa783665f82f454f35da12fddf2
+  path: outputs/ensembl/Transcript_Protein_Protein.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 1baeb7d8f9b6a5eca77c1eb62dd49be7
+  path: outputs/ensembl/Protein_Transcript_Transcript.Edge.json.gz
   cache: true
   metric: false
   persist: false

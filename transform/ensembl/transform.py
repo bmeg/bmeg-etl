@@ -3,8 +3,9 @@ import re
 
 from urllib.parse import unquote
 
-from bmeg import (Exon, Gene, Transcript, Project,
-                  Transcript_Gene_Gene, Exon_Transcripts_Transcript)
+from bmeg import (Exon, Gene, Transcript, Protein, Project,
+                  Transcript_Gene_Gene, Exon_Transcripts_Transcript,
+                  Protein_Transcript_Transcript)
 
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
@@ -73,7 +74,7 @@ def transform(
     for line in reader:
         attrs = parse_attributes(line["attributes"])
         attrs["type"] = line["type"]
-        attrs["feature_id"] = attrs.get("gene_id", attrs.get("transcript_id", attrs.get("exon_id", None)))
+        attrs["feature_id"] = attrs.get("gene_id", attrs.get("transcript_id", attrs.get("exon_id", attrs.get("protein_id", None))))
         attrs["seqId"] = line["seqId"]
         attrs["start"] = int(line["start"])
         attrs["end"] = int(line["end"])
@@ -87,8 +88,26 @@ def transform(
 
     emitted_genes = {}
     emitted_transcripts = {}
+    emitted_proteins = {}
     for key, aset in features.items():
-        if aset[0]["type"] == "exon":
+        if aset[0]["type"] == "CDS":
+            attrs = aset[0]
+            transcript_id = get_parent_transcript(attrs["Parent"])
+            p = Protein(id=Protein.make_gid(attrs["protein_id"]),
+                        protein_id=attrs["protein_id"],
+                        genome=GENOME_BUILD,
+                        project_id=PROJECT_ID)
+            if not p.gid() in emitted_proteins:
+                emitter.emit_vertex(p)
+                emitter.emit_edge(
+                    Protein_Transcript_Transcript(
+                        from_gid=p.gid(),
+                        to_gid=Transcript.make_gid(transcript_id)
+                    ),
+                    emit_backref=True
+                )
+
+        elif aset[0]["type"] == "exon":
             transcripts = []
             for attrs in aset:
                 transcript_id = get_parent_transcript(attrs["Parent"])

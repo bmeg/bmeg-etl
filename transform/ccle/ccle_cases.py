@@ -1,6 +1,4 @@
-from glob import glob
 import json
-import os
 import pandas
 
 import bmeg.ioutils
@@ -23,7 +21,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_id_lookup.tsv",
               pharmacodb_cells_path="source/pharmacodb/cells.csv",
               pharmacodb_experiments_path="source/pharmacodb/experiments.csv",
               expression_path="source/ccle/CCLE_depMap_19Q1_TPM.csv",
-              maf_dir="source/ccle/mafs/*",
+              maf_path="source/ccle/CCLE_DepMap_18q3_maf_20180718.txt",
               emitter_prefix="ccle",
               emitter_directory="ccle"):
 
@@ -66,8 +64,8 @@ def transform(cellline_lookup_path="source/ccle/cellline_id_lookup.tsv",
         if k not in raw_ids:
             raw_ids[k] = None
 
-    for f in glob(maf_dir):
-        k = os.path.basename(f).replace("_vs_NORMAL", "")
+    maf = pandas.read_csv(maf_path, sep="\t")[["Tumor_Sample_Barcode", "Broad_ID"]].drop_duplicates()
+    for k in maf.Broad_ID.tolist():
         if k not in raw_ids:
             raw_ids[k] = None
 

@@ -20,7 +20,7 @@ setup(
     url="https://github.com/bmeg/bmeg-etl",
     license="MIT",
     package_dir={"": "src/"},
-    packages=["bmeg", "bmeg.util", "bmeg.maf", "bmeg.enrichers"],
+    packages=["bmeg", "bmeg.util", "bmeg.enrichers"],
     package_data={"": ["bmeg-dictionary/gdcdictionary/schemas/*.yaml"]},
     zip_safe=False,
     python_requires=">=3.6, <4",

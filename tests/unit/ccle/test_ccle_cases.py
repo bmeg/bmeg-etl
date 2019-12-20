@@ -1,13 +1,16 @@
 import contextlib
+import json
 import os
 import shutil
 import pytest
+
+from bmeg.ioutils import reader
 from transform.ccle.ccle_cases import transform
 
 
 @pytest.fixture
-def maf_dir(request):
-    return os.path.join(request.fspath.dirname, 'source/ccle/mafs/*')
+def maf_path(request):
+    return os.path.join(request.fspath.dirname, 'source/ccle/test.maf')
 
 
 @pytest.fixture
@@ -41,7 +44,7 @@ def phenotype_lookup_path(request):
 
 
 def validate(helpers, emitter_directory, cellline_lookup_path,
-             properties_lookup_path, phenotype_lookup_path, expression_path, maf_dir,
+             properties_lookup_path, phenotype_lookup_path, expression_path, maf_path,
              pharmacodb_cells_path, pharmacodb_experiments_path):
     """ run xform and test results"""
     aliquot_file = os.path.join(emitter_directory, 'Aliquot.Vertex.json.gz')
@@ -86,7 +89,7 @@ def validate(helpers, emitter_directory, cellline_lookup_path,
         pharmacodb_cells_path=pharmacodb_cells_path,
         pharmacodb_experiments_path=pharmacodb_experiments_path,
         expression_path=expression_path,
-        maf_dir=maf_dir,
+        maf_path=maf_path,
         emitter_prefix=None,
         emitter_directory=emitter_directory
     )
@@ -97,6 +100,21 @@ def validate(helpers, emitter_directory, cellline_lookup_path,
         elif "Edge.json.gz" in f:
             helpers.assert_edge_file_valid(f)
 
+    with reader(case_file) as f:
+        for line in f:
+            v = json.loads(line)
+            assert "CCLE" in v["gid"]
+
+    with reader(sample_file) as f:
+        for line in f:
+            v = json.loads(line)
+            assert "CCLE" in v["gid"]
+
+    with reader(aliquot_file) as f:
+        for line in f:
+            v = json.loads(line)
+            assert "CCLE" in v["gid"]
+
     helpers.assert_edge_joins_valid(
         all_files,
         exclude_labels=["TranscriptExpression", "GeneExpression", "Callset", "DrugResponse"]
@@ -104,7 +122,7 @@ def validate(helpers, emitter_directory, cellline_lookup_path,
 
 
 def test_simple(helpers, emitter_directory, cellline_lookup_path, properties_lookup_path,
-                phenotype_lookup_path, expression_path, maf_dir, pharmacodb_cells_path, pharmacodb_experiments_path):
+                phenotype_lookup_path, expression_path, maf_path, pharmacodb_cells_path, pharmacodb_experiments_path):
 
     validate(helpers, emitter_directory, cellline_lookup_path, properties_lookup_path,
-             phenotype_lookup_path, expression_path, maf_dir, pharmacodb_cells_path, pharmacodb_experiments_path)
+             phenotype_lookup_path, expression_path, maf_path, pharmacodb_cells_path, pharmacodb_experiments_path)

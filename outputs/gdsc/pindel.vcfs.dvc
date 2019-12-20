@@ -1,0 +1,42 @@
+md5: d649389d275d25edd4ca221d38345119
+cmd: python3 transform/gdsc/vcf_transform.py --emitter-prefix pindel --vcf-pattern
+  'source/gdsc/vcfs/*.pindel.annot.vcf.gz'
+wdir: ../..
+deps:
+- md5: 7ef57d3d3b942a7abab3b8b1d7eef01d
+  path: transform/gdsc/vcf_transform.py
+- md5: 2f3bcd55c32ac3b5d1f6d58524e5d1f0
+  path: source/ccle/cellline_id_lookup.tsv
+- md5: aa42de753fcc08539b6c2f9d7da2cfc2.dir
+  path: source/gdsc/vcfs
+outs:
+- md5: 1d0062e5f227907a5590a57a3ebfdc09
+  path: outputs/gdsc/pindel.Allele.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 2bee20c394a6d324a33b6567b580ea4c
+  path: outputs/gdsc/pindel.SomaticCallset.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 54df2e1cafb80c21463aa522459cb68c
+  path: outputs/gdsc/pindel.Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: fad9f6c0e83b8aa01d3b2eef0067f620
+  path: outputs/gdsc/pindel.SomaticCallset_Aliquots_Aliquot.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 70490ea617c19fd84defbdea0989e4cf
+  path: outputs/gdsc/pindel.SomaticCallset_Alleles_Allele.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 09baa76fb097fd899e8439c29580dd93
+  path: outputs/gdsc/pindel.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false

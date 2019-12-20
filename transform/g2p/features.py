@@ -1,6 +1,8 @@
+import logging
+import re
+
 from transform.g2p.genes import gene_gid
 from bmeg import Allele, GenomicFeature, Project
-import re
 
 # keep track of what we've already exported
 EXPORTED_ALLELES = {}
@@ -14,20 +16,16 @@ def allele(feature):
         'genome': feature['referenceName'],
         'chromosome': feature['chromosome'],
         'start': feature['start'],
-        'end': feature['end'],
         'reference_bases': feature['ref'],
         'alternate_bases': feature['alt'],
-        'strand': '+',
-        'hugo_symbol': feature.get('geneSymbol', None),
         'id': Allele.make_gid(
             feature['referenceName'], feature['chromosome'],
-            feature['start'], feature['end'],
+            feature['start'],
             feature['ref'], feature['alt']
         ),
         'project_id': Project.make_gid("Reference")
     }
     a = Allele(**params)
-    a.validate()
     return a
 
 
@@ -47,9 +45,7 @@ def genomic_feature(feature):
         ),
         'project_id': Project.make_gid("Reference")
     }
-
     gf = GenomicFeature(**params)
-    gf.validate()
     return gf
 
 
@@ -65,13 +61,14 @@ def normalize(hit):
         if feature.get('provenance_rule', None) == 'gene_only':
             continue
         try:
+            if hit['source'] == 'brca':
+                mut = hit['brca']['Genomic_Coordinate_hg37'].split(':')[-1].split('>')
+                feature['ref'] = mut[0]
+                feature['alt'] = mut[1]
             a = allele(feature)
             alleles.add(a)
-            try:
-                allele_has_gene.add((a.gid(), gene_gid(feature['geneSymbol'])))
-            except Exception:
-                missing_vertexes.append({'target_label': 'Gene', 'data': feature})
         except Exception:
+            logging.debug("unable to convert feature into an Allele; creating a GenomicFeature")
             try:
                 a = genomic_feature(feature)
                 genomic_features.add(a)
@@ -82,7 +79,8 @@ def normalize(hit):
                     genomic_feature_has_gene.add((a.gid(), gene_gid(geneSymbol)))
                 except Exception:
                     missing_vertexes.append({'target_label': 'Gene', 'data': feature})
-            except Exception:
+            except Exception as e:
+                logging.debug("unable to convert feature into a GenomicFeature:", str(e))
                 missing_vertexes.append({'target_label': 'Allele', 'data': feature})
 
     hit['features'] = []

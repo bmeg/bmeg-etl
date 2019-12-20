@@ -1,10 +1,10 @@
-md5: 51af8c49ed715c1e5cb784864b4f7a90
+md5: 1869a6762cfb9549f4fbf0930818e13b
 cmd: python3 transform/ctrp/cases.py
 wdir: ../..
 deps:
 - md5: 288a38bf1fd08fcd742d406918d31acf
   path: transform/ctrp/cases.py
-- md5: c7366e85a1b94bb952e7019b83fa4556
+- md5: 2f3bcd55c32ac3b5d1f6d58524e5d1f0
   path: source/ccle/cellline_id_lookup.tsv
 - md5: 77f4188b46654b31edccf0e7ccac33c6
   path: source/ccle/cellline_properties_lookup.tsv

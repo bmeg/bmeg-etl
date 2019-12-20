@@ -1,18 +1,64 @@
-md5: 0cbfd9342b226accdf1b96deb717e58c
-cmd: python3 transform/allele/transform.py -v
+md5: 662d2eb3928c823293e8fc89e526b9f0
+cmd: python3 transform/allele/harmonize_alleles.py -v
 wdir: ../..
 deps:
-- md5: c391892b56f37e040b15d7159de7e1ae
-  path: transform/allele/transform.py
-- md5: 75dbe62c7070715157526c4188c2a7e2
+- md5: 002550b30233c610f8382c5f583b2b79
+  path: transform/allele/harmonize_alleles.py
+- md5: eb6a105d619597bf18ce26918ad43c7a
+  path: transform/allele/run_maf2maf.sh
+- md5: 2c66e4604eecd16812a2e8088517c0b8
   path: outputs/ccle/maf.Allele.Vertex.json.gz
-- md5: c6a9e038cc7573b05d511e6b5e91d569
+- md5: 952061cd61b2b13049b1a8765cdbe6d3
+  path: outputs/gdsc/caveman.Allele.Vertex.json.gz
+- md5: 1d0062e5f227907a5590a57a3ebfdc09
+  path: outputs/gdsc/pindel.Allele.Vertex.json.gz
+- md5: 3bcdc1e5ac9ecee1b9c6384fa15d7eb6
   path: outputs/g2p/Allele.Vertex.json.gz
-- md5: 820a7dfbf003ca5d0dfc72988ed2a067
+- md5: f97e724dbfa6acb04b11aa630968e5ad
   path: outputs/mc3/Allele.Vertex.json.gz
 outs:
-- md5: de92fd37fca1bed73a64aa545e422d3a
-  path: outputs/allele/Allele.Vertex.json.gz
+- md5: b2d2ab73b01758f77505caecc3963f29
+  path: outputs/allele/normalized.Allele.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 65f3600c408b3e2f315f383d6a837079
+  path: outputs/allele/normalized.Allele_Gene_Gene.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: b0f15de80a4e1284bdcd661cbcc2f1ec
+  path: outputs/allele/normalized.Allele_PfamFamily_PfamFamily.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: fb24467cc96c87bf8b346dbc498c4b10
+  path: outputs/allele/normalized.Allele_Protein_Protein.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 79d5479f702e7b87e861a80e2a2e3ce8
+  path: outputs/allele/normalized.Allele_Transcript_Transcript.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: f501f87a876b84f71a8abc61c3d7147f
+  path: outputs/allele/normalized.Gene_Alleles_Allele.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 93698e250f2b2ec7b13154cb92e1cdb9
+  path: outputs/allele/normalized.PfamFamily_Alleles_Allele.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: c5d467465caf2f23ec338a96bf4053ff
+  path: outputs/allele/normalized.Protein_Alleles_Allele.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: e33a7c2d7ad61adefb4cbaf53b2b1560
+  path: outputs/allele/normalized.Transcript_Alleles_Allele.Edge.json.gz
   cache: true
   metric: false
   persist: false

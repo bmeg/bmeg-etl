@@ -1,7 +1,10 @@
 import os
+import json
 import contextlib
 import pytest
 import shutil
+
+from bmeg.ioutils import reader
 from transform.gdsc.cases import transform
 
 
@@ -83,6 +86,21 @@ def validate(helpers, emitter_directory, cellline_lookup_path, properties_lookup
             helpers.assert_vertex_file_valid(f)
         elif "Edge.json.gz" in f:
             helpers.assert_edge_file_valid(f)
+
+    with reader(case_file) as f:
+        for line in f:
+            v = json.loads(line)
+            assert "GDSC" in v["gid"]
+
+    with reader(sample_file) as f:
+        for line in f:
+            v = json.loads(line)
+            assert "GDSC" in v["gid"]
+
+    with reader(aliquot_file) as f:
+        for line in f:
+            v = json.loads(line)
+            assert "GDSC" in v["gid"]
 
     helpers.assert_edge_joins_valid(
         all_files,

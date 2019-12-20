@@ -4,9 +4,9 @@ import os
 import contextlib
 import pytest
 import logging
-import json
-from transform.allele.transform import transform, sort_allele_files
-from bmeg.ioutils import reader
+import shutil
+
+from transform.allele.harmonize_alleles import transform
 
 
 @pytest.fixture
@@ -16,124 +16,62 @@ def output_directory(request):
 
 
 @pytest.fixture
-def myvariantinfo_path(request):
-    """ get the full path of the test input """
-    return os.path.join(request.fspath.dirname, 'source/myvariantinfo/myvariant.info.Allele.Vertex.json.gz')
+def minimal_allele(request):
+    """ get the full path of the test fixture """
+    return os.path.join(request.fspath.dirname, 'minimal_alleles.maf')
 
 
-def validate_myvariantinfo_count(allele_file):
-    myvariantinfo_count = 0
-
-    with reader(allele_file) as f:
-        for line in f:
-            # should be json
-            allele = json.loads(line)
-            # optional keys, if set should be non null
-            if allele['data']['annotations']['myvariantinfo']:
-                myvariantinfo_count += 1
-    assert myvariantinfo_count == 44, 'we should have had myvariantinfo hits'
+@pytest.fixture
+def annotated_allele(request):
+    """ get the full path of the test fixture """
+    return os.path.join(request.fspath.dirname, 'annotated_alleles.maf')
 
 
-def validate(helpers, output_directory, emitter_directory, myvariantinfo_path):
+def validate(helpers, emitter_directory, output_directory, minimal_allele, annotated_allele):
     allele_file = os.path.join(emitter_directory, 'Allele.Vertex.json.gz')
+    allele_gene_file = os.path.join(emitter_directory, 'Allele_Gene_Gene.Edge.json.gz')
+    gene_allele_file = os.path.join(emitter_directory, 'Gene_Alleles_Allele.Edge.json.gz')
+    allele_pfam_file = os.path.join(emitter_directory, 'Allele_PfamFamily_PfamFamily.Edge.json.gz')
+    pfam_allele_file = os.path.join(emitter_directory, 'PfamFamily_Alleles_Allele.Edge.json.gz')
+    allele_protein_file = os.path.join(emitter_directory, 'Allele_Protein_Protein.Edge.json.gz')
+    protein_allele_file = os.path.join(emitter_directory, 'Protein_Alleles_Allele.Edge.json.gz')
+    allele_transcript_file = os.path.join(emitter_directory, 'Allele_Transcript_Transcript.Edge.json.gz')
+    transcript_allele_file = os.path.join(emitter_directory, 'Transcript_Alleles_Allele.Edge.json.gz')
+
+    all_files = [allele_file,
+                 allele_gene_file, gene_allele_file,
+                 allele_pfam_file, pfam_allele_file,
+                 allele_protein_file, protein_allele_file,
+                 allele_transcript_file, transcript_allele_file]
+
     # remove output
     with contextlib.suppress(FileNotFoundError):
-        os.remove(allele_file)
+        shutil.rmtree(emitter_directory)
 
     # check using memory store
-    transform(output_directory,
-              prefix=emitter_directory,
-              vertex_filename_pattern='**/Allele.Vertex.json.gz',
-              myvariantinfo_path=myvariantinfo_path)
+    transform(output_dir=output_directory,
+              vertex_filename_pattern='**/*Allele.Vertex.json.gz',
+              minimal_maf_file=minimal_allele,
+              annotated_maf_file=annotated_allele,
+              emitter_directory=emitter_directory,
+              emitter_prefix=None)
 
-    # test/test.Allele.Vertex.json
-    helpers.assert_vertex_file_valid(allele_file)
-    # validate_myvariantinfo_count(allele_file)
+    for f in all_files:
+        if "Vertex.json.gz" in f:
+            count = helpers.assert_vertex_file_valid(f)
+            if f == allele_file:
+                assert count == 30
+        elif "Edge.json.gz" in f:
+            helpers.assert_edge_file_valid(f)
 
-    # remove output
-    with contextlib.suppress(FileNotFoundError):
-        os.remove(allele_file)
-
-    # check using sqllite
-    transform(output_directory,
-              prefix=emitter_directory,
-              vertex_filename_pattern='**/Allele.Vertex.json.gz')
-
-    # test/Allele.Vertex.json
-    helpers.assert_vertex_file_valid(allele_file)
-    # validate_myvariantinfo_count(allele_file)
+    # validate vertex for all edges exist
+    helpers.assert_edge_joins_valid(
+        all_files,
+        exclude_labels=['Gene', 'Transcript', 'Protein', 'PfamFamily']
+    )
 
 
-def test_simple(caplog, helpers, output_directory, emitter_directory, myvariantinfo_path):
+def test_simple(caplog, helpers, emitter_directory, output_directory, minimal_allele, annotated_allele):
     """ simple test """
     caplog.set_level(logging.DEBUG)
-    validate(helpers, output_directory, emitter_directory, myvariantinfo_path)
-
-
-def test_sort_allele_files(output_directory):
-    """ ensure that allele files are sorted """
-    sorted_allele_file = '/tmp/sorted_allele_file.json'
-    with contextlib.suppress(FileNotFoundError):
-        os.remove(sorted_allele_file)
-
-    path = '{}/{}'.format(output_directory, '**/Allele.Vertex.json.gz')
-    sorted_allele_file = sort_allele_files(path, sorted_allele_file)
-    with reader(sorted_allele_file) as ins:
-        _id = ''
-        for line in ins:
-            data = json.loads(line)
-            assert data['_id'] > _id or data['_id'] == _id
-            _id = data['_id']
-    # repeat test with already sorted allele file
-    sorted_allele_file = sort_allele_files(path, sorted_allele_file)
-    with reader(sorted_allele_file) as ins:
-        _id = ''
-        for line in ins:
-            data = json.loads(line)
-            assert data['_id'] > _id or data['_id'] == _id
-            _id = data['_id']
-
-
-# no longer necessary - running through VEP
-# def test_group_sorted_alleles(output_directory):
-#     """ ensure that allele files are sorted """
-#     sorted_allele_file = '/tmp/sorted_allele_file.json'
-#     with contextlib.suppress(FileNotFoundError):
-#         os.remove(sorted_allele_file)
-#     path = '{}/{}'.format(output_directory, '**/Allele.Vertex.json')
-#     sorted_allele_file = sort_allele_files(path, sorted_allele_file)
-#     t = 0
-#     uniq_ids = []
-#     for alleles in group_sorted_alleles(sorted_allele_file):
-#         assert len(alleles) > 0, 'should be at least one allele'
-#         ids = set([allele.gid() for allele in alleles])
-#         assert len(ids) == 1, 'all alleles should have the same id'
-#         t += len(alleles)
-#         _id = list(ids)[0]
-#         assert _id not in uniq_ids, 'we should not have seen this id before'
-#         uniq_ids.append(_id)
-#     assert t == 8, 'there should be 8 alleles'
-
-
-# no longer necessary - running through VEP
-# def test_merge():
-#     """ merge works """
-#     alleles = [
-#         Allele(genome='G', chromosome='1', start=1, end=2, reference_bases='A', alternate_bases='G', annotations=AlleleAnnotations()),
-#         Allele(genome='G', chromosome='1', start=1, end=2, reference_bases='A', alternate_bases='G', annotations=AlleleAnnotations(maf={'a': "A"})),
-#         Allele(genome='G', chromosome='1', start=1, end=2, reference_bases='A', alternate_bases='G', annotations=AlleleAnnotations(mc3={'a': "B"})),
-#         Allele(genome='G', chromosome='1', start=1, end=2, reference_bases='A', alternate_bases='G', annotations=AlleleAnnotations(ccle={'a': "C"})),
-#         Allele(genome='G', chromosome='1', start=1, end=2, reference_bases='A', alternate_bases='G', annotations=AlleleAnnotations(myvariantinfo={'a': "D"})),
-#     ]
-#     allele = merge(alleles)
-#     assert allele, 'should return an allele'
-#     assert allele.annotations, 'should return an allele.annotations'
-#     assert allele.annotations.maf, 'should return an allele.annotations.maf'
-#     assert allele.annotations.mc3, 'should return an allele.annotations.mc3'
-#     assert allele.annotations.ccle, 'should return an allele.annotations.ccle'
-#     assert allele.annotations.myvariantinfo, 'should return an allele.annotations.myvariantinfo'
-
-
-# def test_harvest(helpers, output_directory, emitter_directory, myvariantinfo_path):
-#     # check using sqllite
-#     harvest(allele_store_name='dataclass', allele_store_path='/tmp/sqlite.db')
+    validate(helpers, emitter_directory, output_directory, minimal_allele, annotated_allele)

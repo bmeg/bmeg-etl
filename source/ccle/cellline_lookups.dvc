@@ -1,8 +1,8 @@
-md5: f9673678d821bb6207416a52ca140f96
+md5: 55e1fc3dae16300b01e755105b36c701
 cmd: python3 transform/ccle/cellline_lookups.py
 wdir: ../..
 deps:
-- md5: 3fedb9529f6d7d991fc9d22cfb1adb8d
+- md5: 170005e668f425ed996e4927e54dae9a
   path: transform/ccle/cellline_lookups.py
 - md5: 6d66a59fb75c31cd3a1b320eefe1efc8
   path: source/ccle/DepMap-2019q1-celllines.csv_v2.csv
@@ -12,8 +12,10 @@ deps:
   path: source/pharmacodb/cells.csv
 - md5: dda27a175eb713316071ea9ed64b4d41
   path: source/pharmacodb/source_cell_names.csv
+- md5: a30867b7520044c266570e119597c300
+  path: source/gdsc/model_list_20191104.csv
 outs:
-- md5: c7366e85a1b94bb952e7019b83fa4556
+- md5: 2f3bcd55c32ac3b5d1f6d58524e5d1f0
   path: source/ccle/cellline_id_lookup.tsv
   cache: true
   metric: false

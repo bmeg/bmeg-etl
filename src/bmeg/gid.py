@@ -1,4 +1,5 @@
 import hashlib
+import os
 import re
 from functools import wraps
 
@@ -39,21 +40,43 @@ def protein_gid(submitter_id: str):
     return "{}".format(submitter_id)
 
 
-def drugresponse_gid(source: str, submitter_id: str, compound_id: str):
-    return "DrugResponse:{}:{}:{}".format(source, submitter_id, compound_id)
+def drugresponse_gid(data_source: str, experiment_id: int, cell_line_id: str, compound_id: str):
+    return "DrugResponse:{}:{}:{}:{}".format(data_source, experiment_id, cell_line_id, compound_id)
 
 
 def somatic_callset_gid(source: str, tumor_aliquot_id: str, normal_aliquot_id: str):
     return "SomaticCallset:{}:{}:{}".format(source, tumor_aliquot_id, normal_aliquot_id)
 
 
-def allele_gid(genome: str, chromosome: str, start: int, end: int,
+def allele_gid(genome: str, chromosome: str, start: int,
                reference_bases: str, alternate_bases: str):
-    # TODO
-    # figure out better hashing strategy
-    vid = "{}:{}:{}:{}:{}:{}".format(genome, chromosome,
-                                     start, end, reference_bases,
-                                     alternate_bases)
+
+    if not all(v is not None for v in [genome, chromosome, start,
+                                       reference_bases, alternate_bases]):
+        raise ValueError("one or more args was None")
+
+    start = int(start)
+    if reference_bases == "-" or alternate_bases == "-":
+        pass
+    elif reference_bases[0] != alternate_bases[0]:
+        pass
+    elif len(reference_bases) > len(alternate_bases):
+        common = os.path.commonprefix([reference_bases, alternate_bases])
+        reference_bases = reference_bases[len(common):]
+        if len(alternate_bases) == len(common):
+            alternate_bases = "-"
+        else:
+            alternate_bases = alternate_bases[len(common):]
+        start += len(common)
+    elif len(reference_bases) < len(alternate_bases):
+        common = os.path.commonprefix([reference_bases, alternate_bases])
+        alternate_bases = alternate_bases[len(common):]
+        if len(reference_bases) == len(common):
+            reference_bases = "-"
+        else:
+            reference_bases = reference_bases[len(common):]
+
+    vid = "{}:{}:{}:{}:{}".format(genome, chromosome, start, reference_bases, alternate_bases)
     vid = vid.encode('utf-8')
     vidhash = hashlib.sha1()
     vidhash.update(vid)

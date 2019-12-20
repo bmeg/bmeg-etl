@@ -1,0 +1,42 @@
+md5: 1e7aea2c144cdf5a395fd2decab51d57
+cmd: python3 transform/gdsc/vcf_transform.py
+  --emitter-prefix caveman --vcf-pattern 'source/gdsc/vcfs/*.caveman.annot.vcf.gz'
+wdir: ../..
+deps:
+- md5: 7ef57d3d3b942a7abab3b8b1d7eef01d
+  path: transform/gdsc/vcf_transform.py
+- md5: 2f3bcd55c32ac3b5d1f6d58524e5d1f0
+  path: source/ccle/cellline_id_lookup.tsv
+- md5: aa42de753fcc08539b6c2f9d7da2cfc2.dir
+  path: source/gdsc/vcfs
+outs:
+- md5: 952061cd61b2b13049b1a8765cdbe6d3
+  path: outputs/gdsc/caveman.Allele.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 2bee20c394a6d324a33b6567b580ea4c
+  path: outputs/gdsc/caveman.SomaticCallset.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 54df2e1cafb80c21463aa522459cb68c
+  path: outputs/gdsc/caveman.Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: fad9f6c0e83b8aa01d3b2eef0067f620
+  path: outputs/gdsc/caveman.SomaticCallset_Aliquots_Aliquot.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: bba2b81f9590b68bda015cdd73686764
+  path: outputs/gdsc/caveman.SomaticCallset_Alleles_Allele.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: af453ecb38d8bc4999c06b9cae2aa97f
+  path: outputs/gdsc/caveman.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
