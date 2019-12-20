@@ -15,3 +15,6 @@
 /Exon_Transcripts_Transcript.Edge.json.gz
 /Gene_Transcripts_Transcript.Edge.json.gz
 /Transcript_Gene_Gene.Edge.json.gz
+/Uniprot.Vertex.json.gz
+/Protein_Uniprot_Uniprot.Edge.json.gz
+/Uniprot_Protein_Protein.Edge.json.gz

@@ -1,4 +1,4 @@
-md5: 0785630caf89805572f609e1dbe96da3
+md5: 8799729d258acd405bdf6d92de68dfcf
 cmd: echo generating file manifest...
 deps:
 - md5: b2d2ab73b01758f77505caecc3963f29
@@ -131,18 +131,24 @@ deps:
   path: outputs/ensembl/Gene.Vertex.json.gz
 - md5: a02329853ecf5106c913ee2a09f31743
   path: outputs/ensembl/Gene_Transcripts_Transcript.Edge.json.gz
-- md5: a2597a5e42cb274b56f0be994d13d410
+- md5: f1a55adff0271b4dd41eac1b6679d70e
   path: outputs/ensembl/Protein.Vertex.json.gz
-- md5: 0a32c808277f6fe25ab4e0c317dbcfc8
+- md5: 1baeb7d8f9b6a5eca77c1eb62dd49be7
   path: outputs/ensembl/Protein_Transcript_Transcript.Edge.json.gz
+- md5: 3e4dd9f1932bf431bb9729132bcb749e
+  path: outputs/ensembl/Protein_Uniprot_Uniprot.Edge.json.gz
 - md5: 02e4c477e1429b0588fb7d39b07f0bcc
   path: outputs/ensembl/Transcript.Vertex.json.gz
 - md5: c3c2268ad2ab87e0eab62167cf0d8386
   path: outputs/ensembl/Transcript_Exons_Exon.Edge.json.gz
 - md5: 66c020327fd46eb8c60fa9fa9c114eb1
   path: outputs/ensembl/Transcript_Gene_Gene.Edge.json.gz
-- md5: b20c590f8b234eb56689a14e6f8e22cc
+- md5: 7416efa783665f82f454f35da12fddf2
   path: outputs/ensembl/Transcript_Protein_Protein.Edge.json.gz
+- md5: d337126fd728516b5e21c972c8529060
+  path: outputs/ensembl/Uniprot.Vertex.json.gz
+- md5: 679363ebe49a36ef34891c800ea35ab9
+  path: outputs/ensembl/Uniprot_Protein_Protein.Edge.json.gz
 - md5: e622dedb1e5b37c1ae0d2d6fb1d4b723
   path: outputs/g2p/Allele_G2PAssociations_G2PAssociation.Edge.json.gz
 - md5: d0268cbe8c452d051628e730a6c9beb3

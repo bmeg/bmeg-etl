@@ -65,10 +65,13 @@ outputs/ensembl/Gene.Vertex.json.gz
 outputs/ensembl/Gene_Transcripts_Transcript.Edge.json.gz
 outputs/ensembl/Protein.Vertex.json.gz
 outputs/ensembl/Protein_Transcript_Transcript.Edge.json.gz
+outputs/ensembl/Protein_Uniprot_Uniprot.Edge.json.gz
 outputs/ensembl/Transcript.Vertex.json.gz
 outputs/ensembl/Transcript_Exons_Exon.Edge.json.gz
 outputs/ensembl/Transcript_Gene_Gene.Edge.json.gz
 outputs/ensembl/Transcript_Protein_Protein.Edge.json.gz
+outputs/ensembl/Uniprot.Vertex.json.gz
+outputs/ensembl/Uniprot_Protein_Protein.Edge.json.gz
 outputs/g2p/Allele_G2PAssociations_G2PAssociation.Edge.json.gz
 outputs/g2p/G2PAssociation.Vertex.json.gz
 outputs/g2p/G2PAssociation_Alleles_Allele.Edge.json.gz
