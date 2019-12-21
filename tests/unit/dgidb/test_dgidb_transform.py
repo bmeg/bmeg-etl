@@ -2,7 +2,10 @@ import os
 import contextlib
 import pytest
 import shutil
+import json
+
 from transform.dgidb.transform import transform
+from bmeg.ioutils import reader
 
 
 @pytest.fixture
@@ -49,6 +52,14 @@ def validate(helpers, interactions_file, emitter_directory):
         all_files,
         exclude_labels=['Publication', 'Gene']
     )
+
+    count = 0
+    with reader(pub_edge_file) as f:
+        for line in f:
+            e = json.loads(line)
+            assert e['to'] != 'Publication:ncbi.nlm.nih.gov/pubmed/'
+            count += 1
+    assert count == 16
 
 
 def test_simple(helpers, interactions_file, emitter_directory):

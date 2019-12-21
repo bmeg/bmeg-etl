@@ -94,7 +94,7 @@ def transform(interactions_file="source/dgidb/interactions.tsv",
             ),
             emit_backref=True
         )
-        if line["PMIDs"] is None or line["PMIDs"] != "":
+        if line["PMIDs"] is None or line["PMIDs"] == "":
             continue
         pubs = line["PMIDs"].split(",")
         for p in pubs:

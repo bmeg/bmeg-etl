@@ -50,33 +50,43 @@ def transform(
     e = f = r = 0
     for file in files:
         f += 1
-        logging.info("processing HasSupportingReference file: {}/{}".format(f, nfiles))
+        logging.info("processing file: {}/{}".format(f, nfiles))
         with reader(file) as ins:
             for line in ins:
                 try:
                     edge = ujson.loads(line)
-                    if 'Publication:' not in edge['gid']:
+                    pid = None
+                    # get edge components
+                    if edge['to'].startswith('Publication'):
+                        pid = edge['to']
+                    elif edge['from'].startswith('Publication'):
+                        pid = edge['from']
+                    else:
                         logging.info('Edge {} has no publications that need transformation. skipping.'.format(file))
                         break
-                    # get edge components
-                    to = edge['to']
-                    if to in dedup:
+
+                    if pid in dedup:
                         r += 1
                         continue
-                    dedup[to] = True
-                    url = to.replace('Publication:', 'http://')
+
+                    url = pid.replace('Publication:', 'http://')
                     publication = Publication(
                         id=Publication.make_gid(url),
                         url=url,
                         project_id=Project.make_gid("Reference")
                     )
                     emitter.emit_vertex(publication)
+
+                    dedup[pid] = True
                     e += 1
+
                 except Exception as exc:
                     logging.error(str(exc))
                     raise exc
+
                 if e % batch_size == 0:
                     logging.info('emitted stub publication vertices: {}'.format(e))
+
     logging.info('emitted stub publication vertices: {}'.format(e))
     logging.info('existing publication refs found: {}'.format(r))
     emitter.close()

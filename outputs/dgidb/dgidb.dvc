@@ -1,4 +1,4 @@
-md5: e720598cc16fd7bb5918bd09f0397589
+md5: 34c1bbfdb0868d369c4283b8982f2137
 cmd: python3 transform/dgidb/transform.py
 wdir: ../..
 deps:
@@ -8,45 +8,45 @@ deps:
   path: source/drug_enricher/drug_alias.tsv
 - md5: 64e7a82c87e7151a7c49846469157547
   path: src/bmeg/enrichers/drug_enricher.py
-- md5: 936873de1ea7a748293263ff126a2967
+- md5: 1f1f691fa223e6c7c05cb9324a68d96a
   path: transform/dgidb/transform.py
 outs:
-- md5: 3fa57b7c369e2c8dd2dc0d0b6c44766e
+- md5: aac51ae53ff021ed9291b1aa2ae78076
   path: outputs/dgidb/G2PAssociation.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: f7a2bbfb7436d76e09b9e13bd3d0c9ff
+- md5: 502320cf8546d8607d62a1f0518e97cc
   path: outputs/dgidb/Compound.Vertex.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 166177ce31138f0ee32dc339fdfdd987
+- md5: 758362f57be6a69c6969a48182e0ff18
   path: outputs/dgidb/G2PAssociation_Genes_Gene.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 4f99308481017576d6cc208b6f514eab
+- md5: 57d481f7135e3a8761ad8920ceca5fb0
   path: outputs/dgidb/G2PAssociation_Publications_Publication.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 9c4627785660215fa9adbf7c9f6cf172
+- md5: 708a48991dc4d6051097e6a8e8175b7b
   path: outputs/dgidb/G2PAssociation_Compounds_Compound.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 03f13f3513d5282b8a1f309429ae81f0
+- md5: cecbf1a9f863ecfd0ce3db553becfad9
   path: outputs/dgidb/Publication_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: 97282e6b782ab81889884ba6d9ba368e
+- md5: a701cee66767a702c18b7b3d4cb4b829
   path: outputs/dgidb/Gene_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false
   persist: false
-- md5: fa0ae005deb28af2d935cc818c1394b4
+- md5: 0e9b6635d4e8153d221d1c2a0604627a
   path: outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz
   cache: true
   metric: false
