@@ -38,6 +38,7 @@ def transform(protein_table_path='source/ensembl/Homo_sapiens.GRCh37.85.uniprot.
 
         if uniprot_id not in emitted:
             p = Uniprot(id=Uniprot.make_gid(uniprot_id),
+                        uniprot_id=uniprot_id,
                         genome=GENOME_BUILD,
                         project_id=PROJECT_ID)
             emitter.emit_vertex(p)
