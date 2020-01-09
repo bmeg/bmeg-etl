@@ -39,7 +39,7 @@ grip create $graph --host $GRIP_HOST || true
 DBNAME=${DBNAME:-grip}
 MONGO_IMPRT_WORKERS=${MONGO_IMPORT_WORKERS:-8}
 MONGO_HOST=${MONGO_HOST:-}
-MONGO_IMPORT_MODE=${MONGO_IMPORT_WORKERS:insert}
+MONGO_IMPORT_MODE=${MONGO_IMPORT_MODE:insert}
 
 gofast="--numInsertionWorkers $MONGO_IMPORT_WORKERS --writeConcern 0 --bypassDocumentValidation --mode=$MONGO_IMPORT_MODE"
 
