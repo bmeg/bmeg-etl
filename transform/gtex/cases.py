@@ -33,6 +33,7 @@ def transform(cases_path="source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.tx
 
     case_ids = {}
     project_ids = {}
+    case_proj = {}
     for row in samples:
         sample_id = row["SAMPID"]
         case_id = extract_case_id(sample_id)
@@ -63,7 +64,10 @@ def transform(cases_path="source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.tx
         )
         if c.gid() not in case_ids:
             emitter.emit_vertex(c)
-            # case <-> project edges
+            case_ids[c.gid()] = True
+
+        # case <-> project edges
+        if (c.gid(), proj.gid()) not in case_proj:
             emitter.emit_edge(
                 Case_Projects_Project(
                     from_gid=Case.make_gid(case_id),
@@ -71,7 +75,7 @@ def transform(cases_path="source/gtex/GTEx_v7_Annotations_SubjectPhenotypesDS.tx
                 ),
                 emit_backref=True
             )
-            case_ids[c.gid()] = True
+            case_proj[(c.gid(), proj.gid())] = True
 
         # sample
         s = Sample(
