@@ -1,0 +1,13 @@
+md5: 6246bf2dc722742f36ce01e8e432da18
+cmd: wget https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/GTEx_Analysis_2017-06-05_v8_RSEMv1.3.0_transcript_tpm.gct.gz
+  -O source/gtex/GTEx_Analysis_2017-06-05_v8_RSEMv1.3.0_transcript_tpm.gct.gz
+wdir: ../..
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/gtex/version.txt
+outs:
+- md5: 988570c56fdc40b39831d91c753c3fd7
+  path: source/gtex/GTEx_Analysis_2017-06-05_v8_RSEMv1.3.0_transcript_tpm.gct.gz
+  cache: true
+  metric: false
+  persist: false
