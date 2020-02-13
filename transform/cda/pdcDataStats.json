@@ -1,0 +1,1 @@
+{"errors": [{"message": "Syntax Error GraphQL request (1:96) Expected Name, found <EOF>\n\n1: { pdcDataStats { program study spectra protein project peptide data_size data_label data_file }\n                                                                                                  ^\n", "locations": [{"line": 1, "column": 96}]}]}

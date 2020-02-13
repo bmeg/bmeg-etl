@@ -1,0 +1,7 @@
+md5: 33c76ca837c386fcd5b05c87f8b5ca00
+outs:
+- md5: 2af42a46ee21fdfef482d2fffa0e454a
+  path: cda_entity.png
+  cache: true
+  metric: false
+  persist: false

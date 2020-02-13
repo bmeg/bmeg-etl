@@ -1,0 +1,7 @@
+md5: 81093eef29f2ddfad46784074c133b13
+outs:
+- md5: 7eadec3d6a38083114b3d6024322c92b
+  path: cda_2_projects.png
+  cache: true
+  metric: false
+  persist: false

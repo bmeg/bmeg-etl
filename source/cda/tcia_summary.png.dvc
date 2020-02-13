@@ -1,0 +1,7 @@
+md5: 580eb7270aff9b3d40b5942d8e8ef0b2
+outs:
+- md5: 2df1b5985c0e8b8235ca458b8ddb5676
+  path: tcia_summary.png
+  cache: true
+  metric: false
+  persist: false
