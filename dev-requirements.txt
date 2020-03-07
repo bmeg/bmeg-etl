@@ -21,3 +21,7 @@ dictionaryutils==2.0.7
 dvc>=0.50.1
 # for allele normalization with maf2maf
 cwltool==1.0.20191022103248
+# for wiki transform
+python-slugify==4.0.0
+# for wiki export
+gen3==2.2.3
