@@ -10,9 +10,9 @@ from bmeg.ioutils import read_lookup
 
 
 def transform_gene(gct_file="source/gtex/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz",
-              project_lookup_path="source/gtex/project_lookup.tsv",
-              emitter_prefix=None,
-              emitter_directory="gtex"):
+                   project_lookup_path="source/gtex/project_lookup.tsv",
+                   emitter_prefix=None,
+                   emitter_directory="gtex"):
 
     projects = read_lookup(project_lookup_path)
 
@@ -43,9 +43,9 @@ def transform_gene(gct_file="source/gtex/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1
 
 
 def transform_transcript(gct_file="source/gtex/GTEx_Analysis_2017-06-05_v8_RSEMv1.3.0_transcript_tpm.gct.gz",
-              project_lookup_path="source/gtex/project_lookup.tsv",
-              emitter_prefix=None,
-              emitter_directory="gtex"):
+                         project_lookup_path="source/gtex/project_lookup.tsv",
+                         emitter_prefix=None,
+                         emitter_directory="gtex"):
 
     projects = read_lookup(project_lookup_path)
 
