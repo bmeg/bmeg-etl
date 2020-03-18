@@ -3,7 +3,7 @@ import os
 import shutil
 import pytest
 
-from transform.gtex.expression import transform
+from transform.gtex.expression import transform_gene
 
 
 @pytest.fixture
@@ -30,7 +30,7 @@ def validate(helpers, emitter_directory, gct_file, project_lookup_path):
         shutil.rmtree(emitter_directory)
 
     # create output
-    transform(gct_file=gct_file,
+    transform_gene(gct_file=gct_file,
               project_lookup_path=project_lookup_path,
               emitter_directory=emitter_directory)
 
