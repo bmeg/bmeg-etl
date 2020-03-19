@@ -31,8 +31,8 @@ def validate(helpers, emitter_directory, gct_file, project_lookup_path):
 
     # create output
     transform_gene(gct_file=gct_file,
-              project_lookup_path=project_lookup_path,
-              emitter_directory=emitter_directory)
+                   project_lookup_path=project_lookup_path,
+                   emitter_directory=emitter_directory)
 
     # ratify
     for f in all_files:
