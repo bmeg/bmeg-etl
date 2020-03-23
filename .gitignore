@@ -50,3 +50,4 @@ tests/unit/*/test/*
 
 .DS_Store
 
+/primaryscreenreplicatecollapsedtreatmentinfo.csv

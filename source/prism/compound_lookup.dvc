@@ -1,0 +1,12 @@
+md5: fc08cd6214e87f86a96ce8e043310559
+cmd: python transform/prism/compound_lookup.py > source/prism/compound_lookup.tsv
+wdir: ../..
+deps:
+- md5: 9f94bb3266b701e6354126de4e3aa906
+  path: source/prism/primary-screen-replicate-collapsed-treatment-info.csv
+outs:
+- md5: f9c7f01ab748fd7b5fdc7a6332a01f20
+  path: source/prism/compound_lookup.tsv
+  cache: true
+  metric: false
+  persist: false

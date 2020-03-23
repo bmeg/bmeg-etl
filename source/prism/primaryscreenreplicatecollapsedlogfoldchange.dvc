@@ -1,8 +1,0 @@
-md5: 784cff3c66c7c8e42f3092bc653ab7f6
-cmd: curl -O https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/20237709/primaryscreenreplicatecollapsedlogfoldchange.csv
-outs:
-- md5: 8ce67ccb180e6a7ce42da02169693cb0
-  path: primaryscreenreplicatecollapsedlogfoldchange.csv
-  cache: false
-  metric: false
-  persist: false

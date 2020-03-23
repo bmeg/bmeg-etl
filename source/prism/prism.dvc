@@ -1,0 +1,40 @@
+md5: d788893c70fbd8664a988b7df6278597
+cmd: wget https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/20237715/primaryscreenreplicatecollapsedtreatmentinfo.csv
+  -O source/prism/primary-screen-replicate-collapsed-treatment-info.csv; wget https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/20237709/primaryscreenreplicatecollapsedlogfoldchange.csv
+  -O source/prism/primary-screen-replicate-collapsed-logfold-change.csv; wget https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/20237718/primaryscreencelllineinfo.csv
+  -O source/prism/primary-screen-cell-line-info.csv; wget https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/20237739/secondaryscreendoseresponsecurveparameters.csv
+  -O source/prism/secondary-screen-dose-response-curve-parameters.csv; wget https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/20237757/secondaryscreenreplicatecollapsedlogfoldchange.csv
+  -O source/prism/secondary-screen-replicate-collapsed-logfold-change.csv; wget https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/20237763/secondaryscreenreplicatecollapsedtreatmentinfo.csv
+  -O source/prism/secondary-screen-replicate-collapsed-treatment-info.csv
+wdir: ../..
+outs:
+- md5: f1d1a4a15d5c6611e6476c34cd9c3ba4
+  path: source/prism/primary-screen-cell-line-info.csv
+  cache: true
+  metric: false
+  persist: false
+- md5: 9f94bb3266b701e6354126de4e3aa906
+  path: source/prism/primary-screen-replicate-collapsed-treatment-info.csv
+  cache: true
+  metric: false
+  persist: false
+- md5: 8ce67ccb180e6a7ce42da02169693cb0
+  path: source/prism/primary-screen-replicate-collapsed-logfold-change.csv
+  cache: true
+  metric: false
+  persist: false
+- md5: 999554afda47b8d5eebd64d1952b9752
+  path: source/prism/secondary-screen-replicate-collapsed-treatment-info.csv
+  cache: true
+  metric: false
+  persist: false
+- md5: 9eb91fb3266f10c80c19ee93e0de3b69
+  path: source/prism/secondary-screen-replicate-collapsed-logfold-change.csv
+  cache: true
+  metric: false
+  persist: false
+- md5: 8a79b67939756a373f085585753dd145
+  path: source/prism/secondary-screen-dose-response-curve-parameters.csv
+  cache: true
+  metric: false
+  persist: false

@@ -1,8 +1,0 @@
-md5: da72fbe263578f92215db03b11652174
-cmd: curl -O https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/20237715/primaryscreenreplicatecollapsedtreatmentinfo.csv
-outs:
-- md5: 9f94bb3266b701e6354126de4e3aa906
-  path: primaryscreenreplicatecollapsedtreatmentinfo.csv
-  cache: false
-  metric: false
-  persist: false
