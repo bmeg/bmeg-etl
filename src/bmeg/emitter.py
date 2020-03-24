@@ -106,14 +106,19 @@ class BaseEmitter:
     emitters, such as validation checks, data cleanup, etc.
     """
 
-    def __init__(self):
+    def __init__(self, validate_limit=100):
         self.rate = Rate()
+        self.validate_limit = validate_limit
+        self.edge_count = 0
+        self.vertex_count = 0
 
     def close(self):
         self.rate.close()
 
     def emit_edge(self, obj: Edge):
-        obj.validate()
+        if self.validate_limit < 0 or self.edge_count < self.validate_limit:
+            obj.validate()
+        self.edge_count += 1
         gid = "(%s)--%s->(%s)" % (obj.from_gid, obj.label(), obj.to_gid)
         dumped = {
             "_id": gid,
@@ -127,7 +132,9 @@ class BaseEmitter:
         return dumped
 
     def emit_vertex(self, obj: Vertex):
-        obj.validate()
+        if self.validate_limit < 0 or self.vertex_count < self.validate_limit:
+            obj.validate()
+        self.vertex_count += 1
         dumped = {
             "_id": obj.gid(),
             "gid": obj.gid(),

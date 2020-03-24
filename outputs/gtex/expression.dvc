@@ -7,7 +7,9 @@ deps:
 - md5: 0540e405df1d985a1250a49816a132e2
   path: source/gtex/project_lookup.tsv
 - md5: e027506deca6a62f50e316561c6cb8cb
-  path: source/gtex/GTEx_Analysis_2016-01-15_v7_RNASeQCv1.1.8_gene_tpm.gct.gz
+  path: source/gtex/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz
+- md5: e027506deca6a62f50e316561c6cb8cb
+  path: source/gtex/GTEx_Analysis_2017-06-05_v8_RSEMv1.3.0_transcript_tpm.gct.gz
 outs:
 - md5: 40d40e8b015df12879c47921b3c15e54
   path: outputs/gtex/GeneExpression.Vertex.json.gz
@@ -21,6 +23,21 @@ outs:
   persist: false
 - md5: fc27aa9182f7a14e018ac3ab924e3646
   path: outputs/gtex/Aliquot_GeneExpressions_GeneExpression.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 40d40e8b015df12879c47921b3c15e54
+  path: outputs/gtex/TranscriptExpression.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 96fed72aa87e5fde2389b46b3e9aad37
+  path: outputs/gtex/TranscriptExpression_Aliquot_Aliquot.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: fc27aa9182f7a14e018ac3ab924e3646
+  path: outputs/gtex/Aliquot_TranscriptExpressions_TranscriptExpression.Edge.json.gz
   cache: true
   metric: false
   persist: false
