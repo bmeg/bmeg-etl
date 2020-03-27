@@ -4,9 +4,14 @@ import pandas
 from bmeg.enrichers.drug_enricher import normalize
 
 
-def create_table(in_file="source/prism/primary-screen-replicate-collapsed-treatment-info.csv"):
-    df = pandas.read_csv(in_file, index_col=0)
-    for drug in set(df.name):
+def create_table(primary_file="source/prism/primary-screen-replicate-collapsed-treatment-info.csv",
+                 secondary_file="source/prism/secondary-screen-replicate-collapsed-treatment-info.csv"):
+    df1 = pandas.read_csv(primary_file)
+    df2 = pandas.read_csv(secondary_file)
+    for drug in set(df1.name.tolist() + df2.name.tolist()):
+        if pandas.isna(drug):
+            print(drug, "", sep="\t")
+            continue
         resp = normalize(drug)
         if resp:
             resp = json.dumps(resp)

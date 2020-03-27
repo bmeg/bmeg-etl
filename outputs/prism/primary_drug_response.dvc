@@ -1,0 +1,38 @@
+md5: 83b203be84b6343fb65c651dca8523f0
+cmd: python3 -c 'from transform.prism.drug_response import transform_primary; transform_primary()'
+wdir: ../..
+deps:
+- md5: cf0abeb132f298ed125829714aae7098
+  path: transform/prism/drug_response.py
+- md5: adb4b5b164595a262211cff236bbcd86
+  path: source/prism/compound_lookup.tsv
+- md5: 9f94bb3266b701e6354126de4e3aa906
+  path: source/prism/primary-screen-replicate-collapsed-treatment-info.csv
+- md5: 8ce67ccb180e6a7ce42da02169693cb0
+  path: source/prism/primary-screen-replicate-collapsed-logfold-change.csv
+outs:
+- md5: 306fc8524e51cb504c56bd1f45144433
+  path: outputs/prism/primary_screen.DrugResponse.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 89f08ad8460b82b6b2105806874278a1
+  path: outputs/prism/primary_screen.Aliquot_DrugResponse_DrugResponse.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 800e67473264bedc7e40146b3a58131d
+  path: outputs/prism/primary_screen.DrugResponse_Aliquot_Aliquot.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: bcae859d7b604530e4e591a1197e979a
+  path: outputs/prism/primary_screen.DrugResponse_Compounds_Compound.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 90675a8fc0149b32b5ed3f28dbea4023
+  path: outputs/prism/primary_screen.Compound_DrugResponses_DrugResponse.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
