@@ -10,12 +10,12 @@ from bmeg.enrichers.drug_enricher import compound_factory
 
 
 def transform(cellline_lookup_path='source/ccle/cellline_id_lookup.tsv',
-              cells_path='source/pharmacodb/cells.csv',
-              drugs_path='source/pharmacodb/drugs.csv',
-              drug_annots_path='source/pharmacodb/drug_annots.csv',
-              experiments_path='source/pharmacodb/experiments.csv',
-              dose_response_path='source/pharmacodb/dose_responses.csv',
-              profiles_path='source/pharmacodb/profiles.csv',
+              cells_path='source/pharmacodb/cells.tsv.gz',
+              drugs_path='source/pharmacodb/drugs.tsv.gz',
+              drug_annots_path='source/pharmacodb/drug_annots.tsv.gz',
+              experiments_path='source/pharmacodb/experiments.tsv.gz',
+              dose_response_path='source/pharmacodb/dose_responses.tsv.gz',
+              profiles_path='source/pharmacodb/profiles.tsv.gz',
               emitter_prefix=None,
               emitter_directory='pharmacodb'):
 
@@ -23,13 +23,13 @@ def transform(cellline_lookup_path='source/ccle/cellline_id_lookup.tsv',
 
     cellline_id_lookup = bmeg.ioutils.read_lookup(cellline_lookup_path)
 
-    dose_response = pandas.read_csv(dose_response_path)
+    dose_response = pandas.read_csv(dose_response_path, sep="\t")
 
-    cells = pandas.read_csv(cells_path)
-    drugs = pandas.read_csv(drugs_path)
-    drug_annots = pandas.read_csv(drug_annots_path)
-    experiments = pandas.read_csv(experiments_path)
-    profiles = pandas.read_csv(profiles_path)
+    cells = pandas.read_csv(cells_path, sep="\t")
+    drugs = pandas.read_csv(drugs_path, sep="\t")
+    drug_annots = pandas.read_csv(drug_annots_path, sep="\t")
+    experiments = pandas.read_csv(experiments_path, sep="\t")
+    profiles = pandas.read_csv(profiles_path, sep="\t")
 
     merged_data = pandas.merge(
         cells[['cell_id', 'cell_name']],

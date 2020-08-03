@@ -1,0 +1,12 @@
+md5: f1eb955b79ddd1cc5430d583c4029442
+cmd: curl -L -o source/ccle/sample_info.csv https://ndownloader.figshare.com/files/22629137
+wdir: ../..
+deps:
+- md5: 6808ca805661622ad65ae014a4b2a094
+  path: source/ccle/version.txt
+outs:
+- md5: 449514d879d0eb65838cb816a2efd420
+  path: source/ccle/sample_info.csv
+  cache: true
+  metric: false
+  persist: false
