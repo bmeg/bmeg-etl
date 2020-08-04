@@ -1,4 +1,4 @@
-md5: e50d76678aa85fc497522a0b276de49b
+md5: 23b0cbbd879afbf49fd2e0366f38e83f
 cmd: wget https://cog.sanger.ac.uk/cmp/download/model_list_20191104.csv -O source/gdsc/model_list_20191104.csv
 wdir: ../..
 deps:
@@ -7,6 +7,3 @@ deps:
 outs:
 - md5: a30867b7520044c266570e119597c300
   path: source/gdsc/model_list_20191104.csv
-  cache: true
-  metric: false
-  persist: false

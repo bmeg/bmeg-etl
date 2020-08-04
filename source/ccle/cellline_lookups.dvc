@@ -1,4 +1,4 @@
-md5: 54c78d128a6cf6b1840d3520a06b69cb
+md5: 93fda41021ec7d7ed346588ce285311a
 cmd: python3 transform/ccle/cellline_lookups.py
 wdir: ../..
 deps:
@@ -17,16 +17,7 @@ deps:
 outs:
 - md5: 3dc793baed9071ecf2368d8ea0e391c5
   path: source/ccle/cellline_id_lookup.tsv
-  cache: true
-  metric: false
-  persist: false
 - md5: 63c2a5f0b1ce7dd0c2eef4ae89044465
   path: source/ccle/cellline_phenotype_lookup.tsv
-  cache: true
-  metric: false
-  persist: false
 - md5: 9ba0d75f573f6ce66bce5dcb3c009a75
   path: source/ccle/cellline_properties_lookup.tsv
-  cache: true
-  metric: false
-  persist: false
