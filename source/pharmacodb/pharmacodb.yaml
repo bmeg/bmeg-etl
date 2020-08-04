@@ -17,7 +17,7 @@ steps:
         - name: cells
           transform:
             - tableWrite:
-                output: cells.tsv
+                output: cells.tsv.gz
                 columns:
                   - cell_id
                   - accession_id
@@ -26,7 +26,7 @@ steps:
         - name: cell_tissues
           transform:
             - tableWrite:
-                output: cell_tissues.tsv
+                output: cell_tissues.tsv.gz
                 columns:
                   - id
                   - cell_id
@@ -34,7 +34,7 @@ steps:
         - name: dose_responses
           transform:
             - tableWrite:
-                output: dose_responses.tsv
+                output: dose_responses.tsv.gz
                 columns:
                   - id
                   - experiment_id
@@ -43,14 +43,14 @@ steps:
         - name: drugs
           transform:
             - tableWrite:
-                output: drugs.tsv
+                output: drugs.tsv.gz
                 columns:
                   - drug_id
                   - drug_name
         - name: drug_annots
           transform:
             - tableWrite:
-                output: drug_annots.tsv
+                output: drug_annots.tsv.gz
                 columns:
                   - drug_id
                   - smiles
@@ -59,7 +59,7 @@ steps:
         - name: experiments
           transform:
             - tableWrite:
-                output: experiments.tsv
+                output: experiments.tsv.gz
                 columns:
                   - experiment_id
                   - cell_id
@@ -69,7 +69,7 @@ steps:
         - name: profiles
           transform:
             - tableWrite:
-                output: profiles.tsv
+                output: profiles.tsv.gz
                 columns:
                   - experiment_id
                   - HS
@@ -83,7 +83,7 @@ steps:
         - name: cellosaurus
           transform:
             - tableWrite:
-                output: cellosaurus.tsv
+                output: cellosaurus.tsv.gz
                 columns:
                   - id
                   - identifier
@@ -106,9 +106,68 @@ steps:
         - name: source_cell_names
           transform:
             - tableWrite:
-                output: source_cell_names.tsv
+                output: source_cell_names.tsv.gz
                 columns:
                   - id
                   - cell_id
                   - source_id
                   - cell_name
+        - name: dataset_cells
+          transform:
+            - tableWrite:
+                output: dataset_cells.tsv.gz
+                columns:
+                  - id
+                  - dataset_id
+                  - cell_id
+        - name: datasets
+          transform:
+            - tableWrite:
+                output: datasets.tsv.gz
+                columns:
+                  - dataset_id
+                  - dataset_name
+        - name: source_drug_names
+          transform:
+            - tableWrite:
+                output: source_drug_names.tsv.gz
+                columns:
+                  - id
+                  - drug_id
+                  - source_id
+                  - drug_name
+        - name: source_statistics
+          transform:
+            - tableWrite:
+                output: source_statistics.tsv.gz
+                columns:
+                  - id
+                  - dataset_id
+                  - cell_lines
+                  - tissues
+                  - drugs
+                  - experiments
+        - name: source_tissue_names
+          transform:
+            - tableWrite:
+                output: source_tissue_names.tsv.gz
+                columns:
+                  - id
+                  - tissue_id
+                  - source_id
+                  - tissue_name
+        - name: sources
+          transform:
+            - tableWrite:
+                output: sources.tsv.gz
+                columns:
+                  - source_id
+                  - dataset_id
+                  - source_name
+        - name: tissues
+          transform:
+            - tableWrite:
+                output: tissues.tsv.gz
+                columns:
+                  - tissue_id
+                  - tissue_name
