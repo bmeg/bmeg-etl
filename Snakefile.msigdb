@@ -1,0 +1,19 @@
+
+rule msigdb_v6_2:
+	input:
+		"source/msigdb/version.txt"
+	output:
+		"source/msigdb/msigdb_v6.2.xml"
+	shell:		"wget --verbose -O source/msigdb/msigdb_v6.2.xml ftp://ftp.broadinstitute.org/pub/gsea/xml/msigdb_v6.2.xml"
+
+rule msigdb:
+	input:
+		"source/msigdb/msigdb_v6.2.xml",
+		"transform/msigdb/transform.py"
+	output:
+		"outputs/msigdb/GeneSet.Vertex.json.gz",
+		"outputs/msigdb/Gene_GeneSets_GeneSet.Edge.json.gz",
+		"outputs/msigdb/GeneSet_Genes_Gene.Edge.json.gz",
+		"outputs/msigdb/GeneSet_Publications_Publication.Edge.json.gz",
+		"outputs/msigdb/Publication_GeneSets_GeneSet.Edge.json.gz"
+	shell:		"python3 transform/msigdb/transform.py"

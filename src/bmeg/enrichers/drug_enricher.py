@@ -310,7 +310,11 @@ def search_pubchem(name):
 
     logging.debug('search pubchem: {}'.format(url))
     r = requests.get(url, timeout=60)
-    rsp = r.json()
+    try:
+        rsp = r.json()
+    except Exception as e:
+        logging.error(e)
+        rsp = {}
     info = pydash.get(rsp, 'InformationList.Information.0', None)
     if info:
         rsp = {'IdentifierList': info}

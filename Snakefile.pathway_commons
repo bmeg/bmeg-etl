@@ -1,0 +1,26 @@
+
+rule pc11_download:
+	input:
+		"source/pathway_commons/version.txt"
+	output:
+		"source/pathway_commons/pc11.all.sif",
+		"source/pathway_commons/pathways.txt.gz"
+	shell:		"wget -O source/pathway_commons/pathways.txt.gz https://www.pathwaycommons.org/archives/PC2/v11/pathways.txt.gz && 	wget -O source/pathway_commons/paxtools.jar https://www.pathwaycommons.org/archives/PC2/v11/paxtools.jar && 	wget -O source/pathway_commons/PathwayCommons11.Detailed.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v11/PathwayCommons11.All.BIOPAX.owl.gz &&   java -Xmx50g -jar source/pathway_commons/paxtools.jar toSIF source/pathway_commons/PathwayCommons11.All.BIOPAX.owl.gz source/pathway_commons/pc11.all.sif seqDb=hgnc exclude=neighbor_of MEDIATOR PUBMED PMC COMMENTS PATHWAY PATHWAY_URI RESOURCE SOURCE_LOC TARGET_LOC"
+
+rule pc11:
+	input:
+		"transform/pathway_commons/transform.py",
+		"source/pathway_commons/pc11.all.sif",
+		"source/pathway_commons/pathways.txt.gz"
+	output:
+		"outputs/pathway_commons/Pathway.Vertex.json.gz",
+		"outputs/pathway_commons/Interaction.Vertex.json.gz",
+		"outputs/pathway_commons/Gene_InteractionInput_Interaction.Edge.json.gz",
+		"outputs/pathway_commons/Gene_Pathways_Pathway.Edge.json.gz",
+		"outputs/pathway_commons/Interaction_InteractionOutput_Gene.Edge.json.gz",
+		"outputs/pathway_commons/Interaction_Pathways_Pathway.Edge.json.gz",
+		"outputs/pathway_commons/Interaction_Publications_Publication.Edge.json.gz",
+		"outputs/pathway_commons/Pathway_Genes_Gene.Edge.json.gz",
+		"outputs/pathway_commons/Pathway_Interactions_Interaction.Edge.json.gz",
+		"outputs/pathway_commons/Publication_Interactions_Interaction.Edge.json.gz"
+	shell:		"python3 transform/pathway_commons/transform.py"

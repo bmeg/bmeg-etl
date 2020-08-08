@@ -11,9 +11,9 @@ deps:
 - md5: 40a75b111028f0f2951196a7dd712a23
   path: source/ccle/cellline_phenotype_lookup.tsv
 - md5: bc3e80ee596ef5666efc3ddcb462586f
-  path: source/pharmacodb/cells.csv
+  path: source/pharmacodb/cells.tsv.gz
 - md5: 40c48b5d89beadaca0391f1b721bcf2e
-  path: source/pharmacodb/experiments.csv
+  path: source/pharmacodb/experiments.tsv.gz
 outs:
 - md5: 5450863980ef8b6bc42ff9a7dd578669
   path: outputs/gdsc/gdsc.Aliquot.Vertex.json.gz

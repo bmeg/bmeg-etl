@@ -1,0 +1,71 @@
+
+rule compound_lookup:
+	input:
+		"transform/prism/compound_lookup.py",
+		"source/prism/primary-screen-replicate-collapsed-treatment-info.csv",
+		"source/prism/secondary-screen-replicate-collapsed-treatment-info.csv"
+	output:
+		"source/prism/compound_lookup.tsv"
+	shell:		"python transform/prism/compound_lookup.py > source/prism/compound_lookup.tsv"
+
+rule prism:
+	output:
+		"source/prism/primary-screen-cell-line-info.csv",
+		"source/prism/primary-screen-replicate-collapsed-treatment-info.csv",
+		"source/prism/primary-screen-replicate-collapsed-logfold-change.csv",
+		"source/prism/secondary-screen-replicate-collapsed-treatment-info.csv",
+		"source/prism/secondary-screen-replicate-collapsed-logfold-change.csv",
+		"source/prism/secondary-screen-dose-response-curve-parameters.csv"
+	shell:		"./sources/prism/prism_download.sh"
+
+rule prism_cases:
+	input:
+		"transform/prism/cases.py",
+		"source/ccle/cellline_id_lookup.tsv",
+		"source/ccle/cellline_properties_lookup.tsv",
+		"source/ccle/cellline_phenotype_lookup.tsv",
+		"source/prism/primary-screen-cell-line-info.csv"
+	output:
+		"outputs/prism/Aliquot.Vertex.json.gz",
+		"outputs/prism/Sample.Vertex.json.gz",
+		"outputs/prism/Case.Vertex.json.gz",
+		"outputs/prism/Project.Vertex.json.gz",
+		"outputs/prism/Program.Vertex.json.gz",
+		"outputs/prism/Phenotype.Vertex.json.gz",
+		"outputs/prism/Project_Programs_Program.Edge.json.gz",
+		"outputs/prism/Program_Projects_Project.Edge.json.gz",
+		"outputs/prism/Case_Projects_Project.Edge.json.gz",
+		"outputs/prism/Project_Cases_Case.Edge.json.gz",
+		"outputs/prism/Sample_Case_Case.Edge.json.gz",
+		"outputs/prism/Case_Samples_Sample.Edge.json.gz",
+		"outputs/prism/Aliquot_Sample_Sample.Edge.json.gz",
+		"outputs/prism/Sample_Aliquots_Aliquot.Edge.json.gz",
+		"outputs/prism/Case_Phenotypes_Phenotype.Edge.json.gz",
+		"outputs/prism/Phenotype_Cases_Case.Edge.json.gz",
+		"outputs/prism/Sample_Phenotypes_Phenotype.Edge.json.gz",
+		"outputs/prism/Phenotype_Samples_Sample.Edge.json.gz"
+	shell:		"python3 transform/prism/cases.py"
+
+rule primary_drug_response:
+	input:
+		"transform/prism/drug_response.py",
+		"source/prism/compound_lookup.tsv",
+		"source/prism/primary-screen-replicate-collapsed-treatment-info.csv",
+		"source/prism/primary-screen-replicate-collapsed-logfold-change.csv"
+	output:
+		"outputs/prism/primary_screen.DrugResponse.Vertex.json.gz",
+		"outputs/prism/primary_screen.Aliquot_DrugResponse_DrugResponse.Edge.json.gz",
+		"outputs/prism/primary_screen.DrugResponse_Aliquot_Aliquot.Edge.json.gz",
+		"outputs/prism/primary_screen.DrugResponse_Compounds_Compound.Edge.json.gz",
+		"outputs/prism/primary_screen.Compound_DrugResponses_DrugResponse.Edge.json.gz"
+	shell:		"python3 -c 'from transform.prism.drug_response import transform_primary; transform_primary()'"
+
+rule prism_compounds:
+	input:
+		"transform/prism/drug_response.py",
+		"source/prism/compound_lookup.tsv"
+	output:
+		"outputs/prism/Compound.Vertex.json.gz",
+		"outputs/prism/Project_Compounds_Compound.Edge.json.gz",
+		"outputs/prism/Compound_Projects_Project.Edge.json.gz"
+	shell:		"python3 -c 'from transform.prism.drug_response import transform_compounds; transform_compounds()'"

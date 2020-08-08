@@ -1,0 +1,29 @@
+
+rule ctrp_cases:
+	input:
+		"transform/ctrp/cases.py",
+		"source/ccle/cellline_id_lookup.tsv",
+		"source/ccle/cellline_properties_lookup.tsv",
+		"source/ccle/cellline_phenotype_lookup.tsv",
+		"source/pharmacodb/cells.tsv.gz",
+		"source/pharmacodb/experiments.tsv.gz"
+	output:
+		"outputs/ctrp/ctrp.Aliquot.Vertex.json.gz",
+		"outputs/ctrp/ctrp.Sample.Vertex.json.gz",
+		"outputs/ctrp/ctrp.Case.Vertex.json.gz",
+		"outputs/ctrp/ctrp.Project.Vertex.json.gz",
+		"outputs/ctrp/ctrp.Program.Vertex.json.gz",
+		"outputs/ctrp/ctrp.Phenotype.Vertex.json.gz",
+		"outputs/ctrp/ctrp.Project_Programs_Program.Edge.json.gz",
+		"outputs/ctrp/ctrp.Program_Projects_Project.Edge.json.gz",
+		"outputs/ctrp/ctrp.Case_Projects_Project.Edge.json.gz",
+		"outputs/ctrp/ctrp.Project_Cases_Case.Edge.json.gz",
+		"outputs/ctrp/ctrp.Sample_Case_Case.Edge.json.gz",
+		"outputs/ctrp/ctrp.Case_Samples_Sample.Edge.json.gz",
+		"outputs/ctrp/ctrp.Aliquot_Sample_Sample.Edge.json.gz",
+		"outputs/ctrp/ctrp.Sample_Aliquots_Aliquot.Edge.json.gz",
+		"outputs/ctrp/ctrp.Case_Phenotypes_Phenotype.Edge.json.gz",
+		"outputs/ctrp/ctrp.Phenotype_Cases_Case.Edge.json.gz",
+		"outputs/ctrp/ctrp.Sample_Phenotypes_Phenotype.Edge.json.gz",
+		"outputs/ctrp/ctrp.Phenotype_Samples_Sample.Edge.json.gz"
+	shell:		"python3 transform/ctrp/cases.py"

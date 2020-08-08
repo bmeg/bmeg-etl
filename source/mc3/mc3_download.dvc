@@ -1,4 +1,4 @@
-md5: 54a7e41554058fc294ad5f5964e7a2a5
+md5: f582ac90831f97245e5a3390e6d96b75
 cmd: wget https://api.gdc.cancer.gov/data/1c8cfe5f-e52d-41ba-94da-f15ea1337efc -O
   source/mc3/mc3.v0.2.8.PUBLIC.maf.gz
 wdir: ../..
@@ -8,6 +8,3 @@ deps:
 outs:
 - md5: 639ad8f8386e98dacc22e439188aa8fa
   path: source/mc3/mc3.v0.2.8.PUBLIC.maf.gz
-  cache: true
-  metric: false
-  persist: false

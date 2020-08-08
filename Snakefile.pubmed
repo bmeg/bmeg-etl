@@ -1,0 +1,15 @@
+
+rule baseline:
+	input:
+		"source/pubmed/version.txt"
+	output:
+		"source/pubmed/baseline"
+	shell:		"wget -nH --cut-dirs=1 --recursive -P source/pubmed/ ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/"
+
+rule publications:
+	input:
+		"transform/pubmed/pubmed.py",
+		"source/pubmed/baseline"
+	output:
+		"outputs/pubmed/baseline"
+	shell:		"find source/pubmed/baseline/ -type f -name '*.xml.gz' | xargs -P 12 -n 1 -I {} python3 transform/pubmed/pubmed.py {}"

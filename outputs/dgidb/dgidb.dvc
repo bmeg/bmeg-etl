@@ -1,4 +1,4 @@
-md5: 34c1bbfdb0868d369c4283b8982f2137
+md5: 16bf0f46bce1fbfdb81c88a9d21c7f6e
 cmd: python3 transform/dgidb/transform.py
 wdir: ../..
 deps:
@@ -6,7 +6,7 @@ deps:
   path: source/dgidb/interactions.tsv
 - md5: c228b8450fa2537a4acbb4f23f62964f
   path: source/drug_enricher/drug_alias.tsv
-- md5: 64e7a82c87e7151a7c49846469157547
+- md5: 5a004a27ce4adb06a55296cf33d14d6d
   path: src/bmeg/enrichers/drug_enricher.py
 - md5: 1f1f691fa223e6c7c05cb9324a68d96a
   path: transform/dgidb/transform.py

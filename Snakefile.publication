@@ -1,0 +1,16 @@
+
+rule stub_publications:
+	input:
+		"transform/publication/transform.py",
+		"outputs/g2p/G2PAssociation_Publications_Publication.Edge.json.gz",
+		"outputs/g2p/Publication_G2PAssociations_G2PAssociation.Edge.json.gz",
+		"outputs/dgidb/G2PAssociation_Publications_Publication.Edge.json.gz",
+		"outputs/dgidb/Publication_G2PAssociations_G2PAssociation.Edge.json.gz",
+		"outputs/pubmed/baseline",
+		"outputs/msigdb/Publication_GeneSets_GeneSet.Edge.json.gz",
+		"outputs/msigdb/GeneSet_Publications_Publication.Edge.json.gz",
+		"outputs/pathway_commons/Publication_Interactions_Interaction.Edge.json.gz",
+		"outputs/pathway_commons/Interaction_Publications_Publication.Edge.json.gz"
+	output:
+		"outputs/publication/stub.Publication.Vertex.json.gz"
+	shell:		"python3 transform/publication/transform.py"

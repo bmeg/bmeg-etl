@@ -1,0 +1,24 @@
+
+rule interactions:
+	input:
+		"source/dgidb/version.txt"
+	output:
+		"source/dgidb/interactions.tsv"
+	shell:		"wget --verbose -O source/dgidb/interactions.tsv http://www.dgidb.org/data/interactions.tsv"
+
+rule dgidb:
+	input:
+		"source/dgidb/interactions.tsv",
+		"source/drug_enricher/drug_alias.tsv",
+		"src/bmeg/enrichers/drug_enricher.py",
+		"transform/dgidb/transform.py"
+	output:
+		"outputs/dgidb/G2PAssociation.Vertex.json.gz",
+		"outputs/dgidb/Compound.Vertex.json.gz",
+		"outputs/dgidb/G2PAssociation_Genes_Gene.Edge.json.gz",
+		"outputs/dgidb/G2PAssociation_Publications_Publication.Edge.json.gz",
+		"outputs/dgidb/G2PAssociation_Compounds_Compound.Edge.json.gz",
+		"outputs/dgidb/Publication_G2PAssociations_G2PAssociation.Edge.json.gz",
+		"outputs/dgidb/Gene_G2PAssociations_G2PAssociation.Edge.json.gz",
+		"outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz"
+	shell:		"python3 transform/dgidb/transform.py"

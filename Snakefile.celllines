@@ -1,0 +1,10 @@
+
+rule linked_cases:
+	input:
+		"transform/celllines/link_cases.py",
+		"outputs/ccle/ccle.Case.Vertex.json.gz",
+		"outputs/ctrp/ctrp.Case.Vertex.json.gz",
+		"outputs/gdsc/gdsc.Case.Vertex.json.gz"
+	output:
+		"outputs/celllines/Case_SameAs_Case.Edge.json.gz"
+	shell:		"python3 transform/celllines/link_cases.py"
