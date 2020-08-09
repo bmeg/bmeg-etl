@@ -1,4 +1,20 @@
 
+OUTPUTS.extend([
+	"outputs/ensembl/Uniprot.Vertex.json.gz",
+	"outputs/ensembl/Protein_Uniprot_Uniprot.Edge.json.gz",
+	"outputs/ensembl/Uniprot_Protein_Protein.Edge.json.gz",
+	"outputs/ensembl/Exon.Vertex.json.gz",
+	"outputs/ensembl/Transcript.Vertex.json.gz",
+	"outputs/ensembl/Gene.Vertex.json.gz",
+	"outputs/ensembl/Transcript_Exons_Exon.Edge.json.gz",
+	"outputs/ensembl/Exon_Transcripts_Transcript.Edge.json.gz",
+	"outputs/ensembl/Gene_Transcripts_Transcript.Edge.json.gz",
+	"outputs/ensembl/Transcript_Gene_Gene.Edge.json.gz",
+	"outputs/ensembl/Protein.Vertex.json.gz",
+	"outputs/ensembl/Transcript_Protein_Protein.Edge.json.gz",
+	"outputs/ensembl/Protein_Transcript_Transcript.Edge.json.gz"
+])
+
 rule Homo_sapiens_GRCh37_85_uniprot_tsv_gz:
 	input:
 		"source/ensembl/version.txt"

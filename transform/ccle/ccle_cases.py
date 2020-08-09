@@ -18,8 +18,8 @@ from bmeg.enrichers.phenotype_enricher import phenotype_factory
 def transform(cellline_lookup_path="source/ccle/cellline_id_lookup.tsv",
               properties_lookup_path="source/ccle/cellline_properties_lookup.tsv",
               phenotype_lookup_path="source/ccle/cellline_phenotype_lookup.tsv",
-              pharmacodb_cells_path="source/pharmacodb/cells.csv",
-              pharmacodb_experiments_path="source/pharmacodb/experiments.csv",
+              pharmacodb_cells_path="source/pharmacodb/cells.tsv.gz",
+              pharmacodb_experiments_path="source/pharmacodb/experiments.tsv.gz",
               expression_path="source/ccle/CCLE_depMap_19Q1_TPM.csv",
               maf_path="source/ccle/CCLE_DepMap_18q3_maf_20180718.txt",
               emitter_prefix="ccle",
@@ -49,8 +49,8 @@ def transform(cellline_lookup_path="source/ccle/cellline_id_lookup.tsv",
     raw_ids = {}
 
     pharmacodb = pandas.merge(
-        pandas.read_csv(pharmacodb_experiments_path)[["cell_id", "dataset_id"]],
-        pandas.read_csv(pharmacodb_cells_path)[["cell_id", "cell_name"]],
+        pandas.read_csv(pharmacodb_experiments_path, sep="\t")[["cell_id", "dataset_id"]],
+        pandas.read_csv(pharmacodb_cells_path, sep="\t")[["cell_id", "cell_name"]],
         on="cell_id"
     ).drop_duplicates()
     pharmacodb_ccle = pharmacodb[pharmacodb.dataset_id == 1]

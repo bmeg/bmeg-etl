@@ -1,4 +1,17 @@
 
+OUTPUTS.extend(		["outputs/allele/normalized.Allele.Vertex.json.gz",
+		"outputs/allele/normalized.Allele_Gene_Gene.Edge.json.gz",
+		"outputs/allele/normalized.Allele_PfamFamily_PfamFamily.Edge.json.gz",
+		"outputs/allele/normalized.Allele_Protein_Protein.Edge.json.gz",
+		"outputs/allele/normalized.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz",
+		"outputs/allele/normalized.Allele_Transcript_Transcript.Edge.json.gz",
+		"outputs/allele/normalized.Gene_Alleles_Allele.Edge.json.gz",
+		"outputs/allele/normalized.PfamFamily_Alleles_Allele.Edge.json.gz",
+		"outputs/allele/normalized.Protein_Alleles_Allele.Edge.json.gz",
+		"outputs/allele/normalized.SomaticCallset_Alleles_Allele.Edge.json.gz",
+		"outputs/allele/normalized.Transcript_Alleles_Allele.Edge.json.gz"]
+)
+
 rule allele:
 	input:
 		"transform/allele/harmonize_alleles.py",
