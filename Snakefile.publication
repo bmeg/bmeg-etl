@@ -1,4 +1,8 @@
 
+OUTPUTS.extend([
+	"outputs/publication/stub.Publication.Vertex.json.gz"
+])
+
 rule stub_publications:
 	input:
 		"transform/publication/transform.py",
@@ -13,4 +17,5 @@ rule stub_publications:
 		"outputs/pathway_commons/Interaction_Publications_Publication.Edge.json.gz"
 	output:
 		"outputs/publication/stub.Publication.Vertex.json.gz"
-	shell:		"python3 transform/publication/transform.py"
+	shell:
+		"python3 transform/publication/transform.py"

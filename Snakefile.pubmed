@@ -1,14 +1,18 @@
 
+OUTPUTS.extend([
+	"outputs/pubmed/baseline"
+])
+
 rule baseline:
 	output:
-		"source/pubmed/baseline"
-	shell:		"wget -N -nH --cut-dirs=1 --recursive -P source/pubmed/ ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/"
+		directory("source/pubmed/baseline")
+	shell:
+		"wget -N -nH --cut-dirs=1 --recursive -P source/pubmed/ ftp://ftp.ncbi.nlm.nih.gov/pubmed/baseline/"
 
 rule publications:
 	input:
-		"transform/pubmed/pubmed.py",
-		"source/pubmed/baseline"
+		"source/pubmed/baseline/{fragment}.xml.gz"
 	output:
-		"outputs/pubmed/baseline"
+		"outputs/pubmed/baseline/{fragment}.Publication.Vertex.json.gz"
 	shell:
-		"find source/pubmed/baseline/ -type f -name '*.xml.gz' | xargs -P 12 -n 1 -I {} python3 transform/pubmed/pubmed.py {}"
+		"python3 transform/pubmed/pubmed.py source/pubmed/baseline/{wildcards.fragment}.xml.gz"
