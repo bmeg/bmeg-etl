@@ -1,4 +1,14 @@
 
+OUTPUTS.extend([
+	"outputs/phenotype/normalized.Phenotype.Vertex.json.gz",
+	"outputs/phenotype/normalized.Case_Phenotypes_Phenotype.Edge.json.gz",
+	"outputs/phenotype/normalized.Phenotype_Cases_Case.Edge.json.gz",
+	"outputs/phenotype/normalized.Sample_Phenotypes_Phenotype.Edge.json.gz",
+	"outputs/phenotype/normalized.Phenotype_Samples_Sample.Edge.json.gz",
+	"outputs/phenotype/normalized.G2PAssociation_Phenotypes_Phenotype.Edge.json.gz",
+	"outputs/phenotype/normalized.Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz"
+])
+
 rule normalized_phenotypes:
 	input:
 		"source/phenotype_enricher/disease_alias.tsv",
@@ -35,4 +45,5 @@ rule normalized_phenotypes:
 		"outputs/phenotype/normalized.Phenotype_Samples_Sample.Edge.json.gz",
 		"outputs/phenotype/normalized.G2PAssociation_Phenotypes_Phenotype.Edge.json.gz",
 		"outputs/phenotype/normalized.Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz"
-	shell:		"python3 transform/phenotype/transform.py"
+	shell:
+		"python3 transform/phenotype/transform.py"

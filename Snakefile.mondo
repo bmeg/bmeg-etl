@@ -1,10 +1,17 @@
 
+OUTPUTS.extend([
+	"outputs/mondo/Phenotype.Vertex.json.gz",
+	"outputs/mondo/Phenotype_ChildTerms_Phenotype.Edge.json.gz",
+	"outputs/mondo/Phenotype_ParentTerms_Phenotype.Edge.json.gz"
+])
+
 rule mondo_download:
 	input:
 		"source/mondo/version.txt"
 	output:
 		"source/mondo/mondo.json"
-	shell:		"wget -O source/mondo/mondo.json http://purl.obolibrary.org/obo/mondo.json"
+	shell:
+		"wget -O source/mondo/mondo.json http://purl.obolibrary.org/obo/mondo.json"
 
 rule mondo:
 	input:
@@ -14,4 +21,5 @@ rule mondo:
 		"outputs/mondo/Phenotype.Vertex.json.gz",
 		"outputs/mondo/Phenotype_ChildTerms_Phenotype.Edge.json.gz",
 		"outputs/mondo/Phenotype_ParentTerms_Phenotype.Edge.json.gz"
-	shell:		"python3 transform/mondo/transform.py"
+	shell:
+		"python3 transform/mondo/transform.py"
