@@ -38,16 +38,41 @@ rule compound_lookup:
 	shell:
 		"python transform/prism/compound_lookup.py > source/prism/compound_lookup.tsv"
 
-rule prism:
+rule prism_cell_line_info:
 	output:
-		"source/prism/primary-screen-cell-line-info.csv",
-		"source/prism/primary-screen-replicate-collapsed-treatment-info.csv",
-		"source/prism/primary-screen-replicate-collapsed-logfold-change.csv",
-		"source/prism/secondary-screen-replicate-collapsed-treatment-info.csv",
-		"source/prism/secondary-screen-replicate-collapsed-logfold-change.csv",
+		"source/prism/primary-screen-cell-line-info.csv"
+	shell:
+		"wget https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/20237718/primaryscreencelllineinfo.csv -O source/prism/primary-screen-cell-line-info.csv"
+
+rule_prism_screen_treatment:
+	output:
+		"source/prism/primary-screen-replicate-collapsed-treatment-info.csv"
+	shell:
+		"wget https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/20237715/primaryscreenreplicatecollapsedtreatmentinfo.csv -O source/prism/primary-screen-replicate-collapsed-treatment-info.csv"
+
+rule prism_screen_logfold_change:
+	output:
+		"source/prism/primary-screen-replicate-collapsed-logfold-change.csv"
+	shell:
+		"wget https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/20237709/primaryscreenreplicatecollapsedlogfoldchange.csv -O source/prism/primary-screen-replicate-collapsed-logfold-change.csv"
+
+rule prism_secondary_treatment_info
+	output:
+		"source/prism/secondary-screen-replicate-collapsed-treatment-info.csv"
+	shell:
+		"wget https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/20237763/secondaryscreenreplicatecollapsedtreatmentinfo.csv -O source/prism/secondary-screen-replicate-collapsed-treatment-info.csv"
+
+rule prism_seconary_logfold_change:
+	output:
+		"source/prism/secondary-screen-replicate-collapsed-logfold-change.csv"
+	shell:
+		"wget https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/20237757/secondaryscreenreplicatecollapsedlogfoldchange.csv -O source/prism/secondary-screen-replicate-collapsed-logfold-change.csv"
+
+rule prism_curve_parameters:
+	output:
 		"source/prism/secondary-screen-dose-response-curve-parameters.csv"
 	shell:
-		"./sources/prism/prism_download.sh"
+		"wget https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/20237739/secondaryscreendoseresponsecurveparameters.csv  -O source/prism/secondary-screen-dose-response-curve-parameters.csv"
 
 rule prism_cases:
 	input:
