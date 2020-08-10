@@ -1,4 +1,8 @@
 
+OUTPUTS.extend([
+	"outputs/celllines/Case_SameAs_Case.Edge.json.gz"
+])
+
 rule linked_cases:
 	input:
 		"transform/celllines/link_cases.py",
@@ -7,4 +11,5 @@ rule linked_cases:
 		"outputs/gdsc/gdsc.Case.Vertex.json.gz"
 	output:
 		"outputs/celllines/Case_SameAs_Case.Edge.json.gz"
-	shell:		"python3 transform/celllines/link_cases.py"
+	shell:
+		"python3 transform/celllines/link_cases.py"

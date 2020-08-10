@@ -1,17 +1,52 @@
 
+OUTPUTS.extend([
+	"outputs/gdsc/caveman.Allele.Vertex.json.gz",
+	"outputs/gdsc/caveman.SomaticCallset.Vertex.json.gz",
+	"outputs/gdsc/caveman.Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz",
+	"outputs/gdsc/caveman.SomaticCallset_Aliquots_Aliquot.Edge.json.gz",
+	"outputs/gdsc/caveman.SomaticCallset_Alleles_Allele.Edge.json.gz",
+	"outputs/gdsc/caveman.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz",
+	"outputs/gdsc/pindel.Allele.Vertex.json.gz",
+	"outputs/gdsc/pindel.SomaticCallset.Vertex.json.gz",
+	"outputs/gdsc/pindel.Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz",
+	"outputs/gdsc/pindel.SomaticCallset_Aliquots_Aliquot.Edge.json.gz",
+	"outputs/gdsc/pindel.SomaticCallset_Alleles_Allele.Edge.json.gz",
+	"outputs/gdsc/pindel.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz",
+	"outputs/gdsc/gdsc.Aliquot.Vertex.json.gz",
+	"outputs/gdsc/gdsc.Sample.Vertex.json.gz",
+	"outputs/gdsc/gdsc.Case.Vertex.json.gz",
+	"outputs/gdsc/gdsc.Project.Vertex.json.gz",
+	"outputs/gdsc/gdsc.Program.Vertex.json.gz",
+	"outputs/gdsc/gdsc.Phenotype.Vertex.json.gz",
+	"outputs/gdsc/gdsc.Project_Programs_Program.Edge.json.gz",
+	"outputs/gdsc/gdsc.Program_Projects_Project.Edge.json.gz",
+	"outputs/gdsc/gdsc.Case_Projects_Project.Edge.json.gz",
+	"outputs/gdsc/gdsc.Project_Cases_Case.Edge.json.gz",
+	"outputs/gdsc/gdsc.Sample_Case_Case.Edge.json.gz",
+	"outputs/gdsc/gdsc.Case_Samples_Sample.Edge.json.gz",
+	"outputs/gdsc/gdsc.Aliquot_Sample_Sample.Edge.json.gz",
+	"outputs/gdsc/gdsc.Sample_Aliquots_Aliquot.Edge.json.gz",
+	"outputs/gdsc/gdsc.Case_Phenotypes_Phenotype.Edge.json.gz",
+	"outputs/gdsc/gdsc.Phenotype_Cases_Case.Edge.json.gz",
+	"outputs/gdsc/gdsc.Sample_Phenotypes_Phenotype.Edge.json.gz",
+	"outputs/gdsc/gdsc.Phenotype_Samples_Sample.Edge.json.gz"
+])
+
 rule vcfs:
 	input:
 		"source/gdsc/version.txt"
 	output:
 		"source/gdsc/vcfs"
-	shell:		"mkdir source/gdsc/vcfs && wget https://cog.sanger.ac.uk/cmp/download/cell_line_wes_20180620.zip -O source/gdsc/cell_line_wes_20180620.zip && unzip source/gdsc/cell_line_wes_20180620.zip -d source/gdsc/vcfs"
+	shell:
+		"mkdir source/gdsc/vcfs && wget https://cog.sanger.ac.uk/cmp/download/cell_line_wes_20180620.zip -O source/gdsc/cell_line_wes_20180620.zip && unzip source/gdsc/cell_line_wes_20180620.zip -d source/gdsc/vcfs"
 
 rule cellinfo:
 	input:
 		"source/gdsc/version.txt"
 	output:
 		"source/gdsc/model_list_20191104.csv"
-	shell:		"wget https://cog.sanger.ac.uk/cmp/download/model_list_20191104.csv -O source/gdsc/model_list_20191104.csv"
+	shell:
+		"wget https://cog.sanger.ac.uk/cmp/download/model_list_20191104.csv -O source/gdsc/model_list_20191104.csv"
 
 rule caveman_vcfs:
 	input:
@@ -25,7 +60,8 @@ rule caveman_vcfs:
 		"outputs/gdsc/caveman.SomaticCallset_Aliquots_Aliquot.Edge.json.gz",
 		"outputs/gdsc/caveman.SomaticCallset_Alleles_Allele.Edge.json.gz",
 		"outputs/gdsc/caveman.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz"
-	shell:		"python3 transform/gdsc/vcf_transform.py --emitter-prefix caveman --vcf-pattern 'source/gdsc/vcfs/*.caveman.annot.vcf.gz'"
+	shell:
+		"python3 transform/gdsc/vcf_transform.py --emitter-prefix caveman --vcf-pattern 'source/gdsc/vcfs/*.caveman.annot.vcf.gz'"
 
 rule pindel_vcfs:
 	input:
@@ -39,7 +75,8 @@ rule pindel_vcfs:
 		"outputs/gdsc/pindel.SomaticCallset_Aliquots_Aliquot.Edge.json.gz",
 		"outputs/gdsc/pindel.SomaticCallset_Alleles_Allele.Edge.json.gz",
 		"outputs/gdsc/pindel.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz"
-	shell:		"python3 transform/gdsc/vcf_transform.py --emitter-prefix pindel --vcf-pattern 'source/gdsc/vcfs/*.pindel.annot.vcf.gz'"
+	shell:
+		"python3 transform/gdsc/vcf_transform.py --emitter-prefix pindel --vcf-pattern 'source/gdsc/vcfs/*.pindel.annot.vcf.gz'"
 
 rule gdsc_cases:
 	input:
@@ -68,4 +105,5 @@ rule gdsc_cases:
 		"outputs/gdsc/gdsc.Phenotype_Cases_Case.Edge.json.gz",
 		"outputs/gdsc/gdsc.Sample_Phenotypes_Phenotype.Edge.json.gz",
 		"outputs/gdsc/gdsc.Phenotype_Samples_Sample.Edge.json.gz"
-	shell:		"python3 transform/gdsc/cases.py"
+	shell:
+		"python3 transform/gdsc/cases.py"
