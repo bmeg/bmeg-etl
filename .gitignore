@@ -43,6 +43,7 @@ source/**/*.*
 !source/pharmacodb/extract_data.sh
 !source/pharmacodb/tables_to_csv.py
 !source/pharmacodb/pharmacodb.yaml
+!source/pathway_commons/pc_download.sh
 
 tests/unit/allele/source/myvariantinfo/sqlite.db
 tests/unit/compound/source/compound/sqlite.db
