@@ -1,4 +1,16 @@
 
+OUTPUTS.extend([
+	"outputs/compound/normalized.Compound.Vertex.json.gz",
+	"outputs/compound/normalized.DrugResponse_Compounds_Compound.Edge.json.gz",
+	"outputs/compound/normalized.Compound_DrugResponses_DrugResponse.Edge.json.gz",
+	"outputs/compound/normalized.Project_Compounds_Compound.Edge.json.gz",
+	"outputs/compound/normalized.Compound_Projects_Project.Edge.json.gz",
+	"outputs/compound/normalized.Compound_Cases_Case.Edge.json.gz",
+	"outputs/compound/normalized.Case_Compounds_Compound.Edge.json.gz",
+	"outputs/compound/normalized.G2PAssociation_Compounds_Compound.Edge.json.gz",
+	"outputs/compound/normalized.Compound_G2PAssociations_G2PAssociation.Edge.json.gz"
+])
+
 rule normalized_compounds:
 	input:
 		"source/drug_enricher/drug_alias.tsv",
@@ -30,4 +42,5 @@ rule normalized_compounds:
 		"outputs/compound/normalized.Case_Compounds_Compound.Edge.json.gz",
 		"outputs/compound/normalized.G2PAssociation_Compounds_Compound.Edge.json.gz",
 		"outputs/compound/normalized.Compound_G2PAssociations_G2PAssociation.Edge.json.gz"
-	shell:		"python3 transform/compound/transform.py"
+	shell:
+		"python3 transform/compound/transform.py"

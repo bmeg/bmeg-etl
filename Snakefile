@@ -18,14 +18,14 @@ include: "Snakefile.msigdb"
 include: "Snakefile.gdc"
 include: "Snakefile.mondo"
 #include: "Snakefile.publication"
-#include: "Snakefile.allele"
+include: "Snakefile.allele"
 include: "Snakefile.pharmacodb"
 include: "Snakefile.prism"
 include: "Snakefile.ctrp"
 include: "Snakefile.gdsc"
 include: "Snakefile.celllines"
 include: "Snakefile.phenotype"
-#include: "Snakefile.compound"
+include: "Snakefile.compound"
 
 rule outputs_bmeg_manifest:
 	input:
