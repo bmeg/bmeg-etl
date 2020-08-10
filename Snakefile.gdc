@@ -48,7 +48,7 @@ rule gdb_lookups:
 rule gdc_compounds:
 	input:
 		"transform/gdc/compounds.py",
-		directory("source/gdc/compounds")
+		"source/gdc/compounds"
 	output:
 		"outputs/gdc/gdc.Compound.Vertex.json.gz",
 		"outputs/gdc/gdc.Case_Compounds_Compound.Edge.json.gz",
