@@ -1,4 +1,15 @@
 
+OUTPUTS.extend([
+	"outputs/pharmacodb/Compound.Vertex.json.gz",
+	"outputs/pharmacodb/DrugResponse.Vertex.json.gz",
+	"outputs/pharmacodb/Aliquot_DrugResponse_DrugResponse.Edge.json.gz",
+	"outputs/pharmacodb/DrugResponse_Aliquot_Aliquot.Edge.json.gz",
+	"outputs/pharmacodb/DrugResponse_Compounds_Compound.Edge.json.gz",
+	"outputs/pharmacodb/Compound_DrugResponses_DrugResponse.Edge.json.gz",
+	"outputs/pharmacodb/Project_Compounds_Compound.Edge.json.gz",
+	"outputs/pharmacodb/Compound_Projects_Project.Edge.json.gz"
+`])
+
 rule pharmacodb_1_1_1_sql:
 	input:
 		"source/pharmacodb/version.txt"
@@ -27,7 +38,8 @@ rule pharmacodb:
 		"source/pharmacodb/source_tissue_names.tsv.gz",
 		"source/pharmacodb/sources.tsv.gz",
 		"source/pharmacodb/tissues.tsv.gz"
-	shell:		"sifter run source/pharmacodb/pharmacodb.yaml --o source/pharmacodb/"
+	shell:
+		"sifter run source/pharmacodb/pharmacodb.yaml --o source/pharmacodb/"
 
 rule drug_response:
 	input:
@@ -48,4 +60,5 @@ rule drug_response:
 		"outputs/pharmacodb/Compound_DrugResponses_DrugResponse.Edge.json.gz",
 		"outputs/pharmacodb/Project_Compounds_Compound.Edge.json.gz",
 		"outputs/pharmacodb/Compound_Projects_Project.Edge.json.gz"
-	shell:		"python3 transform/pharmacodb/drug_response.py"
+	shell:
+		"python3 transform/pharmacodb/drug_response.py"

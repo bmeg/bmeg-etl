@@ -12,15 +12,6 @@ OUTPUTS.extend([
 	"outputs/pathway_commons/Publication_Interactions_Interaction.Edge.json.gz"
 ])
 
-rule pc11_download:
-	input:
-		"source/pathway_commons/version.txt"
-	output:
-		"source/pathway_commons/pc11.all.sif",
-		"source/pathway_commons/pathways.txt.gz"
-	shell:
-		"./source/pathway_commons/pc_download.sh"
-
 rule pathways_txt:
 	output:
 		"source/pathway_commons/pathways.txt.gz"

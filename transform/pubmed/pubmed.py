@@ -10,6 +10,7 @@ from glob import glob
 import xml.sax
 import os
 from ftplib import FTP
+from multiprocessing import Pool
 
 from bmeg import Publication, Project
 from bmeg.emitter import JSONEmitter
@@ -190,13 +191,25 @@ def name_clean(path):
     return os.path.basename(path).replace(".xml.gz", "")
 
 
+class Converter:
+    def __init__(self, outdir):
+        self.outdir = outdir
+    def run_convert(self, path):
+        emitter = JSONEmitter(self.outdir, name_clean(path))
+        with gzip.open(path) as handle:
+            parse_pubmed(handle, emitter)
+        emitter.close()
+
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-l", action="store_true", default=False)
-    parser.add_argument("-o", "--output", default="pubmed/baseline")
-    parser.add_argument("--scan", default="source/pubmed")
+    parser.add_argument("-o", "--output", default="outputs/pubmed/baseline")
+    parser.add_argument("--scan", default="source/pubmed/baseline")
+    parser.add_argument("-N", default=1, type=int)
+
     parser.add_argument("files", nargs="*")
     args = parser.parse_args()
 
@@ -211,8 +224,6 @@ if __name__ == "__main__":
     if len(args.files) == 0:
         args.files = glob(os.path.join(args.scan, "*.xml.gz"))
 
-    for path in args.files:
-        emitter = JSONEmitter(args.output, name_clean(path))
-        with gzip.open(path) as handle:
-            parse_pubmed(handle, emitter)
-        emitter.close()
+    cnv = Converter(args.output)
+    with Pool(args.N) as pool:
+        out = pool.map( cnv.run_convert, args.files )

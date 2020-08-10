@@ -11,8 +11,9 @@ rule baseline:
 
 rule publications:
 	input:
-		"source/pubmed/baseline/{fragment}.xml.gz"
+		"source/pubmed/baseline"
 	output:
-		"outputs/pubmed/baseline/{fragment}.Publication.Vertex.json.gz"
+		directory("outputs/pubmed/baseline")
+	threads: 10
 	shell:
-		"python3 transform/pubmed/pubmed.py source/pubmed/baseline/{wildcards.fragment}.xml.gz"
+		"python3 transform/pubmed/pubmed.py {threads}"
