@@ -16,4 +16,4 @@ rule publications:
 		directory("outputs/pubmed/baseline")
 	threads: 10
 	shell:
-		"python3 transform/pubmed/pubmed.py {threads}"
+		"python3 transform/pubmed/pubmed.py -N {threads}"

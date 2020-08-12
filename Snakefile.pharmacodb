@@ -8,14 +8,15 @@ OUTPUTS.extend([
 	"outputs/pharmacodb/Compound_DrugResponses_DrugResponse.Edge.json.gz",
 	"outputs/pharmacodb/Project_Compounds_Compound.Edge.json.gz",
 	"outputs/pharmacodb/Compound_Projects_Project.Edge.json.gz"
-`])
+])
 
 rule pharmacodb_1_1_1_sql:
 	input:
 		"source/pharmacodb/version.txt"
 	output:
 		"source/pharmacodb/pharmacodb-1.1.1.sql"
-	shell:		"curl -o source/pharmacodb/pharmacodb-1.1.1.sql https://zenodo.org/record/1143645/files/pharmacodb-1.1.1.sql"
+	shell:
+		"curl -o source/pharmacodb/pharmacodb-1.1.1.sql https://zenodo.org/record/1143645/files/pharmacodb-1.1.1.sql"
 
 rule pharmacodb:
 	input:

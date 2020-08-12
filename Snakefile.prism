@@ -44,7 +44,7 @@ rule prism_cell_line_info:
 	shell:
 		"wget https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/20237718/primaryscreencelllineinfo.csv -O source/prism/primary-screen-cell-line-info.csv"
 
-rule_prism_screen_treatment:
+rule prism_screen_treatment:
 	output:
 		"source/prism/primary-screen-replicate-collapsed-treatment-info.csv"
 	shell:
@@ -56,7 +56,7 @@ rule prism_screen_logfold_change:
 	shell:
 		"wget https://s3-eu-west-1.amazonaws.com/pfigshare-u-files/20237709/primaryscreenreplicatecollapsedlogfoldchange.csv -O source/prism/primary-screen-replicate-collapsed-logfold-change.csv"
 
-rule prism_secondary_treatment_info
+rule prism_secondary_treatment_info:
 	output:
 		"source/prism/secondary-screen-replicate-collapsed-treatment-info.csv"
 	shell:
