@@ -42,7 +42,7 @@ rule pharmacodb:
 	shell:
 		"sifter run source/pharmacodb/pharmacodb.yaml --o source/pharmacodb/"
 
-rule drug_response:
+rule pharmacodb_drug_response:
 	input:
 		"transform/pharmacodb/drug_response.py",
 		"source/ccle/cellline_id_lookup.tsv",
