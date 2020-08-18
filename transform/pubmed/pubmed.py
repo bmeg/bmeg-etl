@@ -195,7 +195,7 @@ class Converter:
     def __init__(self, outdir):
         self.outdir = outdir
     def run_convert(self, path):
-        emitter = JSONEmitter(self.outdir, name_clean(path))
+        emitter = JSONEmitter(directory=self.outdir, prefix=name_clean(path))
         with gzip.open(path) as handle:
             parse_pubmed(handle, emitter)
         emitter.close()
@@ -206,7 +206,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-l", action="store_true", default=False)
-    parser.add_argument("-o", "--output", default="outputs/pubmed/baseline")
+    parser.add_argument("-o", "--output", default="pubmed")
     parser.add_argument("--scan", default="source/pubmed/baseline")
     parser.add_argument("-N", default=1, type=int)
 

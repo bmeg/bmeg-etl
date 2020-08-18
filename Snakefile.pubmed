@@ -1,6 +1,6 @@
 
 OUTPUTS.extend([
-	"outputs/pubmed/baseline"
+	"outputs/pubmed"
 ])
 
 rule baseline:
@@ -13,7 +13,7 @@ rule publications:
 	input:
 		"source/pubmed/baseline"
 	output:
-		directory("outputs/pubmed/baseline")
+		directory("outputs/pubmed")
 	threads: 10
 	shell:
 		"python3 transform/pubmed/pubmed.py -N {threads}"
