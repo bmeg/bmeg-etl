@@ -52,12 +52,12 @@ def transform_transcript(gct_file="source/gtex/GTEx_Analysis_2017-06-05_v8_RSEMv
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 
     data = pandas.read_csv(gct_file, sep="\t", header=2)
-    tdata = data.set_index("Name").drop(columns=["Description"]).transpose()
+    tdata = data.set_index("transcript_id").drop(columns=["gene_id"]).transpose()
     tdata.columns = [c.split(".")[0] for c in tdata.columns]
 
     for sample, values in tdata.iterrows():
         g = TranscriptExpression(
-            id=GeneExpression.make_gid(sample),
+            id=TranscriptExpression.make_gid(sample),
             metric="TPM",
             method="Illumina HiSeq",
             values=values.to_dict(),
