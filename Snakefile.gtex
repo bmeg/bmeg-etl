@@ -55,23 +55,33 @@ rule gtex_expression_download:
 	shell:
 		"wget https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz -O source/gtex/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz"
 
-rule gtex_expression:
+rule gtex_gene_expression:
 	input:
-		"transform/gtex/expression.py",
+		"transform/gtex/gene_expression.py",
 		"source/gtex/project_lookup.tsv",
 		"source/gtex/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz",
-		"source/gtex/GTEx_Analysis_2017-06-05_v8_RSEMv1.3.0_transcript_tpm.gct.gz"
 	output:
 		"outputs/gtex/GeneExpression.Vertex.json.gz",
 		"outputs/gtex/GeneExpression_Aliquot_Aliquot.Edge.json.gz",
 		"outputs/gtex/Aliquot_GeneExpressions_GeneExpression.Edge.json.gz",
+	resources:
+	     mem_mb=50000
+	shell:
+		"python3 transform/gtex/gene_expression.py"
+
+rule gtex_transcript_expression:
+	input:
+		"transform/gtex/transcript_expression.py",
+		"source/gtex/project_lookup.tsv",
+		"source/gtex/GTEx_Analysis_2017-06-05_v8_RSEMv1.3.0_transcript_tpm.gct.gz"
+	output:
 		"outputs/gtex/TranscriptExpression.Vertex.json.gz",
 		"outputs/gtex/TranscriptExpression_Aliquot_Aliquot.Edge.json.gz",
 		"outputs/gtex/Aliquot_TranscriptExpressions_TranscriptExpression.Edge.json.gz"
 	resources:
-	     mem_mb=35000
+	     mem_mb=50000
 	shell:
-		"python3 transform/gtex/expression.py"
+		"python3 transform/gtex/transcript_expression.py"
 
 rule gtex_cases:
 	input:
