@@ -26,7 +26,7 @@ def transform(
     f = v = 0
     for file in files:
         f += 1
-        logging.info("processing publication file: {}/{}".format(f, nfiles))
+        logging.info("processing publication file: {}/{} - {}".format(f, nfiles,file))
         with reader(file) as ins:
             for line in ins:
                 try:
