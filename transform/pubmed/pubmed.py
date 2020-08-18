@@ -233,11 +233,13 @@ if __name__ == "__main__":
             outputs.append( pool.apply_async(convert, (f,)) )
 
         emitter = JSONEmitter(directory=args.output, prefix="pubmed")
-        for i in outputs:
+        while len(outputs) > 0:
+            i = outputs.pop(0)
             for o in i.get():
                 p =  Publication(id=Publication.make_gid(o["url"]),
                                   url=o["url"], title=o["title"], abstract=o["abstract"],
                                   text="", date=o["date"], author=o["author"], citation=[],
                                   project_id=Project.make_gid("Reference"))
                 emitter.emit_vertex(p)
+            del i
         emitter.close()
