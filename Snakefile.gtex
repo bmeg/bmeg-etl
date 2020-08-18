@@ -59,7 +59,7 @@ rule gtex_gene_expression:
 	input:
 		"transform/gtex/gene_expression.py",
 		"source/gtex/project_lookup.tsv",
-		"source/gtex/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz",
+		"source/gtex/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz"
 	output:
 		"outputs/gtex/GeneExpression.Vertex.json.gz",
 		"outputs/gtex/GeneExpression_Aliquot_Aliquot.Edge.json.gz",
