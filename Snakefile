@@ -32,5 +32,7 @@ include: "Snakefile.compound"
 rule outputs_bmeg_manifest:
 	input:
 		OUTPUTS
+	output:
+		"bmeg_file_manifest.txt"
 	shell:
-		"echo generating file manifest..."
+		"gen_manifest.sh"
