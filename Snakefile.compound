@@ -11,11 +11,25 @@ OUTPUTS.extend([
 	"outputs/compound/normalized.Compound_G2PAssociations_G2PAssociation.Edge.json.gz"
 ])
 
+rule biothings_download:
+	input:
+		"reference/compound/dgidb.table",
+		"reference/compound/pharmacodb.table",
+		"reference/compound/g2p.table",
+		"reference/compound/prism.table",
+		"reference/compound/gdc.table",
+		"reference/compound/get_biothings.py"
+	output:
+		"source/compound/biothings.json"
+	shell:
+		"source/compound/get_biothings.py"
+
 rule normalized_compounds:
 	input:
 		"source/drug_enricher/drug_alias.tsv",
 		"src/bmeg/enrichers/drug_enricher.py",
 		"transform/compound/transform.py",
+		"source/compound/biothings.json",
 		"outputs/g2p/Compound.Vertex.json.gz",
 		"outputs/gdc/gdc.Compound.Vertex.json.gz",
 		"outputs/pharmacodb/Compound.Vertex.json.gz",
@@ -31,7 +45,10 @@ rule normalized_compounds:
 		"outputs/pharmacodb/Project_Compounds_Compound.Edge.json.gz",
 		"outputs/pharmacodb/Compound_Projects_Project.Edge.json.gz",
 		"outputs/dgidb/G2PAssociation_Compounds_Compound.Edge.json.gz",
-		"outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz"
+		"outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz",
+		"outputs/prism/Compound.Vertex.json.gz",
+		"outputs/prism/Project_Compounds_Compound.Edge.json.gz",
+		"outputs/prism/Compound_Projects_Project.Edge.json.gz"
 	output:
 		"outputs/compound/normalized.Compound.Vertex.json.gz",
 		"outputs/compound/normalized.DrugResponse_Compounds_Compound.Edge.json.gz",

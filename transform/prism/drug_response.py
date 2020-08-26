@@ -67,7 +67,7 @@ def process_screen(screen_name, ex_df, fc_df, dr_df, compound_map, emitter):
                 emit_backref=True
             )
 
-
+"""
 def transform_compounds(drug_lookup_path='source/prism/compound_lookup.tsv',
                         emitter_prefix=None,
                         emitter_directory='prism'):
@@ -77,7 +77,11 @@ def transform_compounds(drug_lookup_path='source/prism/compound_lookup.tsv',
         for line in handle:
             row = line.split("\t")
             if row[1] == "":
-                compound = Compound(**json.loads(row[1]))
+                compound = Compound(
+                    id=Compound.make_gid(drug_name),
+                    project_id=Project.make_gid("Reference"),
+                    id_source="prism", **json.loads(row[1])
+                )
                 compound['id'] = Compound.make_gid(compound['id'])
             else:
                 compound = Compound(id=Compound.make_gid("NO_ONTOLOGY:%s" % (row[0])),
@@ -94,6 +98,33 @@ def transform_compounds(drug_lookup_path='source/prism/compound_lookup.tsv',
                 emit_backref=True
             )
     emitter.close()
+"""
+
+
+def transform_compounds(
+                        primary_file="source/prism/primary-screen-replicate-collapsed-treatment-info.csv",
+                        secondary_file="source/prism/secondary-screen-replicate-collapsed-treatment-info.csv",
+                        emitter_prefix=None,
+                        emitter_directory='prism'):
+    emitter = JSONEmitter(prefix=emitter_prefix, directory=emitter_directory)
+    df1 = pandas.read_csv(primary_file)
+    df2 = pandas.read_csv(secondary_file)
+    for drug in set(df1.name.tolist() + df2.name.tolist()):
+        if not pandas.isna(drug):
+            compound = Compound(id=Compound.make_gid(drug),
+                                id_source="prism",
+                                submitter_id=drug,
+                                project_id=Project.make_gid('Reference'))
+            emitter.emit_vertex(compound)
+            emitter.emit_edge(
+                Compound_Projects_Project(
+                    from_gid=compound.gid(),
+                    to_gid=Project.make_gid("PRISM")
+                ),
+                emit_backref=True
+            )
+    emitter.close()
+
 
 
 def transform_primary(drug_lookup_path='source/prism/compound_lookup.tsv',

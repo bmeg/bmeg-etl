@@ -1,4 +1,6 @@
+#!/usr/bin/env python
 
+import json
 from bmeg.emitter import new_emitter
 from bmeg.ioutils import reader
 from bmeg.util.cli import default_argument_parser
@@ -15,12 +17,48 @@ import sys
 import ujson
 
 
+class MappingTables:
+    def __init__(self, table_dir):
+        self.table_dir = table_dir
+        self.tables = {}
+
+    def get(self, id_source, name):
+        if id_source not in self.tables:
+            d = {}
+            with open(os.path.join(self.table_dir, id_source + ".table")) as handle:
+                for line in handle:
+                    row = line.rstrip().split("\t")
+                    d[row[0]] = row[1]
+            self.tables[id_source] = d
+        return self.tables[id_source].get(name, None)
+
 def transform(vertex_names="**/*Compound.Vertex.json*",
               edge_names="**/*Compound*.Edge.json*",
               output_dir="outputs",
               emitter_name="json",
               emitter_directory="compound",
-              store_path="source/compound/sqlite.db"):
+              table_dir="reference/compound",
+              biothings_source="source/compound/biothings.json"):
+
+    missing_dir = "./missing"
+
+    missing_handle = open(os.path.join(missing_dir, "compounds.tsv"), "w")
+
+    mt = MappingTables(table_dir)
+
+    biothings = {}
+    with open(biothings_source) as handle:
+        for line in handle:
+            data = json.loads(line)
+            if data is not None:
+                id = data["id"]
+                data['id'] = Compound.make_gid(id)
+                compound = Compound(
+                    project_id=Project.make_gid('Reference'),
+                    **data
+                )
+                biothings[id] = compound
+
 
     batch_size = 1000
     compound_cache = {}
@@ -29,58 +67,34 @@ def transform(vertex_names="**/*Compound.Vertex.json*",
     path = '{}/{}'.format(output_dir, vertex_names)
     vertex_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
     logging.info(vertex_files)
-    store = new_store('key-val', path=store_path, index=True)
     c = t = e = 0
+
     for file in vertex_files:
         logging.info(file)
+        print("Parsing", file)
         with reader(file) as ins:
             for line in ins:
-                try:
-                    # get the compound the transformer wrote
-                    compound = ujson.loads(line)
-                    compound_gid = compound['gid']
-                    compound = compound['data']
-                    # if un-normalized, normalize it
-                    if compound['id_source'] == 'TODO':
-                        # do we have it already?
-                        stored_compound = store.get(compound['submitter_id'])
-                        if not stored_compound:
-                            # nope, fetch it
-                            cinfo = normalize(compound['submitter_id'])
-                            if cinfo is None:
-                                # no hits? set term and id to name
-                                compound['id_source'] = 'NO_ONTOLOGY'
-                                compound['id'] = Compound.make_gid('NO_ONTOLOGY:{}'.format(compound['submitter_id']))
-                            else:
-                                compound.update(cinfo)
-                                compound['id'] = Compound.make_gid(compound['id'])
-                            # save it for next time
-                            store.put(compound['submitter_id'], compound)
-                        else:
-                            compound = stored_compound
-                            compound['id'] = Compound.make_gid(compound['id'].replace('Compound:', ''))
-                    else:
-                        # we have a compound with a term already
-                        compound['id'] = Compound.make_gid(compound_gid.replace('Compound:', ''))
-                        store.put(compound['submitter_id'], compound)
+                # get the compound the transformer wrote
+                compound = ujson.loads(line)
+                compound_gid = compound['gid']
+                compound_name = compound['data']['submitter_id']
+                id_source = compound['data']['id_source']
 
-                    # create compound and emit
-                    compound = Compound(**compound)
-                    if compound.gid() not in dups:
-                        emitter.emit_vertex(compound)
-                        dups[compound.gid()] = None
+                id = mt.get(id_source, compound_name)
+                if id is None:
+                    missing_handle.write("%s\t%s\n" % (id_source, compound_name))
+                    c = Compound(
+                        id = Compound.make_gid("NOTFOUND:%s" % (compound_name)),
+                        project_id=Project.make_gid('Reference'),
+                        id_source=id_source
+                    )
+                    emitter.emit_vertex(c)
+                    compound_cache[compound_gid] = c
+                else:
+                    emitter.emit_vertex(biothings[id])
+                    compound_cache[compound_gid] = biothings[id]
 
-                    compound_cache[compound_gid] = compound
-                    c += 1
-                    t += 1
-                except Exception as exc:
-                    logging.warning(str(exc))
-                    raise
-                    e += 1
-                if c % batch_size == 0:
-                    logging.info('transforming read: {} errors: {}'.format(t, e))
-                    c = 0
-        logging.info('transforming read: {} errors: {}'.format(t, e))
+    missing_handle.close()
 
     # get the edges
     path = '{}/{}'.format(output_dir, edge_names)
@@ -131,6 +145,7 @@ def transform(vertex_names="**/*Compound.Vertex.json*",
                     logging.info('transforming read: {} errors: {}'.format(t, e))
                     c = 0
         logging.info('transforming read: {} errors: {}'.format(t, e))
+
     emitter.close()
 
 

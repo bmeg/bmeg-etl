@@ -2,11 +2,11 @@ import pandas
 import bmeg.ioutils
 
 from bmeg.emitter import JSONEmitter
-from bmeg import (Aliquot, DrugResponse, Project,
+from bmeg import (Aliquot, DrugResponse, Project, Compound,
                   Compound_Projects_Project,
                   DrugResponse_Aliquot_Aliquot,
                   DrugResponse_Compounds_Compound)
-from bmeg.enrichers.drug_enricher import compound_factory
+#from bmeg.enrichers.drug_enricher import compound_factory
 
 
 def transform(cellline_lookup_path='source/ccle/cellline_id_lookup.tsv',
@@ -82,7 +82,13 @@ def transform(cellline_lookup_path='source/ccle/cellline_id_lookup.tsv',
         drug_name = row["drug_name"]
         if row.get("pubchem"):
             drug_name = "CID{}".format(int(row.get("pubchem")))
-        compound = compound_factory(name=drug_name)
+        #compound = compound_factory(name=drug_name)
+        compound = Compound(
+            id=Compound.make_gid(drug_name),
+            submitter_id=drug_name,
+            id_source="pharmacodb",
+            project_id=Project.make_gid("Reference")
+        )
 
         if compound.gid() not in emitted_compounds:
             emitter.emit_vertex(compound)

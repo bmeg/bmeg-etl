@@ -1,4 +1,5 @@
-from bmeg.enrichers.drug_enricher import compound_factory
+#from bmeg.enrichers.drug_enricher import compound_factory
+from bmeg import Compound, Project
 
 # keep track of what we've already exported
 EXPORTED_COMPOUNDS = {}
@@ -7,10 +8,21 @@ EXPORTED_COMPOUNDS = {}
 def make_compound(environment):
     """ return compound gid """
     if environment.get('id', None):
-        return compound_factory(name=environment['id'])
+        #return compound_factory(name=environment['id'])
+        return Compound(
+            id=Compound.make_gid(environment['id']),
+            submitter_id=environment['id'],
+            id_source="g2p",
+            project_id=Project.make_gid("Reference")
+        )
     else:
-        return compound_factory(name=environment['description'])
-
+        #return compound_factory(name=environment['description'])
+        return Compound(
+            id=Compound.make_gid(environment['description']),
+            submitter_id=environment['description'],
+            id_source="g2p",
+            project_id=Project.make_gid("Reference")
+        )
 
 def normalize(hit):
     """ return the hit modified replacing 'environmentalContexts'

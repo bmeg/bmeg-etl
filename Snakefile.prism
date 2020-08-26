@@ -121,7 +121,8 @@ rule primary_drug_response:
 rule prism_compounds:
 	input:
 		"transform/prism/drug_response.py",
-		"source/prism/compound_lookup.tsv"
+		"source/prism/primary-screen-replicate-collapsed-treatment-info.csv",
+		"source/prism/secondary-screen-replicate-collapsed-treatment-info.csv"
 	output:
 		"outputs/prism/Compound.Vertex.json.gz",
 		"outputs/prism/Project_Compounds_Compound.Edge.json.gz",
