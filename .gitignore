@@ -45,6 +45,7 @@ source/**/*.*
 !source/pharmacodb/pharmacodb.yaml
 !source/pathway_commons/pc_download.sh
 !source/prism/prism_download.sh
+!source/compound/get_biothings.py
 
 tests/unit/allele/source/myvariantinfo/sqlite.db
 tests/unit/compound/source/compound/sqlite.db
