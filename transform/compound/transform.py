@@ -25,7 +25,9 @@ class MappingTables:
     def get(self, id_source, name):
         if id_source not in self.tables:
             d = {}
-            with open(os.path.join(self.table_dir, id_source + ".table")) as handle:
+            tpath = os.path.join(self.table_dir, id_source + ".table")
+            print("Opening Translation Table %s" % (tpath))
+            with open(tpath) as handle:
                 for line in handle:
                     row = line.rstrip().split("\t")
                     d[row[0]] = row[1]
@@ -82,6 +84,7 @@ def transform(vertex_names="**/*Compound.Vertex.json*",
 
                 id = mt.get(id_source, compound_name)
                 if id is None:
+                    print("Compound %s:%s not found" % (id_source, compound_name))
                     missing_handle.write("%s\t%s\n" % (id_source, compound_name))
                     c = Compound(
                         id = Compound.make_gid("NOTFOUND:%s" % (compound_name)),
@@ -91,6 +94,7 @@ def transform(vertex_names="**/*Compound.Vertex.json*",
                     emitter.emit_vertex(c)
                     compound_cache[compound_gid] = c
                 else:
+                    print("Translate %s to %s" % (compound_gid, id))
                     emitter.emit_vertex(biothings[id])
                     compound_cache[compound_gid] = biothings[id]
 
@@ -102,6 +106,7 @@ def transform(vertex_names="**/*Compound.Vertex.json*",
     c = t = e = 0
     for file in edge_files:
         logging.info(file)
+        print("Parsing %s" % (file))
         with reader(file) as ins:
             for line in ins:
                 try:

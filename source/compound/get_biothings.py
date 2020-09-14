@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
-import ujson as json
+import simplejson as json
+#import ujson as json
+import json
 import os
 import time
 from glob import glob
@@ -14,6 +16,17 @@ def retry(count, f, *args, **kwargs ):
         count -= 1
         time.sleep(1)
     raise Exception("Retry Failed")
+
+
+#I honestly cat beleive I have to do this
+def fix_bytes(x):
+    out = {}
+    for k, v in x.items():
+        if isinstance(v, bytes):
+            out[k] = str(v)
+        else:
+            out[k] = v
+    return out
 
 def run_biothings(
                     table_dir="./reference/compound/",
@@ -30,6 +43,7 @@ def run_biothings(
                         if out is None:
                             print("Error finding BioThing Entry: %s" %id)
                         else:
+                            out = fix_bytes(out)
                             ohandle.write("%s\n" % (json.dumps(out)))
                             ids[id] = True
 

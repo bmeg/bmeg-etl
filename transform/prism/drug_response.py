@@ -143,8 +143,8 @@ def transform_primary(drug_lookup_path='source/prism/compound_lookup.tsv',
                 compound = Compound(**json.loads(row[1]))
                 compound['id'] = Compound.make_gid(compound['id'])
             else:
-                compound = Compound(id=Compound.make_gid("NO_ONTOLOGY:%s" % (row[0])),
-                                    id_source="NO_ONTOLOGY",
+                compound = Compound(id=Compound.make_gid(row[0]),
+                                    id_source="prism",
                                     submitter_id=row[0],
                                     project_id=Project.make_gid('Reference'))
 
@@ -175,8 +175,8 @@ def transform_secondary(drug_lookup_path='source/prism/compound_lookup.tsv',
                 compound = Compound(**json.loads(row[1]))
                 compound['id'] = Compound.make_gid(compound['id'])
             else:
-                compound = Compound(id=Compound.make_gid("NO_ONTOLOGY:%s" % (row[0])),
-                                    id_source="NO_ONTOLOGY",
+                compound = Compound(id=Compound.make_gid(row[0]),
+                                    id_source="prism",
                                     submitter_id=row[0],
                                     project_id=Project.make_gid('Reference'))
 

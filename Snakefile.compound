@@ -18,7 +18,7 @@ rule biothings_download:
 		"reference/compound/g2p.table",
 		"reference/compound/prism.table",
 		"reference/compound/gdc.table",
-		"reference/compound/get_biothings.py"
+		"source/compound/get_biothings.py"
 	output:
 		"source/compound/biothings.json"
 	shell:

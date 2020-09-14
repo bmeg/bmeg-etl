@@ -35,4 +35,4 @@ rule outputs_bmeg_manifest:
 	output:
 		"bmeg_file_manifest.txt"
 	shell:
-		"gen_manifest.sh"
+		"./gen_manifest.sh"
