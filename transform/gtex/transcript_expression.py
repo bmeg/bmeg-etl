@@ -1,12 +1,12 @@
 import pandas
 
-from bmeg import (GeneExpression, Aliquot, Project,
-                  GeneExpression_Aliquot_Aliquot,
+from bmeg import (Aliquot, Project,
                   TranscriptExpression,
                   TranscriptExpression_Aliquot_Aliquot)
 
 from bmeg.emitter import JSONEmitter
 from bmeg.ioutils import read_lookup
+
 
 def transform_transcript(gct_file="source/gtex/GTEx_Analysis_2017-06-05_v8_RSEMv1.3.0_transcript_tpm.gct.gz",
                          project_lookup_path="source/gtex/project_lookup.tsv",

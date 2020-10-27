@@ -3,7 +3,6 @@ import re
 
 from bmeg import (Case, Project, Compound, Case_Compounds_Compound, Compound_Projects_Project)
 from bmeg.emitter import JSONEmitter
-#from bmeg.enrichers.drug_enricher import compound_factory
 from bmeg.ioutils import read_tsv, read_lookup
 
 
@@ -46,7 +45,6 @@ def transform(compounds="source/gdc/compounds/*.tsv",
             for cpd_name in cpd_names:
                 if "placebo" in cpd_name:
                     continue
-                #compound = compound_factory(name=cpd_name)
                 compound = Compound(
                     id=Compound.make_gid(cpd_name),
                     submitter_id=cpd_name,

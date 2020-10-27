@@ -1,9 +1,7 @@
 import pandas
 
 from bmeg import (GeneExpression, Aliquot, Project,
-                  GeneExpression_Aliquot_Aliquot,
-                  TranscriptExpression,
-                  TranscriptExpression_Aliquot_Aliquot)
+                  GeneExpression_Aliquot_Aliquot)
 
 from bmeg.emitter import JSONEmitter
 from bmeg.ioutils import read_lookup

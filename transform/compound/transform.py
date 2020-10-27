@@ -5,8 +5,6 @@ from bmeg.emitter import new_emitter
 from bmeg.ioutils import reader
 from bmeg.util.cli import default_argument_parser
 from bmeg.util.logging import default_logging
-from bmeg.enrichers.drug_enricher import normalize
-from bmeg.stores import new_store
 from bmeg import *  # noqa: F403
 
 import logging
@@ -33,6 +31,7 @@ class MappingTables:
                     d[row[0]] = row[1]
             self.tables[id_source] = d
         return self.tables[id_source].get(name, None)
+
 
 def transform(vertex_names="**/*Compound.Vertex.json*",
               edge_names="**/*Compound*.Edge.json*",
@@ -61,10 +60,8 @@ def transform(vertex_names="**/*Compound.Vertex.json*",
                 )
                 biothings[id] = compound
 
-
     batch_size = 1000
     compound_cache = {}
-    dups = {}
     emitter = new_emitter(name=emitter_name, directory=emitter_directory, prefix='normalized')
     path = '{}/{}'.format(output_dir, vertex_names)
     vertex_files = [filename for filename in glob.iglob(path, recursive=True) if 'normalized' not in filename]
@@ -87,7 +84,7 @@ def transform(vertex_names="**/*Compound.Vertex.json*",
                     print("Compound %s:%s not found" % (id_source, compound_name))
                     missing_handle.write("%s\t%s\n" % (id_source, compound_name))
                     c = Compound(
-                        id = Compound.make_gid("NOTFOUND:%s" % (compound_name)),
+                        id=Compound.make_gid("NOTFOUND:%s" % (compound_name)),
                         project_id=Project.make_gid('Reference'),
                         id_source=id_source
                     )

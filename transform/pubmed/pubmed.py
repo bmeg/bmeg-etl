@@ -10,8 +10,7 @@ from glob import glob
 import xml.sax
 import os
 from ftplib import FTP
-from multiprocessing import Pool, Queue, Manager
-from functools import partial
+from multiprocessing import Pool, Manager
 
 from bmeg import Publication, Project
 from bmeg.emitter import JSONEmitter
@@ -82,14 +81,10 @@ def emit_pubmed(e, v, attrs, **kwds):
     if 'Abstract' in kwds['MedlineCitation']['Article']:
         abstract = kwds['MedlineCitation']['Article']['Abstract']['AbstractText']
     url = 'https://www.ncbi.nlm.nih.gov/pubmed/{}'.format(pmid)
-    #out = Publication(id=Publication.make_gid(url),
-    #                  url=url, title=title, abstract=abstract,
-    #                  text="", date=date, author=author, citation=[],
-    #                  project_id=Project.make_gid("Reference"))
     out = {
-        "url":url,
-        "title":title, "abstract":abstract,
-        "text":"", "date":date, "author":author, "citation":[]
+        "url": url,
+        "title": title, "abstract": abstract,
+        "text": "", "date": date, "author": author, "citation": []
     }
     e.append(out)
 
@@ -203,6 +198,7 @@ def convert(path):
         parse_pubmed(handle, out)
     return out
 
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
@@ -230,16 +226,16 @@ if __name__ == "__main__":
         m = Manager()
         outputs = []
         for f in args.files:
-            outputs.append( pool.apply_async(convert, (f,)) )
+            outputs.append(pool.apply_async(convert, (f,)))
 
         emitter = JSONEmitter(directory=args.output, prefix="pubmed")
         while len(outputs) > 0:
             i = outputs.pop(0)
             for o in i.get():
-                p =  Publication(id=Publication.make_gid(o["url"]),
-                                  url=o["url"], title=o["title"], abstract=o["abstract"],
-                                  text="", date=o["date"], author=o["author"], citation=[],
-                                  project_id=Project.make_gid("Reference"))
+                p = Publication(id=Publication.make_gid(o["url"]),
+                                url=o["url"], title=o["title"], abstract=o["abstract"],
+                                text="", date=o["date"], author=o["author"], citation=[],
+                                project_id=Project.make_gid("Reference"))
                 emitter.emit_vertex(p)
             del i
         emitter.close()

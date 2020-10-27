@@ -2,7 +2,7 @@
 
 import sys
 import ujson as json
-from bmeg.enrichers.drug_enricher import normalize, search_pubchem, normalize_biothings
+from bmeg.enrichers.drug_enricher import search_pubchem, normalize_biothings
 
 
 def process(name):
@@ -16,6 +16,7 @@ def process(name):
         print("%s\t%s\t%s" % (name, compound["id"], json.dumps(compound)))
     else:
         print("%s\t\t" % (name))
+
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:

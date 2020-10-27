@@ -133,7 +133,7 @@ def create_cellline_lookups(depmap_path="source/ccle/sample_info.csv",
     for index, line in depmap.iterrows():
         broad_id = line["DepMap_ID"]
         if broad_id not in phenotypes:
-            phenotype_name = line["primary_disease"] # line["Primary Disease"]
+            phenotype_name = line["primary_disease"]
             phenotypes[broad_id] = phenotype_name.lower()
 
     assert len(phenotypes.keys()), "Phenotype lookup is empty!"
