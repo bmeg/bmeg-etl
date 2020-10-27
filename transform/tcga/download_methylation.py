@@ -124,9 +124,9 @@ if __name__ == "__main__":
     if args.manifest_only:
         sys.exit(0)
 
-    def chunks(l, n):
-        for i in range(0, len(l), n):
-            yield l[i:i + n]
+    def chunks(data, csize):
+        for i in range(0, len(data), csize):
+            yield data[i:i + csize]
 
     headers = {'Content-type': 'application/json'}
     keychunks = chunks(list(id_map.keys()), 100)
