@@ -38,9 +38,11 @@ steps:
                       mapping:
                           project_id: "Project:Drugbank"
                           submitter_id: "temp_placeholder"
-                          symbol: "{{row.drug.external-identifiers.external-identifier.identifier}}"
-                          description: "temp_placeholder"
-                          chromosome: "temp_placeholder"
+                          # TODO filter out for only gene symbols
+                          symbol: "{{row.drug.targets.target.polypeptide.gene-name]}}"
+                          # symbol: "{{row.drug.external-identifiers.external-identifier.identifier}}"
+                          description: "temp_placeholder" # "{{row.drug.targets.target.polypeptide.general-function]}}"
+                          chromosome: "temp_placeholder" # "{{row.drug.targets.target.polypeptide.chromosome-location]}}"
                           strand: "temp_placeholder"
                           start: "temp_placeholder"
                           genome: "temp_placeholder"
