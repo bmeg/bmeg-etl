@@ -1,0 +1,58 @@
+class: Playbook
+name: "rawDrugBank"
+
+schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+
+inputs:
+  drugBank:
+    type: File
+    default: ../../source/drugbank/full_database.xml
+
+steps:
+  - xmlLoad:
+      input: "{{inputs.drugBank}}"
+      transform:
+          - fork:
+              transform:
+                -
+                  - project:
+                      # TODO update submitter_id
+                      # TODO update "temp_placeholder"
+                      mapping:
+                          project_id: "Project:Drugbank"
+                          submitter_id: "temp_placeholder"
+                          association_type: "{{row.drug.targets.target.actions.action}}"
+                          type: drug_gene
+                  - objectCreate:
+                      class: association
+                -
+                  - project:
+                      mapping:
+                          project_id: "Project:Drugbank"
+                          submitter_id: "temp_placeholder"
+                          pubchem_id: "{{row.drug.external-identifiers.external-identifier.identifier}}"
+                  - objectCreate:
+                      class: compound
+                -
+                  - project:
+                      mapping:
+                          project_id: "Project:Drugbank"
+                          submitter_id: "temp_placeholder"
+                          symbol: "{{row.drug.external-identifiers.external-identifier.identifier}}"
+                          description: "temp_placeholder"
+                          chromosome: "temp_placeholder"
+                          strand: "temp_placeholder"
+                          start: "temp_placeholder"
+                          genome: "temp_placeholder"
+                          end: "temp_placeholder"
+                          gene_id: "temp_placeholder"
+                  - objectCreate:
+                      class: gene
+                -
+                  - project:
+                      mapping:
+                          project_id: "Project:Drugbank"
+                          submitter_id: "temp_placeholder"
+                          url: "http://ncbi.nlm.nih.gov/pubmed/{{row.drug.targets.target.references.articles.article.pubmed-id}}"
+                  - objectCreate:
+                      class: publication
