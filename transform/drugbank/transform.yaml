@@ -12,6 +12,13 @@ steps:
   - xmlLoad:
       input: "{{inputs.drugBank}}"
       transform:
+          # - filter:
+          #     python: >
+          #       def f(x):
+          #         if len(x[str("{{row.drug.targets.target.actions.action}}" )]) > 0:
+          #           return True
+          #         return False
+          #     method: f
           - fork:
               transform:
                 -
@@ -31,25 +38,35 @@ steps:
                           project_id: "Project:Drugbank"
                           submitter_id: "temp_placeholder"
                           pubchem_id: "{{row.drug.external-identifiers.external-identifier.identifier}}"
+                          type: "{{row.drug.external-identifiers.external-identifier.resource}}"
                   - objectCreate:
                       class: compound
                 -
+                #   - project:
+                #       mapping:
+                #           project_id: "Project:Drugbank"
+                #           submitter_id: "temp_placeholder"
+                #           # TODO filter out for only gene symbols
+                #           symbol: "{{row.drug.targets.target.polypeptide.gene-name]}}"
+                #           description: "temp_placeholder" # "{{row.drug.targets.target.polypeptide.general-function]}}"
+                #           chromosome: "temp_placeholder" # "{{row.drug.targets.target.polypeptide.chromosome-location]}}"
+                #           strand: "temp_placeholder"
+                #           start: "temp_placeholder"
+                #           genome: "temp_placeholder"
+                #           end: "temp_placeholder"
+                #           gene_id: "temp_placeholder"
+                #   - objectCreate:
+                #       class: gene
+                # -
                   - project:
                       mapping:
                           project_id: "Project:Drugbank"
                           submitter_id: "temp_placeholder"
-                          # TODO filter out for only gene symbols
-                          symbol: "{{row.drug.targets.target.polypeptide.gene-name]}}"
-                          # symbol: "{{row.drug.external-identifiers.external-identifier.identifier}}"
-                          description: "temp_placeholder" # "{{row.drug.targets.target.polypeptide.general-function]}}"
-                          chromosome: "temp_placeholder" # "{{row.drug.targets.target.polypeptide.chromosome-location]}}"
-                          strand: "temp_placeholder"
-                          start: "temp_placeholder"
+                          project_id: "temp_placeholder"
+                          protein_id: "{{row.drug.targets.target.id}}"
                           genome: "temp_placeholder"
-                          end: "temp_placeholder"
-                          gene_id: "temp_placeholder"
                   - objectCreate:
-                      class: gene
+                      class: protein
                 -
                   - project:
                       mapping:
