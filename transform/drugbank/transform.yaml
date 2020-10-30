@@ -12,13 +12,16 @@ steps:
   - xmlLoad:
       input: "{{inputs.drugBank}}"
       transform:
-          # - filter:
-          #     python: >
-          #       def f(x):
-          #         if len(x[str("{{row.drug.targets.target.actions.action}}" )]) > 0:
-          #           return True
-          #         return False
-          #     method: f
+          - map:
+              python: >
+                def f(x):
+                  pubchem = x['drug']['external-identifiers']['external-identifier']['identifier']
+                  if pubchem != 'PubChem Substance':
+                      pubchem = ''
+                  x['drug']['external-identifiers']['external-identifier']['identifier'] = pubchem
+                  return x
+              method: f
+          # TODO add filter to ignore messages without pubchem_id == ''
           - fork:
               transform:
                 -
