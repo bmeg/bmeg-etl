@@ -1,80 +1,64 @@
 class: Playbook
-name: "rawDrugBank"
-
+name: "drugbank"
 schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
-
 inputs:
   drugBank:
     type: File
     default: ../../source/drugbank/full_database.xml
-
 steps:
   - xmlLoad:
       input: "{{inputs.drugBank}}"
       transform:
+          #- debug: {}
           - map:
               python: >
+                def forceList(x):
+                  if isinstance(x,list):
+                    return x
+                  return [x]
                 def f(x):
-                  pubchem = x['drug']['external-identifiers']['external-identifier']['identifier']
-                  if pubchem != 'PubChem Substance':
-                      pubchem = ''
-                  x['drug']['external-identifiers']['external-identifier']['identifier'] = pubchem
+                  for d in forceList(x["drug"]["drugbank-id"]):
+                    if d.startswith("DB"):
+                      x["submitter_id"] = d
+                  x["publications"] = []
+                  for d in forceList(x["drug"]["general-references"]["articles"]):
+                    if isinstance(d, dict):
+                      x["publications"].append(d["article"]["pubmed-id"])
+                  x['compound'] = ""
+                  if 'external-identifiers' in x['drug']:
+                    for d in forceList(x['drug']['external-identifiers']):
+                      if isinstance(d, dict):
+                        x['compound'] = d['external-identifier']['identifier']
+                  x['proteins'] = []
+                  for target in forceList(x['drug']['targets']):
+                    if isinstance(target, dict):
+                      if 'polypeptide' in target['target']:
+                        if 'external-identifiers' in target['target']['polypeptide']:
+                          if 'external-identifier' in target['target']['polypeptide']['external-identifiers']:
+                            if 'UniProt Accession' == target['target']['polypeptide']['external-identifiers']['external-identifier']['resource']:
+                              v = target['target']['polypeptide']['external-identifiers']['external-identifier']['identifier']
+                              x['proteins'].append(v)
+                            elif 'id' in target['target']:
+                              v = target["target"]["id"]
+                              x['proteins'].append(v)
+                          elif 'id' in target['target']:
+                            v = target["target"]["id"]
+                            x['proteins'].append(v)
+                      elif 'id' in target['target']:
+                        v = target["target"]["id"]
+                        x['proteins'].append(v)
                   return x
               method: f
-          # TODO add filter to ignore messages without pubchem_id == ''
-          - fork:
-              transform:
-                -
-                  - project:
-                      # TODO update submitter_id
-                      # TODO update "temp_placeholder"
-                      mapping:
-                          project_id: "Project:Drugbank"
-                          submitter_id: "temp_placeholder"
-                          association_type: "{{row.drug.targets.target.actions.action}}"
-                          type: drug_gene
-                  - objectCreate:
-                      class: association
-                -
-                  - project:
-                      mapping:
-                          project_id: "Project:Drugbank"
-                          submitter_id: "temp_placeholder"
-                          pubchem_id: "{{row.drug.external-identifiers.external-identifier.identifier}}"
-                          type: "{{row.drug.external-identifiers.external-identifier.resource}}"
-                  - objectCreate:
-                      class: compound
-                -
-                #   - project:
-                #       mapping:
-                #           project_id: "Project:Drugbank"
-                #           submitter_id: "temp_placeholder"
-                #           # TODO filter out for only gene symbols
-                #           symbol: "{{row.drug.targets.target.polypeptide.gene-name]}}"
-                #           description: "temp_placeholder" # "{{row.drug.targets.target.polypeptide.general-function]}}"
-                #           chromosome: "temp_placeholder" # "{{row.drug.targets.target.polypeptide.chromosome-location]}}"
-                #           strand: "temp_placeholder"
-                #           start: "temp_placeholder"
-                #           genome: "temp_placeholder"
-                #           end: "temp_placeholder"
-                #           gene_id: "temp_placeholder"
-                #   - objectCreate:
-                #       class: gene
-                # -
-                  - project:
-                      mapping:
-                          project_id: "Project:Drugbank"
-                          submitter_id: "temp_placeholder"
-                          project_id: "temp_placeholder"
-                          protein_id: "{{row.drug.targets.target.id}}"
-                          genome: "temp_placeholder"
-                  - objectCreate:
-                      class: protein
-                -
-                  - project:
-                      mapping:
-                          project_id: "Project:Drugbank"
-                          submitter_id: "temp_placeholder"
-                          url: "http://ncbi.nlm.nih.gov/pubmed/{{row.drug.targets.target.references.articles.article.pubmed-id}}"
-                  - objectCreate:
-                      class: publication
+          - filter:
+              python: >
+                def f(x):
+                  return len(x['proteins']) > 0
+              method: f
+              steps:
+                - project:
+                    mapping:
+                        project_id: "Project:Drugbank"
+                        association_type: "{{row.drug.targets.target.actions.action}}"
+                        type: drug_gene
+                - objectCreate:
+                    class: gene_drug_association

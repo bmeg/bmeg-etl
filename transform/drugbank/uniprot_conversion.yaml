@@ -1,0 +1,28 @@
+class: Playbook
+
+
+desc: >
+  This takes a UniProt Accession - UniProtKB TSV, filters rows, selects columns and outputs a 2
+  column TSV into the working directory
+inputs:
+  geneTSV:
+    type: File
+    default: ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/by_organism/HUMAN_9606_idmapping.dat.gz
+
+steps:
+  - tableLoad:
+      input: "{{inputs.geneTSV}}"
+      columns:
+        - id
+        - reference
+        - alternative
+      transform:
+        - filter:
+            col: "{{row.reference}}"
+            match: "UniProtKB-ID"
+            steps:
+              - tableWrite:
+                  output: "protein.table"
+                  columns:
+                    - id
+                    - alternative
