@@ -5,13 +5,14 @@ desc: >
   This takes a UniProt Accession - UniProtKB TSV, filters rows, selects columns and outputs a 2
   column TSV into the working directory
 inputs:
-  geneTSV:
+  protTSV:
     type: File
     default: ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/idmapping/by_organism/HUMAN_9606_idmapping.dat.gz
 
 steps:
+  - description: "Create step 1 protein converter. UniProt Accession - UniProt ID"
   - tableLoad:
-      input: "{{inputs.geneTSV}}"
+      input: "{{inputs.protTSV}}"
       columns:
         - id
         - reference
@@ -22,7 +23,24 @@ steps:
             match: "UniProtKB-ID"
             steps:
               - tableWrite:
-                  output: "protein.table"
+                  output: "accession2uniprotId.tsv"
+                  columns:
+                    - alternative
+                    - id
+  - description: "Create step2 protein converter. UniProt ID - Ensembl Protein ID"
+  - tableLoad:
+      input: "{{inputs.protTSV}}"
+      columns:
+        - id
+        - reference
+        - alternative
+      transform:
+        - filter:
+            col: "{{row.reference}}"
+            match: "Ensembl_PRO"
+            steps:
+              - tableWrite:
+                  output: "uniprotId2ensembl.tsv"
                   columns:
                     - id
                     - alternative

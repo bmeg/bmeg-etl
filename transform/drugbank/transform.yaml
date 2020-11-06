@@ -4,7 +4,13 @@ schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
 inputs:
   drugBank:
     type: File
-    default: ../../source/drugbank/full_database.xml
+    default: ../../source/drugbank/drugbank_all_full_database.xml
+  proteinConvert1:
+    type: File
+    default: ../../out/accession2uniprotId.tsv
+  proteinConvert2:
+    type: File
+    default: ../../out/uniprotId2ensembl.tsv
 steps:
   - xmlLoad:
       input: "{{inputs.drugBank}}"
@@ -55,6 +61,12 @@ steps:
                   return len(x['proteins']) > 0
               method: f
               steps:
+                - tableReplace:
+                    input: "{{inputs.proteinConvert1}}"
+                    field: proteins
+                - tableReplace:
+                    input: "{{inputs.proteinConvert2}}"
+                    field: proteins
                 - project:
                     mapping:
                         project_id: "Project:Drugbank"
