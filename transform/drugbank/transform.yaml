@@ -29,7 +29,8 @@ steps:
                   x["publications"] = []
                   for d in forceList(x["drug"]["general-references"]["articles"]):
                     if isinstance(d, dict):
-                      x["publications"].append(d["article"]["pubmed-id"])
+                      url = "https://www.ncbi.nlm.nih.gov/pubmed/{}".format(d["article"]["pubmed-id"])
+                      x["publications"].append(url)
                   x['compound'] = ""
                   if 'external-identifiers' in x['drug']:
                     for d in forceList(x['drug']['external-identifiers']):
