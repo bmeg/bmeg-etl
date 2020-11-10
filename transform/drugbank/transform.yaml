@@ -72,6 +72,6 @@ steps:
                     mapping:
                         project_id: "Project:Drugbank"
                         association_type: "{{row.drug.targets.target.actions.action}}"
-                        type: drug_gene
+                        type: drug_protein
                 - objectCreate:
                     class: gene_drug_association
