@@ -1,9 +1,9 @@
-{"_id": "Compound:TODO:(5Z)-7-Oxozeaenol", "gid": "Compound:TODO:(5Z)-7-Oxozeaenol", "label": "Compound", "data": {"id_source": "TODO", "submitter_id": "(5Z)-7-Oxozeaenol", "project_id": "Project:Reference"}}
-{"_id": "Compound:TODO:5-Fluorouracil", "gid": "Compound:TODO:5-Fluorouracil", "label": "Compound", "data": {"id_source": "TODO", "submitter_id": "5-Fluorouracil", "project_id": "Project:Reference"}}
-{"_id": "Compound:TODO:681640", "gid": "Compound:TODO:681640", "label": "Compound", "data": {"id_source": "TODO", "submitter_id": "681640", "project_id": "Project:Reference"}}
-{"_id": "Compound:TODO:A-443654", "gid": "Compound:TODO:A-443654", "label": "Compound", "data": {"id_source": "TODO", "submitter_id": "A-443654", "project_id": "Project:Reference"}}
-{"_id": "Compound:TODO:A-770041", "gid": "Compound:TODO:A-770041", "label": "Compound", "data": {"id_source": "TODO", "submitter_id": "A-770041", "project_id": "Project:Reference"}}
-{"_id": "Compound:TODO:Afatinib (1)", "gid": "Compound:TODO:Afatinib (1)", "label": "Compound", "data": {"id_source": "TODO", "submitter_id": "Afatinib (1)", "project_id": "Project:Reference"}}
-{"_id": "Compound:TODO:Afatinib (2)", "gid": "Compound:TODO:Afatinib (2)", "label": "Compound", "data": {"id_source": "TODO", "submitter_id": "Afatinib (2)", "project_id": "Project:Reference"}}
-{"_id": "Compound:TODO:AICA Ribonucleotide", "gid": "Compound:TODO:AICA Ribonucleotide", "label": "Compound", "data": {"id_source": "TODO", "submitter_id": "AICA Ribonucleotide", "project_id": "Project:Reference"}}
-{"_id": "Compound:TODO:AKT inhibitor VIII (1)", "gid": "Compound:TODO:AKT inhibitor VIII (1)", "label": "Compound", "data": {"id_source": "TODO", "submitter_id": "AKT inhibitor VIII (1)", "project_id": "Project:Reference"}}
+{"_id": "Compound:pharmacodb:(5Z)-7-Oxozeaenol", "gid": "Compound:pharmacodb:(5Z)-7-Oxozeaenol", "label": "Compound", "data": {"id_source": "pharmacodb", "submitter_id": "(5Z)-7-Oxozeaenol", "project_id": "Project:Reference"}}
+{"_id": "Compound:pharmacodb:5-Fluorouracil", "gid": "Compound:pharmacodb:5-Fluorouracil", "label": "Compound", "data": {"id_source": "pharmacodb", "submitter_id": "5-Fluorouracil", "project_id": "Project:Reference"}}
+{"_id": "Compound:pharmacodb:681640", "gid": "Compound:pharmacodb:681640", "label": "Compound", "data": {"id_source": "pharmacodb", "submitter_id": "681640", "project_id": "Project:Reference"}}
+{"_id": "Compound:pharmacodb:A-443654", "gid": "Compound:pharmacodb:A-443654", "label": "Compound", "data": {"id_source": "pharmacodb", "submitter_id": "A-443654", "project_id": "Project:Reference"}}
+{"_id": "Compound:pharmacodb:A-770041", "gid": "Compound:pharmacodb:A-770041", "label": "Compound", "data": {"id_source": "pharmacodb", "submitter_id": "A-770041", "project_id": "Project:Reference"}}
+{"_id": "Compound:pharmacodb:Afatinib (1)", "gid": "Compound:pharmacodb:Afatinib (1)", "label": "Compound", "data": {"id_source": "pharmacodb", "submitter_id": "Afatinib (1)", "project_id": "Project:Reference"}}
+{"_id": "Compound:pharmacodb:Afatinib (2)", "gid": "Compound:pharmacodb:Afatinib (2)", "label": "Compound", "data": {"id_source": "pharmacodb", "submitter_id": "Afatinib (2)", "project_id": "Project:Reference"}}
+{"_id": "Compound:pharmacodb:AICA Ribonucleotide", "gid": "Compound:pharmacodb:AICA Ribonucleotide", "label": "Compound", "data": {"id_source": "pharmacodb", "submitter_id": "AICA Ribonucleotide", "project_id": "Project:Reference"}}
+{"_id": "Compound:pharmacodb:AKT inhibitor VIII (1)", "gid": "Compound:pharmacodb:AKT inhibitor VIII (1)", "label": "Compound", "data": {"id_source": "pharmacodb", "submitter_id": "AKT inhibitor VIII (1)", "project_id": "Project:Reference"}}
