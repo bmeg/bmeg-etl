@@ -37,8 +37,7 @@ def validate(helpers, output_dir, emitter_directory, store_path):
 
     # create output
     transform(output_dir=output_dir,
-              emitter_directory=emitter_directory,
-              store_path=store_path)
+              emitter_directory=emitter_directory)
 
     # check output
     compounds = all_files[0]

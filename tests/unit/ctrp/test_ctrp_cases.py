@@ -10,12 +10,12 @@ from transform.ctrp.cases import transform
 
 @pytest.fixture
 def pharmacodb_cells_path(request):
-    return os.path.join(request.fspath.dirname, 'source/pharmacodb/cells.csv')
+    return os.path.join(request.fspath.dirname, 'source/pharmacodb/cells.tsv.gz')
 
 
 @pytest.fixture
 def pharmacodb_experiments_path(request):
-    return os.path.join(request.fspath.dirname, 'source/pharmacodb/experiments.csv')
+    return os.path.join(request.fspath.dirname, 'source/pharmacodb/experiments.tsv.gz')
 
 
 @pytest.fixture
