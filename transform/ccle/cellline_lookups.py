@@ -5,10 +5,10 @@ import re
 from pydash import is_blank
 
 
-def create_cellline_lookups(depmap_path="source/ccle/DepMap-2019q1-celllines.csv_v2.csv",
-                            cellosaurus_path="source/pharmacodb/cellosaurus.csv",
-                            cells_path="source/pharmacodb/cells.csv",
-                            source_cell_path="source/pharmacodb/source_cell_names.csv",
+def create_cellline_lookups(depmap_path="source/ccle/sample_info.csv",
+                            cellosaurus_path="source/pharmacodb/cellosaurus.tsv.gz",
+                            cells_path="source/pharmacodb/cells.tsv.gz",
+                            source_cell_path="source/pharmacodb/source_cell_names.tsv.gz",
                             cellmodelpassports_path="source/gdsc/model_list_20191104.csv",
                             outdir="source/ccle/"):
     """
@@ -55,9 +55,9 @@ def create_cellline_lookups(depmap_path="source/ccle/DepMap-2019q1-celllines.csv
     assert len(lookup.keys()), "Cell line lookup is empty!"
 
     # map pharmacodb cell names to Broad IDs
-    cellosaurus = pandas.read_csv(cellosaurus_path)
-    cells = pandas.read_csv(cells_path)
-    source_cell_names = pandas.read_csv(source_cell_path)
+    cellosaurus = pandas.read_csv(cellosaurus_path, sep="\t")
+    cells = pandas.read_csv(cells_path, sep="\t")
+    source_cell_names = pandas.read_csv(source_cell_path, sep="\t")
     pharmacodb_aliases = pandas.merge(
         pandas.merge(
             cells[["cell_id", "cell_name"]],
@@ -133,7 +133,7 @@ def create_cellline_lookups(depmap_path="source/ccle/DepMap-2019q1-celllines.csv
     for index, line in depmap.iterrows():
         broad_id = line["DepMap_ID"]
         if broad_id not in phenotypes:
-            phenotype_name = line["Primary Disease"]
+            phenotype_name = line["primary_disease"]
             phenotypes[broad_id] = phenotype_name.lower()
 
     assert len(phenotypes.keys()), "Phenotype lookup is empty!"

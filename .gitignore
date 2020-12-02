@@ -42,6 +42,10 @@ source/**/*.*
 !source/drug_enricher/drug_alias.tsv
 !source/pharmacodb/extract_data.sh
 !source/pharmacodb/tables_to_csv.py
+!source/pharmacodb/pharmacodb.yaml
+!source/pathway_commons/pc_download.sh
+!source/prism/prism_download.sh
+!source/compound/get_biothings.py
 
 tests/unit/allele/source/myvariantinfo/sqlite.db
 tests/unit/compound/source/compound/sqlite.db
@@ -49,4 +53,3 @@ tests/unit/phenotype/source/phenotype/sqlite.db
 tests/unit/*/test/*
 
 .DS_Store
-

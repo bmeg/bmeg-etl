@@ -1,32 +1,23 @@
-md5: 55e1fc3dae16300b01e755105b36c701
+md5: 93fda41021ec7d7ed346588ce285311a
 cmd: python3 transform/ccle/cellline_lookups.py
 wdir: ../..
 deps:
-- md5: 170005e668f425ed996e4927e54dae9a
+- md5: 25991b759dbdf4a2c3e41824cc8956ee
   path: transform/ccle/cellline_lookups.py
-- md5: 6d66a59fb75c31cd3a1b320eefe1efc8
-  path: source/ccle/DepMap-2019q1-celllines.csv_v2.csv
-- md5: e20d0772c9cc8d013d0b69983dbdf5f4
-  path: source/pharmacodb/cellosaurus.csv
-- md5: bc3e80ee596ef5666efc3ddcb462586f
-  path: source/pharmacodb/cells.csv
-- md5: dda27a175eb713316071ea9ed64b4d41
-  path: source/pharmacodb/source_cell_names.csv
+- md5: 449514d879d0eb65838cb816a2efd420
+  path: source/ccle/sample_info.csv
+- md5: 6aad17f01e0b3ec68f2453486034f20d
+  path: source/pharmacodb/cellosaurus.tsv.gz
+- md5: 946c67aa13bd6e84746a730a1e385298
+  path: source/pharmacodb/cells.tsv.gz
+- md5: 8046ccbea5ba550522170a069f4c87fe
+  path: source/pharmacodb/source_cell_names.tsv.gz
 - md5: a30867b7520044c266570e119597c300
   path: source/gdsc/model_list_20191104.csv
 outs:
-- md5: 2f3bcd55c32ac3b5d1f6d58524e5d1f0
+- md5: 3dc793baed9071ecf2368d8ea0e391c5
   path: source/ccle/cellline_id_lookup.tsv
-  cache: true
-  metric: false
-  persist: false
-- md5: 40a75b111028f0f2951196a7dd712a23
+- md5: 63c2a5f0b1ce7dd0c2eef4ae89044465
   path: source/ccle/cellline_phenotype_lookup.tsv
-  cache: true
-  metric: false
-  persist: false
-- md5: 77f4188b46654b31edccf0e7ccac33c6
+- md5: 9ba0d75f573f6ce66bce5dcb3c009a75
   path: source/ccle/cellline_properties_lookup.tsv
-  cache: true
-  metric: false
-  persist: false

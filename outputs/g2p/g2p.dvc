@@ -1,4 +1,4 @@
-md5: 58d1165560853c78fa0b2f6e07ddbf57
+md5: e718ecd2810f71de5b9499ad0cc81e94
 cmd: python3 -m transform.g2p.transform
 wdir: ../..
 deps:
@@ -16,98 +16,44 @@ deps:
   path: transform/g2p/publications.py
 - md5: eabae08ae3cc280b3306472b1e5fedd4
   path: transform/g2p/transform.py
-- md5: 4847030bbc64da3821f5a7f57570a783
+- md5: e31bec188595ae45b8a7cfab09cf6eb0
   path: source/g2p/all.json.gz
-- md5: 5f591301a523b9020652d19431b35cf2
+- md5: 16b98e06859d36f61960be0e8b94f340
   path: source/gene_enricher/hgnc_complete_set.json
 outs:
-- md5: 3bcdc1e5ac9ecee1b9c6384fa15d7eb6
+- md5: 9f4cf2f14da5b9066edfcc465c56c492
   path: outputs/g2p/Allele.Vertex.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 6e55cb520750a7e71e7ce079f74f4f8a
+- md5: 907cc4441b8c8fe54e3aabfdfa239724
   path: outputs/g2p/Compound.Vertex.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 85ad03ad40da6dba54ac2e2ec1f6d4ac
+- md5: c01ac630ff4dbb8ab78e79e73e0b10f0
   path: outputs/g2p/Deadletter.Vertex.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: d0268cbe8c452d051628e730a6c9beb3
+- md5: 1ea666600c8bd9f62e6db2e42533eee2
   path: outputs/g2p/G2PAssociation.Vertex.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: dc876d8712832de3499b73d92d38d3b6
+- md5: 9d749bf9b6b15c6f7f7d34e71f6e228b
   path: outputs/g2p/GenomicFeature.Vertex.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: d97911a7b214d705674f2543beae99bb
+- md5: 291209408af243ef8d7a5d0b0b0833a6
   path: outputs/g2p/Phenotype.Vertex.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 6aeb14146e213d4302b04f69bdae1105
+- md5: 28e6c10c48ca8c65e80e1577227eb1b9
   path: outputs/g2p/G2PAssociation_Alleles_Allele.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: e622dedb1e5b37c1ae0d2d6fb1d4b723
+- md5: 12f6d6c1aa5784db7ef421f31d3ee332
   path: outputs/g2p/Allele_G2PAssociations_G2PAssociation.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 49c27402651546488b54d0c32d9a094a
+- md5: 7994a124fab8b1eaed648077eb1e0564
   path: outputs/g2p/G2PAssociation_Compounds_Compound.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 337f3ecbe6c4ee2df1b348c32a62cf19
+- md5: 6c9d69d1fc61b90874ff0022c1d3b1be
   path: outputs/g2p/Compound_G2PAssociations_G2PAssociation.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 556cef0bf8eb8d3207f138d53713e47b
+- md5: cd26996ba59826fce8bc9a7ae020b383
   path: outputs/g2p/G2PAssociation_Genes_Gene.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 9042209864981c33e79f7845a2f0d7d5
+- md5: c8b3765a7c7e4f64026c2001c7486b8e
   path: outputs/g2p/Gene_G2PAssociations_G2PAssociation.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 282bc4b6636debeaab62f0c8ecb2ad51
+- md5: 0c58dfded17aaa40131d1060b46a822e
   path: outputs/g2p/G2PAssociation_GenomicFeatures_GenomicFeature.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 05a5c49c9cd5c2b71dc87ec1de393153
+- md5: 144bed9aae043774aebe19b282c48560
   path: outputs/g2p/GenomicFeature_G2PAssociations_G2PAssociation.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: ad9db620f4110a3c381e2f006bd7bd13
+- md5: 70d0ef3cbc8c30ad8dd7686ee0720e24
   path: outputs/g2p/G2PAssociation_Phenotypes_Phenotype.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 760e228bff717b815daae2d9fe356434
+- md5: ef823b4957abf1c2d3cda95119552f6d
   path: outputs/g2p/Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 1bef5c26bd8aab5b43de9c6e9f8d87de
+- md5: aca0ccc216564e7f40c7ad5b066a4afc
   path: outputs/g2p/G2PAssociation_Publications_Publication.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: f2b1f26f98bc1f94fa528cbafbb6c60a
+- md5: 9973d6901143c4a99ee1c14628441591
   path: outputs/g2p/Publication_G2PAssociations_G2PAssociation.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false

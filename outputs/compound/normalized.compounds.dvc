@@ -1,10 +1,10 @@
-md5: a8590f84b821452a9ac88e92ab816e88
+md5: 985c3a8478915842c60918678789d30c
 cmd: python3 transform/compound/transform.py
 wdir: ../..
 deps:
 - md5: c228b8450fa2537a4acbb4f23f62964f
   path: source/drug_enricher/drug_alias.tsv
-- md5: 64e7a82c87e7151a7c49846469157547
+- md5: 5a004a27ce4adb06a55296cf33d14d6d
   path: src/bmeg/enrichers/drug_enricher.py
 - md5: 75929eabe0bb44eee38ad93148a80a41
   path: transform/compound/transform.py

@@ -1,8 +1,8 @@
-md5: 436c96bb9ca16d5d514d40814ce2731e
+md5: 8b636e6322e75170541220cf3322a74b
 cmd: python3 transform/ensembl/uniprot.py
 wdir: ../..
 deps:
-- md5: aea82b0d844003558f58c710a02ba8c5
+- md5: f89843e40559b8a27d7e3eb148f48c9f
   path: transform/ensembl/uniprot.py
 - md5: 020ecb8e355c0999f19c0dbd2ae50756
   path: source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz

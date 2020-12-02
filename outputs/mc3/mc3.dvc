@@ -1,43 +1,25 @@
-md5: ce48c9a1319c071dedb73b3ac57b831d
+md5: dcf3c3c9fd9b3877db62ec3d42119929
 cmd: python3 transform/mc3/mc3_maf_transform.py
 wdir: ../..
 deps:
 - md5: e4ff780f8abb165a20fcd43a75490c6b
   path: transform/mc3/mc3_maf_transform.py
-- md5: 2e4f946f03d6cd1eb46116019b9d4289
+- md5: 3fb2752825519598b51714892d11c986
   path: source/gdc/id_lookup.tsv
-- md5: 5e16decad73888885cc6c8a5aabbdd51
+- md5: 1444cd478dd89dd92bdeb372f2f01d8d
   path: source/gdc/project_lookup.tsv
 - md5: 639ad8f8386e98dacc22e439188aa8fa
   path: source/mc3/mc3.v0.2.8.PUBLIC.maf.gz
 outs:
-- md5: f97e724dbfa6acb04b11aa630968e5ad
+- md5: 5bcfd798d1ed494f2a19b14b5e2bd832
   path: outputs/mc3/Allele.Vertex.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: aa32f4389d890da14004332f4914e1ae
+- md5: fe2f236d047b44efa2b70caa9282f384
   path: outputs/mc3/SomaticCallset.Vertex.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: a9b126a930f8324c292af9f9721fc95c
+- md5: ed3bdc1e942ec3b01414f9ad22313719
   path: outputs/mc3/Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: dd0fb722f234bfb01cc14ba3297f88e5
+- md5: b9ba0610a5499a4c718c5bb4599fe456
   path: outputs/mc3/SomaticCallset_Aliquots_Aliquot.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 36e02d3d58585c71f2352768b467f537
+- md5: 4b6f35a6e04eb7a8a501c243cd0e2ec4
   path: outputs/mc3/SomaticCallset_Alleles_Allele.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: f00d4f276ef167e40f0ba02d7da17fae
+- md5: 5e1a3add7d28bdd7d81878ed731d7412
   path: outputs/mc3/Allele_SomaticCallsets_SomaticCallset.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false

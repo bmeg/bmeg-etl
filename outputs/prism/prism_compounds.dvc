@@ -1,0 +1,24 @@
+md5: 96e677c980766705a44a83d132c2c44f
+cmd: python3 -c 'from transform.prism.drug_response import transform_compounds; transform_compounds()'
+wdir: ../..
+deps:
+- md5: cf0abeb132f298ed125829714aae7098
+  path: transform/prism/drug_response.py
+- md5: adb4b5b164595a262211cff236bbcd86
+  path: source/prism/compound_lookup.tsv
+outs:
+- md5: 8182dce26ab160983118d0fa38d57618
+  path: outputs/prism/Compound.Vertex.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: d7fe5ac7de4aac4016ee23bdad8e5526
+  path: outputs/prism/Project_Compounds_Compound.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
+- md5: 3d4fb1a2b010004291d0ef90d5f8de40
+  path: outputs/prism/Compound_Projects_Project.Edge.json.gz
+  cache: true
+  metric: false
+  persist: false
