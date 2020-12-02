@@ -1,61 +1,37 @@
-md5: c022a0ddb81c0030938400cb13756ea0
+md5: 49b01257abb74ef491c46a8e2a3ac81c
 cmd: python3 transform/pharmacodb/drug_response.py
 wdir: ../..
 deps:
-- md5: a779eb087e8eaf34da68c5cd1fe7cd0d
+- md5: fa798da61a52bfeb489d1c8ffce551fc
   path: transform/pharmacodb/drug_response.py
-- md5: 2f3bcd55c32ac3b5d1f6d58524e5d1f0
+- md5: 3dc793baed9071ecf2368d8ea0e391c5
   path: source/ccle/cellline_id_lookup.tsv
-- md5: bc3e80ee596ef5666efc3ddcb462586f
-  path: source/pharmacodb/cells.csv
-- md5: b2906327f6c4c7389b4c694f58b5091b
-  path: source/pharmacodb/dose_responses.csv
-- md5: 2c9abe9a731e9e0d9e8a7eec5285e446
-  path: source/pharmacodb/drug_annots.csv
-- md5: c4463bf4f5d84647551410b3643191bf
-  path: source/pharmacodb/drugs.csv
-- md5: 40c48b5d89beadaca0391f1b721bcf2e
-  path: source/pharmacodb/experiments.csv
-- md5: 0b99a790d0e68fe760dc474f83f05588
-  path: source/pharmacodb/profiles.csv
+- md5: 946c67aa13bd6e84746a730a1e385298
+  path: source/pharmacodb/cells.tsv.gz
+- md5: fbf80fed9f815ac4adaf71a075defd85
+  path: source/pharmacodb/dose_responses.tsv.gz
+- md5: 7ffe674ced6db4db66d78bbd3a40d4f9
+  path: source/pharmacodb/drug_annots.tsv.gz
+- md5: 21ef23eff7f63bd94f2885a2dd19129d
+  path: source/pharmacodb/drugs.tsv.gz
+- md5: 53a36a9bdb06bd9a52fd7e5cad153a64
+  path: source/pharmacodb/experiments.tsv.gz
+- md5: b2d588f6c855b6bc02cb2a145d7ec00a
+  path: source/pharmacodb/profiles.tsv.gz
 outs:
-- md5: bdd1c3dedf67c2f3179f04771115a3c7
+- md5: c1fd70428b0101a3d7b80b3588743c38
   path: outputs/pharmacodb/Compound.Vertex.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 144899e2651bb70a21da5af8820c4739
+- md5: 38eda338b624f23010737013e4e849ad
   path: outputs/pharmacodb/DrugResponse.Vertex.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 93a95b2c46b9cb99e17b591a139a5989
+- md5: fe35467aee68d98a969648b1b6a95a3c
   path: outputs/pharmacodb/Aliquot_DrugResponse_DrugResponse.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: b393d7ca0ea0e14d49fc5c3ac2ef466e
+- md5: 650950fd904018b5df6081c56fc45710
   path: outputs/pharmacodb/DrugResponse_Aliquot_Aliquot.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 90070ff6332de4a429188a69ea8d9633
+- md5: 5a5ef16dc2155a49e0a71a7ebda4f72f
   path: outputs/pharmacodb/DrugResponse_Compounds_Compound.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: a429c182aa7b61c3160d68151f4b9108
+- md5: 260f2732daadc819df9efacd6e4eaa9c
   path: outputs/pharmacodb/Compound_DrugResponses_DrugResponse.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: fca3c397db7dd4aaa8e73e2e22d7f41d
+- md5: 38f67806d873c726e798d78935755324
   path: outputs/pharmacodb/Project_Compounds_Compound.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false
-- md5: 62990f11a0051b7357506699167a7611
+- md5: 667106ef601d464bd226ac4100694ae6
   path: outputs/pharmacodb/Compound_Projects_Project.Edge.json.gz
-  cache: true
-  metric: false
-  persist: false

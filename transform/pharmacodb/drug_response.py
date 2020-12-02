@@ -2,20 +2,19 @@ import pandas
 import bmeg.ioutils
 
 from bmeg.emitter import JSONEmitter
-from bmeg import (Aliquot, DrugResponse, Project,
+from bmeg import (Aliquot, DrugResponse, Project, Compound,
                   Compound_Projects_Project,
                   DrugResponse_Aliquot_Aliquot,
                   DrugResponse_Compounds_Compound)
-from bmeg.enrichers.drug_enricher import compound_factory
 
 
 def transform(cellline_lookup_path='source/ccle/cellline_id_lookup.tsv',
-              cells_path='source/pharmacodb/cells.csv',
-              drugs_path='source/pharmacodb/drugs.csv',
-              drug_annots_path='source/pharmacodb/drug_annots.csv',
-              experiments_path='source/pharmacodb/experiments.csv',
-              dose_response_path='source/pharmacodb/dose_responses.csv',
-              profiles_path='source/pharmacodb/profiles.csv',
+              cells_path='source/pharmacodb/cells.tsv.gz',
+              drugs_path='source/pharmacodb/drugs.tsv.gz',
+              drug_annots_path='source/pharmacodb/drug_annots.tsv.gz',
+              experiments_path='source/pharmacodb/experiments.tsv.gz',
+              dose_response_path='source/pharmacodb/dose_responses.tsv.gz',
+              profiles_path='source/pharmacodb/profiles.tsv.gz',
               emitter_prefix=None,
               emitter_directory='pharmacodb'):
 
@@ -23,13 +22,13 @@ def transform(cellline_lookup_path='source/ccle/cellline_id_lookup.tsv',
 
     cellline_id_lookup = bmeg.ioutils.read_lookup(cellline_lookup_path)
 
-    dose_response = pandas.read_csv(dose_response_path)
+    dose_response = pandas.read_csv(dose_response_path, sep="\t")
 
-    cells = pandas.read_csv(cells_path)
-    drugs = pandas.read_csv(drugs_path)
-    drug_annots = pandas.read_csv(drug_annots_path)
-    experiments = pandas.read_csv(experiments_path)
-    profiles = pandas.read_csv(profiles_path)
+    cells = pandas.read_csv(cells_path, sep="\t")
+    drugs = pandas.read_csv(drugs_path, sep="\t")
+    drug_annots = pandas.read_csv(drug_annots_path, sep="\t")
+    experiments = pandas.read_csv(experiments_path, sep="\t")
+    profiles = pandas.read_csv(profiles_path, sep="\t")
 
     merged_data = pandas.merge(
         cells[['cell_id', 'cell_name']],
@@ -82,7 +81,12 @@ def transform(cellline_lookup_path='source/ccle/cellline_id_lookup.tsv',
         drug_name = row["drug_name"]
         if row.get("pubchem"):
             drug_name = "CID{}".format(int(row.get("pubchem")))
-        compound = compound_factory(name=drug_name)
+        compound = Compound(
+            id=Compound.make_gid(drug_name),
+            submitter_id=drug_name,
+            id_source="pharmacodb",
+            project_id=Project.make_gid("Reference")
+        )
 
         if compound.gid() not in emitted_compounds:
             emitter.emit_vertex(compound)

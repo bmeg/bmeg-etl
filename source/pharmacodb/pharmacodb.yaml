@@ -1,0 +1,173 @@
+
+class: Playbook
+name: pharmacodb
+
+schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+
+inputs:
+  sql:
+    type: File
+    default: ./pharmacodb-1.1.1.sql
+
+steps:
+  - desc: Convert SQLDump
+    sqldumpLoad:
+      input: "{{inputs.sql}}"
+      tables:
+        - name: cells
+          transform:
+            - tableWrite:
+                output: cells.tsv.gz
+                columns:
+                  - cell_id
+                  - accession_id
+                  - cell_name
+                  - tissue_id
+        - name: cell_tissues
+          transform:
+            - tableWrite:
+                output: cell_tissues.tsv.gz
+                columns:
+                  - id
+                  - cell_id
+                  - tissue_id
+        - name: dose_responses
+          transform:
+            - tableWrite:
+                output: dose_responses.tsv.gz
+                columns:
+                  - id
+                  - experiment_id
+                  - dose
+                  - response
+        - name: drugs
+          transform:
+            - tableWrite:
+                output: drugs.tsv.gz
+                columns:
+                  - drug_id
+                  - drug_name
+        - name: drug_annots
+          transform:
+            - tableWrite:
+                output: drug_annots.tsv.gz
+                columns:
+                  - drug_id
+                  - smiles
+                  - inchikey
+                  - pubchem
+        - name: experiments
+          transform:
+            - tableWrite:
+                output: experiments.tsv.gz
+                columns:
+                  - experiment_id
+                  - cell_id
+                  - drug_id
+                  - dataset_id
+                  - tissue_id
+        - name: profiles
+          transform:
+            - tableWrite:
+                output: profiles.tsv.gz
+                columns:
+                  - experiment_id
+                  - HS
+                  - Einf
+                  - EC50
+                  - ACC
+                  - IC50
+                  - DSS1
+                  - DSS2
+                  - DSS3
+        - name: cellosaurus
+          transform:
+            - tableWrite:
+                output: cellosaurus.tsv.gz
+                columns:
+                  - id
+                  - identifier
+                  - accession
+                  - as
+                  - sy
+                  - dr
+                  - rx
+                  - ww
+                  - cc
+                  - st
+                  - di
+                  - ox
+                  - hi
+                  - oi
+                  - sx
+                  - ca
+                  - created_at
+                  - updated_at
+        - name: source_cell_names
+          transform:
+            - tableWrite:
+                output: source_cell_names.tsv.gz
+                columns:
+                  - id
+                  - cell_id
+                  - source_id
+                  - cell_name
+        - name: dataset_cells
+          transform:
+            - tableWrite:
+                output: dataset_cells.tsv.gz
+                columns:
+                  - id
+                  - dataset_id
+                  - cell_id
+        - name: datasets
+          transform:
+            - tableWrite:
+                output: datasets.tsv.gz
+                columns:
+                  - dataset_id
+                  - dataset_name
+        - name: source_drug_names
+          transform:
+            - tableWrite:
+                output: source_drug_names.tsv.gz
+                columns:
+                  - id
+                  - drug_id
+                  - source_id
+                  - drug_name
+        - name: source_statistics
+          transform:
+            - tableWrite:
+                output: source_statistics.tsv.gz
+                columns:
+                  - id
+                  - dataset_id
+                  - cell_lines
+                  - tissues
+                  - drugs
+                  - experiments
+        - name: source_tissue_names
+          transform:
+            - tableWrite:
+                output: source_tissue_names.tsv.gz
+                columns:
+                  - id
+                  - tissue_id
+                  - source_id
+                  - tissue_name
+        - name: sources
+          transform:
+            - tableWrite:
+                output: sources.tsv.gz
+                columns:
+                  - source_id
+                  - dataset_id
+                  - source_name
+        - name: tissues
+          transform:
+            - tableWrite:
+                output: tissues.tsv.gz
+                columns:
+                  - tissue_id
+                  - tissue_name

@@ -1,0 +1,13 @@
+md5: 2a03e55a358e5750851856bdc0898173
+cmd: python3 transform/gdc/lookups.py
+wdir: ../..
+deps:
+- md5: bb345b46e2765a0f268e1594aee82a7f
+  path: transform/gdc/lookups.py
+- md5: 45b513e10c900591ba8037cb5c263e67
+  path: source/gdc/cases.json
+outs:
+- md5: 1444cd478dd89dd92bdeb372f2f01d8d
+  path: source/gdc/project_lookup.tsv
+- md5: 3fb2752825519598b51714892d11c986
+  path: source/gdc/id_lookup.tsv

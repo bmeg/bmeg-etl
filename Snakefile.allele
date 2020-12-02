@@ -1,0 +1,61 @@
+
+OUTPUTS.extend([
+		"outputs/allele/normalized.Allele.Vertex.json.gz",
+		"outputs/allele/normalized.Allele_Gene_Gene.Edge.json.gz",
+		"outputs/allele/normalized.Allele_PfamFamily_PfamFamily.Edge.json.gz",
+		"outputs/allele/normalized.Allele_Protein_Protein.Edge.json.gz",
+		"outputs/allele/normalized.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz",
+		"outputs/allele/normalized.Allele_Transcript_Transcript.Edge.json.gz",
+		"outputs/allele/normalized.Gene_Alleles_Allele.Edge.json.gz",
+		"outputs/allele/normalized.PfamFamily_Alleles_Allele.Edge.json.gz",
+		"outputs/allele/normalized.Protein_Alleles_Allele.Edge.json.gz",
+		"outputs/allele/normalized.SomaticCallset_Alleles_Allele.Edge.json.gz",
+		"outputs/allele/normalized.Transcript_Alleles_Allele.Edge.json.gz"
+])
+
+
+rule vep_supporting_files_tar_gz:
+	input:
+		"source/vep/version.txt"
+	output:
+		"source/vep/vep_supporting_files.tar.gz"
+	shell:
+		"curl -o source/vep/vep_supporting_files.tar.gz https://api.gdc.cancer.gov/data/008517e9-0853-4e1e-aaf6-66a50bb8cf61"
+
+
+rule allele:
+	input:
+		"transform/allele/harmonize_alleles.py",
+		"transform/allele/run_maf2maf.sh",
+		"outputs/ccle/maf.Allele.Vertex.json.gz",
+		"outputs/gdsc/caveman.Allele.Vertex.json.gz",
+		"outputs/gdsc/pindel.Allele.Vertex.json.gz",
+		"outputs/g2p/Allele.Vertex.json.gz",
+		"outputs/mc3/Allele.Vertex.json.gz",
+		"source/vep/vep_supporting_files.tar.gz"
+	output:
+		"outputs/allele/normalized.Allele.Vertex.json.gz",
+		"outputs/allele/normalized.Allele_Gene_Gene.Edge.json.gz",
+		"outputs/allele/normalized.Allele_PfamFamily_PfamFamily.Edge.json.gz",
+		"outputs/allele/normalized.Allele_Protein_Protein.Edge.json.gz",
+		"outputs/allele/normalized.Allele_Transcript_Transcript.Edge.json.gz",
+		"outputs/allele/normalized.Gene_Alleles_Allele.Edge.json.gz",
+		"outputs/allele/normalized.PfamFamily_Alleles_Allele.Edge.json.gz",
+		"outputs/allele/normalized.Protein_Alleles_Allele.Edge.json.gz",
+		"outputs/allele/normalized.Transcript_Alleles_Allele.Edge.json.gz"
+	shell:
+		"python3 transform/allele/harmonize_alleles.py -v"
+
+rule variant_call_edges:
+	input:
+		"transform/allele/annotate_variant_calls.py",
+		"outputs/allele/normalized.Allele.Vertex.json.gz",
+		"outputs/ccle/maf.SomaticCallset_Alleles_Allele.Edge.json.gz",
+		"outputs/gdsc/caveman.SomaticCallset_Alleles_Allele.Edge.json.gz",
+		"outputs/gdsc/pindel.SomaticCallset_Alleles_Allele.Edge.json.gz",
+		"outputs/mc3/SomaticCallset_Alleles_Allele.Edge.json.gz"
+	output:
+		"outputs/allele/normalized.SomaticCallset_Alleles_Allele.Edge.json.gz",
+		"outputs/allele/normalized.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz"
+	shell:
+		"python3 transform/allele/annotate_variant_calls.py -v"

@@ -3,7 +3,9 @@ import os
 import shutil
 import pytest
 
-from transform.gtex.expression import transform_gene
+import sys
+sys.path.append("transform/gtex")
+from gene_expression import transform_gene
 
 
 @pytest.fixture

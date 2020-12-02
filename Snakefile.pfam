@@ -1,0 +1,76 @@
+
+OUTPUTS.extend([
+	"outputs/pfam/ProteinStructure.Vertex.json.gz",
+	"outputs/pfam/Protein_PfamFamilies_PfamFamily.Edge.json.gz",
+	"outputs/pfam/PfamFamily_Proteins_Protein.Edge.json.gz",
+	"outputs/pfam/Protein_ProteinStructures_ProteinStructure.Edge.json.gz",
+	"outputs/pfam/ProteinStructure_Protein_Protein.Edge.json.gz",
+	"outputs/pfam/PfamClan.Vertex.json.gz",
+	"outputs/pfam/PfamFamily.Vertex.json.gz",
+	"outputs/pfam/PfamClan_PfamFamilies_PfamFamily.Edge.json.gz",
+	"outputs/pfam/PfamFamily_PfamClans_PfamClan.Edge.json.gz",
+	"outputs/pfam/GeneOntologyTerm_PfamFamilies_PfamFamily.Edge.json.gz",
+	"outputs/pfam/PfamFamily_GeneOntologyTerms_GeneOntologyTerm.Edge.json.gz"
+])
+
+rule id_list_txt:
+	input:
+		"transform/pfam/list.py",
+		"source/pfam/version.txt"
+	output:
+		"source/pfam/id_list.txt"
+	shell:
+		"python3 transform/pfam/list.py -O source/pfam/id_list.txt"
+
+rule homo_sapiens_json:
+	input:
+		"source/pfam/version.txt"
+	output:
+		"source/pfam/homo_sapiens.json"
+	shell:
+		"curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 360 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ensembl.org/pub/release-93/json/homo_sapiens/homo_sapiens.json --output source/pfam/homo_sapiens.json"
+
+rule clans_tsv:
+	input:
+		"source/pfam/version.txt"
+	output:
+		"source/pfam/clans.tsv"
+	shell:
+		"wget http://pfam.xfam.org/clans?output=text -O source/pfam/clans.tsv"
+
+rule pfam_download:
+	input:
+		"transform/pfam/download.py",
+		"source/pfam/id_list.txt"
+	output:
+		"source/pfam/xmls"
+	shell:
+		"python3 transform/pfam/download.py --debug"
+
+rule toproteins:
+	input:
+		"transform/pfam/pfam_to_proteins.py",
+		"source/pfam/homo_sapiens.json"
+	output:
+		"outputs/pfam/ProteinStructure.Vertex.json.gz",
+		"outputs/pfam/Protein_PfamFamilies_PfamFamily.Edge.json.gz",
+		"outputs/pfam/PfamFamily_Proteins_Protein.Edge.json.gz",
+		"outputs/pfam/Protein_ProteinStructures_ProteinStructure.Edge.json.gz",
+		"outputs/pfam/ProteinStructure_Protein_Protein.Edge.json.gz"
+	shell:
+		"python3 transform/pfam/pfam_to_proteins.py"
+
+rule pfam:
+	input:
+		"transform/pfam/transform.py",
+		"source/pfam/xmls",
+		"source/pfam/clans.tsv",
+		"source/pfam/homo_sapiens.json"
+	output:
+		"outputs/pfam/PfamClan.Vertex.json.gz",
+		"outputs/pfam/PfamFamily.Vertex.json.gz",
+		"outputs/pfam/PfamClan_PfamFamilies_PfamFamily.Edge.json.gz",
+		"outputs/pfam/PfamFamily_PfamClans_PfamClan.Edge.json.gz",
+		"outputs/pfam/GeneOntologyTerm_PfamFamilies_PfamFamily.Edge.json.gz",
+		"outputs/pfam/PfamFamily_GeneOntologyTerms_GeneOntologyTerm.Edge.json.gz"
+	shell:		"python3 transform/pfam/transform.py"

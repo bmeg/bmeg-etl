@@ -8,32 +8,32 @@ from transform.pharmacodb.drug_response import transform
 
 @pytest.fixture
 def cells_path(request):
-    return os.path.join(request.fspath.dirname, 'source/pharmacodb/cells.csv')
+    return os.path.join(request.fspath.dirname, 'source/pharmacodb/cells.tsv.gz')
 
 
 @pytest.fixture
 def drugs_path(request):
-    return os.path.join(request.fspath.dirname, 'source/pharmacodb/drugs.csv')
+    return os.path.join(request.fspath.dirname, 'source/pharmacodb/drugs.tsv.gz')
 
 
 @pytest.fixture
 def drug_annots_path(request):
-    return os.path.join(request.fspath.dirname, 'source/pharmacodb/drug_annots.csv')
+    return os.path.join(request.fspath.dirname, 'source/pharmacodb/drug_annots.tsv.gz')
 
 
 @pytest.fixture
 def experiments_path(request):
-    return os.path.join(request.fspath.dirname, 'source/pharmacodb/experiments.csv')
+    return os.path.join(request.fspath.dirname, 'source/pharmacodb/experiments.tsv.gz')
 
 
 @pytest.fixture
 def dose_response_path(request):
-    return os.path.join(request.fspath.dirname, 'source/pharmacodb/dose_responses.csv')
+    return os.path.join(request.fspath.dirname, 'source/pharmacodb/dose_responses.tsv.gz')
 
 
 @pytest.fixture
 def profiles_path(request):
-    return os.path.join(request.fspath.dirname, 'source/pharmacodb/profiles.csv')
+    return os.path.join(request.fspath.dirname, 'source/pharmacodb/profiles.tsv.gz')
 
 
 @pytest.fixture

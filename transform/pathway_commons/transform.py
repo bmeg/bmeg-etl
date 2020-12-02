@@ -26,7 +26,7 @@ def get_participant(p):
     return v
 
 
-def transform(sif_file="source/pathway_commons/pc11.all.sif",
+def transform(sif_file="source/pathway_commons/PathwayCommons12.ALL.extSIF",
               pathways_file="source/pathway_commons/pathways.txt.gz",
               emitter_prefix=None,
               emitter_directory="pathway_commons"):

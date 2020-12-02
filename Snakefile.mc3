@@ -1,0 +1,33 @@
+
+OUTPUTS.extend([
+	"outputs/mc3/Allele.Vertex.json.gz",
+	"outputs/mc3/SomaticCallset.Vertex.json.gz",
+	"outputs/mc3/Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz",
+	"outputs/mc3/SomaticCallset_Aliquots_Aliquot.Edge.json.gz",
+	"outputs/mc3/SomaticCallset_Alleles_Allele.Edge.json.gz",
+	"outputs/mc3/Allele_SomaticCallsets_SomaticCallset.Edge.json.gz"
+])
+
+rule mc3_download:
+	input:
+		"source/mc3/version.txt"
+	output:
+		"source/mc3/mc3.v0.2.8.PUBLIC.maf.gz"
+	shell:
+		"wget https://api.gdc.cancer.gov/data/1c8cfe5f-e52d-41ba-94da-f15ea1337efc -O source/mc3/mc3.v0.2.8.PUBLIC.maf.gz"
+
+rule mc3:
+	input:
+		"transform/mc3/mc3_maf_transform.py",
+		"source/gdc/id_lookup.tsv",
+		"source/gdc/project_lookup.tsv",
+		"source/mc3/mc3.v0.2.8.PUBLIC.maf.gz"
+	output:
+		"outputs/mc3/Allele.Vertex.json.gz",
+		"outputs/mc3/SomaticCallset.Vertex.json.gz",
+		"outputs/mc3/Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz",
+		"outputs/mc3/SomaticCallset_Aliquots_Aliquot.Edge.json.gz",
+		"outputs/mc3/SomaticCallset_Alleles_Allele.Edge.json.gz",
+		"outputs/mc3/Allele_SomaticCallsets_SomaticCallset.Edge.json.gz"
+	shell:
+		"python3 transform/mc3/mc3_maf_transform.py"

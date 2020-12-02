@@ -10,6 +10,7 @@ from glob import glob
 import xml.sax
 import os
 from ftplib import FTP
+from multiprocessing import Pool, Manager
 
 from bmeg import Publication, Project
 from bmeg.emitter import JSONEmitter
@@ -80,11 +81,12 @@ def emit_pubmed(e, v, attrs, **kwds):
     if 'Abstract' in kwds['MedlineCitation']['Article']:
         abstract = kwds['MedlineCitation']['Article']['Abstract']['AbstractText']
     url = 'https://www.ncbi.nlm.nih.gov/pubmed/{}'.format(pmid)
-    out = Publication(id=Publication.make_gid(url),
-                      url=url, title=title, abstract=abstract,
-                      text="", date=date, author=author, citation=[],
-                      project_id=Project.make_gid("Reference"))
-    e.emit_vertex(out)
+    out = {
+        "url": url,
+        "title": title, "abstract": abstract,
+        "text": "", "date": date, "author": author, "citation": []
+    }
+    e.append(out)
 
 
 f_map = [
@@ -179,8 +181,8 @@ class PubMedHandler(xml.sax.ContentHandler):
         self.buffer = ""
 
 
-def parse_pubmed(handle, emitter):
-    handler = PubMedHandler(emitter)
+def parse_pubmed(handle, queue):
+    handler = PubMedHandler(queue)
     parser = xml.sax.make_parser()
     parser.setContentHandler(handler)
     parser.parse(handle)
@@ -190,13 +192,22 @@ def name_clean(path):
     return os.path.basename(path).replace(".xml.gz", "")
 
 
+def convert(path):
+    out = []
+    with gzip.open(path) as handle:
+        parse_pubmed(handle, out)
+    return out
+
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-l", action="store_true", default=False)
-    parser.add_argument("-o", "--output", default="pubmed/baseline")
-    parser.add_argument("--scan", default="source/pubmed")
+    parser.add_argument("-o", "--output", default="pubmed")
+    parser.add_argument("--scan", default="source/pubmed/baseline")
+    parser.add_argument("-N", default=1, type=int)
+
     parser.add_argument("files", nargs="*")
     args = parser.parse_args()
 
@@ -211,8 +222,20 @@ if __name__ == "__main__":
     if len(args.files) == 0:
         args.files = glob(os.path.join(args.scan, "*.xml.gz"))
 
-    for path in args.files:
-        emitter = JSONEmitter(args.output, name_clean(path))
-        with gzip.open(path) as handle:
-            parse_pubmed(handle, emitter)
+    with Pool(args.N) as pool:
+        m = Manager()
+        outputs = []
+        for f in args.files:
+            outputs.append(pool.apply_async(convert, (f,)))
+
+        emitter = JSONEmitter(directory=args.output, prefix="pubmed")
+        while len(outputs) > 0:
+            i = outputs.pop(0)
+            for o in i.get():
+                p = Publication(id=Publication.make_gid(o["url"]),
+                                url=o["url"], title=o["title"], abstract=o["abstract"],
+                                text="", date=o["date"], author=o["author"], citation=[],
+                                project_id=Project.make_gid("Reference"))
+                emitter.emit_vertex(p)
+            del i
         emitter.close()

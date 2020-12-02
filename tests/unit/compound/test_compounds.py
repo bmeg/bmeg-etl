@@ -37,8 +37,7 @@ def validate(helpers, output_dir, emitter_directory, store_path):
 
     # create output
     transform(output_dir=output_dir,
-              emitter_directory=emitter_directory,
-              store_path=store_path)
+              emitter_directory=emitter_directory)
 
     # check output
     compounds = all_files[0]
@@ -47,10 +46,6 @@ def validate(helpers, output_dir, emitter_directory, store_path):
     helpers.assert_edge_file_valid(response_tos)
     # validate vertex for all edges exist
     helpers.assert_edge_joins_valid(all_files, exclude_labels=['DrugResponse'])
-
-    # ensure the store was created
-    store = new_store('key-val', path=store_path)
-    assert len([c for c in store.all()]) == 9, 'store should have 9 names'
 
 
 def test_simple(caplog, helpers, output_dir, emitter_directory, store_path):
