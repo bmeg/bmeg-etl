@@ -1,0 +1,9 @@
+
+domains:
+  drugbank:
+    protein_drug_association:
+      fields:
+        _gid:
+          template: "{{row.submitter_id}}"
+        _label:
+          template: ProteinDrugAssociation

@@ -14,6 +14,7 @@ include: "Snakefile.g2p"
 include: "Snakefile.msigdb"
 include: "Snakefile.gdc"
 include: "Snakefile.mondo"
+include: "Snakefile.drugbank"
 
 # literature
 include: "Snakefile.publication"

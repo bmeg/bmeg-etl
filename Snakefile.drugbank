@@ -1,0 +1,33 @@
+
+
+OUTPUTS.extend([
+	"outputs/drugbank/drugbank.ProteinDrugAssociation.vertex.json.gz"
+])
+
+rule drugbank_mapping:
+	input:
+		"transform/drugbank/mapping.yaml",
+		"pre-outputs/drugbank/drugbank.ProteinDrugAssociation.json.gz"
+	output:
+		"outputs/drugbank/drugbank.ProteinDrugAssociation.vertex.json.gz"
+	shell:
+		"sifter graph -m transform/drugbank/mapping.yaml -o outputs/drugbank/"
+
+rule drugbank_id_tables:
+  input:
+    "transform/drugbank/uniprot_conversion.yaml"
+  output:
+    "mappings/accession2uniprotId.tsv",
+    "mappings/uniprotId2ensembl.tsv"
+  shell:
+    "sifter run --o mappings transform/drugbank/uniprot_conversion.yaml"
+
+rule drugbank:
+  input:
+    "source/drugbank/drugbank_all_full_database.xml.zip",
+    "mappings/accession2uniprotId.tsv",
+    "transform/drugbank/transform.yaml"
+  output:
+    "pre-outputs/drugbank/drugbank.protein_drug_association.json.gz"
+  shell:
+    "sifter run --o pre-outputs/drugbank transform/drugbank/transform.yaml"

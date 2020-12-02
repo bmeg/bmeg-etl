@@ -7,10 +7,10 @@ inputs:
     default: ../../source/drugbank/drugbank_all_full_database.xml
   proteinConvert1:
     type: File
-    default: ../../out/accession2uniprotId.tsv
+    default: ../../mappings/accession2uniprotId.tsv
   proteinConvert2:
     type: File
-    default: ../../out/uniprotId2ensembl.tsv
+    default: ../../mappings/uniprotId2ensembl.tsv
 steps:
   - xmlLoad:
       input: "{{inputs.drugBank}}"
