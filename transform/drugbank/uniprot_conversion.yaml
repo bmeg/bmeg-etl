@@ -44,3 +44,21 @@ steps:
                   columns:
                     - id
                     - alternative
+
+  - description: "Create step3 protein converter. UniProt ID - Ensembl Gene ID"
+  - tableLoad:
+      input: "{{inputs.protTSV}}"
+      columns:
+        - id
+        - reference
+        - alternative
+      transform:
+        - filter:
+            col: "{{row.reference}}"
+            match: "Ensembl"
+            steps:
+              - tableWrite:
+                  output: "uniprotId2ensemblGene.tsv"
+                  columns:
+                    - id
+                    - alternative

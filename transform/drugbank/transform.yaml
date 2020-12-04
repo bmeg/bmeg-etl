@@ -10,7 +10,7 @@ inputs:
     default: ../../mappings/accession2uniprotId.tsv
   proteinConvert2:
     type: File
-    default: ../../mappings/uniprotId2ensembl.tsv
+    default: ../../mappings/uniprotId2ensemblGene.tsv
 steps:
   - xmlLoad:
       input: "{{inputs.drugBank}}"
