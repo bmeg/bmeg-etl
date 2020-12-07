@@ -11,7 +11,7 @@ rule drugbank_mapping:
 	output:
 		"outputs/drugbank/ProteinDrugAssociation.Vertex.json.gz",
 		"outputs/drugbank/publications.Edge.json.gz",
-		"outputs/drugbank/proteins.Edge.json.gz",
+		"outputs/drugbank/genes.Edge.json.gz",
 		"outputs/drugbank/protein_drug_association.Edge.json.gz"
 	shell:
 		"sifter graph --m transform/drugbank/mapping.yaml --o outputs/drugbank/ src/bmeg/bmeg-dictionary/gdcdictionary/schemas/ pre-outputs/drugbank/"
