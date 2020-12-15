@@ -27,33 +27,27 @@ steps:
                     if d.startswith("DB"):
                       x["submitter_id"] = d
                   x["publications"] = []
-                  for d in forceList(x["drug"]["general-references"]["articles"]):
-                    if isinstance(d, dict):
-                      url = "https://www.ncbi.nlm.nih.gov/pubmed/{}".format(d["article"]["pubmed-id"])
-                      x["publications"].append(url)
-                  x['compound'] = ""
-                  if 'external-identifiers' in x['drug']:
-                    for d in forceList(x['drug']['external-identifiers']):
+                  if 'articles' in x["drug"]["general-references"] and 'article' in x["drug"]["general-references"]["articles"]:
+                    for d in forceList(x["drug"]["general-references"]["articles"]["article"]):
                       if isinstance(d, dict):
-                        x['compound'] = d['external-identifier']['identifier']
+                        url = "Publication:ncbi.nlm.nih.gov/pubmed/{}".format(d["pubmed-id"])
+                        x["publications"].append(url)
+                  x['compound'] = ""
+                  if 'external-identifiers' in x['drug'] and 'external-identifier' in x['drug']['external-identifiers']:
+                    for d in forceList(x['drug']['external-identifiers']['external-identifier']):
+                      if isinstance(d, dict):
+                        x['compound'] = d['identifier']
                   x['proteins'] = []
-                  for target in forceList(x['drug']['targets']):
-                    if isinstance(target, dict):
-                      if 'polypeptide' in target['target']:
-                        if 'external-identifiers' in target['target']['polypeptide']:
-                          if 'external-identifier' in target['target']['polypeptide']['external-identifiers']:
-                            if 'UniProt Accession' == target['target']['polypeptide']['external-identifiers']['external-identifier']['resource']:
-                              v = target['target']['polypeptide']['external-identifiers']['external-identifier']['identifier']
-                              x['proteins'].append(v)
-                            elif 'id' in target['target']:
-                              v = target["target"]["id"]
-                              x['proteins'].append(v)
-                          elif 'id' in target['target']:
-                            v = target["target"]["id"]
-                            x['proteins'].append(v)
-                      elif 'id' in target['target']:
-                        v = target["target"]["id"]
-                        x['proteins'].append(v)
+                  if 'target' in x['drug']['targets']:
+                    for target in forceList(x['drug']['targets']['target']):
+                      if isinstance(target, dict):
+                        if 'polypeptide' in target:
+                          if 'external-identifiers' in target['polypeptide']:
+                            if 'external-identifier' in target['polypeptide']['external-identifiers']:
+                              for exid in forceList(target['polypeptide']['external-identifiers']['external-identifier']):
+                                if 'UniProt Accession' == exid['resource']:
+                                  v = exid['identifier']
+                                  x['proteins'].append(v)
                   return x
               method: f
           - filter:
