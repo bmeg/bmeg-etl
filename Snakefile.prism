@@ -106,7 +106,6 @@ rule prism_cases:
 rule primary_drug_response:
 	input:
 		"transform/prism/drug_response.py",
-		"source/prism/compound_lookup.tsv",
 		"source/prism/primary-screen-replicate-collapsed-treatment-info.csv",
 		"source/prism/primary-screen-replicate-collapsed-logfold-change.csv"
 	output:
