@@ -16,7 +16,7 @@ def transform(cellline_lookup_path='source/ccle/cellline_id_lookup.tsv',
               dose_response_path='source/pharmacodb/dose_responses.tsv.gz',
               profiles_path='source/pharmacodb/profiles.tsv.gz',
               emitter_prefix=None,
-              emitter_directory='pharmacodb'):
+              emitter_directory='../pre-outputs/pharmacodb'):
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 

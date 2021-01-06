@@ -17,15 +17,7 @@ OUTPUTS.extend([
 	"outputs/prism/Case_Phenotypes_Phenotype.Edge.json.gz",
 	"outputs/prism/Phenotype_Cases_Case.Edge.json.gz",
 	"outputs/prism/Sample_Phenotypes_Phenotype.Edge.json.gz",
-	"outputs/prism/Phenotype_Samples_Sample.Edge.json.gz",
-	"outputs/prism/primary_screen.DrugResponse.Vertex.json.gz",
-	"outputs/prism/primary_screen.Aliquot_DrugResponse_DrugResponse.Edge.json.gz",
-	"outputs/prism/primary_screen.DrugResponse_Aliquot_Aliquot.Edge.json.gz",
-	"outputs/prism/primary_screen.DrugResponse_Compounds_Compound.Edge.json.gz",
-	"outputs/prism/primary_screen.Compound_DrugResponses_DrugResponse.Edge.json.gz",
-	"outputs/prism/Compound.Vertex.json.gz",
-	"outputs/prism/Project_Compounds_Compound.Edge.json.gz",
-	"outputs/prism/Compound_Projects_Project.Edge.json.gz"
+	"outputs/prism/Phenotype_Samples_Sample.Edge.json.gz"
 ])
 
 rule compound_lookup:
@@ -123,8 +115,8 @@ rule prism_compounds:
 		"source/prism/primary-screen-replicate-collapsed-treatment-info.csv",
 		"source/prism/secondary-screen-replicate-collapsed-treatment-info.csv"
 	output:
-		"outputs/prism/Compound.Vertex.json.gz",
-		"outputs/prism/Project_Compounds_Compound.Edge.json.gz",
-		"outputs/prism/Compound_Projects_Project.Edge.json.gz"
+		"pre-outputs/prism/Compound.Vertex.json.gz",
+		"pre-outputs/prism/Project_Compounds_Compound.Edge.json.gz",
+		"pre-outputs/prism/Compound_Projects_Project.Edge.json.gz"
 	shell:
 		"python3 -c 'from transform.prism.drug_response import transform_compounds; transform_compounds()'"

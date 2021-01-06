@@ -10,7 +10,7 @@ def transform(compounds="source/gdc/compounds/*.tsv",
               id_lookup_path="source/gdc/id_lookup.tsv",
               project_lookup_path="source/gdc/project_lookup.tsv",
               emitter_prefix="gdc",
-              emitter_directory="gdc"):
+              emitter_directory="../pre-outputs/gdc"):
 
     ids = read_lookup(id_lookup_path)
     projects = read_lookup(project_lookup_path)

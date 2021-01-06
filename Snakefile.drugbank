@@ -1,7 +1,10 @@
 
 
 OUTPUTS.extend([
-	"outputs/drugbank/drugbank.ProteinDrugAssociation.vertex.json.gz"
+	"outputs/drugbank/ProteinDrugAssociation.Vertex.json.gz",
+	"outputs/drugbank/publications.Edge.json.gz",
+	"outputs/drugbank/genes.Edge.json.gz",
+	"outputs/drugbank/protein_drug_association.Edge.json.gz"
 ])
 
 rule drugbank_mapping:
@@ -27,7 +30,7 @@ rule drugbank_id_tables:
 
 rule drugbank:
   input:
-    "source/drugbank/drugbank_all_full_database.xml.zip",
+    "source/drugbank/drugbank_all_full_database.xml",
     "mappings/accession2uniprotId.tsv",
     "transform/drugbank/transform.yaml"
   output:

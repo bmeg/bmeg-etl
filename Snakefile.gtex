@@ -65,7 +65,7 @@ rule gtex_gene_expression:
 		"outputs/gtex/GeneExpression_Aliquot_Aliquot.Edge.json.gz",
 		"outputs/gtex/Aliquot_GeneExpressions_GeneExpression.Edge.json.gz",
 	resources:
-	     mem_mb=50000
+	     mem_mb=100000
 	shell:
 		"python3 transform/gtex/gene_expression.py"
 
@@ -79,7 +79,7 @@ rule gtex_transcript_expression:
 		"outputs/gtex/TranscriptExpression_Aliquot_Aliquot.Edge.json.gz",
 		"outputs/gtex/Aliquot_TranscriptExpressions_TranscriptExpression.Edge.json.gz"
 	resources:
-	     mem_mb=90000
+	     mem_mb=100000
 	shell:
 		"python3 transform/gtex/transcript_expression.py"
 
