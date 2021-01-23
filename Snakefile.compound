@@ -1,63 +1,70 @@
 
 OUTPUTS.extend([
-	"outputs/compound/normalized.Compound.Vertex.json.gz",
-	"outputs/compound/normalized.DrugResponse_Compounds_Compound.Edge.json.gz",
-	"outputs/compound/normalized.Compound_DrugResponses_DrugResponse.Edge.json.gz",
-	"outputs/compound/normalized.Project_Compounds_Compound.Edge.json.gz",
-	"outputs/compound/normalized.Compound_Projects_Project.Edge.json.gz",
-	"outputs/compound/normalized.Compound_Cases_Case.Edge.json.gz",
-	"outputs/compound/normalized.Case_Compounds_Compound.Edge.json.gz",
-	"outputs/compound/normalized.G2PAssociation_Compounds_Compound.Edge.json.gz",
-	"outputs/compound/normalized.Compound_G2PAssociations_G2PAssociation.Edge.json.gz"
+
 ])
 
-rule biothings_download:
-	input:
-		"reference/compound/dgidb.table",
-		"reference/compound/pharmacodb.table",
-		"reference/compound/g2p.table",
-		"reference/compound/prism.table",
-		"reference/compound/gdc.table",
-		"source/compound/get_biothings.py"
-	output:
-		"source/compound/biothings.json"
-	shell:
-		"source/compound/get_biothings.py"
 
-rule normalized_compounds:
-	input:
-		"source/drug_enricher/drug_alias.tsv",
-		"src/bmeg/enrichers/drug_enricher.py",
-		"transform/compound/transform.py",
-		"source/compound/biothings.json",
-		"pre-outputs/g2p/Compound.Vertex.json.gz",
-		"pre-outputs/gdc/gdc.Compound.Vertex.json.gz",
-		"pre-outputs/pharmacodb/Compound.Vertex.json.gz",
-		"pre-outputs/dgidb/Compound.Vertex.json.gz",
-		"pre-outputs/pharmacodb/DrugResponse_Compounds_Compound.Edge.json.gz",
-		"pre-outputs/pharmacodb/Compound_DrugResponses_DrugResponse.Edge.json.gz",
-		"pre-outputs/g2p/G2PAssociation_Compounds_Compound.Edge.json.gz",
-		"pre-outputs/g2p/Compound_G2PAssociations_G2PAssociation.Edge.json.gz",
-		"pre-outputs/gdc/gdc.Case_Compounds_Compound.Edge.json.gz",
-		"pre-outputs/gdc/gdc.Compound_Cases_Case.Edge.json.gz",
-		"pre-outputs/gdc/gdc.Compound_Projects_Project.Edge.json.gz",
-		"pre-outputs/gdc/gdc.Project_Compounds_Compound.Edge.json.gz",
-		"pre-outputs/pharmacodb/Project_Compounds_Compound.Edge.json.gz",
-		"pre-outputs/pharmacodb/Compound_Projects_Project.Edge.json.gz",
-		"pre-outputs/dgidb/G2PAssociation_Compounds_Compound.Edge.json.gz",
-		"pre-outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz",
-		"pre-outputs/prism/Compound.Vertex.json.gz",
-		"pre-outputs/prism/Project_Compounds_Compound.Edge.json.gz",
-		"pre-outputs/prism/Compound_Projects_Project.Edge.json.gz"
-	output:
-		"outputs/compound/normalized.Compound.Vertex.json.gz",
-		"outputs/compound/normalized.DrugResponse_Compounds_Compound.Edge.json.gz",
-		"outputs/compound/normalized.Compound_DrugResponses_DrugResponse.Edge.json.gz",
-		"outputs/compound/normalized.Project_Compounds_Compound.Edge.json.gz",
-		"outputs/compound/normalized.Compound_Projects_Project.Edge.json.gz",
-		"outputs/compound/normalized.Compound_Cases_Case.Edge.json.gz",
-		"outputs/compound/normalized.Case_Compounds_Compound.Edge.json.gz",
-		"outputs/compound/normalized.G2PAssociation_Compounds_Compound.Edge.json.gz",
-		"outputs/compound/normalized.Compound_G2PAssociations_G2PAssociation.Edge.json.gz"
-	shell:
-		"python3 transform/compound/transform.py"
+rule all_compounds:
+    input:
+        "reference/compound/pharmacodb.table",
+        "reference/compound/prism.table",
+        "reference/compound/g2p.table",
+        "reference/compound/dgidb.table",
+        "reference/compound/drugbank.table"
+		output:
+				"reference/compound/all.table"
+		shell:
+				"cat {input} | sort | uniq > reference/compound/all.table"
+
+rule chembl_download:
+    output:
+      "source/chembl/chembl_27_sqlite.tar.gz"
+    shell:
+      "curl -o source/chembl/chembl_27_sqlite.tar.gz ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_27_sqlite.tar.gz"
+
+rule chembl_untar:
+    input:
+      "source/chembl/chembl_27_sqlite.tar.gz"
+    output:
+      "source/chembl/chembl_27/chembl_27_sqlite/chembl_27.db"
+    shell:
+      "cd source/chembl && tar xvzf chembl_27_sqlite.tar.gz"
+
+rule pubchem_synonyms:
+    output:
+      "source/pubchem/CID-Synonym-filtered.gz"
+    shell:
+      "curl -o source/pubchem/CID-Synonym-filtered.gz ftp://ftp.ncbi.nlm.nih.gov/pubchem/Compound/Extras/CID-Synonym-filtered.gz"
+
+rule pubchem_synonyms_index:
+    input:
+      "source/pubchem/CID-Synonym-filtered.gz"
+    output:
+      "source/pubchem/CID-Synonym-filtered.gz.sqlite"
+    shell:
+      "./transform/compound/chem_scan.py -s source/pubchem/CID-Synonym-filtered.gz index"
+
+rule mapping:
+    input:
+        "reference/compound/{project}.terms"
+    output:
+        "reference/compound/{project}.search"
+    shell:
+        "./transform/compound/chem_scan.py -d source/chembl/chembl_27/chembl_27_sqlite/chembl_27.db -s source/pubchem/CID-Synonym-filtered.gz search reference/compound/{wildcards.project}.terms > reference/compound/{wildcards.project}.search"
+
+rule prism_list:
+    output:
+        "reference/compound/{project}.terms"
+    shell:
+        "./transform/compound/compound_scan.py pre-outputs/{wildcards.project}/ > reference/compound/{wildcards.project}.terms"
+
+rule dedup:
+    input:
+        "reference/compound/{project}.search",
+        "source/chembl/chembl_27/chembl_27_sqlite/chembl_27.db",
+        "source/pubchem/CID-Synonym-filtered.gz",
+        "source/pubchem/CID-Synonym-filtered.gz.sqlite"
+    output:
+        "reference/compound/{project}.table"
+    shell:
+        "./transform/compound/chem_scan.py -d source/chembl/chembl_27/chembl_27_sqlite/chembl_27.db -s source/pubchem/CID-Synonym-filtered.gz dedup reference/compound/{wildcards.project}.search > reference/compound/{wildcards.project}.table"
