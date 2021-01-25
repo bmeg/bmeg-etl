@@ -1,13 +1,9 @@
 
 OUTPUTS.extend([
-	"outputs/pharmacodb/Compound.Vertex.json.gz",
-	"outputs/pharmacodb/DrugResponse.Vertex.json.gz",
-	"outputs/pharmacodb/Aliquot_DrugResponse_DrugResponse.Edge.json.gz",
-	"outputs/pharmacodb/DrugResponse_Aliquot_Aliquot.Edge.json.gz",
-	"outputs/pharmacodb/DrugResponse_Compounds_Compound.Edge.json.gz",
-	"outputs/pharmacodb/Compound_DrugResponses_DrugResponse.Edge.json.gz",
-	"outputs/pharmacodb/Project_Compounds_Compound.Edge.json.gz",
-	"outputs/pharmacodb/Compound_Projects_Project.Edge.json.gz"
+	"outputs/pharmacodb/Compound_DrugResponse.drug_responses.Edge.json.gz",
+	"outputs/pharmacodb/DrugResponse.DrugResponse.Vertex.json.gz",
+	"outputs/pharmacodb/DrugResponse_Aliquot.aliquot.Edge.json.gz",
+	"outputs/pharmacodb/DrugResponse_Compound.compounds.Edge.json.gz"
 ])
 
 rule pharmacodb_1_1_1_sql:
