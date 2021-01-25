@@ -194,6 +194,9 @@ def search(conns, args):
                         print("%s\t%s" % (term,i) )
                         found = True
 
+def index(conns, args):
+    #stub method, just to make sure the indexing for the synonym file has run
+    pass
 
 class Connections:
     def __init__(self, chembl_conn, pubchem_conn):
@@ -234,6 +237,9 @@ if __name__ == "__main__":
     search_parser = subparsers.add_parser('search')
     search_parser.add_argument('input')
     search_parser.set_defaults(func=search)
+
+    index_parser = subparsers.add_parser('index')
+    index_parser.set_defaults(func=index)
 
     pubchem_synonym_parser = subparsers.add_parser('pubchem-synonym')
     pubchem_synonym_parser.add_argument("--rd", action="store_true", default=False, help="Remove Dashes")

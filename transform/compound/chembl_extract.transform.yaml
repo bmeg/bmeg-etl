@@ -1,0 +1,23 @@
+
+class: Playbook
+name: chembExtract
+
+schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+inputs:
+  dataFile:
+    type: File
+    default: ../../pre-outputs/compound/output.json
+
+steps:
+  - jsonLoad:
+      input: "{{inputs.dataFile}}"
+      transform:
+        - project:
+            mapping:
+              submitter_id: "{{row.id}}"
+              project_id: "Project:Reference"
+            rename:
+              synonyms: synonym
+              "morgan-fingerprint-2" : morgan_fingerprint_2
+        - objectCreate:
+            class: compound

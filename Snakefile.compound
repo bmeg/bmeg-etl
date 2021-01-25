@@ -10,6 +10,7 @@ rule all_compounds:
         "reference/compound/prism.table",
         "reference/compound/g2p.table",
         "reference/compound/dgidb.table",
+        "reference/compound/gdc.table",
         "reference/compound/drugbank.table"
 		output:
 				"reference/compound/all.table"
@@ -68,3 +69,33 @@ rule dedup:
         "reference/compound/{project}.table"
     shell:
         "./transform/compound/chem_scan.py -d source/chembl/chembl_27/chembl_27_sqlite/chembl_27.db -s source/pubchem/CID-Synonym-filtered.gz dedup reference/compound/{wildcards.project}.search > reference/compound/{wildcards.project}.table"
+
+
+rule chembl_extract:
+    input:
+      "source/chembl/chembl_27/chembl_27_sqlite/chembl_27.db",
+      "reference/compound/all.table"
+    output:
+      "pre-outputs/compound/output.json"
+    shell:
+      """
+      docker build -t bmeg-etl-compound transform/compound/
+      cwltool --outdir pre-outputs/compound transform/compound/chembl_extract.cwl.yaml --chemblDB source/chembl/chembl_27/chembl_27_sqlite/chembl_27.db --idFile reference/compound/all.table --column 1
+      """
+
+
+rule chembl_transform:
+    input:
+      "pre-outputs/compound/output.json"
+    output:
+      "pre-outputs/compound/chembExtract.compound.json.gz"
+    shell:
+      "sifter run --o pre-outputs/compound/ transform/compound/chembl_extract.transform.yaml"
+
+rule chembl_vertex:
+    output:
+      "outputs/compound/Compound.Compound.Vertex.json.gz"
+    input:
+      "pre-outputs/compound/chembExtract.compound.json.gz"
+    shell:
+      "sifter graph --m transform/compound/mapping.yaml --o outputs/compound/ src/bmeg/bmeg-dictionary/gdcdictionary/schemas/ pre-outputs/compound/"

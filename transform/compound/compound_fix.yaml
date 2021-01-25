@@ -1,0 +1,8 @@
+
+class: GraphFix
+
+
+domains:
+  Compound:
+    idMap: ../../reference/compound/all.table
+    storeOriginal: submitter_id

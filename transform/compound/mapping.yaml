@@ -1,0 +1,6 @@
+class: GraphMap
+
+domains:
+  chembExtract:
+    compound:
+      domain: "Compound"
