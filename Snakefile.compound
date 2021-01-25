@@ -90,7 +90,7 @@ rule chembl_transform:
     output:
       "pre-outputs/compound/chembExtract.compound.json.gz"
     shell:
-      "sifter run --o pre-outputs/compound/ transform/compound/chembl_extract.transform.yaml"
+      "sifter run -o pre-outputs/compound/ transform/compound/chembl_extract.transform.yaml"
 
 rule chembl_vertex:
     output:
@@ -98,4 +98,4 @@ rule chembl_vertex:
     input:
       "pre-outputs/compound/chembExtract.compound.json.gz"
     shell:
-      "sifter graph --m transform/compound/mapping.yaml --o outputs/compound/ src/bmeg/bmeg-dictionary/gdcdictionary/schemas/ pre-outputs/compound/"
+      "sifter graph-build -o outputs/compound/ transform/compound/mapping.yaml pre-outputs/compound/"

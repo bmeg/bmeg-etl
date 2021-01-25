@@ -40,11 +40,11 @@ rule pharmacodb:
 		"source/pharmacodb/sources.tsv.gz",
 		"source/pharmacodb/tissues.tsv.gz"
 	shell:
-		"sifter run source/pharmacodb/pharmacodb.yaml --o source/pharmacodb/"
+		"sifter run source/pharmacodb/pharmacodb.yaml -o source/pharmacodb/"
 
-rule pharmacodb_drug_response:
+rule pharmacodb_dose_response:
 	input:
-		"transform/pharmacodb/drug_response.py",
+		"transform/pharmacodb/dose_response.yaml",
 		"source/ccle/cellline_id_lookup.tsv",
 		"source/pharmacodb/cells.tsv.gz",
 		"source/pharmacodb/dose_responses.tsv.gz",
@@ -53,36 +53,39 @@ rule pharmacodb_drug_response:
 		"source/pharmacodb/experiments.tsv.gz",
 		"source/pharmacodb/profiles.tsv.gz"
 	output:
-		"pre-outputs/pharmacodb/Compound.Vertex.json.gz",
-		"pre-outputs/pharmacodb/DrugResponse.Vertex.json.gz",
-		"pre-outputs/pharmacodb/Aliquot_DrugResponse_DrugResponse.Edge.json.gz",
-		"pre-outputs/pharmacodb/DrugResponse_Aliquot_Aliquot.Edge.json.gz",
-		"pre-outputs/pharmacodb/DrugResponse_Compounds_Compound.Edge.json.gz",
-		"pre-outputs/pharmacodb/Compound_DrugResponses_DrugResponse.Edge.json.gz",
-		"pre-outputs/pharmacodb/Project_Compounds_Compound.Edge.json.gz",
-		"pre-outputs/pharmacodb/Compound_Projects_Project.Edge.json.gz"
+		"pre-outputs/pharmacodb-obj/doseResponseCurve.json.gz",
 	shell:
-		"python3 transform/pharmacodb/drug_response.py"
+		"sifter run -o pre-outputs/pharmacodb-obj/ transform/pharmacodb/dose_response.yaml"
 
+rule pharmacodb_profile:
+	input:
+		"pre-outputs/pharmacodb-obj/doseResponseCurve.json.gz"
+	output:
+		"pre-outputs/pharmacodb-obj/pharmacodb.drug_response.json.gz"
+	shell:
+		"sifter run -o pre-outputs/pharmacodb-obj/ transform/pharmacodb/profile.yaml -i doseResponseCurve=pre-outputs/pharmacodb-obj/doseResponseCurve.json.gz"
+
+rule pharmacodb_profile_graph:
+	input:
+		"pre-outputs/pharmacodb-obj/doseResponseCurve.json.gz"
+	output:
+		"pre-outputs/pharmacodb/Compound_DrugResponse.drug_responses.Edge.json.gz",
+		"pre-outputs/pharmacodb/DrugResponse.DrugResponse.Vertex.json.gz",
+		"pre-outputs/pharmacodb/DrugResponse_Aliquot.aliquot.Edge.json.gz",
+		"pre-outputs/pharmacodb/DrugResponse_Compound.compounds.Edge.json.gz"
+	shell:
+		"sifter graph-build -o pre-outputs/pharmacodb/ transform/pharmacodb/mapping.yaml pre-outputs/pharmacodb-obj/"
 
 rule pharmacodb_edge_fix:
 	input:
-		"pre-outputs/pharmacodb/Compound.Vertex.json.gz",
-		"pre-outputs/pharmacodb/DrugResponse.Vertex.json.gz",
-		"pre-outputs/pharmacodb/Aliquot_DrugResponse_DrugResponse.Edge.json.gz",
-		"pre-outputs/pharmacodb/DrugResponse_Aliquot_Aliquot.Edge.json.gz",
-		"pre-outputs/pharmacodb/DrugResponse_Compounds_Compound.Edge.json.gz",
-		"pre-outputs/pharmacodb/Compound_DrugResponses_DrugResponse.Edge.json.gz",
-		"pre-outputs/pharmacodb/Project_Compounds_Compound.Edge.json.gz",
-		"pre-outputs/pharmacodb/Compound_Projects_Project.Edge.json.gz"
+		"pre-outputs/pharmacodb/Compound_DrugResponse.drug_responses.Edge.json.gz",
+		"pre-outputs/pharmacodb/DrugResponse.DrugResponse.Vertex.json.gz",
+		"pre-outputs/pharmacodb/DrugResponse_Aliquot.aliquot.Edge.json.gz",
+		"pre-outputs/pharmacodb/DrugResponse_Compound.compounds.Edge.json.gz"
 	output:
-		"outputs/pharmacodb/Compound.Vertex.json.gz",
-		"outputs/pharmacodb/DrugResponse.Vertex.json.gz",
-		"outputs/pharmacodb/Aliquot_DrugResponse_DrugResponse.Edge.json.gz",
-		"outputs/pharmacodb/DrugResponse_Aliquot_Aliquot.Edge.json.gz",
-		"outputs/pharmacodb/DrugResponse_Compounds_Compound.Edge.json.gz",
-		"outputs/pharmacodb/Compound_DrugResponses_DrugResponse.Edge.json.gz",
-		"outputs/pharmacodb/Project_Compounds_Compound.Edge.json.gz",
-		"outputs/pharmacodb/Compound_Projects_Project.Edge.json.gz"
+		"outputs/pharmacodb/Compound_DrugResponse.drug_responses.Edge.json.gz",
+		"outputs/pharmacodb/DrugResponse.DrugResponse.Vertex.json.gz",
+		"outputs/pharmacodb/DrugResponse_Aliquot.aliquot.Edge.json.gz",
+		"outputs/pharmacodb/DrugResponse_Compound.compounds.Edge.json.gz"
 	shell:
 		"sifter graph-fix transform/compound/compound_fix.yaml pre-outputs/pharmacodb/ outputs/pharmacodb/"

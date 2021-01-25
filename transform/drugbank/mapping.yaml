@@ -1,5 +1,7 @@
 class: GraphMap
 
+schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
 domains:
   drugbank:
     protein_drug_association:

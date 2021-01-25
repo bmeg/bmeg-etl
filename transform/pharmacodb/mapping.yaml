@@ -1,0 +1,23 @@
+class: GraphMap
+
+schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
+all:
+  edges:
+    fields:
+      _gid:
+        template: "{{row._from}}:{{row._label}}:{{row._to}}"
+
+domains:
+  pharmacodb:
+    drug_response:
+      domain: DrugResponse
+      idField: submitter_id
+      fields:
+        _label:
+          template: DrugResponse
+      edges:
+        compounds:
+          toDomain: "Compound"
+        aliquot:
+          toDomain: "Aliquot"

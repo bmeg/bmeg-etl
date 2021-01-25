@@ -1,5 +1,7 @@
 class: GraphMap
 
+schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
 domains:
   chembExtract:
     compound:

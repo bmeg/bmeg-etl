@@ -21,7 +21,7 @@ rule drugbank_mapping:
 		"pre-outputs/drugbank/Publication_DrugAssociation.protein_drug_association.Edge.json.gz",
 		"pre-outputs/drugbank/DrugAssociation_Publication.publications.Edge.json.gz"
 	shell:
-		"sifter graph --m transform/drugbank/mapping.yaml --o pre-outputs/drugbank/ src/bmeg/bmeg-dictionary/gdcdictionary/schemas/ pre-outputs/drugbank-obj/"
+		"sifter graph-build -o pre-outputs/drugbank/ transform/drugbank/mapping.yaml pre-outputs/drugbank-obj/"
 
 rule drugbank_id_tables:
   input:
@@ -30,7 +30,7 @@ rule drugbank_id_tables:
     "mappings/accession2uniprotId.tsv",
     "mappings/uniprotId2ensembl.tsv"
   shell:
-    "sifter run --o mappings transform/drugbank/uniprot_conversion.yaml"
+    "sifter run -o mappings transform/drugbank/uniprot_conversion.yaml"
 
 rule drugbank:
   input:
@@ -40,7 +40,7 @@ rule drugbank:
   output:
     "pre-outputs/drugbank-obj/drugbank.protein_drug_association.json.gz"
   shell:
-    "sifter run --o pre-outputs/drugbank-obj transform/drugbank/transform.yaml"
+    "sifter run -o pre-outputs/drugbank-obj transform/drugbank/transform.yaml"
 
 
 rule drugbank_fix_edges:
