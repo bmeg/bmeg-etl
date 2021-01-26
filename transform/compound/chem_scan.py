@@ -2,6 +2,7 @@
 
 import os
 import sys
+import gzip
 import sqlite3
 import argparse
 
