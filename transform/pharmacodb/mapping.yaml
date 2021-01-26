@@ -21,3 +21,7 @@ domains:
           toDomain: "Compound"
         aliquot:
           toDomain: "Aliquot"
+        drug_response:
+          fromDomain: "Aliquot"
+        drug_responses:
+          fromDomain: "Compound"
