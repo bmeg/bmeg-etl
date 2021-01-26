@@ -63,7 +63,7 @@ rule pharmacodb_profile:
 
 rule pharmacodb_profile_graph:
 	input:
-		"pre-outputs/pharmacodb-obj/doseResponseCurve.json.gz"
+		"pre-outputs/pharmacodb-obj/pharmacodb.drug_response.json.gz"
 	output:
 		"pre-outputs/pharmacodb/Compound_DrugResponse.drug_responses.Edge.json.gz",
 		"pre-outputs/pharmacodb/DrugResponse.DrugResponse.Vertex.json.gz",
