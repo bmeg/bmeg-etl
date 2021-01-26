@@ -47,7 +47,9 @@ rule pubchem_synonyms_index:
 
 rule mapping:
     input:
-        "reference/compound/{project}.terms"
+        "reference/compound/{project}.terms",
+        "source/chembl/chembl_27/chembl_27_sqlite/chembl_27.db",
+        "source/pubchem/CID-Synonym-filtered.gz.sqlite"
     output:
         "reference/compound/{project}.search"
     shell:
