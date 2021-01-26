@@ -39,11 +39,12 @@ rule pubchem_synonyms:
 
 rule pubchem_synonyms_index:
     input:
-      "source/pubchem/CID-Synonym-filtered.gz"
+      "source/pubchem/CID-Synonym-filtered.gz",
+      "source/chembl/chembl_27/chembl_27_sqlite/chembl_27.db"
     output:
       "source/pubchem/CID-Synonym-filtered.gz.sqlite"
     shell:
-      "./transform/compound/chem_scan.py -s source/pubchem/CID-Synonym-filtered.gz index"
+      "./transform/compound/chem_scan.py -d source/chembl/chembl_27/chembl_27_sqlite/chembl_27.db -s source/pubchem/CID-Synonym-filtered.gz index"
 
 rule mapping:
     input:
