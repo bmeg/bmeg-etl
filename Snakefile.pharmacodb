@@ -65,10 +65,11 @@ rule pharmacodb_profile_graph:
 	input:
 		"pre-outputs/pharmacodb-obj/pharmacodb.drug_response.json.gz"
 	output:
+		"pre-outputs/pharmacodb/Aliquot_DrugResponse.drug_response.Edge.json.gz",
 		"pre-outputs/pharmacodb/Compound_DrugResponse.drug_responses.Edge.json.gz",
-		"pre-outputs/pharmacodb/DrugResponse.DrugResponse.Vertex.json.gz",
 		"pre-outputs/pharmacodb/DrugResponse_Aliquot.aliquot.Edge.json.gz",
-		"pre-outputs/pharmacodb/DrugResponse_Compound.compounds.Edge.json.gz"
+		"pre-outputs/pharmacodb/DrugResponse_Compound.compounds.Edge.json.gz",
+		"pre-outputs/pharmacodb/DrugResponse.DrugResponse.Vertex.json.gz"
 	shell:
 		"sifter graph-build -o pre-outputs/pharmacodb/ transform/pharmacodb/mapping.yaml pre-outputs/pharmacodb-obj/"
 
