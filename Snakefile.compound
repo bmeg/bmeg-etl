@@ -57,7 +57,7 @@ rule prism_list:
     output:
         "reference/compound/{project}.terms"
     shell:
-        "./transform/compound/compound_scan.py pre-outputs/{wildcards.project}/ > reference/compound/{wildcards.project}.terms"
+        "./transform/compound/graph_compound_scan.py pre-outputs/{wildcards.project}/ > reference/compound/{wildcards.project}.terms"
 
 rule dedup:
     input:
