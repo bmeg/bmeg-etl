@@ -116,5 +116,59 @@ steps:
                 return x
         - objectCreate:
             class: drug_response
-        #- emit:
-        #    name: test
+        - distinct:
+            field: "{{row.dataset_name}}:{{row.cell_name}}"
+            steps:
+              - fork:
+                  transform:
+                    -
+                      - project:
+                          mapping:
+                            submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
+                            case_id: "Case:{{row.dataset_name}}:{{row.cell_name}}"
+                            project_id: "{{row.dataset_name}}"
+                      - clean:
+                          fields: ["case_id", "project_id", "submitter_id"]
+                      - objectCreate:
+                          class: case
+                    -
+                      - project:
+                          mapping:
+                            submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
+                            case: "Case:{{row.dataset_name}}:{{row.cell_name}}"
+                            sample_id: "Sample:{{row.dataset_name}}:{{row.cell_name}}"
+                            project_id: "{{row.dataset_name}}"
+                      - clean:
+                          fields: ["case_id", "sample_id", "project_id", "submitter_id"]
+                      - objectCreate:
+                          class: sample
+                    -
+                      - project:
+                          mapping:
+                            submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
+                            sample: "Sample:{{row.dataset_name}}:{{row.cell_name}}"
+                            aliquot_id: "Aliquot:{{row.dataset_name}}:{{row.cell_name}}"
+                            project_id: "{{row.dataset_name}}"
+                      - clean:
+                          fields: ["sample", "aliquot_id", "project_id", "submitter_id"]
+                      - objectCreate:
+                          class: aliquot
+        - fork:
+            transform:
+              -
+                - reduce:
+                    field: "{{row.project_id}}"
+                    method: merge
+                    init: { "compounds" : [] }
+                    python: |
+
+                      def merge(x,y):
+                        x["project_id"] = y["project_id"]
+                        x["compounds"] = list(set(y["compounds"]+x["compounds"]))
+                        return x
+                - project:
+                    mapping:
+                      submitter_id: "{{row.project_id}}"
+                      project_id: "{{row.project_id}}"
+                - objectCreate:
+                    class: project

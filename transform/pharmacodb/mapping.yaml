@@ -25,3 +25,14 @@ domains:
           fromDomain: "Aliquot"
         drug_responses:
           fromDomain: "Compound"
+    project:
+      domain: Project
+      idField: submitter_id
+      fields:
+        _label:
+          template: Project
+      edges:
+        compounds:
+          toDomain: "Compound"
+        projects:
+          fromDomain: "Compound"
