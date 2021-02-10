@@ -3,6 +3,8 @@ OUTPUTS = []
 
 COMPOUND_FILES = []
 
+ALLELE_FILES = []
+
 include: "Snakefile.ccle"
 include: "Snakefile.pfam"
 include: "Snakefile.ensembl"

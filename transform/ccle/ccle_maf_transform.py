@@ -8,7 +8,7 @@ from bmeg.maf import make_minimal_allele, make_variant_call_data
 
 def transform(mafpath="source/ccle/CCLE_DepMap_18q3_maf_20180718.txt",
               cellline_lookup_path="source/ccle/cellline_id_lookup.tsv",
-              emitter_directory="ccle",
+              emitter_directory="../pre-outputs/ccle",
               emitter_prefix="maf"):
 
     id_lookup = bmeg.ioutils.read_lookup(cellline_lookup_path)

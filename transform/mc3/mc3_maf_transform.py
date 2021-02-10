@@ -9,8 +9,8 @@ from bmeg.maf import make_minimal_allele, make_variant_call_data
 def transform(mafpath='source/mc3/mc3.v0.2.8.PUBLIC.maf.gz',
               id_lookup_path='source/gdc/id_lookup.tsv',
               project_lookup_path='source/gdc/project_lookup.tsv',
-              emitter_directory='mc3',
-              emitter_prefix=None):
+              emitter_directory='../pre-outputs/mc3',
+              emitter_prefix="mc3"):
 
     id_lookup = bmeg.ioutils.read_lookup(id_lookup_path)
     project_lookup = bmeg.ioutils.read_lookup(project_lookup_path)

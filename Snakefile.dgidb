@@ -38,6 +38,7 @@ rule dgidb:
 
 rule dgidb_edge_fix:
 	input:
+		"reference/compound/all.table",
 		"pre-outputs/dgidb/G2PAssociation.Vertex.json.gz",
 		"pre-outputs/dgidb/Compound.Vertex.json.gz",
 		"pre-outputs/dgidb/G2PAssociation_Genes_Gene.Edge.json.gz",

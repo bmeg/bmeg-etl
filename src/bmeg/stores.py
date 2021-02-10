@@ -61,6 +61,7 @@ class KeyValueStore:
         # optimize db calls
         self.conn.execute("PRAGMA synchronous = OFF;")
         self.conn.execute("PRAGMA journal_mode = OFF;")
+        self.conn.execute("PRAGMA cache_size = 100000;")
         # create table
         cur = self.conn.cursor()
         cur.execute("CREATE TABLE IF NOT EXISTS data (id text, json text);")

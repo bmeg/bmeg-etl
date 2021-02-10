@@ -95,7 +95,7 @@ def transform(vcf_dir="source/gdsc/vcfs/*",
               cellline_lookup_path="source/ccle/cellline_id_lookup.tsv",
               emitter_name="json",
               emitter_prefix=None,
-              emitter_directory="gdsc"):
+              emitter_directory="../pre-outputs/gdsc"):
 
     id_lookup = bmeg.ioutils.read_lookup(cellline_lookup_path)
 
@@ -156,7 +156,7 @@ def transform(vcf_dir="source/gdsc/vcfs/*",
 
 
 if __name__ == '__main__':  # pragma: no cover
-    parser = default_argument_parser(emitter_directory_default='gdsc',
+    parser = default_argument_parser(emitter_directory_default='../pre-outputs/gdsc',
                                      emitter_prefix_default=None)
     parser.add_argument('--vcf-pattern', type=str,
                         help='vertex file pattern to glob for [e.g. source/gdsc/vcfs/*.pindel.annot.vcf.gz]',

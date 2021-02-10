@@ -21,6 +21,7 @@ from bmeg.maf import make_allele
 def valid_filenames(path):
     """ filter out any we do not want to process """
     filenames = []
+    print("Search: %s" % (path))
     files = glob.glob(path, recursive=True)
     for filename in files:
         # myvariant download **DEPRECIATED**
@@ -74,10 +75,10 @@ def run_maf2maf(minimal_maf, annotated_maf):
         raise ValueError("ERROR [{}]: {}".format(maf2maf_error.returncode, maf2maf_error.output))
 
 
-def transform(output_dir='outputs',
-              vertex_filename_pattern='**/*Allele.Vertex.json.gz',
-              minimal_maf_file='source/allele/minimal_alleles.maf',
-              annotated_maf_file='source/allele/annotated_alleles.maf',
+def transform(output_dir='pre-outputs',
+              vertex_filename_pattern='*/*Allele.Vertex.json.gz',
+              minimal_maf_file='pre-outputs/allele-maf/minimal_alleles.maf',
+              annotated_maf_file='pre-outputs/allele-maf/annotated_alleles.maf',
               emitter_directory='allele',
               emitter_prefix='normalized',
               emitter_name='json'):
@@ -185,17 +186,17 @@ def main():  # pragma: no cover
     parser = default_argument_parser(emitter_directory_default='allele',
                                      emitter_prefix_default='normalized')
     parser.add_argument('--allele-output-dir', type=str,
-                        help='Path to the directory containing **/*.Allele.Vertex.json.gz',
-                        default='outputs')
+                        help='Path to the directory containing */*.Allele.Vertex.json.gz',
+                        default='pre-outputs')
     parser.add_argument('--vertex-file-pattern', type=str,
                         help='vertex file pattern to glob for',
-                        default='**/*Allele.Vertex.json.gz')
+                        default='*/*Allele.Vertex.json.gz')
     parser.add_argument('--minimal-maf', type=str,
                         help='intermediate minimal maf file',
-                        default='source/allele/minimal_alleles.maf')
+                        default='pre-outputs/allele-maf/minimal_alleles.maf')
     parser.add_argument('--annotated-maf', type=str,
                         help='intermediate annotated maf file',
-                        default='source/allele/annotated_alleles.maf')
+                        default='pre-outputs/allele-maf/annotated_alleles.maf')
     parser.add_argument('--leave-intermediate-files', dest='delete_intermediate', action='store_false',
                         help='do not delete minimal or annotated mafs prior to running')
     parser.set_defaults(delete_intermediate=True)
