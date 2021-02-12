@@ -10,6 +10,7 @@ from bmeg import Aliquot, Project, SomaticCallset, SomaticCallset_Alleles_Allele
 from bmeg.emitter import new_emitter
 from bmeg.vcf import read_vcf, make_minimal_allele
 
+PROJECT_NAME = "GDSC1000"
 
 def parse_genotypes(vcf_line, file_type, sample_name):
     """
@@ -126,10 +127,10 @@ def transform(vcf_dir="source/gdsc/vcfs/*",
                 emitted_alleles[allele.gid()] = None
 
             callset = SomaticCallset(
-                id=SomaticCallset.make_gid("GDSC", tumor_aliquot_id, None),
+                id=SomaticCallset.make_gid(PROJECT_NAME, tumor_aliquot_id, None),
                 tumor_aliquot_id=tumor_aliquot_id,
                 normal_aliquot_id=None,
-                project_id=Project.make_gid("GDSC")
+                project_id=Project.make_gid(PROJECT_NAME)
             )
             if callset.gid() not in emitted_callsets:
                 emitter.emit_vertex(callset)
@@ -137,7 +138,7 @@ def transform(vcf_dir="source/gdsc/vcfs/*",
                 emitter.emit_edge(
                     SomaticCallset_Aliquots_Aliquot(
                         from_gid=callset.gid(),
-                        to_gid=Aliquot.make_gid("GDSC:%s" % (callset.tumor_aliquot_id)),
+                        to_gid=Aliquot.make_gid("%s:%s" % (PROJECT_NAME, callset.tumor_aliquot_id)),
                     ),
                     emit_backref=True
                 )

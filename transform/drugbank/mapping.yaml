@@ -2,20 +2,26 @@ class: GraphMap
 
 schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
-domains:
-  drugbank:
-    protein_drug_association:
-      domain: "DrugAssociation"
-      idField: submitter_id
-      fields:
-        _label:
-          template: ProteinDrugAssociation
-      edges:
-        compound:
-          toDomain: "Compound"
-        publications:
-          toDomain: "Publication"
-        genes:
-          toDomain: "ENSG"
-          sep: ""
-          domainFilter: True
+ruleMap:
+  - name: drugbank.protein_drug_association.json.gz
+    rule: protein_drug_association
+
+rules:
+  protein_drug_association:
+    idPrefix: DrugAssociation
+    idField: submitter_id
+    label: ProteinDrugAssociation
+    class: protein_drug_association
+    outEdges:
+      compound:
+        toPrefix: Compound
+        blankFilter: True
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
+      publications:
+        toPrefix: "Publication"
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
+      genes:
+        toPrefix: "ENSG"
+        sep: ""
+        domainFilter: True
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"

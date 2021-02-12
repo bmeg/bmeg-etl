@@ -116,6 +116,7 @@ steps:
                 return x
         - objectCreate:
             class: drug_response
+            name: "{{row.project_id}}"
         - distinct:
             field: "{{row.dataset_name}}:{{row.cell_name}}"
             steps:
@@ -127,10 +128,12 @@ steps:
                             submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
                             case_id: "Case:{{row.dataset_name}}:{{row.cell_name}}"
                             project_id: "{{row.dataset_name}}"
+                            projects: [ "{{row.dataset_name}}" ]
                       - clean:
-                          fields: ["case_id", "project_id", "submitter_id"]
+                          fields: ["case_id", "project_id", "submitter_id", "projects"]
                       - objectCreate:
                           class: case
+                          name: "{{row.project_id}}"
                     -
                       - project:
                           mapping:
@@ -142,6 +145,7 @@ steps:
                           fields: ["case_id", "sample_id", "project_id", "submitter_id"]
                       - objectCreate:
                           class: sample
+                          name: "{{row.project_id}}"
                     -
                       - project:
                           mapping:
@@ -153,6 +157,7 @@ steps:
                           fields: ["sample", "aliquot_id", "project_id", "submitter_id"]
                       - objectCreate:
                           class: aliquot
+                          name: "{{row.project_id}}"
         - fork:
             transform:
               -
@@ -172,3 +177,4 @@ steps:
                       project_id: "{{row.project_id}}"
                 - objectCreate:
                     class: project
+                    name: "{{row.project_id}}"

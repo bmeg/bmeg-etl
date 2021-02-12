@@ -2,37 +2,94 @@ class: GraphMap
 
 schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
-all:
-  edges:
-    fields:
-      _gid:
-        template: "{{row._from}}:{{row._label}}:{{row._to}}"
 
-domains:
-  pharmacodb:
-    drug_response:
-      domain: DrugResponse
-      idField: submitter_id
-      fields:
-        _label:
-          template: DrugResponse
-      edges:
-        compounds:
-          toDomain: "Compound"
-        aliquot:
-          toDomain: "Aliquot"
-        drug_response:
-          fromDomain: "Aliquot"
-        drug_responses:
-          fromDomain: "Compound"
-    project:
-      domain: Project
-      idField: submitter_id
-      fields:
-        _label:
-          template: Project
-      edges:
-        compounds:
-          toDomain: "Compound"
-        projects:
-          fromDomain: "Compound"
+ruleMap:
+  - name: "*.project.json.gz"
+    rule: project
+  - name: "*.case.json.gz"
+    rule: case
+  - name: "*.sample.json.gz"
+    rule: sample
+  - name: "*.aliquot.json.gz"
+    rule: aliquot
+  - name: "*.drug_response.json.gz"
+    rule: drug_response
+
+rules:
+  project:
+    idPrefix: Project
+    idField: submitter_id
+    label: Project
+    class: project
+    outEdges:
+      compounds:
+        toPrefix: Compound
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
+    inEdges:
+      projects:
+        fromPrefix: Compound
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
+
+  case:
+    idPrefix: Case
+    idField: submitter_id
+    label: Case
+    class: case
+    outEdges:
+      samples:
+        toPrefix: Sample
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
+      projects:
+        toPrefix: Project
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
+    inEdges:
+      cases:
+        fromPrefix: Project
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
+
+  sample:
+    idPrefix: Sample
+    idField: submitter_id
+    label: Sample
+    class: sample
+    outEdges:
+      case:
+        toPrefix: "Case"
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
+    inEdges:
+      samples:
+        fromPrefix: "Case"
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
+
+  aliquot:
+    idPrefix: Aliquot
+    idField: submitter_id
+    label: Aliquot
+    class: aliquot
+    outEdges:
+      sample:
+        toPrefix: "Samples"
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
+    inEdges:
+      aliquots:
+        fromPrefix: Samples
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
+
+  drug_response:
+    idPrefix: DrugResponse
+    idField: submitter_id
+    label: DrugResponse
+    class: drug_response
+    outEdges:
+      compounds:
+        toPrefix: Compound
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
+      aliquot:
+        toPrefix: Aliquot
+    inEdges:
+      drug_response:
+        fromPrefix: Aliquot
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
+      drug_responses:
+        fromPrefix: Compound
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
