@@ -28,7 +28,6 @@ include: "Snakefile.allele"
 # cellline testing
 include: "Snakefile.pharmacodb"
 include: "Snakefile.prism"
-include: "Snakefile.ctrp"
 include: "Snakefile.gdsc"
 include: "Snakefile.celllines"
 include: "Snakefile.phenotype"
