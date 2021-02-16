@@ -49,7 +49,7 @@ rule allele:
 		"pre-outputs/gdsc/caveman.Allele.Vertex.json.gz",
 		"pre-outputs/gdsc/pindel.Allele.Vertex.json.gz",
 		"pre-outputs/g2p/Allele.Vertex.json.gz",
-		"pre-outputs/mc3/Allele.Vertex.json.gz",
+		"pre-outputs/mc3/mc3.Allele.Vertex.json.gz",
 		"source/vep/vep_supporting_files.tar.gz"
 	output:
 		"outputs/allele/normalized.Allele.Vertex.json.gz",
@@ -88,4 +88,11 @@ rule variant_call_edges:
 		"outputs/{project}/{prefix}.SomaticCallset_Alleles_Allele.Edge.json.gz",
 		"outputs/{project}/{prefix}.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz"
 	shell:
-		"python3 transform/allele/annotate_variant_calls.py -v --project-prefix=pre-outputs/{wildcards.project}/{wildcards.prefix}"
+		"""
+		cp pre-outputs/{wildcards.project}/{wildcards.prefix}.SomaticCallset.Vertex.json.gz outputs/{wildcards.project}/
+		cp pre-outputs/{wildcards.project}/{wildcards.prefix}.Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz outputs/{wildcards.project}/
+		cp pre-outputs/{wildcards.project}/{wildcards.prefix}.SomaticCallset_Aliquots_Aliquot.Edge.json.gz outputs/{wildcards.project}/
+		cp pre-outputs/{wildcards.project}/{wildcards.prefix}.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz outputs/{wildcards.project}/
+
+		sifter run transform/allele/annotate_variant_calls.yaml -i somaticCalls=pre-outputs/{wildcards.project}/{wildcards.prefix}.SomaticCallset_Alleles_Allele.Edge.json.gz -i prefix={wildcards.prefix} -o outputs/{wildcards.project}/
+		"""
