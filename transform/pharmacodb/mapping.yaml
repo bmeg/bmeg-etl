@@ -17,6 +17,7 @@ ruleMap:
 
 rules:
   project:
+    filePrefix: '{{split-select inputs.basename "." 0}}'
     idPrefix: Project
     idField: submitter_id
     label: Project
@@ -31,6 +32,7 @@ rules:
         idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
 
   case:
+    filePrefix: '{{split-select inputs.basename "." 0}}'
     idPrefix: Case
     idField: submitter_id
     label: Case
@@ -48,6 +50,7 @@ rules:
         idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
 
   sample:
+    filePrefix: '{{split-select inputs.basename "." 0}}'
     idPrefix: Sample
     idField: submitter_id
     label: Sample
@@ -62,6 +65,7 @@ rules:
         idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
 
   aliquot:
+    filePrefix: '{{split-select inputs.basename "." 0}}'
     idPrefix: Aliquot
     idField: submitter_id
     label: Aliquot
@@ -76,6 +80,7 @@ rules:
         idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
 
   drug_response:
+    filePrefix: '{{split-select inputs.basename "." 0}}'
     idPrefix: DrugResponse
     idField: submitter_id
     label: DrugResponse
