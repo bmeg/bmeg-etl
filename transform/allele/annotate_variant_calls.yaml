@@ -1,0 +1,34 @@
+
+class: Playbook
+
+inputs:
+  alleles:
+    type: File
+    default: ../../outputs/allele/normalized.Allele.Vertex.json.gz
+
+  somaticCalls:
+    type: File
+
+  prefix:
+    type: String
+    default: ssm
+
+steps:
+  - jsonLoad:
+      input: "{{inputs.somaticCalls}}"
+      transform:
+        - jsonLookup:
+            input: "{{inputs.alleles}}"
+            key: "gid"
+            field: "{{row.to}}"
+            project:
+              $.data.ensembl_gene: "{{row.data.ensembl_gene}}"
+              $.data.ensembl_transcript: "{{row.data.ensembl_transcript}}"
+              $.data.ensembl_protein: "{{row.data.ensembl_protein}}"
+              $.data.genome: "{{row.data.genome}}"
+              $.data.chromosome: "{{row.data.chromosome}}"
+              $.data.start: "{{row.data.start}}"
+              $.data.reference_bases: "{{row.data.reference_bases}}"
+              $.data.alternate_bases: "{{row.data.alternate_bases}}"
+        - emit:
+            name: "{{inputs.prefix}}.SomaticCallset_Alleles_Allele.Edge"
