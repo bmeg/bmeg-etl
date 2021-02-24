@@ -1,9 +1,32 @@
 
+
+def drProjectGraphFiles(dir, base):
+    files = [
+      "%s.Aliquot.Vertex.json.gz",
+      "%s.Aliquot_DrugResponse.drug_response.Edge.json.gz",
+      "%s.Aliquot_Sample.sample.Edge.json.gz",
+      "%s.Case.Vertex.json.gz",
+      "%s.Case_Project.projects.Edge.json.gz",
+      "%s.Compound_DrugResponse.drug_responses.Edge.json.gz",
+      "%s.Compound_Project.projects.Edge.json.gz",
+      "%s.DrugResponse.Vertex.json.gz",
+      "%s.DrugResponse_Aliquot.aliquot.Edge.json.gz",
+      "%s.DrugResponse_Compound.compounds.Edge.json.gz",
+      "%s.Project.Vertex.json.gz",
+      "%s.Project_Case.cases.Edge.json.gz",
+      "%s.Project_Compound.compounds.Edge.json.gz",
+      "%s.Sample.Vertex.json.gz",
+      "%s.Sample_Aliquot.aliquots.Edge.json.gz"
+    ]
+    o = []
+    for i in files:
+    	o.append( dir + "/" + i % (base) )
+    return o
+
 OUTPUTS.extend([
-	"outputs/pharmacodb/Compound_DrugResponse.drug_responses.Edge.json.gz",
-	"outputs/pharmacodb/DrugResponse.DrugResponse.Vertex.json.gz",
-	"outputs/pharmacodb/DrugResponse_Aliquot.aliquot.Edge.json.gz",
-	"outputs/pharmacodb/DrugResponse_Compound.compounds.Edge.json.gz"
+	drProjectGraphFiles("outputs/pharmacodb", "CCLE-NP"),
+	drProjectGraphFiles("outputs/pharmacodb", "CTRPv2"),
+	drProjectGraphFiles("outputs/pharmacodb", "GDSC1000")
 ])
 
 rule pharmacodb_1_1_1_sql:
@@ -57,32 +80,53 @@ rule pharmacodb_profile:
 	input:
 		"pre-outputs/pharmacodb-obj/doseResponseCurve.json.gz"
 	output:
-		"pre-outputs/pharmacodb-obj/pharmacodb.drug_response.json.gz"
+		"pre-outputs/pharmacodb-obj/CCLE-NP.case.json.gz",
+		"pre-outputs/pharmacodb-obj/CCLE-NP.drug_response.json.gz",
+		"pre-outputs/pharmacodb-obj/CCLE-NP.project.json.gz",
+		"pre-outputs/pharmacodb-obj/CCLE-NP.sample.json.gz",
+		"pre-outputs/pharmacodb-obj/CTRPv2.case.json.gz",
+		"pre-outputs/pharmacodb-obj/CTRPv2.drug_response.json.gz",
+		"pre-outputs/pharmacodb-obj/CTRPv2.project.json.gz",
+		"pre-outputs/pharmacodb-obj/CTRPv2.sample.json.gz",
+		"pre-outputs/pharmacodb-obj/GDSC1000.case.json.gz",
+		"pre-outputs/pharmacodb-obj/GDSC1000.drug_response.json.gz",
+		"pre-outputs/pharmacodb-obj/GDSC1000.project.json.gz",
+		"pre-outputs/pharmacodb-obj/GDSC1000.sample.json.gz"
+		
 	shell:
 		"sifter run -o pre-outputs/pharmacodb-obj/ transform/pharmacodb/profile.yaml -i doseResponseCurve=pre-outputs/pharmacodb-obj/doseResponseCurve.json.gz"
 
+
+
 rule pharmacodb_profile_graph:
 	input:
-		"pre-outputs/pharmacodb-obj/pharmacodb.drug_response.json.gz"
+		"pre-outputs/pharmacodb-obj/CCLE-NP.case.json.gz",
+		"pre-outputs/pharmacodb-obj/CCLE-NP.drug_response.json.gz",
+		"pre-outputs/pharmacodb-obj/CCLE-NP.project.json.gz",
+		"pre-outputs/pharmacodb-obj/CCLE-NP.sample.json.gz",
+		"pre-outputs/pharmacodb-obj/CTRPv2.case.json.gz",
+		"pre-outputs/pharmacodb-obj/CTRPv2.drug_response.json.gz",
+		"pre-outputs/pharmacodb-obj/CTRPv2.project.json.gz",
+		"pre-outputs/pharmacodb-obj/CTRPv2.sample.json.gz",
+		"pre-outputs/pharmacodb-obj/GDSC1000.case.json.gz",
+		"pre-outputs/pharmacodb-obj/GDSC1000.drug_response.json.gz",
+		"pre-outputs/pharmacodb-obj/GDSC1000.project.json.gz",
+		"pre-outputs/pharmacodb-obj/GDSC1000.sample.json.gz"
 	output:
-		"pre-outputs/pharmacodb/Aliquot_DrugResponse.drug_response.Edge.json.gz",
-		"pre-outputs/pharmacodb/Compound_DrugResponse.drug_responses.Edge.json.gz",
-		"pre-outputs/pharmacodb/DrugResponse_Aliquot.aliquot.Edge.json.gz",
-		"pre-outputs/pharmacodb/DrugResponse_Compound.compounds.Edge.json.gz",
-		"pre-outputs/pharmacodb/DrugResponse.DrugResponse.Vertex.json.gz"
+		drProjectGraphFiles("pre-outputs/pharmacodb", "CCLE-NP"),
+		drProjectGraphFiles("pre-outputs/pharmacodb", "CTRPv2"),
+		drProjectGraphFiles("pre-outputs/pharmacodb", "GDSC1000")
 	shell:
 		"sifter graph-build -o pre-outputs/pharmacodb/ transform/pharmacodb/mapping.yaml pre-outputs/pharmacodb-obj/"
 
 rule pharmacodb_edge_fix:
 	input:
-		"pre-outputs/pharmacodb/Compound_DrugResponse.drug_responses.Edge.json.gz",
-		"pre-outputs/pharmacodb/DrugResponse.DrugResponse.Vertex.json.gz",
-		"pre-outputs/pharmacodb/DrugResponse_Aliquot.aliquot.Edge.json.gz",
-		"pre-outputs/pharmacodb/DrugResponse_Compound.compounds.Edge.json.gz"
+		drProjectGraphFiles("pre-outputs/pharmacodb", "CCLE-NP"),
+		drProjectGraphFiles("pre-outputs/pharmacodb", "CTRPv2"),
+		drProjectGraphFiles("pre-outputs/pharmacodb", "GDSC1000")
 	output:
-		"outputs/pharmacodb/Compound_DrugResponse.drug_responses.Edge.json.gz",
-		"outputs/pharmacodb/DrugResponse.DrugResponse.Vertex.json.gz",
-		"outputs/pharmacodb/DrugResponse_Aliquot.aliquot.Edge.json.gz",
-		"outputs/pharmacodb/DrugResponse_Compound.compounds.Edge.json.gz"
+		drProjectGraphFiles("outputs/pharmacodb", "CCLE-NP"),
+		drProjectGraphFiles("outputs/pharmacodb", "CTRPv2"),
+		drProjectGraphFiles("outputs/pharmacodb", "GDSC1000")
 	shell:
 		"sifter graph-fix transform/compound/compound_fix.yaml pre-outputs/pharmacodb/ outputs/pharmacodb/"

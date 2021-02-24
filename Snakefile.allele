@@ -64,18 +64,10 @@ rule allele:
 	shell:
 		"python3 transform/allele/harmonize_alleles.py -v"
 
-rule allele_database:
-	input:
-		"outputs/allele/normalized.Allele.Vertex.json.gz"
-	output:
-		"pre-outputs/allele-maf/sqlite.db"
-	shell:
-		"python3 transform/allele/annotate_variant_calls.py -v --init"
 
 rule variant_call_edges:
 	input:
-		"transform/allele/annotate_variant_calls.py",
-		"pre-outputs/allele-maf/sqlite.db",
+		"transform/allele/annotate_variant_calls.yaml",
 		"pre-outputs/{project}/{prefix}.SomaticCallset.Vertex.json.gz",
 		"pre-outputs/{project}/{prefix}.Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz",
 		"pre-outputs/{project}/{prefix}.SomaticCallset_Aliquots_Aliquot.Edge.json.gz",

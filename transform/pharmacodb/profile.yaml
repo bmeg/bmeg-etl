@@ -35,7 +35,7 @@ steps:
             input: "{{inputs.doseResponseCurve}}"
             field: "{{row.experiment_id}}"
             key: experiment_id
-            project:
+            copy:
               curve: curve
         - tableLookup:
             input: "{{inputs.experiments}}"
@@ -60,6 +60,10 @@ steps:
             key: dataset_id
             project:
               dataset_name: dataset_name
+        - tableReplace:
+            field: dataset_name
+            table:
+              CCLE: CCLE-NP
         - tableLookup:
             input: "{{inputs.cells}}"
             sep: "\t"
@@ -142,7 +146,7 @@ steps:
                             sample_id: "Sample:{{row.dataset_name}}:{{row.cell_name}}"
                             project_id: "{{row.dataset_name}}"
                       - clean:
-                          fields: ["case_id", "sample_id", "project_id", "submitter_id"]
+                          fields: ["case", "sample_id", "project_id", "submitter_id"]
                       - objectCreate:
                           class: sample
                           name: "{{row.project_id}}"

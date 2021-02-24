@@ -139,7 +139,6 @@ rule prism_fix_edges:
 		"outputs/prism/primary_screen.DrugResponse_Aliquot_Aliquot.Edge.json.gz",
 		"outputs/prism/primary_screen.DrugResponse_Compounds_Compound.Edge.json.gz",
 		"outputs/prism/primary_screen.Compound_DrugResponses_DrugResponse.Edge.json.gz",
-		"outputs/prism/Compound.Vertex.json.gz",
 		"outputs/prism/Project_Compounds_Compound.Edge.json.gz",
 		"outputs/prism/Compound_Projects_Project.Edge.json.gz"
 	shell:

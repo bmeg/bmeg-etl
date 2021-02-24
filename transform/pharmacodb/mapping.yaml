@@ -72,11 +72,11 @@ rules:
     class: aliquot
     outEdges:
       sample:
-        toPrefix: "Samples"
+        toPrefix: Sample
         idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
     inEdges:
       aliquots:
-        fromPrefix: Samples
+        fromPrefix: Sample
         idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
 
   drug_response:

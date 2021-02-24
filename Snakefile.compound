@@ -1,6 +1,6 @@
 
 OUTPUTS.extend([
-
+	"outputs/compound/Compound.Vertex.json.gz"
 ])
 
 
@@ -12,10 +12,10 @@ rule all_compounds:
         "reference/compound/dgidb.table",
         "reference/compound/gdc.table",
         "reference/compound/drugbank.table"
-		output:
-				"reference/compound/all.table"
-		shell:
-				"cat {input} | sort | uniq > reference/compound/all.table"
+    output:
+        "reference/compound/all.table"
+    shell:
+        "cat {input} | sort | uniq > reference/compound/all.table"
 
 rule chembl_download:
     output:
@@ -57,6 +57,8 @@ rule mapping:
         "./transform/compound/chem_scan.py -d source/chembl/chembl_27/chembl_27_sqlite/chembl_27.db -s source/pubchem/CID-Synonym-filtered.gz search reference/compound/{wildcards.project}.terms > reference/compound/{wildcards.project}.search"
 
 rule prism_list:
+    input:
+        COMPOUND_FILES
     output:
         "reference/compound/{project}.terms"
     shell:
@@ -97,7 +99,7 @@ rule chembl_transform:
 
 rule chembl_vertex:
     output:
-      "outputs/compound/Compound.Compound.Vertex.json.gz"
+      "outputs/compound/Compound.Vertex.json.gz"
     input:
       "pre-outputs/compound/chembExtract.compound.json.gz"
     shell:
