@@ -1,5 +1,5 @@
 
-COMPOUND_FILES.extend([
+COMPOUND_FILES['g2p'] = [
 	"pre-outputs/g2p/Compound.Vertex.json.gz",
 	"pre-outputs/g2p/Deadletter.Vertex.json.gz",
 	"pre-outputs/g2p/G2PAssociation.Vertex.json.gz",
@@ -15,7 +15,7 @@ COMPOUND_FILES.extend([
 	"pre-outputs/g2p/Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz",
 	"pre-outputs/g2p/G2PAssociation_Publications_Publication.Edge.json.gz",
 	"pre-outputs/g2p/Publication_G2PAssociations_G2PAssociation.Edge.json.gz"
-])
+]
 
 ALLELE_FILES.extend([
 	"pre-outputs/g2p/Allele.Vertex.json.gz",

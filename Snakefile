@@ -1,7 +1,7 @@
 
 OUTPUTS = []
 
-COMPOUND_FILES = []
+COMPOUND_FILES = {}
 
 ALLELE_FILES = []
 

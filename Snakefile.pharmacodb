@@ -29,6 +29,12 @@ OUTPUTS.extend([
 	drProjectGraphFiles("outputs/pharmacodb", "GDSC1000")
 ])
 
+COMPOUND_FILES['pharmacodb'] = [
+	drProjectGraphFiles("pre-outputs/pharmacodb", "CCLE-NP") + 
+	drProjectGraphFiles("pre-outputs/pharmacodb", "CTRPv2") +
+	drProjectGraphFiles("pre-outputs/pharmacodb", "GDSC1000")
+]
+
 rule pharmacodb_1_1_1_sql:
 	input:
 		"source/pharmacodb/version.txt"
@@ -121,6 +127,7 @@ rule pharmacodb_profile_graph:
 
 rule pharmacodb_edge_fix:
 	input:
+		"reference/compound/all.table",
 		drProjectGraphFiles("pre-outputs/pharmacodb", "CCLE-NP"),
 		drProjectGraphFiles("pre-outputs/pharmacodb", "CTRPv2"),
 		drProjectGraphFiles("pre-outputs/pharmacodb", "GDSC1000")

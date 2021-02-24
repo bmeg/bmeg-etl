@@ -20,7 +20,7 @@ OUTPUTS.extend([
 	"outputs/prism/Phenotype_Samples_Sample.Edge.json.gz"
 ])
 
-COMPOUND_FILES.extend([
+COMPOUND_FILES['prism'] = [
 	"pre-outputs/prism/primary_screen.DrugResponse.Vertex.json.gz",
 	"pre-outputs/prism/primary_screen.Aliquot_DrugResponse_DrugResponse.Edge.json.gz",
 	"pre-outputs/prism/primary_screen.DrugResponse_Aliquot_Aliquot.Edge.json.gz",
@@ -29,7 +29,7 @@ COMPOUND_FILES.extend([
 	"pre-outputs/prism/Compound.Vertex.json.gz",
 	"pre-outputs/prism/Project_Compounds_Compound.Edge.json.gz",
 	"pre-outputs/prism/Compound_Projects_Project.Edge.json.gz"
-])
+]
 
 rule prism_cell_line_info:
 	output:
