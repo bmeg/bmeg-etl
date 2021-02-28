@@ -1,14 +1,15 @@
 
-OUTPUTS.extend([
-	"outputs/dgidb/G2PAssociation.Vertex.json.gz",
-	"outputs/dgidb/Compound.Vertex.json.gz",
-	"outputs/dgidb/G2PAssociation_Genes_Gene.Edge.json.gz",
-	"outputs/dgidb/G2PAssociation_Publications_Publication.Edge.json.gz",
-	"outputs/dgidb/G2PAssociation_Compounds_Compound.Edge.json.gz",
-	"outputs/dgidb/Publication_G2PAssociations_G2PAssociation.Edge.json.gz",
-	"outputs/dgidb/Gene_G2PAssociations_G2PAssociation.Edge.json.gz",
-	"outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz"
-])
+
+COMPOUND_FILES['dgidb'] = [
+ "pre-outputs/dgidb/G2PAssociation.Vertex.json.gz",
+ "pre-outputs/dgidb/Compound.Vertex.json.gz",
+ "pre-outputs/dgidb/G2PAssociation_Genes_Gene.Edge.json.gz",
+ "pre-outputs/dgidb/G2PAssociation_Publications_Publication.Edge.json.gz",
+ "pre-outputs/dgidb/G2PAssociation_Compounds_Compound.Edge.json.gz",
+ "pre-outputs/dgidb/Publication_G2PAssociations_G2PAssociation.Edge.json.gz",
+ "pre-outputs/dgidb/Gene_G2PAssociations_G2PAssociation.Edge.json.gz",
+ "pre-outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz"
+]
 
 rule interactions:
 	input:
@@ -36,25 +37,3 @@ rule dgidb:
 	shell:
 		"python3 transform/dgidb/transform.py"
 
-rule dgidb_edge_fix:
-	input:
-		"reference/compound/all.table",
-		"pre-outputs/dgidb/G2PAssociation.Vertex.json.gz",
-		"pre-outputs/dgidb/Compound.Vertex.json.gz",
-		"pre-outputs/dgidb/G2PAssociation_Genes_Gene.Edge.json.gz",
-		"pre-outputs/dgidb/G2PAssociation_Publications_Publication.Edge.json.gz",
-		"pre-outputs/dgidb/G2PAssociation_Compounds_Compound.Edge.json.gz",
-		"pre-outputs/dgidb/Publication_G2PAssociations_G2PAssociation.Edge.json.gz",
-		"pre-outputs/dgidb/Gene_G2PAssociations_G2PAssociation.Edge.json.gz",
-		"pre-outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz"
-	output:
-		"outputs/dgidb/G2PAssociation.Vertex.json.gz",
-		"outputs/dgidb/Compound.Vertex.json.gz",
-		"outputs/dgidb/G2PAssociation_Genes_Gene.Edge.json.gz",
-		"outputs/dgidb/G2PAssociation_Publications_Publication.Edge.json.gz",
-		"outputs/dgidb/G2PAssociation_Compounds_Compound.Edge.json.gz",
-		"outputs/dgidb/Publication_G2PAssociations_G2PAssociation.Edge.json.gz",
-		"outputs/dgidb/Gene_G2PAssociations_G2PAssociation.Edge.json.gz",
-		"outputs/dgidb/Compound_G2PAssociations_G2PAssociation.Edge.json.gz"
-	shell:
-		"sifter graph-fix transform/compound/compound_fix.yaml pre-outputs/dgidb/ outputs/dgidb/"

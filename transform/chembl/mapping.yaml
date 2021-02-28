@@ -1,0 +1,25 @@
+class: GraphMap
+
+schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
+ruleMap:
+  - name: chembDrugMechanismExtract.protein_drug_association.json.gz
+    rule: chemdrugmech
+
+
+rules:
+  chemdrugmech:
+    idPrefix: ProteinDrugAssociation
+    idField: submitter_id
+    label: ProteinDrugAssociation
+    class: protein_drug_association
+    outEdges:
+      genes:
+        toPrefix: ENSG
+      publications:
+        toPrefix: "Publication"
+      compound:
+        toPrefix: "Compound"
+    inEdges:
+      protein_drug_association:
+        fromPrefix: "Compound"

@@ -3,6 +3,14 @@ OUTPUTS.extend([
 	"outputs/compound/Compound.Vertex.json.gz"
 ])
 
+NORMALIZE_FILES.extend(
+  COMPOUND_FILES["pharmacodb"] +
+  COMPOUND_FILES["prism"] +
+  COMPOUND_FILES["g2p"] +
+  COMPOUND_FILES["dgidb"] +
+  COMPOUND_FILES["chembl"] +
+  COMPOUND_FILES["gdc"]
+)
 
 rule all_compounds:
     input:
@@ -11,7 +19,7 @@ rule all_compounds:
         "reference/compound/g2p.table",
         "reference/compound/dgidb.table",
         "reference/compound/gdc.table",
-        "reference/compound/drugbank.table"
+        "reference/compound/chembl.table"
     output:
         "reference/compound/all.table"
     shell:
@@ -56,9 +64,13 @@ rule mapping:
     shell:
         "./transform/compound/chem_scan.py -d source/chembl/chembl_27/chembl_27_sqlite/chembl_27.db -s source/pubchem/CID-Synonym-filtered.gz search reference/compound/{wildcards.project}.terms > reference/compound/{wildcards.project}.search"
 
-rule prism_list:
+
+def term_list(wildcards):
+    return COMPOUND_FILES[wildcards.project]
+
+rule build_terms:
     input:
-        COMPOUND_FILES
+        term_list
     output:
         "reference/compound/{project}.terms"
     shell:

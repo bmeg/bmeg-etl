@@ -1,0 +1,18 @@
+
+
+def fileNormalizeName(names):
+    print("normalize: ", names)
+    out = []
+    for i in names:
+    	out.append( i.replace("pre-outputs", "outputs") )
+    return out
+
+rule normalize:
+     input:
+        "reference/compound/all.table",
+        "outputs/allele/normalized.Allele.Vertex.json.gz",
+        NORMALIZE_FILES
+     output:
+        fileNormalizeName(NORMALIZE_FILES)
+     shell:
+        "sifter graph-fix transform/normalize/graph_normalize.yaml pre-outputs outputs"

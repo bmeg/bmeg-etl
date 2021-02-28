@@ -1,0 +1,32 @@
+
+
+COMPOUND_FILES["chembl"] = [
+"pre-outputs/chembl/Compound_ProteinDrugAssociation.protein_drug_association.Edge.json.gz",
+"pre-outputs/chembl/ProteinDrugAssociation_Compound.compound.Edge.json.gz",
+"pre-outputs/chembl/ProteinDrugAssociation_Publication.publications.Edge.json.gz",
+"pre-outputs/chembl/ProteinDrugAssociation.Vertex.json.gz",
+"pre-outputs/chembl/ProteinDrugAssociation_ENSG.genes.Edge.json.gz"
+]
+
+
+rule chembl_objs:
+  input:
+    "source/chembl/chembl_27/chembl_27_sqlite/chembl_27.db",
+    "mappings/uniprotId2ensemblGene.tsv"
+  output:
+    "pre-outputs/chembl-obj/chembDrugMechanismExtract.protein_drug_association.json.gz"
+  shell:
+    "sifter run transform/chembl/drug_mechanism.yaml -o pre-outputs/chembl-obj/"
+
+
+rule chembl_graph:
+  input:
+    "pre-outputs/chembl-obj/chembDrugMechanismExtract.protein_drug_association.json.gz"
+  output:
+    "pre-outputs/chembl/Compound_ProteinDrugAssociation.protein_drug_association.Edge.json.gz",
+    "pre-outputs/chembl/ProteinDrugAssociation_Compound.compound.Edge.json.gz",
+    "pre-outputs/chembl/ProteinDrugAssociation_Publication.publications.Edge.json.gz",
+    "pre-outputs/chembl/ProteinDrugAssociation.Vertex.json.gz",
+    "pre-outputs/chembl/ProteinDrugAssociation_ENSG.genes.Edge.json.gz"
+  shell:
+    "sifter graph-build transform/chembl/mapping.yaml pre-outputs/chembl-obj/ -o pre-outputs/chembl/"

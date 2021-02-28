@@ -23,17 +23,9 @@ def drProjectGraphFiles(dir, base):
     	o.append( dir + "/" + i % (base) )
     return o
 
-OUTPUTS.extend([
-	drProjectGraphFiles("outputs/pharmacodb", "CCLE-NP"),
-	drProjectGraphFiles("outputs/pharmacodb", "CTRPv2"),
-	drProjectGraphFiles("outputs/pharmacodb", "GDSC1000")
-])
+COMPOUND_FILES['pharmacodb'] = drProjectGraphFiles("pre-outputs/pharmacodb", "CCLE-NP") + \
+drProjectGraphFiles("pre-outputs/pharmacodb", "CTRPv2") + drProjectGraphFiles("pre-outputs/pharmacodb", "GDSC1000")
 
-COMPOUND_FILES['pharmacodb'] = [
-	drProjectGraphFiles("pre-outputs/pharmacodb", "CCLE-NP") + 
-	drProjectGraphFiles("pre-outputs/pharmacodb", "CTRPv2") +
-	drProjectGraphFiles("pre-outputs/pharmacodb", "GDSC1000")
-]
 
 rule pharmacodb_1_1_1_sql:
 	input:
@@ -125,15 +117,4 @@ rule pharmacodb_profile_graph:
 	shell:
 		"sifter graph-build -o pre-outputs/pharmacodb/ transform/pharmacodb/mapping.yaml pre-outputs/pharmacodb-obj/"
 
-rule pharmacodb_edge_fix:
-	input:
-		"reference/compound/all.table",
-		drProjectGraphFiles("pre-outputs/pharmacodb", "CCLE-NP"),
-		drProjectGraphFiles("pre-outputs/pharmacodb", "CTRPv2"),
-		drProjectGraphFiles("pre-outputs/pharmacodb", "GDSC1000")
-	output:
-		drProjectGraphFiles("outputs/pharmacodb", "CCLE-NP"),
-		drProjectGraphFiles("outputs/pharmacodb", "CTRPv2"),
-		drProjectGraphFiles("outputs/pharmacodb", "GDSC1000")
-	shell:
-		"sifter graph-fix transform/compound/compound_fix.yaml pre-outputs/pharmacodb/ outputs/pharmacodb/"
+

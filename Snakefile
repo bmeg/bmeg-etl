@@ -2,7 +2,7 @@
 OUTPUTS = []
 
 COMPOUND_FILES = {}
-
+NORMALIZE_FILES = []
 ALLELE_FILES = []
 
 include: "Snakefile.ccle"
@@ -33,6 +33,8 @@ include: "Snakefile.gdsc"
 include: "Snakefile.celllines"
 include: "Snakefile.phenotype"
 include: "Snakefile.compound"
+
+include: "Snakefile.normalize"
 
 rule outputs_bmeg_manifest:
 	input:
