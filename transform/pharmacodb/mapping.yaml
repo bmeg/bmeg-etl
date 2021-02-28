@@ -22,13 +22,9 @@ rules:
     idField: submitter_id
     label: Project
     class: project
-    outEdges:
+    fields:
       compounds:
         toPrefix: Compound
-        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
-    inEdges:
-      projects:
-        fromPrefix: Compound
         idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
 
   case:
@@ -37,16 +33,9 @@ rules:
     idField: submitter_id
     label: Case
     class: case
-    outEdges:
-      samples:
-        toPrefix: Sample
-        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
+    fields:
       projects:
         toPrefix: Project
-        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
-    inEdges:
-      cases:
-        fromPrefix: Project
         idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
 
   sample:
@@ -55,13 +44,9 @@ rules:
     idField: submitter_id
     label: Sample
     class: sample
-    outEdges:
+    fields:
       case:
         toPrefix: "Case"
-        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
-    inEdges:
-      samples:
-        fromPrefix: "Case"
         idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
 
   aliquot:
@@ -70,13 +55,9 @@ rules:
     idField: submitter_id
     label: Aliquot
     class: aliquot
-    outEdges:
+    fields:
       sample:
         toPrefix: Sample
-        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
-    inEdges:
-      aliquots:
-        fromPrefix: Sample
         idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
 
   drug_response:
@@ -85,16 +66,9 @@ rules:
     idField: submitter_id
     label: DrugResponse
     class: drug_response
-    outEdges:
+    fields:
       compounds:
         toPrefix: Compound
         idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
       aliquot:
         toPrefix: Aliquot
-    inEdges:
-      drug_response:
-        fromPrefix: Aliquot
-        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
-      drug_responses:
-        fromPrefix: Compound
-        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"

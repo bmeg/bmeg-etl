@@ -12,7 +12,7 @@ rules:
     idField: submitter_id
     label: ProteinDrugAssociation
     class: protein_drug_association
-    outEdges:
+    fields:
       compound:
         toPrefix: Compound
         blankFilter: True

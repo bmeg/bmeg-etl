@@ -9,17 +9,14 @@ ruleMap:
 
 rules:
   chemdrugmech:
-    idPrefix: ProteinDrugAssociation
+    idPrefix: CHEMBL-MEC
     idField: submitter_id
     label: ProteinDrugAssociation
     class: protein_drug_association
-    outEdges:
+    fields:
       genes:
         toPrefix: ENSG
       publications:
         toPrefix: "Publication"
       compound:
         toPrefix: "Compound"
-    inEdges:
-      protein_drug_association:
-        fromPrefix: "Compound"
