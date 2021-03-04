@@ -6,15 +6,9 @@ ruleMap:
     rule: fixToCompound
   - fromPrefix: Compound
     rule: fixFromCompound
-  - path: g2p/Compound.Vertex.json.gz
+  - path: Compound.Vertex.json.gz
     rule: skip
-  - path: mc3/maf.Allele.Vertex.json.gz
-    rule: skip
-  - path: g2p/Allele.Vertex.json.gz
-    rule: skip
-  - path: gdsc/pindel.Allele.Vertex.json.gz
-    rule: skip
-  - path: ccle/maf.Allele.Vertex.json.gz
+  - path: Allele.Vertex.json.gz
     rule: skip
   - toPrefix: Allele
     fromPrefix: SomaticCallset

@@ -1,6 +1,6 @@
 
 OUTPUTS.extend([
-	"outputs/compound/Compound.Vertex.json.gz"
+	"outputs/compound/Compound.Compound.Vertex.json.gz"
 ])
 
 NORMALIZE_FILES.extend(
@@ -111,7 +111,7 @@ rule chembl_transform:
 
 rule chembl_vertex:
     output:
-      "outputs/compound/Compound.Vertex.json.gz"
+      "outputs/compound/Compound.Compound.Vertex.json.gz"
     input:
       "pre-outputs/compound/chembExtract.compound.json.gz"
     shell:

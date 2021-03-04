@@ -1,10 +1,5 @@
 
 OUTPUTS.extend([
-	"outputs/gdc/gdc.Compound.Vertex.json.gz",
-	"outputs/gdc/gdc.Case_Compounds_Compound.Edge.json.gz",
-	"outputs/gdc/gdc.Compound_Cases_Case.Edge.json.gz",
-	"outputs/gdc/gdc.Compound_Projects_Project.Edge.json.gz",
-	"outputs/gdc/gdc.Project_Compounds_Compound.Edge.json.gz",
 	"outputs/gdc/Aliquot.Vertex.json.gz",
 	"outputs/gdc/Sample.Vertex.json.gz",
 	"outputs/gdc/Case.Vertex.json.gz",

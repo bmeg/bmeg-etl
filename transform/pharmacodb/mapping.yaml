@@ -72,3 +72,4 @@ rules:
         idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
       aliquot:
         toPrefix: Aliquot
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"

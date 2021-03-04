@@ -1,11 +1,11 @@
 
 
 COMPOUND_FILES["chembl"] = [
-"pre-outputs/chembl/Compound_ProteinDrugAssociation.protein_drug_association.Edge.json.gz",
-"pre-outputs/chembl/ProteinDrugAssociation_Compound.compound.Edge.json.gz",
-"pre-outputs/chembl/ProteinDrugAssociation_Publication.publications.Edge.json.gz",
-"pre-outputs/chembl/ProteinDrugAssociation.Vertex.json.gz",
-"pre-outputs/chembl/ProteinDrugAssociation_ENSG.genes.Edge.json.gz"
+"pre-outputs/chembl/Compound_CHEMBL-MEC.protein_drug_association.Edge.json.gz",
+"pre-outputs/chembl/CHEMBL-MEC_Compound.compound.Edge.json.gz",
+"pre-outputs/chembl/CHEMBL-MEC_Publication.publications.Edge.json.gz",
+"pre-outputs/chembl/CHEMBL-MEC.ProteinDrugAssociation.Vertex.json.gz",
+"pre-outputs/chembl/CHEMBL-MEC_ENSG.genes.Edge.json.gz"
 ]
 
 
@@ -23,10 +23,10 @@ rule chembl_graph:
   input:
     "pre-outputs/chembl-obj/chembDrugMechanismExtract.protein_drug_association.json.gz"
   output:
-    "pre-outputs/chembl/Compound_ProteinDrugAssociation.protein_drug_association.Edge.json.gz",
-    "pre-outputs/chembl/ProteinDrugAssociation_Compound.compound.Edge.json.gz",
-    "pre-outputs/chembl/ProteinDrugAssociation_Publication.publications.Edge.json.gz",
-    "pre-outputs/chembl/ProteinDrugAssociation.Vertex.json.gz",
-    "pre-outputs/chembl/ProteinDrugAssociation_ENSG.genes.Edge.json.gz"
+    "pre-outputs/chembl/Compound_CHEMBL-MEC.protein_drug_association.Edge.json.gz",
+    "pre-outputs/chembl/CHEMBL-MEC_Compound.compound.Edge.json.gz",
+    "pre-outputs/chembl/CHEMBL-MEC_Publication.publications.Edge.json.gz",
+    "pre-outputs/chembl/CHEMBL-MEC.ProteinDrugAssociation.Vertex.json.gz",
+    "pre-outputs/chembl/CHEMBL-MEC_ENSG.genes.Edge.json.gz"
   shell:
     "sifter graph-build transform/chembl/mapping.yaml pre-outputs/chembl-obj/ -o pre-outputs/chembl/"
