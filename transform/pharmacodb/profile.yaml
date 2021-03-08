@@ -83,7 +83,7 @@ steps:
             mapping:
               submitter_id: "{{row.dataset_name}}:{{row.cell_name}}:{{row.drug_name}}"
               project_id: "{{row.dataset_name}}"
-              acc: "{{row.ACC}}"
+              aac: "{{row.AAC}}"
               dss1: "{{row.DSS1}}"
               dss2: "{{row.DSS2}}"
               dss3: "{{row.DSS3}}"
