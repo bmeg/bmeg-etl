@@ -82,7 +82,6 @@ steps:
         - project:
             mapping:
               submitter_id: "{{row.dataset_name}}:{{row.cell_name}}:{{row.drug_name}}"
-              project_id: "{{row.dataset_name}}"
               aac: "{{row.AAC}}"
               dss1: "{{row.DSS1}}"
               dss2: "{{row.DSS2}}"
@@ -118,9 +117,15 @@ steps:
                   except ValueError:
                     pass
                 return x
-        - objectCreate:
-            class: drug_response
-            name: "{{row.project_id}}"
+        - fork:
+            transform:
+              -
+                - project:
+                    mapping:
+                      project_id: "Project:{{row.dataset_name}}"
+                - objectCreate:
+                    class: drug_response
+                    name: "{{row.dataset_name}}"
         - distinct:
             field: "{{row.dataset_name}}:{{row.cell_name}}"
             steps:
@@ -131,54 +136,54 @@ steps:
                           mapping:
                             submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
                             case_id: "Case:{{row.dataset_name}}:{{row.cell_name}}"
-                            project_id: "{{row.dataset_name}}"
-                            projects: [ "{{row.dataset_name}}" ]
+                            project_id: "Project:{{row.dataset_name}}"
+                            projects: [ "Project:{{row.dataset_name}}" ]
                       - clean:
-                          fields: ["case_id", "project_id", "submitter_id", "projects"]
+                          fields: ["case_id", "project_id", "submitter_id", "projects", "dataset_name"]
                       - objectCreate:
                           class: case
-                          name: "{{row.project_id}}"
+                          name: "{{row.dataset_name}}"
                     -
                       - project:
                           mapping:
                             submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
                             case: "Case:{{row.dataset_name}}:{{row.cell_name}}"
                             sample_id: "Sample:{{row.dataset_name}}:{{row.cell_name}}"
-                            project_id: "{{row.dataset_name}}"
+                            project_id: "Project:{{row.dataset_name}}"
                       - clean:
-                          fields: ["case", "sample_id", "project_id", "submitter_id"]
+                          fields: ["case", "sample_id", "project_id", "submitter_id", "dataset_name"]
                       - objectCreate:
                           class: sample
-                          name: "{{row.project_id}}"
+                          name: "{{row.dataset_name}}"
                     -
                       - project:
                           mapping:
                             submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
                             sample: "Sample:{{row.dataset_name}}:{{row.cell_name}}"
                             aliquot_id: "Aliquot:{{row.dataset_name}}:{{row.cell_name}}"
-                            project_id: "{{row.dataset_name}}"
+                            project_id: "Project:{{row.dataset_name}}"
                       - clean:
-                          fields: ["sample", "aliquot_id", "project_id", "submitter_id"]
+                          fields: ["sample", "aliquot_id", "project_id", "submitter_id", "dataset_name"]
                       - objectCreate:
                           class: aliquot
-                          name: "{{row.project_id}}"
+                          name: "{{row.dataset_name}}"
         - fork:
             transform:
               -
                 - reduce:
-                    field: "{{row.project_id}}"
+                    field: "{{row.dataset_name}}"
                     method: merge
                     init: { "compounds" : [] }
                     python: |
 
                       def merge(x,y):
-                        x["project_id"] = y["project_id"]
+                        x["dataset_name"] = y["dataset_name"]
                         x["compounds"] = list(set(y["compounds"]+x["compounds"]))
                         return x
                 - project:
                     mapping:
-                      submitter_id: "{{row.project_id}}"
-                      project_id: "{{row.project_id}}"
+                      submitter_id: "{{row.dataset_name}}"
+                      project_id: "Project:{{row.dataset_name}}"
                 - objectCreate:
                     class: project
-                    name: "{{row.project_id}}"
+                    name: "{{row.dataset_name}}"

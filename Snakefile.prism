@@ -17,7 +17,11 @@ OUTPUTS.extend([
 	"outputs/prism/Case_Phenotypes_Phenotype.Edge.json.gz",
 	"outputs/prism/Phenotype_Cases_Case.Edge.json.gz",
 	"outputs/prism/Sample_Phenotypes_Phenotype.Edge.json.gz",
-	"outputs/prism/Phenotype_Samples_Sample.Edge.json.gz"
+	"outputs/prism/Phenotype_Samples_Sample.Edge.json.gz",
+	"outputs/prism/Aliquot_Projects_Project.Edge.json.gz",
+	"outputs/prism/Project_Aliquots_Aliquot.Edge.json.gz",
+	"outputs/prism/Project_Samples_Sample.Edge.json.gz",
+	"outputs/prism/Sample_Projects_Project.Edge.json.gz",
 ])
 
 COMPOUND_FILES['prism'] = [
@@ -88,6 +92,10 @@ rule prism_cases:
 		"outputs/prism/Sample_Case_Case.Edge.json.gz",
 		"outputs/prism/Case_Samples_Sample.Edge.json.gz",
 		"outputs/prism/Aliquot_Sample_Sample.Edge.json.gz",
+		"outputs/prism/Aliquot_Projects_Project.Edge.json.gz",
+		"outputs/prism/Project_Aliquots_Aliquot.Edge.json.gz",
+		"outputs/prism/Project_Samples_Sample.Edge.json.gz",
+		"outputs/prism/Sample_Projects_Project.Edge.json.gz",
 		"outputs/prism/Sample_Aliquots_Aliquot.Edge.json.gz",
 		"outputs/prism/Case_Phenotypes_Phenotype.Edge.json.gz",
 		"outputs/prism/Phenotype_Cases_Case.Edge.json.gz",

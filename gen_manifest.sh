@@ -1,3 +1,6 @@
 #!/bin/bash
 
-find ./outputs -name "*.json.gz" > bmeg_file_manifest.txt 
+for var in "$@"
+do
+    echo "$var"
+done > bmeg_file_manifest.txt 

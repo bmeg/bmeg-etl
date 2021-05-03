@@ -1,5 +1,6 @@
 
 
+
 def fileNormalizeName(names):
     print("normalize: ", names)
     out = []
@@ -7,6 +8,8 @@ def fileNormalizeName(names):
         if not i.endswith("Compound.Vertex.json.gz"):
             out.append( i.replace("pre-outputs", "outputs") )
     return out
+
+OUTPUTS.extend(fileNormalizeName(NORMALIZE_FILES))
 
 rule normalize:
      input:

@@ -31,7 +31,11 @@ NORMALIZE_FILES.extend([
 		"pre-outputs/gdsc/caveman.SomaticCallset_Aliquots_Aliquot.Edge.json.gz",
 		"pre-outputs/gdsc/caveman.Aliquot_SomaticCallsets_SomaticCallset.Edge.json.gz",
 		"pre-outputs/gdsc/caveman.Allele_SomaticCallsets_SomaticCallset.Edge.json.gz",
-		"pre-outputs/gdsc/caveman.SomaticCallset_Alleles_Allele.Edge.json.gz"
+		"pre-outputs/gdsc/caveman.SomaticCallset_Alleles_Allele.Edge.json.gz",
+		"pre-outputs/g2p/G2PAssociation_Alleles_Allele.Edge.json.gz",
+		"pre-outputs/g2p/Allele_G2PAssociations_G2PAssociation.Edge.json.gz",
+		"pre-outputs/g2p/Gene_GenomicFeatures_GenomicFeature.Edge.json.gz",
+		"pre-outputs/g2p/GenomicFeature_Genes_Gene.Edge.json.gz"
 ])
 
 

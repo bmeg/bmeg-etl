@@ -15,8 +15,11 @@ rules:
     class: protein_drug_association
     fields:
       genes:
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
         toPrefix: ENSG
       publications:
         toPrefix: "Publication"
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
       compound:
         toPrefix: "Compound"
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"

@@ -33,7 +33,7 @@ def transform(cellline_lookup_path="source/ccle/cellline_id_lookup.tsv",
     emitter.emit_vertex(prog)
 
     proj = Project(id=Project.make_gid("PRISM"),
-                   project_id="PRISM")
+                   project_id="Project:PRISM")
     emitter.emit_vertex(proj)
     emitter.emit_edge(
         Project_Programs_Program(

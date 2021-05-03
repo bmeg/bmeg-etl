@@ -10,6 +10,10 @@ OUTPUTS.extend([
 	"outputs/gdc/Program_Projects_Project.Edge.json.gz",
 	"outputs/gdc/Case_Projects_Project.Edge.json.gz",
 	"outputs/gdc/Project_Cases_Case.Edge.json.gz",
+	"outputs/gdc/Project_Aliquots_Aliquot.Edge.json.gz",
+	"outputs/gdc/Aliquot_Projects_Project.Edge.json.gz",
+	"outputs/gdc/Project_Samples_Sample.Edge.json.gz",
+	"outputs/gdc/Sample_Projects_Project.Edge.json.gz",
 	"outputs/gdc/Sample_Case_Case.Edge.json.gz",
 	"outputs/gdc/Case_Samples_Sample.Edge.json.gz",
 	"outputs/gdc/Aliquot_Sample_Sample.Edge.json.gz",
@@ -85,5 +89,10 @@ rule gdc_cases:
 		"outputs/gdc/Phenotype_Cases_Case.Edge.json.gz",
 		"outputs/gdc/Sample_Phenotypes_Phenotype.Edge.json.gz",
 		"outputs/gdc/Phenotype_Samples_Sample.Edge.json.gz"
+		"outputs/gdc/Project_Aliquots_Aliquot.Edge.json.gz",
+		"outputs/gdc/Aliquot_Projects_Project.Edge.json.gz",
+		"outputs/gdc/Project_Samples_Sample.Edge.json.gz",
+		"outputs/gdc/Sample_Projects_Project.Edge.json.gz",
+
 	shell:
 		"python3 -m transform.gdc.cases"

@@ -7,6 +7,7 @@ def drProjectGraphFiles(dir, base):
       "%s.Aliquot_Sample.sample.Edge.json.gz",
       "%s.Case.Vertex.json.gz",
       "%s.Case_Project.projects.Edge.json.gz",
+      "%s.Case_Sample.samples.Edge.json.gz",
       "%s.Compound_DrugResponse.drug_responses.Edge.json.gz",
       "%s.Compound_Project.projects.Edge.json.gz",
       "%s.DrugResponse.Vertex.json.gz",
@@ -16,7 +17,8 @@ def drProjectGraphFiles(dir, base):
       "%s.Project_Case.cases.Edge.json.gz",
       "%s.Project_Compound.compounds.Edge.json.gz",
       "%s.Sample.Vertex.json.gz",
-      "%s.Sample_Aliquot.aliquots.Edge.json.gz"
+      "%s.Sample_Aliquot.aliquots.Edge.json.gz",
+      "%s.Sample_Case.case.Edge.json.gz"
     ]
     o = []
     for i in files:
@@ -24,7 +26,12 @@ def drProjectGraphFiles(dir, base):
     return o
 
 COMPOUND_FILES['pharmacodb'] = drProjectGraphFiles("pre-outputs/pharmacodb", "CCLE-NP") + \
-drProjectGraphFiles("pre-outputs/pharmacodb", "CTRPv2") + drProjectGraphFiles("pre-outputs/pharmacodb", "GDSC1000")
+drProjectGraphFiles("pre-outputs/pharmacodb", "CTRPv2") + drProjectGraphFiles("pre-outputs/pharmacodb", "GDSC1000") + \
+drProjectGraphFiles("pre-outputs/pharmacodb", "FIMM") + drProjectGraphFiles("pre-outputs/pharmacodb", "GRAY") + \
+drProjectGraphFiles("pre-outputs/pharmacodb", "gCSI") + drProjectGraphFiles("pre-outputs/pharmacodb", "UHNBreast")
+
+
+
 
 
 rule pharmacodb_1_1_1_sql:
@@ -113,7 +120,11 @@ rule pharmacodb_profile_graph:
 	output:
 		drProjectGraphFiles("pre-outputs/pharmacodb", "CCLE-NP"),
 		drProjectGraphFiles("pre-outputs/pharmacodb", "CTRPv2"),
-		drProjectGraphFiles("pre-outputs/pharmacodb", "GDSC1000")
+		drProjectGraphFiles("pre-outputs/pharmacodb", "GDSC1000"),
+		drProjectGraphFiles("pre-outputs/pharmacodb", "FIMM"),
+		drProjectGraphFiles("pre-outputs/pharmacodb", "GRAY"),
+		drProjectGraphFiles("pre-outputs/pharmacodb", "gCSI"),
+		drProjectGraphFiles("pre-outputs/pharmacodb", "UHNBreast")
 	shell:
 		"sifter graph-build -o pre-outputs/pharmacodb/ transform/pharmacodb/mapping.yaml pre-outputs/pharmacodb-obj/"
 
