@@ -18,6 +18,5 @@ steps:
               project_id: "Project:Reference"
             rename:
               synonyms: synonym
-              "morgan-fingerprint-2" : morgan_fingerprint_2
         - objectCreate:
             class: compound

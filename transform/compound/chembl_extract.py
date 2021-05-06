@@ -34,7 +34,7 @@ def genObjects(conn, ids):
                 m = Chem.MolFromSmiles(smiles)
                 fp = AllChem.GetMorganFingerprintAsBitVect(m, radius=2)
                 fingerprint = list(fp)
-                entry["morgan-fingerprint-2"] = fingerprint
+                entry["morgan_fingerprint_2"] = fingerprint
 
             if inchi is not None:
                 entry["inchi"] = inchi
