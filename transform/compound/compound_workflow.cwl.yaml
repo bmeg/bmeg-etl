@@ -16,6 +16,7 @@ inputs:
       position: 1
 
 outputs:
+
   records:
     type: File
     outputSource: distance/records
