@@ -1,25 +1,27 @@
 
-OUTPUTS.extend([
-	"outputs/g2p/Allele.Vertex.json.gz",
-	"outputs/g2p/Compound.Vertex.json.gz",
-	"outputs/g2p/Deadletter.Vertex.json.gz",
-	"outputs/g2p/G2PAssociation.Vertex.json.gz",
-	"outputs/g2p/GenomicFeature.Vertex.json.gz",
-	"outputs/g2p/Phenotype.Vertex.json.gz",
-	"outputs/g2p/G2PAssociation_Alleles_Allele.Edge.json.gz",
-	"outputs/g2p/Allele_G2PAssociations_G2PAssociation.Edge.json.gz",
-	"outputs/g2p/G2PAssociation_Compounds_Compound.Edge.json.gz",
-	"outputs/g2p/Compound_G2PAssociations_G2PAssociation.Edge.json.gz",
-	"outputs/g2p/G2PAssociation_Genes_Gene.Edge.json.gz",
-	"outputs/g2p/Gene_G2PAssociations_G2PAssociation.Edge.json.gz",
-	"outputs/g2p/G2PAssociation_GenomicFeatures_GenomicFeature.Edge.json.gz",
-	"outputs/g2p/GenomicFeature_G2PAssociations_G2PAssociation.Edge.json.gz",
-	"outputs/g2p/G2PAssociation_Phenotypes_Phenotype.Edge.json.gz",
-	"outputs/g2p/Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz",
-	"outputs/g2p/G2PAssociation_Publications_Publication.Edge.json.gz",
-	"outputs/g2p/Publication_G2PAssociations_G2PAssociation.Edge.json.gz"
-])
+COMPOUND_FILES['g2p'] = [
+	"pre-outputs/g2p/Compound.Vertex.json.gz",
+	"pre-outputs/g2p/Deadletter.Vertex.json.gz",
+	"pre-outputs/g2p/G2PAssociation.Vertex.json.gz",
+	"pre-outputs/g2p/GenomicFeature.Vertex.json.gz",
+	"pre-outputs/g2p/Phenotype.Vertex.json.gz",
+	"pre-outputs/g2p/G2PAssociation_Compounds_Compound.Edge.json.gz",
+	"pre-outputs/g2p/Compound_G2PAssociations_G2PAssociation.Edge.json.gz",
+	"pre-outputs/g2p/G2PAssociation_Genes_Gene.Edge.json.gz",
+	"pre-outputs/g2p/Gene_G2PAssociations_G2PAssociation.Edge.json.gz",
+	"pre-outputs/g2p/G2PAssociation_GenomicFeatures_GenomicFeature.Edge.json.gz",
+	"pre-outputs/g2p/GenomicFeature_G2PAssociations_G2PAssociation.Edge.json.gz",
+	"pre-outputs/g2p/G2PAssociation_Phenotypes_Phenotype.Edge.json.gz",
+	"pre-outputs/g2p/Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz",
+	"pre-outputs/g2p/G2PAssociation_Publications_Publication.Edge.json.gz",
+	"pre-outputs/g2p/Publication_G2PAssociations_G2PAssociation.Edge.json.gz"
+]
 
+ALLELE_FILES.extend([
+	"pre-outputs/g2p/Allele.Vertex.json.gz",
+	"pre-outputs/g2p/Allele_G2PAssociations_G2PAssociation.Edge.json.gz",
+	"pre-outputs/g2p/G2PAssociation_Alleles_Allele.Edge.json.gz"
+])
 
 rule hgnc_complete_set_json:
 	input:
@@ -50,23 +52,23 @@ rule g2p:
 		"source/g2p/all.json.gz",
 		"source/gene_enricher/hgnc_complete_set.json"
 	output:
-		"outputs/g2p/Allele.Vertex.json.gz",
-		"outputs/g2p/Compound.Vertex.json.gz",
-		"outputs/g2p/Deadletter.Vertex.json.gz",
-		"outputs/g2p/G2PAssociation.Vertex.json.gz",
-		"outputs/g2p/GenomicFeature.Vertex.json.gz",
-		"outputs/g2p/Phenotype.Vertex.json.gz",
-		"outputs/g2p/G2PAssociation_Alleles_Allele.Edge.json.gz",
-		"outputs/g2p/Allele_G2PAssociations_G2PAssociation.Edge.json.gz",
-		"outputs/g2p/G2PAssociation_Compounds_Compound.Edge.json.gz",
-		"outputs/g2p/Compound_G2PAssociations_G2PAssociation.Edge.json.gz",
-		"outputs/g2p/G2PAssociation_Genes_Gene.Edge.json.gz",
-		"outputs/g2p/Gene_G2PAssociations_G2PAssociation.Edge.json.gz",
-		"outputs/g2p/G2PAssociation_GenomicFeatures_GenomicFeature.Edge.json.gz",
-		"outputs/g2p/GenomicFeature_G2PAssociations_G2PAssociation.Edge.json.gz",
-		"outputs/g2p/G2PAssociation_Phenotypes_Phenotype.Edge.json.gz",
-		"outputs/g2p/Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz",
-		"outputs/g2p/G2PAssociation_Publications_Publication.Edge.json.gz",
-		"outputs/g2p/Publication_G2PAssociations_G2PAssociation.Edge.json.gz"
+		"pre-outputs/g2p/Allele.Vertex.json.gz",
+		"pre-outputs/g2p/Compound.Vertex.json.gz",
+		"pre-outputs/g2p/Deadletter.Vertex.json.gz",
+		"pre-outputs/g2p/G2PAssociation.Vertex.json.gz",
+		"pre-outputs/g2p/GenomicFeature.Vertex.json.gz",
+		"pre-outputs/g2p/Phenotype.Vertex.json.gz",
+		"pre-outputs/g2p/G2PAssociation_Alleles_Allele.Edge.json.gz",
+		"pre-outputs/g2p/Allele_G2PAssociations_G2PAssociation.Edge.json.gz",
+		"pre-outputs/g2p/G2PAssociation_Compounds_Compound.Edge.json.gz",
+		"pre-outputs/g2p/Compound_G2PAssociations_G2PAssociation.Edge.json.gz",
+		"pre-outputs/g2p/G2PAssociation_Genes_Gene.Edge.json.gz",
+		"pre-outputs/g2p/Gene_G2PAssociations_G2PAssociation.Edge.json.gz",
+		"pre-outputs/g2p/G2PAssociation_GenomicFeatures_GenomicFeature.Edge.json.gz",
+		"pre-outputs/g2p/GenomicFeature_G2PAssociations_G2PAssociation.Edge.json.gz",
+		"pre-outputs/g2p/G2PAssociation_Phenotypes_Phenotype.Edge.json.gz",
+		"pre-outputs/g2p/Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz",
+		"pre-outputs/g2p/G2PAssociation_Publications_Publication.Edge.json.gz",
+		"pre-outputs/g2p/Publication_G2PAssociations_G2PAssociation.Edge.json.gz"
 	shell:
 		"python3 -m transform.g2p.transform"

@@ -1,0 +1,69 @@
+
+class: Playbook
+name: chembDrugMechanismExtract
+
+schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+inputs:
+  sqlite:
+    type: File
+    default: ../../source/chembl/chembl_27/chembl_27_sqlite/chembl_27.db
+  uniprot2gene:
+    type: File
+    default: ../../mappings/uniprotId2ensemblGene.tsv
+
+
+steps:
+  - sqliteLoad:
+      input: "{{inputs.sqlite}}"
+      queries:
+        - query: "select * from drug_mechanism as a LEFT JOIN MECHANISM_REFS as b on a.MEC_ID=b.MEC_ID LEFT JOIN TARGET_COMPONENTS as c on a.TID=c.TID LEFT JOIN COMPONENT_SEQUENCES as d on c.COMPONENT_ID=d.COMPONENT_ID LEFT JOIN MOLECULE_DICTIONARY as e on a.MOLREGNO=e.MOLREGNO"
+          #query: "select * from DRUG_MECHANISM as a, TARGET_COMPONENTS as b, COMPONENT_SEQUENCES as c, MOLECULE_DICTIONARY as d where a.TID=b.TID and b.COMPONENT_ID=c.COMPONENT_ID and a.MOLREGNO=d.MOLREGNO  ;"
+          transform:
+            - tableLookup:
+                input: "{{inputs.uniprot2gene}}"
+                field: "{{row.accession}}"
+                key: id
+                project:
+                  protein: alternative
+            - regexReplace:
+                col: '{{row.ref_url}}'
+                regex: 'http:\/\/europepmc\.org\/abstract\/MED\/'
+                replace: 'ncbi.nlm.nih.gov/pubmed/'
+                dst: publications
+            - project:
+                mapping:
+                  association_type: "{{row.action_type}}"
+                  compound: "{{row.chembl_id}}"
+                  genes: ["{{row.protein}}"]
+                  project_id: Project:reference
+                  submitter_id: "CHEMBL-MEC:{{row.mec_id}}"
+                  type: protein_drug_association
+            - fieldType:
+                genes: list
+                ref_url: list
+
+            - reduce:
+                field: "{{row.mec_id}}"
+                method: merge
+                python: |
+
+                  def join(x,y):
+                    if not isinstance(x,list):
+                      x = [x]
+                    if not isinstance(y,list):
+                      y = [y]
+                    return x+y
+
+                  def merge(x, y):
+                    for i in y:
+                      if i in x:
+                        if x[i] != y[i]:
+                          x[i] = join(x[i], y[i])
+                      else:
+                        x[i] = y[i]
+                    return x
+
+            #- emit:
+            #    name: test_data
+            - objectCreate:
+                class: protein_drug_association

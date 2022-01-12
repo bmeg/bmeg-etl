@@ -1,0 +1,62 @@
+
+
+OUTPUTS.extend([
+	"outputs/drugbank/DrugAssociation_Compound.compound.Edge.json.gz",
+	"outputs/drugbank/ENSG_DrugAssociation.protein_drug_association.Edge.json.gz",
+	"outputs/drugbank/DrugAssociation_ENSG.genes.Edge.json.gz",
+	"outputs/drugbank/DrugAssociation.ProteinDrugAssociation.Vertex.json.gz",
+	"outputs/drugbank/Publication_DrugAssociation.protein_drug_association.Edge.json.gz",
+	"outputs/drugbank/DrugAssociation_Publication.publications.Edge.json.gz"
+])
+
+rule drugbank_mapping:
+	input:
+		"transform/drugbank/mapping.yaml",
+		"pre-outputs/drugbank-obj/drugbank.protein_drug_association.json.gz"
+	output:
+		"pre-outputs/drugbank/DrugAssociation_Compound.compound.Edge.json.gz",
+		"pre-outputs/drugbank/ENSG_DrugAssociation.protein_drug_association.Edge.json.gz",
+		"pre-outputs/drugbank/DrugAssociation_ENSG.genes.Edge.json.gz",
+		"pre-outputs/drugbank/DrugAssociation.ProteinDrugAssociation.Vertex.json.gz",
+		"pre-outputs/drugbank/Publication_DrugAssociation.protein_drug_association.Edge.json.gz",
+		"pre-outputs/drugbank/DrugAssociation_Publication.publications.Edge.json.gz"
+	shell:
+		"sifter graph-build -o pre-outputs/drugbank/ transform/drugbank/mapping.yaml pre-outputs/drugbank-obj/"
+
+rule drugbank_id_tables:
+  input:
+    "transform/drugbank/uniprot_conversion.yaml"
+  output:
+    "mappings/accession2uniprotId.tsv",
+    "mappings/uniprotId2ensembl.tsv"
+  shell:
+    "sifter run -o mappings transform/drugbank/uniprot_conversion.yaml"
+
+rule drugbank:
+  input:
+    "source/drugbank/drugbank_all_full_database.xml",
+    "mappings/accession2uniprotId.tsv",
+    "transform/drugbank/transform.yaml"
+  output:
+    "pre-outputs/drugbank-obj/drugbank.protein_drug_association.json.gz"
+  shell:
+    "sifter run -o pre-outputs/drugbank-obj transform/drugbank/transform.yaml"
+
+
+rule drugbank_fix_edges:
+	input:
+		"pre-outputs/drugbank/DrugAssociation_Compound.compound.Edge.json.gz",
+		"pre-outputs/drugbank/ENSG_DrugAssociation.protein_drug_association.Edge.json.gz",
+		"pre-outputs/drugbank/DrugAssociation_ENSG.genes.Edge.json.gz",
+		"pre-outputs/drugbank/DrugAssociation.ProteinDrugAssociation.Vertex.json.gz",
+		"pre-outputs/drugbank/Publication_DrugAssociation.protein_drug_association.Edge.json.gz",
+		"pre-outputs/drugbank/DrugAssociation_Publication.publications.Edge.json.gz"
+	output:
+		"outputs/drugbank/DrugAssociation_Compound.compound.Edge.json.gz",
+		"outputs/drugbank/ENSG_DrugAssociation.protein_drug_association.Edge.json.gz",
+		"outputs/drugbank/DrugAssociation_ENSG.genes.Edge.json.gz",
+		"outputs/drugbank/DrugAssociation.ProteinDrugAssociation.Vertex.json.gz",
+		"outputs/drugbank/Publication_DrugAssociation.protein_drug_association.Edge.json.gz",
+		"outputs/drugbank/DrugAssociation_Publication.publications.Edge.json.gz"
+	shell:
+		"sifter graph-fix transform/compound/compound_fix.yaml pre-outputs/drugbank/ outputs/drugbank/"

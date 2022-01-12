@@ -5,11 +5,10 @@ OUTPUTS.extend([
 
 rule linked_cases:
 	input:
-		"transform/celllines/link_cases.py",
-		"outputs/ccle/ccle.Case.Vertex.json.gz",
-		"outputs/ctrp/ctrp.Case.Vertex.json.gz",
-		"outputs/gdsc/gdsc.Case.Vertex.json.gz"
+		"pre-outputs/pharmacodb/CCLE.Case.Vertex.json.gz",
+		"pre-outputs/pharmacodb/CTRPv2.Case.Vertex.json.gz",
+		"pre-outputs/pharmacodb/GDSC1000.Case.Vertex.json.gz"
 	output:
 		"outputs/celllines/Case_SameAs_Case.Edge.json.gz"
 	shell:
-		"python3 transform/celllines/link_cases.py"
+		"python3 transform/celllines/link_cases.py {input}"

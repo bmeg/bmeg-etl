@@ -9,7 +9,9 @@ OUTPUTS.extend([
 	"outputs/pathway_commons/Interaction_Publications_Publication.Edge.json.gz",
 	"outputs/pathway_commons/Pathway_Genes_Gene.Edge.json.gz",
 	"outputs/pathway_commons/Pathway_Interactions_Interaction.Edge.json.gz",
-	"outputs/pathway_commons/Publication_Interactions_Interaction.Edge.json.gz"
+	"outputs/pathway_commons/Publication_Interactions_Interaction.Edge.json.gz",
+	"outputs/pathway_commons/Pathway_ParentPathways_Pathway.Edge.json.gz",
+	"outputs/pathway_commons/Pathway_SubPathways_Pathway.Edge.json.gz"
 ])
 
 PC_SOURCES = [

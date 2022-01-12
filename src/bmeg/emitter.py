@@ -4,6 +4,7 @@ import os
 import sys
 from datetime import datetime
 import gzip
+import bgzip
 
 from bmeg import Vertex, Edge
 from bmeg.utils import ensure_directory
@@ -31,7 +32,7 @@ class DebugEmitter:
 
 class JSONEmitter:
     def __init__(self, directory, prefix=None, **kwargs):
-        self.handles = FileHandler(directory, prefix, "json")
+        self.handles = FileHandler(directory, prefix, "json", compressmethod="bgzip")
         self.emitter = BaseEmitter(**kwargs)
 
     def close(self):
@@ -41,12 +42,12 @@ class JSONEmitter:
     def emit_edge(self, obj: Edge, emit_backref: bool = False):
         d = self.emitter.emit_edge(obj)
         fh = self.handles[obj]
-        if self.handles.compresslevel > 0:
-            fh.write(json.dumps(d).encode())
-            fh.write(os.linesep.encode())
-        else:
-            fh.write(json.dumps(d))
-            fh.write(os.linesep)
+        #if self.handles.compresslevel > 0:
+        fh.write(json.dumps(d).encode())
+        fh.write(os.linesep.encode())
+        #else:
+        #    fh.write(json.dumps(d))
+        #    fh.write(os.linesep)
         if emit_backref:
             if not obj.backref():
                 raise ValueError("{} has no valid backref".format(obj))
@@ -55,12 +56,12 @@ class JSONEmitter:
     def emit_vertex(self, obj: Vertex):
         d = self.emitter.emit_vertex(obj)
         fh = self.handles[obj]
-        if self.handles.compresslevel > 0:
-            fh.write(json.dumps(d).encode())
-            fh.write(os.linesep.encode())
-        else:
-            fh.write(json.dumps(d))
-            fh.write(os.linesep)
+        #if self.handles.compresslevel > 0:
+        fh.write(json.dumps(d).encode())
+        fh.write(os.linesep.encode())
+        #else:
+        #    fh.write(json.dumps(d))
+        #    fh.write(os.linesep)
 
 
 class Rate:
@@ -153,7 +154,7 @@ class FileHandler:
 
     This is an internal helper.
     """
-    def __init__(self, directory, prefix, extension, mode="w", compresslevel=1):
+    def __init__(self, directory, prefix, extension, mode="w", compressmethod="gzip", compresslevel=1):
         self.prefix = prefix
         self.directory = directory
         ensure_directory("outputs", self.directory)
@@ -162,6 +163,7 @@ class FileHandler:
         self.mode = mode
         self.handles = {}
         self.compresslevel = compresslevel
+        self.compressmethod = compressmethod
         atexit.register(self.close)
 
     def __getitem__(self, obj):
@@ -182,14 +184,18 @@ class FileHandler:
         if fname in self.handles:
             return self.handles[fname]
         else:
-            if self.compresslevel:
+            if self.compressmethod == "gzip":
                 self.mode = "wb"
                 fh = gzip.GzipFile(
                     filename='',
+                    mode="w",
                     compresslevel=self.compresslevel,
                     fileobj=open(fname + '.gz', mode=self.mode),
                     mtime=0
                 )
+            elif self.compressmethod == "bgzip":
+                self.mode = "wb"
+                fh = bgzip.BGZipWriter(open(fname + ".gz", mode=self.mode))
             else:
                 fh = open(fname, self.mode)
             self.handles[fname] = fh

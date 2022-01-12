@@ -9,13 +9,13 @@ from bmeg import (Aliquot, DrugResponse, Project, Compound,
                   DrugResponse_Compounds_Compound)
 
 
-def process_screen(screen_name, ex_df, fc_df, dr_df, compound_map, emitter):
+def process_screen(screen_name, ex_df, fc_df, dr_df, emitter):
     drugs = list(set(ex_df.broad_id))
     for drug_id in drugs:
         ex = ex_df[ex_df.broad_id == drug_id]
         doses = ex.dose.tolist()
         drug_name = ex.name[0]
-        compound = compound_map.get(drug_name)
+        compound = drug_name #compound_map.get(drug_name)
         if not compound:
             print("WARNING: compound not in lookup: {}".format(drug_name), file=sys.stderr)
             continue
@@ -62,7 +62,7 @@ def process_screen(screen_name, ex_df, fc_df, dr_df, compound_map, emitter):
             emitter.emit_edge(
                 DrugResponse_Compounds_Compound(
                     from_gid=dr.gid(),
-                    to_gid=compound.gid()
+                    to_gid=Compound.make_gid(drug_name)
                 ),
                 emit_backref=True
             )
@@ -72,7 +72,7 @@ def transform_compounds(
         primary_file="source/prism/primary-screen-replicate-collapsed-treatment-info.csv",
         secondary_file="source/prism/secondary-screen-replicate-collapsed-treatment-info.csv",
         emitter_prefix=None,
-        emitter_directory='prism'):
+        emitter_directory='../pre-outputs/prism'):
     emitter = JSONEmitter(prefix=emitter_prefix, directory=emitter_directory)
     df1 = pandas.read_csv(primary_file)
     df2 = pandas.read_csv(secondary_file)
@@ -97,10 +97,11 @@ def transform_primary(drug_lookup_path='source/prism/compound_lookup.tsv',
                       primary_foldchange_path='source/prism/primary-screen-replicate-collapsed-logfold-change.csv',
                       primary_treatment_path='source/prism/primary-screen-replicate-collapsed-treatment-info.csv',
                       emitter_prefix="primary_screen",
-                      emitter_directory='prism'):
+                      emitter_directory='../pre-outputs/prism'):
 
     emitter = JSONEmitter(prefix=emitter_prefix, directory=emitter_directory)
 
+    """
     compound_map = {}
     with open(drug_lookup_path) as handle:
         for line in handle:
@@ -115,11 +116,12 @@ def transform_primary(drug_lookup_path='source/prism/compound_lookup.tsv',
                                     project_id=Project.make_gid('Reference'))
 
             compound_map[row[0]] = compound
+    """
 
     primary_fc = pandas.read_csv(primary_foldchange_path, index_col=0)
     primary_ex = pandas.read_csv(primary_treatment_path, index_col=0)
 
-    process_screen("PRIMARY", primary_ex, primary_fc, None, compound_map, emitter)
+    process_screen("PRIMARY", primary_ex, primary_fc, None, emitter)
 
     emitter.close()
 
@@ -129,10 +131,11 @@ def transform_secondary(drug_lookup_path='source/prism/compound_lookup.tsv',
                         secondary_response_path='source/prism/secondary-screen-dose-response-curve-parameters.csv',
                         secondary_treatment_path='source/prism/secondary-screen-replicate-collapsed-treatment-info.csv',
                         emitter_prefix="secondary_screen",
-                        emitter_directory='prism'):
+                        emitter_directory='../pre-outputs/prism'):
 
     emitter = JSONEmitter(prefix=emitter_prefix, directory=emitter_directory)
 
+    """
     compound_map = {}
     with open(drug_lookup_path) as handle:
         for line in handle:
@@ -147,12 +150,13 @@ def transform_secondary(drug_lookup_path='source/prism/compound_lookup.tsv',
                                     project_id=Project.make_gid('Reference'))
 
             compound_map[row[0]] = compound
+    """
 
     secondary_dr = pandas.read_csv(secondary_response_path, low_memory=False).astype(object)
     secondary_dr["aac"] = 1 + -secondary_dr.auc
     secondary_fc = pandas.read_csv(secondary_foldchange_path, index_col=0).astype(object)
     secondary_ex = pandas.read_csv(secondary_treatment_path, index_col=0).astype(object)
 
-    process_screen("SECONDARY", secondary_ex, secondary_fc, secondary_dr, compound_map, emitter)
+    process_screen("SECONDARY", secondary_ex, secondary_fc, secondary_dr, emitter)
 
     emitter.close()

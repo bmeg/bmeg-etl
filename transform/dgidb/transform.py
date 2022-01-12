@@ -11,7 +11,7 @@ import bmeg.enrichers.gene_enricher as gene_enricher
 
 def transform(interactions_file="source/dgidb/interactions.tsv",
               emitter_prefix=None,
-              emitter_directory="dgidb"):
+              emitter_directory="../pre-outputs/dgidb"):
 
     emitter = JSONEmitter(directory=emitter_directory, prefix=emitter_prefix)
 

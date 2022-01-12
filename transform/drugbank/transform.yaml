@@ -1,0 +1,72 @@
+class: Playbook
+name: "drugbank"
+schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+inputs:
+  drugBank:
+    type: File
+    default: ../../source/drugbank/drugbank_all_full_database.xml
+  proteinConvert1:
+    type: File
+    default: ../../mappings/accession2uniprotId.tsv
+  proteinConvert2:
+    type: File
+    default: ../../mappings/uniprotId2ensemblGene.tsv
+steps:
+  - xmlLoad:
+      input: "{{inputs.drugBank}}"
+      transform:
+          #- debug: {}
+          - map:
+              python: >
+                def forceList(x):
+                  if isinstance(x,list):
+                    return x
+                  return [x]
+                def f(x):
+                  for d in forceList(x["drug"]["drugbank-id"]):
+                    if d.startswith("DB"):
+                      x["submitter_id"] = d
+                  x["publications"] = []
+                  if 'articles' in x["drug"]["general-references"] and 'article' in x["drug"]["general-references"]["articles"]:
+                    for d in forceList(x["drug"]["general-references"]["articles"]["article"]):
+                      if isinstance(d, dict):
+                        url = "Publication:ncbi.nlm.nih.gov/pubmed/{}".format(d["pubmed-id"])
+                        x["publications"].append(url)
+                  x['compound'] = ""
+                  if 'external-identifiers' in x['drug'] and 'external-identifier' in x['drug']['external-identifiers']:
+                    for d in forceList(x['drug']['external-identifiers']['external-identifier']):
+                      if isinstance(d, dict):
+                        x['compound'] = d['identifier']
+                  x['proteins'] = []
+                  if 'target' in x['drug']['targets']:
+                    for target in forceList(x['drug']['targets']['target']):
+                      if isinstance(target, dict):
+                        if 'polypeptide' in target:
+                          if 'external-identifiers' in target['polypeptide']:
+                            if 'external-identifier' in target['polypeptide']['external-identifiers']:
+                              for exid in forceList(target['polypeptide']['external-identifiers']['external-identifier']):
+                                if 'UniProt Accession' == exid['resource']:
+                                  v = exid['identifier']
+                                  x['proteins'].append(v)
+                  return x
+              method: f
+          - filter:
+              python: >
+                def f(x):
+                  return len(x['proteins']) > 0
+              method: f
+              steps:
+                - tableReplace:
+                    input: "{{inputs.proteinConvert1}}"
+                    field: proteins
+                - tableReplace:
+                    input: "{{inputs.proteinConvert2}}"
+                    field: proteins
+                    target: genes
+                - project:
+                    mapping:
+                        project_id: "Project:Drugbank"
+                        association_type: "{{row.drug.targets.target.actions.action}}"
+                        type: protein_drug
+                - objectCreate:
+                    class: protein_drug_association

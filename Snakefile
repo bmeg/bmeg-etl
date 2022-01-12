@@ -1,6 +1,10 @@
 
 OUTPUTS = []
 
+COMPOUND_FILES = {}
+NORMALIZE_FILES = []
+ALLELE_FILES = []
+
 include: "Snakefile.ccle"
 include: "Snakefile.pfam"
 include: "Snakefile.ensembl"
@@ -14,6 +18,8 @@ include: "Snakefile.g2p"
 include: "Snakefile.msigdb"
 include: "Snakefile.gdc"
 include: "Snakefile.mondo"
+# include: "Snakefile.drugbank"
+include: "Snakefile.chembl"
 
 # literature
 include: "Snakefile.publication"
@@ -23,11 +29,12 @@ include: "Snakefile.allele"
 # cellline testing
 include: "Snakefile.pharmacodb"
 include: "Snakefile.prism"
-include: "Snakefile.ctrp"
 include: "Snakefile.gdsc"
 include: "Snakefile.celllines"
 include: "Snakefile.phenotype"
 include: "Snakefile.compound"
+
+include: "Snakefile.normalize"
 
 rule outputs_bmeg_manifest:
 	input:
@@ -35,4 +42,4 @@ rule outputs_bmeg_manifest:
 	output:
 		"bmeg_file_manifest.txt"
 	shell:
-		"./gen_manifest.sh"
+		"./gen_manifest.sh {input}"

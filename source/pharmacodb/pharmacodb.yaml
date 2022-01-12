@@ -75,7 +75,7 @@ steps:
                   - HS
                   - Einf
                   - EC50
-                  - ACC
+                  - AAC
                   - IC50
                   - DSS1
                   - DSS2

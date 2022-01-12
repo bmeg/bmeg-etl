@@ -1,0 +1,18 @@
+class: GraphMap
+
+schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
+ruleMap:
+  - name: chembExtract.compound.json.gz
+    rule: chembExtract
+
+rules:
+  chembExtract:
+    idPrefix: Compound
+    idField: id
+    label: Compound
+    class: compound
+    fields:
+      similar_compounds:
+        toPrefix: Compound
+        idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"

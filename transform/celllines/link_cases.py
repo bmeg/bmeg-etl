@@ -1,14 +1,13 @@
 import json
 
+import sys
 import bmeg.ioutils
 from bmeg.emitter import JSONEmitter
 from bmeg import (Case,
                   Case_SameAs_Case)
 
 
-def transform(case_files=["outputs/ccle/ccle.Case.Vertex.json.gz",
-                          "outputs/ctrp/ctrp.Case.Vertex.json.gz",
-                          "outputs/gdsc/gdsc.Case.Vertex.json.gz"],
+def transform(case_files,
               emitter_prefix=None,
               emitter_directory="celllines"):
 
@@ -16,10 +15,11 @@ def transform(case_files=["outputs/ccle/ccle.Case.Vertex.json.gz",
     emitted_edges = {}
     cases = {}
     for path in case_files:
+        print("Scanning %s" % (path))
         with bmeg.ioutils.reader(path) as f:
             for line in f:
                 case = json.loads(line)
-                case_id = case["data"]["case_id"]
+                case_id = case["data"]["case_id"].split(":")[-1]
                 if case_id not in cases:
                     cases[case_id] = [case["gid"]]
                 else:
@@ -53,4 +53,4 @@ def transform(case_files=["outputs/ccle/ccle.Case.Vertex.json.gz",
 
 
 if __name__ == '__main__':  # pragma: no cover
-    transform()
+    transform(case_files=sys.argv[1:])

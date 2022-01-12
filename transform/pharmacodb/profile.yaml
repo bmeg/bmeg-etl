@@ -1,0 +1,189 @@
+
+class: Playbook
+
+schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+
+name: "pharmacodb"
+
+inputs:
+  profiles:
+    type: File
+    default: ../../source/pharmacodb/profiles.tsv.gz
+  doseResponseCurve:
+    type: File
+  experiments:
+    type: File
+    default: ../../source/pharmacodb/experiments.tsv.gz
+  drugs:
+    type: File
+    default: ../../source/pharmacodb/drugs.tsv.gz
+  cells:
+    type: File
+    default: ../../source/pharmacodb/cells.tsv.gz
+  cell_names:
+    type: File
+    default: ../../source/ccle/cellline_id_lookup.tsv
+  datasets:
+    type: File
+    default: ../../source/pharmacodb/datasets.tsv.gz
+
+steps:
+  - tableLoad:
+      input: "{{inputs.profiles}}"
+      transform:
+        - jsonLookup:
+            input: "{{inputs.doseResponseCurve}}"
+            field: "{{row.experiment_id}}"
+            key: experiment_id
+            copy:
+              curve: curve
+        - tableLookup:
+            input: "{{inputs.experiments}}"
+            sep: "\t"
+            field: "{{row.experiment_id}}"
+            key: experiment_id
+            project:
+              cell_id: cell_id
+              drug_id: drug_id
+              dataset_id: dataset_id
+        - tableLookup:
+            input: "{{inputs.drugs}}"
+            sep: "\t"
+            field: "{{row.drug_id}}"
+            key: drug_id
+            project:
+              drug_name: drug_name
+        - tableLookup:
+            input: "{{inputs.datasets}}"
+            sep: "\t"
+            field: "{{row.dataset_id}}"
+            key: dataset_id
+            project:
+              dataset_name: dataset_name
+        - tableReplace:
+            field: dataset_name
+            table:
+              CCLE: CCLE-NP
+        - tableLookup:
+            input: "{{inputs.cells}}"
+            sep: "\t"
+            field: "{{row.cell_id}}"
+            key: cell_id
+            project:
+              cell_alias: cell_name
+        - tableLookup:
+            input: "{{inputs.cell_names}}"
+            sep: "\t"
+            header: [name, id]
+            field: "{{row.cell_alias}}"
+            key: name
+            project:
+              cell_name: id
+        - project:
+            mapping:
+              submitter_id: "{{row.dataset_name}}:{{row.cell_name}}:{{row.drug_name}}"
+              aac: "{{row.AAC}}"
+              dss1: "{{row.DSS1}}"
+              dss2: "{{row.DSS2}}"
+              dss3: "{{row.DSS3}}"
+              ic50: "{{row.IC50}}"
+              ec50: "{{row.EC50}}"
+              einf: "{{row.Einf}}"
+              hs: "{{row.hs}}"
+              compounds: [ "{{row.drug_name}}" ]
+              aliquot: "{{row.dataset_name}}:{{row.cell_name}}"
+        - fieldType:
+            acc: float
+            dss1: float
+            dss2: float
+            dss3: float
+            ic50: float
+            ec50: float
+            einf: float
+            hs: float
+        - map:
+            method: response
+            python: |
+              def response(x):
+                s = sorted(x["curve"].items(), key=lambda x:float(x[0]))
+                x['dose_um'] = []
+                x['response'] = []
+                for d, r in s:
+                  try:
+                    dn = float(d)
+                    rn = float(r)
+                    x['dose_um'].append(dn)
+                    x['response'].append(rn)
+                  except ValueError:
+                    pass
+                return x
+        - fork:
+            transform:
+              -
+                - project:
+                    mapping:
+                      project_id: "Project:{{row.dataset_name}}"
+                - objectCreate:
+                    class: drug_response
+                    name: "{{row.dataset_name}}"
+        - distinct:
+            field: "{{row.dataset_name}}:{{row.cell_name}}"
+            steps:
+              - fork:
+                  transform:
+                    -
+                      - project:
+                          mapping:
+                            submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
+                            case_id: "Case:{{row.dataset_name}}:{{row.cell_name}}"
+                            project_id: "Project:{{row.dataset_name}}"
+                            projects: [ "Project:{{row.dataset_name}}" ]
+                      - clean:
+                          fields: ["case_id", "project_id", "submitter_id", "projects", "dataset_name"]
+                      - objectCreate:
+                          class: case
+                          name: "{{row.dataset_name}}"
+                    -
+                      - project:
+                          mapping:
+                            submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
+                            case: "Case:{{row.dataset_name}}:{{row.cell_name}}"
+                            sample_id: "Sample:{{row.dataset_name}}:{{row.cell_name}}"
+                            project_id: "Project:{{row.dataset_name}}"
+                      - clean:
+                          fields: ["case", "sample_id", "project_id", "submitter_id", "dataset_name"]
+                      - objectCreate:
+                          class: sample
+                          name: "{{row.dataset_name}}"
+                    -
+                      - project:
+                          mapping:
+                            submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
+                            sample: "Sample:{{row.dataset_name}}:{{row.cell_name}}"
+                            aliquot_id: "Aliquot:{{row.dataset_name}}:{{row.cell_name}}"
+                            project_id: "Project:{{row.dataset_name}}"
+                      - clean:
+                          fields: ["sample", "aliquot_id", "project_id", "submitter_id", "dataset_name"]
+                      - objectCreate:
+                          class: aliquot
+                          name: "{{row.dataset_name}}"
+        - fork:
+            transform:
+              -
+                - reduce:
+                    field: "{{row.dataset_name}}"
+                    method: merge
+                    init: { "compounds" : [] }
+                    python: |
+
+                      def merge(x,y):
+                        x["dataset_name"] = y["dataset_name"]
+                        x["compounds"] = list(set(y["compounds"]+x["compounds"]))
+                        return x
+                - project:
+                    mapping:
+                      submitter_id: "{{row.dataset_name}}"
+                      project_id: "Project:{{row.dataset_name}}"
+                - objectCreate:
+                    class: project
+                    name: "{{row.dataset_name}}"

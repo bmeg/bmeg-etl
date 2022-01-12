@@ -1,0 +1,39 @@
+
+
+cwlVersion: v1.0
+class: Workflow
+
+
+inputs:
+  chemblDB:
+    type: File
+  idFile:
+    type: File
+  column:
+    type: int?
+    inputBinding:
+      prefix: "-c"
+      position: 1
+
+outputs:
+
+  records:
+    type: File
+    outputSource: distance/records
+
+steps:
+  extract:
+    run: chembl_extract.cwl.yaml
+    in:
+      chemblDB: chemblDB
+      idFile: idFile
+      column: column
+    out:
+      - records
+
+  distance:
+    run: compound_dist.cwl.yaml
+    in:
+      dataFile: extract/records
+    out:
+      - records

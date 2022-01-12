@@ -149,7 +149,7 @@ def transform(input_path, emitter_directory, emitter_class):
 
 
 def main():  # pragma: no cover
-    parser = default_argument_parser(emitter_directory_default='g2p')
+    parser = default_argument_parser(emitter_directory_default='../pre-outputs/g2p')
     parser.add_argument('--input_path', type=str,
                         default='source/g2p/all.json.gz',
                         help='Path to g2p associations for import')
