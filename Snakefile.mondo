@@ -11,7 +11,7 @@ rule mondo_download:
 	output:
 		"source/mondo/mondo.json"
 	shell:
-		"wget -O source/mondo/mondo.json http://purl.obolibrary.org/obo/mondo.json"
+		"curl -L -o source/mondo/mondo.json http://purl.obolibrary.org/obo/mondo.json"
 
 rule mondo:
 	input:

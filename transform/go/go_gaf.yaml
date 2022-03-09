@@ -1,0 +1,16 @@
+
+class: Playbook
+
+name: go_gaf
+
+inputs:
+  gafFile:
+    type: File
+    default: ../../source/go/goa_human.gaf.gz
+
+steps:
+  - tableLoad:
+      input: "{{inputs.gafFile}}"
+      transform:
+        - emit:
+            name: doseResponseCurve

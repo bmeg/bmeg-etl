@@ -1,0 +1,30 @@
+
+class: Playbook
+
+schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+
+name: "mondo"
+
+inputs:
+  mondo:
+    type: File
+    default: ../../source/mondo/mondo.json
+
+steps:
+  - jsonLoad:
+      input: "{{inputs.mondo}}"
+      multiline: true
+      transform:
+        - fieldProcess:
+            field: graphs
+            steps:
+              - fieldProcess:
+                  field: nodes
+                  steps:
+                    - emit:
+                        name: nodes
+              - fieldProcess:
+                  field: edges
+                  steps:
+                    - emit:
+                        name: edges

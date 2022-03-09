@@ -1,0 +1,47 @@
+
+class: Playbook
+
+name: go_obo
+
+schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+
+inputs:
+  oboFile:
+    type: File
+    default: ../../source/go/go.obo.json
+
+steps:
+  - jsonLoad:
+      input: "{{inputs.oboFile}}"
+      transform:
+        - map:
+            method: clean
+            gpython: |
+              def unquote(s):
+                if s[0] == '"' and s[-1] == '"':
+                  return s[1:-2]
+                return s
+
+              def clean(rec):
+                rec['id'] = rec['id'][0]
+                rec['name'] = rec['name'][0]
+                rec['namespace'] = rec['namespace'][0]
+                rec['definition'] = unquote(rec['def'][0])
+                synonym = []
+                if 'synonym' in rec:
+                    for i in rec['synonym']:
+                        synonym.append(unquote(i))
+                xref = []
+                if 'xref' in rec:
+                    for i in rec['xref']:
+                        xref.append(i.split(" ")[0])
+                rec['xref'] = xref
+                rec['synonym'] = synonym
+                return rec
+        - project:
+            mapping:
+              submitter_id: "{{row.id}}"
+              project_id: reference
+              go_id: "{{row.id}}"
+        - objectCreate:
+            class: gene_ontology_term
