@@ -2,6 +2,8 @@
 class: Playbook
 name: hugo_mapping
 
+outdir: ../../source/ensembl
+
 links:
   tableFilter: hugoTSV
   uniprot2ensembl: tableFilter
