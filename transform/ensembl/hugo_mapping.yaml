@@ -1,0 +1,38 @@
+
+class: Playbook
+name: hugo_mapping
+
+links:
+  tableFilter: hugoTSV
+  uniprot2ensembl: tableFilter
+
+inputs:
+  hugoPath:
+    type: File
+    default: ../../source/hugo/hugo.tsv
+
+sources:
+  hugoTSV:
+    tableLoad:
+      input: "{{inputs.hugoPath}}"
+
+sinks:
+  uniprot2ensembl:
+    tableWrite:
+      output: "uniprotId2ensemblGene.alt.tsv"
+      columns:
+        - "uniprot"
+        - "ensembl"
+
+pipelines:
+  tableFilter:
+    - project:
+        rename:
+          "UniProt ID(supplied by UniProt)": uniprot
+          "Ensembl ID(supplied by Ensembl)": ensembl
+    - filter:
+        field: uniprot
+        check: hasValue
+    - filter:
+        field: ensembl
+        check: hasValue

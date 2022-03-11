@@ -1,0 +1,103 @@
+
+class: Playbook
+
+name: ensembl
+
+outdir: ../../output/ensembl
+
+inputs:
+  gffPath:
+    type: File
+    default: ../../source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz
+  genomeBuild:
+    default: GRCh37
+  schema:
+    type: Dir
+    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+
+sources:
+  gff:
+    tableLoad:
+      input: "{{inputs.gffPath}}"
+      columns:
+        - seqID
+        - source
+        - feature
+        - start
+        - end
+        - score
+        - strand
+        - phase
+        - attributes
+
+links:
+  transform: gff
+  transcripts: transform
+  exons: transform
+  genes: transform
+
+pipelines:
+  transform:
+    - fieldParse:
+        field: attributes
+        sep: ";"
+        assign: "="
+
+  transcripts:
+    - filter:
+        field: feature
+        match: transcript
+    - project:
+        mapping:
+          feature_id: "{{row.attributes.transcript_id}}"
+          biotype: "{{row.type}}"
+          submitter_id: "{{row.attributes.transcript_id}}"
+          transcript_id: "{{row.attributes.transcript_id}}"
+          project_id: "Reference"
+          chromosome: "{{row.seqID}}"
+          genome: "{{inputs.genomeBuild}}"
+    - objectCreate:
+        schema: "{{inputs.schema}}"
+        class: transcript
+    - emit:
+        name: transcript
+
+  exons:
+    - filter:
+        field: feature
+        match: exon
+    - project:
+        mapping:
+          feature_id: "{{row.attributes.exon_id}}"
+          biotype: "{{row.type}}"
+          submitter_id: "{{row.attributes.exon_id}}"
+          exon_id: "{{row.attributes.exon_id}}"
+          project_id: "Reference"
+          chromosome: "{{row.seqID}}"
+          genome: "{{inputs.genomeBuild}}"
+    - objectCreate:
+        schema: "{{inputs.schema}}"
+        class: exon
+    - emit:
+        name: exon
+
+  genes:
+    - filter:
+        field: feature
+        match: gene
+    - project:
+        mapping:
+          feature_id: "{{row.attributes.gene_id}}"
+          biotype: "{{row.type}}"
+          submitter_id: "{{row.attributes.gene_id}}"
+          gene_id: "{{row.attributes.gene_id}}"
+          project_id: "Reference"
+          chromosome: "{{row.seqID}}"
+          genome: "{{inputs.genomeBuild}}"
+          description: "{{row.attributes.description}}"
+          symbol: "{{row.attributes.Name}}"
+    - objectCreate:
+        schema: "{{inputs.schema}}"
+        class: gene
+    - emit:
+        name: gene

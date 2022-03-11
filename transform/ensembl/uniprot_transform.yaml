@@ -1,0 +1,36 @@
+
+name: uniprot
+
+outdir: ../../output/ensembl
+
+inputs:
+  gffPath:
+    type: File
+    default: ../../source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz
+  schema:
+    type: Dir
+    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  genomeBuild:
+    default: GRCh37
+
+sources:
+  gff:
+    tableLoad:
+      input: "{{inputs.gffPath}}"
+
+links:
+  transform: gff
+
+pipelines:
+  transform:
+    - project:
+        mapping:
+          protein_id: "{{row.protein_stable_id}}"
+          submitter_id: "{{row.protein_stable_id}}"
+          genome: "{{inputs.genomeBuild}}"
+          project_id: Reference
+    - objectCreate:
+        schema: "{{inputs.schema}}"
+        class: protein
+    - emit:
+        name: protein
