@@ -1,6 +1,6 @@
 
 class: Playbook
-name: hugo_mapping
+name: hugoMapping
 
 outdir: ../../source/ensembl
 

@@ -2,7 +2,18 @@
 name: hugoDownload
 
 scripts:
+  hudoDir:
+    commandLine: "mkdir -p ../../source/hugo"
+    order: 0
+
   hugoDownload:
     commandLine: "curl -o ../../source/hugo/hugo.tsv https://www.genenames.org/cgi-bin/download/custom?col=gd_hgnc_id&col=gd_app_sym&col=gd_app_name&col=gd_status&col=gd_prev_sym&col=gd_aliases&col=gd_pub_chrom_map&col=gd_pub_acc_ids&col=gd_pub_refseq_ids&col=md_ensembl_id&col=md_prot_id&status=Approved&status=Entry%20Withdrawn&hgnc_dbtag=on&order_by=gd_app_sym_sort&format=text&submit=submit"
     outputs:
       - ../../source/hugo/hugo.tsv
+    order: 1
+
+  uniprotDownload:
+    commandLine: "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ensembl.org/pub/grch37/release-96/tsv/homo_sapiens/Homo_sapiens.GRCh37.85.uniprot.tsv.gz --output ../../source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz"
+    outputs:
+      - "../../source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz"
+    order: 2
