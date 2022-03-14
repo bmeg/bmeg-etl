@@ -1,10 +1,12 @@
 
 name: pharmacodb
 
+outdir: ../../output/pharmacodb/
+
 inputs:
   sql:
     type: File
-    default: ../../sources/pharmacodb/pharmacodb-1.1.1.sql
+    default: ../../source/pharmacodb/pharmacodb-1.1.1.sql
 
 sources:
   database:
@@ -30,147 +32,304 @@ sources:
 
 links:
   cells: database
+  cell_tissues: database
+  dose_responses: database
+  drugs: database
+  drug_annots: database
+  experiments: database
+  profiles: database
+  cellosaurus: database
+  source_cell_names: database
+  dataset_cells: database
+  datasets: database
+  source_drug_names: database
+  source_statistics: database
+  source_tissue_names: database
+  sources: database
+  tissues: database
+
+  cell_tissues_tsv: cell_tissues
+  dose_responses_tsv: dose_responses
+  drugs_tsv: drugs
+  drug_annots_tsv: drug_annots
+  experiments_tsv: experiments
+  profiles_tsv: profiles
+  cellosaurus_tsv: cellosaurus
+  source_cell_names_tsv: source_cell_names
+  dataset_cells_tsv: dataset_cells
+  datasets_tsv: datasets
+  source_drug_names_tsv: source_drug_names
+  source_statistics_tsv: source_statistics
+  sources_tsv: sources
+  source_tissue_names_tsv: source_tissue_names
+  tissues_tsv: tissues
+
+sinks:
+  cell_tsv:
+    tableWrite:
+      output: cells.tsv.gz
+      columns:
+        - cell_id
+        - accession_id
+        - cell_name
+        - tissue_id
+  cell_tissues_tsv:
+    tableWrite:
+      output: cell_tissues.tsv.gz
+      columns:
+        - id
+        - cell_id
+        - tissue_id
+
+  dose_responses_tsv:
+    tableWrite:
+      output: dose_responses.tsv.gz
+      columns:
+        - id
+        - experiment_id
+        - dose
+        - response
+
+  drugs_tsv:
+    tableWrite:
+      output: drugs.tsv.gz
+      columns:
+        - drug_id
+        - drug_name
+
+  drug_annots_tsv:
+    tableWrite:
+      output: drug_annots.tsv.gz
+      columns:
+        - drug_id
+        - smiles
+        - inchikey
+        - pubchem
+
+  experiments_tsv:
+    tableWrite:
+      output: experiments.tsv.gz
+      columns:
+        - experiment_id
+        - cell_id
+        - drug_id
+        - dataset_id
+        - tissue_id
+
+  profiles_tsv:
+    tableWrite:
+      output: profiles.tsv.gz
+      columns:
+        - experiment_id
+        - HS
+        - Einf
+        - EC50
+        - AAC
+        - IC50
+        - DSS1
+        - DSS2
+        - DSS3
+
+  cellosaurus_tsv:
+    tableWrite:
+      output: cellosaurus.tsv.gz
+      columns:
+        - id
+        - identifier
+        - accession
+        - as
+        - sy
+        - dr
+        - rx
+        - ww
+        - cc
+        - st
+        - di
+        - ox
+        - hi
+        - oi
+        - sx
+        - ca
+        - created_at
+        - updated_at
+
+  source_cell_names_tsv:
+    tableWrite:
+      output: source_cell_names.tsv.gz
+      columns:
+        - id
+        - cell_id
+        - source_id
+        - cell_name
+
+  dataset_cells_tsv:
+    tableWrite:
+      output: dataset_cells.tsv.gz
+      columns:
+        - id
+        - dataset_id
+        - cell_id
+
+  datasets_tsv:
+    tableWrite:
+      output: datasets.tsv.gz
+      columns:
+        - dataset_id
+        - dataset_name
+
+  source_drug_names_tsv:
+    tableWrite:
+      output: source_drug_names.tsv.gz
+      columns:
+        - id
+        - drug_id
+        - source_id
+        - drug_name
+
+  sources_tsv:
+    tableWrite:
+      output: sources.tsv.gz
+      columns:
+        - source_id
+        - dataset_id
+        - source_name
+
+  source_statistics_tsv:
+    tableWrite:
+      output: source_statistics.tsv.gz
+      columns:
+        - id
+        - dataset_id
+        - cell_lines
+        - tissues
+        - drugs
+        - experiments
+
+  source_tissue_names_tsv:
+    tableWrite:
+      output: source_tissue_names.tsv.gz
+      columns:
+        - id
+        - tissue_id
+        - source_id
+        - tissue_name
+
+  tissues_tsv:
+    tableWrite:
+      output: tissues.tsv.gz
+      columns:
+        - tissue_id
+        - tissue_name
 
 pipelines:
   cells:
-    - debug: {}
-    - tableWrite:
-        output: cells.tsv.gz
-        columns:
-          - cell_id
-          - accession_id
-          - cell_name
-          - tissue_id
+    - filter:
+        field: table
+        match: cells
+    - fieldProcess:
+        field: data
+
   cell_tissues:
-    - tableWrite:
-        output: cell_tissues.tsv.gz
-        columns:
-          - id
-          - cell_id
-          - tissue_id
+    - filter:
+        field: table
+        match: cell_tissues
+    - fieldProcess:
+        field: data
+
   dose_responses:
-    - tableWrite:
-        output: dose_responses.tsv.gz
-        columns:
-          - id
-          - experiment_id
-          - dose
-          - response
+    - filter:
+        field: table
+        match: dose_responses
+    - fieldProcess:
+        field: data
+
   drugs:
-    - tableWrite:
-        output: drugs.tsv.gz
-        columns:
-          - drug_id
-          - drug_name
+    - filter:
+        field: table
+        match: drugs
+    - fieldProcess:
+        field: data
+
   drug_annots:
-    - tableWrite:
-        output: drug_annots.tsv.gz
-        columns:
-          - drug_id
-          - smiles
-          - inchikey
-          - pubchem
+    - filter:
+        field: table
+        match: drug_annots
+    - fieldProcess:
+        field: data
+
   experiments:
-    - tableWrite:
-        output: experiments.tsv.gz
-        columns:
-          - experiment_id
-          - cell_id
-          - drug_id
-          - dataset_id
-          - tissue_id
+    - filter:
+        field: table
+        match: experiments
+    - fieldProcess:
+        field: data
+
   profiles:
-    - tableWrite:
-        output: profiles.tsv.gz
-        columns:
-          - experiment_id
-          - HS
-          - Einf
-          - EC50
-          - AAC
-          - IC50
-          - DSS1
-          - DSS2
-          - DSS3
+    - filter:
+        field: table
+        match: profiles
+    - fieldProcess:
+        field: data
+
   cellosaurus:
-    - tableWrite:
-        output: cellosaurus.tsv.gz
-        columns:
-          - id
-          - identifier
-          - accession
-          - as
-          - sy
-          - dr
-          - rx
-          - ww
-          - cc
-          - st
-          - di
-          - ox
-          - hi
-          - oi
-          - sx
-          - ca
-          - created_at
-          - updated_at
+    - filter:
+        field: table
+        match: cellosaurus
+    - fieldProcess:
+        field: data
+
   source_cell_names:
-    - tableWrite:
-        output: source_cell_names.tsv.gz
-        columns:
-          - id
-          - cell_id
-          - source_id
-          - cell_name
+    - filter:
+        field: table
+        match: source_cell_names
+    - fieldProcess:
+        field: data
+
   dataset_cells:
-    - tableWrite:
-        output: dataset_cells.tsv.gz
-        columns:
-          - id
-          - dataset_id
-          - cell_id
+    - filter:
+        field: table
+        match: dataset_cells
+    - fieldProcess:
+        field: data
+
   datasets:
-    - tableWrite:
-        output: datasets.tsv.gz
-        columns:
-          - dataset_id
-          - dataset_name
+    - filter:
+        field: table
+        match: datasets
+    - fieldProcess:
+        field: data
+
   source_drug_names:
-    - tableWrite:
-        output: source_drug_names.tsv.gz
-        columns:
-          - id
-          - drug_id
-          - source_id
-          - drug_name
+    - filter:
+        field: table
+        match: source_drug_names
+    - fieldProcess:
+        field: data
+
   source_statistics:
-    - tableWrite:
-        output: source_statistics.tsv.gz
-        columns:
-          - id
-          - dataset_id
-          - cell_lines
-          - tissues
-          - drugs
-          - experiments
+    - filter:
+        field: table
+        match: source_statistics
+    - fieldProcess:
+        field: data
+
   source_tissue_names:
-    - tableWrite:
-        output: source_tissue_names.tsv.gz
-        columns:
-          - id
-          - tissue_id
-          - source_id
-          - tissue_name
+    - filter:
+        field: table
+        match: source_tissue_names
+    - fieldProcess:
+        field: data
+
   sources:
-    - tableWrite:
-        output: sources.tsv.gz
-        columns:
-          - source_id
-          - dataset_id
-          - source_name
+    - filter:
+        field: table
+        match: sources
+    - fieldProcess:
+        field: data
+
   tissues:
-    - tableWrite:
-        output: tissues.tsv.gz
-        columns:
-          - tissue_id
-          - tissue_name
+    - filter:
+        field: table
+        match: tissues
+    - fieldProcess:
+        field: data

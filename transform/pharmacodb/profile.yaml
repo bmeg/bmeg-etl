@@ -1,4 +1,17 @@
 
+outdir: ../../output/pharmacodb/
+
+inputs:
+  doseResponseFile:
+    type: File
+    default: ../../output/pharmacodb/dose_responses.tsv.gz
+  profiles:
+    type: File
+    default: ../../output/pharmacodb/profiles.tsv.gz
+  schema:
+    type: Dir
+    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+
 
 sources:
   dsReader:
@@ -31,7 +44,7 @@ pipelines:
         field: "{{row.experiment_id}}"
         method: merge
         init: { "curve" : {} }
-        python: |
+        gpython: |
 
           def merge(x,y):
             x["curve"][y["dose"]] = y["response"]
@@ -133,6 +146,7 @@ pipelines:
     - objectCreate:
         class: drug_response
         name: "{{row.dataset_name}}"
+        schema: "{{inputs.schema}}"
 
   cellDistinct:
     - distinct:
@@ -150,6 +164,7 @@ pipelines:
     - objectCreate:
         class: case
         name: "{{row.dataset_name}}"
+        schema: "{{inputs.schema}}"
 
   cellSample:
     - project:
@@ -163,6 +178,7 @@ pipelines:
     - objectCreate:
         class: sample
         name: "{{row.dataset_name}}"
+        schema: "{{inputs.schema}}"
 
   cellAliquot:
     - project:
@@ -176,6 +192,7 @@ pipelines:
     - objectCreate:
         class: aliquot
         name: "{{row.dataset_name}}"
+        schema: "{{inputs.schema}}"
 
   cellProject:
     - reduce:
@@ -195,62 +212,4 @@ pipelines:
     - objectCreate:
         class: project
         name: "{{row.dataset_name}}"
-
-
-  projectGraph:
-    - graphMap:
-        idPrefix: Project
-        idField: submitter_id
-        label: Project
-        class: project
-        fields:
-          compounds:
-            toPrefix: Compound
-            idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
-
-  caseGraph:
-    - graphMap:
-        idPrefix: Case
-        idField: submitter_id
-        label: Case
-        class: case
-        fields:
-          projects:
-            toPrefix: Project
-            idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
-
-  sampelGraph:
-    - graphMap:
-        idPrefix: Sample
-        idField: submitter_id
-        label: Sample
-        class: sample
-        fields:
-          case:
-            toPrefix: "Case"
-            idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
-
-  aliquotGraph:
-    - graphMap:
-        idPrefix: Aliquot
-        idField: submitter_id
-        label: Aliquot
-        class: aliquot
-        fields:
-          sample:
-            toPrefix: Sample
-            idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
-
-  drGraph:
-    - graphMap:
-        idPrefix: DrugResponse
-        idField: submitter_id
-        label: DrugResponse
-        class: drug_response
-        fields:
-          compounds:
-            toPrefix: Compound
-            idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
-          aliquot:
-            toPrefix: Aliquot
-            idTemplate: "{{row._from}}--{{row._label}}--{{row._to}}"
+        schema: "{{inputs.schema}}"
