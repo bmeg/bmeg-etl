@@ -1,0 +1,69 @@
+
+name: go
+
+outdir: ../../output/go/
+
+inputs:
+  obo:
+    type: File
+    default: ../../source/go/go.json
+  schema:
+    type: Dir
+    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+
+sources:
+  oboJson:
+    jsonLoad:
+      input: "{{inputs.obo}}"
+      multiline: true
+
+links:
+  recordOpen: oboJson
+  nodeOpen: recordOpen
+  edgeOpen: recordOpen
+
+pipelines:
+  recordOpen:
+    - fieldProcess:
+        field: graphs
+
+  nodeOpen:
+    - fieldProcess:
+        field: nodes
+    - project:
+        mapping:
+          submitter_id: "{{row.id}}"
+          project_id: reference
+          go_id: "{{row.id}}"
+          name: "{{row.lbl}}"
+          namespace: "{{row.type}}"
+    - map:
+        method: syn
+        gpython: |
+
+          def syn(rec):
+            synonym = []
+            if 'synonyms' in rec:
+                for i in rec['synonyms']:
+                    synonym.append(i['val'])
+            rec['synonym'] = synonym
+            rec['definition'] = ""
+            rec['xref'] = ""
+            if "meta" in rec:
+              if "definition" in rec['meta']:
+                rec['definition'] = rec['meta']['definition']['val']
+                rec['xref'] = rec['meta']['definition']['xrefs']
+            return rec
+
+    - objectCreate:
+        class: gene_ontology_term
+        schema: "{{inputs.schema}}"
+
+    - emit:
+        name: term
+
+  edgeOpen:
+    - fieldProcess:
+        field: edges
+    - emit:
+        name: edges

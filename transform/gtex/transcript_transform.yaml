@@ -1,0 +1,45 @@
+
+class: Playbook
+
+name: GTEX_Transcript_Expression
+
+
+inputs:
+  gct:
+    type: File
+    default: ../../source/gtex/GTEx_Analysis_2017-06-05_v8_RSEMv1.3.0_transcript_tpm.gct.gz
+
+schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+
+steps:
+
+  - desc: Transpose RNA file
+    transposeFile:
+        input: "{{inputs.gct}}"
+        output: tmp.gct
+        lineSkip: 2
+  - desc: Loading Matrix
+    tableLoad:
+      input: tmp.gct
+      transform:
+        #- debug:
+        #    label: Before
+        - map:
+            method: nodeMap
+            python: >
+              def nodeMap(x):
+                values = {}
+                for k, v in x.items():
+                  if k != "Name" and k != "aliquot_id" and k != "Entrez_Gene_Id":
+                    j = k.split(".")[0]
+                    values[j] = v
+                return {
+                  "id" : x["Name"],
+                  "submitter_id" : x["Name"],
+                  "project_id" : "GTEX",
+                  "metric" : "TPM",
+                  "method" : "Illumina HiSeq",
+                  "values": values
+                }
+        - objectCreate:
+            class: transcript_expression

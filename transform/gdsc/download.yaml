@@ -1,0 +1,24 @@
+
+name: download
+
+scripts:
+  sampleInfo:
+    commandLine: curl https://cog.sanger.ac.uk/cmp/download/model_list_20191104.csv -o ../../source/gdsc/model_list_20191104.csv
+    outputs:
+      - ../../source/gdsc/model_list_20191104.csv
+
+  mkdir:
+    commandLine: mkdir ../../source/gdsc/vcfs
+    order: 1
+
+  vcfs:
+    commandLine: curl -o ../../source/gdsc/cell_line_wes_20180620.zip https://cog.sanger.ac.uk/cmp/download/cell_line_wes_20180620.zip
+    outputs:
+      - ../../source/gdsc/cell_line_wes_20180620.zip
+    order: 2
+
+  unzip:
+    commandLine: unzip ../../source/gdsc/cell_line_wes_20180620.zip -d ../../source/gdsc/vcfs
+    outputs:
+      - ../../source/gdsc/vcfs
+    order: 3

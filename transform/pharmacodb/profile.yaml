@@ -4,64 +4,53 @@ outdir: ../../output/pharmacodb/
 inputs:
   doseResponseFile:
     type: File
-    default: ../../output/pharmacodb/dose_responses.tsv.gz
+    default: ../../output/pharmacodb/dr_reduce.curveReduce.dose_response_curve.json.gz
   profiles:
     type: File
     default: ../../output/pharmacodb/profiles.tsv.gz
   schema:
     type: Dir
     default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
-
+  experiments:
+    type: File
+    default: ../../output/pharmacodb/experiments.tsv.gz
+  drugs:
+    type: File
+    default: ../../output/pharmacodb/drugs.tsv.gz
+  datasets:
+    type: File
+    default: ../../output/pharmacodb/datasets.tsv.gz
+  cells:
+    type: File
+    default: ../../output/pharmacodb/cells.tsv.gz
 
 sources:
-  dsReader:
-    tableLoad:
-      input: "{{inputs.doseResponseFile}}"
-
   profileReader:
     tableLoad:
       input: "{{inputs.profiles}}"
 
-sinks:
-  doseResponseCurve:
-    from: curveReduce
-    format: json
-
 links:
-  curveReduce: dsReader
+  profileProcess: profileReader
   drObject: profileProcess
-  cellDistinct: profileProcess
-  cellCase: cellDistinct
-  cellSample: cellDistinct
-  cellAliquot: cellDistinct
-  cellProject: cellDistinct
-
+  #cellDistinct: profileProcess
+  #cellCase: cellDistinct
+  #cellSample: cellDistinct
+  #cellAliquot: cellDistinct
+  #cellProject: cellDistinct
 
 pipelines:
 
-  curveReduce:
-    - reduce:
-        field: "{{row.experiment_id}}"
-        method: merge
-        init: { "curve" : {} }
-        gpython: |
-
-          def merge(x,y):
-            x["curve"][y["dose"]] = y["response"]
-            x["experiment_id"] = y["experiment_id"]
-            return x
-
   profileProcess:
     - jsonLookup:
-        input: "{{inputs.doseResponseCurve}}"
-        field: "{{row.experiment_id}}"
+        input: "{{inputs.doseResponseFile}}"
+        value: "{{row.experiment_id}}"
         key: experiment_id
         copy:
           curve: curve
     - tableLookup:
         input: "{{inputs.experiments}}"
         sep: "\t"
-        field: "{{row.experiment_id}}"
+        value: "{{row.experiment_id}}"
         key: experiment_id
         project:
           cell_id: cell_id
@@ -70,36 +59,36 @@ pipelines:
     - tableLookup:
         input: "{{inputs.drugs}}"
         sep: "\t"
-        field: "{{row.drug_id}}"
+        value: "{{row.drug_id}}"
         key: drug_id
         project:
           drug_name: drug_name
     - tableLookup:
         input: "{{inputs.datasets}}"
         sep: "\t"
-        field: "{{row.dataset_id}}"
+        value: "{{row.dataset_id}}"
         key: dataset_id
         project:
           dataset_name: dataset_name
-    - tableReplace:
-        field: dataset_name
-        table:
-          CCLE: CCLE-NP
+    #- tableReplace:
+    #    field: dataset_name
+    #    table:
+    #      CCLE: CCLE-NP
     - tableLookup:
         input: "{{inputs.cells}}"
         sep: "\t"
-        field: "{{row.cell_id}}"
+        value: "{{row.cell_id}}"
         key: cell_id
         project:
           cell_alias: cell_name
-    - tableLookup:
-        input: "{{inputs.cell_names}}"
-        sep: "\t"
-        header: [name, id]
-        field: "{{row.cell_alias}}"
-        key: name
-        project:
-          cell_name: id
+    #- tableLookup:
+    #    input: "{{inputs.cell_names}}"
+    #    sep: "\t"
+    #    header: [name, id]
+    #    value: "{{row.cell_alias}}"
+    #    key: name
+    #    project:
+    #      cell_name: id
     - project:
         mapping:
           submitter_id: "{{row.dataset_name}}:{{row.cell_name}}:{{row.drug_name}}"
@@ -124,7 +113,7 @@ pipelines:
         hs: float
     - map:
         method: response
-        python: |
+        gpython: |
           def response(x):
             s = sorted(x["curve"].items(), key=lambda x:float(x[0]))
             x['dose_um'] = []
@@ -138,6 +127,11 @@ pipelines:
               except ValueError:
                 pass
             return x
+    - debug: {}
+
+  cellDistinct:
+    - distinct:
+        value: "{{row.dataset_name}}:{{row.cell_name}}"
 
   drObject:
     - project:
@@ -147,10 +141,8 @@ pipelines:
         class: drug_response
         name: "{{row.dataset_name}}"
         schema: "{{inputs.schema}}"
-
-  cellDistinct:
-    - distinct:
-      field: "{{row.dataset_name}}:{{row.cell_name}}"
+    - emit:
+        name: drug_response
 
   cellCase:
     - project:
@@ -199,7 +191,7 @@ pipelines:
         field: "{{row.dataset_name}}"
         method: merge
         init: { "compounds" : [] }
-        python: |
+        gpython: |
 
           def merge(x,y):
             x["dataset_name"] = y["dataset_name"]

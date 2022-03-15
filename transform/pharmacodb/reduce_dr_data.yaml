@@ -1,0 +1,32 @@
+
+name: dr_reduce
+outdir: ../../output/pharmacodb/
+
+inputs:
+  doseResponsePath:
+    type: File
+    default: ../../output/pharmacodb/dose_responses.tsv.gz
+
+sources:
+  doseResponseFile:
+    tableLoad:
+      input: "{{inputs.doseResponsePath}}"
+
+links:
+  curveReduce: doseResponseFile
+
+pipelines:
+  curveReduce:
+    - reduce:
+        field: experiment_id
+        method: merge
+        init: { "curve" : {} }
+        gpython: |
+
+          def merge(x,y):
+            y["curve"][x["dose"]] = x["response"]
+            y["experiment_id"] = x["experiment_id"]
+            return y
+
+    - emit:
+        name: dose_response_curve

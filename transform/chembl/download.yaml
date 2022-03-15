@@ -1,0 +1,9 @@
+
+
+name: chemblDownload
+
+scripts:
+  curl:
+    commandLine: curl -o ../../source/chembl/chembl_28_sqlite.tar.gz ftp://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_28_sqlite.tar.gz
+    outputs:
+      - ../../source/chembl/chembl_27/chembl_27_sqlite/chembl_27.db

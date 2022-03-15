@@ -1,0 +1,8 @@
+
+name: pharmacodbDownload
+
+scripts:
+  download:
+    commandLine: curl -o ../../source/pharmacodb/pharmacodb-1.1.1.sql https://zenodo.org/record/1143645/files/pharmacodb-1.1.1.sql
+    outputs:
+      - ../../source/pharmacodb/pharmacodb-1.1.1.sql

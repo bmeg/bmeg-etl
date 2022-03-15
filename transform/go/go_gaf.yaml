@@ -2,15 +2,41 @@
 class: Playbook
 
 name: go_gaf
+outdir: ../../output/go/
 
 inputs:
   gafFile:
     type: File
     default: ../../source/go/goa_human.gaf.gz
 
-steps:
-  - tableLoad:
+sources:
+  gafLoad:
+    tableLoad:
       input: "{{inputs.gafFile}}"
-      transform:
-        - emit:
-            name: doseResponseCurve
+      comment: "!"
+      columns:
+        - db
+        - id
+        - symbol
+        - qualifier
+        - goID
+        - reference
+        - evidenceCode
+        - from
+        - aspect
+        - name
+        - synonym
+        - objectType
+        - taxon
+        - date
+        - assignedBy
+        - extension
+        - geneProduct
+
+links:
+  dump: gafLoad
+
+pipelines:
+  dump:
+    - emit:
+        name: gaf

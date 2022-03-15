@@ -48,6 +48,7 @@ links:
   sources: database
   tissues: database
 
+  cells_tsv: cells
   cell_tissues_tsv: cell_tissues
   dose_responses_tsv: dose_responses
   drugs_tsv: drugs
@@ -65,7 +66,7 @@ links:
   tissues_tsv: tissues
 
 sinks:
-  cell_tsv:
+  cells_tsv:
     tableWrite:
       output: cells.tsv.gz
       columns:
@@ -73,6 +74,7 @@ sinks:
         - accession_id
         - cell_name
         - tissue_id
+
   cell_tissues_tsv:
     tableWrite:
       output: cell_tissues.tsv.gz

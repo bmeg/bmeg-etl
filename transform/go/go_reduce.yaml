@@ -1,0 +1,32 @@
+
+name: goReduce
+
+outdir: ../../output/go/
+
+inputs:
+  edges:
+    type: File
+    default: ../../output/go/go.edgeOpen.edges.json.gz
+
+sources:
+  edgeJson:
+    jsonLoad:
+      input: "{{inputs.edges}}"
+
+links:
+  edgeReduce: edgeJson
+
+pipelines:
+  edgeReduce:
+    - reduce:
+        init: { "is_a" : [] }
+        field: sub
+        method: merge
+        gpython: |
+          def merge(x,y):
+            if x['pred'] == "is_a":
+              y["is_a"].append( x["obj"] )
+            y["sub"] = x["sub"]
+            return y
+    - emit:
+        name: edge_reduce

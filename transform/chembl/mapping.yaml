@@ -1,14 +1,22 @@
-class: GraphMap
 
-schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+name: chemblGraph
 
-ruleMap:
-  - name: chembDrugMechanismExtract.protein_drug_association.json.gz
-    rule: chemdrugmech
+outdir: ../../out-graph/chembl
 
+inputs:
+  schema:
+    type: Dir
+    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+  protein_drug_association:
+    type: File
+    default: ../../outputs/chembl/chembDrugMechanismExtract.protein_drug_association.json.gz
 
-rules:
-  chemdrugmech:
+sources:
+  jsonReader:
+    input: "{{inputs.protein_drug_association}}"
+
+pipelines:
+  graphBuild:
     idPrefix: CHEMBL-MEC
     idField: submitter_id
     label: ProteinDrugAssociation
