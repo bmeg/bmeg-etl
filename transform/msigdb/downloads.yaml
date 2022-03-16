@@ -1,0 +1,8 @@
+
+name: downloads
+
+scripts:
+  msigdb:
+    commandLine: curl -o ../../source/msigdb/msigdb_v6.2.xml ftp://ftp.broadinstitute.org/pub/gsea/xml/msigdb_v6.2.xml
+    outputs:
+      - ../../source/msigdb/msigdb_v6.2.xml

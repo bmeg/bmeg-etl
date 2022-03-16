@@ -17,3 +17,8 @@ scripts:
     outputs:
       - "../../source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz"
     order: 2
+
+  gene2entrez:
+    commandLine: curl -o ../../source/ensembl/gene2ensembl.gz https://ftp.ncbi.nih.gov/gene/DATA/gene2ensembl.gz
+    outputs:
+      - "../../source/ensembl/gene2ensembl.gz"

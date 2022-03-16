@@ -1,0 +1,13 @@
+
+name: download
+
+scripts:
+  cases:
+    commandLine: ./gdc-scan.py cases ../../source/gdc/cases.json
+    outputs:
+      - ../../source/gdc/cases.json
+
+  compounds:
+    commandLine: ./gdc-scan.py compounds ../../source/gdc/compounds/
+    outputs:
+      - ../../source/gdc/compounds/

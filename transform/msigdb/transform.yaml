@@ -1,0 +1,74 @@
+
+
+outdir: ../../output/msigdb
+
+inputs:
+  xmlPath:
+    type: File
+    default: ../../source/msigdb/msigdb_v6.2.xml
+  schema:
+    type: File
+    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  gene2ensembl:
+    type: File
+    default: ../../source/ensembl/gene2ensembl.translate.link.json.gz
+
+sources:
+  loader:
+    xmlLoad:
+      input: "{{inputs.xmlPath}}"
+
+links:
+  transform: loader
+  object: transform
+
+pipelines:
+  transform:
+    - fieldProcess:
+        field: GENESET
+    - fieldProcess:
+        field: _attr
+    - project:
+        mapping:
+          standard_name: "{{row.STANDARD_NAME[0]}}"
+          systematic_name: "{{row.SYSTEMATIC_NAME[0]}}"
+          historical_names: "{{row.HISTORICAL_NAMES[0]}}"
+          geoid: "{{row.GEOID[0]}}"
+          exact_source: "{{row.EXACT_SOURCE[0]}}"
+          geneset_listing_url: "{{row.GENESET_LISTING_URL[0]}}"
+          external_details_url: "{{row.EXTERNAL_DETAILS_URL[0]}}"
+          chip: "{{row.CHIP[0]}}"
+          category_code: "{{row.CATEGORY_CODE[0]}}"
+          sub_category_code: "{{row.SUB_CATEGORY_CODE[0]}}"
+          contributor: "{{row.CONTRIBUTOR[0]}}"
+          contributor_org: "{{row.CONTRIBUTOR_ORG[0]}}"
+          description_brief: "{{row.DESCRIPTION_BRIEF[0]}}"
+          description_full: "{{row.DESCRIPTION_FULL[0]}}"
+          submitter_id: "{{row.SYSTEMATIC_NAME[0]}}"
+          project_id: Reference
+          genes: "{{row.MEMBERS_EZID[0]}}"
+        rename:
+          PMID: publications
+
+    - map:
+        method: splt
+        gpython: |
+          def splt(x):
+            x['genes'] = x['genes'].split(",")
+            return x
+
+    - jsonTable:
+        input: "{{inputs.gene2ensembl}}"
+        key: GeneID
+        replace:
+          field: genes
+
+    - emit:
+        name: record
+
+  object:
+    - objectCreate:
+        class: gene_set
+        schema: "{{inputs.schema}}"
+    - emit:
+        name: gene_set

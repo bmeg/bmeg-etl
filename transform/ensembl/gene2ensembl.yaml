@@ -1,0 +1,33 @@
+
+name: gene2ensembl
+
+outdir: ../../source/ensembl/
+
+inputs:
+  file:
+    type: File
+    default: ../../source/ensembl/gene2ensembl.gz
+
+sources:
+  geneFile:
+    tableLoad:
+      input: "{{inputs.file}}"
+      columns:
+        - tax_id
+        - GeneID
+        - Ensembl_gene_identifier
+        - RNA
+        - Ensembl_rna_identifier
+        - protein
+        - Ensembl_protein_identifier
+
+links:
+  translate: geneFile
+
+pipelines:
+  translate:
+    - filter:
+        field: tax_id
+        match: 9606
+    - emit:
+        name: link
