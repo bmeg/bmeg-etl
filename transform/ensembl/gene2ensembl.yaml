@@ -3,15 +3,15 @@ name: gene2ensembl
 
 outdir: ../../source/ensembl/
 
-inputs:
+config:
   file:
     type: File
     default: ../../source/ensembl/gene2ensembl.gz
 
-sources:
+inputs:
   geneFile:
     tableLoad:
-      input: "{{inputs.file}}"
+      input: "{{config.file}}"
       columns:
         - tax_id
         - GeneID
@@ -21,11 +21,9 @@ sources:
         - protein
         - Ensembl_protein_identifier
 
-links:
-  translate: geneFile
-
 pipelines:
   translate:
+    - from: geneFile
     - filter:
         field: tax_id
         match: 9606

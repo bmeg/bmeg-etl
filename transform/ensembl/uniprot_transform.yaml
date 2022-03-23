@@ -3,7 +3,7 @@ name: uniprot
 
 outdir: ../../output/ensembl
 
-inputs:
+config:
   gffPath:
     type: File
     default: ../../source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz
@@ -13,24 +13,22 @@ inputs:
   genomeBuild:
     default: GRCh37
 
-sources:
+inputs:
   gff:
     tableLoad:
-      input: "{{inputs.gffPath}}"
-
-links:
-  transform: gff
+      input: "{{config.gffPath}}"
 
 pipelines:
   transform:
+    - from: gff
     - project:
         mapping:
           protein_id: "{{row.protein_stable_id}}"
           submitter_id: "{{row.protein_stable_id}}"
-          genome: "{{inputs.genomeBuild}}"
+          genome: "{{config.genomeBuild}}"
           project_id: Reference
     - objectCreate:
-        schema: "{{inputs.schema}}"
+        schema: "{{config.schema}}"
         class: protein
     - emit:
         name: protein
