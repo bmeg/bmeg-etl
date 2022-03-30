@@ -1,0 +1,46 @@
+
+outdir: .
+name: process
+
+inputs:
+  sources:
+    embedded:
+      - name: reconx
+      - name: reactome
+      - name: psp
+      - name: pid
+      - name: pathbank
+      - name: panther
+      - name: netpath
+      - name: msigdb
+      - name: mirtarbase
+      - name: kegg
+      - name: intact_complex
+      - name: intact
+      - name: inoh
+      - name: innatedb
+      - name: humancyc
+      - name: hprd
+      - name: drugbank
+      - name: dip
+      - name: ctd
+      - name: corum
+      - name: biogrid
+      - name: bind
+
+
+outputs:
+  download:
+    snakefile:
+      from: sources
+      commands:
+        -
+          template: curl -o ../../source/pathway_commons/PathwayCommons12.{{row.name}}.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.{{row.name}}.BIOPAX.owl.gz
+          outputs:
+            - ../../source/pathway_commons/PathwayCommons12.{{row.name}}.BIOPAX.owl.gz
+        -
+          template: java -Xmx15g -jar ../../source/pathway_commons/paxtools.jar toSIF ../../source/pathway_commons/PathwayCommons12.{{row.name}}.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.{{row.name}}.extSIF seqDb=hgnc exclude=neighbor_of MEDIATOR PUBMED PMC COMMENTS PATHWAY PATHWAY_URI RESOURCE SOURCE_LOC TARGET_LOC
+          inputs:
+            - ../../source/pathway_commons/PathwayCommons12.{{row.name}}.BIOPAX.owl.gz
+          outputs:
+            - ../../source/pathway_commons/PathwayCommons12.{{row.name}}.extSIF

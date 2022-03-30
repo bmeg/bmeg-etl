@@ -50,6 +50,11 @@ pipelines:
           project_id: "Reference"
           chromosome: "{{row.seqID}}"
           genome: "{{config.genomeBuild}}"
+          gene: "{{row.attributes.Parent}}"
+    - regexReplace:
+        field: gene
+        regex: "^gene:"
+        replace: ""
     - objectCreate:
         schema: "{{config.schema}}"
         class: transcript
@@ -70,6 +75,11 @@ pipelines:
           project_id: "Reference"
           chromosome: "{{row.seqID}}"
           genome: "{{config.genomeBuild}}"
+          transcripts: "{{row.attributes.Parent}}"
+    - regexReplace:
+        field: transcripts
+        regex: "^transcript:"
+        replace: ""
     - objectCreate:
         schema: "{{config.schema}}"
         class: exon

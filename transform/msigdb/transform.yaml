@@ -2,7 +2,7 @@
 
 outdir: ../../output/msigdb
 
-inputs:
+config:
   xmlPath:
     type: File
     default: ../../source/msigdb/msigdb_v6.2.xml
@@ -13,17 +13,14 @@ inputs:
     type: File
     default: ../../source/ensembl/gene2ensembl.translate.link.json.gz
 
-sources:
+inputs:
   loader:
     xmlLoad:
-      input: "{{inputs.xmlPath}}"
-
-links:
-  transform: loader
-  object: transform
+      input: "{{config.xmlPath}}"
 
 pipelines:
   transform:
+    - from: loader
     - fieldProcess:
         field: GENESET
     - fieldProcess:
@@ -57,18 +54,20 @@ pipelines:
             x['genes'] = x['genes'].split(",")
             return x
 
-    - jsonTable:
-        input: "{{inputs.gene2ensembl}}"
-        key: GeneID
-        replace:
-          field: genes
+    - lookup:
+        json:
+          input: "{{config.gene2ensembl}}"
+          key: GeneID
+          value: Ensembl_gene_identifier
+        replace: genes
 
     - emit:
         name: record
 
   object:
+    - from: transform
     - objectCreate:
         class: gene_set
-        schema: "{{inputs.schema}}"
+        schema: "{{config.schema}}"
     - emit:
         name: gene_set
