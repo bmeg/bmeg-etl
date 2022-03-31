@@ -1,0 +1,59 @@
+
+name: pubmed
+
+config:
+  baseline:
+    type: Dir
+    default: ../../source/pubmed/baseline
+
+inputs:
+  pubmedRead:
+    glob:
+      input: "{{config.baseline}}/*.xml.gz"
+      xmlLoad: {}
+
+
+pipelines:
+  transform:
+    - from: pubmedRead
+    - fieldProcess:
+        field: PubmedArticleSet
+    - fieldProcess:
+        field: PubmedArticle
+    - map:
+        method: update
+        gpython: |
+          def update(x):
+            x["pmid"] = x["MedlineCitation"]["PMID"]["#content"]
+            
+            #pull out abstract information
+            if "Abstract" in x["MedlineCitation"]["Article"]:
+              abstract = x["MedlineCitation"]["Article"]["Abstract"]["AbstractText"]
+              text = ""
+              if isinstance(abstract, list):
+                for i in abstract:
+                  if "#content" in i:
+                    text += i["#content"]
+              else:
+                text = abstract
+              x["abstract"] = text
+            
+            
+            # pull out author information
+            if "AuthorList" in x["MedlineCitation"]["Article"]:
+              author = x["MedlineCitation"]["Article"]["AuthorList"]
+              authors = []
+              if isinstance(author, list):
+                for i in author:
+                  if "LastName" in i:
+                    authors.append( "%s, %s %s" % (i["LastName"], i["ForeName"], i["Initials"]) )
+              elif isinstance(author, dict):
+                if "LastName" in author:
+                  authors.append( "%s, %s %s" % (author["LastName"], author["ForeName"], author["Initials"]) )
+              x["authors"] = authors
+            return x
+    - project:
+        mapping:
+          url: "https://www.ncbi.nlm.nih.gov/pubmed/{{row.pmid}}"
+    - emit:
+        name: test
