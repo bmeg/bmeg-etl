@@ -2,21 +2,19 @@
 name: dr_reduce
 outdir: ../../output/pharmacodb/
 
-inputs:
+config:
   doseResponsePath:
     type: File
     default: ../../output/pharmacodb/dose_responses.tsv.gz
 
-sources:
+inputs:
   doseResponseFile:
     tableLoad:
-      input: "{{inputs.doseResponsePath}}"
-
-links:
-  curveReduce: doseResponseFile
+      input: "{{config.doseResponsePath}}"
 
 pipelines:
   curveReduce:
+    - from: doseResponseFile
     - reduce:
         field: experiment_id
         method: merge

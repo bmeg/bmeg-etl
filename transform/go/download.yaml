@@ -1,5 +1,7 @@
 
 
+name: download
+
 scripts:
 
   download:

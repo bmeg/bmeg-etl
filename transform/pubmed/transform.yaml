@@ -1,10 +1,14 @@
 
 name: pubmed
+output: ../../outputs/pubmed
 
 config:
   baseline:
     type: Dir
     default: ../../source/pubmed/baseline
+  schema:
+    type: Dir
+    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
 
 inputs:
   pubmedRead:
@@ -23,9 +27,21 @@ pipelines:
     - map:
         method: update
         gpython: |
+
+          def date_extract(data):
+              if 'Year' in data and 'Month' in data and 'Day' in data:
+                  return "%s-%s-%s" % (data['Year'], data['Month'], data['Day'])
+              elif 'Year' in data and 'Month' in data:
+                  return "%s-%s" % (data['Year'], data['Month'])
+              elif 'Year' in data:
+                  return data['Year']
+              else:
+                  return ''
+
+
           def update(x):
             x["pmid"] = x["MedlineCitation"]["PMID"]["#content"]
-            
+
             #pull out abstract information
             if "Abstract" in x["MedlineCitation"]["Article"]:
               abstract = x["MedlineCitation"]["Article"]["Abstract"]["AbstractText"]
@@ -34,26 +50,36 @@ pipelines:
                 for i in abstract:
                   if "#content" in i:
                     text += i["#content"]
+              elif isinstance(abstract, dict) and "#content" in abstract:
+                text = abstract["#content"]
               else:
                 text = abstract
               x["abstract"] = text
-            
-            
+
+
             # pull out author information
             if "AuthorList" in x["MedlineCitation"]["Article"]:
-              author = x["MedlineCitation"]["Article"]["AuthorList"]
+              author = x["MedlineCitation"]["Article"]["AuthorList"]["Author"]
               authors = []
-              if isinstance(author, list):
-                for i in author:
-                  if "LastName" in i:
-                    authors.append( "%s, %s %s" % (i["LastName"], i["ForeName"], i["Initials"]) )
-              elif isinstance(author, dict):
-                if "LastName" in author:
-                  authors.append( "%s, %s %s" % (author["LastName"], author["ForeName"], author["Initials"]) )
+              if isinstance(author, dict):
+                author = [author]
+              for i in author:
+                if "LastName" in i and "ForeName" in i and "Initials" in i:
+                  authors.append( "%s, %s %s" % (i["LastName"], i["ForeName"], i["Initials"]) )
               x["authors"] = authors
+              x["title"] = x["MedlineCitation"]["Article"]["ArticleTitle"]
+              if "ArticleDate" in x["MedlineCitation"]["Article"]:
+                x["date"] = date_extract(x["MedlineCitation"]["Article"]["ArticleDate"])
             return x
     - project:
         mapping:
+          submitter_id: "{{row.pmid}}"
           url: "https://www.ncbi.nlm.nih.gov/pubmed/{{row.pmid}}"
+          project_id: Reference
+
+    - objectCreate:
+        class: publication
+        schema: "{{config.schema}}"
+
     - emit:
-        name: test
+        name: publication

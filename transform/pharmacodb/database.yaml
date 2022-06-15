@@ -3,15 +3,15 @@ name: pharmacodb
 
 outdir: ../../output/pharmacodb/
 
-inputs:
+config:
   sql:
     type: File
     default: ../../source/pharmacodb/pharmacodb-1.1.1.sql
 
-sources:
+inputs:
   database:
     sqldumpLoad:
-      input: "{{inputs.sql}}"
+      input: "{{config.sql}}"
       tables:
         - cells
         - cell_tissues
@@ -30,44 +30,10 @@ sources:
         - sources
         - tissues
 
-links:
-  cells: database
-  cell_tissues: database
-  dose_responses: database
-  drugs: database
-  drug_annots: database
-  experiments: database
-  profiles: database
-  cellosaurus: database
-  source_cell_names: database
-  dataset_cells: database
-  datasets: database
-  source_drug_names: database
-  source_statistics: database
-  source_tissue_names: database
-  sources: database
-  tissues: database
-
-  cells_tsv: cells
-  cell_tissues_tsv: cell_tissues
-  dose_responses_tsv: dose_responses
-  drugs_tsv: drugs
-  drug_annots_tsv: drug_annots
-  experiments_tsv: experiments
-  profiles_tsv: profiles
-  cellosaurus_tsv: cellosaurus
-  source_cell_names_tsv: source_cell_names
-  dataset_cells_tsv: dataset_cells
-  datasets_tsv: datasets
-  source_drug_names_tsv: source_drug_names
-  source_statistics_tsv: source_statistics
-  sources_tsv: sources
-  source_tissue_names_tsv: source_tissue_names
-  tissues_tsv: tissues
-
-sinks:
+outputs:
   cells_tsv:
     tableWrite:
+      from: cells
       output: cells.tsv.gz
       columns:
         - cell_id
@@ -77,6 +43,7 @@ sinks:
 
   cell_tissues_tsv:
     tableWrite:
+      from: cell_tissues
       output: cell_tissues.tsv.gz
       columns:
         - id
@@ -85,6 +52,7 @@ sinks:
 
   dose_responses_tsv:
     tableWrite:
+      from: dose_responses
       output: dose_responses.tsv.gz
       columns:
         - id
@@ -94,6 +62,7 @@ sinks:
 
   drugs_tsv:
     tableWrite:
+      from: drugs
       output: drugs.tsv.gz
       columns:
         - drug_id
@@ -101,6 +70,7 @@ sinks:
 
   drug_annots_tsv:
     tableWrite:
+      from: drug_annots
       output: drug_annots.tsv.gz
       columns:
         - drug_id
@@ -110,6 +80,7 @@ sinks:
 
   experiments_tsv:
     tableWrite:
+      from: experiments
       output: experiments.tsv.gz
       columns:
         - experiment_id
@@ -120,6 +91,7 @@ sinks:
 
   profiles_tsv:
     tableWrite:
+      from: profiles
       output: profiles.tsv.gz
       columns:
         - experiment_id
@@ -134,6 +106,7 @@ sinks:
 
   cellosaurus_tsv:
     tableWrite:
+      from: cellosaurus
       output: cellosaurus.tsv.gz
       columns:
         - id
@@ -157,6 +130,7 @@ sinks:
 
   source_cell_names_tsv:
     tableWrite:
+      from: source_cell_names
       output: source_cell_names.tsv.gz
       columns:
         - id
@@ -166,6 +140,7 @@ sinks:
 
   dataset_cells_tsv:
     tableWrite:
+      from: dataset_cells
       output: dataset_cells.tsv.gz
       columns:
         - id
@@ -174,6 +149,7 @@ sinks:
 
   datasets_tsv:
     tableWrite:
+      from: datasets
       output: datasets.tsv.gz
       columns:
         - dataset_id
@@ -181,6 +157,7 @@ sinks:
 
   source_drug_names_tsv:
     tableWrite:
+      from: source_drug_names
       output: source_drug_names.tsv.gz
       columns:
         - id
@@ -190,6 +167,7 @@ sinks:
 
   sources_tsv:
     tableWrite:
+      from: sources
       output: sources.tsv.gz
       columns:
         - source_id
@@ -198,6 +176,7 @@ sinks:
 
   source_statistics_tsv:
     tableWrite:
+      from: source_statistics
       output: source_statistics.tsv.gz
       columns:
         - id
@@ -209,6 +188,7 @@ sinks:
 
   source_tissue_names_tsv:
     tableWrite:
+      from: source_tissue_names
       output: source_tissue_names.tsv.gz
       columns:
         - id
@@ -218,6 +198,7 @@ sinks:
 
   tissues_tsv:
     tableWrite:
+      from: tissues
       output: tissues.tsv.gz
       columns:
         - tissue_id
@@ -225,6 +206,7 @@ sinks:
 
 pipelines:
   cells:
+    - from: database
     - filter:
         field: table
         match: cells
@@ -232,6 +214,7 @@ pipelines:
         field: data
 
   cell_tissues:
+    - from: database
     - filter:
         field: table
         match: cell_tissues
@@ -239,6 +222,7 @@ pipelines:
         field: data
 
   dose_responses:
+    - from: database
     - filter:
         field: table
         match: dose_responses
@@ -246,6 +230,7 @@ pipelines:
         field: data
 
   drugs:
+    - from: database
     - filter:
         field: table
         match: drugs
@@ -253,6 +238,7 @@ pipelines:
         field: data
 
   drug_annots:
+    - from: database
     - filter:
         field: table
         match: drug_annots
@@ -260,6 +246,7 @@ pipelines:
         field: data
 
   experiments:
+    - from: database
     - filter:
         field: table
         match: experiments
@@ -267,6 +254,7 @@ pipelines:
         field: data
 
   profiles:
+    - from: database
     - filter:
         field: table
         match: profiles
@@ -274,6 +262,7 @@ pipelines:
         field: data
 
   cellosaurus:
+    - from: database
     - filter:
         field: table
         match: cellosaurus
@@ -281,6 +270,7 @@ pipelines:
         field: data
 
   source_cell_names:
+    - from: database
     - filter:
         field: table
         match: source_cell_names
@@ -288,6 +278,7 @@ pipelines:
         field: data
 
   dataset_cells:
+    - from: database
     - filter:
         field: table
         match: dataset_cells
@@ -295,6 +286,7 @@ pipelines:
         field: data
 
   datasets:
+    - from: database
     - filter:
         field: table
         match: datasets
@@ -302,6 +294,7 @@ pipelines:
         field: data
 
   source_drug_names:
+    - from: database
     - filter:
         field: table
         match: source_drug_names
@@ -309,6 +302,7 @@ pipelines:
         field: data
 
   source_statistics:
+    - from: database
     - filter:
         field: table
         match: source_statistics
@@ -316,6 +310,7 @@ pipelines:
         field: data
 
   source_tissue_names:
+    - from: database
     - filter:
         field: table
         match: source_tissue_names
@@ -323,6 +318,7 @@ pipelines:
         field: data
 
   sources:
+    - from: database
     - filter:
         field: table
         match: sources
@@ -330,6 +326,7 @@ pipelines:
         field: data
 
   tissues:
+    - from: database
     - filter:
         field: table
         match: tissues

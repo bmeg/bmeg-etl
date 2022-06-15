@@ -20,24 +20,26 @@ inputs:
 pipelines:
   transform:
     - from: pfamData
-    - project:
-        mapping:
-          pfam_id: "{{row.entry._attr.id[0]}}"
-          accession: "{{row.entry._attr.accession[0]}}"
-          comments: "{{row.entry.comment}}"
-          description: "{{row.entry.description}}"
-          submitter_id: "{{row.entry._attr.id[0]}}"
-          project_id: Reference
-          type: PfamFamily
+    - fieldProcess:
+        field: pfam
+    #- debug: {}
     - map:
         method: adjust
         gpython: |
           def adjust(x):
             clan = []
-            if "clan_membership" in x["entry"] and "clan_acc" in x["entry"]["clan_membership"]["_attr"]:
-              clan.append( x["entry"]["clan_membership"]["_attr"]["clan_acc"][0] )
+            x["pfam_id"] = x["entry"]["-id"]
+            x["submitter_id"] = x["entry"]["-id"]
+            x["accession"] = x["entry"]["-accession"]
+            x["comments"] = x["entry"].get("comment", "")
+            x["description"] = x["entry"]["description"]
+            x["project_id"] = "Reference"
+            x["type"] = "PfamFamily"
+
+            if "clan_membership" in x["entry"] and "-clan_acc" in x["entry"]["clan_membership"]:
+              clan.append( x["entry"]["clan_membership"]["-clan_acc"] )
             x["pfam_clans"] = clan
-            x["comments"] = x["comments"].strip()
+            #x["comments"] = x["comments"].strip()
             return x
 
     - objectCreate:

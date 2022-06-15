@@ -1,6 +1,7 @@
 
 
 outdir: ../../output/msigdb
+name: msigdb
 
 config:
   xmlPath:
@@ -22,29 +23,30 @@ pipelines:
   transform:
     - from: loader
     - fieldProcess:
-        field: GENESET
+        field: MSIGDB
     - fieldProcess:
-        field: _attr
+        field: GENESET
+    - emit:
+        name: raw
     - project:
         mapping:
-          standard_name: "{{row.STANDARD_NAME[0]}}"
-          systematic_name: "{{row.SYSTEMATIC_NAME[0]}}"
-          historical_names: "{{row.HISTORICAL_NAMES[0]}}"
-          geoid: "{{row.GEOID[0]}}"
-          exact_source: "{{row.EXACT_SOURCE[0]}}"
-          geneset_listing_url: "{{row.GENESET_LISTING_URL[0]}}"
-          external_details_url: "{{row.EXTERNAL_DETAILS_URL[0]}}"
-          chip: "{{row.CHIP[0]}}"
-          category_code: "{{row.CATEGORY_CODE[0]}}"
-          sub_category_code: "{{row.SUB_CATEGORY_CODE[0]}}"
-          contributor: "{{row.CONTRIBUTOR[0]}}"
-          contributor_org: "{{row.CONTRIBUTOR_ORG[0]}}"
-          description_brief: "{{row.DESCRIPTION_BRIEF[0]}}"
-          description_full: "{{row.DESCRIPTION_FULL[0]}}"
-          submitter_id: "{{row.SYSTEMATIC_NAME[0]}}"
           project_id: Reference
-          genes: "{{row.MEMBERS_EZID[0]}}"
         rename:
+          "-STANDARD_NAME": standard_name
+          "-HISTORICAL_NAMES": historical_names
+          "-GEOID": geoid
+          "-EXACT_SOURCE": exact_source
+          "-GENESET_LISTING_URL": geneset_listing_url
+          "-EXTERNAL_DETAILS_URL": external_details_url
+          "-CHIP": chip
+          "-CATEGORY_CODE": category_code
+          "-SUB_CATEGORY_CODE": sub_category_code
+          "-CONTRIBUTOR": contributor
+          "-CONTRIBUTOR_ORG": contributor_org
+          "-DESCRIPTION_BRIEF": description_brief
+          "-DESCRIPTION_FULL": description_full
+          "-SYSTEMATIC_NAME": submitter_id
+          "-MEMBERS_EZID": genes
           PMID: publications
 
     - map:
