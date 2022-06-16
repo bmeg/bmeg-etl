@@ -2,6 +2,45 @@
 outdir: .
 name: process
 
+scripts:
+  
+  downloads:
+    generate: |
+      
+      sources = [
+        "reconx",
+        "reactome",
+        "psp",
+        "pid",
+        "pathbank",
+        "panther",
+        "netpath",
+        "msigdb",
+        "mirtarbase",
+        "kegg",
+        "intact_complex",
+        "intact",
+        "inoh",
+        "innatedb",
+        "humancyc",
+        "hprd",
+        "drugbank",
+        "dip",
+        "ctd",
+        "corum",
+        "biogrid",
+        "bind"
+      ]
+      
+      for i in sources:
+        return {
+          "output" : [ "../../source/pathway_commons/PathwayCommons12.%s.BIOPAX.owl.gz" % (i) ],
+          "shell" : "curl -o ../../source/pathway_commons/PathwayCommons12.%s.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.%s.BIOPAX.owl.gz" % (i, i)        
+        }
+    
+  conversion:
+    generate:
+      
 inputs:
   sources:
     embedded:

@@ -3,7 +3,7 @@ name: chemblGraph
 
 outdir: ../../out-graph/chembl
 
-inputs:
+config:
   schema:
     type: Dir
     default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
@@ -11,9 +11,9 @@ inputs:
     type: File
     default: ../../outputs/chembl/chembDrugMechanismExtract.protein_drug_association.json.gz
 
-sources:
+inputs:
   jsonReader:
-    input: "{{inputs.protein_drug_association}}"
+    input: "{{config.protein_drug_association}}"
 
 pipelines:
   graphBuild:

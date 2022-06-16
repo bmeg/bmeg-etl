@@ -1,7 +1,7 @@
 
 name: chembDrugMechanismExtract
 
-inputs:
+config:
   sqlite:
     type: File
     default: ../../source/chembl/chembl_27/chembl_27_sqlite/chembl_27.db
@@ -13,22 +13,23 @@ inputs:
     default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
 
 
-sources:
+inputs:
   sqlQuery:
     sqliteLoad:
-      input: "{{inputs.sqlite}}"
+      input: "{{config.sqlite}}"
       query: "select * from drug_mechanism as a LEFT JOIN MECHANISM_REFS as b on a.MEC_ID=b.MEC_ID LEFT JOIN TARGET_COMPONENTS as c on a.TID=c.TID LEFT JOIN COMPONENT_SEQUENCES as d on c.COMPONENT_ID=d.COMPONENT_ID LEFT JOIN MOLECULE_DICTIONARY as e on a.MOLREGNO=e.MOLREGNO"
 
 pipelines:
   build:
-    - tableLookup:
-        input: "{{inputs.uniprot2gene}}"
-        field: "{{row.accession}}"
-        key: id
-        project:
+    - lookup:
+        tsv:
+          input: "{{config.uniprot2gene}}"
+          key: id
+        lookup: "{{row.accession}}"
+        copy:
           protein: alternative
     - regexReplace:
-        col: '{{row.ref_url}}'
+        field: ref_url
         regex: 'http:\/\/europepmc\.org\/abstract\/MED\/'
         replace: 'ncbi.nlm.nih.gov/pubmed/'
         dst: publications

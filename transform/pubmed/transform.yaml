@@ -1,6 +1,6 @@
 
 name: pubmed
-output: ../../outputs/pubmed
+outdir: ../../outputs/pubmed
 
 config:
   baseline:
