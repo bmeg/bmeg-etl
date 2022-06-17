@@ -6,7 +6,7 @@ name: msigdb
 config:
   xmlPath:
     type: File
-    default: ../../source/msigdb/msigdb_v6.2.xml
+    default: ../../source/msigdb/msigdb_v7.5.1.xml
   schema:
     type: File
     default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/

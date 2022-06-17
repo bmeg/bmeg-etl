@@ -18,6 +18,8 @@ def get_file(file_id, path):
         return path
     endpoint = 'data/{}'.format(file_id)
     req = client.get(URL_BASE + endpoint)
+    if not os.path.exists( os.path.dirname(path) ):
+        os.makedirs(os.path.dirname(path))
     with open(path, 'wb') as out:
         out.write(req.content)
     return path

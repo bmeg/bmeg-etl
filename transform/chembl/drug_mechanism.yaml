@@ -6,9 +6,9 @@ config:
   sqlite:
     type: File
     default: ../../source/chembl/chembl_30/chembl_30_sqlite/chembl_30.db
-  uniprot2gene:
-    type: File
-    default: ../../mappings/uniprotId2ensemblGene.tsv
+  #uniprot2gene:
+  #  type: File
+  #  default: ../../mappings/uniprotId2ensemblGene.tsv
   schema:
     type: Dir
     default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
@@ -23,13 +23,13 @@ inputs:
 pipelines:
   build:
     - from: sqlQuery
-    - lookup:
-        tsv:
-          input: "{{config.uniprot2gene}}"
-          key: id
-        lookup: "{{row.accession}}"
-        copy:
-          protein: alternative
+    #- lookup:
+    #    tsv:
+    #      input: "{{config.uniprot2gene}}"
+    #      key: id
+    #    lookup: "{{row.accession}}"
+    #    copy:
+    #      protein: alternative
     - regexReplace:
         field: ref_url
         regex: 'http:\/\/europepmc\.org\/abstract\/MED\/'

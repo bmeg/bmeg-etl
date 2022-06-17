@@ -1,5 +1,5 @@
 
-
+class: lathe
 name: chemblDownload
 
 scripts:
@@ -9,5 +9,7 @@ scripts:
       - ../../source/chembl/chembl_30_sqlite.tar.gz
   tar:
     commandLine: tar xvzf ../../source/chembl/chembl_30_sqlite.tar.gz -C ../../source/chembl/
+    inputs:
+      - ../../source/chembl/chembl_30_sqlite.tar.gz
     outputs:
       - ../../source/chembl/chembl_30/chembl_30_sqlite/chembl_30.db

@@ -4,8 +4,12 @@ import os
 import sys
 import logging
 import requests
+try:
+    from tqdm import tqdm
+except ImportError:
+    tdqm = lambda x:x
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 output_dir = sys.argv[1]
 
@@ -21,7 +25,7 @@ for line in handle.iter_lines():
         if len(row[0]) > 1:
             ids.append(row[0])
 
-for i in ids:
+for i in tqdm(ids):
     f = os.path.join(output_dir, "%s.xml" % (i))
     if not os.path.exists(f):
         url = "http://pfam.xfam.org/family?output=xml&acc=%s" % i

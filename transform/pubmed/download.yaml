@@ -3,8 +3,6 @@
 name: pubmedDownload
 class: lathe
 
-scripts:
-  mc3:
-    commandLine: ./download.py
-    outputs:
-      - ../../source/pubmed
+prep:
+  - commandLine: ./download.py -o ../../source/pubmed/baseline
+
