@@ -1,0 +1,10 @@
+
+
+name: pubmedDownload
+class: lathe
+
+scripts:
+  mc3:
+    commandLine: ./download.py
+    outputs:
+      - ../../source/pubmed

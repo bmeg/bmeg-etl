@@ -1,0 +1,9 @@
+
+name: mc3Download
+class: lathe
+
+scripts:
+  mc3:
+    commandLine: curl -o ../../source/mc3/mc3.v0.2.8.PUBLIC.maf.gz https://api.gdc.cancer.gov/data/1c8cfe5f-e52d-41ba-94da-f15ea1337efc
+    outputs:
+      - ../../source/mc3/mc3.v0.2.8.PUBLIC.maf.gz

@@ -1,0 +1,103 @@
+
+name: gdc
+outdir: ../../output/gdc
+
+config:
+  casesJSON:
+    type: File
+    default: ../../source/gdc/cases.json
+  schema:
+    type: Dir
+    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+
+inputs:
+  caseData:
+    jsonLoad:
+      input: "{{config.casesJSON}}"
+
+pipelines:
+  caseObject:
+    - from: caseData
+    - project:
+        mapping:
+          studies: "{{row.project.project_id}}"
+          experiments: "exp:{{row.project.project_id}}"
+          project_id: "{{row.project.project_id}}"
+          type: case
+    - map:
+        method: fix
+        gpython: |
+
+          def fix(x):
+            samples = []
+            for s in x.get('samples', []):
+              samples.append(s["sample_id"])
+            x['samples'] = samples
+            return x
+
+    - objectCreate:
+        class: case
+        schema: "{{config.schema}}"
+    - emit:
+        name: case
+
+  sampleData:
+    - from: caseData
+    - fieldProcess:
+        field: samples
+        mapping:
+          project_id: "{{row.project.project_id}}"
+          case: "{{row.id}}"
+
+  sampleObject:
+    - from: sampleData
+    - project:
+        mapping:
+          type: sample
+          id: "{{row.sample_id}}"
+    - objectCreate:
+        class: sample
+        schema: "{{config.schema}}"
+    - emit:
+        name: sample
+
+
+  aliquotData:
+    - from: sampleData
+    - fieldProcess:
+        field: portions
+        mapping:
+          sample: "{{row.sample_id}}"
+          project_id: "{{row.project_id}}"
+    - fieldProcess:
+        field: analytes
+        mapping:
+          sample: "{{row.sample}}"
+          project_id: "{{row.project_id}}"
+    - fieldProcess:
+        field: aliquots
+        mapping:
+          sample: "{{row.sample}}"
+          project_id: "{{row.project_id}}"
+    - project:
+        mapping:
+          type: aliquot
+          id: "{{row.aliquot_id}}"
+
+  aliquotAlias:
+    - from: aliquotData
+    - clean:
+        fields:
+          - aliquot_id
+          - submitter_id
+          - project_id
+    - emit:
+        name: table
+
+  aliquotObject:
+    - from: aliquotData
+    - objectCreate:
+        class: aliquot
+        schema: "{{config.schema}}"
+    - emit:
+        name: aliquot

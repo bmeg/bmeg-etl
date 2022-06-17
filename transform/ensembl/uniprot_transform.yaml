@@ -4,7 +4,7 @@ name: uniprot
 outdir: ../../output/ensembl
 
 config:
-  gffPath:
+  uniprotTSV:
     type: File
     default: ../../source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz
   schema:
@@ -14,21 +14,36 @@ config:
     default: GRCh37
 
 inputs:
-  gff:
+  uniprot:
     tableLoad:
-      input: "{{config.gffPath}}"
+      input: "{{config.uniprotTSV}}"
 
 pipelines:
   transform:
-    - from: gff
+    - from: uniprot
     - project:
         mapping:
           protein_id: "{{row.protein_stable_id}}"
           submitter_id: "{{row.protein_stable_id}}"
           genome: "{{config.genomeBuild}}"
           project_id: Reference
-    - objectCreate:
-        schema: "{{config.schema}}"
-        class: protein
+          uniprot: "{{row.xref}}"
+    - reduce:
+        field: protein_id
+        method: merge
+        python: |
+
+          def forceList(a):
+            if not isinstance(a, list):
+              return [a]
+            return a
+
+          def merge(x,y):
+            x["uniprot"] = [x["uniprot"]] + [y["uniprot"]]
+            return x
+
+    #- objectCreate:
+    #    schema: "{{config.schema}}"
+    #    class: protein
     - emit:
         name: protein

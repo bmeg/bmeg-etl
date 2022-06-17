@@ -1,10 +1,11 @@
 
 name: chembDrugMechanismExtract
+outdir: ../../output/chembl
 
 config:
   sqlite:
     type: File
-    default: ../../source/chembl/chembl_27/chembl_27_sqlite/chembl_27.db
+    default: ../../source/chembl/chembl_30/chembl_30_sqlite/chembl_30.db
   uniprot2gene:
     type: File
     default: ../../mappings/uniprotId2ensemblGene.tsv
@@ -21,6 +22,7 @@ inputs:
 
 pipelines:
   build:
+    - from: sqlQuery
     - lookup:
         tsv:
           input: "{{config.uniprot2gene}}"
@@ -68,5 +70,6 @@ pipelines:
 
     - objectCreate:
         class: protein_drug_association
+        schema: "{{config.schema}}"
     - emit:
         name: protein_drug_association

@@ -22,7 +22,6 @@ pipelines:
     - from: pfamData
     - fieldProcess:
         field: pfam
-    #- debug: {}
     - map:
         method: adjust
         gpython: |
@@ -36,15 +35,25 @@ pipelines:
             x["project_id"] = "Reference"
             x["type"] = "PfamFamily"
 
+            goterms = []
+            if "go_terms" in x["entry"]:
+              for a in x["entry"]["go_terms"]["category"]:
+                if isinstance(a, dict) and isinstance(a["term"], dict):
+                  goterms.append( a["term"]["-go_id"] )
+            x["gene_ontology_terms"] = goterms
+
             if "clan_membership" in x["entry"] and "-clan_acc" in x["entry"]["clan_membership"]:
               clan.append( x["entry"]["clan_membership"]["-clan_acc"] )
             x["pfam_clans"] = clan
             #x["comments"] = x["comments"].strip()
             return x
 
+    - emit:
+        name: debug
+
     - objectCreate:
         class: pfam_family
         schema: "{{config.schema}}"
 
     - emit:
-        name: test
+        name: pfam

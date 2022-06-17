@@ -1,0 +1,9 @@
+
+
+name: pfamDownload
+
+scripts:
+  curl:
+    commandLine: ./download.py ../../source/pfam/xmls/
+    outputs:
+      - ../../source/pfam/xmls/
