@@ -1,4 +1,6 @@
 
+class: sifter
+
 name: chembDrugMechanismExtract
 outdir: ../../output/chembl
 

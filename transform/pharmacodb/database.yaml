@@ -1,4 +1,5 @@
 
+class: sifter
 name: pharmacodb
 
 outdir: ../../output/pharmacodb/

@@ -1,4 +1,6 @@
 
+class: sifter
+
 name: dr_reduce
 outdir: ../../output/pharmacodb/
 

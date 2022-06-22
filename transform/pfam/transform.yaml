@@ -1,4 +1,6 @@
 
+class: sifter
+
 name: pfam_family
 outdir: ../../output/pfam/
 

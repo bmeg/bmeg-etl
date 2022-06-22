@@ -1,4 +1,6 @@
 
+class: sifter
+
 outdir: ../../output/pharmacodb/
 name: pharmacodb_profiles
 

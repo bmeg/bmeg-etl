@@ -1,5 +1,6 @@
 
 name: goReduce
+class: sifter
 
 outdir: ../../output/go/
 

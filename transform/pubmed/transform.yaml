@@ -1,6 +1,8 @@
 
+class: sifter
+
 name: pubmed
-outdir: ../../outputs/pubmed
+outdir: ../../output/pubmed
 
 config:
   baseline:

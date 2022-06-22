@@ -1,13 +1,16 @@
 
 name: download
 
+prep:
+  - commandLine: ./gdc-scan.py compounds ../../source/gdc/compounds/
+
 scripts:
   cases:
     commandLine: ./gdc-scan.py cases ../../source/gdc/cases.json
     outputs:
       - ../../source/gdc/cases.json
 
-  compounds:
-    commandLine: ./gdc-scan.py compounds ../../source/gdc/compounds/
+  files:
+    commandLine: ./gdc-scan.py files ../../source/gdc/files.json
     outputs:
-      - ../../source/gdc/compounds/
+      - ../../source/gdc/files.json

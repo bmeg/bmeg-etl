@@ -1,4 +1,5 @@
 
+class: sifter
 name: go_gaf
 outdir: ../../output/go/
 

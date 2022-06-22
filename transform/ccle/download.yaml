@@ -1,5 +1,6 @@
 
 name: download
+class: lathe
 
 scripts:
   sample_info:

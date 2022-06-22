@@ -4,6 +4,8 @@ import json
 import logging
 import os
 import sys
+import shutil
+from tqdm import tqdm
 
 import requests
 
@@ -24,6 +26,7 @@ def get_file(file_id, path):
         out.write(req.content)
     return path
 
+
 def query_gdc(endpoint, params):
     """
     query_gdc makes a query to the GDC API while handling common issues
@@ -41,25 +44,27 @@ def query_gdc(endpoint, params):
         params['filters'] = json.dumps(params['filters'])
 
     # Iterate through all the pages.
-    while True:
-        try:
-            req = client.get(URL_BASE + endpoint, params=params)
-            data = req.json()
-            data = data['data']
+    with tqdm(total=page_size) as pbar:
+        while True:
+            try:
+                req = client.get(URL_BASE + endpoint, params=params)
+                data = req.json()
+                data = data['data']
 
-            hits = data.get("hits", [])
-            if len(hits) == 0:
-                return
+                hits = data.get("hits", [])
+                if len(hits) == 0:
+                    return
 
-            for hit in hits:
-                yield hit
-
-            # Get the next page.
-            params['from'] = data['pagination']['from'] + page_size
-        except Exception as e:
-            logging.warning(str(e))
-            logging.warning(json.dumps(params))
-            raise
+                for hit in hits:
+                    yield hit
+                pbar.total = data['pagination']['total']
+                pbar.update( data['pagination']['count'] )
+                # Get the next page.
+                params['from'] = data['pagination']['from'] + page_size
+            except Exception as e:
+                logging.warning(str(e))
+                logging.warning(json.dumps(params))
+                raise
 
 
 # The GDC API requires you to request that nested fields be expanded.
@@ -149,11 +154,83 @@ def scrapeCompounds(outdir):
     for row in query_gdc("legacy/files", parameters):
         get_file(row['file_id'], '{}/{}.tsv'.format(outdir, row['file_id']))
 
+def scrapeFiles(outfile):
+    parameters={}
+    parameters['expand'] = ",".join(["cases", "cases.aliquot_ids", "cases.samples.portions.analytes.aliquots"])
+
+    filesOut = open(outfile, "w")
+
+    for row in query_gdc("files", parameters):
+        filesOut.write(json.dumps(row))
+        filesOut.write("\n")
+    filesOut.close()
+
+def scrapeExpression(outdir):
+    parameters = { "filters" : {
+        "op" : "and",
+        "content":[{
+            "op" : "in",
+            "content": {
+                "field" : "data_category",
+                "value":["Transcriptome Profiling"]
+            }
+        },{
+            "op" : "in",
+            "content": {
+                "field" : "access",
+                "value":["open"]
+            }
+        },{
+            "op" : "in",
+            "content" : {
+                "field" : "experimental_strategy",
+                "value":["RNA-Seq"]
+            }
+        }]
+    } }
+    for row in query_gdc("files", parameters):
+        outPath = '{}/{}.tsv'.format(outdir, row['file_id'])
+        if not os.path.exists(outPath):
+            get_file(row['file_id'], outPath + ".tmp" )
+            shutil.move(outPath + ".tmp", outPath)
+        print(row)
+
+
+def scrapeOpenMaf(outdir):
+    parameters = { "filters" : {
+        "op" : "and",
+        "content":[{
+            "op" : "in",
+            "content": {
+                "field" : "data_category",
+                "value":["Simple Nucleotide Variation"]
+            }
+        },{
+            "op" : "in",
+            "content": {
+                "field" : "access",
+                "value":["open"]
+            }
+        }]
+    } }
+    for row in query_gdc("files", parameters):
+        outPath = '{}/{}.maf.gz'.format(outdir, row['file_id'])
+        if not os.path.exists(outPath):
+            get_file(row['file_id'], outPath + ".tmp" )
+            shutil.move(outPath + ".tmp", outPath)
+        #print(row)
+
 
 if __name__ == "__main__":
     if sys.argv[1] == "projects":
         scrapeProjects(sys.argv[2])
     if sys.argv[1] == "cases":
         scrapeCases(sys.argv[2])
+    if sys.argv[1] == "files":
+        scrapeFiles(sys.argv[2])
     if sys.argv[1] == "compounds":
         scrapeCompounds(sys.argv[2])
+    if sys.argv[1] == "expression":
+        scrapeExpression(sys.argv[2])
+    if sys.argv[1] == "open-maf":
+        scrapeOpenMaf(sys.argv[2])

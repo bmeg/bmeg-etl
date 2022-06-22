@@ -1,4 +1,6 @@
 
+class: sifter
+
 name: mc3
 outdir: ../../output/mc3
 

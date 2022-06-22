@@ -1,4 +1,5 @@
 
+class: sifter
 name: hugoMapping
 outdir: ../../source/ensembl
 

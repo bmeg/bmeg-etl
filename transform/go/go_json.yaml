@@ -1,5 +1,6 @@
 
 name: go
+class: sifter
 
 outdir: ../../output/go/
 
