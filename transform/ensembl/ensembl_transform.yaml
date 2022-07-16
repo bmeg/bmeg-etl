@@ -1,11 +1,10 @@
 
-class: Playbook
+class: sifter
 
 name: ensembl
-
 outdir: ../../output/ensembl
 
-inputs:
+config:
   gffPath:
     type: File
     default: ../../source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz
@@ -15,10 +14,10 @@ inputs:
     type: Dir
     default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
 
-sources:
+inputs:
   gff:
     tableLoad:
-      input: "{{inputs.gffPath}}"
+      input: "{{config.gffPath}}"
       columns:
         - seqID
         - source
@@ -30,20 +29,16 @@ sources:
         - phase
         - attributes
 
-links:
-  transform: gff
-  transcripts: transform
-  exons: transform
-  genes: transform
-
 pipelines:
   transform:
+    - from: gff
     - fieldParse:
         field: attributes
         sep: ";"
         assign: "="
 
   transcripts:
+    - from: transform
     - filter:
         field: feature
         match: transcript
@@ -55,14 +50,20 @@ pipelines:
           transcript_id: "{{row.attributes.transcript_id}}"
           project_id: "Reference"
           chromosome: "{{row.seqID}}"
-          genome: "{{inputs.genomeBuild}}"
+          genome: "{{config.genomeBuild}}"
+          gene: "{{row.attributes.Parent}}"
+    - regexReplace:
+        field: gene
+        regex: "^gene:"
+        replace: ""
     - objectCreate:
-        schema: "{{inputs.schema}}"
+        schema: "{{config.schema}}"
         class: transcript
     - emit:
         name: transcript
 
   exons:
+    - from: transform
     - filter:
         field: feature
         match: exon
@@ -74,14 +75,20 @@ pipelines:
           exon_id: "{{row.attributes.exon_id}}"
           project_id: "Reference"
           chromosome: "{{row.seqID}}"
-          genome: "{{inputs.genomeBuild}}"
+          genome: "{{config.genomeBuild}}"
+          transcripts: "{{row.attributes.Parent}}"
+    - regexReplace:
+        field: transcripts
+        regex: "^transcript:"
+        replace: ""
     - objectCreate:
-        schema: "{{inputs.schema}}"
+        schema: "{{config.schema}}"
         class: exon
     - emit:
         name: exon
 
   genes:
+    - from: transform
     - filter:
         field: feature
         match: gene
@@ -93,11 +100,11 @@ pipelines:
           gene_id: "{{row.attributes.gene_id}}"
           project_id: "Reference"
           chromosome: "{{row.seqID}}"
-          genome: "{{inputs.genomeBuild}}"
+          genome: "{{config.genomeBuild}}"
           description: "{{row.attributes.description}}"
           symbol: "{{row.attributes.Name}}"
     - objectCreate:
-        schema: "{{inputs.schema}}"
+        schema: "{{config.schema}}"
         class: gene
     - emit:
         name: gene

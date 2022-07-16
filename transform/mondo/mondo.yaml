@@ -1,30 +1,39 @@
 
-class: Playbook
+class: sifter
 
-schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+name: mondo
+output: ../../mondo
 
-name: "mondo"
-
-inputs:
+config:
   mondo:
     type: File
     default: ../../source/mondo/mondo.json
+  schema:
+    type: Dir
+    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
 
-steps:
-  - jsonLoad:
-      input: "{{inputs.mondo}}"
-      multiline: true
-      transform:
-        - fieldProcess:
-            field: graphs
-            steps:
-              - fieldProcess:
-                  field: nodes
-                  steps:
-                    - emit:
-                        name: nodes
-              - fieldProcess:
-                  field: edges
-                  steps:
-                    - emit:
-                        name: edges
+inputs:
+  mondoJson:
+    jsonLoad:
+        input: "{{config.mondo}}"
+        multiline: true
+
+pipelines:
+  extractGraph:
+    - from: mondoJson
+    - fieldProcess:
+        field: graphs
+
+  extractNodes:
+    - from: extractGraph
+    - fieldProcess:
+        field: nodes
+    - emit:
+        name: nodes
+
+  extractEdges:
+    - from: extractGraph
+    - fieldProcess:
+        field: edges
+    - emit:
+        name: edges

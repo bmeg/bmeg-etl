@@ -1,0 +1,7 @@
+
+class: lathe
+name: pfamDownload
+
+prep:
+  - commandLine: ./download.py ../../source/pfam/xmls/
+

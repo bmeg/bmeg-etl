@@ -1,4 +1,6 @@
 
+class: lathe
+name: download
 
 scripts:
 
@@ -6,8 +8,3 @@ scripts:
     commandLine: curl -o ../../source/go/go.json http://release.geneontology.org/2022-01-13/ontology/go.json
     outputs:
       - ../../source/go/go.json
-
-  #obo2json:
-  #  commandLine: ./go_obo2json.py ../../source/go/go.obo ../../source/go/go.obo.json
-  #  outputs:
-  #    - ../../source/go/go.obo.json

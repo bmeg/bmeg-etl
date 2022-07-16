@@ -1,7 +1,10 @@
 
-outdir: ../../output/pharmacodb/
+class: sifter
 
-inputs:
+outdir: ../../output/pharmacodb/
+name: pharmacodb_profiles
+
+config:
   doseResponseFile:
     type: File
     default: ../../output/pharmacodb/dr_reduce.curveReduce.dose_response_curve.json.gz
@@ -23,72 +26,75 @@ inputs:
   cells:
     type: File
     default: ../../output/pharmacodb/cells.tsv.gz
+  cellNames:
+    type: File
+    default: ../../source/ccle/cellline_id_lookup.tsv
 
-sources:
+inputs:
   profileReader:
     tableLoad:
-      input: "{{inputs.profiles}}"
+      input: "{{config.profiles}}"
 
-links:
-  profileProcess: profileReader
-  drObject: profileProcess
-  #cellDistinct: profileProcess
-  #cellCase: cellDistinct
-  #cellSample: cellDistinct
-  #cellAliquot: cellDistinct
-  #cellProject: cellDistinct
 
 pipelines:
 
   profileProcess:
-    - jsonLookup:
-        input: "{{inputs.doseResponseFile}}"
-        value: "{{row.experiment_id}}"
-        key: experiment_id
+    - from: profileReader
+    - lookup:
+        json:
+          input: "{{config.doseResponseFile}}"
+          key: experiment_id
+        lookup: "{{row.experiment_id}}"
         copy:
           curve: curve
-    - tableLookup:
-        input: "{{inputs.experiments}}"
-        sep: "\t"
-        value: "{{row.experiment_id}}"
-        key: experiment_id
-        project:
+    - lookup:
+        tsv:
+          input: "{{config.experiments}}"
+          sep: "\t"
+          key: experiment_id
+        lookup: "{{row.experiment_id}}"
+        copy:
           cell_id: cell_id
           drug_id: drug_id
           dataset_id: dataset_id
-    - tableLookup:
-        input: "{{inputs.drugs}}"
-        sep: "\t"
-        value: "{{row.drug_id}}"
-        key: drug_id
-        project:
+    - lookup:
+        tsv:
+          input: "{{config.drugs}}"
+          sep: "\t"
+          key: drug_id
+        lookup: "{{row.drug_id}}"
+        copy:
           drug_name: drug_name
-    - tableLookup:
-        input: "{{inputs.datasets}}"
-        sep: "\t"
-        value: "{{row.dataset_id}}"
-        key: dataset_id
-        project:
+    - lookup:
+        tsv:
+          input: "{{config.datasets}}"
+          sep: "\t"
+          key: dataset_id
+        lookup: "{{row.dataset_id}}"
+        copy:
           dataset_name: dataset_name
     #- tableReplace:
     #    field: dataset_name
     #    table:
     #      CCLE: CCLE-NP
-    - tableLookup:
-        input: "{{inputs.cells}}"
-        sep: "\t"
-        value: "{{row.cell_id}}"
-        key: cell_id
-        project:
+    - lookup:
+        tsv:
+          input: "{{config.cells}}"
+          sep: "\t"
+          key: cell_id
+        lookup: "{{row.cell_id}}"
+        copy:
           cell_alias: cell_name
-    #- tableLookup:
-    #    input: "{{inputs.cell_names}}"
-    #    sep: "\t"
-    #    header: [name, id]
-    #    value: "{{row.cell_alias}}"
-    #    key: name
-    #    project:
-    #      cell_name: id
+          tissue_id: tissue_id
+    - lookup:
+        tsv:
+          input: "{{config.cellNames}}"
+          sep: "\t"
+          header: [name, id]
+          key: name
+        lookup: "{{row.cell_alias}}"
+        copy:
+          cell_name: id
     - project:
         mapping:
           submitter_id: "{{row.dataset_name}}:{{row.cell_name}}:{{row.drug_name}}"
@@ -127,24 +133,28 @@ pipelines:
               except ValueError:
                 pass
             return x
-    - debug: {}
 
   cellDistinct:
+    - from: profileProcess
     - distinct:
         value: "{{row.dataset_name}}:{{row.cell_name}}"
+    - emit:
+        name: checkpoint
 
   drObject:
+    - from: profileProcess
     - project:
         mapping:
           project_id: "Project:{{row.dataset_name}}"
     - objectCreate:
         class: drug_response
-        name: "{{row.dataset_name}}"
-        schema: "{{inputs.schema}}"
+        #name: "{{row.dataset_name}}"
+        schema: "{{config.schema}}"
     - emit:
         name: drug_response
 
   cellCase:
+    - from: cellDistinct
     - project:
         mapping:
           submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
@@ -155,10 +165,12 @@ pipelines:
         fields: ["case_id", "project_id", "submitter_id", "projects", "dataset_name"]
     - objectCreate:
         class: case
-        name: "{{row.dataset_name}}"
-        schema: "{{inputs.schema}}"
+        schema: "{{config.schema}}"
+    - emit:
+        name: case
 
   cellSample:
+    - from: cellDistinct
     - project:
         mapping:
           submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
@@ -169,10 +181,12 @@ pipelines:
         fields: ["case", "sample_id", "project_id", "submitter_id", "dataset_name"]
     - objectCreate:
         class: sample
-        name: "{{row.dataset_name}}"
-        schema: "{{inputs.schema}}"
+        schema: "{{config.schema}}"
+    - emit:
+        name: sample
 
   cellAliquot:
+    - from: cellDistinct
     - project:
         mapping:
           submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
@@ -183,25 +197,30 @@ pipelines:
         fields: ["sample", "aliquot_id", "project_id", "submitter_id", "dataset_name"]
     - objectCreate:
         class: aliquot
-        name: "{{row.dataset_name}}"
-        schema: "{{inputs.schema}}"
+        schema: "{{config.schema}}"
+    - emit:
+        name: aliquot
 
   cellProject:
+    - from: cellDistinct
     - reduce:
-        field: "{{row.dataset_name}}"
+        field: dataset_name
         method: merge
         init: { "compounds" : [] }
         gpython: |
 
           def merge(x,y):
-            x["dataset_name"] = y["dataset_name"]
+            #x["dataset_name"] = y["dataset_name"]
             x["compounds"] = list(set(y["compounds"]+x["compounds"]))
             return x
     - project:
         mapping:
           submitter_id: "{{row.dataset_name}}"
           project_id: "Project:{{row.dataset_name}}"
+    - clean:
+        fields: ["compounds", "project_id", "submitter_id", "dataset_name"]
     - objectCreate:
         class: project
-        name: "{{row.dataset_name}}"
-        schema: "{{inputs.schema}}"
+        schema: "{{config.schema}}"
+    - emit:
+        name: project

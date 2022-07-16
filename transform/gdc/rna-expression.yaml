@@ -1,0 +1,46 @@
+
+
+class: sifter
+
+name: rnaseq
+outdir: ../../output/gdc
+
+
+config:
+  data:
+    type: File
+    default: ../../source/gdc/rna-seq/*.tsv
+  schema:
+    type: Dir
+    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+
+
+inputs:
+  tsvData:
+    glob:
+      storeFilename: "file_name"
+      input: "{{config.data}}"
+      tableLoad: {}
+
+
+pipelines:
+  rna:
+    - from: tsvData
+    - accumulate:
+        field: file_name
+        dest: rows
+    - map:
+        method: update
+        gpython: |
+
+          def update(x):
+            values = {}
+            for i in x["rows"]:
+              values[i["gene_id"]] = i["tpm_unstranded"]
+            return {
+              "id" : i["file_name"].split(".")[0],
+              "values" : values
+            }
+
+    - emit:
+        name: debug

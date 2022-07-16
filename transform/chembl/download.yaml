@@ -1,5 +1,5 @@
 
-
+class: lathe
 name: chemblDownload
 
 scripts:
@@ -7,9 +7,9 @@ scripts:
     commandLine: curl -o ../../source/chembl/chembl_30_sqlite.tar.gz https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_30_sqlite.tar.gz
     outputs:
       - ../../source/chembl/chembl_30_sqlite.tar.gz
-    order: 1
-  untar:
-    commandLine: tar xvzf ../../source/chembl/chembl_30_sqlite.tar.gz -C ../../source/chembl
+  tar:
+    commandLine: tar xvzf ../../source/chembl/chembl_30_sqlite.tar.gz -C ../../source/chembl/
+    inputs:
+      - ../../source/chembl/chembl_30_sqlite.tar.gz
     outputs:
-      - ../../source/chembl/chembl_27/chembl_30_sqlite/chembl_30.db
-    order: 2
+      - ../../source/chembl/chembl_30/chembl_30_sqlite/chembl_30.db

@@ -1,0 +1,108 @@
+
+class: sifter
+
+name: mc3
+outdir: ../../output/mc3
+
+config:
+  mc3:
+    type: File
+    default: ../../source/mc3/mc3.v0.2.8.PUBLIC.maf.gz
+  table:
+    type: File
+    default: ../../output/gdc/gdc.aliquotAlias.table.json.gz
+  schema:
+    type: Dir
+    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+
+inputs:
+  mc3Reader:
+    tableLoad:
+      input: "{{config.mc3}}"
+
+pipelines:
+  transform:
+    - from: mc3Reader
+    - lookup:
+        replace: Tumor_Sample_Barcode
+        json:
+          input: "{{config.table}}"
+          key: submitter_id
+          value: aliquot_id
+    - lookup:
+        replace: Matched_Norm_Sample_Barcode
+        json:
+          input: "{{config.table}}"
+          key: submitter_id
+          value: aliquot_id
+    - lookup:
+        lookup: "{{row.Tumor_Sample_Barcode}}"
+        json:
+          input: "{{config.table}}"
+          key: aliquot_id
+        copy:
+          project_id: project_id
+    - emit:
+        name: raw
+
+  callset:
+    - from: transform
+    - project:
+        mapping:
+          id: "{{row.project_id}}:{{row.Tumor_Sample_Barcode}}:{{row.Matched_Norm_Sample_Barcode}}"
+          submitter_id: "{{row.project_id}}:{{row.Tumor_Sample_Barcode}}:{{row.Matched_Norm_Sample_Barcode}}"
+    - distinct:
+        value: "{{row.id}}"
+    - project:
+        mapping:
+          tumor_aliquot_id: "{{row.Tumor_Sample_Barcode}}"
+          normal_aliquot_id: "{{row.Matched_Norm_Sample_Barcode}}"
+    - objectCreate:
+        class: somatic_callset
+        schema: "{{config.schema}}"
+    - emit:
+        name: callset
+
+  variant:
+    - from: transform
+
+    - map:
+        method: fix
+        gpython: |
+          def fix(x):
+            x["methods"] = x.get("CENTERS", "").split("|")
+            return x
+    - project:
+        mapping:
+          ref: "{{row.Reference_Allele}}"
+          alt: "{{row.Tumor_Seq_Allele2}}"
+          ensembl_gene: "{{row.Gene}}"
+          ensembl_transcript: "{{row.Transcript_ID}}"
+          ensembl_protein: "{{row.ENSP}}"
+          filter: "{{row.FILTER}}"
+          start: "{{row.Start_Position}}"
+          from: "{{row.project_id}}:{{row.Tumor_Sample_Barcode}}:{{row.Matched_Norm_Sample_Barcode}}"
+          genome: "{{row.NCBI_Build}}"
+          chromosome: "{{row.Chromosome}}"
+
+    - fieldType:
+        t_depth: int
+        t_ref_count: int
+        t_alt_count: int
+        n_depth: int
+        n_ref_count: int
+        n_alt_count: int
+        start: int
+
+    - project:
+        mapping:
+          allele_id: "{{row.genome}}:{{row.chromosome}}:{{row.start}}:{{row.ref}}:{{row.alt}}"
+    - hash:
+        field: gid
+        method: sha1
+        value: "{{row.allele_id}}"
+    - project:
+        mapping:
+          gid: "Allele:{{row.gid}}"
+    - emit:
+        name: allele

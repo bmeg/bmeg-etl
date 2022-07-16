@@ -1,11 +1,12 @@
 
-
+class: sifter
 outdir: ../../output/msigdb
+name: msigdb
 
-inputs:
+config:
   xmlPath:
     type: File
-    default: ../../source/msigdb/msigdb_v6.2.xml
+    default: ../../source/msigdb/msigdb_v7.5.1.xml
   schema:
     type: File
     default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
@@ -13,41 +14,39 @@ inputs:
     type: File
     default: ../../source/ensembl/gene2ensembl.translate.link.json.gz
 
-sources:
+inputs:
   loader:
     xmlLoad:
-      input: "{{inputs.xmlPath}}"
-
-links:
-  transform: loader
-  object: transform
+      input: "{{config.xmlPath}}"
 
 pipelines:
   transform:
+    - from: loader
+    - fieldProcess:
+        field: MSIGDB
     - fieldProcess:
         field: GENESET
-    - fieldProcess:
-        field: _attr
+    - emit:
+        name: raw
     - project:
         mapping:
-          standard_name: "{{row.STANDARD_NAME[0]}}"
-          systematic_name: "{{row.SYSTEMATIC_NAME[0]}}"
-          historical_names: "{{row.HISTORICAL_NAMES[0]}}"
-          geoid: "{{row.GEOID[0]}}"
-          exact_source: "{{row.EXACT_SOURCE[0]}}"
-          geneset_listing_url: "{{row.GENESET_LISTING_URL[0]}}"
-          external_details_url: "{{row.EXTERNAL_DETAILS_URL[0]}}"
-          chip: "{{row.CHIP[0]}}"
-          category_code: "{{row.CATEGORY_CODE[0]}}"
-          sub_category_code: "{{row.SUB_CATEGORY_CODE[0]}}"
-          contributor: "{{row.CONTRIBUTOR[0]}}"
-          contributor_org: "{{row.CONTRIBUTOR_ORG[0]}}"
-          description_brief: "{{row.DESCRIPTION_BRIEF[0]}}"
-          description_full: "{{row.DESCRIPTION_FULL[0]}}"
-          submitter_id: "{{row.SYSTEMATIC_NAME[0]}}"
           project_id: Reference
-          genes: "{{row.MEMBERS_EZID[0]}}"
         rename:
+          "-STANDARD_NAME": standard_name
+          "-HISTORICAL_NAMES": historical_names
+          "-GEOID": geoid
+          "-EXACT_SOURCE": exact_source
+          "-GENESET_LISTING_URL": geneset_listing_url
+          "-EXTERNAL_DETAILS_URL": external_details_url
+          "-CHIP": chip
+          "-CATEGORY_CODE": category_code
+          "-SUB_CATEGORY_CODE": sub_category_code
+          "-CONTRIBUTOR": contributor
+          "-CONTRIBUTOR_ORG": contributor_org
+          "-DESCRIPTION_BRIEF": description_brief
+          "-DESCRIPTION_FULL": description_full
+          "-SYSTEMATIC_NAME": submitter_id
+          "-MEMBERS_EZID": genes
           PMID: publications
 
     - map:
@@ -57,18 +56,20 @@ pipelines:
             x['genes'] = x['genes'].split(",")
             return x
 
-    - jsonTable:
-        input: "{{inputs.gene2ensembl}}"
-        key: GeneID
-        replace:
-          field: genes
+    - lookup:
+        json:
+          input: "{{config.gene2ensembl}}"
+          key: GeneID
+          value: Ensembl_gene_identifier
+        replace: genes
 
     - emit:
         name: record
 
   object:
+    - from: transform
     - objectCreate:
         class: gene_set
-        schema: "{{inputs.schema}}"
+        schema: "{{config.schema}}"
     - emit:
         name: gene_set

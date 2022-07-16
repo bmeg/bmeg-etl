@@ -1,9 +1,10 @@
 
 name: go
+class: sifter
 
 outdir: ../../output/go/
 
-inputs:
+config:
   obo:
     type: File
     default: ../../source/go/go.json
@@ -11,23 +12,20 @@ inputs:
     type: Dir
     default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
 
-sources:
+inputs:
   oboJson:
     jsonLoad:
-      input: "{{inputs.obo}}"
+      input: "{{config.obo}}"
       multiline: true
-
-links:
-  recordOpen: oboJson
-  nodeOpen: recordOpen
-  edgeOpen: recordOpen
 
 pipelines:
   recordOpen:
+    - from: oboJson
     - fieldProcess:
         field: graphs
 
   nodeOpen:
+    - from: recordOpen
     - fieldProcess:
         field: nodes
     - project:
@@ -55,14 +53,18 @@ pipelines:
                 rec['xref'] = rec['meta']['definition']['xrefs']
             return rec
 
+    - emit:
+        name: before
+
     - objectCreate:
         class: gene_ontology_term
-        schema: "{{inputs.schema}}"
+        schema: "{{config.schema}}"
 
     - emit:
         name: term
 
   edgeOpen:
+    - from: recordOpen
     - fieldProcess:
         field: edges
     - emit:

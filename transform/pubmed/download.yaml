@@ -1,0 +1,8 @@
+
+
+name: pubmedDownload
+class: lathe
+
+prep:
+  - commandLine: ./download.py -o ../../source/pubmed/baseline
+

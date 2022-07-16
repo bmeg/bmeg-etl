@@ -1,30 +1,38 @@
 #!/usr/bin/env python3
 
 import os
+import sys
 import logging
+import requests
+try:
+    from tqdm import tqdm
+except ImportError:
+    tdqm = lambda x:x
 
-import bmeg.requests
-from bmeg.util.cli import default_argument_parser
+logging.basicConfig(level=logging.INFO)
 
+output_dir = sys.argv[1]
 
-client = bmeg.requests.Client("pfam")
-parser = default_argument_parser()
-args = parser.parse_args()
-
-output_dir = "source/pfam/xmls"
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
 
-if not os.path.exists("source/pfam/id_list.txt"):
-    raise Exception("missing ID list. Run transform/pfam/list.py")
+ids = []
+handle = requests.get("http://pfam.xfam.org/families?output=text")
+for line in handle.iter_lines():
+    line = line.decode()
+    if not line.startswith("#"):
+        row = line.split("\t")
+        if len(row[0]) > 1:
+            ids.append(row[0])
 
-ids = open("source/pfam/id_list.txt").read().splitlines()
-
-for i in ids:
-    url = "http://pfam.xfam.org/family?output=xml&acc=%s" % i
-    logging.debug("downloading {}", url)
-    handle = client.get(url)
-    txt = handle.text
+for i in tqdm(ids):
     f = os.path.join(output_dir, "%s.xml" % (i))
-    with open(f, "w") as handle:
-        handle.write(txt)
+    if not os.path.exists(f):
+        url = "http://pfam.xfam.org/family?output=xml&acc=%s" % i
+        logging.debug("downloading %s to %s" % (url, f))
+        handle = requests.get(url)
+        txt = handle.text
+        with open(f, "w") as handle:
+            handle.write(txt)
+    else:
+        logging.debug("skipping %s" % (i))

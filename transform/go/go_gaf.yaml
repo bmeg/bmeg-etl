@@ -1,19 +1,18 @@
 
-class: Playbook
-
+class: sifter
 name: go_gaf
 outdir: ../../output/go/
 
-inputs:
+config:
   gafFile:
     type: File
     default: ../../source/go/goa_human.gaf.gz
 
-sources:
+inputs:
   gafLoad:
     tableLoad:
-      input: "{{inputs.gafFile}}"
-      comment: "!"
+      input: "{{config.gafFile}}"
+      #comment: "!"
       columns:
         - db
         - id
@@ -33,10 +32,8 @@ sources:
         - extension
         - geneProduct
 
-links:
-  dump: gafLoad
-
 pipelines:
   dump:
+    - from: gafLoad
     - emit:
         name: gaf
