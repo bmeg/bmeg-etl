@@ -3,6 +3,7 @@ name: download
 
 prep:
   - commandLine: ./gdc-scan.py compounds ../../source/gdc/compounds/
+  - commandLine: ./gdc-scan.py expression ../../source/gdc/rna-seq/
 
 scripts:
   cases:
