@@ -36,6 +36,7 @@ outputs/allele/sqlite.db
 source/**/*.*
 !source/**/version.txt
 !source/**/*.md
+!source/**/.gitkeep
 !source/**/*.dvc
 !source/**/.gitignore
 !source/phenotype_enricher/disease_alias.tsv

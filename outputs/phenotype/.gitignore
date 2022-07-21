@@ -1,9 +1,0 @@
-/normalized.HasPhenotype.Edge.json.gz
-/normalized.Phenotype.Vertex.json.gz
-/normalized.PhenotypeOf.Edge.json.gz
-/normalized.Case_Phenotypes_Phenotype.Edge.json.gz
-/normalized.Phenotype_Cases_Case.Edge.json.gz
-/normalized.Sample_Phenotypes_Phenotype.Edge.json.gz
-/normalized.Phenotype_Samples_Sample.Edge.json.gz
-/normalized.G2PAssociation_Phenotypes_Phenotype.Edge.json.gz
-/normalized.Phenotype_G2PAssociations_G2PAssociation.Edge.json.gz

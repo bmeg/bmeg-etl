@@ -32,6 +32,7 @@ pipelines:
     - reduce:
         field: protein_id
         method: merge
+        init: {}
         python: |
 
           def forceList(a):
@@ -40,8 +41,13 @@ pipelines:
             return a
 
           def merge(x,y):
-            x["uniprot"] = [x["uniprot"]] + [y["uniprot"]]
+            if "uniprot" in y:
+              x["uniprot"] = forceList(x["uniprot"]) + forceList(y["uniprot"])
+            else:
+              x["uniprot"] = forceList(x["uniprot"])
             return x
+
+    #- debug: {}
 
     #- objectCreate:
     #    schema: "{{config.schema}}"
