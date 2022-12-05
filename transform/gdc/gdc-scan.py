@@ -1,16 +1,18 @@
 #!/usr/bin/env python
 
+import argparse
 import json
 import logging
 import os
 import sys
 import shutil
+import time
 from tqdm import tqdm
 
 import requests
 
 URL_BASE = "https://api.gdc.cancer.gov/"
-
+TOKEN = None
 client = requests
 
 
@@ -38,29 +40,43 @@ def query_gdc(endpoint, params):
     params = dict(params)
     page_size = 100
     params['size'] = page_size
+
     # With a GET request, the filters parameter needs to be converted
     # from a dictionary to JSON-formatted string
     if 'filters' in params:
         params['filters'] = json.dumps(params['filters'])
 
+    headers = None
+    if TOKEN is not None:
+        headers = {
+            "X-Auth-Token" : TOKEN
+        }
+    failCount = 0
     # Iterate through all the pages.
     with tqdm(total=page_size) as pbar:
         while True:
             try:
-                req = client.get(URL_BASE + endpoint, params=params)
+                req = client.get(URL_BASE + endpoint, params=params, headers=headers)
                 data = req.json()
-                data = data['data']
-
-                hits = data.get("hits", [])
-                if len(hits) == 0:
-                    return
-
-                for hit in hits:
-                    yield hit
-                pbar.total = data['pagination']['total']
-                pbar.update( data['pagination']['count'] )
-                # Get the next page.
-                params['from'] = data['pagination']['from'] + page_size
+                
+                if 'data' not in data:
+                    print("Bad return %s" % (data))
+                    failCount += 1
+                    if failCount >= 10:
+                        raise Exception("Too many failures")
+                    time.sleep(10)
+                else:
+                    failCount = 0
+                    data = data['data']
+                    hits = data.get("hits", [])
+                    if len(hits) == 0:
+                        return
+                    for hit in hits:
+                        yield hit
+                    pbar.total = data['pagination']['total']
+                    pbar.update( data['pagination']['count'] )
+                    # Get the next page.
+                    params['from'] = data['pagination']['from'] + page_size
             except Exception as e:
                 logging.warning(str(e))
                 logging.warning(json.dumps(params))
@@ -156,7 +172,7 @@ def scrapeCompounds(outdir):
 
 def scrapeFiles(outfile):
     parameters={}
-    parameters['expand'] = ",".join(["cases", "cases.aliquot_ids", "cases.samples.portions.analytes.aliquots"])
+    parameters['expand'] = ",".join(["cases", "cases.aliquot_ids", "cases.project", "cases.samples.portions.analytes.aliquots", "index_files"])
 
     filesOut = open(outfile, "w")
 
@@ -220,17 +236,59 @@ def scrapeOpenMaf(outdir):
             shutil.move(outPath + ".tmp", outPath)
         #print(row)
 
+def scrapeControlledMaf(outdir):
+    parameters = { "filters" : {
+        "op" : "and",
+        "content":[{
+            "op" : "in",
+            "content": {
+                "field" : "data_category",
+                "value":["Simple Nucleotide Variation"]
+            }
+        },{
+            "op" : "in",
+            "content": {
+                "field" : "access",
+                "value":["controlled"]
+            }
+        }]
+    } }
+    for row in query_gdc("files", parameters):
+        outPath = '{}/{}.maf.gz'.format(outdir, row['file_id'])
+        if not os.path.exists(outPath):
+            get_file(row['file_id'], outPath + ".tmp" )
+            shutil.move(outPath + ".tmp", outPath)
+        #print(row)
+
+
+
 
 if __name__ == "__main__":
-    if sys.argv[1] == "projects":
-        scrapeProjects(sys.argv[2])
-    if sys.argv[1] == "cases":
-        scrapeCases(sys.argv[2])
-    if sys.argv[1] == "files":
-        scrapeFiles(sys.argv[2])
-    if sys.argv[1] == "compounds":
-        scrapeCompounds(sys.argv[2])
-    if sys.argv[1] == "expression":
-        scrapeExpression(sys.argv[2])
-    if sys.argv[1] == "open-maf":
-        scrapeOpenMaf(sys.argv[2])
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument("-e", "--endpoint", default=URL_BASE)
+    parser.add_argument("-t", "--token", default=None)
+    parser.add_argument("method")
+    parser.add_argument("dest")
+
+    args = parser.parse_args()
+
+    URL_BASE = args.endpoint
+    if args.token is not None:
+        with open(args.token, "rt") as handle:
+            TOKEN = handle.read().strip()
+
+    if args.method == "projects":
+        scrapeProjects(args.dest)
+    if args.method == "cases":
+        scrapeCases(args.dest)
+    if args.method == "files":
+        scrapeFiles(args.dest)
+    if args.method == "compounds":
+        scrapeCompounds(args.dest)
+    if args.method == "expression":
+        scrapeExpression(args.dest)
+    if args.method == "open-maf":
+        scrapeOpenMaf(args.dest)
+    if args.method == "controlled-maf":
+        scrapeControlledMaf(args.dest)
