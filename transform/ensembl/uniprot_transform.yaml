@@ -5,14 +5,9 @@ name: uniprot
 outdir: ../../output/ensembl
 
 config:
-  uniprotTSV:
-    type: File
-    default: ../../source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz
-  schema:
-    type: Dir
-    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
-  genomeBuild:
-    default: GRCh37
+  uniprotTSV: ../../source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz
+  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  genomeBuild: GRCh37
 
 inputs:
   uniprot:

@@ -1,0 +1,28 @@
+
+
+name: pubmed
+class: sifter
+
+outdir: ../graph
+
+config:
+
+    transform: ../output/pubmed/pubmed.transform.publication.json.gz
+    transformSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
+
+inputs:
+
+    transform:
+        jsonLoad:
+            input: "{{config.transform}}"
+
+
+pipelines:
+
+    transform-graph:
+        - from: transform
+        - graphBuild:
+            schema: "{{config.transformSchema}}"
+            class: publication
+

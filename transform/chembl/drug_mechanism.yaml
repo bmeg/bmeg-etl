@@ -5,15 +5,9 @@ name: chembDrugMechanismExtract
 outdir: ../../output/chembl
 
 config:
-  sqlite:
-    type: File
-    default: ../../source/chembl/chembl_30/chembl_30_sqlite/chembl_30.db
-  #uniprot2gene:
-  #  type: File
-  #  default: ../../mappings/uniprotId2ensemblGene.tsv
-  schema:
-    type: Dir
-    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  sqlite:  ../../source/chembl/chembl_30/chembl_30_sqlite/chembl_30.db
+  #uniprot2gene: ../../mappings/uniprotId2ensemblGene.tsv
+  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
 
 
 inputs:
@@ -52,7 +46,7 @@ pipelines:
     - reduce:
         field: mec_id
         method: merge
-        python: |
+        gpython: |
 
           def join(x,y):
             if not isinstance(x,list):

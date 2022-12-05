@@ -1,14 +1,11 @@
 
+class: sifter
 name: gdc
 outdir: ../../output/gdc
 
 config:
-  casesJSON:
-    type: File
-    default: ../../source/gdc/cases.json
-  schema:
-    type: Dir
-    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  casesJSON: ../../source/gdc/cases.json
+  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
 
 inputs:
   caseData:

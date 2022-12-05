@@ -1,0 +1,28 @@
+
+
+name: mc3
+class: sifter
+
+outdir: ../graph
+
+config:
+
+    callset: ../output/mc3/mc3.callset.callset.json.gz
+    callsetSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
+
+inputs:
+
+    callset:
+        jsonLoad:
+            input: "{{config.callset}}"
+
+
+pipelines:
+
+    callset-graph:
+        - from: callset
+        - graphBuild:
+            schema: "{{config.callsetSchema}}"
+            class: somatic_callset
+

@@ -5,9 +5,7 @@ name: gene2ensembl
 outdir: ../../source/ensembl/
 
 config:
-  file:
-    type: File
-    default: ../../source/ensembl/gene2ensembl.gz
+  file: ../../source/ensembl/gene2ensembl.gz
 
 inputs:
   geneFile:

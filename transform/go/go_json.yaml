@@ -5,12 +5,8 @@ class: sifter
 outdir: ../../output/go/
 
 config:
-  obo:
-    type: File
-    default: ../../source/go/go.json
-  schema:
-    type: Dir
-    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  obo: ../../source/go/go.json
+  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
 
 inputs:
   oboJson:

@@ -5,30 +5,14 @@ outdir: ../../output/pharmacodb/
 name: pharmacodb_profiles
 
 config:
-  doseResponseFile:
-    type: File
-    default: ../../output/pharmacodb/dr_reduce.curveReduce.dose_response_curve.json.gz
-  profiles:
-    type: File
-    default: ../../output/pharmacodb/profiles.tsv.gz
-  schema:
-    type: Dir
-    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
-  experiments:
-    type: File
-    default: ../../output/pharmacodb/experiments.tsv.gz
-  drugs:
-    type: File
-    default: ../../output/pharmacodb/drugs.tsv.gz
-  datasets:
-    type: File
-    default: ../../output/pharmacodb/datasets.tsv.gz
-  cells:
-    type: File
-    default: ../../output/pharmacodb/cells.tsv.gz
-  cellNames:
-    type: File
-    default: ../../source/ccle/cellline_id_lookup.tsv
+  doseResponseFile: ../../output/pharmacodb/dr_reduce.curveReduce.dose_response_curve.json.gz
+  profiles: ../../output/pharmacodb/profiles.tsv.gz
+  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  experiments: ../../output/pharmacodb/experiments.tsv.gz
+  drugs: ../../output/pharmacodb/drugs.tsv.gz
+  datasets: ../../output/pharmacodb/datasets.tsv.gz
+  cells: ../../output/pharmacodb/cells.tsv.gz
+  cellNames: ../../source/ccle/cellline_id_lookup.tsv
 
 inputs:
   profileReader:

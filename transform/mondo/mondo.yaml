@@ -2,15 +2,11 @@
 class: sifter
 
 name: mondo
-output: ../../mondo
+outdir: ../../output/mondo
 
 config:
-  mondo:
-    type: File
-    default: ../../source/mondo/mondo.json
-  schema:
-    type: Dir
-    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  mondo: ../../source/mondo/mondo.json
+  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
 
 inputs:
   mondoJson:

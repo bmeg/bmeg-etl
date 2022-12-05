@@ -5,9 +5,7 @@ name: dr_reduce
 outdir: ../../output/pharmacodb/
 
 config:
-  doseResponsePath:
-    type: File
-    default: ../../output/pharmacodb/dose_responses.tsv.gz
+  doseResponsePath: ../../output/pharmacodb/dose_responses.tsv.gz
 
 inputs:
   doseResponseFile:

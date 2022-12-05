@@ -4,21 +4,18 @@ class: sifter
 
 outdir: ../../output/go/
 
-inputs:
-  edges:
-    type: File
-    default: ../../output/go/go.edgeOpen.edges.json.gz
+config:
+  edges: ../../output/go/go.edgeOpen.edges.json.gz
 
-sources:
+inputs:
   edgeJson:
     jsonLoad:
       input: "{{inputs.edges}}"
 
-links:
-  edgeReduce: edgeJson
 
 pipelines:
   edgeReduce:
+    - from: edgeJson
     - reduce:
         init: { "is_a" : [] }
         field: sub

@@ -1,0 +1,80 @@
+
+
+name: pharmacodb_profiles
+class: sifter
+
+outdir: ../graph
+
+config:
+
+    cellCase: ../output/pharmacodb/pharmacodb_profiles.cellCase.case.json.gz
+    cellCaseSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
+    cellProject: ../output/pharmacodb/pharmacodb_profiles.cellProject.project.json.gz
+    cellProjectSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
+    cellSample: ../output/pharmacodb/pharmacodb_profiles.cellSample.sample.json.gz
+    cellSampleSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
+    drObject: ../output/pharmacodb/pharmacodb_profiles.drObject.drug_response.json.gz
+    drObjectSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
+    cellAliquot: ../output/pharmacodb/pharmacodb_profiles.cellAliquot.aliquot.json.gz
+    cellAliquotSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
+
+inputs:
+
+    cellCase:
+        jsonLoad:
+            input: "{{config.cellCase}}"
+
+    cellProject:
+        jsonLoad:
+            input: "{{config.cellProject}}"
+
+    cellSample:
+        jsonLoad:
+            input: "{{config.cellSample}}"
+
+    drObject:
+        jsonLoad:
+            input: "{{config.drObject}}"
+
+    cellAliquot:
+        jsonLoad:
+            input: "{{config.cellAliquot}}"
+
+
+pipelines:
+
+    cellCase-graph:
+        - from: cellCase
+        - graphBuild:
+            schema: "{{config.cellCaseSchema}}"
+            class: case
+
+    cellProject-graph:
+        - from: cellProject
+        - graphBuild:
+            schema: "{{config.cellProjectSchema}}"
+            class: project
+
+    cellSample-graph:
+        - from: cellSample
+        - graphBuild:
+            schema: "{{config.cellSampleSchema}}"
+            class: sample
+
+    drObject-graph:
+        - from: drObject
+        - graphBuild:
+            schema: "{{config.drObjectSchema}}"
+            class: drug_response
+
+    cellAliquot-graph:
+        - from: cellAliquot
+        - graphBuild:
+            schema: "{{config.cellAliquotSchema}}"
+            class: aliquot
+

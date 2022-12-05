@@ -5,12 +5,8 @@ name: pubmed
 outdir: ../../output/pubmed
 
 config:
-  baseline:
-    type: Dir
-    default: ../../source/pubmed/baseline
-  schema:
-    type: Dir
-    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  baseline: ../../source/pubmed/baseline
+  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
 
 inputs:
   pubmedRead:

@@ -4,9 +4,7 @@ name: go_gaf
 outdir: ../../output/go/
 
 config:
-  gafFile:
-    type: File
-    default: ../../source/go/goa_human.gaf.gz
+  gafFile: ../../source/go/goa_human.gaf.gz
 
 inputs:
   gafLoad:

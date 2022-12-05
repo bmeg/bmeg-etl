@@ -1,0 +1,28 @@
+
+
+name: go
+class: sifter
+
+outdir: ../graph
+
+config:
+
+    nodeOpen: ../output/go/go.nodeOpen.term.json.gz
+    nodeOpenSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
+
+inputs:
+
+    nodeOpen:
+        jsonLoad:
+            input: "{{config.nodeOpen}}"
+
+
+pipelines:
+
+    nodeOpen-graph:
+        - from: nodeOpen
+        - graphBuild:
+            schema: "{{config.nodeOpenSchema}}"
+            class: gene_ontology_term
+

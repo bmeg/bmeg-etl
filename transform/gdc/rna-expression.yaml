@@ -7,19 +7,14 @@ outdir: ../../output/gdc
 
 
 config:
-  data:
-    type: File
-    default: ../../source/gdc/rna-seq/*.tsv
-  schema:
-    type: Dir
-    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
-
+  data: ../../source/gdc/rna-seq/
+  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
 
 inputs:
   tsvData:
     glob:
       storeFilename: "file_name"
-      input: "{{config.data}}"
+      input: "{{config.data}}*.tsv"
       tableLoad: {}
 
 

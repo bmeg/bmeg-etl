@@ -1,0 +1,54 @@
+
+
+name: gdc
+class: sifter
+
+outdir: ../graph
+
+config:
+
+    caseObject: ../output/gdc/gdc.caseObject.case.json.gz
+    caseObjectSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
+    sampleObject: ../output/gdc/gdc.sampleObject.sample.json.gz
+    sampleObjectSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
+    aliquotObject: ../output/gdc/gdc.aliquotObject.aliquot.json.gz
+    aliquotObjectSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
+
+inputs:
+
+    caseObject:
+        jsonLoad:
+            input: "{{config.caseObject}}"
+
+    sampleObject:
+        jsonLoad:
+            input: "{{config.sampleObject}}"
+
+    aliquotObject:
+        jsonLoad:
+            input: "{{config.aliquotObject}}"
+
+
+pipelines:
+
+    caseObject-graph:
+        - from: caseObject
+        - graphBuild:
+            schema: "{{config.caseObjectSchema}}"
+            class: case
+
+    sampleObject-graph:
+        - from: sampleObject
+        - graphBuild:
+            schema: "{{config.sampleObjectSchema}}"
+            class: sample
+
+    aliquotObject-graph:
+        - from: aliquotObject
+        - graphBuild:
+            schema: "{{config.aliquotObjectSchema}}"
+            class: aliquot
+

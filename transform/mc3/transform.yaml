@@ -5,15 +5,9 @@ name: mc3
 outdir: ../../output/mc3
 
 config:
-  mc3:
-    type: File
-    default: ../../source/mc3/mc3.v0.2.8.PUBLIC.maf.gz
-  table:
-    type: File
-    default: ../../output/gdc/gdc.aliquotAlias.table.json.gz
-  schema:
-    type: Dir
-    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  mc3: ../../source/mc3/mc3.v0.2.8.PUBLIC.maf.gz
+  table: ../../output/gdc/gdc.aliquotAlias.table.json.gz
+  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
 
 inputs:
   mc3Reader:

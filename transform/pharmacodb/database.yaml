@@ -5,9 +5,7 @@ name: pharmacodb
 outdir: ../../output/pharmacodb/
 
 config:
-  sql:
-    type: File
-    default: ../../source/pharmacodb/pharmacodb-1.1.1.sql
+  sql: ../../source/pharmacodb/pharmacodb-1.1.1.sql
 
 inputs:
   database:

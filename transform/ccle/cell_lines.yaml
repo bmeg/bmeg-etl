@@ -5,16 +5,11 @@ name: cell_line_names
 outdir: ../../source/ccle
 
 config:
-  depmap_path:
-    default: ../source/ccle/sample_info.csv
-  cellosaurus_path:
-    default: ../source/pharmacodb/cellosaurus.tsv.gz
-  cells_path:
-    default: ../source/pharmacodb/cells.tsv.gz
-  source_cell_path:
-    default: ../source/pharmacodb/source_cell_names.tsv.gz
-  cellmodelpassports_path:
-    default: ../source/gdsc/model_list_20191104.csv
+  depmap_path: ../source/ccle/sample_info.csv
+  cellosaurus_path: ../source/pharmacodb/cellosaurus.tsv.gz
+  cells_path: ../source/pharmacodb/cells.tsv.gz
+  source_cell_path: ../source/pharmacodb/source_cell_names.tsv.gz
+  cellmodelpassports_path: ../source/gdsc/model_list_20191104.csv
 
 inputs:
   cellosaurus:

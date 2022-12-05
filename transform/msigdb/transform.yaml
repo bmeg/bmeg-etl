@@ -4,15 +4,9 @@ outdir: ../../output/msigdb
 name: msigdb
 
 config:
-  xmlPath:
-    type: File
-    default: ../../source/msigdb/msigdb_v7.5.1.xml
-  schema:
-    type: File
-    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
-  gene2ensembl:
-    type: File
-    default: ../../source/ensembl/gene2ensembl.translate.link.json.gz
+  xmlPath: ../../source/msigdb/msigdb_v7.5.1.xml
+  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  gene2ensembl: ../../source/ensembl/gene2ensembl.translate.link.json.gz
 
 inputs:
   loader:

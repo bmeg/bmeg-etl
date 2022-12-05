@@ -5,12 +5,8 @@ name: pfam_family
 outdir: ../../output/pfam/
 
 config:
-  xmlDir:
-    type: Dir
-    default: ../../source/pfam/xmls/
-  schema:
-    type: Dir
-    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  xmlDir: ../../source/pfam/xmls/
+  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
 
 inputs:
   pfamData:

@@ -1,46 +1,38 @@
 
 class: sifter
-
 name: GTEX_Gene_Expression
+outdir: ../../output/gtex
 
+config:
+  gctTranspose: ../../source/gtex/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.transpose.gz
+  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
 
 inputs:
-  gct:
-    type: File
-    default: ../../source/gtex/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz
-
-schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
-
-steps:
-
-  - desc: Transpose RNA file
-    transposeFile:
-        input: "{{inputs.gct}}"
-        output: tmp.gct
-        lineSkip: 2
-        lowMem: true
-  - desc: Loading Matrix
+  tableRead:
     tableLoad:
-      input: tmp.gct
-      transform:
-        #- debug:
-        #    label: Before
-        - map:
-            method: nodeMap
-            python: >
-              def nodeMap(x):
-                values = {}
-                for k, v in x.items():
-                  if k != "Name" and k != "aliquot_id" and k != "Entrez_Gene_Id":
-                    j = k.split(".")[0]
-                    values[j] = v
-                return {
-                  "id" : x["Name"],
-                  "submitter_id" : x["Name"],
-                  "project_id" : "GTEX",
-                  "metric" : "GENE_TPM",
-                  "method" : "Illumina HiSeq",
-                  "values": values
-                }
-        - objectCreate:
-            class: gene_expression
+      input: "{{config.gctTranspose}}"
+
+pipelines:
+  gctProcess:
+    - from: tableRead
+    - map:
+        method: nodeMap
+        python: |
+           
+           def nodeMap(x):
+             values = {}
+             for k, v in x.items():
+               if k != "Name" and k != "aliquot_id" and k != "Entrez_Gene_Id":
+                 j = k.split(".")[0]
+                 values[j] = v
+             return {
+               "id" : x["Name"],
+               "submitter_id" : x["Name"],
+               "project_id" : "GTEX",
+               "metric" : "GENE_TPM",
+               "method" : "Illumina HiSeq",
+               "values": values
+             }
+    - objectCreate:
+        class: gene_expression
+        schema: "{{config.schema}}"

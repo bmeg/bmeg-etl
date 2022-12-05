@@ -4,7 +4,11 @@ name: download
 
 scripts:
 
-  download:
-    commandLine: curl -o ../../source/go/go.json http://release.geneontology.org/2022-01-13/ontology/go.json
+  downloadGO:
+    commandLine: curl -o ../../source/go/go.json http://release.geneontology.org/2022-09-19/ontology/go.json
     outputs:
       - ../../source/go/go.json
+  downloadGAF:
+    commandLine: curl -o ../../source/go/goa_human.gaf.gz http://release.geneontology.org/2022-09-19/annotations/goa_human.gaf.gz
+    outputs:
+      - ../../source/go/goa_human.gaf.gz

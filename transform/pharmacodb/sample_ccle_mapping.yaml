@@ -5,22 +5,8 @@ name: sample_ccle_mapping
 outdir: ../../source/ccle/
 
 config:
-  ccleSamples:
-    type: File
-    default: ../../source/ccle/sample_info.csv
-
-  cellosaurus:
-    type: File
-    default: ../../source/pharmacodb/cellosaurus.tsv.gz
-
-  cells:
-    type: File
-    default: ../../source/pharmacodb/cells.tsv.gz
-
-  cellSources:
-    type: File
-    default: ../../source/pharmacodb/source_cell_names.tsv.gz
-
-  gdscModels:
-    type: File
-    default: source/gdsc/model_list_20191104.csv
+  ccleSamples: ../../source/ccle/sample_info.csv
+  cellosaurus: ../../source/pharmacodb/cellosaurus.tsv.gz
+  cells: ../../source/pharmacodb/cells.tsv.gz
+  cellSources: ../../source/pharmacodb/source_cell_names.tsv.gz
+  gdscModels: source/gdsc/model_list_20191104.csv

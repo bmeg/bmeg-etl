@@ -1,0 +1,28 @@
+
+
+name: msigdb
+class: sifter
+
+outdir: ../graph
+
+config:
+
+    object: ../output/msigdb/msigdb.object.gene_set.json.gz
+    objectSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
+
+inputs:
+
+    object:
+        jsonLoad:
+            input: "{{config.object}}"
+
+
+pipelines:
+
+    object-graph:
+        - from: object
+        - graphBuild:
+            schema: "{{config.objectSchema}}"
+            class: gene_set
+

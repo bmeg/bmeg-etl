@@ -4,9 +4,7 @@ name: hugoMapping
 outdir: ../../source/ensembl
 
 config:
-  hugoPath:
-    type: File
-    default: ../../source/hugo/hugo.tsv
+  hugoPath: ../../source/hugo/hugo.tsv
 
 inputs:
   hugoTSV:

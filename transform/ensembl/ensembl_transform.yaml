@@ -5,14 +5,9 @@ name: ensembl
 outdir: ../../output/ensembl
 
 config:
-  gffPath:
-    type: File
-    default: ../../source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz
-  genomeBuild:
-    default: GRCh37
-  schema:
-    type: Dir
-    default: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  gffPath: ../../source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz
+  genomeBuild: GRCh37
+  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
 
 inputs:
   gff:

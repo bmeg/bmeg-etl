@@ -1,0 +1,28 @@
+
+
+name: chembDrugMechanismExtract
+class: sifter
+
+outdir: ../graph
+
+config:
+
+    build: ../output/chembl/chembDrugMechanismExtract.build.protein_drug_association.json.gz
+    buildSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+
+
+inputs:
+
+    build:
+        jsonLoad:
+            input: "{{config.build}}"
+
+
+pipelines:
+
+    build-graph:
+        - from: build
+        - graphBuild:
+            schema: "{{config.buildSchema}}"
+            class: protein_drug_association
+
