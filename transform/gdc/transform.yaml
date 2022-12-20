@@ -28,11 +28,11 @@ pipelines:
           def fix(x):
             samples = []
             for s in x.get('samples', []):
-              samples.append(s["sample_id"])
+              samples.append({"id":s["sample_id"]})
             x['samples'] = samples
             return x
 
-    - objectCreate:
+    - objectValidate:
         class: case
         schema: "{{config.schema}}"
     - emit:
@@ -52,7 +52,7 @@ pipelines:
         mapping:
           type: sample
           id: "{{row.sample_id}}"
-    - objectCreate:
+    - objectValidate:
         class: sample
         schema: "{{config.schema}}"
     - emit:
@@ -93,7 +93,7 @@ pipelines:
 
   aliquotObject:
     - from: aliquotData
-    - objectCreate:
+    - objectValidate:
         class: aliquot
         schema: "{{config.schema}}"
     - emit:

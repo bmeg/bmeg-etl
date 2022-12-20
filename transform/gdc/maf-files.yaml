@@ -1,0 +1,20 @@
+
+class: sifter
+name: gdc
+outdir: ../../output/gdc/open-maf
+
+config:
+  mafBase: ../../source/gdc/open-maf/*.maf.gz
+  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+
+inputs:
+  mafData:
+    glob:
+      input: "{{config.mafBase}}"
+      tableLoad: {}
+
+pipelines:
+  scan:
+    - from: mafData
+    - debug: 
+        format: True

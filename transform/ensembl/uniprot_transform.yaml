@@ -28,7 +28,7 @@ pipelines:
         field: protein_id
         method: merge
         init: {}
-        python: |
+        gpython: |
 
           def forceList(a):
             if not isinstance(a, list):
@@ -44,8 +44,8 @@ pipelines:
 
     #- debug: {}
 
-    #- objectCreate:
-    #    schema: "{{config.schema}}"
-    #    class: protein
+    - objectValidate:
+        schema: "{{config.schema}}"
+        class: protein
     - emit:
         name: protein

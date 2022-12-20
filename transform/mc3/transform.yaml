@@ -51,7 +51,7 @@ pipelines:
         mapping:
           tumor_aliquot_id: "{{row.Tumor_Sample_Barcode}}"
           normal_aliquot_id: "{{row.Matched_Norm_Sample_Barcode}}"
-    - objectCreate:
+    - objectValidate:
         class: somatic_callset
         schema: "{{config.schema}}"
     - emit:

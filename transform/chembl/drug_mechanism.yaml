@@ -64,7 +64,7 @@ pipelines:
                 x[i] = y[i]
             return x
 
-    - objectCreate:
+    - objectValidate:
         class: protein_drug_association
         schema: "{{config.schema}}"
     - emit:

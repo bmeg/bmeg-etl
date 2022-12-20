@@ -33,6 +33,6 @@ pipelines:
                "method" : "Illumina HiSeq",
                "values": values
              }
-    - objectCreate:
+    - objectValidate:
         class: gene_expression
         schema: "{{config.schema}}"

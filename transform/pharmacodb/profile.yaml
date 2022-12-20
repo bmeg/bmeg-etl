@@ -130,7 +130,7 @@ pipelines:
     - project:
         mapping:
           project_id: "Project:{{row.dataset_name}}"
-    - objectCreate:
+    - objectValidate:
         class: drug_response
         #name: "{{row.dataset_name}}"
         schema: "{{config.schema}}"
@@ -147,7 +147,7 @@ pipelines:
           projects: [ "Project:{{row.dataset_name}}" ]
     - clean:
         fields: ["case_id", "project_id", "submitter_id", "projects", "dataset_name"]
-    - objectCreate:
+    - objectValidate:
         class: case
         schema: "{{config.schema}}"
     - emit:
@@ -163,7 +163,7 @@ pipelines:
           project_id: "Project:{{row.dataset_name}}"
     - clean:
         fields: ["case", "sample_id", "project_id", "submitter_id", "dataset_name"]
-    - objectCreate:
+    - objectValidate:
         class: sample
         schema: "{{config.schema}}"
     - emit:
@@ -179,7 +179,7 @@ pipelines:
           project_id: "Project:{{row.dataset_name}}"
     - clean:
         fields: ["sample", "aliquot_id", "project_id", "submitter_id", "dataset_name"]
-    - objectCreate:
+    - objectValidate:
         class: aliquot
         schema: "{{config.schema}}"
     - emit:
@@ -203,7 +203,7 @@ pipelines:
           project_id: "Project:{{row.dataset_name}}"
     - clean:
         fields: ["compounds", "project_id", "submitter_id", "dataset_name"]
-    - objectCreate:
+    - objectValidate:
         class: project
         schema: "{{config.schema}}"
     - emit:

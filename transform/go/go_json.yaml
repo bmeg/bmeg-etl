@@ -1,5 +1,5 @@
 
-name: go
+name: goJson
 class: sifter
 
 outdir: ../../output/go/
@@ -52,7 +52,7 @@ pipelines:
     - emit:
         name: before
 
-    - objectCreate:
+    - objectValidate:
         class: gene_ontology_term
         schema: "{{config.schema}}"
 

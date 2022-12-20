@@ -10,7 +10,7 @@ config:
 inputs:
   edgeJson:
     jsonLoad:
-      input: "{{inputs.edges}}"
+      input: "{{config.edges}}"
 
 
 pipelines:

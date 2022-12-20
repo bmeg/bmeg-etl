@@ -51,7 +51,7 @@ pipelines:
         field: gene
         regex: "^gene:"
         replace: ""
-    - objectCreate:
+    - objectValidate:
         schema: "{{config.schema}}"
         class: transcript
     - emit:
@@ -76,7 +76,7 @@ pipelines:
         field: transcripts
         regex: "^transcript:"
         replace: ""
-    - objectCreate:
+    - objectValidate:
         schema: "{{config.schema}}"
         class: exon
     - emit:
@@ -98,7 +98,7 @@ pipelines:
           genome: "{{config.genomeBuild}}"
           description: "{{row.attributes.description}}"
           symbol: "{{row.attributes.Name}}"
-    - objectCreate:
+    - objectValidate:
         schema: "{{config.schema}}"
         class: gene
     - emit:
