@@ -7,14 +7,26 @@ outdir: ../graph
 
 config:
 
-    exons: ../output/ensembl/ensembl.exons.exon.json.gz
-    exonsSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+    exons:
+        type: File
+        default: ../output/ensembl/ensembl.exons.exon.json.gz
+    exonsSchema:
+        type: Dir
+        default: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
-    genes: ../output/ensembl/ensembl.genes.gene.json.gz
-    genesSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+    genes:
+        type: File
+        default: ../output/ensembl/ensembl.genes.gene.json.gz
+    genesSchema:
+        type: Dir
+        default: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
-    transcripts: ../output/ensembl/ensembl.transcripts.transcript.json.gz
-    transcriptsSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+    transcripts:
+        type: File
+        default: ../output/ensembl/ensembl.transcripts.transcript.json.gz
+    transcriptsSchema:
+        type: Dir
+        default: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
 
 inputs:

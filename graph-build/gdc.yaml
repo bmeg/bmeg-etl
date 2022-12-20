@@ -7,17 +7,33 @@ outdir: ../graph
 
 config:
 
-    caseObject: ../output/gdc/gdc.caseObject.case.json.gz
-    caseObjectSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+    aliquotObject:
+        type: File
+        default: ../output/gdc/gdc.aliquotObject.aliquot.json.gz
+    aliquotObjectSchema:
+        type: Dir
+        default: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
-    sampleObject: ../output/gdc/gdc.sampleObject.sample.json.gz
-    sampleObjectSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+    caseObject:
+        type: File
+        default: ../output/gdc/gdc.caseObject.case.json.gz
+    caseObjectSchema:
+        type: Dir
+        default: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
-    aliquotObject: ../output/gdc/gdc.aliquotObject.aliquot.json.gz
-    aliquotObjectSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+    sampleObject:
+        type: File
+        default: ../output/gdc/gdc.sampleObject.sample.json.gz
+    sampleObjectSchema:
+        type: Dir
+        default: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
 
 inputs:
+
+    aliquotObject:
+        jsonLoad:
+            input: "{{config.aliquotObject}}"
 
     caseObject:
         jsonLoad:
@@ -27,12 +43,14 @@ inputs:
         jsonLoad:
             input: "{{config.sampleObject}}"
 
-    aliquotObject:
-        jsonLoad:
-            input: "{{config.aliquotObject}}"
-
 
 pipelines:
+
+    aliquotObject-graph:
+        - from: aliquotObject
+        - graphBuild:
+            schema: "{{config.aliquotObjectSchema}}"
+            class: aliquot
 
     caseObject-graph:
         - from: caseObject
@@ -45,10 +63,4 @@ pipelines:
         - graphBuild:
             schema: "{{config.sampleObjectSchema}}"
             class: sample
-
-    aliquotObject-graph:
-        - from: aliquotObject
-        - graphBuild:
-            schema: "{{config.aliquotObjectSchema}}"
-            class: aliquot
 

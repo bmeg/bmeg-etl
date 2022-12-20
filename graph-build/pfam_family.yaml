@@ -7,8 +7,12 @@ outdir: ../graph
 
 config:
 
-    transform: ../output/pfam/pfam_family.transform.pfam.json.gz
-    transformSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+    transform:
+        type: File
+        default: ../output/pfam/pfam_family.transform.pfam.json.gz
+    transformSchema:
+        type: Dir
+        default: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
 
 inputs:

@@ -7,8 +7,12 @@ outdir: ../graph
 
 config:
 
-    build: ../output/chembl/chembDrugMechanismExtract.build.protein_drug_association.json.gz
-    buildSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+    build:
+        type: File
+        default: ../output/chembl/chembDrugMechanismExtract.build.protein_drug_association.json.gz
+    buildSchema:
+        type: Dir
+        default: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
 
 inputs:

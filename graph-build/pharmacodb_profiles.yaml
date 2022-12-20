@@ -7,31 +7,43 @@ outdir: ../graph
 
 config:
 
-    cellCase: ../output/pharmacodb/pharmacodb_profiles.cellCase.case.json.gz
-    cellCaseSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+    cellSample:
+        type: File
+        default: ../output/pharmacodb/pharmacodb_profiles.cellSample.sample.json.gz
+    cellSampleSchema:
+        type: Dir
+        default: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
-    cellProject: ../output/pharmacodb/pharmacodb_profiles.cellProject.project.json.gz
-    cellProjectSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+    drObject:
+        type: File
+        default: ../output/pharmacodb/pharmacodb_profiles.drObject.drug_response.json.gz
+    drObjectSchema:
+        type: Dir
+        default: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
-    cellSample: ../output/pharmacodb/pharmacodb_profiles.cellSample.sample.json.gz
-    cellSampleSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+    cellAliquot:
+        type: File
+        default: ../output/pharmacodb/pharmacodb_profiles.cellAliquot.aliquot.json.gz
+    cellAliquotSchema:
+        type: Dir
+        default: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
-    drObject: ../output/pharmacodb/pharmacodb_profiles.drObject.drug_response.json.gz
-    drObjectSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+    cellCase:
+        type: File
+        default: ../output/pharmacodb/pharmacodb_profiles.cellCase.case.json.gz
+    cellCaseSchema:
+        type: Dir
+        default: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
-    cellAliquot: ../output/pharmacodb/pharmacodb_profiles.cellAliquot.aliquot.json.gz
-    cellAliquotSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+    cellProject:
+        type: File
+        default: ../output/pharmacodb/pharmacodb_profiles.cellProject.project.json.gz
+    cellProjectSchema:
+        type: Dir
+        default: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
 
 inputs:
-
-    cellCase:
-        jsonLoad:
-            input: "{{config.cellCase}}"
-
-    cellProject:
-        jsonLoad:
-            input: "{{config.cellProject}}"
 
     cellSample:
         jsonLoad:
@@ -45,20 +57,16 @@ inputs:
         jsonLoad:
             input: "{{config.cellAliquot}}"
 
+    cellCase:
+        jsonLoad:
+            input: "{{config.cellCase}}"
+
+    cellProject:
+        jsonLoad:
+            input: "{{config.cellProject}}"
+
 
 pipelines:
-
-    cellCase-graph:
-        - from: cellCase
-        - graphBuild:
-            schema: "{{config.cellCaseSchema}}"
-            class: case
-
-    cellProject-graph:
-        - from: cellProject
-        - graphBuild:
-            schema: "{{config.cellProjectSchema}}"
-            class: project
 
     cellSample-graph:
         - from: cellSample
@@ -77,4 +85,16 @@ pipelines:
         - graphBuild:
             schema: "{{config.cellAliquotSchema}}"
             class: aliquot
+
+    cellCase-graph:
+        - from: cellCase
+        - graphBuild:
+            schema: "{{config.cellCaseSchema}}"
+            class: case
+
+    cellProject-graph:
+        - from: cellProject
+        - graphBuild:
+            schema: "{{config.cellProjectSchema}}"
+            class: project
 

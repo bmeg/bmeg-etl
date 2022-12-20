@@ -7,8 +7,12 @@ outdir: ../graph
 
 config:
 
-    transform: ../output/pubmed/pubmed.transform.publication.json.gz
-    transformSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+    transform:
+        type: File
+        default: ../output/pubmed/pubmed.transform.publication.json.gz
+    transformSchema:
+        type: Dir
+        default: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
 
 inputs:

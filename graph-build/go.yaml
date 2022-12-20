@@ -7,8 +7,12 @@ outdir: ../graph
 
 config:
 
-    nodeOpen: ../output/go/go.nodeOpen.term.json.gz
-    nodeOpenSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+    nodeOpen:
+        type: File
+        default: ../output/go/go.nodeOpen.term.json.gz
+    nodeOpenSchema:
+        type: Dir
+        default: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
 
 inputs:

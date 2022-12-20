@@ -7,8 +7,12 @@ outdir: ../graph
 
 config:
 
-    object: ../output/msigdb/msigdb.object.gene_set.json.gz
-    objectSchema: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+    object:
+        type: File
+        default: ../output/msigdb/msigdb.object.gene_set.json.gz
+    objectSchema:
+        type: Dir
+        default: ../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
 
 
 inputs:
