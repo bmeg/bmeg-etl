@@ -2,7 +2,7 @@
 class: Playbook
 name: chembExtract
 
-schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+schema: ../../schema/
 inputs:
   dataFile:
     type: File

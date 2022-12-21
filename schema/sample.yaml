@@ -1,0 +1,92 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "sample"
+title: Sample
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: biospecimen
+description: >
+  Any material sample taken from a biological entity for testing, diagnostic, propagation, treatment
+  or research purposes, including a sample obtained from a living organism or taken from the
+  biological object after halting of all its life functions. Biospecimen can contain one or more
+  components including but not limited to cellular molecules, cells, tissues, organs, body fluids,
+  embryos, and body excretory products.
+additionalProperties: false
+submittable: true
+validators: null
+
+systemProperties:
+  - id
+  - project_id
+  - created_datetime
+  - updated_datetime
+
+required:
+  - submitter_id
+  - sample_id
+  - project_id
+
+uniqueKeys:
+  - [id]
+  - [project_id, submitter_id]
+
+links:
+  - backref: samples
+    label: case
+    multiplicity: many_to_one
+    name: case
+    required: false
+    target_type: case
+  - backref: samples
+    label: projects
+    multiplicity: many_to_many
+    name: projects
+    required: false
+    target_type: project
+  - backref: samples
+    label: phenotypes
+    multiplicity: many_to_many
+    name: phenotypes
+    required: false
+    target_type: phenotype
+
+properties:
+  sample_id:
+    type: string
+  cellline_attributes:
+    type:
+    - 'null'
+    - object
+  gdc_attributes:
+    type:
+    - 'null'
+    - object
+  gtex_attributes:
+    type:
+    - 'null'
+    - object
+  aliquots:
+    $ref: _definitions.yaml#/to_many
+  case:
+    $ref: _definitions.yaml#/to_one
+  phenotypes:
+    $ref: _definitions.yaml#/to_many
+  projects:
+    $ref: _definitions.yaml#/to_many
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+      - string
+      - 'null'
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

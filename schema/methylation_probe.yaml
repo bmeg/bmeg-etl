@@ -1,0 +1,68 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "methylation_probe"
+title: Methylation Probe
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: reference
+description: >
+  Definition for a methylation probe
+additionalProperties: false
+submittable: true
+validators: null
+
+required:
+  - submitter_id
+  - project_id
+  - probe_id
+  - chromosome
+  - position
+
+systemProperties:
+  - id
+  - project_id
+  - created_datetime
+  - updated_datetime
+
+uniqueKeys:
+  - [id]
+  - [project_id, submitter_id]
+
+links:
+  - backref: methylation_probes
+    label: gene
+    multiplicity: many_to_one
+    name: gene
+    required: false
+    target_type: gene
+
+properties:
+  probe_id:
+    type: string
+  chromosome:
+    $ref: _definitions.yaml#/chromosome
+  position:
+    type: integer
+  target:
+    type: 
+      - string
+      - 'null'
+  gene:
+    $ref: _definitions.yaml#/to_one
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+      - string
+      - 'null'
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

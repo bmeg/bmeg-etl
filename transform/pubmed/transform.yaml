@@ -6,7 +6,7 @@ outdir: ../../output/pubmed
 
 config:
   baseline: ../../source/pubmed/baseline
-  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  schema: ../../schema
 
 inputs:
   pubmedRead:

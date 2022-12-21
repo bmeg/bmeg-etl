@@ -7,7 +7,7 @@ outdir: ../../output/ensembl
 config:
   gffPath: ../../source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz
   genomeBuild: GRCh37
-  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  schema: ../../schema/
 
 inputs:
   gff:

@@ -1,0 +1,58 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "protein_structure"
+title: ProteinStructure
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: reference
+description: >
+  A protein structure.
+additionalProperties: false
+submittable: true
+validators: null
+
+systemProperties:
+  - id
+  - project_id
+  - created_datetime
+  - updated_datetime
+
+required:
+  - submitter_id
+  - project_id
+  - structure_id
+
+uniqueKeys:
+  - [id]
+  - [project_id, submitter_id]
+
+links:
+  - backref: protein_structures
+    label: protein
+    multiplicity: many_to_one
+    name: protein
+    required: false
+    target_type: protein
+
+properties:
+  structure_id:
+    type: string
+  protein:
+    $ref: _definitions.yaml#/to_one
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+      - string
+      - 'null'
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

@@ -1,20 +1,57 @@
 
 class: sifter
-name: gdc
+name: gdc-mafs
 outdir: ../../output/gdc/open-maf
 
 config:
   mafBase: ../../source/gdc/open-maf/*.maf.gz
-  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  schema: ../../schema/
 
 inputs:
   mafData:
     glob:
       input: "{{config.mafBase}}"
+      storeFilename: _fileName
       tableLoad: {}
 
 pipelines:
   scan:
     - from: mafData
-    - debug: 
-        format: True
+    - project:
+        mapping:
+          somatic_callset: "{{row.Tumor_Sample_UUID}}:{{row.Matched_Norm_Sample_UUID}}"
+          allele: "{{row.NCBI_Build}}{{row.Chromosome}}:{{row.Start_Position}}:{{row.Reference_Allele}}:{{row.Tumor_Seq_Allele1}}"
+          methods: "{{row.callers}}"
+    - split:
+        field: methods
+        sep: ";"
+    - fieldType:
+        t_depth: int
+        t_ref_count: int
+        t_alt_count: int
+        n_depth: int
+        n_ref_count: int
+        n_alt_count: int
+        start: int
+    - objectValidate:
+        schema: "{{config.schema}}"
+        class: somatic_variant
+    - emit:
+        name: variant
+
+  somaticCallsets:
+    - from: mafData
+    - distinct:
+        value: "{{row.Tumor_Sample_UUID}}:{{row.Matched_Norm_Sample_UUID}}"
+    - project:
+        mapping:
+          id: "{{row.Tumor_Sample_UUID}}:{{row.Matched_Norm_Sample_UUID}}"
+          submitter_id: "{{row._fileName}}"
+          tumor_aliquot_id: "{{row.Tumor_Sample_UUID}}"
+          normal_aliquot_id: "{{row.Matched_Norm_Sample_UUID}}"
+          project_id: TBD # figure out how to get this information here
+    - objectValidate:
+        schema: "{{config.schema}}"
+        class: somatic_callset
+    - emit: 
+        name: callset

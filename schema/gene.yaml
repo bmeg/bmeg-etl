@@ -1,0 +1,87 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "gene"
+title: Gene
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: reference
+description: >
+  A gene.
+additionalProperties: false
+submittable: true
+validators: null
+
+systemProperties:
+  - id
+  - project_id
+  - created_datetime
+  - updated_datetime
+
+required:
+  - submitter_id
+  - project_id
+  - description
+  - chromosome
+  - strand
+  - start
+  - genome
+  - end
+  - gene_id
+  - symbol
+
+uniqueKeys:
+  - [id]
+  - [project_id, submitter_id]
+
+links: []
+
+properties:
+  gene_id:
+    type: string
+  description:
+    type: string
+  symbol:
+    type: string
+  genome:
+    $ref: _definitions.yaml#/genome
+  chromosome:
+    $ref: _definitions.yaml#/chromosome
+  start:
+    type: integer
+  end:
+    type: integer
+  strand:
+    $ref: _definitions.yaml#/strand
+  alleles:
+    $ref: _definitions.yaml#/to_many
+  interaction_input:
+    $ref: _definitions.yaml#/to_many
+  g2p_associations:
+    $ref: _definitions.yaml#/to_many
+  gene_ontology_terms:
+    $ref: _definitions.yaml#/to_many
+  gene_sets:
+    $ref: _definitions.yaml#/to_many
+  genomic_features:
+    $ref: _definitions.yaml#/to_many
+  pathways:
+    $ref: _definitions.yaml#/to_many
+  transcripts:
+    $ref: _definitions.yaml#/to_many
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+      - string
+      - 'null'
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

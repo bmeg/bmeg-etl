@@ -1,0 +1,80 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "transcript"
+title: Transcript
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: reference
+description: >
+  A transcript.
+additionalProperties: false
+submittable: true
+validators: null
+
+systemProperties:
+  - id
+  - project_id
+  - created_datetime
+  - updated_datetime
+
+required:
+  - submitter_id
+  - project_id
+  - biotype
+  - chromosome
+  - strand
+  - start
+  - genome
+  - end
+  - transcript_id
+
+uniqueKeys:
+  - [id]
+  - [project_id, submitter_id]
+
+links:
+  - backref: transcripts
+    label: gene
+    multiplicity: many_to_one
+    name: gene
+    required: false
+    target_type: gene
+
+properties:
+  transcript_id:
+    type: string
+  biotype:
+    type: string
+  genome:
+    $ref: _definitions.yaml#/genome
+  chromosome:
+    $ref: _definitions.yaml#/chromosome
+  start:
+    type: integer
+  end:
+    type: integer
+  strand:
+    $ref: _definitions.yaml#/strand
+  exons:
+    $ref: _definitions.yaml#/to_many
+  gene:
+    $ref: _definitions.yaml#/to_one
+  proteins:
+    $ref: _definitions.yaml#/to_many
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+      - string
+      - 'null'
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

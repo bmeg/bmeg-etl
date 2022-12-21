@@ -1,0 +1,72 @@
+
+
+class: sifter
+name: pathway_commons
+
+outdir: ../../output/pathway_commons/
+
+config:
+  extSifBase: ../../source/pathway_commons
+  schema: ../../schema/
+
+inputs:
+  extSif:
+    glob:
+      input: "{{config.extSifBase}}/*.extSIF"
+      tableLoad:
+        columns:
+          - SRC_ID
+          - INTERACTION_TYPE
+          - DST_ID
+          - SOURCE
+          - PUBMED
+          - PATHWAY
+
+  complex:
+    glob:
+      input: "{{config.extSifBase}}/*.complex"
+      tableLoad:
+        columns:
+          - COMPLEX_ID
+          - PROTEIN
+
+
+pipelines:
+  interactionMap:
+    - from: extSif
+    - project:
+        mapping:
+          id: "{{row.SRC_ID}}-{{row.INTERACTION_TYPE}}-{{row.DST_ID}}"
+          submitter_id:  "{{row.SRC_ID}}-{{row.INTERACTION_TYPE}}-{{row.DST_ID}}"
+          project_id: Reference
+          interaction_output: "{{row.DST_ID}}"
+          interaction_input: "{{row.SRC_ID}}"
+          publications: "{{row.PUBMED}}"
+          source: "{{row.SOURCE}}"
+          type: interaction
+    - objectValidate:
+        class: interaction
+        schema: "{{config.schema}}"
+    - emit:
+        name: interaction
+  
+  complexBundle:
+    - from: complex
+    - reduce:
+        field: COMPLEX_ID
+        method: merge
+        init: { "proteins": [] }
+        gpython: |
+
+          def merge(x,y):
+            x["proteins"] = [x["PROTEIN"]] + y["proteins"]
+            return x
+      
+    - project:
+        mapping:
+          id: "{{row.COMPLEX_ID}}"
+          project_id: Reference
+          submitter_id: "{{row.COMPLEX_ID}}"
+    
+    - emit:
+        name: complex

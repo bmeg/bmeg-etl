@@ -1,0 +1,29 @@
+
+
+class: sifter
+name: depmap-cases
+outdir: ../../output/depmap/
+
+config:
+  modelFile: ../../source/depmap/Model.csv
+  schema: ../../schema/
+
+inputs:
+  model:
+    tableLoad:
+      input: "{{config.modelFile}}"
+      sep: ","
+
+pipelines:
+  cases:
+    - from: model
+    - project:
+        mapping:
+          submitter_id: "{{row.ModelID}}"
+          project_id: DepMap
+          case_id: "Case:{{row.ModelID}}"
+    - objectValidate:
+        schema: "{{config.schema}}"
+        class: case
+    - emit:
+        name: case

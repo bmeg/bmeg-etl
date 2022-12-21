@@ -6,7 +6,7 @@ outdir: ../../output/go/
 
 config:
   obo: ../../source/go/go.json
-  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  schema: ../../schemas
 
 inputs:
   oboJson:

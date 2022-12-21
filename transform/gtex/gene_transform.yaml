@@ -5,7 +5,7 @@ outdir: ../../output/gtex
 
 config:
   gctTranspose: ../../source/gtex/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.transpose.gz
-  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  schema: ../../schemas
 
 inputs:
   tableRead:

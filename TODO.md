@@ -1,0 +1,34 @@
+
+
+- [ ] allele
+  - [ ] Need CCLE alleles
+  - [ ] Need G2P alleles
+- [ ] celllines
+- [ ] ctrp
+- [ ] ensembl
+- [ ] gdsc
+- [ ] mc3
+  - [ ] DELETE (replaced with GDC MAF files)
+- [ ] normalize
+- [ ] pharmacodb
+- [ ] publication
+  - [ ] Review and DELETE
+- [ ] callsetSummary
+- [ ] chembl
+- [ ] dgidb
+- [ ] g2p
+   - [ ] Plans for updates
+- [ ] go
+- [ ] mondo
+- [ ] pathway_commons
+- [ ] phenotype
+- [ ] pubmed
+- [ ] ccle
+- [ ] compound
+- [ ] gdc
+- [ ] gtex
+- [ ] msigdb
+- [ ] pfam
+- [ ] prism
+- [ ] tcga
+  - [ ] DELETE

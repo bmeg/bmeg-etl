@@ -1,0 +1,70 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "project"
+title: Project
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: administrative
+description: >
+  Any specifically defined piece of work that is undertaken or attempted to meet a single
+  requirement.
+additionalProperties: false
+submittable: true
+validators: null
+
+systemProperties:
+  - id
+  - project_id
+  - created_datetime
+  - updated_datetime
+
+required:
+  - submitter_id
+  - project_id
+
+uniqueKeys:
+  - [id]
+  - [project_id, submitter_id]
+
+links:
+  - backref: projects
+    label: programs
+    multiplicity: many_to_many
+    name: programs
+    required: false
+    target_type: program
+  - backref: projects
+    label: compounds
+    multiplicity: many_to_many
+    name: compounds
+    required: false
+    target_type: compound
+
+properties:
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  gdc_attributes:
+    type:
+    - 'null'
+    - object
+  cases:
+    $ref: _definitions.yaml#/to_many
+  compounds:
+    $ref: _definitions.yaml#/to_many
+  programs:
+    $ref: _definitions.yaml#/to_many
+  submitter_id:
+    type:
+      - string
+      - 'null'
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

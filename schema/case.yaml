@@ -1,0 +1,95 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "case"
+title: Case
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: administrative
+description: >
+  The collection of all data related to a specific subject in the
+  context of a specific experiment.
+additionalProperties: false
+submittable: true
+validators: null
+
+systemProperties:
+  - id
+  - project_id
+  - created_datetime
+  - updated_datetime
+
+required:
+  - submitter_id
+  - project_id
+  - case_id
+
+uniqueKeys:
+  - [id]
+  - [project_id, submitter_id]
+
+links:
+- backref: cases
+  label: projects
+  multiplicity: many_to_many
+  name: projects
+  required: false
+  target_type: project
+- backref: cases
+  label: compounds
+  multiplicity: many_to_many
+  name: compounds
+  required: false
+  target_type: compound
+- backref: cases
+  label: phenotypes
+  multiplicity: many_to_many
+  name: phenotypes
+  required: false
+  target_type: phenotype
+- label: same_as
+  multiplicity: many_to_many
+  name: same_as
+  target_type: case
+
+properties:
+  case_id:
+    type: string
+  cellline_attributes:
+    type:
+    - 'null'
+    - object
+  gdc_attributes:
+    type:
+    - 'null'
+    - object
+  gtex_attributes:
+    type:
+    - 'null'
+    - object
+  compounds:
+    $ref: _definitions.yaml#/to_many
+  phenotypes:
+    $ref: _definitions.yaml#/to_many
+  projects:
+    $ref: _definitions.yaml#/to_many
+  samples:
+    $ref: _definitions.yaml#/to_many
+  same_as:
+    $ref: _definitions.yaml#/to_many
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+      - string
+      - 'null'
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

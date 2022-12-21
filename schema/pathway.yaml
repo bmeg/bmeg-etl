@@ -1,0 +1,78 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "pathway"
+title: Pathway
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: genomic
+description: >
+  A biological pathway
+additionalProperties: false
+submittable: true
+validators: null
+
+systemProperties:
+  - id
+  - project_id
+  - created_datetime
+  - updated_datetime
+
+required:
+  - submitter_id
+  - project_id
+  - name
+
+uniqueKeys:
+  - [id]
+  - [project_id, submitter_id]
+
+links:
+  - backref: pathways
+    label: genes
+    multiplicity: many_to_many
+    name: genes
+    required: false
+    target_type: gene
+  - backref: pathways
+    label: interactions
+    multiplicity: many_to_many
+    name: interactions
+    required: false
+    target_type: interaction
+  - backref: parent_pathways
+    label: sub_pathways
+    multiplicity: many_to_many
+    name: sub_pathways
+    required: false
+    target_type: pathway
+
+properties:
+  name:
+    type: string
+  genes:
+    $ref: _definitions.yaml#/to_many
+  interactions:
+    $ref: _definitions.yaml#/to_many
+  publications:
+    $ref: _definitions.yaml#/to_many
+  parent_pathways:
+    $ref: _definitions.yaml#/to_many
+  sub_pathways:
+    $ref: _definitions.yaml#/to_many
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+      - string
+      - 'null'
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

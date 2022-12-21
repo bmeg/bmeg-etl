@@ -8,7 +8,7 @@ outdir: ../../output/gdc
 
 config:
   data: ../../source/gdc/rna-seq/
-  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  schema: ../../schema
 
 inputs:
   tsvData:

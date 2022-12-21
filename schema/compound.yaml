@@ -1,0 +1,127 @@
+$schema: "http://json-schema.org/draft-04/schema#"
+
+id: "compound"
+title: Compound
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: reference
+description: Definitions for Compound
+additionalProperties: false
+submittable: true
+validators: null
+
+systemProperties:
+  - id
+  - project_id
+  - created_datetime
+  - updated_datetime
+
+required:
+  - submitter_id
+  - project_id
+
+uniqueKeys:
+  - [id]
+  - [project_id, submitter_id]
+
+links:
+  - backref: compounds
+    label: projects
+    multiplicity: many_to_many
+    name: projects
+    required: false
+    target_type: project
+  - name: similar_compounds
+    label: similar_compounds
+    multiplicity: many_to_many
+    required: false
+    target_type: compound
+    target_field: compound
+    properties:
+      morgan_fingerprint_2_dice:
+        type: float
+      morgan_fingerprint_2_tanimoto:
+        type: float
+
+properties:
+  pubchem_id:
+    type:
+      - 'null'
+      - string
+  chebi_id:
+    type:
+      - 'null'
+      - string
+  chembl_id:
+    type:
+      - 'null'
+      - string
+  drugbank_id:
+    type:
+      - 'null'
+      - string
+  synonym:
+    type: array
+    items:
+      type: string
+  inchi:
+    type:
+      - 'null'
+      - string
+  inchi_key:
+    type:
+      - 'null'
+      - string
+  usan_stem_definition:
+    type:
+      - 'null'
+      - string
+  taxonomy:
+    type:
+      - 'null'
+      - object
+  approved_countries:
+    type:
+      - 'null'
+      - array
+  source_url:
+    type:
+      - 'null'
+      - string
+  id_source:
+    type:
+      - 'null'
+      - string
+  morgan_fingerprint_2:
+    type:
+      - 'null'
+      - array
+  similar_compounds:
+    type:
+      - 'null'
+      - array
+  cases:
+    $ref: _definitions.yaml#/to_many
+  drug_responses:
+    $ref: _definitions.yaml#/to_many
+  g2p_associations:
+    $ref: _definitions.yaml#/to_many
+  projects:
+    $ref: _definitions.yaml#/to_many
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+      - string
+      - 'null'
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

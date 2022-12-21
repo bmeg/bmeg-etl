@@ -7,12 +7,12 @@ name: pharmacodb_profiles
 config:
   doseResponseFile: ../../output/pharmacodb/dr_reduce.curveReduce.dose_response_curve.json.gz
   profiles: ../../output/pharmacodb/profiles.tsv.gz
-  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
   experiments: ../../output/pharmacodb/experiments.tsv.gz
   drugs: ../../output/pharmacodb/drugs.tsv.gz
   datasets: ../../output/pharmacodb/datasets.tsv.gz
   cells: ../../output/pharmacodb/cells.tsv.gz
   cellNames: ../../source/ccle/cellline_id_lookup.tsv
+  schema: ../../schema/
 
 inputs:
   profileReader:

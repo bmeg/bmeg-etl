@@ -1,0 +1,56 @@
+
+
+class: sifter
+name: depmap-mafs
+outdir: ../../output/depmap/
+
+config:
+  mutationFile: ../../source/depmap/OmicsSomaticMutations.csv
+  schema: ../../schema/
+
+inputs:
+  mutations:
+    tableLoad:
+      input: "{{config.mutationFile}}"
+      sep: ","
+
+pipelines:
+  callsets:
+    - from: mutations
+    - distinct:
+        value: "{{row.DepMap_ID}}"
+    - project:
+        mapping:
+          submitter_id: "callset:{{row.DepMap_ID}}"
+          tumor_aliquot_id: "aliquot:{{row.DepMap_ID}}"
+          project_id: DepMap
+    - objectValidate:
+        schema: "{{config.schema}}"
+        class: somatic_callset
+    - emit:
+        name: callset
+
+  variants:
+    - from: mutations
+    - project:
+        mapping:
+          somatic_callset: "callset:{{row.DepMap_ID}}"
+          allele: "38{{row.Chromo}}:{{row.Pos}}:{{row.Ref}}:{{row.Alt}}"
+          ref: "{{row.Ref}}"
+          alt: "{{row.Alt}}"
+          t_ref_count: "{{row.RefCount}}"
+          t_alt_count: "{{row.AltCount}}"
+    - fieldType:
+        t_depth: int
+        t_ref_count: int
+        t_alt_count: int
+        n_depth: int
+        n_ref_count: int
+        n_alt_count: int
+        start: int
+
+    - objectValidate:
+        schema: "{{config.schema}}"
+        class: somatic_variant
+    - emit:
+        name: variants

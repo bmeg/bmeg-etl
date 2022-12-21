@@ -7,7 +7,7 @@ outdir: ../../output/chembl
 config:
   sqlite:  ../../source/chembl/chembl_30/chembl_30_sqlite/chembl_30.db
   #uniprot2gene: ../../mappings/uniprotId2ensemblGene.tsv
-  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  schema: ../../schema/
 
 
 inputs:

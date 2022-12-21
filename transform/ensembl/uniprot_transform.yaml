@@ -6,7 +6,7 @@ outdir: ../../output/ensembl
 
 config:
   uniprotTSV: ../../source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz
-  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  schema: ../../schemas
   genomeBuild: GRCh37
 
 inputs:

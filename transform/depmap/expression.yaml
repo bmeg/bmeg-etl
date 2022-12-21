@@ -1,0 +1,37 @@
+
+
+
+class: sifter
+name: depmap-expression
+outdir: ../../output/depmap/
+
+config:
+  expressionFile: ../../source/depmap/OmicsExpressionProteinCodingGenesTPMLogp1.csv
+  schema: ../../schema/
+
+inputs:
+  expression:
+    tableLoad:
+      input: "{{config.expressionFile}}"
+      sep: ","
+
+pipelines:
+  values:
+    - from: expression
+    - map:
+        method: fix
+        gpython: |
+
+          def fix(row):
+            out = {}
+            values = {}
+            for k, v in row.items():
+              if k == "":
+                out["submitter_id"] = v
+              else:
+                t = k.split(" ")[1].replace("(", "").replace(")", "")
+                values[t] = float(v)
+            out["values"] = values
+            return out
+    - emit:
+        name: expression

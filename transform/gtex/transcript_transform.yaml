@@ -5,7 +5,7 @@ outdir: ../../output/gtex
 
 config:
   gct: ../../source/gtex/GTEx_Analysis_2017-06-05_v8_RSEMv1.3.0_transcript_tpm.gct.transpose.gz
-  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  schema: ../../schema
 
 
 inputs:

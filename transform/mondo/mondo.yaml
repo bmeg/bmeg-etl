@@ -6,7 +6,7 @@ outdir: ../../output/mondo
 
 config:
   mondo: ../../source/mondo/mondo.json
-  schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas/
+  schema: ../../schema
 
 inputs:
   mondoJson:

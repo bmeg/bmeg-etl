@@ -1,6 +1,6 @@
 class: GraphMap
 
-schema: ../../src/bmeg/bmeg-dictionary/gdcdictionary/schemas
+schema: ../../schema
 
 ruleMap:
   - name: chembExtract.compound.json.gz
