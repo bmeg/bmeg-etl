@@ -14,7 +14,7 @@ inputs:
   tsvData:
     glob:
       storeFilename: "file_name"
-      input: "{{config.data}}*.tsv"
+      input: "{{config.data}}/*.tsv"
       tableLoad: {}
 
 
@@ -28,14 +28,22 @@ pipelines:
         method: update
         gpython: |
 
-          def update(x):
+          def update(row):
             values = {}
-            for i in x["rows"]:
-              values[i["gene_id"]] = i["tpm_unstranded"]
+            for i in row["rows"]:
+              gene = i["gene_id"].split(".")[0]
+              values[gene] = i["tpm_unstranded"]
             return {
-              "id" : i["file_name"].split(".")[0],
+              "id" : row["file_name"].split(".")[0],
+              "submitter_id" : row["file_name"].split(".")[0],
+              "project_id" : "TCGA",
+              "metric" : "GENE_TPM",
+              "method" : "Illumina HiSeq",
               "values" : values
             }
+    - objectValidate:
+        schema: "{{config.schema}}"
+        class: gene_expression
 
     - emit:
-        name: debug
+        name: gene_rnaseq

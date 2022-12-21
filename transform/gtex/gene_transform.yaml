@@ -4,27 +4,31 @@ name: GTEX_Gene_Expression
 outdir: ../../output/gtex
 
 config:
-  gctTranspose: ../../source/gtex/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.transpose.gz
-  schema: ../../schemas
+  gctFile: ../../source/gtex/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz
+  schema: ../../schema
 
 inputs:
-  tableRead:
-    tableLoad:
-      input: "{{config.gctTranspose}}"
+  geneRead:
+    transposeLoad:
+      input: "{{config.gctFile}}"
+      onDisk: true
+      rowSkip: 2
+
 
 pipelines:
   gctProcess:
-    - from: tableRead
+    - from: geneRead
+
     - map:
         method: nodeMap
-        python: |
+        gpython: |
            
            def nodeMap(x):
              values = {}
              for k, v in x.items():
-               if k != "Name" and k != "aliquot_id" and k != "Entrez_Gene_Id":
+               if k != "Name" and k != "Description":
                  j = k.split(".")[0]
-                 values[j] = v
+                 values[j] = float(v)
              return {
                "id" : x["Name"],
                "submitter_id" : x["Name"],
@@ -36,3 +40,5 @@ pipelines:
     - objectValidate:
         class: gene_expression
         schema: "{{config.schema}}"
+    - emit:
+        name: gene_expression
