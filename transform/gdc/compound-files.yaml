@@ -1,0 +1,35 @@
+
+
+class: sifter
+name: compound
+outdir: ../../output/gdc
+
+config:
+  compoundBase: ../../source/gdc/compound/*.tsv
+  schema: ../../schema/
+
+inputs:
+  compoundData:
+    glob:
+      input: "{{config.compoundBase}}"
+      storeFilename: _fileName
+      tableLoad: {}
+
+pipelines:
+  scan:
+    - from: compoundData
+    - project:
+        mapping:
+          id: "{{row.bcr_drug_uuid}}"
+          submitter_id: "{{row._fileName}}"
+          project_id: TBD # figure out how to get this information here
+          synonym: "{{row.pharmaceutical_therapy_drug_name}}"
+          regimen: "{{row.therapy_regimen}}"
+          administration: "{{row.route_of_administration}}"
+          dose: "{{row.prescribed_dose}}"
+          therapy_type: "{{row.pharmaceutical_therapy_type}}"
+    - objectValidate:
+        schema: "{{config.schema}}"
+        class: compound
+    - emit:
+        name: compound

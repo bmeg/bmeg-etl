@@ -46,6 +46,22 @@ links:
         type: float
 
 properties:
+  therapy_type:
+    type:
+      - 'null'
+      - string
+  regimen:
+    type:
+      - 'null'
+      - string
+  administration:
+    type:
+      - 'null'
+      - string
+  dose:
+    type:
+      - 'null'
+      - string
   pubchem_id:
     type:
       - 'null'
