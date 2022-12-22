@@ -6,6 +6,7 @@ name: depmap-expression
 outdir: ../../output/depmap/
 
 config:
+  geneTable: ../../source/ensembl/gene2ensembl.translate.link.json.gz
   expressionFile: ../../source/depmap/OmicsExpressionProteinCodingGenesTPMLogp1.csv
   schema: ../../schema/
 
@@ -23,15 +24,29 @@ pipelines:
         gpython: |
 
           def fix(row):
-            out = {}
             values = {}
+            sub_id = ""
             for k, v in row.items():
               if k == "":
-                out["submitter_id"] = v
+                sub_id = v
               else:
                 t = k.split(" ")[1].replace("(", "").replace(")", "")
                 values[t] = float(v)
-            out["values"] = values
-            return out
+            return {
+              "submitter_id" : sub_id,
+              "project_id" : "Depmap",
+              "metric" : "GENE_TPM",
+              "method" : "Illumina HiSeq",
+              "values": values
+            }
+    - lookup:
+        replace: values
+        json:
+          input: "{{config.geneTable}}"
+          key: GeneID
+          value: Ensembl_gene_identifier
+    - objectValidate:
+        class: gene_expression
+        schema: "{{config.schema}}"
     - emit:
         name: expression
