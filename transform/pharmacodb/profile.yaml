@@ -5,13 +5,12 @@ outdir: ../../output/pharmacodb/
 name: pharmacodb_profiles
 
 config:
-  doseResponseFile: ../../output/pharmacodb/dr_reduce.curveReduce.dose_response_curve.json.gz
-  profiles: ../../output/pharmacodb/profiles.tsv.gz
-  experiments: ../../output/pharmacodb/experiments.tsv.gz
-  drugs: ../../output/pharmacodb/drugs.tsv.gz
-  datasets: ../../output/pharmacodb/datasets.tsv.gz
-  cells: ../../output/pharmacodb/cells.tsv.gz
-  cellNames: ../../source/ccle/cellline_id_lookup.tsv
+  doseResponseFile: ../../source/pharmacodb/tables/dr_reduce.curveReduce.dose_response_curve.json.gz
+  profiles: ../../source/pharmacodb/tables/profiles.tsv.gz
+  experiments: ../../source/pharmacodb/tables/experiments.tsv.gz
+  drugs: ../../source/pharmacodb/tables/drugs.tsv.gz
+  datasets: ../../source/pharmacodb/tables/datasets.tsv.gz
+  cells: ../../source/pharmacodb/tables/cells.tsv.gz
   schema: ../../schema/
 
 inputs:
@@ -70,15 +69,18 @@ pipelines:
         copy:
           cell_alias: cell_name
           tissue_id: tissue_id
-    - lookup:
-        tsv:
-          input: "{{config.cellNames}}"
-          sep: "\t"
-          header: [name, id]
-          key: name
-        lookup: "{{row.cell_alias}}"
-        copy:
-          cell_name: id
+    - project:
+        mapping:
+          cell_name: "pharmacodb:{{row.cell_alias}}"
+    #- lookup:
+    #    tsv:
+    #      input: "{{config.cellNames}}"
+    #      sep: "\t"
+    #      header: [name, id]
+    #      key: name
+    #    lookup: "{{row.cell_alias}}"
+    #    copy:
+    #      cell_name: id
     - project:
         mapping:
           submitter_id: "{{row.dataset_name}}:{{row.cell_name}}:{{row.drug_name}}"

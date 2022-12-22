@@ -2,7 +2,7 @@
 class: sifter
 name: pharmacodb
 
-outdir: ../../output/pharmacodb/
+outdir: ../../source/pharmacodb/tables
 
 config:
   sql: ../../source/pharmacodb/pharmacodb-1.1.1.sql

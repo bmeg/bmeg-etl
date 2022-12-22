@@ -2,10 +2,10 @@
 class: sifter
 
 name: dr_reduce
-outdir: ../../output/pharmacodb/
+outdir: ../../source/pharmacodb/tables/
 
 config:
-  doseResponsePath: ../../output/pharmacodb/dose_responses.tsv.gz
+  doseResponsePath: ../../source/pharmacodb/tables/dose_responses.tsv.gz
 
 inputs:
   doseResponseFile:
