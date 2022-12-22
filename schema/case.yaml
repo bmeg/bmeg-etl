@@ -87,6 +87,46 @@ properties:
   id:
     $ref: _definitions.yaml#/UUID
     systemAlias: node_id
+  
+  demographic:
+    type: object
+    properties:
+      demographic:
+        type: string
+      cause_of_death:
+        type: string
+      race:
+        type: string
+      gender:
+        type: string
+      ethnicity:
+        type: string
+      vital_status:
+        type: string
+      age_at_index:
+        type: integer
+      days_to_birth:
+        type: integer
+      year_of_birth:
+        type: integer
+      cause_of_death_source:
+        type: string
+      age_is_obfuscated:
+        type: boolean
+      occupation_duration_years:
+        type: integer
+      days_to_death:
+        type: integer
+      year_of_death:
+        type: integer
+      country_of_residence_at_enrollment:
+        type: integer
+
+  disease_type:
+    type: array
+    items:
+      type: string
+
   type:
     type: string
   created_datetime:
