@@ -13,7 +13,7 @@ inputs:
     glob:
       input: "{{config.compoundBase}}"
       storeFilename: _fileName
-      tableLoad: {}
+      tableLoad: {rowSkip: 1}
 
 pipelines:
   scan:
@@ -23,11 +23,11 @@ pipelines:
           id: "{{row.bcr_drug_uuid}}"
           submitter_id: "{{row._fileName}}"
           project_id: TBD # figure out how to get this information here
-          synonym: "{{row.pharmaceutical_therapy_drug_name}}"
+          synonym: "{{row.drug_name}}"
           regimen: "{{row.therapy_regimen}}"
           administration: "{{row.route_of_administration}}"
           dose: "{{row.prescribed_dose}}"
-          therapy_type: "{{row.pharmaceutical_therapy_type}}"
+          therapy_type: "{{row.therapy_type}}"
     - objectValidate:
         schema: "{{config.schema}}"
         class: compound
