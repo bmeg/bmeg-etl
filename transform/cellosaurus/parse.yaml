@@ -1,0 +1,64 @@
+
+class: sifter
+
+name: cellosarus
+outdir: ../../output/cellosarus
+
+config:
+  inputXML: ../../source/cellosarus/cellosaurus.xml
+  schema: ../../schema
+
+inputs:
+  defFile:
+    xmlLoad:
+      input: "{{config.inputXML}}"
+
+pipelines:
+  transform:
+    - from: defFile
+    - fieldProcess:
+        field: Cellosaurus
+    - fieldProcess:
+        field: cell-line-list
+    - fieldProcess:
+        field: cell-line
+    - filter:
+        value: '{{row.species-list.cv-term.[-accession]}}'
+        match: "9606"
+    - project: 
+        mapping:
+          case_id: '{{row.accession-list.accession.[#content]}}'
+    - map:
+        method: fix
+        gpython: |
+          def forceList(x):
+            if not isinstance(x,list):
+              return [x]
+            return x
+
+          def fix(row):
+            same_as = []            
+            for x in forceList(row.get("xref-list",{}).get("xref", [])):
+                same_as.append( x["-accession"] )
+            row["same_as"] = same_as
+
+            diseases = []
+            for d in forceList(row.get("disease-list", {}).get("cv-term", [])):
+                diseases.append( d["#content"] )
+            row["disease_type"] = list(set(diseases))
+
+            return row
+    - project:
+        mapping:
+          submitter_id: "{{row.case_id}}"
+          project_id: cellosaurus
+          demographic:
+            age_at_index: '{{row.[-age]}}'
+            gender: '{{row.[-sex]}}'
+
+    - objectValidate:
+        class: case
+        schema: "{{config.schema}}"
+
+    - emit:
+        name: case
