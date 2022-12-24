@@ -14,6 +14,10 @@ submittable: true
 validators: null
 
 properties:
+  id:
+    type: string
+    systemAlias: node_id
+
   somatic_callset:
     type: string
   allele:

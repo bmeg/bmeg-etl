@@ -52,6 +52,9 @@ pipelines:
         mapping:
           type: sample
           id: "{{row.sample_id}}"
+    - project:
+        mapping:
+          case: [ {"id" : "{{row.case}}"}]
     - objectValidate:
         class: sample
         schema: "{{config.schema}}"
@@ -93,6 +96,9 @@ pipelines:
 
   aliquotObject:
     - from: aliquotData
+    - project:
+        mapping:
+          sample: [ {"id" : "{{row.sample}}"} ]
     - objectValidate:
         class: aliquot
         schema: "{{config.schema}}"

@@ -35,10 +35,11 @@ pipelines:
         mapping:
           association_type: "{{row.action_type}}"
           compound: "{{row.chembl_id}}"
-          genes: ["{{row.protein}}"]
+          genes: [ { "id" : "{{row.protein}}" } ]
           project_id: Project:reference
           submitter_id: "CHEMBL-MEC:{{row.mec_id}}"
           type: protein_drug_association
+          publications: [ { "id" : "{{row.publications}}" } ]
     - fieldType:
         genes: list
         ref_url: list
@@ -63,7 +64,7 @@ pipelines:
               else:
                 x[i] = y[i]
             return x
-
+    #- debug: {}
     - objectValidate:
         class: protein_drug_association
         schema: "{{config.schema}}"

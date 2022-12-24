@@ -35,7 +35,7 @@ pipelines:
             return {
               "submitter_id" : sub_id,
               "project_id" : "Depmap",
-              "metric" : "GENE_TPM",
+              "metric" : "TPM_GENE",
               "method" : "Illumina HiSeq",
               "values": values
             }

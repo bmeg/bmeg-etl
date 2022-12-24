@@ -4,13 +4,13 @@ name: gdc-mafs
 outdir: ../../output/gdc/open-maf
 
 config:
-  mafBase: ../../source/gdc/open-maf/*.maf.gz
+  mafBase: ../../source/gdc/open-maf
   schema: ../../schema/
 
 inputs:
   mafData:
     glob:
-      input: "{{config.mafBase}}"
+      input: "{{config.mafBase}}/*.maf.gz"
       storeFilename: _fileName
       tableLoad: {}
 
@@ -33,6 +33,7 @@ pipelines:
         n_ref_count: int
         n_alt_count: int
         start: int
+    - dropNull: {}
     - objectValidate:
         schema: "{{config.schema}}"
         class: somatic_variant

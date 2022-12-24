@@ -84,16 +84,17 @@ pipelines:
     - project:
         mapping:
           submitter_id: "{{row.dataset_name}}:{{row.cell_name}}:{{row.drug_name}}"
-          aac: "{{row.AAC}}"
-          dss1: "{{row.DSS1}}"
-          dss2: "{{row.DSS2}}"
-          dss3: "{{row.DSS3}}"
-          ic50: "{{row.IC50}}"
-          ec50: "{{row.EC50}}"
-          einf: "{{row.Einf}}"
-          hs: "{{row.hs}}"
-          compounds: [ "{{row.drug_name}}" ]
+          compounds: [ { "id" : "{{row.drug_name}}" } ]
           aliquot: "{{row.dataset_name}}:{{row.cell_name}}"
+        rename:
+          ACC: acc
+          DSS1: dss1
+          DSS2: dss2
+          DSS3: dss3
+          IC50: ic50
+          EC50: ec50
+          Einf: einf
+
     - fieldType:
         acc: float
         dss1: float
@@ -132,9 +133,9 @@ pipelines:
     - project:
         mapping:
           project_id: "Project:{{row.dataset_name}}"
+          aliquot: [ {"id" : "{{row.aliquot}}"} ]
     - objectValidate:
         class: drug_response
-        #name: "{{row.dataset_name}}"
         schema: "{{config.schema}}"
     - emit:
         name: drug_response
@@ -146,7 +147,7 @@ pipelines:
           submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
           case_id: "Case:{{row.dataset_name}}:{{row.cell_name}}"
           project_id: "Project:{{row.dataset_name}}"
-          projects: [ "Project:{{row.dataset_name}}" ]
+          projects: [ { "id" : "Project:{{row.dataset_name}}" } ]
     - clean:
         fields: ["case_id", "project_id", "submitter_id", "projects", "dataset_name"]
     - objectValidate:
@@ -160,7 +161,7 @@ pipelines:
     - project:
         mapping:
           submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
-          case: "Case:{{row.dataset_name}}:{{row.cell_name}}"
+          case: [ { "id" : "Case:{{row.dataset_name}}:{{row.cell_name}}" } ]
           sample_id: "Sample:{{row.dataset_name}}:{{row.cell_name}}"
           project_id: "Project:{{row.dataset_name}}"
     - clean:
@@ -176,7 +177,7 @@ pipelines:
     - project:
         mapping:
           submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
-          sample: "Sample:{{row.dataset_name}}:{{row.cell_name}}"
+          sample: [ { "id" : "Sample:{{row.dataset_name}}:{{row.cell_name}}" } ]
           aliquot_id: "Aliquot:{{row.dataset_name}}:{{row.cell_name}}"
           project_id: "Project:{{row.dataset_name}}"
     - clean:
@@ -197,8 +198,20 @@ pipelines:
 
           def merge(x,y):
             #x["dataset_name"] = y["dataset_name"]
-            x["compounds"] = list(set(y["compounds"]+x["compounds"]))
+            x["compounds"] = y["compounds"]+x["compounds"]
             return x
+    # distinct compound dicts
+    - map:
+        method: fix
+        gpython: |
+
+          def fix(row):
+            s = []
+            for i in row["compounds"]:
+              s.append(i["id"])
+            row["compounds"] = list( {"id" : i } for i in set(s))
+            return row
+
     - project:
         mapping:
           submitter_id: "{{row.dataset_name}}"

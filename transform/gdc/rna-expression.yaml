@@ -32,12 +32,15 @@ pipelines:
             values = {}
             for i in row["rows"]:
               gene = i["gene_id"].split(".")[0]
-              values[gene] = i["tpm_unstranded"]
+              try:
+                values[gene] = float(i["tpm_unstranded"])
+              except ValueError:
+                pass
             return {
               "id" : row["file_name"].split(".")[0],
               "submitter_id" : row["file_name"].split(".")[0],
               "project_id" : "TCGA",
-              "metric" : "GENE_TPM",
+              "metric" : "TPM_GENE",
               "method" : "Illumina HiSeq",
               "values" : values
             }

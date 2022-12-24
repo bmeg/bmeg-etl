@@ -44,13 +44,19 @@ pipelines:
           submitter_id: "{{row.attributes.transcript_id}}"
           transcript_id: "{{row.attributes.transcript_id}}"
           project_id: "Reference"
-          chromosome: "{{row.seqID}}"
+          chromosome: chr"{{row.seqID}}"
           genome: "{{config.genomeBuild}}"
           gene: "{{row.attributes.Parent}}"
     - regexReplace:
         field: gene
         regex: "^gene:"
         replace: ""
+    - project:
+        mapping:
+          gene: [ {"id" : "{{row.gene}}" } ]
+    - fieldType:
+        end: integer
+        start: integer
     - objectValidate:
         schema: "{{config.schema}}"
         class: transcript
@@ -69,9 +75,12 @@ pipelines:
           submitter_id: "{{row.attributes.exon_id}}"
           exon_id: "{{row.attributes.exon_id}}"
           project_id: "Reference"
-          chromosome: "{{row.seqID}}"
+          chromosome: chr"{{row.seqID}}"
           genome: "{{config.genomeBuild}}"
-          transcripts: "{{row.attributes.Parent}}"
+          transcripts: [ {"id" : "{{row.attributes.Parent}}"} ]
+    - fieldType:
+        end: integer
+        start: integer
     - regexReplace:
         field: transcripts
         regex: "^transcript:"
@@ -94,10 +103,13 @@ pipelines:
           submitter_id: "{{row.attributes.gene_id}}"
           gene_id: "{{row.attributes.gene_id}}"
           project_id: "Reference"
-          chromosome: "{{row.seqID}}"
+          chromosome: chr"{{row.seqID}}"
           genome: "{{config.genomeBuild}}"
           description: "{{row.attributes.description}}"
           symbol: "{{row.attributes.Name}}"
+    - fieldType:
+        end: integer
+        start: integer
     - objectValidate:
         schema: "{{config.schema}}"
         class: gene
