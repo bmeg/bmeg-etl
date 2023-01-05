@@ -46,6 +46,6 @@ pipelines:
 
     - objectValidate:
         schema: "{{config.schema}}"
-        class: protein
+        title: Protein
     - emit:
         name: protein

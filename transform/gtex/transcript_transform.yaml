@@ -34,6 +34,6 @@ pipelines:
                 "values": values
               }
      - objectValidate:
-        class: transcript_expression
+        title: TranscriptExpression
         schema: "{{config.schema}}"
 

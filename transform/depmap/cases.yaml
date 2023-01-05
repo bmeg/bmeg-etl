@@ -24,6 +24,6 @@ pipelines:
           case_id: "Case:{{row.ModelID}}"
     - objectValidate:
         schema: "{{config.schema}}"
-        class: case
+        title: Case
     - emit:
         name: case

@@ -63,7 +63,7 @@ pipelines:
   object:
     - from: transform
     - objectValidate:
-        class: gene_set
+        title: GeneSet
         schema: "{{config.schema}}"
     - emit:
         name: gene_set

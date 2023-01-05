@@ -20,7 +20,7 @@ pipelines:
     - project:
         mapping:
           somatic_callset: "{{row.Tumor_Sample_UUID}}:{{row.Matched_Norm_Sample_UUID}}"
-          allele: "{{row.NCBI_Build}}{{row.Chromosome}}:{{row.Start_Position}}:{{row.Reference_Allele}}:{{row.Tumor_Seq_Allele1}}"
+          allele: "{{row.NCBI_Build}}{{row.Chromosome}}:{{row.Start_Position}}:{{row.Reference_Allele}}:{{row.Tumor_Seq_Allele2}}"
           methods: "{{row.callers}}"
     - split:
         field: methods
@@ -36,9 +36,40 @@ pipelines:
     - dropNull: {}
     - objectValidate:
         schema: "{{config.schema}}"
-        class: somatic_variant
+        title: SomaticVariant
     - emit:
         name: variant
+  
+  allele:
+    - from: mafData
+    - project:
+        mapping:
+          submitter_id: "{{row.NCBI_Build}}{{row.Chromosome}}:{{row.Start_Position}}:{{row.Reference_Allele}}:{{row.Tumor_Seq_Allele2}}"
+          reference_bases: "{{row.Reference_Allele}}"
+          alternate_bases: "{{row.Tumor_Seq_Allele1}}"
+          genome: "{{row.NCBI_Build}}"
+          chromosome: "{{row.Chromosome}}"
+          start: "{{row.Start_Position}}"
+          end:  "{{row.End_Position}}"
+          project_id: "gdc"
+    - clean:
+        fields:
+          - submitter_id
+          - reference_bases
+          - alternate_bases
+          - genome
+          - chromosome
+          - start
+          - end
+          - project_id
+    - fieldType:
+        start: int
+        end: int
+    - objectValidate:
+        title: Allele
+        schema: "{{config.schema}}"
+    - emit:
+        name: allele
 
   somaticCallsets:
     - from: mafData
@@ -53,6 +84,6 @@ pipelines:
           project_id: TBD # figure out how to get this information here
     - objectValidate:
         schema: "{{config.schema}}"
-        class: somatic_callset
+        title: SomaticCallset
     - emit: 
         name: callset

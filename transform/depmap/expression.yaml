@@ -46,7 +46,7 @@ pipelines:
           key: GeneID
           value: Ensembl_gene_identifier
     - objectValidate:
-        class: gene_expression
+        title: GeneExpression
         schema: "{{config.schema}}"
     - emit:
         name: expression

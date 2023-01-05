@@ -46,7 +46,7 @@ pipelines:
             }
     - objectValidate:
         schema: "{{config.schema}}"
-        class: gene_expression
+        title: GeneExpression
 
     - emit:
         name: gene_rnaseq

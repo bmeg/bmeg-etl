@@ -45,7 +45,7 @@ pipelines:
           source: "{{row.SOURCE}}"
           type: interaction
     - objectValidate:
-        class: interaction
+        title: Interaction
         schema: "{{config.schema}}"
     - emit:
         name: interaction

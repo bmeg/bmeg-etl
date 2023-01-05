@@ -49,11 +49,8 @@ pipelines:
                 rec['xref'] = rec['meta']['definition']['xrefs']
             return rec
 
-    - emit:
-        name: before
-
     - objectValidate:
-        class: gene_ontology_term
+        title: GeneOntologyTerm
         schema: "{{config.schema}}"
 
     - emit:

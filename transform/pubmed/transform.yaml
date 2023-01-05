@@ -77,7 +77,7 @@ pipelines:
           id: "PMID:{{row.pmid}}"
 
     - objectValidate:
-        class: publication
+        title: Publication
         schema: "{{config.schema}}"
 
     - emit:

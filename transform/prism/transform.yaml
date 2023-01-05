@@ -1,0 +1,122 @@
+
+class: sifter
+name: prism_transform
+
+
+outdir: ../../output/prism/
+
+config:
+  schema: ../../schema/
+  primaryData: ../../source/prism/primary-screen-replicate-collapsed-logfold-change.csv
+  primaryInfo: ../../source/prism/primary-screen-replicate-collapsed-treatment-info.csv
+  secondaryData: ../../source/prism/secondary-screen-replicate-collapsed-logfold-change.csv
+  secondaryInfo: ../../source/prism/secondary-screen-replicate-collapsed-treatment-info.csv
+
+inputs:
+
+  primary-logfold:
+    tableLoad:
+      input: "{{config.primaryData}}"
+      sep: ","
+  secondary-logfold:
+    tableLoad:
+      input: "{{config.secondaryData}}"
+      sep: ","
+
+pipelines:
+
+  primary:
+    - from: primary-logfold
+    - flatmap:
+        method: fix
+        gpython: |
+          def fix(row): 
+            cell_id = row[""]
+            for k, v in row.items():
+              yield {
+                "aliquot_id" : cell_id,
+                "experiment_id" : k,
+                "submitter_id" : "%s:%s" % (cell_id, k),
+                "project_id" : "prism",
+                "response" : [float(v)]
+              }
+    - lookup:
+        tsv:
+          input: "{{config.primaryInfo}}"
+          key: column_name
+          sep: ","
+        lookup: "{{row.experiment_id}}"
+        copy:
+          source_drug_name: name
+          dose: dose
+          broad_id: broad_id
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            row["dose_um"] = [ float(row["dose"]) ]
+            row["compounds"] = [ {"id" : row["broad_id"]} ]
+            return row
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: DrugResponse
+    - emit:
+        name: drug_response
+  
+  secondary:
+    - from: secondary-logfold
+    - flatmap:
+        method: fix
+        gpython: |
+
+          def fix(row):
+            cell_id = row[""]
+            exp = {}
+            expTag = {}
+            for k, v in row.items():
+              info = k.split("::")
+              if len(info) >= 2:
+                cmp = info[0]
+                dose = info[1]
+                if cmp not in exp:
+                  exp[cmp] = {}
+                  expTag[cmp] = k
+                try:
+                  exp[cmp][dose] = float(v)
+                except ValueError:
+                  pass
+            out = []
+            for cmp in exp.keys():
+              doses = sorted(exp[cmp].keys())
+              resp = []
+              for d in doses:
+                resp.append(exp[cmp][d])
+              out.append( {
+                "aliquot_id" : cell_id,
+                "response" : resp,
+                "dose_um" : list(float(i) for i in doses),
+                "experiment_id" : expTag[cmp]
+              })
+            return out
+    - lookup:
+        tsv:
+          input: "{{config.secondaryInfo}}"
+          key: column_name
+          sep: ","
+        lookup: "{{row.experiment_id}}"
+        copy:
+          source_drug_name: name
+          broad_id: broad_id
+    - project:
+        mapping:
+          compounds: [ { "id" : "{{row.broad_id}}" } ]
+          submitter_id: "{{row.cell_id}}:{{row.broad_id}}:secondary"
+          project_id: "prism-secondary"
+
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: DrugResponse
+    - emit:
+        name: drug_response
+
+            

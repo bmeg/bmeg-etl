@@ -33,7 +33,7 @@ pipelines:
             return x
 
     - objectValidate:
-        class: case
+        title: Case
         schema: "{{config.schema}}"
     - emit:
         name: case
@@ -56,7 +56,7 @@ pipelines:
         mapping:
           case: [ {"id" : "{{row.case}}"}]
     - objectValidate:
-        class: sample
+        title: Sample
         schema: "{{config.schema}}"
     - emit:
         name: sample
@@ -100,7 +100,7 @@ pipelines:
         mapping:
           sample: [ {"id" : "{{row.sample}}"} ]
     - objectValidate:
-        class: aliquot
+        title: Aliquot
         schema: "{{config.schema}}"
     - emit:
         name: aliquot

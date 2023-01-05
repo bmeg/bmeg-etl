@@ -26,7 +26,7 @@ pipelines:
           project_id: DepMap
     - objectValidate:
         schema: "{{config.schema}}"
-        class: somatic_callset
+        title: SomaticCallset
     - emit:
         name: callset
 
@@ -51,6 +51,43 @@ pipelines:
 
     - objectValidate:
         schema: "{{config.schema}}"
-        class: somatic_variant
+        title: SomaticVariant
     - emit:
         name: variants
+  
+  allele:
+    - from: mutations
+    - project:
+        mapping:
+          reference_bases: "{{row.Ref}}"
+          alternate_bases: "{{row.Alt}}"
+          genome: "GRCh38"
+          chromosome: "chr{{row.Chromo}}"
+          start: "{{row.Pos}}"
+          project_id: "depmap"
+    - fieldType:
+        start: int
+    - map: 
+        method: fix
+        gpython: |
+          def fix(row):
+            row['end'] = row['start'] + len(row['Ref'])
+            return row
+    - project:
+        mapping:
+          submitter_id: "{{row.genome}}{{row.chromosome}}:{{row.start}}:{{row.referance_bases}}:{{row.alternate_bases}}"
+    - clean:
+        fields:
+          - submitter_id
+          - reference_bases
+          - alternate_bases
+          - genome
+          - chromosome
+          - start
+          - end
+          - project_id
+    - objectValidate:
+        title: Allele
+        schema: "{{config.schema}}"
+    - emit:
+        name: allele

@@ -59,7 +59,7 @@ pipelines:
         start: integer
     - objectValidate:
         schema: "{{config.schema}}"
-        class: transcript
+        title: Transcript
     - emit:
         name: transcript
 
@@ -87,7 +87,7 @@ pipelines:
         replace: ""
     - objectValidate:
         schema: "{{config.schema}}"
-        class: exon
+        title: Exon
     - emit:
         name: exon
 
@@ -112,6 +112,6 @@ pipelines:
         start: integer
     - objectValidate:
         schema: "{{config.schema}}"
-        class: gene
+        title: Gene
     - emit:
         name: gene

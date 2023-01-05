@@ -58,7 +58,8 @@ properties:
       - string
       - 'null'
   id:
-    $ref: _definitions.yaml#/UUID
+    #$ref: _definitions.yaml#/UUID
+    type: string
     systemAlias: node_id
   type:
     type: string

@@ -27,18 +27,22 @@ pipelines:
              values = {}
              for k, v in x.items():
                if k != "Name" and k != "Description":
-                 j = k.split(".")[0]
-                 values[j] = float(v)
+                j = k.split(".")[0]
+                try:
+                  values[j] = float(v)
+                except ValueError:
+                  pass
+                  
              return {
                "id" : x["Name"],
                "submitter_id" : x["Name"],
                "project_id" : "GTEX",
-               "metric" : "GENE_TPM",
+               "metric" : "TPM_GENE",
                "method" : "Illumina HiSeq",
                "values": values
              }
     - objectValidate:
-        class: gene_expression
+        title: GeneExpression
         schema: "{{config.schema}}"
     - emit:
         name: gene_expression
