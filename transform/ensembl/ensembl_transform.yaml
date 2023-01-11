@@ -5,8 +5,8 @@ name: ensembl
 outdir: ../../output/ensembl
 
 config:
-  gffPath: ../../source/ensembl/Homo_sapiens.GRCh37.87.chr_patch_hapl_scaff.gff3.gz
-  genomeBuild: GRCh37
+  gffPath: ../../source/ensembl/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz
+  genomeBuild: GRCh38
   schema: ../../schema/
 
 inputs:
@@ -27,10 +27,18 @@ inputs:
 pipelines:
   transform:
     - from: gff
-    - fieldParse:
-        field: attributes
-        sep: ";"
-        assign: "="
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            aText = row["attributes"]
+            o = {}
+            for i in aText.rstrip().split(";"):
+              if len(i):
+                k, v = i.strip().split(' ', 1)
+                o[k] = v.strip('"')
+            row["attributes"] = o
+            return row
 
   transcripts:
     - from: transform
@@ -44,7 +52,7 @@ pipelines:
           submitter_id: "{{row.attributes.transcript_id}}"
           transcript_id: "{{row.attributes.transcript_id}}"
           project_id: "Reference"
-          chromosome: chr"{{row.seqID}}"
+          chromosome: "chr{{row.seqID}}"
           genome: "{{config.genomeBuild}}"
           gene: "{{row.attributes.Parent}}"
     - regexReplace:
@@ -75,9 +83,9 @@ pipelines:
           submitter_id: "{{row.attributes.exon_id}}"
           exon_id: "{{row.attributes.exon_id}}"
           project_id: "Reference"
-          chromosome: chr"{{row.seqID}}"
+          chromosome: "chr{{row.seqID}}"
           genome: "{{config.genomeBuild}}"
-          transcripts: [ {"id" : "{{row.attributes.Parent}}"} ]
+          transcripts: [ {"id" : "{{row.attributes.transcript_id}}"} ]
     - fieldType:
         end: integer
         start: integer
@@ -103,10 +111,10 @@ pipelines:
           submitter_id: "{{row.attributes.gene_id}}"
           gene_id: "{{row.attributes.gene_id}}"
           project_id: "Reference"
-          chromosome: chr"{{row.seqID}}"
+          chromosome: "chr{{row.seqID}}"
           genome: "{{config.genomeBuild}}"
           description: "{{row.attributes.description}}"
-          symbol: "{{row.attributes.Name}}"
+          symbol: "{{row.attributes.gene_name}}"
     - fieldType:
         end: integer
         start: integer

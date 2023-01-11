@@ -1,0 +1,18 @@
+
+
+
+class: lathe
+name: ensembleDownload
+
+prep:
+  - ifmissing: ../../source/ensembl
+    commandLine: mkdir -p ../../source/ensembl
+
+scripts:
+
+  hugoDownload:
+    commandLine: "curl -o ../../source/ensembl/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz https://ftp.ensembl.org/pub/release-108/gtf/homo_sapiens/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz"
+    outputs:
+      - ../../source/ensembl/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz
+    order: 1
+

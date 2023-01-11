@@ -1,0 +1,42 @@
+
+
+class: sifter
+
+name: chemblTransform
+outdir: ../../output/chembl
+
+config:
+  sqlite:  ../../source/chembl/chembl_31/chembl_31_sqlite/chembl_31.db
+  schema: ../../schema/
+  synonyms: ../../source/chembl/tables/synonyms.buildTable.synonyms.json.gz
+
+inputs:
+  sqlQuery:
+    sqliteLoad:
+      input: "{{config.sqlite}}"
+      #query: "select * from MOLECULE_DICTIONARY as a LEFT JOIN MOLECULE_SYNONYMS as b on a.MOLREGNO=b.MOLREGNO LEFT JOIN COMPOUND_STRUCTURES as c on a.MOLREGNO=c.MOLREGNO"
+      query:  "select * from MOLECULE_DICTIONARY as a JOIN COMPOUND_STRUCTURES as c on a.MOLREGNO=c.MOLREGNO"
+
+pipelines:
+  records:
+    - from: sqlQuery
+    - plugin:
+        commandLine: "./calc_fingerprint.py"
+    - lookup:
+        json:
+          input: "{{config.synonyms}}"
+          key: id
+        lookup: "{{row.molregno}}"
+        copy:
+          synonyms: synonyms
+    - project:
+        mapping:
+          submitter_id: "{{row.chembl_id}}"
+          project_id: "reference"
+          inchi: "{{row.standard_inchi}}"
+          inchi_key: "{{row.standard_inchi_key}}"
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: Compound
+    - emit: 
+        name: raw
