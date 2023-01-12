@@ -1,0 +1,27 @@
+class: sifter
+
+name: cellosarus
+outdir: ../../output/cellosarus/
+
+config:
+  oboFile: ../../source/cellosarus/cellosaurus.obo
+  schema: ../../schema
+
+inputs:
+  oboData:
+    plugin:
+      commandLine: ./obo_reader.py {{config.oboFile}}
+
+pipelines:
+  transform:
+    - from: oboData
+    - project:
+        mapping:
+          submitter_id: "{{row.id[0]}}"
+          case_id: "{{row.id[0]}}"
+          id: "Case/{{row.id[0]}}"
+          project_id: "cellosarus"
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: Case
+    - debug: {}

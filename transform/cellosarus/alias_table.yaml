@@ -1,0 +1,32 @@
+
+
+class: sifter
+
+name: synonyms
+outdir: ../../output/cellosarus/
+
+config:
+  oboFile: ../../source/cellosarus/cellosaurus.obo
+
+inputs:
+  oboData:
+    plugin:
+      commandLine: ./obo_reader.py {{config.oboFile}}
+
+pipelines:
+  caseTable:
+    - from: oboData
+    - flatMap:
+        method: fix
+        gpython: |
+          def fix(row):
+            out = []
+            for i in row.get("xref", []):
+              if i.startswith("DepMap:"):
+                out.append({
+                  "cellosarus_id" : row["id"][0],
+                  "depmap_id" : i.replace("DepMap:", "")
+                })
+            return out
+
+    - debug: {}

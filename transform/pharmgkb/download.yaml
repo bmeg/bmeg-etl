@@ -1,0 +1,20 @@
+
+
+class: lathe
+name: download
+
+# files at https://www.pharmgkb.org/downloads
+
+scripts:
+
+  downloadPharmgkb:
+    commandLine: curl -o ../../source/pharmgkb/relationships.zip https://api.pharmgkb.org/v1/download/file/data/relationships.zip
+    outputs:
+      - ../../source/pharmgkb/relationships.zip
+
+  downloadPharmgkb:
+    commandLine: curl -o ../../source/pharmgkb/clinicalAnnotations.zip https://api.pharmgkb.org/v1/download/file/data/clinicalAnnotations.zip
+    outputs:
+      - ../../source/pharmgkb/clinicalAnnotations.zip
+
+

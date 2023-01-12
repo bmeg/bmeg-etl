@@ -1,0 +1,12 @@
+
+
+class: lathe
+name: download
+
+scripts:
+
+  downloadGO:
+    commandLine: curl -o ../../source/docm/variants.json http://www.docm.info/api/v1/variants.json
+    outputs:
+      - ../../source/docm/variants.json
+
