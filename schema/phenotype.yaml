@@ -48,10 +48,8 @@ properties:
     type:
       - 'null'
       - string
-  cases:
-    $ref: _definitions.yaml#/to_many
-  g2p_associations:
-    $ref: _definitions.yaml#/to_many
+  description:
+    type: string
   child_terms:
     $ref: _definitions.yaml#/to_many
   parent_terms:

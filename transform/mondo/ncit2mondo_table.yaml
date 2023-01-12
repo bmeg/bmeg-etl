@@ -1,0 +1,37 @@
+
+class: sifter
+
+name: mondo
+outdir: ../../source/mondo/tables
+
+config:
+  mondo: ../../source/mondo/mondo.json
+
+inputs:
+  mondoJson:
+    jsonLoad:
+        input: "{{config.mondo}}"
+        multiline: true
+
+
+
+pipelines:
+  ncit_extract:
+    - from: mondoJson
+    - fieldProcess:
+        field: graphs
+    - fieldProcess:
+        field: nodes
+    - flatMap: 
+        method: fix
+        gpython: |
+          def fix(row):
+            out = []
+            if "meta" in row:
+              if "definition" in row["meta"]:
+                  for val in row["meta"]["definition"]:
+                    if val.startswith("NCIT:"):
+                      out.append({ "mondo_id" : row["id"], "ncit_id" : val })
+            return out
+    - emit:
+        name: mapping
