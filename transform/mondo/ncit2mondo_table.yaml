@@ -13,8 +13,6 @@ inputs:
         input: "{{config.mondo}}"
         multiline: true
 
-
-
 pipelines:
   ncit_extract:
     - from: mondoJson
@@ -22,16 +20,17 @@ pipelines:
         field: graphs
     - fieldProcess:
         field: nodes
+    #- debug: {}
     - flatMap: 
         method: fix
         gpython: |
           def fix(row):
             out = []
             if "meta" in row:
-              if "definition" in row["meta"]:
-                  for val in row["meta"]["definition"]:
-                    if val.startswith("NCIT:"):
-                      out.append({ "mondo_id" : row["id"], "ncit_id" : val })
+              row["term_id"] = row["id"].replace("http://purl.obolibrary.org/obo/", "")
+              for val in row.get("meta", {}).get("definition", {}).get("xrefs", []):
+                if val.startswith("NCIT:"):
+                  out.append({ "mondo_id" : row["term_id"], "ncit_id" : val })
             return out
     - emit:
         name: mapping

@@ -68,6 +68,10 @@ properties:
     type:
     - 'null'
     - object
+
+  sex:
+    type: string
+
   compounds:
     $ref: _definitions.yaml#/to_many
   phenotypes:
@@ -87,6 +91,8 @@ properties:
   id:
     #$ref: _definitions.yaml#/UUID
     #systemAlias: node_id
+    type: string
+  comment:
     type: string
   type:
     type: string
