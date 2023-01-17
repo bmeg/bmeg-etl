@@ -1,0 +1,41 @@
+class: sifter
+
+name: go
+outdir: ../../output/go/
+
+config:
+  oboFile: ../../source/go/go.obo
+  schema: ../../schema
+
+inputs:
+  oboData:
+    plugin:
+      commandLine: ../../util/obo_reader.py {{config.oboFile}}
+
+pipelines:
+  transform:
+    - from: oboData
+    - project:
+        mapping:
+          submitter_id: "{{row.id[0]}}"
+          case_id: "{{row.id[0]}}"
+          id: "{{row.id[0]}}"
+          go_id: "{{row.id[0]}}"
+          project_id: "gene_onotology"
+          namespace: "{{row.namespace[0]}}"
+          name: "{{row.name[0]}}"
+    - map: 
+        method: fix
+        gpython: | 
+          def fix(row):
+            row['definition'] = row['def'][0].strip('"')
+            if 'xref' not in row:
+              row['xref'] = []
+            if 'synonym' not in row:
+              row['synonym'] = []
+            return row
+    - objectValidate:
+        title: GeneOntologyTerm
+        schema: "{{config.schema}}"
+    - emit:
+        name: term

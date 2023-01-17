@@ -1,9 +1,0 @@
-
-name: download
-class: lathe
-
-scripts:
-  sample_info:
-    commandLine: curl -L -o ../../source/ccle/sample_info.csv https://ndownloader.figshare.com/files/22629137
-    outputs:
-      - ../../source/ccle/sample_info.csv

@@ -5,7 +5,7 @@ name: msigdb
 
 config:
   xmlPath: ../../source/msigdb/msigdb_v7.5.1.xml
-  schema: ../../schemas
+  schema: ../../schema
   gene2ensembl: ../../source/ensembl/gene2ensembl.translate.link.json.gz
 
 inputs:
@@ -43,12 +43,9 @@ pipelines:
           "-MEMBERS_EZID": genes
           PMID: publications
 
-    - map:
-        method: splt
-        gpython: |
-          def splt(x):
-            x['genes'] = x['genes'].split(",")
-            return x
+    - split:
+        field: genes
+        sep: ","
 
     - lookup:
         json:
@@ -56,6 +53,13 @@ pipelines:
           key: GeneID
           value: Ensembl_gene_identifier
         replace: genes
+
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            row['genes'] = list( {"id":i} for i in row['genes'] )
+            return row
 
     - emit:
         name: record

@@ -10,7 +10,7 @@ config:
 inputs:
   oboData:
     plugin:
-      commandLine: ./obo_reader.py {{config.oboFile}}
+      commandLine: ../../util/obo_reader.py {{config.oboFile}}
 
 pipelines:
   transform:

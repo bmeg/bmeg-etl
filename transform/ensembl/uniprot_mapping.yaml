@@ -1,7 +1,7 @@
 
 class: sifter
 name: hugoMapping
-outdir: ../../source/ensembl
+outdir: ../../source/ensembl/tables
 
 config:
   hugoPath: ../../source/hugo/hugo.tsv

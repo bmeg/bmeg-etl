@@ -6,7 +6,7 @@ outdir: ../../output/ensembl
 
 config:
   uniprotTSV: ../../source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz
-  schema: ../../schemas
+  schema: ../../schema
   genomeBuild: GRCh37
 
 inputs:
@@ -43,7 +43,12 @@ pipelines:
             return x
 
     #- debug: {}
-
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            row["uniprot"] = list( {"id" : i} for i in row["uniprot"] )
+            return row
     - objectValidate:
         schema: "{{config.schema}}"
         title: Protein

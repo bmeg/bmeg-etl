@@ -307,3 +307,4 @@ expression_metric:
     - "RPKM"
     - "FPKM"
     - "RAW_COUNT"
+    - "RMA"
