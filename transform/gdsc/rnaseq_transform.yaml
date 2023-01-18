@@ -1,0 +1,50 @@
+
+class: sifter
+name: GDSC_rnaserq_Transform
+outdir: ../../output/gdsc
+
+config:
+  expFile: ../../source/gdsc/rnaseq_sanger_20210316.csv
+  schema: ../../schema
+  geneFile: ../../source/gdsc/gene_identifiers_20191101.csv
+
+inputs:
+  expRead:
+    tableLoad:
+      input: "{{config.expFile}}"
+      sep: ","
+
+
+pipelines:
+  start:
+    - from: expRead
+    - accumulate:
+        field: model_id
+        dest: rows
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            values = {}
+            for i in row["rows"]:
+              values[i["gene_id"]] = int(i["read_count"])
+            out = {
+              "submitter_id" : row["model_id"],
+              "project_id" : "Sanger", 
+              'method' : "RNA-Seq",
+              'metric': "RAW_COUNT",
+              "values" : values
+            }
+            return out
+    - lookup:
+        tsv:
+          input: "{{config.geneFile}}"
+          sep: ","
+          key: "gene_id"
+          value: ensembl_gene_id
+        replace: values
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: GeneExpression
+    - emit:
+        name: geneExpression
