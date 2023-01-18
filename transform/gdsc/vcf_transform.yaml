@@ -1,0 +1,67 @@
+
+class: sifter
+name: GDSC_VCF_Transform
+outdir: ../../output/gdsc
+
+config:
+  vcfBase: ../../source/gdsc/mutations_wes_vcf_20221010/*_Sanger_wes_snp_vaf.caveman_c.annot_drv.vcf.gz
+  schema: ../../schema
+
+inputs:
+  vcfRead:
+    glob:
+      input: "{{config.vcfBase}}"
+      storeFileName: _fileName
+      tableLoad:
+        columns:
+          - CHROM
+          - POS
+          - ID
+          - REF
+          - ALT
+          - QUAL
+          - FILTER
+          - INFO
+          - FORMAT
+          - NORMAL
+          - TUMOR
+
+pipelines:
+  main:
+    - from: vcfRead
+    - map: 
+        method: fix
+        gpython: |
+          def fix(row):
+            row["aliquot_id"] = row["_fileName"].split("_")[0]
+            return row
+    - map: 
+        method: fix
+        gpython: |
+          def fix(row):
+            k = row["FORMAT"].split(":")
+            n = row["NORMAL"].split(":")
+            t = row["TUMOR"].split(":")
+            row["tumor"] = dict( zip(k,t) )
+            row["normal"] = dict( zip(k,n) )
+            return row
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            row["t_depth"] = int(row["tumor"]["DEP"])
+            row["t_ref_count"] = int(row["tumor"]["WTR"])
+            row["t_alt_count"] = int(row["tumor"]["MTR"])
+            row["n_depth"] = int(row["normal"]["DEP"])
+            row["n_ref_count"] = int(row["normal"]["WTR"])
+            row["n_alt_count"] = int(row["normal"]["MTR"])
+            row["filter"] = row["FILTER"]
+            row["methods"] = ["caveman"]
+            row["somatic_callset"] = "callset:" + row["aliquot_id"]
+            row["allele"] = "%s:%s:%s:%s" % (row["CHROM"], row["POS"], row["REF"], row["ALT"] )
+            return row
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: "SomaticVariant"
+    - emit:
+        name: debug

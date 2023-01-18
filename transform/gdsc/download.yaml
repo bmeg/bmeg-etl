@@ -2,18 +2,21 @@
 name: download
 class: lathe
 
+
+# https://cellmodelpassports.sanger.ac.uk/downloads 
+
 prep:
   - ifMissing: ../../source/gdsc/cell_line_wes_20180620.zip
-    commandLine: curl -o ../../source/gdsc/cell_line_wes_20180620.zip https://cog.sanger.ac.uk/cmp/download/cell_line_wes_20180620.zip
+    commandLine: curl -o ../../source/gdsc/mutations_wes_vcf_20221010.zip https://cog.sanger.ac.uk/cmp/download/mutations_wes_vcf_20221010.zip
   - ifMissing: ../../source/gdsc/vcfs
     commandLine: mkdir -p ../../source/gdsc/vcfs
-  - commandLine: unzip -u ../../source/gdsc/cell_line_wes_20180620.zip -d ../../source/gdsc/vcfs
+  - commandLine: unzip -u ../../source/gdsc/mutations_wes_vcf_20221010.zip
 
 # https://www.cancerrxgene.org/gdsc1000/GDSC1000_WebResources//Data/preprocessed/Cell_line_RMA_proc_basalExp.txt.zip
 # https://www.cancerrxgene.org/gdsc1000/GDSC1000_WebResources//Home_files/Extended%20Methods.html#8
 
 scripts:
   sampleInfo:
-    commandLine: curl https://cog.sanger.ac.uk/cmp/download/model_list_20191104.csv -o ../../source/gdsc/model_list_20191104.csv
+    commandLine: curl https://cog.sanger.ac.uk/cmp/download/model_list_20230110.csv -o ../../source/gdsc/model_list_20230110.csv
     outputs:
-      - ../../source/gdsc/model_list_20191104.csv
+      - ../../source/gdsc/model_list_20230110.csv

@@ -48,4 +48,4 @@ pipelines:
         schema: "{{config.schema}}"
         title: GeneExpression
     - emit:
-        name: debug
+        name: geneExpression
