@@ -1,9 +1,0 @@
-[run]
-omit =
-  tests/*
-
-[paths]
-source = .
-
-[report]
-show_missing = True

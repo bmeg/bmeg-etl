@@ -4,36 +4,42 @@ name: GTEX_Transcript_Expression
 outdir: ../../output/gtex
 
 config:
-  gct: ../../source/gtex/GTEx_Analysis_2017-06-05_v8_RSEMv1.3.0_transcript_tpm.gct.transpose.gz
+  gctFile: ../../source/gtex/GTEx_Analysis_2017-06-05_v8_RSEMv1.3.0_transcript_tpm.gct.gz
   schema: ../../schema
 
-
 inputs:
-  gctTranspose:
-     tableLoad:
-        input: "{{config.gct}}"
+  gctRead:
+    transposeLoad:
+      input: "{{config.gctFile}}"
+      #useTable: 30
+      rowSkip: 2
 
 pipelines:
   update:
-     - from: gctTranspose
-     - map:
-         method: nodeMap
-         python: >
-           def nodeMap(x):
-              values = {}
-              for k, v in x.items():
-                if k != "Name" and k != "aliquot_id" and k != "Entrez_Gene_Id":
-                  j = k.split(".")[0]
-                  values[j] = v
-              return {
-                "id" : x["Name"],
-                "submitter_id" : x["Name"],
-                "project_id" : "GTEX",
-                "metric" : "TPM",
-                "method" : "Illumina HiSeq",
-                "values": values
-              }
-     - objectValidate:
+    - from: gctRead
+    - filter:
+        field: transcript_id
+        match: gene_id
+        check: not
+    - map:
+        method: nodeMap
+        gpython: >
+          def nodeMap(x):
+            values = {}
+            for k, v in x.items():
+              if k != "Name" and k != "aliquot_id" and k != "transcript_id":
+                j = k.split(".")[0]
+                values[j] = float(v)
+            return {
+              "id" : x["transcript_id"],
+              "submitter_id" : x["transcript_id"],
+              "project_id" : "GTEX",
+              "metric" : "TPM",
+              "method" : "Illumina HiSeq",
+              "values": values
+            }
+    - objectValidate:
         title: TranscriptExpression
         schema: "{{config.schema}}"
-
+    - emit:
+        name: transcript_expression

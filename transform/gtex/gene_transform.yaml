@@ -18,7 +18,6 @@ inputs:
 pipelines:
   gctProcess:
     - from: geneRead
-
     - map:
         method: nodeMap
         gpython: |
