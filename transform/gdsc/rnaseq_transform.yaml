@@ -7,6 +7,7 @@ config:
   expFile: ../../source/gdsc/rnaseq_sanger_20210316.csv
   schema: ../../schema
   geneFile: ../../source/gdsc/gene_identifiers_20191101.csv
+  modelFile: ../../source/gdsc/model_list_20230110.csv
 
 inputs:
   expRead:
@@ -29,6 +30,7 @@ pipelines:
             for i in row["rows"]:
               values[i["gene_id"]] = int(i["read_count"])
             out = {
+              "aliquot" : [ {"id" : "aliquot:" + row["model_id"]} ],
               "submitter_id" : row["model_id"],
               "project_id" : "Sanger", 
               'method' : "RNA-Seq",
@@ -48,3 +50,32 @@ pipelines:
         title: GeneExpression
     - emit:
         name: geneExpression
+  
+  aliquot:
+    - from: start
+    - clean:
+        fields:
+          - submitter_id
+          - aliquot
+          - project_id
+    - lookup:
+        tsv:
+          input: "{{config.modelFile}}"
+          sep: ","
+          key: model_id
+          value: BROAD_ID
+        lookup: "{{row.submitter_id}}"
+        copy:
+          broad_id: BROAD_ID
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            row["aliquot_id"] = row["aliquot"][0]["id"]
+            row["sample"] = [ {"id" : "sample:" + row["broad_id"] } ]
+            return row
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: Aliquot
+    - emit:
+        name: aliquot
