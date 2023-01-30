@@ -33,6 +33,7 @@ pipelines:
                 t = k.split(" ")[1].replace("(", "").replace(")", "")
                 values[t] = float(v)
             return {
+              "aliquot" : [ {"id" : "aliquot/" + sub_id} ],
               "submitter_id" : sub_id,
               "project_id" : "Depmap",
               "metric" : "TPM_GENE",

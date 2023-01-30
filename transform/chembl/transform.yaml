@@ -28,7 +28,7 @@ pipelines:
           key: id
         lookup: "{{row.molregno}}"
         copy:
-          synonyms: synonyms
+          synonyms: synonym
     - project:
         mapping:
           submitter_id: "{{row.chembl_id}}"

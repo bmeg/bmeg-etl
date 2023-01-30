@@ -11,7 +11,7 @@ inputs:
   geneRead:
     transposeLoad:
       input: "{{config.gctFile}}"
-      onDisk: true
+      #onDisk: true
       rowSkip: 2
 
 

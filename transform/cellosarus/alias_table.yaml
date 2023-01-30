@@ -3,7 +3,7 @@
 class: sifter
 
 name: synonyms
-outdir: ../../output/cellosarus/
+outdir: ../../source/cellosarus/table
 
 config:
   oboFile: ../../source/cellosarus/cellosaurus.obo
@@ -11,7 +11,7 @@ config:
 inputs:
   oboData:
     plugin:
-      commandLine: ./obo_reader.py {{config.oboFile}}
+      commandLine: ../../util/obo_reader.py {{config.oboFile}}
 
 pipelines:
   caseTable:
@@ -28,5 +28,5 @@ pipelines:
                   "depmap_id" : i.replace("DepMap:", "")
                 })
             return out
-
-    - debug: {}
+    - emit:
+        name: ach2cellosarus

@@ -1,0 +1,13 @@
+
+
+
+
+class: lathe
+name: downloadUCSC
+
+scripts:
+  downloadPharmgkb:
+    commandLine: curl -o ../../source/ucscGenome/cytoBandIdeo.txt.gz https://hgdownload.cse.ucsc.edu/goldenPath/hg38/database/cytoBandIdeo.txt.gz
+    outputs:
+      - ../../source/ucscGenome/cytoBandIdeo.txt.gz
+

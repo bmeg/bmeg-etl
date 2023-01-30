@@ -11,7 +11,10 @@ for line in sys.stdin:
     if "canonical_smiles" in row:
         smiles = row["canonical_smiles"]
         m = Chem.MolFromSmiles(smiles)
-        fp = AllChem.GetMorganFingerprintAsBitVect(m, radius=2)
-        fingerprint = list(fp)
-        row["morgan_fingerprint_2"] = fingerprint
+        try:
+            fp = AllChem.GetMorganFingerprintAsBitVect(m, radius=2)
+            fingerprint = list(fp)
+            row["morgan_fingerprint_2"] = fingerprint
+        except:
+            pass
     print(json.dumps(row))

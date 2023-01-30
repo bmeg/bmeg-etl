@@ -79,6 +79,10 @@ properties:
   projects:
     $ref: _definitions.yaml#/to_many
   samples:
+    targets: 
+      - type: 
+          $ref: Sample.yaml
+          backref: case
     $ref: _definitions.yaml#/to_many
   same_as:
     $ref: _definitions.yaml#/to_many

@@ -1,0 +1,40 @@
+
+
+
+class: sifter
+
+name: ensembl
+outdir: ../../output/allele
+
+config:
+  jsonPath: ../../merge/allele.json.gz
+  schema: ../../schema/
+
+
+inputs:
+  jsonData:
+    jsonLoad:
+      input: "{{config.jsonPath}}"
+
+outputs:
+  vcf:
+    tableWrite:
+      from: prepData
+      output: alleles.vcf
+      header: "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\tTUMOR\tNORMAL"
+      skipColumnHeader: true
+      columns:
+        - chromosome
+        - start
+        - id
+        - reference_bases
+        - alternate_bases
+
+
+pipelines: 
+  prepData:
+    - from: jsonData
+    - project:
+        mapping:
+          id: "."
+
