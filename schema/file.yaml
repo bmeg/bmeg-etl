@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "file"
 title: File
@@ -23,7 +23,6 @@ required:
   - submitter_id
   - project_id
   - md5
-  - cmd
   - filename
 
 uniqueKeys:
@@ -33,9 +32,16 @@ uniqueKeys:
 links: []
 
 properties:
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
   md5:
     type: string
   path:
+    type: string
+  cmd: 
+    type: string
+  filename:
     type: string
   input_to:
     $ref: _definitions.yaml#/to_many
@@ -47,9 +53,12 @@ properties:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
+  aliquots:
+    targets:
+      - type: 
+          $ref: aliquot.yaml
+        backref: files
+    $ref: _definitions.yaml#/to_many
   type:
     type: string
   created_datetime:

@@ -1,7 +1,7 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "methylation_probe"
-title: Methylation Probe
+title: MethylationProbe
 type: object
 namespace: http://gdc.nci.nih.gov
 program: '*'
@@ -50,6 +50,9 @@ properties:
       - string
       - 'null'
   gene:
+    targets:
+      - type:
+          $ref: gene.yaml
     $ref: _definitions.yaml#/to_one
   project_id:
     $ref: _definitions.yaml#/project_id

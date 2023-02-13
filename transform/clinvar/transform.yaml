@@ -2,7 +2,7 @@
 
 class: sifter
 
-name: ensembl
+name: clinvar
 outdir: ../../output/clinvar
 
 config:

@@ -16,3 +16,7 @@ scripts:
       - ../../source/ensembl/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz
     order: 1
 
+  regulatory:
+    commandLine: "curl -o ../../source/ensembl/homo_sapiens.GRCh38.Regulatory_Build.regulatory_features.20221007.gff.gz  https://ftp.ensembl.org/pub/current_regulation/homo_sapiens/homo_sapiens.GRCh38.Regulatory_Build.regulatory_features.20221007.gff.gz"
+    outputs:
+      - ../../source/ensembl/homo_sapiens.GRCh38.Regulatory_Build.regulatory_features.20221007.gff.gz

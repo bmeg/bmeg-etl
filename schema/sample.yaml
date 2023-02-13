@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "sample"
 title: Sample
@@ -68,10 +68,21 @@ properties:
     - 'null'
     - object
   aliquots:
+    targets:
+      - type: 
+          $ref: aliquot.yaml
+        backref: sample
     $ref: _definitions.yaml#/to_many
   case:
+    targets: 
+      - type: 
+          $ref: case.yaml
+        backref: samples
     $ref: _definitions.yaml#/to_one
   phenotypes:
+    targets: 
+      - type: 
+          $ref: phenotype.yaml
     $ref: _definitions.yaml#/to_many
   projects:
     $ref: _definitions.yaml#/to_many

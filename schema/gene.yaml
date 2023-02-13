@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "gene"
 title: Gene
@@ -28,7 +28,6 @@ required:
   - start
   - genome
   - end
-  - gene_id
   - symbol
 
 uniqueKeys:
@@ -38,7 +37,7 @@ uniqueKeys:
 links: []
 
 properties:
-  gene_id:
+  id:
     type: string
   description:
     type: string
@@ -76,9 +75,6 @@ properties:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

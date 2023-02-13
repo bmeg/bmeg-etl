@@ -3,11 +3,11 @@
 
 class: sifter
 
-name: ensembl
-outdir: ../../output/allele
+name: annotated_VCF_transform
+outdir: ../../output-normalize/
 
 config:
-  jsonPath: ../../merge/allele.json.gz
+  jsonPath: ../../output-normalize/allele.merge.json.gz
   schema: ../../schema/
 
 
@@ -20,7 +20,7 @@ outputs:
   vcf:
     tableWrite:
       from: prepData
-      output: alleles.vcf
+      output: allele.vcf
       header: "#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\tTUMOR\tNORMAL"
       skipColumnHeader: true
       columns:

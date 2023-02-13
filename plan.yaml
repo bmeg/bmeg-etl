@@ -1,0 +1,13 @@
+
+class: plan
+name: allele_collect
+
+steps:
+  - buildCommands:
+      dir: transform
+  - collectClass:
+      title: Allele
+      dir: transform
+      output: output-normalize/allele.merge.json.gz
+  - buildCommands:
+      dir: normalize

@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "interaction"
 title: Interaction
@@ -49,11 +49,25 @@ properties:
     type: string
   type:
     type: string
+  interaction_input:
+    targets:
+      - type:
+          $ref: protein.yaml
+    $ref: _definitions.yaml#/to_many
   interaction_output:
+    targets:
+      - type:
+          $ref: protein.yaml
     $ref: _definitions.yaml#/to_many
   pathways:
+    targets:
+      - type:
+          $ref: pathway.yaml
     $ref: _definitions.yaml#/to_many
   publications:
+    targets:
+      - type:
+          $ref: publication.yaml
     $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id

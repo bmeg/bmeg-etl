@@ -1,7 +1,7 @@
 
 class: sifter
 
-name: ensembl
+name: ensembl_gtf
 outdir: ../../output/ensembl
 
 config:

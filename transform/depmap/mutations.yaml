@@ -76,9 +76,10 @@ pipelines:
             return row
     - project:
         mapping:
-          submitter_id: "{{row.genome}}{{row.chromosome}}:{{row.start}}:{{row.reference_bases}}:{{row.alternate_bases}}"
+          id: "{{row.genome}}{{row.chromosome}}:{{row.start}}:{{row.reference_bases}}:{{row.alternate_bases}}"
     - clean:
         fields:
+          - id
           - submitter_id
           - reference_bases
           - alternate_bases

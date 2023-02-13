@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "case"
 title: Case
@@ -53,6 +53,8 @@ links:
   name: same_as
   target_type: case
 
+graph_element: vertex
+
 properties:
   case_id:
     type: string
@@ -73,18 +75,28 @@ properties:
     type: string
 
   compounds:
+    targets: 
+      - type: 
+          $ref: compound.yaml
     $ref: _definitions.yaml#/to_many
   phenotypes:
     $ref: _definitions.yaml#/to_many
   projects:
+    targets: 
+      - type: 
+          $ref: project.yaml
+        backref: cases
     $ref: _definitions.yaml#/to_many
   samples:
     targets: 
       - type: 
-          $ref: Sample.yaml
-          backref: case
+          $ref: sample.yaml
+        backref: case
     $ref: _definitions.yaml#/to_many
   same_as:
+    targets: 
+      - type: 
+          $ref: case.yaml
     $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id

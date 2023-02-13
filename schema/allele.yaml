@@ -1,27 +1,11 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "allele"
 title: Allele
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: genomic
-description: >
-  One of two or more alternative forms of a gene that arise by mutation and are found at the same place on a chromosome.
-additionalProperties: false
-submittable: true
-validators: null
-
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
 
 required:
-  - submitter_id
-  - project_id
+  - id
   - chromosome
   - start
   - genome
@@ -32,13 +16,11 @@ uniqueKeys:
   - [id]
   - [project_id, submitter_id]
 
-
 properties:
-  graph_element: vertex
-  graph_id: id
   id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
+    type: string
+    #$ref: _definitions.yaml#/UUID
+    #systemAlias: node_id
   reference_bases:
     type: string
   alternate_bases:
@@ -46,7 +28,7 @@ properties:
   genome:
     $ref: _definitions.yaml#/genome
   chromosome:
-     $ref: _definitions.yaml#/chromosome
+    $ref: _definitions.yaml#/chromosome
   start:
     type: integer
   end:
@@ -56,47 +38,27 @@ properties:
   dbsnp_rs:
     type: string
   effects:
-    destination_type: AlleleEffect
+    targets:
+      - type:
+          $ref: allele_effect.yaml
     type: array
     items:
-      type: object
-      graph_element: vertex
-      title: AlleleEffect
-      properties:
-        annotation:
-          type: string
-        annotation_impact:
-          type: string
-        cds_position:
-          type: integer
-        cds_length:
-          type: integer
-        cdna_position:
-          type: integer
-        cdna_length:
-          type: integer
-        hgnc_id:
-          type: string
-        hgvsc:
-          type: string
-        hgvsp:
-          type: string
-        ensembl_gene:
-          type: string
-        ensembl_transcript:
-          type: string
-        hugo_symbol:
-          type: string
-        biotype:
-          type: string
+      $ref: allele_effect.yaml
+
   gene:
-    destination_type: Gene
+    targets:
+      - type:
+          $ref: gene.yaml
     $ref: _definitions.yaml#/to_one
   transcript:
-    destination_type: Transcript
+    targets:
+      - type:
+          $ref: transcript.yaml
     $ref: _definitions.yaml#/to_one
   protein:
-    destination_type: Protein
+    targets:
+      - type:
+          $ref: protein.yaml
     $ref: _definitions.yaml#/to_one
   project_id:
     $ref: _definitions.yaml#/project_id

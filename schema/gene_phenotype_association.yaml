@@ -1,7 +1,7 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
-id: "g2p_association"
-title: G2PAssociation
+id: "gene_phenotype_association"
+title: GenePhenotypeAssociation
 type: object
 namespace: http://gdc.nci.nih.gov
 program: '*'
@@ -30,37 +30,37 @@ uniqueKeys:
   - [project_id, submitter_id]
 
 links:
-  - backref: g2p_associations
+  - backref: gene_phenotype_associations
     label: compounds
     multiplicity: many_to_many
     name: compounds
     required: false
     target_type: compound
-  - backref: g2p_associations
+  - backref: gene_phenotype_associations
     label: alleles
     multiplicity: many_to_many
     name: alleles
     required: false
     target_type: allele
-  - backref: g2p_associations
+  - backref: gene_phenotype_associations
     label: genes
     multiplicity: many_to_many
     name: genes
     required: false
     target_type: gene
-  - backref: g2p_associations
+  - backref: gene_phenotype_associations
     label: genomic_features
     multiplicity: many_to_many
     name: genomic_features
     required: false
     target_type: genomic_feature
-  - backref: g2p_associations
+  - backref: gene_phenotype_associations
     label: publications
     multiplicity: many_to_many
     name: publications
     required: false
     target_type: publication
-  - backref: g2p_associations
+  - backref: gene_phenotype_associations
     label: phenotypes
     multiplicity: many_to_many
     name: phenotypes
@@ -93,16 +93,31 @@ properties:
       - 'null'
       - string
   alleles:
+    targets:
+      - type:
+          $ref: allele.yaml
     $ref: _definitions.yaml#/to_many
   compounds:
+    targets:
+      - type:
+          $ref: compound.yaml
     $ref: _definitions.yaml#/to_many
   genes:
+    targets:
+      - type:
+          $ref: gene.yaml
     $ref: _definitions.yaml#/to_many
   genomic_features:
     $ref: _definitions.yaml#/to_many
   phenotypes:
+    targets:
+      - type:
+          $ref: phenotype.yaml
     $ref: _definitions.yaml#/to_many
   publications:
+    targets:
+      - type:
+          $ref: publication.yaml
     $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id

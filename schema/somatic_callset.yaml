@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "somatic_callset"
 title: SomaticCallset
@@ -54,9 +54,11 @@ properties:
       - 'null'
       - string
   aliquots:
+    targets:
+      - type:
+          $ref: aliquot.yaml
     $ref: _definitions.yaml#/to_many
-  alleles:
-    $ref: _definitions.yaml#/to_many
+
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:

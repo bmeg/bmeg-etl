@@ -1,7 +1,0 @@
-
-class: lathe
-name: allele_collect
-
-collections:
-  - class: allele
-    output: ../../output/allele/allele.json.gz

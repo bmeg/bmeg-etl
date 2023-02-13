@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "phenotype"
 title: Phenotype
@@ -51,8 +51,14 @@ properties:
   description:
     type: string
   child_terms:
+    targets:
+      - type:
+          $ref: phenotype.yaml
     $ref: _definitions.yaml#/to_many
   parent_terms:
+    targets:
+      - type:
+          $ref: phenotype.yaml
     $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id

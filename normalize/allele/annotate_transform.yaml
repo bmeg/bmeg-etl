@@ -5,7 +5,7 @@ name: annotatedAllele
 outdir: ../../output/allele
 
 config:
-  vcfPath: ../../output/allele/alleles.annotate.vcf
+  vcfPath: ../../output-normalize/allele.annotated.vcf
   schema: ../../schema/
 
 
@@ -68,6 +68,7 @@ pipelines:
             return row
     - project:
         mapping:
+          id: "38{{row.CHROM}}:{{row.POS}}:{{row.REF}}:{{row.ALT}}"
           submitter_id: "38{{row.CHROM}}:{{row.POS}}:{{row.REF}}:{{row.ALT}}"
           project_id: Reference
           reference_bases: "{{row.REF}}"

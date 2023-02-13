@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "gene_ontology_term"
 title: GeneOntologyTerm
@@ -88,12 +88,19 @@ properties:
     items:
       type: string
   child_terms:
+    targets:
+      - type:
+          $ref: gene_ontology_term.yaml
     $ref: _definitions.yaml#/to_many
   parent_terms:
+    targets:
+      - type:
+          $ref: gene_ontology_term.yaml
     $ref: _definitions.yaml#/to_many
   genes:
-    $ref: _definitions.yaml#/to_many
-  pfam_families:
+    targets:
+      - type:
+          $ref: gene.yaml
     $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id

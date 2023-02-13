@@ -1,4 +1,0 @@
-
-
-# curl https://snpeff.blob.core.windows.net/versions/snpEff_latest_core.zip -o ../../util/snpEff_latest_core.zip
-# unzip -d ../../util ../../util/snpEff_latest_core.zip

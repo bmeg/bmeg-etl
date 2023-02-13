@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "project"
 title: Project
@@ -50,10 +50,19 @@ properties:
     - 'null'
     - object
   cases:
+    targets:
+      - type:
+          $ref: case.yaml
     $ref: _definitions.yaml#/to_many
   compounds:
+    targets:
+      - type:
+          $ref: compound.yaml 
     $ref: _definitions.yaml#/to_many
   programs:
+    targets:
+      - type:
+          $ref: program.yaml
     $ref: _definitions.yaml#/to_many
   submitter_id:
     type:

@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "program"
 title: Program
@@ -36,6 +36,9 @@ properties:
     - 'null'
     - object
   projects:
+    targets:
+      - type:
+          $ref: project.yaml
     $ref: _definitions.yaml#/to_many
   submitter_id:
     type:

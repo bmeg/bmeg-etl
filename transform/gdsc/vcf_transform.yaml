@@ -4,13 +4,13 @@ name: GDSC_VCF_Transform
 outdir: ../../output/gdsc
 
 config:
-  vcfBase: ../../source/gdsc/mutations_wes_vcf_20221010/*_Sanger_wes_snp_vaf.caveman_c.annot_drv.vcf.gz
+  vcfBase: ../../source/gdsc/mutations_wes_vcf_20221010
   schema: ../../schema
 
 inputs:
   vcfRead:
     glob:
-      input: "{{config.vcfBase}}"
+      input: "{{config.vcfBase}}/*_Sanger_wes_snp_vaf.caveman_c.annot_drv.vcf.gz"
       storeFileName: _fileName
       tableLoad:
         columns:

@@ -38,7 +38,7 @@ lathe plan transform graph-build -C .
 
 Run build
 ```
-snakemake -j 4
+snakemake -j 4 --resources mem_mb=30000
 ```
 
 ## Loading

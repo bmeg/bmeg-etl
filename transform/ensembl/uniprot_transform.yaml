@@ -41,14 +41,6 @@ pipelines:
             else:
               x["uniprot"] = forceList(x["uniprot"])
             return x
-
-    #- debug: {}
-    - map:
-        method: fix
-        gpython: |
-          def fix(row):
-            row["uniprot"] = list( {"id" : i} for i in row["uniprot"] )
-            return row
     - objectValidate:
         schema: "{{config.schema}}"
         title: Protein
