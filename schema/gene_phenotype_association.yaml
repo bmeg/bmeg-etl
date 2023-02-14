@@ -68,6 +68,10 @@ links:
     target_type: phenotype
 
 properties:
+  id:
+    type: string
+    #$ref: _definitions.yaml#/UUID
+    #systemAlias: node_id
   description:
     type: string
   evidence_label:
@@ -125,9 +129,6 @@ properties:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

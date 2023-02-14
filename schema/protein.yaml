@@ -20,6 +20,7 @@ systemProperties:
   - updated_datetime
 
 required:
+  - id
   - submitter_id
   - project_id
   - genome

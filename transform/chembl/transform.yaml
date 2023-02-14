@@ -31,6 +31,7 @@ pipelines:
           synonyms: synonym
     - project:
         mapping:
+          id: "{{row.chembl_id}}"
           submitter_id: "{{row.chembl_id}}"
           project_id: "reference"
           inchi: "{{row.standard_inchi}}"

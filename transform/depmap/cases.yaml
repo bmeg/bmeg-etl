@@ -38,6 +38,7 @@ pipelines:
             return row
     - project:
         mapping:
+          id: "sample/{{row.ModelID}}"
           submitter_id: "{{row.ModelID}}"
           project_id: DepMap
           sample_id: "Sample:{{row.ModelID}}"
@@ -53,6 +54,7 @@ pipelines:
     - from: model
     - project:
         mapping:
+          id: "aliquot/{{row.ModelID}}"
           submitter_id: "{{row.ModelID}}"
           project_id: DepMap
           aliquot_id: "Aliquot:{{row.ModelID}}"

@@ -39,6 +39,11 @@ links:
     target_type: aliquot
 
 properties:
+  id:
+    #$ref: _definitions.yaml#/UUID
+    type: string
+    systemAlias: node_id
+
   method:
     type: string
   metric:
@@ -60,10 +65,6 @@ properties:
     type:
       - string
       - 'null'
-  id:
-    #$ref: _definitions.yaml#/UUID
-    type: string
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

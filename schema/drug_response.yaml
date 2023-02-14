@@ -20,6 +20,7 @@ systemProperties:
   - updated_datetime
 
 required:
+  - id
   - submitter_id
   - project_id
 
@@ -42,6 +43,8 @@ links:
     target_type: compound
 
 properties:
+  id:
+    type: string
   dose_um:
     description: >
       The drug doses (micromolar) for which responses were measured.
@@ -121,9 +124,6 @@ properties:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

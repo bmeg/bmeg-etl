@@ -132,8 +132,9 @@ pipelines:
     - from: profileProcess
     - project:
         mapping:
-          project_id: "Project:{{row.dataset_name}}"
-          aliquot: [ {"id" : "{{row.aliquot}}"} ]
+          id: "drugResponse/{{row.dataset_name}}:{{row.cell_name}}"
+          project_id: "project/{{row.dataset_name}}"
+          aliquot: [ {"id" : "aliquot/{{row.aliquot}}"} ]
     - objectValidate:
         title: DrugResponse
         schema: "{{config.schema}}"
@@ -144,12 +145,13 @@ pipelines:
     - from: cellDistinct
     - project:
         mapping:
+          id: "case/{{row.dataset_name}}:{{row.cell_name}}"
           submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
-          case_id: "Case:{{row.dataset_name}}:{{row.cell_name}}"
-          project_id: "Project:{{row.dataset_name}}"
-          projects: [ { "id" : "Project:{{row.dataset_name}}" } ]
+          case_id: "case/{{row.dataset_name}}:{{row.cell_name}}"
+          project_id: "project/{{row.dataset_name}}"
+          projects: [ { "id" : "project/{{row.dataset_name}}" } ]
     - clean:
-        fields: ["case_id", "project_id", "submitter_id", "projects", "dataset_name"]
+        fields: ["id", "case_id", "project_id", "submitter_id", "projects", "dataset_name"]
     - objectValidate:
         title: Case
         schema: "{{config.schema}}"
@@ -160,12 +162,13 @@ pipelines:
     - from: cellDistinct
     - project:
         mapping:
+          id: "sample/{{row.dataset_name}}:{{row.cell_name}}"
           submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
-          case: [ { "id" : "Case:{{row.dataset_name}}:{{row.cell_name}}" } ]
-          sample_id: "Sample:{{row.dataset_name}}:{{row.cell_name}}"
-          project_id: "Project:{{row.dataset_name}}"
+          case: [ { "id" : "case/{{row.dataset_name}}:{{row.cell_name}}" } ]
+          sample_id: "sample/{{row.dataset_name}}:{{row.cell_name}}"
+          project_id: "project/{{row.dataset_name}}"
     - clean:
-        fields: ["case", "sample_id", "project_id", "submitter_id", "dataset_name"]
+        fields: ["id", "case", "sample_id", "project_id", "submitter_id", "dataset_name"]
     - objectValidate:
         title: Sample
         schema: "{{config.schema}}"
@@ -176,12 +179,13 @@ pipelines:
     - from: cellDistinct
     - project:
         mapping:
+          id: "aliquot/{{row.dataset_name}}:{{row.cell_name}}"
           submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
-          sample: [ { "id" : "Sample:{{row.dataset_name}}:{{row.cell_name}}" } ]
-          aliquot_id: "Aliquot:{{row.dataset_name}}:{{row.cell_name}}"
-          project_id: "Project:{{row.dataset_name}}"
+          sample: [ { "id" : "sample/{{row.dataset_name}}:{{row.cell_name}}" } ]
+          aliquot_id: "aliquot/{{row.dataset_name}}:{{row.cell_name}}"
+          project_id: "project/{{row.dataset_name}}"
     - clean:
-        fields: ["sample", "aliquot_id", "project_id", "submitter_id", "dataset_name"]
+        fields: ["id", "sample", "aliquot_id", "project_id", "submitter_id", "dataset_name"]
     - objectValidate:
         title: Aliquot
         schema: "{{config.schema}}"
@@ -215,9 +219,10 @@ pipelines:
     - project:
         mapping:
           submitter_id: "{{row.dataset_name}}"
-          project_id: "Project:{{row.dataset_name}}"
+          project_id: "project/{{row.dataset_name}}"
+          id: "project/{{row.dataset_name}}"
     - clean:
-        fields: ["compounds", "project_id", "submitter_id", "dataset_name"]
+        fields: ["id", "compounds", "project_id", "submitter_id", "dataset_name"]
     - objectValidate:
         title: Project
         schema: "{{config.schema}}"

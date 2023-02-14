@@ -38,6 +38,9 @@ pipelines:
         n_alt_count: int
         start: int
     - dropNull: {}
+    - project:
+        mapping: 
+          id: "{{row.somatic_callset}}-{{row.allele}}"
     - objectValidate:
         schema: "{{config.schema}}"
         title: SomaticVariant

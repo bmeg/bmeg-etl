@@ -3,114 +3,114 @@
 
 rule all:
 	input:
-		"output/depmap/depmap-mafs.variants.variants.json.gz",
-		"source/pathway_commons/PathwayCommons12.humancyc.extSIF",
-		"source/pathway_commons/PathwayCommons12.reconx.complex",
-		"source/pharmacodb/tables/drug_annots.tsv.gz",
-		"output/pubmed/pubmed.transform.publication.json.gz",
-		"output/ensembl/ensembl_gtf.genes.gene.json.gz",
-		"source/g2p/tables/g2p_source.bed",
-		"output/go/go.transform.term.json.gz",
-		"source/ncit/ncit.obo",
-		"output/g2p/g2p.main.assocation.json.gz",
-		"output/msigdb/msigdb.object.gene_set.json.gz",
-		"source/pathway_commons/PathwayCommons12.psp.complex",
-		"source/pathway_commons/PathwayCommons12.biogrid.extSIF",
-		"source/pathway_commons/PathwayCommons12.reactome.extSIF",
-		"source/pharmacodb/tables/source_tissue_names.tsv.gz",
-		"source/pharmgkb/relationships.zip",
-		"source/pathway_commons/PathwayCommons12.psp.extSIF",
-		"output/pathway_commons/pathway_commons.complexBundle.complex.json.gz",
-		"source/pharmacodb/tables/dataset_cells.tsv.gz",
-		"output/pharmacodb/pharmacodb_profiles.drObject.drug_response.json.gz",
-		"source/docm/variants.json",
-		"source/gtex/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt",
-		"source/gtex/GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt",
-		"output/gtex/GTEX_Gene_Expression.gctProcess.gene_expression.json.gz",
-		"output/gtex/GTEX_Transcript_Expression.update.transcript_expression.json.gz",
-		"source/pathway_commons/PathwayCommons12.netpath.extSIF",
-		"source/pathway_commons/PathwayCommons12.mirtarbase.complex",
-		"source/pathway_commons/PathwayCommons12.pathbank.extSIF",
-		"source/ucscGenome/cytoBandIdeo.txt.gz",
-		"output/gdc/gdc.aliquotObject.aliquot.json.gz",
-		"source/pathway_commons/PathwayCommons12.reconx.extSIF",
-		"source/pathway_commons/PathwayCommons12.drugbank.complex",
-		"source/pharmacodb/tables/source_drug_names.tsv.gz",
-		"output/cellosarus/cellosarus.transform.cases.json.gz",
-		"output/gdsc/GDSC_VCF_Transform.main.debug.json.gz",
-		"source/pathway_commons/PathwayCommons12.biogrid.complex",
-		"source/pharmacodb/tables/tissues.tsv.gz",
-		"output/depmap/depmap-cases.aliquots.aliquot.json.gz",
-		"source/ensembl/homo_sapiens.GRCh38.Regulatory_Build.regulatory_features.20221007.gff.gz",
-		"source/pathway_commons/PathwayCommons12.bind.complex",
-		"output/gdsc/GDSC_Transform.transform.geneExpression.json.gz",
-		"source/pharmacodb/tables/source_cell_names.tsv.gz",
-		"source/pharmacodb/tables/cellosaurus.tsv.gz",
-		"source/pathway_commons/PathwayCommons12.humancyc.complex",
-		"output/allele/annotatedAllele.transform.allele.json.gz",
-		"output/go/go_gaf.dump.gaf.json.gz",
-		"source/pathway_commons/PathwayCommons12.pid.complex",
-		"output/pharmacodb/pharmacodb_profiles.cellProject.project.json.gz",
-		"source/pathway_commons/PathwayCommons12.panther.extSIF",
-		"source/pathway_commons/PathwayCommons12.panther.complex",
-		"source/pathway_commons/PathwayCommons12.kegg.extSIF",
-		"source/pathway_commons/PathwayCommons12.kegg.complex",
-		"source/pathway_commons/PathwayCommons12.hprd.complex",
-		"source/pharmacodb/tables/source_statistics.tsv.gz",
-		"output/depmap/depmap-mafs.callsets.callset.json.gz",
-		"output/ensembl/ensembl_gtf.exons.exon.json.gz",
-		"output/ensembl/uniprot.transform.protein.json.gz",
-		"output/gdc/gdc.aliquotAlias.table.json.gz",
-		"source/pathway_commons/PathwayCommons12.innatedb.complex",
-		"source/pathway_commons/PathwayCommons12.corum.extSIF",
-		"output/pharmacodb/pharmacodb_profiles.cellCase.case.json.gz",
-		"output/depmap/depmap-expression.values.expression.json.gz",
-		"source/pathway_commons/PathwayCommons12.pathbank.complex",
 		"output/ensembl/ensembl_gtf.transcripts.transcript.json.gz",
-		"source/pathway_commons/PathwayCommons12.innatedb.extSIF",
-		"source/pharmacodb/tables/cell_tissues.tsv.gz",
-		"output/gdsc/GDSC_rnaserq_Transform.aliquot.aliquot.json.gz",
-		"output/prism/prism_transform.secondary.drug_response.json.gz",
-		"source/pathway_commons/PathwayCommons12.msigdb.complex",
-		"output/gdc/gdc.sampleObject.sample.json.gz",
-		"source/pathway_commons/PathwayCommons12.hprd.extSIF",
-		"source/pathway_commons/PathwayCommons12.reactome.complex",
-		"output/prism/prism_transform.primary.drug_response.json.gz",
-		"output/gdc/open-maf/gdc-mafs.somaticCallsets.callset.json.gz",
-		"output/gdc/rnaseq.rna.gene_rnaseq.json.gz",
-		"source/pathway_commons/PathwayCommons12.drugbank.extSIF",
-		"source/pathway_commons/PathwayCommons12.pid.extSIF",
-		"source/pathway_commons/PathwayCommons12.mirtarbase.extSIF",
-		"output/chembl/chemblDrugMechanismExtract.build.protein_compound_association.json.gz",
-		"output/chembl/chemblTransform.records.compound.json.gz",
+		"output/ensembl/uniprot.transform.protein.json.gz",
 		"output/msigdb/msigdb.transform.raw.json.gz",
-		"output/mondo/mondo.extract.phenotype.json.gz",
-		"source/pathway_commons/PathwayCommons12.corum.complex",
-		"output/depmap/depmap-cases.samples.sample.json.gz",
-		"source/pathway_commons/PathwayCommons12.dip.extSIF",
-		"source/pathway_commons/PathwayCommons12.inoh.extSIF",
-		"source/pathway_commons/PathwayCommons12.netpath.complex",
-		"output/pathway_commons/pathway_commons.interactionMap.interaction.json.gz",
-		"output/pharmacodb/pharmacodb_profiles.cellDistinct.checkpoint.json.gz",
-		"output/gdc/gdc.caseObject.case.json.gz",
-		"output/gdsc/GDSC_Transform.aliquot.aliquot.json.gz",
-		"source/pathway_commons/PathwayCommons12.msigdb.extSIF",
-		"source/pathway_commons/PathwayCommons12.inoh.complex",
-		"output/pharmacodb/pharmacodb_profiles.cellSample.sample.json.gz",
-		"output/pharmacodb/pharmacodb_profiles.cellAliquot.aliquot.json.gz",
-		"source/pharmacodb/tables/sources.tsv.gz",
-		"output/clinvar/clinvar.transform.raw.json.gz",
-		"source/gdc/files.json",
-		"output/gdsc/GDSC_rnaserq_Transform.start.geneExpression.json.gz",
-		"output/msigdb/msigdb.transform.record.json.gz",
-		"source/pathway_commons/PathwayCommons12.bind.extSIF",
+		"source/docm/variants.json",
 		"source/pathway_commons/PathwayCommons12.dip.complex",
-		"source/ensembl/tables/uniprotId2ensemblGene.alt.tsv",
-		"output/gdc/open-maf/gdc-mafs.scan.variant.json.gz",
-		"source/go/go.json",
+		"source/pathway_commons/PathwayCommons12.pathbank.complex",
+		"source/pharmgkb/relationships.zip",
+		"output/chembl/chemblTransform.records.compound.json.gz",
+		"output/depmap/depmap-mafs.callsets.callset.json.gz",
+		"source/g2p/tables/g2p_source.bed",
+		"output/go/go_gaf.dump.gaf.json.gz",
+		"source/pathway_commons/PathwayCommons12.biogrid.complex",
+		"source/pathway_commons/PathwayCommons12.drugbank.extSIF",
+		"output/gdc/rnaseq.rna.gene_rnaseq.json.gz",
+		"output/msigdb/msigdb.object.gene_set.json.gz",
+		"output/pharmacodb/pharmacodb_profiles.cellDistinct.checkpoint.json.gz",
+		"source/pathway_commons/PathwayCommons12.corum.extSIF",
+		"source/pathway_commons/PathwayCommons12.innatedb.extSIF",
+		"source/pharmacodb/tables/dataset_cells.tsv.gz",
+		"output/g2p/g2p.main.assocation.json.gz",
 		"source/pathway_commons/PathwayCommons12.ctd.extSIF",
+		"source/pathway_commons/PathwayCommons12.msigdb.complex",
+		"source/pharmacodb/tables/cell_tissues.tsv.gz",
+		"source/pharmgkb/clinicalAnnotations.zip",
+		"output/gdsc/GDSC_Transform.aliquot.aliquot.json.gz",
+		"source/pathway_commons/PathwayCommons12.pid.complex",
 		"source/pathway_commons/PathwayCommons12.ctd.complex",
-		"source/pharmgkb/clinicalAnnotations.zip"
+		"output/gdc/open-maf/gdc-mafs.scan.variant.json.gz",
+		"output/gdc/gdc.caseObject.case.json.gz",
+		"source/pathway_commons/PathwayCommons12.pid.extSIF",
+		"output/prism/prism_transform.secondary.drug_response.json.gz",
+		"output/depmap/depmap-cases.samples.sample.json.gz",
+		"source/ensembl/homo_sapiens.GRCh38.Regulatory_Build.regulatory_features.20221007.gff.gz",
+		"source/gtex/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt",
+		"source/pathway_commons/PathwayCommons12.psp.complex",
+		"source/pathway_commons/PathwayCommons12.hprd.complex",
+		"source/pathway_commons/PathwayCommons12.humancyc.complex",
+		"source/pathway_commons/PathwayCommons12.innatedb.complex",
+		"source/pathway_commons/PathwayCommons12.reconx.extSIF",
+		"source/pharmacodb/tables/tissues.tsv.gz",
+		"source/go/go.json",
+		"output/msigdb/msigdb.transform.record.json.gz",
+		"source/pharmacodb/tables/source_cell_names.tsv.gz",
+		"output/prism/prism_transform.primary.drug_response.json.gz",
+		"output/pubmed/pubmed.transform.publication.json.gz",
+		"output/depmap/depmap-mafs.variants.variants.json.gz",
+		"output/gdc/gdc.aliquotAlias.table.json.gz",
+		"source/pathway_commons/PathwayCommons12.mirtarbase.complex",
+		"source/pathway_commons/PathwayCommons12.bind.extSIF",
+		"source/pathway_commons/PathwayCommons12.bind.complex",
+		"output/gtex/GTEX_Transcript_Expression.update.transcript_expression.json.gz",
+		"source/pathway_commons/PathwayCommons12.reactome.extSIF",
+		"source/pathway_commons/PathwayCommons12.panther.complex",
+		"source/pathway_commons/PathwayCommons12.inoh.complex",
+		"source/pharmacodb/tables/drug_annots.tsv.gz",
+		"source/pharmacodb/tables/cellosaurus.tsv.gz",
+		"output/depmap/depmap-cases.aliquots.aliquot.json.gz",
+		"source/gtex/GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt",
+		"output/cellosarus/cellosarus.transform.cases.json.gz",
+		"source/pathway_commons/PathwayCommons12.pathbank.extSIF",
+		"output/allele/annotatedAllele.transform.allele.json.gz",
+		"output/gdc/gdc.aliquotObject.aliquot.json.gz",
+		"source/pathway_commons/PathwayCommons12.drugbank.complex",
+		"source/pathway_commons/PathwayCommons12.reactome.complex",
+		"source/pathway_commons/PathwayCommons12.dip.extSIF",
+		"source/ucscGenome/cytoBandIdeo.txt.gz",
+		"source/pathway_commons/PathwayCommons12.netpath.extSIF",
+		"output/pathway_commons/pathway_commons.complexBundle.complex.json.gz",
+		"source/pharmacodb/tables/source_drug_names.tsv.gz",
+		"output/clinvar/clinvar.transform.raw.json.gz",
+		"output/gdc/open-maf/gdc-mafs.somaticCallsets.callset.json.gz",
+		"source/pathway_commons/PathwayCommons12.psp.extSIF",
+		"source/pathway_commons/PathwayCommons12.humancyc.extSIF",
+		"source/ensembl/tables/uniprotId2ensemblGene.alt.tsv",
+		"output/mondo/mondo.extract.phenotype.json.gz",
+		"source/pathway_commons/PathwayCommons12.biogrid.extSIF",
+		"source/gdc/files.json",
+		"source/pathway_commons/PathwayCommons12.corum.complex",
+		"source/pharmacodb/tables/source_statistics.tsv.gz",
+		"source/ncit/ncit.obo",
+		"source/pathway_commons/PathwayCommons12.netpath.complex",
+		"source/pathway_commons/PathwayCommons12.mirtarbase.extSIF",
+		"source/pathway_commons/PathwayCommons12.reconx.complex",
+		"output/pathway_commons/pathway_commons.interactionMap.interaction.json.gz",
+		"source/pharmacodb/tables/sources.tsv.gz",
+		"output/pharmacodb/pharmacodb_profiles.cellProject.project.json.gz",
+		"output/chembl/chemblDrugMechanismExtract.build.protein_compound_association.json.gz",
+		"output/gdsc/GDSC_Transform.transform.geneExpression.json.gz",
+		"source/pathway_commons/PathwayCommons12.inoh.extSIF",
+		"source/pathway_commons/PathwayCommons12.msigdb.extSIF",
+		"output/pharmacodb/pharmacodb_profiles.cellSample.sample.json.gz",
+		"output/pharmacodb/pharmacodb_profiles.drObject.drug_response.json.gz",
+		"output/gdsc/GDSC_rnaserq_Transform.start.geneExpression.json.gz",
+		"output/go/go.transform.term.json.gz",
+		"source/pharmacodb/tables/source_tissue_names.tsv.gz",
+		"output/pharmacodb/pharmacodb_profiles.cellCase.case.json.gz",
+		"output/ensembl/ensembl_gtf.exons.exon.json.gz",
+		"output/gdc/gdc.sampleObject.sample.json.gz",
+		"source/pathway_commons/PathwayCommons12.panther.extSIF",
+		"source/pathway_commons/PathwayCommons12.kegg.complex",
+		"output/depmap/depmap-expression.values.expression.json.gz",
+		"output/ensembl/ensembl_gtf.genes.gene.json.gz",
+		"output/gdsc/GDSC_VCF_Transform.main.somatic_variant.json.gz",
+		"output/pharmacodb/pharmacodb_profiles.cellAliquot.aliquot.json.gz",
+		"output/gtex/GTEX_Gene_Expression.gctProcess.gene_expression.json.gz",
+		"source/pathway_commons/PathwayCommons12.hprd.extSIF",
+		"output/gdsc/GDSC_rnaserq_Transform.aliquot.aliquot.json.gz",
+		"source/pathway_commons/PathwayCommons12.kegg.extSIF"
 
 rule synonyms:
 	input:
@@ -132,6 +132,12 @@ rule cellosarus:
 	shell:
 		"sifter run transform/cellosarus/transform.yaml"
 
+rule chemblDownload_curl:
+	output:
+		"source/chembl/chembl_31_sqlite.tar.gz"
+	shell:
+		"cd transform/chembl && curl -o ../../source/chembl/chembl_31_sqlite.tar.gz https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_31_sqlite.tar.gz"
+
 rule chemblDownload_tar:
 	input:
 		"source/chembl/chembl_31_sqlite.tar.gz"
@@ -139,12 +145,6 @@ rule chemblDownload_tar:
 		"source/chembl/chembl_31/chembl_31_sqlite/chembl_31.db"
 	shell:
 		"cd transform/chembl && tar xvzf ../../source/chembl/chembl_31_sqlite.tar.gz -C ../../source/chembl/"
-
-rule chemblDownload_curl:
-	output:
-		"source/chembl/chembl_31_sqlite.tar.gz"
-	shell:
-		"cd transform/chembl && curl -o ../../source/chembl/chembl_31_sqlite.tar.gz https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_31_sqlite.tar.gz"
 
 rule chemblDrugMechanismExtract:
 	input:
@@ -188,8 +188,8 @@ rule clinvar:
 rule depmap_cases:
 	input:
 		"source/depmap/Model.csv",
-		"source/cellosarus/table/synonyms.caseTable.ach2cellosarus.json.gz",
 		"schema",
+		"source/cellosarus/table/synonyms.caseTable.ach2cellosarus.json.gz",
 		"schema",
 		"transform/depmap/cases.yaml"
 	output:
@@ -264,6 +264,12 @@ rule gene2ensembl:
 	shell:
 		"sifter run transform/ensembl/gene2ensembl.yaml"
 
+rule hugoDownload_hugoDownload:
+	output:
+		"source/hugo/hugo.tsv"
+	shell:
+		"cd transform/ensembl && curl -o ../../source/hugo/hugo.tsv https://www.genenames.org/cgi-bin/download/custom?col=gd_hgnc_id&col=gd_app_sym&col=gd_app_name&col=gd_status&col=gd_prev_sym&col=gd_aliases&col=gd_pub_chrom_map&col=gd_pub_acc_ids&col=gd_pub_refseq_ids&col=md_ensembl_id&col=md_prot_id&status=Approved&status=Entry%20Withdrawn&hgnc_dbtag=on&order_by=gd_app_sym_sort&format=text&submit=submit"
+
 rule hugoDownload_uniprotDownload:
 	output:
 		"source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz"
@@ -275,12 +281,6 @@ rule hugoDownload_gene2entrez:
 		"source/ensembl/gene2ensembl.gz"
 	shell:
 		"cd transform/ensembl && curl -o ../../source/ensembl/gene2ensembl.gz https://ftp.ncbi.nih.gov/gene/DATA/gene2ensembl.gz"
-
-rule hugoDownload_hugoDownload:
-	output:
-		"source/hugo/hugo.tsv"
-	shell:
-		"cd transform/ensembl && curl -o ../../source/hugo/hugo.tsv https://www.genenames.org/cgi-bin/download/custom?col=gd_hgnc_id&col=gd_app_sym&col=gd_app_name&col=gd_status&col=gd_prev_sym&col=gd_aliases&col=gd_pub_chrom_map&col=gd_pub_acc_ids&col=gd_pub_refseq_ids&col=md_ensembl_id&col=md_prot_id&status=Approved&status=Entry%20Withdrawn&hgnc_dbtag=on&order_by=gd_app_sym_sort&format=text&submit=submit"
 
 rule hugoMapping:
 	input:
@@ -319,8 +319,8 @@ rule g2p_1:
 		"schema",
 		"transform/g2p/transform.yaml"
 	output:
-		"output/g2p/g2p.main.assocation.json.gz",
-		"output/g2p/g2p.alleles.allele.json.gz"
+		"output/g2p/g2p.alleles.allele.json.gz",
+		"output/g2p/g2p.main.assocation.json.gz"
 	shell:
 		"sifter run transform/g2p/transform.yaml"
 
@@ -344,9 +344,9 @@ rule gdc_mafs:
 		"schema",
 		"transform/gdc/maf-files.yaml"
 	output:
-		"output/gdc/open-maf/gdc-mafs.somaticCallsets.callset.json.gz",
 		"output/gdc/open-maf/gdc-mafs.allele.allele.json.gz",
-		"output/gdc/open-maf/gdc-mafs.scan.variant.json.gz"
+		"output/gdc/open-maf/gdc-mafs.scan.variant.json.gz",
+		"output/gdc/open-maf/gdc-mafs.somaticCallsets.callset.json.gz"
 	shell:
 		"sifter run transform/gdc/maf-files.yaml"
 
@@ -368,10 +368,10 @@ rule gdc:
 		"schema",
 		"transform/gdc/transform.yaml"
 	output:
-		"output/gdc/gdc.aliquotObject.aliquot.json.gz",
 		"output/gdc/gdc.caseObject.case.json.gz",
 		"output/gdc/gdc.sampleObject.sample.json.gz",
-		"output/gdc/gdc.aliquotAlias.table.json.gz"
+		"output/gdc/gdc.aliquotAlias.table.json.gz",
+		"output/gdc/gdc.aliquotObject.aliquot.json.gz"
 	shell:
 		"sifter run transform/gdc/transform.yaml"
 
@@ -383,6 +383,14 @@ rule cosmic2ach:
 		"source/gdsc/tables/cosmic2ach.translate.link.json.gz"
 	shell:
 		"sifter run transform/gdsc/cosmic_to_ach.yaml"
+
+rule downloadGDSC_rnaSepUnzip:
+	input:
+		"source/gdsc/rnaseq_sanger_20210316.zip"
+	output:
+		"source/gdsc/rnaseq_sanger_20210316.csv"
+	shell:
+		"cd transform/gdsc && unzip -d ../../source/gdsc ../../source/gdsc/rnaseq_sanger_20210316.zip"
 
 rule downloadGDSC_rnaSeq:
 	output:
@@ -402,20 +410,12 @@ rule downloadGDSC_geneInfo:
 	shell:
 		"cd transform/gdsc && curl https://cog.sanger.ac.uk/cmp/download/gene_identifiers_20191101.csv -o ../../source/gdsc/gene_identifiers_20191101.csv"
 
-rule downloadGDSC_rnaSepUnzip:
-	input:
-		"source/gdsc/rnaseq_sanger_20210316.zip"
-	output:
-		"source/gdsc/rnaseq_sanger_20210316.csv"
-	shell:
-		"cd transform/gdsc && unzip -d ../../source/gdsc ../../source/gdsc/rnaseq_sanger_20210316.zip"
-
 rule GDSC_Transform:
 	input:
 		"source/gdsc/Cell_line_RMA_proc_basalExp.txt",
-		"source/gdsc/tables/cosmic2ach.translate.link.json.gz",
-		"schema",
 		"source/hugo/hugo.tsv",
+		"schema",
+		"source/gdsc/tables/cosmic2ach.translate.link.json.gz",
 		"schema",
 		"transform/gdsc/rna_transform.yaml"
 	output:
@@ -433,8 +433,8 @@ rule GDSC_rnaserq_Transform:
 		"schema",
 		"transform/gdsc/rnaseq_transform.yaml"
 	output:
-		"output/gdsc/GDSC_rnaserq_Transform.start.geneExpression.json.gz",
-		"output/gdsc/GDSC_rnaserq_Transform.aliquot.aliquot.json.gz"
+		"output/gdsc/GDSC_rnaserq_Transform.aliquot.aliquot.json.gz",
+		"output/gdsc/GDSC_rnaserq_Transform.start.geneExpression.json.gz"
 	shell:
 		"sifter run transform/gdsc/rnaseq_transform.yaml"
 
@@ -444,7 +444,7 @@ rule GDSC_VCF_Transform:
 		"schema",
 		"transform/gdsc/vcf_transform.yaml"
 	output:
-		"output/gdsc/GDSC_VCF_Transform.main.debug.json.gz"
+		"output/gdsc/GDSC_VCF_Transform.main.somatic_variant.json.gz"
 	shell:
 		"sifter run transform/gdsc/vcf_transform.yaml"
 
@@ -567,29 +567,17 @@ rule download_downloadGO_2:
 	shell:
 		"cd transform/ncit && curl -L -o ../../source/ncit/ncit.obo https://github.com/NCI-Thesaurus/thesaurus-obo-edition/releases/download/v2022-08-19/ncit.obo"
 
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_msigdb:
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_ctd:
 	input:
 		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.msigdb.BIOPAX.owl.gz"
+		"source/pathway_commons/PathwayCommons12.ctd.BIOPAX.owl.gz"
 	output:
-		"source/pathway_commons/PathwayCommons12.msigdb.extSIF",
-		"source/pathway_commons/PathwayCommons12.msigdb.complex"
+		"source/pathway_commons/PathwayCommons12.ctd.extSIF",
+		"source/pathway_commons/PathwayCommons12.ctd.complex"
 	resources:
 		mem_mb=15000
 	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.msigdb.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.msigdb"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_inoh:
-	output:
-		"source/pathway_commons/PathwayCommons12.inoh.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.inoh.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.inoh.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_pathbank:
-	output:
-		"source/pathway_commons/PathwayCommons12.pathbank.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.pathbank.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.pathbank.BIOPAX.owl.gz"
+		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.ctd.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.ctd"
 
 rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_panther:
 	input:
@@ -603,161 +591,11 @@ rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_panther:
 	shell:
 		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.panther.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.panther"
 
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_biogrid:
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_inoh:
 	output:
-		"source/pathway_commons/PathwayCommons12.biogrid.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.biogrid.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.biogrid.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_ctd:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.ctd.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.ctd.extSIF",
-		"source/pathway_commons/PathwayCommons12.ctd.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.ctd.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.ctd"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_netpath:
-	output:
-		"source/pathway_commons/PathwayCommons12.netpath.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.netpath.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.netpath.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_humancyc:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.humancyc.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.humancyc.extSIF",
-		"source/pathway_commons/PathwayCommons12.humancyc.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.humancyc.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.humancyc"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_psp:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.psp.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.psp.extSIF",
-		"source/pathway_commons/PathwayCommons12.psp.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.psp.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.psp"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_corum:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.corum.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.corum.extSIF",
-		"source/pathway_commons/PathwayCommons12.corum.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.corum.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.corum"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_bind:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.bind.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.bind.extSIF",
-		"source/pathway_commons/PathwayCommons12.bind.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.bind.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.bind"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_innatedb:
-	output:
-		"source/pathway_commons/PathwayCommons12.innatedb.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.innatedb.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.innatedb.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_dip:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.dip.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.dip.extSIF",
-		"source/pathway_commons/PathwayCommons12.dip.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.dip.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.dip"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_corum:
-	output:
-		"source/pathway_commons/PathwayCommons12.corum.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.corum.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.corum.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_dip:
-	output:
-		"source/pathway_commons/PathwayCommons12.dip.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.dip.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.dip.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_biogrid:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.biogrid.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.biogrid.extSIF",
-		"source/pathway_commons/PathwayCommons12.biogrid.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.biogrid.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.biogrid"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_reconx:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.reconx.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.reconx.extSIF",
-		"source/pathway_commons/PathwayCommons12.reconx.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.reconx.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.reconx"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_bind:
-	output:
-		"source/pathway_commons/PathwayCommons12.bind.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.bind.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.bind.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_kegg:
-	output:
-		"source/pathway_commons/PathwayCommons12.kegg.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.kegg.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.kegg.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_humancyc:
-	output:
-		"source/pathway_commons/PathwayCommons12.humancyc.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.humancyc.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.humancyc.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_inoh:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
 		"source/pathway_commons/PathwayCommons12.inoh.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.inoh.extSIF",
-		"source/pathway_commons/PathwayCommons12.inoh.complex"
-	resources:
-		mem_mb=15000
 	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.inoh.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.inoh"
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.inoh.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.inoh.BIOPAX.owl.gz"
 
 rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_netpath:
 	input:
@@ -771,35 +609,41 @@ rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_netpath:
 	shell:
 		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.netpath.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.netpath"
 
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_reconx:
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_netpath:
 	output:
-		"source/pathway_commons/PathwayCommons12.reconx.BIOPAX.owl.gz"
+		"source/pathway_commons/PathwayCommons12.netpath.BIOPAX.owl.gz"
 	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.reconx.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.reconx.BIOPAX.owl.gz"
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.netpath.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.netpath.BIOPAX.owl.gz"
 
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_kegg:
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_biogrid:
 	input:
 		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.kegg.BIOPAX.owl.gz"
+		"source/pathway_commons/PathwayCommons12.biogrid.BIOPAX.owl.gz"
 	output:
-		"source/pathway_commons/PathwayCommons12.kegg.extSIF",
-		"source/pathway_commons/PathwayCommons12.kegg.complex"
+		"source/pathway_commons/PathwayCommons12.biogrid.extSIF",
+		"source/pathway_commons/PathwayCommons12.biogrid.complex"
 	resources:
 		mem_mb=15000
 	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.kegg.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.kegg"
+		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.biogrid.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.biogrid"
 
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_ctd:
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_bind:
 	output:
-		"source/pathway_commons/PathwayCommons12.ctd.BIOPAX.owl.gz"
+		"source/pathway_commons/PathwayCommons12.bind.BIOPAX.owl.gz"
 	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.ctd.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.ctd.BIOPAX.owl.gz"
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.bind.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.bind.BIOPAX.owl.gz"
 
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_psp:
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_inoh:
+	input:
+		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
+		"source/pathway_commons/PathwayCommons12.inoh.BIOPAX.owl.gz"
 	output:
-		"source/pathway_commons/PathwayCommons12.psp.BIOPAX.owl.gz"
+		"source/pathway_commons/PathwayCommons12.inoh.extSIF",
+		"source/pathway_commons/PathwayCommons12.inoh.complex"
+	resources:
+		mem_mb=15000
 	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.psp.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.psp.BIOPAX.owl.gz"
+		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.inoh.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.inoh"
 
 rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_panther:
 	output:
@@ -807,17 +651,11 @@ rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_panther:
 	shell:
 		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.panther.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.panther.BIOPAX.owl.gz"
 
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_innatedb:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.innatedb.BIOPAX.owl.gz"
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_kegg:
 	output:
-		"source/pathway_commons/PathwayCommons12.innatedb.extSIF",
-		"source/pathway_commons/PathwayCommons12.innatedb.complex"
-	resources:
-		mem_mb=15000
+		"source/pathway_commons/PathwayCommons12.kegg.BIOPAX.owl.gz"
 	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.innatedb.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.innatedb"
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.kegg.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.kegg.BIOPAX.owl.gz"
 
 rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_drugbank:
 	input:
@@ -843,47 +681,35 @@ rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_pid:
 	shell:
 		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.pid.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.pid"
 
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_mirtarbase:
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_pathbank:
 	output:
-		"source/pathway_commons/PathwayCommons12.mirtarbase.BIOPAX.owl.gz"
+		"source/pathway_commons/PathwayCommons12.pathbank.BIOPAX.owl.gz"
 	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.mirtarbase.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.mirtarbase.BIOPAX.owl.gz"
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.pathbank.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.pathbank.BIOPAX.owl.gz"
 
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_reactome:
-	output:
-		"source/pathway_commons/PathwayCommons12.reactome.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.reactome.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.reactome.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_hprd:
-	output:
-		"source/pathway_commons/PathwayCommons12.hprd.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.hprd.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.hprd.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_msigdb:
-	output:
-		"source/pathway_commons/PathwayCommons12.msigdb.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.msigdb.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.msigdb.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_hprd:
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_psp:
 	input:
 		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.hprd.BIOPAX.owl.gz"
+		"source/pathway_commons/PathwayCommons12.psp.BIOPAX.owl.gz"
 	output:
-		"source/pathway_commons/PathwayCommons12.hprd.extSIF",
-		"source/pathway_commons/PathwayCommons12.hprd.complex"
+		"source/pathway_commons/PathwayCommons12.psp.extSIF",
+		"source/pathway_commons/PathwayCommons12.psp.complex"
 	resources:
 		mem_mb=15000
 	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.hprd.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.hprd"
+		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.psp.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.psp"
 
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_drugbank:
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_reactome:
+	input:
+		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
+		"source/pathway_commons/PathwayCommons12.reactome.BIOPAX.owl.gz"
 	output:
-		"source/pathway_commons/PathwayCommons12.drugbank.BIOPAX.owl.gz"
+		"source/pathway_commons/PathwayCommons12.reactome.extSIF",
+		"source/pathway_commons/PathwayCommons12.reactome.complex"
+	resources:
+		mem_mb=15000
 	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.drugbank.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.drugbank.BIOPAX.owl.gz"
+		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.reactome.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.reactome"
 
 rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_mirtarbase:
 	input:
@@ -897,6 +723,156 @@ rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_mirtarbase:
 	shell:
 		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.mirtarbase.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.mirtarbase"
 
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_mirtarbase:
+	output:
+		"source/pathway_commons/PathwayCommons12.mirtarbase.BIOPAX.owl.gz"
+	shell:
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.mirtarbase.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.mirtarbase.BIOPAX.owl.gz"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_drugbank:
+	output:
+		"source/pathway_commons/PathwayCommons12.drugbank.BIOPAX.owl.gz"
+	shell:
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.drugbank.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.drugbank.BIOPAX.owl.gz"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_hprd:
+	input:
+		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
+		"source/pathway_commons/PathwayCommons12.hprd.BIOPAX.owl.gz"
+	output:
+		"source/pathway_commons/PathwayCommons12.hprd.extSIF",
+		"source/pathway_commons/PathwayCommons12.hprd.complex"
+	resources:
+		mem_mb=15000
+	shell:
+		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.hprd.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.hprd"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_innatedb:
+	output:
+		"source/pathway_commons/PathwayCommons12.innatedb.BIOPAX.owl.gz"
+	shell:
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.innatedb.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.innatedb.BIOPAX.owl.gz"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_dip:
+	output:
+		"source/pathway_commons/PathwayCommons12.dip.BIOPAX.owl.gz"
+	shell:
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.dip.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.dip.BIOPAX.owl.gz"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_humancyc:
+	input:
+		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
+		"source/pathway_commons/PathwayCommons12.humancyc.BIOPAX.owl.gz"
+	output:
+		"source/pathway_commons/PathwayCommons12.humancyc.extSIF",
+		"source/pathway_commons/PathwayCommons12.humancyc.complex"
+	resources:
+		mem_mb=15000
+	shell:
+		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.humancyc.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.humancyc"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_reactome:
+	output:
+		"source/pathway_commons/PathwayCommons12.reactome.BIOPAX.owl.gz"
+	shell:
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.reactome.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.reactome.BIOPAX.owl.gz"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_msigdb:
+	input:
+		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
+		"source/pathway_commons/PathwayCommons12.msigdb.BIOPAX.owl.gz"
+	output:
+		"source/pathway_commons/PathwayCommons12.msigdb.extSIF",
+		"source/pathway_commons/PathwayCommons12.msigdb.complex"
+	resources:
+		mem_mb=15000
+	shell:
+		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.msigdb.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.msigdb"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_hprd:
+	output:
+		"source/pathway_commons/PathwayCommons12.hprd.BIOPAX.owl.gz"
+	shell:
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.hprd.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.hprd.BIOPAX.owl.gz"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_pid:
+	output:
+		"source/pathway_commons/PathwayCommons12.pid.BIOPAX.owl.gz"
+	shell:
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.pid.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.pid.BIOPAX.owl.gz"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_corum:
+	input:
+		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
+		"source/pathway_commons/PathwayCommons12.corum.BIOPAX.owl.gz"
+	output:
+		"source/pathway_commons/PathwayCommons12.corum.extSIF",
+		"source/pathway_commons/PathwayCommons12.corum.complex"
+	resources:
+		mem_mb=15000
+	shell:
+		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.corum.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.corum"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_msigdb:
+	output:
+		"source/pathway_commons/PathwayCommons12.msigdb.BIOPAX.owl.gz"
+	shell:
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.msigdb.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.msigdb.BIOPAX.owl.gz"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_biogrid:
+	output:
+		"source/pathway_commons/PathwayCommons12.biogrid.BIOPAX.owl.gz"
+	shell:
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.biogrid.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.biogrid.BIOPAX.owl.gz"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_innatedb:
+	input:
+		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
+		"source/pathway_commons/PathwayCommons12.innatedb.BIOPAX.owl.gz"
+	output:
+		"source/pathway_commons/PathwayCommons12.innatedb.extSIF",
+		"source/pathway_commons/PathwayCommons12.innatedb.complex"
+	resources:
+		mem_mb=15000
+	shell:
+		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.innatedb.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.innatedb"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_humancyc:
+	output:
+		"source/pathway_commons/PathwayCommons12.humancyc.BIOPAX.owl.gz"
+	shell:
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.humancyc.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.humancyc.BIOPAX.owl.gz"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_bind:
+	input:
+		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
+		"source/pathway_commons/PathwayCommons12.bind.BIOPAX.owl.gz"
+	output:
+		"source/pathway_commons/PathwayCommons12.bind.extSIF",
+		"source/pathway_commons/PathwayCommons12.bind.complex"
+	resources:
+		mem_mb=15000
+	shell:
+		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.bind.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.bind"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_dip:
+	input:
+		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
+		"source/pathway_commons/PathwayCommons12.dip.BIOPAX.owl.gz"
+	output:
+		"source/pathway_commons/PathwayCommons12.dip.extSIF",
+		"source/pathway_commons/PathwayCommons12.dip.complex"
+	resources:
+		mem_mb=15000
+	shell:
+		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.dip.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.dip"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_ctd:
+	output:
+		"source/pathway_commons/PathwayCommons12.ctd.BIOPAX.owl.gz"
+	shell:
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.ctd.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.ctd.BIOPAX.owl.gz"
+
 rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_pathbank:
 	input:
 		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
@@ -909,23 +885,47 @@ rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_pathbank:
 	shell:
 		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.pathbank.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.pathbank"
 
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_pid:
-	output:
-		"source/pathway_commons/PathwayCommons12.pid.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.pid.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.pid.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_reactome:
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_reconx:
 	input:
 		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.reactome.BIOPAX.owl.gz"
+		"source/pathway_commons/PathwayCommons12.reconx.BIOPAX.owl.gz"
 	output:
-		"source/pathway_commons/PathwayCommons12.reactome.extSIF",
-		"source/pathway_commons/PathwayCommons12.reactome.complex"
+		"source/pathway_commons/PathwayCommons12.reconx.extSIF",
+		"source/pathway_commons/PathwayCommons12.reconx.complex"
 	resources:
 		mem_mb=15000
 	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.reactome.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.reactome"
+		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.reconx.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.reconx"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_corum:
+	output:
+		"source/pathway_commons/PathwayCommons12.corum.BIOPAX.owl.gz"
+	shell:
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.corum.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.corum.BIOPAX.owl.gz"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_reconx:
+	output:
+		"source/pathway_commons/PathwayCommons12.reconx.BIOPAX.owl.gz"
+	shell:
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.reconx.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.reconx.BIOPAX.owl.gz"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_psp:
+	output:
+		"source/pathway_commons/PathwayCommons12.psp.BIOPAX.owl.gz"
+	shell:
+		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.psp.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.psp.BIOPAX.owl.gz"
+
+rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_kegg:
+	input:
+		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
+		"source/pathway_commons/PathwayCommons12.kegg.BIOPAX.owl.gz"
+	output:
+		"source/pathway_commons/PathwayCommons12.kegg.extSIF",
+		"source/pathway_commons/PathwayCommons12.kegg.complex"
+	resources:
+		mem_mb=15000
+	shell:
+		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.kegg.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.kegg"
 
 rule pathway_commons:
 	input:
@@ -944,22 +944,22 @@ rule pharmacodb:
 		"source/pharmacodb/pharmacodb-1.1.1.sql",
 		"transform/pharmacodb/database.yaml"
 	output:
+		"source/pharmacodb/tables/cells.tsv.gz",
+		"source/pharmacodb/tables/drug_annots.tsv.gz",
+		"source/pharmacodb/tables/dataset_cells.tsv.gz",
 		"source/pharmacodb/tables/source_cell_names.tsv.gz",
 		"source/pharmacodb/tables/cell_tissues.tsv.gz",
-		"source/pharmacodb/tables/experiments.tsv.gz",
-		"source/pharmacodb/tables/drugs.tsv.gz",
 		"source/pharmacodb/tables/cellosaurus.tsv.gz",
-		"source/pharmacodb/tables/source_statistics.tsv.gz",
 		"source/pharmacodb/tables/sources.tsv.gz",
-		"source/pharmacodb/tables/dataset_cells.tsv.gz",
-		"source/pharmacodb/tables/cells.tsv.gz",
+		"source/pharmacodb/tables/datasets.tsv.gz",
+		"source/pharmacodb/tables/profiles.tsv.gz",
+		"source/pharmacodb/tables/drugs.tsv.gz",
+		"source/pharmacodb/tables/tissues.tsv.gz",
+		"source/pharmacodb/tables/source_statistics.tsv.gz",
+		"source/pharmacodb/tables/experiments.tsv.gz",
 		"source/pharmacodb/tables/dose_responses.tsv.gz",
 		"source/pharmacodb/tables/source_tissue_names.tsv.gz",
-		"source/pharmacodb/tables/drug_annots.tsv.gz",
-		"source/pharmacodb/tables/datasets.tsv.gz",
-		"source/pharmacodb/tables/source_drug_names.tsv.gz",
-		"source/pharmacodb/tables/tissues.tsv.gz",
-		"source/pharmacodb/tables/profiles.tsv.gz"
+		"source/pharmacodb/tables/source_drug_names.tsv.gz"
 	shell:
 		"sifter run transform/pharmacodb/database.yaml"
 
@@ -984,12 +984,12 @@ rule pharmacodb_profiles:
 		"source/pharmacodb/tables/cells.tsv.gz",
 		"transform/pharmacodb/profile.yaml"
 	output:
+		"output/pharmacodb/pharmacodb_profiles.cellAliquot.aliquot.json.gz",
+		"output/pharmacodb/pharmacodb_profiles.cellCase.case.json.gz",
 		"output/pharmacodb/pharmacodb_profiles.cellDistinct.checkpoint.json.gz",
 		"output/pharmacodb/pharmacodb_profiles.cellProject.project.json.gz",
 		"output/pharmacodb/pharmacodb_profiles.cellSample.sample.json.gz",
-		"output/pharmacodb/pharmacodb_profiles.drObject.drug_response.json.gz",
-		"output/pharmacodb/pharmacodb_profiles.cellAliquot.aliquot.json.gz",
-		"output/pharmacodb/pharmacodb_profiles.cellCase.case.json.gz"
+		"output/pharmacodb/pharmacodb_profiles.drObject.drug_response.json.gz"
 	shell:
 		"sifter run transform/pharmacodb/profile.yaml"
 
@@ -1024,8 +1024,8 @@ rule prism_transform:
 		"schema",
 		"transform/prism/transform.yaml"
 	output:
-		"output/prism/prism_transform.secondary.drug_response.json.gz",
-		"output/prism/prism_transform.primary.drug_response.json.gz"
+		"output/prism/prism_transform.primary.drug_response.json.gz",
+		"output/prism/prism_transform.secondary.drug_response.json.gz"
 	shell:
 		"sifter run transform/prism/transform.yaml"
 

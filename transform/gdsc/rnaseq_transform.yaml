@@ -30,7 +30,8 @@ pipelines:
             for i in row["rows"]:
               values[i["gene_id"]] = int(i["read_count"])
             out = {
-              "aliquot" : [ {"id" : "aliquot:" + row["model_id"]} ],
+              "id" : "geneExpression/" + row["model_id"],
+              "aliquot" : [ {"id" : "aliquot/" + row["model_id"]} ],
               "submitter_id" : row["model_id"],
               "project_id" : "Sanger", 
               'method' : "RNA-Seq",
@@ -45,6 +46,16 @@ pipelines:
           key: "gene_id"
           value: ensembl_gene_id
         replace: values
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            values = {}
+            for k, v in row["values"].items():
+              if k.startswith("ENSG"):
+                values[k] = v
+            row["values"] = values
+            return row
     - objectValidate:
         schema: "{{config.schema}}"
         title: GeneExpression
@@ -71,6 +82,7 @@ pipelines:
         method: fix
         gpython: |
           def fix(row):
+            row["id"] = "aliquot/" + row["aliquot"][0]["id"]
             row["aliquot_id"] = row["aliquot"][0]["id"]
             row["sample"] = [ {"id" : "sample:" + row["broad_id"] } ]
             return row

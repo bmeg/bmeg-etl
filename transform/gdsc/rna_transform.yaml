@@ -33,12 +33,14 @@ pipelines:
             for k, v in row.items():
               if k not in ["GENE_SYMBOLS", "GENE", "id"]:
                 try:
-                  values[k] = float(v)
+                  if k.startswith("ENSG"):
+                    values[k] = float(v)
                 except ValueError:
                   pass
             return {
               "aliquot" : [ {"id" : "aliquot:" + row["id"]} ],
               "submitter_id" : row["id"],
+              "id" : "geneExpression/" + row["id"],
               "project_id" : "GDSC", 
               'method' : "MicroArray",
               'metric': "RMA",
@@ -81,6 +83,7 @@ pipelines:
         method: fix
         gpython: |
           def fix(row):
+            row["id"] = "aliquot/" + row["aliquot"][0]["id"]
             row["aliquot_id"] = row["aliquot"][0]["id"]
             if "broad_id" in row:
               row["sample"] = [ {"id" : "sample:" + row["broad_id"] } ]

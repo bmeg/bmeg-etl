@@ -60,8 +60,11 @@ pipelines:
             row["somatic_callset"] = "callset:" + row["aliquot_id"]
             row["allele"] = "%s:%s:%s:%s" % (row["CHROM"], row["POS"], row["REF"], row["ALT"] )
             return row
+    - project:
+        mapping: 
+          id: "{{row.somatic_callset}}-{{row.allele}}"
     - objectValidate:
         schema: "{{config.schema}}"
         title: "SomaticVariant"
     - emit:
-        name: debug
+        name: somatic_variant

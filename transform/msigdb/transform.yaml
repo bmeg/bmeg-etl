@@ -58,6 +58,7 @@ pipelines:
         method: fix
         gpython: |
           def fix(row):
+            row["id"] = "geneSet/"+ row["submitter_id"]
             row['genes'] = list( {"id":i} for i in row['genes'] )
             return row
 

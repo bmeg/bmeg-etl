@@ -47,6 +47,7 @@ pipelines:
         match: transcript
     - project:
         mapping:
+          id: "{{row.attributes.transcript_id}}"
           feature_id: "{{row.attributes.transcript_id}}"
           biotype: "{{row.type}}"
           submitter_id: "{{row.attributes.transcript_id}}"
@@ -78,6 +79,7 @@ pipelines:
         match: exon
     - project:
         mapping:
+          id: "{{row.attributes.exon_id}}"
           feature_id: "{{row.attributes.exon_id}}"
           biotype: "{{row.type}}"
           submitter_id: "{{row.attributes.exon_id}}"
@@ -106,6 +108,7 @@ pipelines:
         match: gene
     - project:
         mapping:
+          id: "{{row.attributes.gene_id}}"
           feature_id: "{{row.attributes.gene_id}}"
           biotype: "{{row.type}}"
           submitter_id: "{{row.attributes.gene_id}}"

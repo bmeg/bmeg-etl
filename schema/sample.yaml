@@ -24,8 +24,8 @@ systemProperties:
   - updated_datetime
 
 required:
+  - id
   - submitter_id
-  - sample_id
   - project_id
 
 uniqueKeys:
@@ -53,8 +53,10 @@ links:
     target_type: phenotype
 
 properties:
-  sample_id:
+  id:
     type: string
+    #$ref: _definitions.yaml#/UUID
+    #systemAlias: node_id
   cellline_attributes:
     type:
     - 'null'
@@ -92,9 +94,6 @@ properties:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

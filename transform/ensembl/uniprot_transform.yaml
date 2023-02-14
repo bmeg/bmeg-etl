@@ -19,6 +19,7 @@ pipelines:
     - from: uniprot
     - project:
         mapping:
+          id: "{{row.protein_stable_id}}"
           protein_id: "{{row.protein_stable_id}}"
           submitter_id: "{{row.protein_stable_id}}"
           genome: "{{config.genomeBuild}}"

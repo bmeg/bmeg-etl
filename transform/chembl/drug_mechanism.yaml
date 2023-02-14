@@ -38,6 +38,7 @@ pipelines:
           genes: [ { "id" : "{{row.protein}}" } ]
           project_id: Project:reference
           submitter_id: "CHEMBL-MEC:{{row.mec_id}}"
+          id: "CHEMBL-MEC:{{row.mec_id}}"
           type: protein_drug_association
           publications: [ { "id" : "{{row.publications}}" } ]
     - fieldType:

@@ -29,7 +29,6 @@ pipelines:
             row["term_id"] = row["id"].replace("http://purl.obolibrary.org/obo/", "")
             row["term"] = row.get("lbl", "")
             row["description"] = row.get("meta", {}).get("definition", {}).get("val", "")
-            del row["id"]
             return row
 
     - project:

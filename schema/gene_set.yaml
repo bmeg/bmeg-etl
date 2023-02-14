@@ -20,6 +20,7 @@ systemProperties:
   - updated_datetime
 
 required:
+  - id
   - submitter_id
   - project_id
 
@@ -42,6 +43,8 @@ links:
     target_type: publication
 
 properties:
+  id:
+    type: string
   standard_name:
     type: string
   systematic_name:
@@ -86,9 +89,6 @@ properties:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

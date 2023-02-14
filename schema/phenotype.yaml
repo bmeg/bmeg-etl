@@ -40,6 +40,8 @@ links:
 
 
 properties:
+  id:
+    type: string
   term:
     type: string
   term_id:
@@ -66,9 +68,6 @@ properties:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

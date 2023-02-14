@@ -54,6 +54,7 @@ pipelines:
         method: fix
         gpython: |
           def fix(row):
+            row["id"] = "drugResponse/%s:%s:primary" % (row["aliquot_id"], row["broad_id"])
             row["dose_um"] = [ float(row["dose"]) ]
             row["compounds"] = [ {"id" : row["broad_id"]} ]
             return row
@@ -111,6 +112,7 @@ pipelines:
         mapping:
           compounds: [ { "id" : "{{row.broad_id}}" } ]
           submitter_id: "{{row.cell_id}}:{{row.broad_id}}:secondary"
+          id: "drugResponse/{{row.cell_id}}:{{row.broad_id}}:secondary"
           project_id: "prism-secondary"
 
     - objectValidate:

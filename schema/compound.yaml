@@ -19,6 +19,7 @@ systemProperties:
   - updated_datetime
 
 required:
+  - id
   - submitter_id
   - project_id
 
@@ -46,6 +47,10 @@ links:
         type: float
 
 properties:
+  id:
+    type: string
+    #$ref: _definitions.yaml#/UUID
+    #systemAlias: node_id
   pubchem_id:
     type:
       - 'null'
@@ -116,9 +121,6 @@ properties:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

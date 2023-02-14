@@ -41,6 +41,9 @@ pipelines:
           alt: "{{row.Alt}}"
           t_ref_count: "{{row.RefCount}}"
           t_alt_count: "{{row.AltCount}}"
+    - project:
+        mapping:
+          id: "{{row.somatic_callset}}--{{row.allele}}"
     - fieldType:
         t_depth: int
         t_ref_count: int
@@ -49,6 +52,7 @@ pipelines:
         n_ref_count: int
         n_alt_count: int
         start: int
+
 
     - objectValidate:
         schema: "{{config.schema}}"

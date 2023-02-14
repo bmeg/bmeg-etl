@@ -89,7 +89,9 @@ pipelines:
                     a.append(o)
             row["alleles"] = a
             return row
-
+    - project:
+        mapping:
+          id: "{{row.submitter_id}}"
     - objectValidate:
         title: GenePhenotypeAssociation
         schema: "{{config.schema}}"
