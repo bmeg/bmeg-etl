@@ -1,6 +1,6 @@
 
 class: sifter
-name: g2p
+name: g2p_bedfile
 outdir: ../../source/g2p/tables
 
 config:
