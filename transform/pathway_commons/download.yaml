@@ -42,7 +42,7 @@ templates:
               - ../../source/pathway_commons/PathwayCommons12.{{name}}.BIOPAX.owl.gz
           "process_{{name}}":
             inputs:
-              - target/pc-extract-1.0-jar-with-dependencies.jar
+              - ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar
               - ../../source/pathway_commons/PathwayCommons12.{{name}}.BIOPAX.owl.gz
             # conda install -c conda-forge openjdk=11
             # docker run  --rm -u `id -u` -v `pwd`/../../:`pwd`/../../ -w `pwd` openjdk:11 
