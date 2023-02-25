@@ -37,10 +37,11 @@ pipelines:
                     values[k] = float(v)
                 except ValueError:
                   pass
+            cosmic_id = row["id"].split(".")[1]
             return {
-              "aliquot" : [ {"id" : "aliquot:" + row["id"]} ],
-              "submitter_id" : row["id"],
-              "id" : "geneExpression/" + row["id"],
+              "aliquot" : [ {"id" : "aliquot/" + cosmic_id } ],
+              "submitter_id" : cosmic_id,
+              "id" : "geneExpression/" + cosmic_id,
               "project_id" : "GDSC", 
               'method' : "MicroArray",
               'metric': "RMA",
@@ -65,12 +66,6 @@ pipelines:
           - submitter_id
           - aliquot
           - project_id
-    - map:
-        method: fix
-        gpython: |
-          def fix(row):
-            row["submitter_id"] = row["submitter_id"].split(".")[1]
-            return row
     - lookup:
         json:
           input: "{{config.cosmic2ach}}"
@@ -83,10 +78,10 @@ pipelines:
         method: fix
         gpython: |
           def fix(row):
-            row["id"] = "aliquot/" + row["aliquot"][0]["id"]
+            row["id"] = row["aliquot"][0]["id"]
             row["aliquot_id"] = row["aliquot"][0]["id"]
             if "broad_id" in row:
-              row["sample"] = [ {"id" : "sample:" + row["broad_id"] } ]
+              row["sample"] = [ {"id" : "sample/" + row["broad_id"] } ]
             return row          
     - objectValidate:
         schema: "{{config.schema}}"

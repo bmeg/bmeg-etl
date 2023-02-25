@@ -1,6 +1,6 @@
 
 class: sifter
-name: GDSC_rnaserq_Transform
+name: GDSC_rnaseq_Transform
 outdir: ../../output/gdsc
 
 config:
@@ -82,9 +82,9 @@ pipelines:
         method: fix
         gpython: |
           def fix(row):
-            row["id"] = "aliquot/" + row["aliquot"][0]["id"]
+            row["id"] = row["aliquot"][0]["id"]
             row["aliquot_id"] = row["aliquot"][0]["id"]
-            row["sample"] = [ {"id" : "sample:" + row["broad_id"] } ]
+            row["sample"] = [ {"id" : "sample/" + row["broad_id"] } ]
             return row
     - objectValidate:
         schema: "{{config.schema}}"

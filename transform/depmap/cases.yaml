@@ -41,7 +41,7 @@ pipelines:
           id: "sample/{{row.ModelID}}"
           submitter_id: "{{row.ModelID}}"
           project_id: DepMap
-          sample_id: "Sample:{{row.ModelID}}"
+          sample_id: "sample/{{row.ModelID}}"
           case: [ {"id" : "case/{{row.cellosarus_id}}" } ]
 
     - objectValidate:

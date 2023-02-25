@@ -16,6 +16,7 @@ inputs:
         - cell_tissues
         - dose_responses
         - drugs
+        - gene_drugs
         - drug_annots
         - experiments
         - profiles
@@ -58,6 +59,23 @@ outputs:
         - experiment_id
         - dose
         - response
+
+  gene_drugs_tsv:
+    tableWrite:
+      from: gene_drugs
+      output: gene_drugs.tsv.gz
+      columns:
+        - gene_id
+        - drug_id
+        - estimate
+        - se
+        - "n"
+        - tstat
+        - fstat
+        - pvalue
+        - df
+        - dataset_id
+        - id
 
   drugs_tsv:
     tableWrite:
@@ -233,6 +251,14 @@ pipelines:
     - filter:
         field: table
         match: drugs
+    - fieldProcess:
+        field: data
+
+  gene_drugs:
+    - from: database
+    - filter:
+        field: table
+        match: gene_drugs
     - fieldProcess:
         field: data
 

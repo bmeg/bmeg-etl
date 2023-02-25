@@ -4,6 +4,7 @@ name: GDSC_VCF_Transform
 outdir: ../../output/gdsc
 
 config:
+  modelTable: ../../source/gdsc/model_list_20230110.csv
   vcfBase: ../../source/gdsc/mutations_wes_vcf_20221010
   schema: ../../schema
 
@@ -27,14 +28,27 @@ inputs:
           - TUMOR
 
 pipelines:
-  main:
+  namefix:
     - from: vcfRead
     - map: 
         method: fix
         gpython: |
           def fix(row):
+            row["submitter_id"] = row["_fileName"].split("_")[0]
             row["aliquot_id"] = row["_fileName"].split("_")[0]
             return row
+    - lookup:
+        tsv:
+          input: "{{config.modelTable}}"
+          key: model_id
+          value: COSMIC_ID
+          sep: ","
+        replace: aliquot_id
+    - emit:
+        name: source
+
+  variants:
+    - from: namefix
     - map: 
         method: fix
         gpython: |
@@ -57,8 +71,8 @@ pipelines:
             row["n_alt_count"] = int(row["normal"]["MTR"])
             row["filter"] = row["FILTER"]
             row["methods"] = ["caveman"]
-            row["somatic_callset"] = "callset:" + row["aliquot_id"]
-            row["allele"] = "%s:%s:%s:%s" % (row["CHROM"], row["POS"], row["REF"], row["ALT"] )
+            row["somatic_callset"] = "callset/" + row["aliquot_id"]
+            row["allele"] = "GRCh38:%s:%s:%s:%s" % (row["CHROM"], row["POS"], row["REF"], row["ALT"] )
             return row
     - project:
         mapping: 
@@ -68,3 +82,42 @@ pipelines:
         title: "SomaticVariant"
     - emit:
         name: somatic_variant
+  
+  callset:
+    - from: namefix
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            row["id"] = "callset/" + row["aliquot_id"]
+            #row["submitter_id"] = row["aliquot_id"]
+            row["tumor_aliquot_id"] = "aliquot/" + row["aliquot_id"]
+            row["project_id"] = "GDSC"
+            return row
+    - distinct:
+        value: "{{row.id}}"
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: "SomaticCallset"
+    - emit:
+        name: somatic_callset
+  
+  allele: 
+    - from: vcfRead
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            return {
+              "id": "GRCh38:%s:%s:%s:%s" % (row["CHROM"], row["POS"], row["REF"], row["ALT"] ),
+              "alternate_bases": row["ALT"],
+              "reference_bases" : row["REF"],
+              "chromosome":row["CHROM"], 
+              "genome" : "GRCh38",
+              "start": int(row["POS"])
+            }
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: "Allele"
+    - emit:
+        name: allele

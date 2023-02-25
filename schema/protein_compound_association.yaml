@@ -53,6 +53,10 @@ links:
     target_type: publication
 
 properties:
+  id:
+    type: string
+    #$ref: _definitions.yaml#/UUID
+    #systemAlias: node_id
   association_type:
     type: string
     description: "protein-compound association keyword, example inhibitor"
@@ -82,14 +86,18 @@ properties:
           $ref: publication.yaml
     $ref: _definitions.yaml#/to_many
     description: "Pubmed publication IDs"
+  source:
+    type: string
   submitter_id:
     type:
       - string
       - 'null'
-  id:
-    type: string
-    #$ref: _definitions.yaml#/UUID
-    #systemAlias: node_id
+
+  ki_nm:
+    type: 
+      - number
+      - 'null'
+
   type:
     type: string
   created_datetime:

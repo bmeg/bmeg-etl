@@ -24,7 +24,7 @@ pipelines:
     - project:
         mapping:
           somatic_callset: "{{row.Tumor_Sample_UUID}}:{{row.Matched_Norm_Sample_UUID}}"
-          allele: "{{row.NCBI_Build}}{{row.Chromosome}}:{{row.Start_Position}}:{{row.Reference_Allele}}:{{row.Tumor_Seq_Allele2}}"
+          allele: "{{row.NCBI_Build}}:{{row.Chromosome}}:{{row.Start_Position}}:{{row.Reference_Allele}}:{{row.Tumor_Seq_Allele2}}"
           methods: "{{row.callers}}"
     - split:
         field: methods
@@ -55,7 +55,7 @@ pipelines:
         replace: "."
     - project:
         mapping:
-          submitter_id: "{{row.NCBI_Build}}{{row.Chromosome}}:{{row.Start_Position}}:{{row.Reference_Allele}}:{{row.Tumor_Seq_Allele2}}"
+          submitter_id: "{{row.NCBI_Build}}:{{row.Chromosome}}:{{row.Start_Position}}:{{row.Reference_Allele}}:{{row.Tumor_Seq_Allele2}}"
           reference_bases: "{{row.Reference_Allele}}"
           alternate_bases: "{{row.Tumor_Seq_Allele2}}"
           genome: "{{row.NCBI_Build}}"
@@ -65,7 +65,7 @@ pipelines:
           project_id: "gdc"
     - project:
         mapping:
-          id: "{{row.genome}}{{row.chromosome}}:{{row.start}}:{{row.reference_bases}}:{{row.alternate_bases}}"
+          id: "{{row.genome}}:{{row.chromosome}}:{{row.start}}:{{row.reference_bases}}:{{row.alternate_bases}}"
     - clean:
         fields:
           - id

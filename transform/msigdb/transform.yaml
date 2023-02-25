@@ -20,8 +20,8 @@ pipelines:
         field: MSIGDB
     - fieldProcess:
         field: GENESET
-    - emit:
-        name: raw
+    #- emit:
+    #    name: raw
     - project:
         mapping:
           project_id: Reference
@@ -59,14 +59,9 @@ pipelines:
         gpython: |
           def fix(row):
             row["id"] = "geneSet/"+ row["submitter_id"]
-            row['genes'] = list( {"id":i} for i in row['genes'] )
+            row['genes'] = list( {"id":i} for i in row['genes'] if i.startswith("ENSG") )
             return row
 
-    - emit:
-        name: record
-
-  object:
-    - from: transform
     - objectValidate:
         title: GeneSet
         schema: "{{config.schema}}"

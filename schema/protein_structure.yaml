@@ -20,9 +20,9 @@ systemProperties:
   - updated_datetime
 
 required:
+  - id
   - submitter_id
   - project_id
-  - structure_id
 
 uniqueKeys:
   - [id]
@@ -37,7 +37,23 @@ links:
     target_type: protein
 
 properties:
-  structure_id:
+  id:
+    #$ref: _definitions.yaml#/UUID
+    #systemAlias: node_id
+    type: string
+  resolution:
+    type:
+      - number
+      - 'null'
+  description:
+    type: string
+  short_description:
+    type: string
+  source:
+    type: string
+  submission_date:
+    type: string
+  experiment_type:
     type: string
   protein:
     $ref: _definitions.yaml#/to_one
@@ -47,9 +63,6 @@ properties:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

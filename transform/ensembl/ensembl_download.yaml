@@ -10,11 +10,16 @@ prep:
 
 scripts:
 
-  hugoDownload:
+  ensemblDownload:
     commandLine: "curl -o ../../source/ensembl/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz https://ftp.ensembl.org/pub/release-108/gtf/homo_sapiens/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz"
     outputs:
       - ../../source/ensembl/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz
-    order: 1
+
+  ensemblProteinDownload:
+    commandLine: "curl -o ../../source/ensembl/Homo_sapiens.GRCh38.108.uniprot.tsv.gz https://ftp.ensembl.org/pub/release-108/tsv/homo_sapiens/Homo_sapiens.GRCh38.108.uniprot.tsv.gz"
+    outputs:
+      - ../../source/ensembl/Homo_sapiens.GRCh38.108.uniprot.tsv.gz
+
 
   regulatory:
     commandLine: "curl -o ../../source/ensembl/homo_sapiens.GRCh38.Regulatory_Build.regulatory_features.20221007.gff.gz  https://ftp.ensembl.org/pub/current_regulation/homo_sapiens/homo_sapiens.GRCh38.Regulatory_Build.regulatory_features.20221007.gff.gz"

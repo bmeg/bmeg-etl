@@ -74,7 +74,7 @@ pipelines:
           submitter_id: "{{row.pmid}}"
           url: "https://www.ncbi.nlm.nih.gov/pubmed/{{row.pmid}}"
           project_id: Reference
-          id: "PMID:{{row.pmid}}"
+          id: "PMID/{{row.pmid}}"
 
     - objectValidate:
         title: Publication

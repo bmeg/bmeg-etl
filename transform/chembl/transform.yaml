@@ -15,7 +15,7 @@ inputs:
     sqliteLoad:
       input: "{{config.sqlite}}"
       #query: "select * from MOLECULE_DICTIONARY as a LEFT JOIN MOLECULE_SYNONYMS as b on a.MOLREGNO=b.MOLREGNO LEFT JOIN COMPOUND_STRUCTURES as c on a.MOLREGNO=c.MOLREGNO"
-      query:  "select * from MOLECULE_DICTIONARY as a JOIN COMPOUND_STRUCTURES as c on a.MOLREGNO=c.MOLREGNO"
+      query:  "select * from MOLECULE_DICTIONARY as a LEFT JOIN COMPOUND_STRUCTURES as c on a.MOLREGNO=c.MOLREGNO"
 
 pipelines:
   records:

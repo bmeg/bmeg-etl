@@ -83,7 +83,7 @@ pipelines:
                         "chromosome": i["chromosome"],
                         "start": int(i["start"]),
                         "end" : int(i["end"]),
-                        "id" : "%s:%s:%d:%d" % ("GRCh38", feat["chromosome"], int(i["start"]), int(i["end"]) )
+                        "id" : "%s:chr%s:%d:%d" % ("GRCh38", feat["chromosome"], int(i["start"]), int(i["end"]) )
                       }
                   if o is not None:
                     a.append(o)

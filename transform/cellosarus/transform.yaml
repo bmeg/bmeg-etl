@@ -19,7 +19,7 @@ pipelines:
         mapping:
           submitter_id: "{{row.id[0]}}"
           case_id: "{{row.id[0]}}"
-          id: "Case/{{row.id[0]}}"
+          id: "case/{{row.id[0]}}"
           project_id: "cellosarus"
     - map: 
         method: fix

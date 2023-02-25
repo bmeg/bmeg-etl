@@ -7,6 +7,7 @@ outdir: ../../output/pathway_commons/
 
 config:
   extSifBase: ../../source/pathway_commons
+  uniprotMap: ../../source/ensembl/tables/uniprot2ensembl.tsv
   schema: ../../schema/
 
 inputs:
@@ -41,9 +42,18 @@ pipelines:
           project_id: Reference
           interaction_output: [ { "id": "{{row.DST_ID}}" } ]
           interaction_input: [ { "id" : "{{row.SRC_ID}}" } ]
-          publications: [ { "id" : "{{row.PUBMED}}" } ]
           source: "{{row.SOURCE}}"
           type: interaction
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            o = []
+            for i in row["PUBMED"].split(","):
+              o.append( {"id" : "PMID/" + i} )
+            row["publications"] = o
+            return row
+
     - objectValidate:
         title: Interaction
         schema: "{{config.schema}}"

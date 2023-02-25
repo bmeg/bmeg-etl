@@ -36,7 +36,7 @@ pipelines:
     - project:
         mapping:
           somatic_callset: "callset/{{row.DepMap_ID}}"
-          allele: "38{{row.Chromo}}:{{row.Pos}}:{{row.Ref}}:{{row.Alt}}"
+          allele: "GRCh38:{{row.Chrom}}:{{row.Pos}}:{{row.Ref}}:{{row.Alt}}"
           ref: "{{row.Ref}}"
           alt: "{{row.Alt}}"
           t_ref_count: "{{row.RefCount}}"
@@ -80,7 +80,7 @@ pipelines:
             return row
     - project:
         mapping:
-          id: "{{row.genome}}{{row.chromosome}}:{{row.start}}:{{row.reference_bases}}:{{row.alternate_bases}}"
+          id: "{{row.genome}}:{{row.chromosome}}:{{row.start}}:{{row.reference_bases}}:{{row.alternate_bases}}"
     - clean:
         fields:
           - id

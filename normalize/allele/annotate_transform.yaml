@@ -68,8 +68,8 @@ pipelines:
             return row
     - project:
         mapping:
-          id: "38{{row.CHROM}}:{{row.POS}}:{{row.REF}}:{{row.ALT}}"
-          submitter_id: "38{{row.CHROM}}:{{row.POS}}:{{row.REF}}:{{row.ALT}}"
+          id: "GRCh38:{{row.CHROM}}:{{row.POS}}:{{row.REF}}:{{row.ALT}}"
+          submitter_id: "GRCh38:{{row.CHROM}}:{{row.POS}}:{{row.REF}}:{{row.ALT}}"
           project_id: Reference
           reference_bases: "{{row.REF}}"
           alternate_bases: "{{row.ALT}}"
