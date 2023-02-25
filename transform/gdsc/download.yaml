@@ -35,3 +35,13 @@ scripts:
     commandLine: curl https://cog.sanger.ac.uk/cmp/download/gene_identifiers_20191101.csv -o ../../source/gdsc/gene_identifiers_20191101.csv
     outputs:
       - ../../source/gdsc/gene_identifiers_20191101.csv
+  rna:
+    commandLine: curl https://www.cancerrxgene.org/gdsc1000/GDSC1000_WebResources//Data/preprocessed/Cell_line_RMA_proc_basalExp.txt.zip -o ../../source/gdsc/Cell_line_RMA_proc_basalExp.txt.zip
+    outputs:
+      - ../../source/gdsc/Cell_line_RMA_proc_basalExp.txt.zip
+  rnaUnzip:
+    commandLine: unzip -d ../../source/gdsc ../../source/gdsc/Cell_line_RMA_proc_basalExp.txt.zip
+    outputs:
+      - ../../source/gdsc/Cell_line_RMA_proc_basalExp.txt
+    inputs:
+      - ../../source/gdsc/Cell_line_RMA_proc_basalExp.txt.zip
