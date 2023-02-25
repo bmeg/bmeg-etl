@@ -2,7 +2,7 @@
 
 class: sifter
 
-name: synonyms
+name: cellosarusSynonyms
 outdir: ../../source/cellosarus/table
 
 config:

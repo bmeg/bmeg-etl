@@ -1,4 +1,7 @@
 
+
+#class: lathe
+#name: clinvar
 # curl -o ClinVarFullRelease_2023-01.xml.gz https://ftp.ncbi.nlm.nih.gov/pub/clinvar/xml/ClinVarFullRelease_2023-01.xml.gz
 
 
