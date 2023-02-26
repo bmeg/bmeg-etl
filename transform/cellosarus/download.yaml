@@ -1,0 +1,9 @@
+
+name: downloadCellosaurus
+class: lathe
+
+scripts:
+  obo:
+    commandLine: curl https://ftp.expasy.org/databases/cellosaurus/cellosaurus.obo -o ../../source/cellosaurus/cellosaurus.obo
+    outputs: 
+      - ../../source/cellosaurus/cellosaurus.obo
