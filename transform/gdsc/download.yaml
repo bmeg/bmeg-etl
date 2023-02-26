@@ -9,7 +9,7 @@ prep:
     commandLine: curl -o ../../source/gdsc/mutations_wes_vcf_20221010.zip https://cog.sanger.ac.uk/cmp/download/mutations_wes_vcf_20221010.zip
   - ifMissing: ../../source/gdsc/mutations_wes_vcf_20221010
     commandLine: mkdir -p ../../source/gdsc/mutations_wes_vcf_20221010
-  - commandLine: unzip -u ../../source/gdsc/mutations_wes_vcf_20221010.zip
+  - commandLine: unzip -d ../../source/gdsc/ -u ../../source/gdsc/mutations_wes_vcf_20221010.zip
 
 # https://www.cancerrxgene.org/gdsc1000/GDSC1000_WebResources//Data/preprocessed/Cell_line_RMA_proc_basalExp.txt.zip
 # https://www.cancerrxgene.org/gdsc1000/GDSC1000_WebResources//Home_files/Extended%20Methods.html#8
