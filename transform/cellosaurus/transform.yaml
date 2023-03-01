@@ -1,12 +1,12 @@
 class: sifter
 
-name: cellosarus
-outdir: ../../output/cellosarus/
+name: cellosaurus
+outdir: ../../output/cellosaurus/
 
 config:
-  oboFile: ../../source/cellosarus/cellosaurus.obo
+  oboFile: ../../source/cellosaurus/cellosaurus.obo
   schema: ../../schema
-  ncit2mondo: ../../source/mondo/tables/mondo.ncit_extract.mapping.json.gz
+  ncit2mondo: ../../source/mondo/tables/ncit2mondo.ncit_extract.mapping.json.gz
 inputs:
   oboData:
     plugin:
@@ -20,7 +20,7 @@ pipelines:
           submitter_id: "{{row.id[0]}}"
           case_id: "{{row.id[0]}}"
           id: "case/{{row.id[0]}}"
-          project_id: "cellosarus"
+          project_id: "cellosaurus"
     - map: 
         method: fix
         gpython: |

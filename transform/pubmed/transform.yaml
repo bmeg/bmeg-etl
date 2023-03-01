@@ -66,7 +66,9 @@ pipelines:
                   authors.append( "%s, %s %s" % (i["LastName"], i["ForeName"], i["Initials"]) )
               x["authors"] = authors
               x["title"] = x["MedlineCitation"]["Article"]["ArticleTitle"]
-              if "ArticleDate" in x["MedlineCitation"]["Article"]:
+              if isinstance(x["title"], dict) and "#content" in x["title"]:
+	      	 x["title"] = x["title"]["#content"]
+	      if "ArticleDate" in x["MedlineCitation"]["Article"]:
                 x["date"] = date_extract(x["MedlineCitation"]["Article"]["ArticleDate"])
             return x
     - project:
@@ -74,7 +76,7 @@ pipelines:
           submitter_id: "{{row.pmid}}"
           url: "https://www.ncbi.nlm.nih.gov/pubmed/{{row.pmid}}"
           project_id: Reference
-          id: "PMID/{{row.pmid}}"
+          id: "pmid/{{row.pmid}}"
 
     - objectValidate:
         title: Publication

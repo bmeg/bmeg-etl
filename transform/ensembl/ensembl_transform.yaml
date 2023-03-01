@@ -13,6 +13,7 @@ inputs:
   gff:
     tableLoad:
       input: "{{config.gffPath}}"
+      lazyQuotes: true
       columns:
         - seqID
         - source

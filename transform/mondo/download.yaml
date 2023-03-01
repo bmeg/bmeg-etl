@@ -6,6 +6,6 @@ name: mondoDownload
 
 scripts:
   download:
-    commandLine: curl -o ../../source/mondo/mondo.json http://purl.obolibrary.org/obo/mondo.json
+    commandLine: curl -L -o ../../source/mondo/mondo.json http://purl.obolibrary.org/obo/mondo.json
     outputs: 
       - ../../source/mondo/mondo.json

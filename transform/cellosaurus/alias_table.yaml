@@ -3,10 +3,10 @@
 class: sifter
 
 name: cellosarusSynonyms
-outdir: ../../source/cellosarus/table
+outdir: ../../source/cellosaurus/table
 
 config:
-  oboFile: ../../source/cellosarus/cellosaurus.obo
+  oboFile: ../../source/cellosaurus/cellosaurus.obo
 
 inputs:
   oboData:
@@ -24,9 +24,9 @@ pipelines:
             for i in row.get("xref", []):
               if i.startswith("DepMap:"):
                 out.append({
-                  "cellosarus_id" : row["id"][0],
+                  "cellosaurus_id" : row["id"][0],
                   "depmap_id" : i.replace("DepMap:", "")
                 })
             return out
     - emit:
-        name: ach2cellosarus
+        name: ach2cellosaurus
