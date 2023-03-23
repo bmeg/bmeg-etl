@@ -22,7 +22,7 @@ pipelines:
     - regexReplace:
         field: ref_url
         regex: 'http:\/\/europepmc\.org\/abstract\/MED\/'
-        replace: 'PMID/'
+        replace: 'pmid/'
         dst: publications
     - project:
         mapping:

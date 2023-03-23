@@ -50,7 +50,7 @@ pipelines:
           def fix(row):
             o = []
             for i in row["PUBMED"].split(","):
-              o.append( {"id" : "PMID/" + i} )
+              o.append( {"id" : "pmid/" + i} )
             row["publications"] = o
             return row
 

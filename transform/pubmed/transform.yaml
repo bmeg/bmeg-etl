@@ -11,6 +11,7 @@ config:
 inputs:
   pubmedRead:
     glob:
+      parallelize: true
       input: "{{config.baseline}}/*.xml.gz"
       xmlLoad: {}
 
