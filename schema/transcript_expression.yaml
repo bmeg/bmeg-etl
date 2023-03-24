@@ -51,6 +51,10 @@ properties:
       type: number
   aliquot:
     $ref: _definitions.yaml#/to_one
+    targets:
+      - type:
+          $ref: aliquot.yaml
+        backref: transcript_expressions
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:

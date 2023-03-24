@@ -58,6 +58,10 @@ properties:
     $ref: _definitions.yaml#/strand
   transcripts:
     $ref: _definitions.yaml#/to_many
+    targets:
+      - type:
+          $ref: transcript.yaml
+        backref: exons
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:

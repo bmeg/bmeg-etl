@@ -91,11 +91,13 @@ properties:
     targets:
       - type:
           $ref: gene_ontology_term.yaml
+        backref: parent_terms
     $ref: _definitions.yaml#/to_many
   parent_terms:
     targets:
       - type:
           $ref: gene_ontology_term.yaml
+        backref: child_terms
     $ref: _definitions.yaml#/to_many
   genes:
     targets:

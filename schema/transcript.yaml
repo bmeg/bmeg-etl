@@ -68,6 +68,7 @@ properties:
     targets:
       - type: 
           $ref: protein.yaml
+        backref: transcripts
     $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id

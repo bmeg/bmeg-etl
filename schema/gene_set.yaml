@@ -77,11 +77,13 @@ properties:
     targets:
       - type:
           $ref: gene.yaml
+        backref: gene_sets
     $ref: _definitions.yaml#/to_many
   publications:
     targets:
       - type:
           $ref: publication.yaml
+        backref: gene_sets
     $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id

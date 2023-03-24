@@ -100,16 +100,19 @@ properties:
     targets:
       - type:
           $ref: allele.yaml
+        backref: gene_phenotype_associations
     $ref: _definitions.yaml#/to_many
   compounds:
     targets:
       - type:
           $ref: compound.yaml
+        backref: gene_phenotype_associations
     $ref: _definitions.yaml#/to_many
   genes:
     targets:
       - type:
           $ref: gene.yaml
+        backref: gene_phenotype_associations
     $ref: _definitions.yaml#/to_many
   genomic_features:
     $ref: _definitions.yaml#/to_many
@@ -117,11 +120,13 @@ properties:
     targets:
       - type:
           $ref: phenotype.yaml
+        backref: gene_phenotype_associations
     $ref: _definitions.yaml#/to_many
   publications:
     targets:
       - type:
           $ref: publication.yaml
+        backref: gene_phenotype_associations
     $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id

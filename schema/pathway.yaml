@@ -57,14 +57,34 @@ properties:
     type: string
   genes:
     $ref: _definitions.yaml#/to_many
+    targets:
+      - type:
+          $ref: gene.yaml
+        backref: pathways
   interactions:
     $ref: _definitions.yaml#/to_many
+    targets:
+      - type:
+          $ref: interaction.yaml
+        backref: pathways
   publications:
     $ref: _definitions.yaml#/to_many
+    targets:
+      - type:
+          $ref: publication.yaml
+        backref: pathways
   parent_pathways:
     $ref: _definitions.yaml#/to_many
+    targets:
+      - type:
+          $ref: pathway.yaml
+        backref: sub_pathways
   sub_pathways:
     $ref: _definitions.yaml#/to_many
+    targets:
+      - type:
+          $ref: pathway.yaml
+        backref: parent_pathways
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:

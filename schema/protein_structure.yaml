@@ -57,6 +57,10 @@ properties:
     type: string
   protein:
     $ref: _definitions.yaml#/to_one
+    targets:
+      - type:
+          $ref: protein.yaml
+        backref: protein_structures
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:

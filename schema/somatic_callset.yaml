@@ -57,6 +57,7 @@ properties:
     targets:
       - type:
           $ref: aliquot.yaml
+        backref: somatic_callsets
     $ref: _definitions.yaml#/to_many
 
   project_id:

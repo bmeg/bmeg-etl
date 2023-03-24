@@ -73,6 +73,7 @@ properties:
     targets:
       - type:
           $ref: gene.yaml
+        backref: genomic_features
     $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id

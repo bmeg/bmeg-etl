@@ -64,18 +64,21 @@ properties:
     targets:
       - type:
           $ref: compound.yaml
+        backref: protein_compound_associations
     type: string
     description: "Compound ID"
   proteins:
     targets:
       - type:
           $ref: protein.yaml
+        backref: protein_compound_associations
     $ref: _definitions.yaml#/to_many
     description: "Protein ids"
   genes:
     targets:
       - type:
           $ref: gene.yaml
+        backref: protein_compound_associations
     $ref: _definitions.yaml#/to_many
     description: "Gene ids"
   project_id:
@@ -84,6 +87,7 @@ properties:
     targets:
       - type:
           $ref: publication.yaml
+        backref: protein_compound_associations
     $ref: _definitions.yaml#/to_many
     description: "Pubmed publication IDs"
   source:
@@ -92,12 +96,10 @@ properties:
     type:
       - string
       - 'null'
-
   ki_nm:
     type: 
       - number
       - 'null'
-
   type:
     type: string
   created_datetime:

@@ -116,8 +116,16 @@ properties:
     type: string
   aliquot:
     $ref: _definitions.yaml#/to_one
+    targets:
+      - type:
+          $ref: aliquot.yaml
+        backref: drug_responses
   compounds:
     $ref: _definitions.yaml#/to_many
+    targets:
+      - type:
+          $ref: compound.yaml
+        backref: drug_responses
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:

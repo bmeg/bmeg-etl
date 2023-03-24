@@ -56,11 +56,13 @@ properties:
     targets:
       - type:
           $ref: phenotype.yaml
+        backref: parent_terms
     $ref: _definitions.yaml#/to_many
   parent_terms:
     targets:
       - type:
           $ref: phenotype.yaml
+        backref: child_terms
     $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id

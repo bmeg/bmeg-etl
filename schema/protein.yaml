@@ -40,6 +40,7 @@ properties:
     targets:
       - type: 
           $ref: protein_structure.yaml
+        backref: protein
     $ref: _definitions.yaml#/to_many
 
   gene:
@@ -52,6 +53,7 @@ properties:
     targets:
       - type: 
           $ref: transcript.yaml
+        backref: protein
     $ref: _definitions.yaml#/to_one
 
   submitter_id:

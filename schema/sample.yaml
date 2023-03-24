@@ -85,6 +85,7 @@ properties:
     targets: 
       - type: 
           $ref: phenotype.yaml
+        backref: samples
     $ref: _definitions.yaml#/to_many
   projects:
     $ref: _definitions.yaml#/to_many

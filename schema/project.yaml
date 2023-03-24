@@ -56,16 +56,19 @@ properties:
     targets:
       - type:
           $ref: case.yaml
+        backref: projects
     $ref: _definitions.yaml#/to_many
   compounds:
     targets:
       - type:
           $ref: compound.yaml 
+        backref: projects
     $ref: _definitions.yaml#/to_many
   programs:
     targets:
       - type:
           $ref: program.yaml
+        backref: projects
     $ref: _definitions.yaml#/to_many
   submitter_id:
     type:

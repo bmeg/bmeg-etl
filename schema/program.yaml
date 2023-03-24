@@ -39,6 +39,7 @@ properties:
     targets:
       - type:
           $ref: project.yaml
+        backref: project
     $ref: _definitions.yaml#/to_many
   submitter_id:
     type:

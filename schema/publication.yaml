@@ -61,8 +61,7 @@ properties:
     type:
     - 'null'
     - string
-  g2p_associations:
-    $ref: _definitions.yaml#/to_many
+
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:

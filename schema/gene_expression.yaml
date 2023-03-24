@@ -58,6 +58,7 @@ properties:
     targets:
       - type:
           $ref: aliquot.yaml
+        backref: gene_expressions
     $ref: _definitions.yaml#/to_one
   project_id:
     $ref: _definitions.yaml#/project_id
