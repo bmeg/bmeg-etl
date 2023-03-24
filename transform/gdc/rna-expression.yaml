@@ -8,6 +8,7 @@ outdir: ../../output/gdc
 
 config:
   data: ../../source/gdc/rna-seq/
+  fileData: ../../source/gdc/files.json
   schema: ../../schema
 
 inputs:
@@ -16,14 +17,37 @@ inputs:
       storeFilename: "file_name"
       input: "{{config.data}}/*.tsv"
       tableLoad: {}
-
+  fileData:
+    jsonLoad:
+      input: "{{config.fileData}}"
 
 pipelines:
+  fileMapping:
+    - from: fileData
+    - flatMap:
+        method: fix
+        gpython: |
+          def fix(row):
+            if row["data_format"] != "TSV":
+              return []
+            file_id = row["id"]
+            aliquot_id = None
+            for c in row.get("cases", []):
+              for s in c.get("samples", []):
+                for p in s.get("portions", []):
+                  for a in p.get("analytes", []):
+                    for q in a.get("aliquots", []):
+                      aliquot_id = q["aliquot_id"]
+            if aliquot_id is not None:
+              return [ {"file_id" : file_id, "aliquot_id" : aliquot_id} ]
+            return []
+
   rna:
     - from: tsvData
     - accumulate:
         field: file_name
         dest: rows
+
     - map:
         method: update
         gpython: |
@@ -44,6 +68,23 @@ pipelines:
               "method" : "Illumina HiSeq",
               "values" : values
             }
+
+    - lookup:
+        pipeline:
+          from: fileMapping
+          key: file_id
+        lookup: "{{row.id}}"
+        copy:
+          aliquot: aliquot_id
+    
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            if "aliquot" in row:
+              row["aliquot"] = [ {"id" : row["aliquot"]} ]
+            return row
+
     - objectValidate:
         schema: "{{config.schema}}"
         title: GeneExpression
