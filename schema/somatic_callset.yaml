@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "somatic_callset"
 title: SomaticCallset
@@ -44,6 +44,9 @@ links:
     target_type: aliquot
 
 properties:
+  id:
+    type: string
+
   tumor_aliquot_id:
     type: string
   normal_aliquot_id:
@@ -51,18 +54,18 @@ properties:
       - 'null'
       - string
   aliquots:
+    targets:
+      - type:
+          $ref: aliquot.yaml
+        backref: somatic_callsets
     $ref: _definitions.yaml#/to_many
-  alleles:
-    $ref: _definitions.yaml#/to_many
+
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

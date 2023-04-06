@@ -1,0 +1,108 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+
+id: "protein_compound_association"
+title: ProteinCompoundAssociation
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: reference
+description: Definitions for protein-compound Associations
+additionalProperties: false
+submittable: true
+validators: null
+
+systemProperties:
+  - project_id
+  - created_datetime
+  - updated_datetime
+
+required:
+  - id
+  - submitter_id
+  - project_id
+
+uniqueKeys:
+  - [id]
+  - [project_id, submitter_id]
+
+links:
+  - backref: protein_compound_association
+    label: proteins
+    multiplicity: many_to_many
+    name: proteins
+    required: false
+    target_type: protein
+  - backref: protein_compound_association
+    label: genes
+    multiplicity: many_to_many
+    name: genes
+    required: false
+    target_type: gene
+  - backref: protein_compound_association
+    label: compound
+    multiplicity: many_to_one
+    name: compound
+    required: false
+    target_type: compound
+  - backref: protein_compound_association
+    label: publications
+    multiplicity: many_to_many
+    name: publications
+    required: false
+    target_type: publication
+
+properties:
+  id:
+    type: string
+    #$ref: _definitions.yaml#/UUID
+    #systemAlias: node_id
+  association_type:
+    type: string
+    description: "protein-compound association keyword, example inhibitor"
+  compound:
+    targets:
+      - type:
+          $ref: compound.yaml
+        backref: protein_compound_associations
+    type: string
+    description: "Compound ID"
+  proteins:
+    targets:
+      - type:
+          $ref: protein.yaml
+        backref: protein_compound_associations
+    $ref: _definitions.yaml#/to_many
+    description: "Protein ids"
+  genes:
+    targets:
+      - type:
+          $ref: gene.yaml
+        backref: protein_compound_associations
+    $ref: _definitions.yaml#/to_many
+    description: "Gene ids"
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  publications:
+    targets:
+      - type:
+          $ref: publication.yaml
+        backref: protein_compound_associations
+    $ref: _definitions.yaml#/to_many
+    description: "Pubmed publication IDs"
+  source:
+    type: string
+  submitter_id:
+    type:
+      - string
+      - 'null'
+  ki_nm:
+    type: 
+      - number
+      - 'null'
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

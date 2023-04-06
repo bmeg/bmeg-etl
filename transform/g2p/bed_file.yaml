@@ -1,0 +1,49 @@
+
+class: sifter
+name: g2p_bedfile
+outdir: ../../source/g2p/tables
+
+config:
+  base: ../../source/g2p/
+  schema: ../../schema
+  hugo: ../../source/hugo/hugo.tsv
+
+inputs:
+  g2pData:
+    glob:
+      input: "{{config.base}}/*.vr.json"
+      jsonLoad: {}
+
+outputs:
+  source_bed:
+    tableWrite:
+      from: main
+      output: g2p_source.bed
+      skipColumnHeader: true
+      columns:
+        - chromosome
+        - start
+        - end
+
+pipelines:
+  main:
+    - from: g2pData
+    - flatmap:
+        method: flatten
+        gpython: | 
+          def flatten(row):
+            out = []
+            for feat in row["features"]:
+              if "start" in feat and feat["start"] is not None and feat["chromosome"] is not None:
+                i = {
+                  "chromosome": "chr" + feat["chromosome"],
+                  "start": feat["start"],
+                  "end" : feat["end"],
+                  "name" : "%s:%s:%s" % ( feat["chromosome"], feat["start"], feat["end"] ) 
+                }
+                if i["start"] > i["end"]:
+                  t = i["end"]
+                  i["end"] = i["start"]
+                  i["start"] = t
+                out.append(i)
+            return out

@@ -1,27 +1,11 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "allele"
 title: Allele
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: genomic
-description: >
-  One of two or more alternative forms of a gene that arise by mutation and are found at the same place on a chromosome.
-additionalProperties: false
-submittable: true
-validators: null
-
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
 
 required:
-  - submitter_id
-  - project_id
+  - id
   - chromosome
   - start
   - genome
@@ -32,33 +16,11 @@ uniqueKeys:
   - [id]
   - [project_id, submitter_id]
 
-links:
-  - backref: alleles
-    label: gene
-    multiplicity: many_to_one
-    name: gene
-    required: false
-    target_type: gene
-  - backref: alleles
-    label: transcript
-    multiplicity: many_to_one
-    name: transcript
-    required: false
-    target_type: transcript
-  - backref: alleles
-    label: protein
-    multiplicity: many_to_one
-    name: protein
-    required: false
-    target_type: protein
-  - backref: alleles
-    label: pfam_family
-    multiplicity: many_to_one
-    name: pfam_family
-    required: false
-    target_type: pfam_family
-
 properties:
+  id:
+    type: string
+    #$ref: _definitions.yaml#/UUID
+    #systemAlias: node_id
   reference_bases:
     type: string
   alternate_bases:
@@ -66,148 +28,37 @@ properties:
   genome:
     $ref: _definitions.yaml#/genome
   chromosome:
-     $ref: _definitions.yaml#/chromosome
+    $ref: _definitions.yaml#/chromosome
   start:
     type: integer
   end:
     type: integer
   strand:
     $ref: _definitions.yaml#/strand
-  amino_acids:
-    type: 
-      - 'null'
-      - string
-  codons:
-    type: 
-      - 'null'
-      - string
-  cds_position:
-    type: 
-      - 'null'
-      - string
-  cdna_position:
-    type: 
-      - 'null'
-      - string
-  protein_position:
-    type: 
-      - 'null'
-      - string
-  exon_number:
-    type: 
-      - 'null'
-      - string
-  variant_classification:
-    type: 
-      - 'null'
-      - string
-  variant_type:
-    type: 
-      - 'null'
-      - string
-  biotype:
-    type: 
-      - 'null'
-      - string
-  impact:
-    type: 
-      - 'null'
-      - string
   dbsnp_rs:
-    type:
-      - 'null'
-      - string
-  hgnc_id:
-    type:
-      - 'null'
-      - string
-  hgvsc:
-    type:
-      - 'null'
-      - string
-  hgvsp:
-    type:
-      - 'null'
-      - string
-  hgvsp_short:
-    type:
-      - 'null'
-      - string
-  ensembl_gene:
-    type:
-      - 'null'
-      - string
-  ensembl_transcript:
-    type:
-      - 'null'
-      - string
-  ensembl_protein:
-    type:
-      - 'null'
-      - string
-  hugo_symbol:
-    type: 
-      - 'null'
-      - string
-  all_effects:
-    type: 
-      - 'null'
-      - string
-  polyphen:
-    type: 
-      - 'null'
-      - string
-  sift:
-    type: 
-      - 'null'
-      - string
-  exac_af:
-    type: 
-      - 'null'
-      - number
-  exac_af_afr:
-    type: 
-      - 'null'
-      - number
-  exac_af_amr:
-    type: 
-      - 'null'
-      - number
-  exac_af_adj:
-    type: 
-      - 'null'
-      - number
-  exac_af_eas:
-    type: 
-      - 'null'
-      - number
-  exac_af_fin:
-    type: 
-      - 'null'
-      - number
-  exac_af_nfe:
-    type: 
-      - 'null'
-      - number
-  exac_af_oth:
-    type: 
-      - 'null'
-      - number
-  exac_af_sas:
-    type: 
-      - 'null'
-      - number
-  somatic_callsets:
-    $ref: _definitions.yaml#/to_many
-  g2p_associations:
+    type: string
+  effects:
+    targets:
+      - type:
+          $ref: allele_effect.yaml
+    #type: array
+    #items:
+    #  $ref: allele_effect.yaml
     $ref: _definitions.yaml#/to_many
   gene:
+    targets:
+      - type:
+          $ref: gene.yaml
     $ref: _definitions.yaml#/to_one
   transcript:
+    targets:
+      - type:
+          $ref: transcript.yaml
     $ref: _definitions.yaml#/to_one
   protein:
-    $ref: _definitions.yaml#/to_one
-  pfam_family:
+    targets:
+      - type:
+          $ref: protein.yaml
     $ref: _definitions.yaml#/to_one
   project_id:
     $ref: _definitions.yaml#/project_id
@@ -215,9 +66,6 @@ properties:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

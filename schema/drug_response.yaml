@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "drug_response"
 title: DrugResponse
@@ -20,6 +20,7 @@ systemProperties:
   - updated_datetime
 
 required:
+  - id
   - submitter_id
   - project_id
 
@@ -42,6 +43,8 @@ links:
     target_type: compound
 
 properties:
+  id:
+    type: string
   dose_um:
     description: >
       The drug doses (micromolar) for which responses were measured.
@@ -113,17 +116,22 @@ properties:
     type: string
   aliquot:
     $ref: _definitions.yaml#/to_one
+    targets:
+      - type:
+          $ref: aliquot.yaml
+        backref: drug_responses
   compounds:
     $ref: _definitions.yaml#/to_many
+    targets:
+      - type:
+          $ref: compound.yaml
+        backref: drug_responses
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

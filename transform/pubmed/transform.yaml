@@ -11,6 +11,7 @@ config:
 inputs:
   pubmedRead:
     glob:
+      parallelize: true
       input: "{{config.baseline}}/*.xml.gz"
       xmlLoad: {}
 
@@ -25,7 +26,7 @@ pipelines:
     - map:
         method: update
         gpython: |
-
+        
           def date_extract(data):
               if 'Year' in data and 'Month' in data and 'Day' in data:
                   return "%s-%s-%s" % (data['Year'], data['Month'], data['Day'])
@@ -35,8 +36,8 @@ pipelines:
                   return data['Year']
               else:
                   return ''
-
-
+          
+          
           def update(x):
             x["pmid"] = x["MedlineCitation"]["PMID"]["#content"]
 
@@ -66,6 +67,8 @@ pipelines:
                   authors.append( "%s, %s %s" % (i["LastName"], i["ForeName"], i["Initials"]) )
               x["authors"] = authors
               x["title"] = x["MedlineCitation"]["Article"]["ArticleTitle"]
+              if isinstance(x["title"], dict) and "#content" in x["title"]:
+                x["title"] = x["title"]["#content"]
               if "ArticleDate" in x["MedlineCitation"]["Article"]:
                 x["date"] = date_extract(x["MedlineCitation"]["Article"]["ArticleDate"])
             return x
@@ -74,10 +77,10 @@ pipelines:
           submitter_id: "{{row.pmid}}"
           url: "https://www.ncbi.nlm.nih.gov/pubmed/{{row.pmid}}"
           project_id: Reference
-          id: "PMID:{{row.pmid}}"
+          id: "pmid/{{row.pmid}}"
 
     - objectValidate:
-        class: publication
+        title: Publication
         schema: "{{config.schema}}"
 
     - emit:

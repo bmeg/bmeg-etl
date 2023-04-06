@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "transcript"
 title: Transcript
@@ -58,10 +58,17 @@ properties:
   strand:
     $ref: _definitions.yaml#/strand
   exons:
+    targets:
+      - type:
+          $ref: exon.yaml
     $ref: _definitions.yaml#/to_many
   gene:
     $ref: _definitions.yaml#/to_one
   proteins:
+    targets:
+      - type: 
+          $ref: protein.yaml
+        backref: transcripts
     $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id
@@ -70,7 +77,8 @@ properties:
       - string
       - 'null'
   id:
-    $ref: _definitions.yaml#/UUID
+    type: string
+    #$ref: _definitions.yaml#/UUID
     systemAlias: node_id
   type:
     type: string

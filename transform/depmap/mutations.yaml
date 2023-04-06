@@ -21,12 +21,13 @@ pipelines:
         value: "{{row.DepMap_ID}}"
     - project:
         mapping:
-          submitter_id: "callset:{{row.DepMap_ID}}"
-          tumor_aliquot_id: "aliquot:{{row.DepMap_ID}}"
+          id: "callset/{{row.DepMap_ID}}"
+          submitter_id: "{{row.DepMap_ID}}"
+          tumor_aliquot_id: "aliquot/{{row.DepMap_ID}}"
           project_id: DepMap
     - objectValidate:
         schema: "{{config.schema}}"
-        class: somatic_callset
+        title: SomaticCallset
     - emit:
         name: callset
 
@@ -34,12 +35,15 @@ pipelines:
     - from: mutations
     - project:
         mapping:
-          somatic_callset: "callset:{{row.DepMap_ID}}"
-          allele: "38{{row.Chromo}}:{{row.Pos}}:{{row.Ref}}:{{row.Alt}}"
+          somatic_callset: "callset/{{row.DepMap_ID}}"
+          allele: "GRCh38:{{row.Chrom}}:{{row.Pos}}:{{row.Ref}}:{{row.Alt}}"
           ref: "{{row.Ref}}"
           alt: "{{row.Alt}}"
           t_ref_count: "{{row.RefCount}}"
           t_alt_count: "{{row.AltCount}}"
+    - project:
+        mapping:
+          id: "{{row.somatic_callset}}--{{row.allele}}"
     - fieldType:
         t_depth: int
         t_ref_count: int
@@ -49,8 +53,47 @@ pipelines:
         n_alt_count: int
         start: int
 
+
     - objectValidate:
         schema: "{{config.schema}}"
-        class: somatic_variant
+        title: SomaticVariant
     - emit:
         name: variants
+  
+  allele:
+    - from: mutations
+    - project:
+        mapping:
+          reference_bases: "{{row.Ref}}"
+          alternate_bases: "{{row.Alt}}"
+          genome: "GRCh38"
+          chromosome: "{{row.Chrom}}"
+          start: "{{row.Pos}}"
+          project_id: "depmap"
+    - fieldType:
+        start: int
+    - map: 
+        method: fix
+        gpython: |
+          def fix(row):
+            row['end'] = row['start'] + len(row['Ref'])
+            return row
+    - project:
+        mapping:
+          id: "{{row.genome}}:{{row.chromosome}}:{{row.start}}:{{row.reference_bases}}:{{row.alternate_bases}}"
+    - clean:
+        fields:
+          - id
+          - submitter_id
+          - reference_bases
+          - alternate_bases
+          - genome
+          - chromosome
+          - start
+          - end
+          - project_id
+    - objectValidate:
+        title: Allele
+        schema: "{{config.schema}}"
+    - emit:
+        name: allele

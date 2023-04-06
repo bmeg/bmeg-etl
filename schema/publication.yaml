@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "publication"
 title: Publication
@@ -31,6 +31,10 @@ uniqueKeys:
 links: []
 
 properties:
+  id:
+    #$ref: _definitions.yaml#/UUID
+    type: string
+    systemAlias: node_id
   url:
     type: string
   abstract:
@@ -57,17 +61,13 @@ properties:
     type:
     - 'null'
     - string
-  g2p_associations:
-    $ref: _definitions.yaml#/to_many
+
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

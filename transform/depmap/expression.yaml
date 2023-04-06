@@ -31,11 +31,12 @@ pipelines:
                 sub_id = v
               else:
                 t = k.split(" ")[1].replace("(", "").replace(")", "")
-                values[t] = float(v)
             return {
+              "id" : sub_id,
+              "aliquot" : [ {"id" : "aliquot/" + sub_id} ],
               "submitter_id" : sub_id,
               "project_id" : "Depmap",
-              "metric" : "GENE_TPM",
+              "metric" : "TPM_GENE",
               "method" : "Illumina HiSeq",
               "values": values
             }
@@ -45,8 +46,18 @@ pipelines:
           input: "{{config.geneTable}}"
           key: GeneID
           value: Ensembl_gene_identifier
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            values = {}
+            for v, k in row["values"].items():
+              if v.startswith("ENSG"):
+                values[v] = k
+            row["values"] = values
+            return row
     - objectValidate:
-        class: gene_expression
+        title: GeneExpression
         schema: "{{config.schema}}"
     - emit:
         name: expression

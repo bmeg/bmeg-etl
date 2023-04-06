@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "somatic_variant"
 title: SomaticVariant
@@ -14,10 +14,20 @@ submittable: true
 validators: null
 
 properties:
+  id:
+    type: string
+    systemAlias: node_id
+
   somatic_callset:
     type: string
+    targets:
+      - type: 
+          $ref: somatic_callset.yaml
   allele:
     type: string
+    targets:
+      - type: 
+          $ref: allele.yaml
   ref:
     type: string
   alt:

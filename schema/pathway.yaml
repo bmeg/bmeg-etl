@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "pathway"
 title: Pathway
@@ -49,27 +49,48 @@ links:
     target_type: pathway
 
 properties:
+  id:
+    #$ref: _definitions.yaml#/UUID
+    type: string
+    systemAlias: node_id
   name:
     type: string
   genes:
     $ref: _definitions.yaml#/to_many
+    targets:
+      - type:
+          $ref: gene.yaml
+        backref: pathways
   interactions:
     $ref: _definitions.yaml#/to_many
+    targets:
+      - type:
+          $ref: interaction.yaml
+        backref: pathways
   publications:
     $ref: _definitions.yaml#/to_many
+    targets:
+      - type:
+          $ref: publication.yaml
+        backref: pathways
   parent_pathways:
     $ref: _definitions.yaml#/to_many
+    targets:
+      - type:
+          $ref: pathway.yaml
+        backref: sub_pathways
   sub_pathways:
     $ref: _definitions.yaml#/to_many
+    targets:
+      - type:
+          $ref: pathway.yaml
+        backref: parent_pathways
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

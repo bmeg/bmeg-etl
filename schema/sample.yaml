@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "sample"
 title: Sample
@@ -24,8 +24,8 @@ systemProperties:
   - updated_datetime
 
 required:
+  - id
   - submitter_id
-  - sample_id
   - project_id
 
 uniqueKeys:
@@ -53,8 +53,10 @@ links:
     target_type: phenotype
 
 properties:
-  sample_id:
+  id:
     type: string
+    #$ref: _definitions.yaml#/UUID
+    #systemAlias: node_id
   cellline_attributes:
     type:
     - 'null'
@@ -68,10 +70,22 @@ properties:
     - 'null'
     - object
   aliquots:
+    targets:
+      - type: 
+          $ref: aliquot.yaml
+        backref: sample
     $ref: _definitions.yaml#/to_many
   case:
+    targets: 
+      - type: 
+          $ref: case.yaml
+        backref: samples
     $ref: _definitions.yaml#/to_one
   phenotypes:
+    targets: 
+      - type: 
+          $ref: phenotype.yaml
+        backref: samples
     $ref: _definitions.yaml#/to_many
   projects:
     $ref: _definitions.yaml#/to_many
@@ -81,9 +95,6 @@ properties:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

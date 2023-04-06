@@ -1,0 +1,54 @@
+
+class: sifter
+outdir: ../../output/pdb/
+name: pdb
+
+config:
+  entriesIdx: ../../source/pdb/entries.idx
+  schema: ../../schema
+
+inputs:
+  loader:
+    tableLoad:
+      input: "{{config.entriesIdx}}"
+      rowSkip: 2
+      columns:
+        - IDCODE
+        - HEADER
+        - ACCESSION_DATE
+        - COMPOUND
+        - SOURCE
+        - AUTHOR_LIST
+        - RESOLUTION
+        - EXPERIMENT_TYPE
+
+pipelines:
+  start:
+    - from: loader
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            resolution = None
+            try:
+              resolution = float(row["RESOLUTION"])
+            except ValueError:
+              pass
+            return {
+              "id": "pdb/" + row["IDCODE"],
+              "submitter_id": row["IDCODE"],
+              "resolution": resolution,
+              "short_description" : row["HEADER"],
+              "description" : row["COMPOUND"],
+              "source" : row["SOURCE"],
+              "submission_date" : row["ACCESSION_DATE"],
+              "experiment_type" : row["EXPERIMENT_TYPE"],
+              "project_id": "pdb"
+            }
+    
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: ProteinStructure
+
+    - emit:
+        name: protein_structure

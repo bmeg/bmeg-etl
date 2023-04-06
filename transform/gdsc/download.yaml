@@ -1,16 +1,47 @@
 
-name: download
+name: downloadGDSC
 class: lathe
+
+# https://cellmodelpassports.sanger.ac.uk/downloads 
 
 prep:
   - ifMissing: ../../source/gdsc/cell_line_wes_20180620.zip
-    commandLine: curl -o ../../source/gdsc/cell_line_wes_20180620.zip https://cog.sanger.ac.uk/cmp/download/cell_line_wes_20180620.zip
-  - ifMissing: ../../source/gdsc/vcfs
-    commandLine: mkdir -p ../../source/gdsc/vcfs
-  - commandLine: unzip -u ../../source/gdsc/cell_line_wes_20180620.zip -d ../../source/gdsc/vcfs
+    commandLine: curl -o ../../source/gdsc/mutations_wes_vcf_20221010.zip https://cog.sanger.ac.uk/cmp/download/mutations_wes_vcf_20221010.zip
+  - ifMissing: ../../source/gdsc/mutations_wes_vcf_20221010
+    commandLine: mkdir -p ../../source/gdsc/mutations_wes_vcf_20221010
+  - commandLine: unzip -d ../../source/gdsc/ -u ../../source/gdsc/mutations_wes_vcf_20221010.zip
+
+# https://www.cancerrxgene.org/gdsc1000/GDSC1000_WebResources//Data/preprocessed/Cell_line_RMA_proc_basalExp.txt.zip
+# https://www.cancerrxgene.org/gdsc1000/GDSC1000_WebResources//Home_files/Extended%20Methods.html#8
+# https://cog.sanger.ac.uk/cmp/download/rnaseq_sanger_20210316.zip
 
 scripts:
-  sampleInfo:
-    commandLine: curl https://cog.sanger.ac.uk/cmp/download/model_list_20191104.csv -o ../../source/gdsc/model_list_20191104.csv
+
+  rnaSeq:
+    commandLine: curl https://cog.sanger.ac.uk/cmp/download/rnaseq_sanger_20210316.zip -o ../../source/gdsc/rnaseq_sanger_20210316.zip
+    outputs: 
+      - ../../source/gdsc/rnaseq_sanger_20210316.zip
+  rnaSepUnzip:
+    commandLine: unzip -d ../../source/gdsc ../../source/gdsc/rnaseq_sanger_20210316.zip
     outputs:
-      - ../../source/gdsc/model_list_20191104.csv
+      - ../../source/gdsc/rnaseq_sanger_20210316.csv
+    inputs:
+      - ../../source/gdsc/rnaseq_sanger_20210316.zip
+  sampleInfo:
+    commandLine: curl https://cog.sanger.ac.uk/cmp/download/model_list_20230110.csv -o ../../source/gdsc/model_list_20230110.csv
+    outputs:
+      - ../../source/gdsc/model_list_20230110.csv
+  geneInfo:
+    commandLine: curl https://cog.sanger.ac.uk/cmp/download/gene_identifiers_20191101.csv -o ../../source/gdsc/gene_identifiers_20191101.csv
+    outputs:
+      - ../../source/gdsc/gene_identifiers_20191101.csv
+  rna:
+    commandLine: curl https://www.cancerrxgene.org/gdsc1000/GDSC1000_WebResources//Data/preprocessed/Cell_line_RMA_proc_basalExp.txt.zip -o ../../source/gdsc/Cell_line_RMA_proc_basalExp.txt.zip
+    outputs:
+      - ../../source/gdsc/Cell_line_RMA_proc_basalExp.txt.zip
+  rnaUnzip:
+    commandLine: unzip -d ../../source/gdsc ../../source/gdsc/Cell_line_RMA_proc_basalExp.txt.zip
+    outputs:
+      - ../../source/gdsc/Cell_line_RMA_proc_basalExp.txt
+    inputs:
+      - ../../source/gdsc/Cell_line_RMA_proc_basalExp.txt.zip

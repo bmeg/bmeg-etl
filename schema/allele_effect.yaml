@@ -1,0 +1,45 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+
+id: "allele_effect"
+title: AlleleEffect
+type: object
+
+properties:
+  id:
+    type: string
+  annotation:
+    type: string
+  annotation_impact:
+    type: string
+  aa_position:
+    type: integer
+  aa_length:
+    type: integer
+  cds_position:
+    type: integer
+  cds_length:
+    type: integer
+  cdna_position:
+    type: integer
+  cdna_length:
+    type: integer
+  hgnc_id:
+    type: string
+  hgvsc:
+    type: string
+  hgvsp:
+    type: string
+  ensembl_gene:
+    targets:
+      - type:
+          $ref: gene.yaml
+    type: string
+  ensembl_transcript:
+    targets:
+      - type:
+          $ref: transcript.yaml
+    type: string    
+  hugo_symbol:
+    type: string
+  biotype:
+    type: string

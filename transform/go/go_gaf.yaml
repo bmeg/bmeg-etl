@@ -10,7 +10,7 @@ inputs:
   gafLoad:
     tableLoad:
       input: "{{config.gafFile}}"
-      #comment: "!"
+      comment: "!"
       columns:
         - db
         - id

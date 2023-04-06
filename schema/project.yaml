@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "project"
 title: Project
@@ -21,6 +21,7 @@ systemProperties:
   - updated_datetime
 
 required:
+  - id
   - submitter_id
   - project_id
 
@@ -43,6 +44,8 @@ links:
     target_type: compound
 
 properties:
+  id:
+    type: string
   project_id:
     $ref: _definitions.yaml#/project_id
   gdc_attributes:
@@ -50,18 +53,27 @@ properties:
     - 'null'
     - object
   cases:
+    targets:
+      - type:
+          $ref: case.yaml
+        backref: projects
     $ref: _definitions.yaml#/to_many
   compounds:
+    targets:
+      - type:
+          $ref: compound.yaml 
+        backref: projects
     $ref: _definitions.yaml#/to_many
   programs:
+    targets:
+      - type:
+          $ref: program.yaml
+        backref: projects
     $ref: _definitions.yaml#/to_many
   submitter_id:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

@@ -1,0 +1,69 @@
+
+class: sifter
+outdir: ../../output/uniprot/
+name: uniprot_trembl
+
+config:
+  xmlPath: ../../source/uniprot/uniprot_trembl_human.xml.gz
+  schema: ../../schema
+
+inputs:
+  loader:
+    xmlLoad:
+      input: "{{config.xmlPath}}"
+
+pipelines:
+  start:
+    - from: loader
+    - fieldProcess:
+        field: uniprot
+    - fieldProcess:
+        field: entry
+
+    - flatmap:
+        method: fix
+        gpython: |
+          def force_list(x):
+            if isinstance(x, list):
+              return x
+            return [x]
+
+          def fix(row):
+
+            ensembl_gene = []
+            ensembl_transcript = []
+            pubmed = []
+            pdb = []
+            for i in force_list(row["dbReference"]):
+              if i["-type"] == "Ensembl":
+                ensembl_transcript.append( {"id" : i["-id"].split(".")[0]} )
+                for p in force_list(i["property"]):
+                  if p["-value"].startswith("ENSG"):
+                    ensembl_gene.append( {"id" : p["-value"].split(".")[0]} )
+
+              if i["-type"] == "PDB":
+                pdb.append( { "id":  "pdb/" + i["-id"]} )
+              if i["-type"] == "PubMed":
+                pubmed.append( {"id" : "pubmed/" + i["-id"]} )
+
+            out = []
+            for a in force_list( row["accession"] ):
+              c = {}
+              c["id"] = a
+              c["submitter_id"] = a
+              c["protein_structures"] = pdb 
+              c["gene"] = ensembl_gene
+              c["transcript"] = ensembl_transcript
+              c["sequence"] = row["sequence"]["#content"]
+              c["length"] = int(row["sequence"]["-length"])
+              c["mass"] = float(row["sequence"]["-mass"])
+              c["publications"] = pubmed
+              c["project_id"] = "uniprot"
+              out.append(c)
+            return out
+
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: Protein
+    - emit:
+        name: protein

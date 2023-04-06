@@ -1,0 +1,25 @@
+
+
+class: sifter
+
+name: clinvar
+outdir: ../../output/clinvar
+
+config:
+  xmlPath: ../../source/clinvar/ClinVarFullRelease_2023-01.xml.gz
+  schema: ../../schema/
+
+
+inputs:
+  xmlData:
+    xmlLoad:
+      input: "{{config.xmlPath}}"
+      level: 1
+
+pipelines:
+  transform:
+    - from: xmlData
+    - emit: 
+        name: raw
+    #- debug:
+    #    format: true

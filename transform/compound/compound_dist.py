@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
+import gzip
 import numpy as np
 import json
 import sys
+from tqdm import tqdm
 from rdkit import Chem, DataStructs
 from rdkit.Chem import AllChem
 
@@ -19,8 +21,8 @@ if __name__ == "__main__":
 
     records={}
     fingerprints = {}
-    with open(inPath) as handle:
-        for line in handle:
+    with gzip.open(inPath) as handle:
+        for line in tqdm(handle):
             d = json.loads(line)
             records[d["chembl_id"]] = d
             if "morgan_fingerprint_2" in d:
@@ -40,5 +42,12 @@ if __name__ == "__main__":
                     if dice_sim >= 0.5:
                         records[i]["similar_compounds"] = records[i].get("similar_compounds", []) + [ {"compound" : j, "morgan_fingerprint_2_dice":dice_sim, "morgan_fingerprint_2_tanimoto":tan_sim } ]
 
-    for v in records.values():
-        print(json.dumps(v))
+                        print(json.dumps( {
+                            "compound_1" : i,
+                            "compound_2" : j,
+                            "morgan_fingerprint_2_dice":dice_sim, 
+                            "morgan_fingerprint_2_tanimoto":tan_sim
+                        } ))
+
+    #for v in records.values():
+    #    print(json.dumps(v))

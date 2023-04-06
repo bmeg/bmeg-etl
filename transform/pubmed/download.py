@@ -4,6 +4,7 @@ import os
 import logging
 import argparse
 import shutil
+import time
 from ftplib import FTP
 try:
     from tqdm import tqdm
@@ -27,9 +28,19 @@ if __name__ == "__main__":
         localPath = os.path.join(args.output, name)
         if not os.path.exists( localPath ):
             print("download:", name)
-            with open(localPath + ".tmp", 'wb') as fp:
-                ftp.retrbinary('RETR %s' % (name), fp.write)
-            shutil.move(localPath + ".tmp", localPath)
+            attempts = 0
+            while attempts < 10:
+                try:
+                    with open(localPath + ".tmp", 'wb') as fp:
+                        ftp.retrbinary('RETR %s' % (name), fp.write)
+                    shutil.move(localPath + ".tmp", localPath)
+                    break
+                except: 
+                    attempts += 1
+                    time.sleep(10)
+                    ftp = FTP('ftp.ncbi.nlm.nih.gov')
+                    ftp.login()
+                    ftp.cwd('/pubmed/baseline/')
         else:
             print("cached:", name)
     ftp.quit()

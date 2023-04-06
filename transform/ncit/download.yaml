@@ -1,0 +1,10 @@
+
+class: lathe
+name: download
+
+scripts:
+
+  downloadGO:
+    commandLine: curl -L -o ../../source/ncit/ncit.obo https://github.com/NCI-Thesaurus/thesaurus-obo-edition/releases/download/v2022-08-19/ncit.obo
+    outputs:
+      - ../../source/ncit/ncit.obo

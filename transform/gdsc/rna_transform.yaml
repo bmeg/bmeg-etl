@@ -1,0 +1,90 @@
+
+class: sifter
+name: GDSC_Transform
+outdir: ../../output/gdsc
+
+config:
+  expFile: ../../source/gdsc/Cell_line_RMA_proc_basalExp.txt
+  schema: ../../schema
+  hugoFile: ../../source/hugo/hugo.tsv
+  cosmic2ach: ../../source/gdsc/tables/cosmic2ach.translate.link.json.gz
+
+inputs:
+  geneRead:
+    transposeLoad:
+      input: "{{config.expFile}}"
+
+
+pipelines:
+  transform:
+    - from: geneRead
+    - project:
+        mapping:
+          id: "{{row.GENE_SYMBOLS}}"
+    - filter:
+        field: id
+        check: not
+        match: GENE_title
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            values= {}
+            for k, v in row.items():
+              if k not in ["GENE_SYMBOLS", "GENE", "id"]:
+                try:
+                  if k.startswith("ENSG"):
+                    values[k] = float(v)
+                except ValueError:
+                  pass
+            cosmic_id = row["id"].split(".")[1]
+            return {
+              "aliquot" : [ {"id" : "aliquot/" + cosmic_id } ],
+              "submitter_id" : cosmic_id,
+              "id" : "geneExpression/" + cosmic_id,
+              "project_id" : "GDSC", 
+              'method' : "MicroArray",
+              'metric': "RMA",
+              "values" : values
+            }
+    - lookup:
+        tsv:
+          input: "{{config.hugoFile}}"
+          key: "Approved symbol"
+          value: "Ensembl ID(supplied by Ensembl)"
+        replace: values
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: GeneExpression
+    - emit:
+        name: geneExpression
+
+  aliquot:
+    - from: transform
+    - clean:
+        fields:
+          - submitter_id
+          - aliquot
+          - project_id
+    - lookup:
+        json:
+          input: "{{config.cosmic2ach}}"
+          key: COSMIC_ID
+          value: BROAD_ID
+        lookup: "{{row.submitter_id}}"
+        copy:
+          broad_id: BROAD_ID
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            row["id"] = row["aliquot"][0]["id"]
+            row["aliquot_id"] = row["aliquot"][0]["id"]
+            if "broad_id" in row:
+              row["sample"] = [ {"id" : "sample/" + row["broad_id"] } ]
+            return row          
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: Aliquot
+    - emit:
+        name: aliquot

@@ -212,7 +212,7 @@ def scrapeExpression(outdir):
         if not os.path.exists(outPath):
             get_file(row['file_id'], outPath + ".tmp" )
             shutil.move(outPath + ".tmp", outPath)
-        print(row)
+        #print(row)
 
 
 def scrapeOpenMaf(outdir):

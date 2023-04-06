@@ -1,0 +1,93 @@
+
+class: sifter
+name: GDSC_rnaseq_Transform
+outdir: ../../output/gdsc
+
+config:
+  expFile: ../../source/gdsc/rnaseq_sanger_20210316.csv
+  schema: ../../schema
+  geneFile: ../../source/gdsc/gene_identifiers_20191101.csv
+  modelFile: ../../source/gdsc/model_list_20230110.csv
+
+inputs:
+  expRead:
+    tableLoad:
+      input: "{{config.expFile}}"
+      sep: ","
+
+
+pipelines:
+  start:
+    - from: expRead
+    - accumulate:
+        field: model_id
+        dest: rows
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            values = {}
+            for i in row["rows"]:
+              values[i["gene_id"]] = int(i["read_count"])
+            out = {
+              "id" : "geneExpression/" + row["model_id"],
+              "aliquot" : [ {"id" : "aliquot/" + row["model_id"]} ],
+              "submitter_id" : row["model_id"],
+              "project_id" : "Sanger", 
+              'method' : "RNA-Seq",
+              'metric': "RAW_COUNT",
+              "values" : values
+            }
+            return out
+    - lookup:
+        tsv:
+          input: "{{config.geneFile}}"
+          sep: ","
+          key: "gene_id"
+          value: ensembl_gene_id
+        replace: values
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            values = {}
+            for k, v in row["values"].items():
+              if k.startswith("ENSG"):
+                values[k] = v
+            row["values"] = values
+            return row
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: GeneExpression
+    - emit:
+        name: geneExpression
+  
+  aliquot:
+    - from: start
+    - clean:
+        fields:
+          - submitter_id
+          - aliquot
+          - project_id
+    - lookup:
+        tsv:
+          input: "{{config.modelFile}}"
+          sep: ","
+          key: model_id
+          value: BROAD_ID
+        lookup: "{{row.submitter_id}}"
+        copy:
+          broad_id: BROAD_ID
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            row["id"] = row["aliquot"][0]["id"]
+            row["aliquot_id"] = row["aliquot"][0]["id"]
+            row["sample"] = [ {"id" : "sample/" + row["broad_id"] } ]
+            return row
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: Aliquot
+    - emit:
+        name: aliquot

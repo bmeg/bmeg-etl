@@ -1,0 +1,36 @@
+
+class: sifter
+
+name: ncit2mondo
+outdir: ../../source/mondo/tables
+
+config:
+  mondo: ../../source/mondo/mondo.json
+
+inputs:
+  mondoJson:
+    jsonLoad:
+        input: "{{config.mondo}}"
+        multiline: true
+
+pipelines:
+  ncit_extract:
+    - from: mondoJson
+    - fieldProcess:
+        field: graphs
+    - fieldProcess:
+        field: nodes
+    #- debug: {}
+    - flatMap: 
+        method: fix
+        gpython: |
+          def fix(row):
+            out = []
+            if "meta" in row:
+              row["term_id"] = row["id"].replace("http://purl.obolibrary.org/obo/", "")
+              for val in row.get("meta", {}).get("definition", {}).get("xrefs", []):
+                if val.startswith("NCIT:"):
+                  out.append({ "mondo_id" : row["term_id"], "ncit_id" : val })
+            return out
+    - emit:
+        name: mapping

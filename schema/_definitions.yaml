@@ -22,7 +22,8 @@ foreign_key_project:
     # which is the user defined ID for project
     properties:
         id:
-            $ref: "#/UUID"
+            type: string
+            #$ref: "#/UUID"
         code:
             type: string
 
@@ -52,7 +53,8 @@ foreign_key:
     # which are user defined IDs ("submitter IDs in the backend")
     properties:
         id:
-            $ref: "#/UUID"
+            type: string
+            #$ref: "#/UUID"
         submitter_id:
             type: string
 
@@ -301,6 +303,8 @@ expression_metric:
   description: "Expression metric"
   enum:
     - "TPM"
+    - "TPM_GENE"
     - "RPKM"
     - "FPKM"
     - "RAW_COUNT"
+    - "RMA"

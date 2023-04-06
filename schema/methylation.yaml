@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "methylation"
 title: Methylation
@@ -49,6 +49,9 @@ properties:
         - number
         - 'null'
   aliquot:
+    targets:
+      - type:
+          $ref: aliquot.yaml
     $ref: _definitions.yaml#/to_one
   project_id:
     $ref: _definitions.yaml#/project_id

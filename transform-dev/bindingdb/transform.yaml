@@ -1,0 +1,49 @@
+
+
+class: sifter
+name: bindingdb
+
+outdir: ../../output/bindingdb
+
+config:
+  sql: ../../source/bindingdb/BDB_my-202301.dmp
+
+inputs:
+  database:
+    sqldumpLoad:
+      input: "{{config.sql}}"
+
+pipelines:
+  start:
+    - from: database
+    - emit:
+        name: raw
+
+  monomer:
+    - from: database
+    - filter:
+        field: table 
+        match: MONOMER
+    - fieldProcess:
+        field: data
+    - emit:
+        name: monomer
+  complex:
+    - from: database
+    - filter:
+        field: table
+        match: COMPLEX
+    - fieldProcess: 
+        field: data
+    - emit:
+        name: complex
+    
+  assay:
+    - from: database
+    - filter:
+        field: table
+        match: ASSAY
+    - fieldProcess: 
+        field: data
+    - emit:
+        name: assay

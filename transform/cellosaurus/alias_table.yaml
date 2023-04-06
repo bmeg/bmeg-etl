@@ -1,0 +1,32 @@
+
+
+class: sifter
+
+name: cellosarusSynonyms
+outdir: ../../source/cellosaurus/table
+
+config:
+  oboFile: ../../source/cellosaurus/cellosaurus.obo
+
+inputs:
+  oboData:
+    plugin:
+      commandLine: ../../util/obo_reader.py {{config.oboFile}}
+
+pipelines:
+  caseTable:
+    - from: oboData
+    - flatMap:
+        method: fix
+        gpython: |
+          def fix(row):
+            out = []
+            for i in row.get("xref", []):
+              if i.startswith("DepMap:"):
+                out.append({
+                  "cellosaurus_id" : row["id"][0],
+                  "depmap_id" : i.replace("DepMap:", "")
+                })
+            return out
+    - emit:
+        name: ach2cellosaurus

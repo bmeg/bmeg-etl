@@ -20,6 +20,7 @@ pipelines:
           studies: "{{row.project.project_id}}"
           experiments: "exp:{{row.project.project_id}}"
           project_id: "{{row.project.project_id}}"
+          projects: [ {"id" : "project/{{row.project.project_id}}"} ]
           type: case
     - map:
         method: fix
@@ -33,10 +34,32 @@ pipelines:
             return x
 
     - objectValidate:
-        class: case
+        title: Case
         schema: "{{config.schema}}"
     - emit:
         name: case
+
+  projectObject:
+    - from: caseObject
+    - distinct:
+        value: "{{row.project_id}}"
+    - project:
+        mapping:
+          submitter_id: "{{row.project_id}}"
+          type: project
+          id: "project/{{row.project_id}}"
+    - clean:
+        fields:
+          - id
+          - project_id
+          - submitter_id
+          - type
+
+    - objectValidate:
+        title: Project
+        schema: "{{config.schema}}"
+    - emit:
+        name: project 
 
   sampleData:
     - from: caseData
@@ -52,8 +75,11 @@ pipelines:
         mapping:
           type: sample
           id: "{{row.sample_id}}"
+    - project:
+        mapping:
+          case: [ {"id" : "{{row.case}}"}]
     - objectValidate:
-        class: sample
+        title: Sample
         schema: "{{config.schema}}"
     - emit:
         name: sample
@@ -93,8 +119,11 @@ pipelines:
 
   aliquotObject:
     - from: aliquotData
+    - project:
+        mapping:
+          sample: [ {"id" : "{{row.sample}}"} ]
     - objectValidate:
-        class: aliquot
+        title: Aliquot
         schema: "{{config.schema}}"
     - emit:
         name: aliquot

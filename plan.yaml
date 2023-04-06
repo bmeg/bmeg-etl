@@ -1,0 +1,25 @@
+
+class: plan
+name: bmeg-etl
+
+steps:
+  - buildCommands:
+      dir: transform
+  - collectClass:
+      title: Allele
+      dir: transform
+      output: output-normalize/allele.merge.json.gz
+  - buildCommands:
+      dir: normalize
+  - graphGen:
+      dir: transform
+      scriptDir: graph-build
+      outdir: graph
+      excludeClasses:
+        - Allele
+  - graphGen:
+      dir: normalize
+      scriptDir: graph-build
+      outdir: graph
+  - buildCommands:
+      dir: graph-build

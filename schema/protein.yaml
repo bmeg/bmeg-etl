@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "protein"
 title: Protein
@@ -20,56 +20,56 @@ systemProperties:
   - updated_datetime
 
 required:
+  - id
   - submitter_id
   - project_id
-  - protein_id
-  - genome
 
 uniqueKeys:
   - [id]
   - [project_id, submitter_id]
 
-links:
-  - backref: protein
-    label: transcript
-    multiplicity: one_to_one
-    name: transcript
-    required: false
-    target_type: transcript
-  - backref: proteins
-    label: pfam_families
-    multiplicity: many_to_many
-    name: pfam_families
-    required: false
-    target_type: pfam_family
-    properties:
-      start:
-        type: integer
-      end:
-        type: integer
 
 properties:
-  protein_id:
+  id:
     type: string
-  genome:
-    $ref: _definitions.yaml#/genome
-  pfam_families:
-    $ref: _definitions.yaml#/to_many
+
+  sequence:
+    type: string
+
   protein_structures:
+    targets:
+      - type: 
+          $ref: protein_structure.yaml
+        backref: protein
     $ref: _definitions.yaml#/to_many
+
+  gene:
+    targets:
+      - type: 
+          $ref: gene.yaml
+    $ref: _definitions.yaml#/to_one
+
   transcript:
-      $ref: _definitions.yaml#/to_one
-  uniprot:
-      $ref: _definitions.yaml#/to_one
-  project_id:
-    $ref: _definitions.yaml#/project_id
+    targets:
+      - type: 
+          $ref: transcript.yaml
+        backref: protein
+    $ref: _definitions.yaml#/to_one
+
   submitter_id:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
+
+  project_id:
+    $ref: _definitions.yaml#/project_id
+
+  length:
+    type: number  
+
+  mass:
+    type: number  
+
   type:
     type: string
   created_datetime:

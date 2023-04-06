@@ -1,0 +1,16 @@
+
+
+class: lathe
+name: uniprotDownload
+
+
+scripts:
+  downloadTrembl:
+    commandLine: curl -o ../../source/uniprot/uniprot_trembl_human.xml.gz https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/taxonomic_divisions/uniprot_trembl_human.xml.gz
+    outputs: 
+      - ../../source/uniprot/uniprot_trembl_human.xml.gz
+
+  downloadSprot:
+    commandLine: curl -o ../../source/uniprot/uniprot_sprot_human.xml.gz https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/taxonomic_divisions/uniprot_sprot_human.xml.gz
+    outputs: 
+      - ../../source/uniprot/uniprot_sprot_human.xml.gz

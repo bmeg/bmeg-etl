@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "gene_expression"
 title: GeneExpression
@@ -39,6 +39,11 @@ links:
     target_type: aliquot
 
 properties:
+  id:
+    #$ref: _definitions.yaml#/UUID
+    type: string
+    systemAlias: node_id
+
   method:
     type: string
   metric:
@@ -50,6 +55,10 @@ properties:
     additionalProperties: 
       type: number
   aliquot:
+    targets:
+      - type:
+          $ref: aliquot.yaml
+        backref: gene_expressions
     $ref: _definitions.yaml#/to_one
   project_id:
     $ref: _definitions.yaml#/project_id
@@ -57,9 +66,6 @@ properties:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

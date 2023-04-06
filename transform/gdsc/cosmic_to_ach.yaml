@@ -1,0 +1,24 @@
+
+class: sifter
+name: cosmic2ach
+
+outdir: ../../source/gdsc/tables
+
+config:
+  file: ../../source/gdsc/model_list_20191104.csv
+
+inputs:
+  modelFile:
+    tableLoad:
+      input: "{{config.file}}"
+      sep: ","
+
+pipelines:
+  translate:
+    - from: modelFile
+    - clean:
+        fields:
+          - COSMIC_ID
+          - BROAD_ID
+    - emit:
+        name: link

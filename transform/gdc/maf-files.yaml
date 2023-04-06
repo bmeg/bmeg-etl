@@ -4,23 +4,27 @@ name: gdc-mafs
 outdir: ../../output/gdc/open-maf
 
 config:
-  mafBase: ../../source/gdc/open-maf/*.maf.gz
+  mafBase: ../../source/gdc/open-maf
   schema: ../../schema/
 
 inputs:
   mafData:
     glob:
-      input: "{{config.mafBase}}"
+      input: "{{config.mafBase}}/*.maf.gz"
       storeFilename: _fileName
       tableLoad: {}
 
 pipelines:
   scan:
     - from: mafData
+    - regexReplace:
+        field: Tumor_Seq_Allele2
+        regex: "-"
+        replace: "."
     - project:
         mapping:
           somatic_callset: "{{row.Tumor_Sample_UUID}}:{{row.Matched_Norm_Sample_UUID}}"
-          allele: "{{row.NCBI_Build}}{{row.Chromosome}}:{{row.Start_Position}}:{{row.Reference_Allele}}:{{row.Tumor_Seq_Allele1}}"
+          allele: "{{row.NCBI_Build}}:{{row.Chromosome}}:{{row.Start_Position}}:{{row.Reference_Allele}}:{{row.Tumor_Seq_Allele2}}"
           methods: "{{row.callers}}"
     - split:
         field: methods
@@ -33,11 +37,54 @@ pipelines:
         n_ref_count: int
         n_alt_count: int
         start: int
+    - dropNull: {}
+    - project:
+        mapping: 
+          id: "{{row.somatic_callset}}-{{row.allele}}"
     - objectValidate:
         schema: "{{config.schema}}"
-        class: somatic_variant
+        title: SomaticVariant
     - emit:
         name: variant
+  
+  allele:
+    - from: mafData
+    - regexReplace:
+        field: Tumor_Seq_Allele2
+        regex: "-"
+        replace: "."
+    - project:
+        mapping:
+          submitter_id: "{{row.NCBI_Build}}:{{row.Chromosome}}:{{row.Start_Position}}:{{row.Reference_Allele}}:{{row.Tumor_Seq_Allele2}}"
+          reference_bases: "{{row.Reference_Allele}}"
+          alternate_bases: "{{row.Tumor_Seq_Allele2}}"
+          genome: "{{row.NCBI_Build}}"
+          chromosome: "{{row.Chromosome}}"
+          start: "{{row.Start_Position}}"
+          end:  "{{row.End_Position}}"
+          project_id: "gdc"
+    - project:
+        mapping:
+          id: "{{row.genome}}:{{row.chromosome}}:{{row.start}}:{{row.reference_bases}}:{{row.alternate_bases}}"
+    - clean:
+        fields:
+          - id
+          - submitter_id
+          - reference_bases
+          - alternate_bases
+          - genome
+          - chromosome
+          - start
+          - end
+          - project_id
+    - fieldType:
+        start: int
+        end: int
+    - objectValidate:
+        title: Allele
+        schema: "{{config.schema}}"
+    - emit:
+        name: allele
 
   somaticCallsets:
     - from: mafData
@@ -52,6 +99,6 @@ pipelines:
           project_id: TBD # figure out how to get this information here
     - objectValidate:
         schema: "{{config.schema}}"
-        class: somatic_callset
+        title: SomaticCallset
     - emit: 
         name: callset

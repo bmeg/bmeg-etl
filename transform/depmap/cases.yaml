@@ -7,6 +7,7 @@ outdir: ../../output/depmap/
 config:
   modelFile: ../../source/depmap/Model.csv
   schema: ../../schema/
+  cellosarus: ../../source/cellosaurus/table/cellosarusSynonyms.caseTable.ach2cellosaurus.json.gz
 
 inputs:
   model:
@@ -15,15 +16,51 @@ inputs:
       sep: ","
 
 pipelines:
-  cases:
+    
+  samples:
+    - from: model
+
+    - lookup:
+        json: 
+          input: "{{config.cellosarus}}"
+          key: depmap_id
+          value: cellosaurus_id
+        lookup: "{{row.ModelID}}"
+        copy:
+          cellosaurus_id: cellosaurus_id
+    # this is kind of a dumb fix for Depmap samples that don't show up in cellosarus
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            if "cellosarus_id" not in row:
+              row["cellosaurus_id"] = row["ModelID"]
+            return row
+    - project:
+        mapping:
+          id: "sample/{{row.ModelID}}"
+          submitter_id: "{{row.ModelID}}"
+          project_id: DepMap
+          sample_id: "sample/{{row.ModelID}}"
+          case: [ {"id" : "case/{{row.cellosaurus_id}}" } ]
+
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: Sample
+    - emit:
+        name: sample
+
+  aliquots:
     - from: model
     - project:
         mapping:
+          id: "aliquot/{{row.ModelID}}"
           submitter_id: "{{row.ModelID}}"
           project_id: DepMap
-          case_id: "Case:{{row.ModelID}}"
+          aliquot_id: "Aliquot:{{row.ModelID}}"
+          sample: [ {"id" : "sample/{{row.ModelID}}" } ]
     - objectValidate:
         schema: "{{config.schema}}"
-        class: case
+        title: Aliquot
     - emit:
-        name: case
+        name: aliquot

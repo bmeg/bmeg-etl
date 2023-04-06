@@ -1,0 +1,10 @@
+
+class: lathe
+name: pdbDownload
+
+
+scripts:
+  downloadEntries:
+    commandLine: curl -o ../../source/pdb/entries.idx https://files.wwpdb.org/pub/pdb/derived_data/index/entries.idx
+    outputs: 
+      - ../../source/pdb/entries.idx

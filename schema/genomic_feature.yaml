@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "genomic_feature"
 title: GenomicFeature
@@ -65,15 +65,15 @@ properties:
     oneOf:
       - type: 'null'
       - $ref: _definitions.yaml#/strand
-  myvariantinfo:
-    type:
-    - 'null'
-    - object
   name:
     type: string
   g2p_associations:
     $ref: _definitions.yaml#/to_many
   genes:
+    targets:
+      - type:
+          $ref: gene.yaml
+        backref: genomic_features
     $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id

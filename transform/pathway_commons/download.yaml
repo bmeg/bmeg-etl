@@ -2,11 +2,11 @@
 class: lathe
 name: pathwayCommonsDownload
 
-scripts:
-  jar:
-    commandLine: docker run  --rm -u `id -u` -v `pwd`:`pwd` -v `pwd`/maven-repo:/root/.m2 -w `pwd` -ti maven:3-openjdk-11 mvn package
-    outputs:
-      - target/pc-extract-1.0-jar-with-dependencies.jar
+#scripts:
+#  jar:
+#    commandLine: docker run  --rm -u `id -u` -v `pwd`:`pwd` -v `pwd`/maven-repo:/root/.m2 -w `pwd` -ti maven:3-openjdk-11 mvn package
+#    outputs:
+#      - target/pc-extract-1.0-jar-with-dependencies.jar
 
 templates:
   pc-prep:
@@ -42,11 +42,11 @@ templates:
               - ../../source/pathway_commons/PathwayCommons12.{{name}}.BIOPAX.owl.gz
           "process_{{name}}":
             inputs:
-              - target/pc-extract-1.0-jar-with-dependencies.jar
+              - ../../util/extsif/target/pc-extract-1.0-jar-with-dependencies.jar
               - ../../source/pathway_commons/PathwayCommons12.{{name}}.BIOPAX.owl.gz
             # conda install -c conda-forge openjdk=11
             # docker run  --rm -u `id -u` -v `pwd`/../../:`pwd`/../../ -w `pwd` openjdk:11 
-            commandLine: java -Xmx15g -jar target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.{{name}}.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.{{name}}
+            commandLine: java -Xmx15g -jar ../../util/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.{{name}}.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.{{name}}
             memMB: 15000
             outputs:
               - ../../source/pathway_commons/PathwayCommons12.{{name}}.extSIF

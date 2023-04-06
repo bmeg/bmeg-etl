@@ -1,0 +1,23 @@
+
+
+
+
+class: lathe
+name: alleleAnnotate
+
+
+scripts:
+
+  alleleAnnotate:
+    commandLine: "java -jar ../../util/snpEff/snpEff.jar ann -dataDir `pwd`/../../source/allele/data -nodownload  GRCh38.86 ../../output-normalize/allele.vcf > ../../output-normalize/allele.annotated.vcf"
+    inputs:
+      - ../../output-normalize/allele.vcf
+    outputs:
+      - ../../output-normalize/allele.annotated.vcf
+    
+
+# curl https://snpeff.blob.core.windows.net/versions/snpEff_latest_core.zip -o ../../util/snpEff_latest_core.zip
+# unzip -d ../../util ../../util/snpEff_latest_core.zip
+
+
+# java -jar util/snpEff/snpEff.jar ann -dataDir `pwd`/source/allele/data -nodownload  GRCh38.86  merge/alleles.vcf

@@ -1,4 +1,4 @@
-$schema: "http://json-schema.org/draft-04/schema#"
+$schema: "https://json-schema.org/draft/2020-12/schema"
 
 id: "gene_set"
 title: GeneSet
@@ -20,6 +20,7 @@ systemProperties:
   - updated_datetime
 
 required:
+  - id
   - submitter_id
   - project_id
 
@@ -42,6 +43,8 @@ links:
     target_type: publication
 
 properties:
+  id:
+    type: string
   standard_name:
     type: string
   systematic_name:
@@ -71,8 +74,16 @@ properties:
   description_full:
     type: string
   genes:
+    targets:
+      - type:
+          $ref: gene.yaml
+        backref: gene_sets
     $ref: _definitions.yaml#/to_many
   publications:
+    targets:
+      - type:
+          $ref: publication.yaml
+        backref: gene_sets
     $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id
@@ -80,9 +91,6 @@ properties:
     type:
       - string
       - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:
