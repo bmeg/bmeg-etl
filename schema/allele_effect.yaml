@@ -5,10 +5,16 @@ title: AlleleEffect
 type: object
 
 properties:
+  id:
+    type: string
   annotation:
     type: string
   annotation_impact:
     type: string
+  aa_position:
+    type: integer
+  aa_length:
+    type: integer
   cds_position:
     type: integer
   cds_length:

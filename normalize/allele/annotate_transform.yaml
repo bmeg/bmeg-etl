@@ -26,6 +26,15 @@ inputs:
 pipelines:
   transform:
     - from: vcfData
+    - project:
+        mapping:
+          id: "GRCh38:{{row.CHROM}}:{{row.POS}}:{{row.REF}}:{{row.ALT}}"
+          submitter_id: "GRCh38:{{row.CHROM}}:{{row.POS}}:{{row.REF}}:{{row.ALT}}"
+          project_id: Reference
+          reference_bases: "{{row.REF}}"
+          alternate_bases: "{{row.ALT}}"
+          chromosome: "{{row.CHROM}}"
+          genome: GRCh38
     - map:
         method: fix
         gpython: |
@@ -37,7 +46,7 @@ pipelines:
             o = []
             if len(t) > 1:
               a = t[1].split(",")
-              for i in a:
+              for n, i in enumerate(a):
                 b = dict(zip(header, i.split("|")))
                 b["hgvsc"] = b["HGVS.c"]
                 b["hgvsp"] = b["HGVS.p"]
@@ -47,36 +56,54 @@ pipelines:
                 b["hugo_symbol"] = b["Gene_Name"]
                 b["ensembl_gene"] = b["Gene_ID"]
                 if b["Feature_Type"] == "transcript":
-                  b["ensembl_transcript"] = b["Feature_ID"]
+                  b["ensembl_transcript"] = b["Feature_ID"].split(".")[0]
                 aa = b["AA.pos / AA.length"]
                 if len(aa):
                   aa_pos, aa_len = aa.split("/")
-                  b["aa_pos"] = int(aa_pos)
-                  b["aa_len"] = int(aa_len)
+                  b["aa_position"] = int(aa_pos)
+                  b["aa_length"] = int(aa_len)
                 cds = b["CDS.pos / CDS.length"]
                 if len(cds):
                   cds_pos, cds_len = cds.split("/")
-                  b["cds_pos"] = int(cds_pos)
-                  b["cds_len"] = int(cds_len)
+                  b["cds_position"] = int(cds_pos)
+                  b["cds_length"] = int(cds_len)
                 cdna = b["cDNA.pos / cDNA.length"]
                 if len(cdna):
                   cdna_pos, cdna_len = cdna.split("/")
-                  b["cdna_pos"] = int(cdna_pos)
-                  b["cdna_len"] = int(cdna_len)
+                  b["cdna_position"] = int(cdna_pos)
+                  b["cdna_length"] = int(cdna_len)
+                b["id"] = row["id"] + "/" + str(n)
                 o.append(b)
             row["effects"] = o
             return row
-    - project:
-        mapping:
-          id: "GRCh38:{{row.CHROM}}:{{row.POS}}:{{row.REF}}:{{row.ALT}}"
-          submitter_id: "GRCh38:{{row.CHROM}}:{{row.POS}}:{{row.REF}}:{{row.ALT}}"
-          project_id: Reference
-          reference_bases: "{{row.REF}}"
-          alternate_bases: "{{row.ALT}}"
-          chromosome: "{{row.CHROM}}"
-          genome: GRCh38
+
+
+  allele:
+    - from: transform
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            o = []
+            for i in row["effects"]:
+              o.append( {"id" : i["id"]} )
+            row["effects"] = o
+            return row
     - objectValidate:
         schema: "{{config.schema}}"
         title: Allele
     - emit:
         name: allele
+
+  alleleEffect:
+    - from: transform
+    - flatMap:
+        method: fix
+        gpython: |
+          def fix(row):
+            return row["effects"]
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: AlleleEffect
+    - emit:
+        name: alleleEffect

@@ -41,10 +41,10 @@ properties:
     targets:
       - type:
           $ref: allele_effect.yaml
-    type: array
-    items:
-      $ref: allele_effect.yaml
-
+    #type: array
+    #items:
+    #  $ref: allele_effect.yaml
+    $ref: _definitions.yaml#/to_many
   gene:
     targets:
       - type:
