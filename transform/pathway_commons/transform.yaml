@@ -1,7 +1,7 @@
 
-
 class: sifter
 name: pathway_commons
+memMB: 20000
 
 outdir: ../../output/pathway_commons/
 
