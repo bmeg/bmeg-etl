@@ -76,14 +76,16 @@ pipelines:
                 for i in row["locs"]:
                   if isinstance(i, dict):
                     if i["name"] == name:
+                      ref = feat["ref"].replace("-", ".")
+                      alt = feat["alt"].replace("-", ".")
                       o = {
-                        "reference_bases" : feat["ref"].replace("-", "."),
-                        "alternate_bases" : feat["alt"].replace("-", "."),
+                        "reference_bases" : ref,
+                        "alternate_bases" : alt,
                         "genome" : "GRCh38",
                         "chromosome": i["chromosome"],
                         "start": int(i["start"]),
                         "end" : int(i["end"]),
-                        "id" : "%s:chr%s:%d:%d" % ("GRCh38", feat["chromosome"], int(i["start"]), int(i["end"]) )
+                        "id" : "%s:chr%s:%d:%s:%s" % ("GRCh38", feat["chromosome"], int(i["start"]), ref, alt )
                       }
                   if o is not None:
                     a.append(o)
@@ -95,7 +97,6 @@ pipelines:
     - objectValidate:
         title: GenePhenotypeAssociation
         schema: "{{config.schema}}"
-
     - emit:
         name: assocation
   

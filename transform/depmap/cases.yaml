@@ -19,7 +19,6 @@ pipelines:
     
   samples:
     - from: model
-
     - lookup:
         json: 
           input: "{{config.cellosarus}}"
@@ -28,13 +27,14 @@ pipelines:
         lookup: "{{row.ModelID}}"
         copy:
           cellosaurus_id: cellosaurus_id
-    # this is kind of a dumb fix for Depmap samples that don't show up in cellosarus
     - map:
         method: fix
         gpython: |
           def fix(row):
-            if "cellosarus_id" not in row:
-              row["cellosaurus_id"] = row["ModelID"]
+            if "cellosaurus_id" not in row:
+              row["cell_id"] = row["ModelID"]
+            else:
+              row["cell_id"] = row["cellosaurus_id"]
             return row
     - project:
         mapping:
@@ -42,13 +42,39 @@ pipelines:
           submitter_id: "{{row.ModelID}}"
           project_id: DepMap
           sample_id: "sample/{{row.ModelID}}"
-          case: [ {"id" : "case/{{row.cellosaurus_id}}" } ]
+          case: [ {"id" : "case/{{row.cell_id}}" } ]
+          type: Sample
 
+
+  sampleObjects:
+    - from: samples
     - objectValidate:
         schema: "{{config.schema}}"
         title: Sample
     - emit:
         name: sample
+
+  depMapCases:
+    - from: samples
+    - filter:
+        method: find
+        gpython: |
+          def find(row):
+            if "cellosaurus_id" not in row:
+              return True
+            return False
+    - project:
+        mapping:
+          id: "case/{{row.cell_id}}"
+          case_id: "case/{{row.cell_id}}"
+          comment: "{{row.OncotreePrimaryDisease}}"
+          type: Case
+          projects: [ {"id": "project/cellosaurus"} ] # this is a bit of a hack to keep all the cellline within the same project
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: Case
+    - emit:
+        name: case
 
   aliquots:
     - from: model
