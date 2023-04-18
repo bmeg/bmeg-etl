@@ -21,7 +21,7 @@ pipelines:
   records:
     - from: sqlQuery
     - plugin:
-        commandLine: "./calc_fingerprint.py"
+        commandLine: "../../util/calc_fingerprint.py"
     - lookup:
         json:
           input: "{{config.synonyms}}"
@@ -41,3 +41,10 @@ pipelines:
         title: Compound
     - emit: 
         name: compound
+  
+  distances:
+    - from: records
+    - plugin:
+        commandLine: "../../util/compound_distance.py"
+    - emit:
+        name: distances

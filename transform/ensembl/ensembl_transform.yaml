@@ -127,3 +127,15 @@ pipelines:
         title: Gene
     - emit:
         name: gene
+
+  hugoTable:
+    - from: genes
+    - filter:
+        field: symbol
+        check: hasValue
+    - tableWrite:
+        output: hugo2ensembl.tsv
+        sep: "\t"
+        columns:
+          - symbol
+          - id

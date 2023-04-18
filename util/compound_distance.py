@@ -4,12 +4,11 @@ import gzip
 import numpy as np
 import json
 import sys
-from tqdm import tqdm
 from rdkit import Chem, DataStructs
 from rdkit.Chem import AllChem
 
 def list2fingerprint(fingerprint):
-    '''input fingerprint (stored as list in BMEG) and output morgan fingerprint from rdskit
+    '''input fingerprint (stored as list in record) and output morgan fingerprint from rdskit
     '''
     fp = np.array(fingerprint)
     bitstring="".join(fp.astype(str))
@@ -17,16 +16,14 @@ def list2fingerprint(fingerprint):
     return fp_bit
 
 if __name__ == "__main__":
-    inPath = sys.argv[1]
 
     records={}
     fingerprints = {}
-    with gzip.open(inPath) as handle:
-        for line in tqdm(handle):
-            d = json.loads(line)
-            records[d["chembl_id"]] = d
-            if "morgan_fingerprint_2" in d:
-                fingerprints[d["chembl_id"]] = list2fingerprint(d["morgan_fingerprint_2"])
+    for line in sys.stdin:
+        d = json.loads(line)
+        records[d["chembl_id"]] = d
+        if "morgan_fingerprint_2" in d:
+            fingerprints[d["chembl_id"]] = list2fingerprint(d["morgan_fingerprint_2"])
 
     # Calculate similarity
     compounds = list(fingerprints.keys())
