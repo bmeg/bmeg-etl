@@ -6,7 +6,7 @@ name: depmap-expression
 outdir: ../../output/depmap/
 
 config:
-  geneTable: ../../source/ensembl/gene2ensembl.translate.link.json.gz
+  geneTable: ../../tables/gene2ensembl.translate.link.json.gz
   expressionFile: ../../source/depmap/OmicsExpressionProteinCodingGenesTPMLogp1.csv
   schema: ../../schema/
 

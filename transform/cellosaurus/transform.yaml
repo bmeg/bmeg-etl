@@ -6,7 +6,7 @@ outdir: ../../output/cellosaurus/
 config:
   oboFile: ../../source/cellosaurus/cellosaurus.obo
   schema: ../../schema
-  ncit2mondo: ../../source/mondo/tables/ncit2mondo.ncit_extract.mapping.json.gz
+  ncit2mondo: ../../tables/ncit2mondo.ncit_extract.mapping.json.gz
 inputs:
   oboData:
     plugin:

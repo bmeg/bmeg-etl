@@ -1,0 +1,58 @@
+
+class: sifter
+
+name: hugo2ensembl
+outdir: ../../tables/
+
+config:
+  gffPath: ../../source/ensembl/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz
+
+inputs:
+  gffFile:
+    tableLoad:
+      input: "{{config.gffPath}}"
+      lazyQuotes: true
+      columns:
+        - seqID
+        - source
+        - feature
+        - start
+        - end
+        - score
+        - strand
+        - phase
+        - attributes
+
+pipelines:
+  table:
+    - from: gffFile
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            aText = row["attributes"]
+            o = {}
+            for i in aText.rstrip().split(";"):
+              if len(i):
+                k, v = i.strip().split(' ', 1)
+                o[k] = v.strip('"')
+            row["attributes"] = o
+            return row
+
+    - filter:
+        field: feature
+        match: gene
+    - project:
+        mapping:
+          id: "{{row.attributes.gene_id}}"
+          symbol: "{{row.attributes.gene_name}}"
+
+    - filter:
+        field: symbol
+        check: hasValue
+    - tableWrite:
+        output: hugo2ensembl.tsv
+        sep: "\t"
+        columns:
+          - symbol
+          - id

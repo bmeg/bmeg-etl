@@ -6,8 +6,8 @@ outdir: ../../output/gdsc
 config:
   expFile: ../../source/gdsc/Cell_line_RMA_proc_basalExp.txt
   schema: ../../schema
-  hugoFile: ../../source/hugo/hugo.tsv
-  cosmic2ach: ../../source/gdsc/tables/cosmic2ach.translate.link.json.gz
+  hugoFile: ../../tables/hugo2ensembl.tsv
+  cosmic2ach: ../../tables/cosmic2ach.translate.link.json.gz
 
 inputs:
   geneRead:

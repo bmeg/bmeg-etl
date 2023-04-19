@@ -5,12 +5,12 @@ outdir: ../../output/pharmacodb/
 name: pharmacodb_profiles
 
 config:
-  doseResponseFile: ../../source/pharmacodb/tables/dr_reduce.curveReduce.dose_response_curve.json.gz
-  profiles: ../../source/pharmacodb/tables/profiles.tsv.gz
-  experiments: ../../source/pharmacodb/tables/experiments.tsv.gz
-  drugs: ../../source/pharmacodb/tables/drugs.tsv.gz
-  datasets: ../../source/pharmacodb/tables/datasets.tsv.gz
-  cells: ../../source/pharmacodb/tables/cells.tsv.gz
+  doseResponseFile: ../../tables/pharmacodb/dr_reduce.curveReduce.dose_response_curve.json.gz
+  profiles: ../../tables/pharmacodb/profiles.tsv.gz
+  experiments: ../../tables/pharmacodb/experiments.tsv.gz
+  drugs: ../../tables/pharmacodb/drugs.tsv.gz
+  datasets: ../../tables/pharmacodb/datasets.tsv.gz
+  cells: ../../tables/pharmacodb/cells.tsv.gz
   schema: ../../schema/
 
 inputs:

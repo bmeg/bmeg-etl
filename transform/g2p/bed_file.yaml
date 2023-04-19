@@ -14,17 +14,6 @@ inputs:
       input: "{{config.base}}/*.vr.json"
       jsonLoad: {}
 
-outputs:
-  source_bed:
-    tableWrite:
-      from: main
-      output: g2p_source.bed
-      skipColumnHeader: true
-      columns:
-        - chromosome
-        - start
-        - end
-
 pipelines:
   main:
     - from: g2pData
@@ -47,3 +36,10 @@ pipelines:
                   i["start"] = t
                 out.append(i)
             return out
+    - tableWrite:
+        output: g2p_source.bed
+        skipColumnHeader: true
+        columns:
+          - chromosome
+          - start
+          - end

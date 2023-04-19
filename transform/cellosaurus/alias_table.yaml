@@ -3,7 +3,7 @@
 class: sifter
 
 name: cellosarusSynonyms
-outdir: ../../source/cellosaurus/table
+outdir: ../../tables
 
 config:
   oboFile: ../../source/cellosaurus/cellosaurus.obo

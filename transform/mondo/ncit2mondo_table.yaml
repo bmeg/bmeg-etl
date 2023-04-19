@@ -2,7 +2,7 @@
 class: sifter
 
 name: ncit2mondo
-outdir: ../../source/mondo/tables
+outdir: ../../tables
 
 config:
   mondo: ../../source/mondo/mondo.json

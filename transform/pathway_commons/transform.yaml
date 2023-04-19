@@ -7,7 +7,7 @@ outdir: ../../output/pathway_commons/
 
 config:
   extSifBase: ../../source/pathway_commons
-  uniprotMap: ../../source/ensembl/tables/uniprot2ensembl.tsv
+  uniprotMap: ../../tables/uniprot2ensembl.tsv
   schema: ../../schema/
 
 inputs:

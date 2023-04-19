@@ -6,7 +6,7 @@ outdir: ../../output/g2p
 config:
   base: ../../source/g2p/
   schema: ../../schema
-  hugo: ../../source/hugo/hugo.tsv
+  hugo: ../../hugo2ensembl.tsv
   liftOver: ../../source/g2p/tables/hglft_genome_2749d_8437f0.bed
 
 inputs:

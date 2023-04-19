@@ -7,7 +7,7 @@ outdir: ../../output/depmap/
 config:
   modelFile: ../../source/depmap/Model.csv
   schema: ../../schema/
-  cellosarus: ../../source/cellosaurus/table/cellosarusSynonyms.caseTable.ach2cellosaurus.json.gz
+  cellosarus: ../../tables/cellosarusSynonyms.caseTable.ach2cellosaurus.json.gz
 
 inputs:
   model:
