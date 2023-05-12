@@ -56,7 +56,7 @@ pipelines:
           project_id: "Reference"
           chromosome: "chr{{row.seqID}}"
           genome: "{{config.genomeBuild}}"
-          gene: "{{row.attributes.Parent}}"
+          gene: "{{row.attributes.gene_id}}"
     - regexReplace:
         field: gene
         regex: "^gene:"

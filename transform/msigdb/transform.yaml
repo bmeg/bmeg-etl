@@ -41,10 +41,14 @@ pipelines:
           "-DESCRIPTION_FULL": description_full
           "-SYSTEMATIC_NAME": submitter_id
           "-MEMBERS_EZID": genes
-          PMID: publications
+          "-PMID": publications
 
     - split:
         field: genes
+        sep: ","
+
+    - split:
+        field: publications
         sep: ","
 
     - lookup:
@@ -60,6 +64,7 @@ pipelines:
           def fix(row):
             row["id"] = "geneSet/"+ row["submitter_id"]
             row['genes'] = list( {"id":i} for i in row['genes'] if i.startswith("ENSG") )
+            row['publications'] = list( {"id":i} for i in row['publications'] if len(i) > 0 )
             return row
 
     - objectValidate:
