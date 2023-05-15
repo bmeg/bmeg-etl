@@ -37,24 +37,35 @@ pipelines:
                   return data['Year']
               else:
                   return ''
+
+          def get_large_strings(array):
+            large_strings = ""
+
+            def _get_large_strings_helper(array, strings_progress):
+              if isinstance(array, str) and len(array) > 18:
+                strings_progress += (" "+array)
           
+              if isinstance(array, dict):
+                for key, value in array.items():
+                  _get_large_strings_helper(value, strings_progress)
           
+              if isinstance(array, list):
+                for value in array:
+                  _get_large_strings_helper(value, strings_progress)
+
+              return strings_progress
+          
+            return _get_large_strings_helper(array, large_strings)[1:]
+
           def update(x):
             x["pmid"] = x["MedlineCitation"]["PMID"]["#content"]
 
             #pull out abstract information
             if "Abstract" in x["MedlineCitation"]["Article"]:
               abstract = x["MedlineCitation"]["Article"]["Abstract"]["AbstractText"]
-              text = ""
-              if isinstance(abstract, list):
-                for i in abstract:
-                  if "#content" in i:
-                    text += i["#content"]
-              elif isinstance(abstract, dict) and "#content" in abstract:
-                text = abstract["#content"]
-              else:
-                text = abstract
-              x["abstract"] = text
+              fullText = get_large_strings(abstract)
+             
+              x["abstract"] = fullText
 
 
             # pull out author information
