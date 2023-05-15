@@ -26,10 +26,7 @@ if __name__ == "__main__":
     ftp = FTP('ftp.ncbi.nlm.nih.gov')
     ftp.login()
     ftp.cwd('/pubmed/baseline/')
-    z = 0 ####### 
     for i in tqdm(ftp.nlst("/pubmed/baseline/*.xml.gz")):
-        if z > 1: break #########
-        z+=1 ########
         name = os.path.basename(i)
         localPath = os.path.join(args.output, name)
         if not os.path.exists( localPath ):
