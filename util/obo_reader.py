@@ -7,7 +7,6 @@ import json
 re_section = re.compile(r'^\[(.*)\]')
 re_field = re.compile(r'^(\w+): (.*)$')
 
-
 def obo_parse(handle):
     rec = None
     for line in handle:
@@ -24,7 +23,8 @@ def obo_parse(handle):
                 if res:
                     key = res.group(1)
                     val = res.group(2)
-                    val = val.split(" ! ")[0]
+                    val = re.split(" ! | \(|\)", val)
+                    val = ":".join(val[0:3])
                     if key in rec:
                         rec[key].append(val)
                     else:
