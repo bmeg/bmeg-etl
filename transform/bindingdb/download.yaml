@@ -5,7 +5,7 @@ name: bindingdbDownload
 
 scripts:
   download:
-    commandLine: curl -o ../../source/bindingdb/BindingDB_All_2023m1.tsv.zip https://www.bindingdb.org/bind/downloads/BindingDB_All_2023m2.tsv.zip
+    commandLine: curl -o ../../source/bindingdb/BindingDB_All_2023m1.tsv.zip https://www.bindingdb.org/bind/downloads/BindingDB_All_2023m1.tsv.zip
     outputs:
       - ../../source/bindingdb/BindingDB_All_2023m1.tsv.zip
   unzip:

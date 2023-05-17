@@ -2,16 +2,16 @@
 class: sifter
 name: bindingdbTsv
 
-outdir: ../../output/bindingdb
+outdir: ../../output/bindingdb/
 
 config:
   tsv: ../../source/bindingdb/BindingDB_All.tsv
-  schema: ../../schema/
+  schema: ../../schema
 
 inputs:
   bindingdb:
-    tableLoad:
-      input: "{{config.tsv}}"
+    plugin:
+      commandLine: ./tsvParse.py {{config.tsv}}
 
 pipelines:
   debug:
@@ -26,7 +26,13 @@ pipelines:
           def fix(row):
             protein = row["UniProt (SwissProt) Primary ID of Target Chain"]
             compound = row["ChEMBL ID of Ligand"]
-            if protein == "" or compound == "":
+            pstring = ""
+            pfinal = []
+            for p in protein:
+              pstring+=p
+              if len(p):
+                pfinal.append(p)
+            if pstring == "" or compound == "":
               return {"association_type":""}
             try:
               kiFloat = float(row["Ki (nM)"])
@@ -36,7 +42,7 @@ pipelines:
               "id" : "bindingdb/%s" % (row["BindingDB Reactant_set_id"]),
               "association_type" : "binding",
               "compound" : compound,
-              "proteins" : [ {"id" : protein}],
+              "proteins" : [ {"id" : p} for p in pfinal],
               "submitter_id" : row["BindingDB Reactant_set_id"],
               "source" : row["Curation/DataSource"],
               "ki_nm" : kiFloat,
