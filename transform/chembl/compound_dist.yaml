@@ -10,4 +10,5 @@ scatterGather:
     shardPath: ../../shards/chemdist.{{shard}}.gz
     input: ../../output/chembl/chemblTransform.records.compound.json.gz
     output: ../../normalize/chembl/compounds.dist.compoundDistant.json.gz
-    commandLine: ../../util/compound_distance.py -n {{threads}} -i {{input}} -s {{shard}} -t {{total}} -o {output}
+    script: ../../util/compound_distance.py
+    commandLine: "{{script}} -n {{threads}} -i {{input}} -s {{shard}} -t {{total}} -o {output}"
