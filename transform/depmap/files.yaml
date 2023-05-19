@@ -2,7 +2,7 @@
 class: lathe
 name: download_notes
 
-files:
+prep:
   - 
     downloadDate: 2022-12-20
     source: https://depmap.org/portal/download/all/

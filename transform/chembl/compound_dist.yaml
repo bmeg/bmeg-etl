@@ -1,0 +1,13 @@
+
+class: lathe
+
+name: compoundDist
+
+scatterGather: 
+  compoundDist:
+    shards: 100
+    memMB: 30000
+    shardPath: ../../shards/chemdist.{{shard}}.gz
+    input: ../../output/chembl/chemblTransform.records.compound.json.gz
+    output: ../../normalize/chembl/compounds.dist.compoundDistant.json.gz
+    commandLine: ../../util/compound_distance.py -n {{threads}} -i {{input}} -s {{shard}} -t {{total}} -o {output}

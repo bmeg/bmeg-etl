@@ -4,8 +4,7 @@ class: lathe
 
 name: mondoDownload
 
-scripts:
-  download:
-    commandLine: curl -L -o ../../source/mondo/mondo.json http://purl.obolibrary.org/obo/mondo.json
+prep:
+  - commandLine: curl -L -o {{outputs.json}} http://purl.obolibrary.org/obo/mondo.json
     outputs: 
-      - ../../source/mondo/mondo.json
+      json: ../../source/mondo/mondo.json

@@ -2,17 +2,16 @@
 class: lathe
 name: download
 
-scripts:
-
-  downloadGO:
-    commandLine: curl -o ../../source/go/go.json http://release.geneontology.org/2022-09-19/ontology/go.json
+prep:
+  -
+    commandLine: curl -o {{outputs.goJson}} http://release.geneontology.org/2022-09-19/ontology/go.json
     outputs:
-      - ../../source/go/go.json
-  downloadGoObo:
-    commandLine: curl -o ../../source/go/go.obo http://current.geneontology.org/ontology/go.obo
+      goJson: ../../source/go/go.json
+  -
+    commandLine: curl -o {{outputs.goObo}} http://current.geneontology.org/ontology/go.obo
     outputs:
-      - ../../source/go/go.obo
-  downloadGAF:
-    commandLine: curl -o ../../source/go/goa_human.gaf.gz http://release.geneontology.org/2022-09-19/annotations/goa_human.gaf.gz
+      goObo: ../../source/go/go.obo
+  -
+    commandLine: curl -o {{outputs.goGaf}} http://release.geneontology.org/2022-09-19/annotations/goa_human.gaf.gz
     outputs:
-      - ../../source/go/goa_human.gaf.gz
+      goGaf: ../../source/go/goa_human.gaf.gz
