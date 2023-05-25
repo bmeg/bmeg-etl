@@ -2,8 +2,5 @@
 class: lathe
 name: pubmedDownload
 
-scripts:
-  pubmed:
-    commandLine: ./download.py -o ../../source/pubmed/baseline
-    outputs:
-      - ../../source/pubmed/baseline
+prep:
+  - commandLine: ./download.py -o ../../source/pubmed/baseline

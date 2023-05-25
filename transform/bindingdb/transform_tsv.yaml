@@ -11,7 +11,7 @@ config:
 inputs:
   bindingdb:
     plugin:
-      commandLine: ./tsvParse.py {{config.tsv}}
+      commandLine: ../../util/bindingdbParse.py {{config.tsv}}
 
 pipelines:
   start:
