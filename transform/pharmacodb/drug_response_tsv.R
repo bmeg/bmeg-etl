@@ -64,17 +64,10 @@ CASE_IDS = c('Cellosaurus.Accession.id', 'PatientId', 'depmap_id', 'Cell line', 
 if (is.null(opt$resume)){
   cat("No resume value given, starting from the top")
   big = data.frame()
-  bigDoses = data.frame()
-  bigViabilities = data.frame()
-  bigDV = data.frame()
   remaining = names
 }else{
   cat("Resuming from file", opt$resume)
   big = read.table(opt$resume, header=TRUE, sep="\t", comment.char="")
-  bigDoses = read.table(paste(opt$resume,".dose.tsv", sep=""), header=TRUE, sep="\t", comment.char="")
-  bigViabilities = read.table(paste(opt$resume,".viability.tsv", sep=""), header=TRUE, sep="\t", comment.char="")
-  bigDV = read.table(paste(opt$resume,".DV.tsv", sep=""), header=TRUE, sep="\t", comment.char="")
-
   done = unique(big$project)
   remaining = setdiff(names, done)
 }
@@ -104,14 +97,12 @@ for(setName in remaining){
 
   cat(" -converting raw data array to data.frames\n")  
   doses = as.data.frame(raw[,,"Dose"])
-  colnames(doses) = paste("Ddose",1:ncol(doses),sep="")
+  colnames(doses) = paste("rawDdose",1:ncol(doses),sep="")
   doses$responseID = paste(setName,rownames(doses),sep="/")
   viabilities = as.data.frame(raw[,,"Viability"])
-  colnames(viabilities) = paste("Vdose",1:ncol(viabilities),sep="")
+  colnames(viabilities) = paste("rawVdose",1:ncol(viabilities),sep="")
   viabilities$responseID = paste(setName,rownames(viabilities),sep="/")
-  ##
   dv = merge(doses, viabilities, by="responseID") 
-  ##
   secondii = merge(info,profiles, by.x='row.names', by.y='row.names')
 
   cat(" -renaming columns\n")  
@@ -141,18 +132,12 @@ for(setName in remaining){
   second$project = setName
   colnames(second)[which(names(second)=="Row.names")] = "experimentID"
   second$responseID = paste(second$project, second$experimentID, sep = "/")
+  final = merge(second, dv, by="responseID")
 
   cat("Appending to big data.frame\n")  
-  big = friendlyRbind(big,second,"responseID")
-  bigDoses = friendlyRbind(bigDoses,doses,"responseID")
-  bigViabilities = friendlyRbind(bigViabilities,viabilities,"responseID")
-  bigDV = friendlyRbind(bigDV,dv,"responseID")
+  big = friendlyRbind(big,final,"responseID")
 
   cat("Saving to files\n")
-  write.table(big, file=outFile, sep = "\t", row.names = FALSE, na="")
-  write.table(bigDoses, file=paste(outFile,".dose.tsv",sep=""), row.names = FALSE, sep="\t", na="")
-  write.table(bigViabilities, file=paste(outFile,".viability.tsv",sep=""), row.names = FALSE, sep="\t", na="")
-  write.table(bigDV, file=paste(outFile,".DV.tsv",sep=""), row.names = FALSE, sep="\t", na="")
 }
 
 cat("done\n")

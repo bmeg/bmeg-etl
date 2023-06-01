@@ -17,92 +17,23 @@ inputs:
       input: "{{config.treatmentResponseFile}}"
       sep: "\t"
 
- # doseReader:
- #   tableLoad:
- #     input: "{{config.treatmentDoseFile}}"
- #     sep: "\t"
-
- # viabilityReader:
- #   tableLoad:
- #     input: "{{config.treatmentViabilityFile}}"
- #     sep: "\t"
-  DVReader:
-    tableLoad:
-      input: "{{config.doseViabilityFile}}"
-      sep: "\t"
-
 pipelines:
-
-  dvPrep:
-    - from: DVReader
-    - map:
-        method: dictFromTable
-        gpython: |
-          def dictFromTable(row):
-            newRow = {
-              "responseID": row["responseID"],
-              "doses": {},
-              "viabilities": {}
-            }
-            for key in row:
-              if key[0] == "D":
-                newRow["doses"][key[1:]] = row[key]
-              elif key[0] == "V":
-                newRow["viabilities"][key[1:]] = row[key]
-            return newRow
-
-#  dosePrep:
-#    - from: doseReader
-#    - map:
-#        method: listFromTable
-#        gpython: |
-#          def listFromTable(row):
-#            newRow = {
-#              "responseID": row["responseID"],
-#              "doses": row
-#              }
-#            return newRow
-#    
-#  viabilityPrep:
-#    - from: viabilityReader 
-#    - map:
-#        method: listFromTable
-#        gpython: |
-#          def listFromTable(row):
-#            newRow = {
-#              "responseID": row["responseID"],
-#              "viabilities": row
-#              }
-#            return newRow
 
   transform:
     - from: profileReader
-#    - lookup:
-#        pipeline:
-#          from: dosePrep
-#          key: responseID
-#        lookup: "{{row.responseID}}"
-#        copy:
-#          dose: doses
-#    - lookup:
-#        pipeline: 
-#          from: viabilityPrep
-#          key: responseID
-#        lookup: "{{row.responseID}}"
-#        copy:
-#          response: viabilities
-    - lookup:
-        pipeline:
-          from: dvPrep
-          key: responseID
-        lookup: "{{row.responseID}}"
-        copy:
-          dose: doses
-          response: viabilities
     - map:
         method: cleanDoseViability
         gpython: |
           def cleanDoseViability(row):
+            #group the individual dose and viabilities together:
+            row["dose"] = {}
+            row["response"] = {}
+            for key in row:
+              if key[0:4] == "rawD":
+                row["dose"][key[4:]] = row[key]
+              elif key[0:4] == "rawV":
+                row["response"][key[4:]] = row[key]
+            #connect the doses and viabilitiess together
             dosePairs = []
             newDose = []
             newResponse = []
