@@ -2,229 +2,209 @@
 class: sifter
 
 outdir: ../../output/pharmacodb/
-name: pharmacodb_profiles
+name: pharmacodb_profiles_gx
 
 config:
-  doseResponseFile: ../../tables/pharmacodb/dr_reduce.curveReduce.dose_response_curve.json.gz
-  profiles: ../../tables/pharmacodb/profiles.tsv.gz
-  experiments: ../../tables/pharmacodb/experiments.tsv.gz
-  drugs: ../../tables/pharmacodb/drugs.tsv.gz
-  datasets: ../../tables/pharmacodb/datasets.tsv.gz
-  cells: ../../tables/pharmacodb/cells.tsv.gz
+  treatmentResponseFile: ../../tables/pharmacodb_profiles.tsv
+  treatmentDoseFile: ../../tables/pharmacodb_profiles.tsv.dose.tsv
+  treatmentViabilityFile: ../../tables/pharmacodb_profiles.tsv.viability.tsv
+  doseViabilityFile: ../../tables/pharmacodb_profiles.tsv.DV.tsv
   schema: ../../schema/
 
 inputs:
   profileReader:
     tableLoad:
-      input: "{{config.profiles}}"
+      input: "{{config.treatmentResponseFile}}"
+      sep: "\t"
 
+ # doseReader:
+ #   tableLoad:
+ #     input: "{{config.treatmentDoseFile}}"
+ #     sep: "\t"
+
+ # viabilityReader:
+ #   tableLoad:
+ #     input: "{{config.treatmentViabilityFile}}"
+ #     sep: "\t"
+  DVReader:
+    tableLoad:
+      input: "{{config.doseViabilityFile}}"
+      sep: "\t"
 
 pipelines:
 
-  profileProcess:
-    - from: profileReader
-    - lookup:
-        json:
-          input: "{{config.doseResponseFile}}"
-          key: experiment_id
-        lookup: "{{row.experiment_id}}"
-        copy:
-          curve: curve
-    - lookup:
-        tsv:
-          input: "{{config.experiments}}"
-          sep: "\t"
-          key: experiment_id
-        lookup: "{{row.experiment_id}}"
-        copy:
-          cell_id: cell_id
-          drug_id: drug_id
-          dataset_id: dataset_id
-    - lookup:
-        tsv:
-          input: "{{config.drugs}}"
-          sep: "\t"
-          key: drug_id
-        lookup: "{{row.drug_id}}"
-        copy:
-          drug_name: drug_name
-    - lookup:
-        tsv:
-          input: "{{config.datasets}}"
-          sep: "\t"
-          key: dataset_id
-        lookup: "{{row.dataset_id}}"
-        copy:
-          dataset_name: dataset_name
-    #- tableReplace:
-    #    field: dataset_name
-    #    table:
-    #      CCLE: CCLE-NP
-    - lookup:
-        tsv:
-          input: "{{config.cells}}"
-          sep: "\t"
-          key: cell_id
-        lookup: "{{row.cell_id}}"
-        copy:
-          cell_alias: cell_name
-          tissue_id: tissue_id
-    - project:
-        mapping:
-          cell_name: "pharmacodb:{{row.cell_alias}}"
-    #- lookup:
-    #    tsv:
-    #      input: "{{config.cellNames}}"
-    #      sep: "\t"
-    #      header: [name, id]
-    #      key: name
-    #    lookup: "{{row.cell_alias}}"
-    #    copy:
-    #      cell_name: id
-    - project:
-        mapping:
-          submitter_id: "{{row.dataset_name}}:{{row.cell_name}}:{{row.drug_name}}"
-          compounds: [ { "id" : "{{row.drug_name}}" } ]
-          aliquot: "{{row.dataset_name}}:{{row.cell_name}}"
-        rename:
-          ACC: acc
-          DSS1: dss1
-          DSS2: dss2
-          DSS3: dss3
-          IC50: ic50
-          EC50: ec50
-          Einf: einf
-
-    - fieldType:
-        acc: float
-        dss1: float
-        dss2: float
-        dss3: float
-        ic50: float
-        ec50: float
-        einf: float
-        hs: float
+  dvPrep:
+    - from: DVReader
     - map:
-        method: response
+        method: dictFromTable
         gpython: |
-          def response(x):
-            s = sorted(x["curve"].items(), key=lambda x:float(x[0]))
-            x['dose_um'] = []
-            x['response'] = []
-            for d, r in s:
+          def dictFromTable(row):
+            newRow = {
+              "responseID": row["responseID"],
+              "doses": {},
+              "viabilities": {}
+            }
+            for key in row:
+              if key[0] == "D":
+                newRow["doses"][key[1:]] = row[key]
+              elif key[0] == "V":
+                newRow["viabilities"][key[1:]] = row[key]
+            return newRow
+
+#  dosePrep:
+#    - from: doseReader
+#    - map:
+#        method: listFromTable
+#        gpython: |
+#          def listFromTable(row):
+#            newRow = {
+#              "responseID": row["responseID"],
+#              "doses": row
+#              }
+#            return newRow
+#    
+#  viabilityPrep:
+#    - from: viabilityReader 
+#    - map:
+#        method: listFromTable
+#        gpython: |
+#          def listFromTable(row):
+#            newRow = {
+#              "responseID": row["responseID"],
+#              "viabilities": row
+#              }
+#            return newRow
+
+  transform:
+    - from: profileReader
+#    - lookup:
+#        pipeline:
+#          from: dosePrep
+#          key: responseID
+#        lookup: "{{row.responseID}}"
+#        copy:
+#          dose: doses
+#    - lookup:
+#        pipeline: 
+#          from: viabilityPrep
+#          key: responseID
+#        lookup: "{{row.responseID}}"
+#        copy:
+#          response: viabilities
+    - lookup:
+        pipeline:
+          from: dvPrep
+          key: responseID
+        lookup: "{{row.responseID}}"
+        copy:
+          dose: doses
+          response: viabilities
+    - map:
+        method: cleanDoseViability
+        gpython: |
+          def cleanDoseViability(row):
+            dosePairs = []
+            newDose = []
+            newResponse = []
+            for dose in row["dose"]:
               try:
-                dn = float(d)
-                rn = float(r)
-                x['dose_um'].append(dn)
-                x['response'].append(rn)
-              except ValueError:
-                pass
-            return x
+                nd = float(row["dose"][dose])
+              except:
+                continue
+              else:
+                dosePairs.append((nd, float(row["response"][dose])))
+            dosePairs.sort(key=lambda pair: pair[0])
+            pairs = list(zip(*dosePairs))
+            row["dose_um"] = list(pairs[0])
+            row["response"] = list(pairs[1])
 
-  cellDistinct:
-    - from: profileProcess
-    - distinct:
-        value: "{{row.dataset_name}}:{{row.cell_name}}"
-    - emit:
-        name: checkpoint
+            #find the profile measurements and make sure to grab the right ones
+            responseMetrics = []
+            for field in row:
+              if field[0:12] == "profileInfo_":
+                responseMetrics.append(field)
+            recompute = []
+            for field in responseMetrics:
+              if row[field]:
+                if field[-10:] == "RECOMPUTED":
+                  recompute.append(field)
+                else:
+                  id = field[12:15]
+                  if id == "IC5":
+                    row["ic50"] = float(row[field])
+                  elif id == "EC5":
+                    row["ec50"] = float(row[field])
+                  elif id == "AAC":
+                    row["aac"] = float(row[field])
+                  elif id == "AUC":
+                    row["auc"] = float(row[field])
+                  elif id == "EIN" or id == "E_I" or id == "EMA":
+                    row["einf"] = float(row[field])
+                  elif id[:2] == "HS" or id == "SLO":
+                    row["hs"] = float(row[field])
+            for field in recompute:
+              id = field[12:15]
+              if id == "IC5":
+                row["ic50"] = float(row[field])
+              elif id == "EC5":
+                row["ec50"] = float(row[field])
+              elif id == "AAC":
+                row["aac"] = float(row[field])
+              elif id == "AUC":
+                row["auc"] = float(row[field])
+              elif id == "EIN" or id == "E_I" or id == "EMA":
+                row["einf"] = float(row[field])
+              elif id[:2] == "HS" or id == "SLO":
+                row["hs"] = float(row[field])
+            
+            if "Cellosaurus.Accession.id" in row:
+              row["case"] = {"id": row["Cellosaurus.Accession.id"]}
+            if "depmap_id" in row:
+              row["case"] = {"id": row["depmap_id"]}            
+            if not ("projecttreatmentid" in row):
+              row["projecttreatmentid"] = row["treatmentid"]
+            project = row["project"].split("_")[0]
+            row["id"] = "drugResponse/" + project + ":pharmacodb:" + row["sampleid"] + ":" + row["treatmentid"]
+            row["project_id"] = "project/" + project
+            row["submitter_id"] = row["experimentID"]
+            row["compounds"] = {"id": row['projecttreatmentid']}
+            row["aliquot"] = {"id": "aliquot/" + project + ":pharmacodb:" + row["sampleid"]}
+            row["aliquotSubID"] = project + ":pharmacodb:" + row["sampleid"]
+            row["sample"] = {"id": "sample/" + project + ":pharmacodb:" + row["sampleid"]}
+            return row
 
-  drObject:
-    - from: profileProcess
-    - project:
-        mapping:
-          id: "drugResponse/{{row.dataset_name}}:{{row.cell_name}}"
-          project_id: "project/{{row.dataset_name}}"
-          aliquot: [ {"id" : "aliquot/{{row.aliquot}}"} ]
+  drugResponse:
+    - from: transform
     - objectValidate:
         title: DrugResponse
         schema: "{{config.schema}}"
     - emit:
         name: drug_response
-
-  cellCase:
-    - from: cellDistinct
+  aliquot:
+    - from: transform
     - project:
         mapping:
-          id: "case/{{row.dataset_name}}:{{row.cell_name}}"
-          submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
-          case_id: "case/{{row.dataset_name}}:{{row.cell_name}}"
-          project_id: "project/{{row.dataset_name}}"
-          projects: [ { "id" : "project/{{row.dataset_name}}" } ]
-    - clean:
-        fields: ["id", "case_id", "project_id", "submitter_id", "projects", "dataset_name"]
+          id: "{{row.aliquot.id}}"
+          submitter_id: "{{row.aliquotSubID}}"
+    - distinct:
+        value: "{{row.id}}"
     - objectValidate:
-        title: Case
+        title: Aliquot
         schema: "{{config.schema}}"
     - emit:
-        name: case
-
-  cellSample:
-    - from: cellDistinct
+        name: aliquot
+  sample:
+    - from: transform
     - project:
         mapping:
-          id: "sample/{{row.dataset_name}}:{{row.cell_name}}"
-          submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
-          case: [ { "id" : "case/{{row.dataset_name}}:{{row.cell_name}}" } ]
-          sample_id: "sample/{{row.dataset_name}}:{{row.cell_name}}"
-          project_id: "project/{{row.dataset_name}}"
-    - clean:
-        fields: ["id", "case", "sample_id", "project_id", "submitter_id", "dataset_name"]
+          id: "{{row.sample.id}}"
+          submitter_id: "{{row.aliquotSubID}}"
+    - distinct:
+        value: "{{row.id}}"
     - objectValidate:
         title: Sample
         schema: "{{config.schema}}"
     - emit:
         name: sample
 
-  cellAliquot:
-    - from: cellDistinct
-    - project:
-        mapping:
-          id: "aliquot/{{row.dataset_name}}:{{row.cell_name}}"
-          submitter_id: "{{row.dataset_name}}:{{row.cell_name}}"
-          sample: [ { "id" : "sample/{{row.dataset_name}}:{{row.cell_name}}" } ]
-          aliquot_id: "aliquot/{{row.dataset_name}}:{{row.cell_name}}"
-          project_id: "project/{{row.dataset_name}}"
-    - clean:
-        fields: ["id", "sample", "aliquot_id", "project_id", "submitter_id", "dataset_name"]
-    - objectValidate:
-        title: Aliquot
-        schema: "{{config.schema}}"
-    - emit:
-        name: aliquot
-
-  cellProject:
-    - from: cellDistinct
-    - reduce:
-        field: dataset_name
-        method: merge
-        init: { "compounds" : [] }
-        gpython: |
-
-          def merge(x,y):
-            #x["dataset_name"] = y["dataset_name"]
-            x["compounds"] = y["compounds"]+x["compounds"]
-            return x
-    # distinct compound dicts
-    - map:
-        method: fix
-        gpython: |
-
-          def fix(row):
-            s = []
-            for i in row["compounds"]:
-              s.append(i["id"])
-            row["compounds"] = list( {"id" : i } for i in set(s))
-            return row
-
-    - project:
-        mapping:
-          submitter_id: "{{row.dataset_name}}"
-          project_id: "project/{{row.dataset_name}}"
-          id: "project/{{row.dataset_name}}"
-    - clean:
-        fields: ["id", "compounds", "project_id", "submitter_id", "dataset_name"]
-    - objectValidate:
-        title: Project
-        schema: "{{config.schema}}"
-    - emit:
-        name: project
+    

@@ -87,6 +87,12 @@ properties:
     type:
       - 'null'
       - number
+  auc:
+    description: >
+      Area under curve
+    type:
+      - 'null'
+      - number
   dss1:
     description: >
       Drug sensitivity score 1; an AUC measurement with the baseline noise subtracted. 
