@@ -61,7 +61,7 @@ cat("library loaded\n")
 
 names = availablePSets()$`PSet Name`
 
-CASE_IDS = c('Cellosaurus.Accession.id', 'PatientId', 'depmap_id', 'Cell line', 'Cosmic ID', 'sampleid','MODEL')
+CASE_IDS = c('Cellosaurus.Accession.id', 'PatientId', 'depmap_id', 'Cell line', 'Cosmic ID', 'sampleid','MODEL','Patient_id')
 
 #finding where we left off if this program was run before
 if (is.null(opt$resume)){
@@ -117,6 +117,7 @@ for(setName in remaining){
   #re-formatting the treatment data frame so it is easier to merge with the info/profile table
   samples$sampleid = rownames(samples)
   treatments = treatments[,1:2]
+  names(treatments)[which(names(treatments)=="treatmentid")] = "unique.treatmentid"
   names(treatments)[which(names(treatments)!="unique.treatmentid")] = "projecttreatmentid"
   treatments = treatments[which(treatments$projecttreatmentid != ""),]
   twoPart = treatments[str_detect(treatments$projecttreatmentid,"///"),]

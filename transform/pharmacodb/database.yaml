@@ -4,7 +4,7 @@ name: pharmacoTableGenerate
 
 scripts:
   pharmacodb:
-    commandLine: ./drug_response_tsv.R -o ../../table/pharmacodb_treatmentResponse.tsv -s ../../source/pharmacodb
+    commandLine: ./drug_response_tsv.R -o ../../table/pharmacodb_profiles.tsv -s ../../source/pharmacodb
     outputs:
-      - ../../table/pharmacodb_treatmentResponse.tsv
+      - ../../table/pharmacodb_profiles.tsv
 

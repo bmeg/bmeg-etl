@@ -44,5 +44,6 @@ for(setName in remaining){
   PSET = downloadPSet(setName, saveDir=sourceDir, pSetFileName=setName, timeout=2400)
   cat(setName, "loaded successfully!\n")
   log = rbind(log, list(name=setName, status = "completed"))
+  write.table(log, file=logLoc, sep = "\t", row.names = FALSE, na="")
 }
 cat("Done\n")
