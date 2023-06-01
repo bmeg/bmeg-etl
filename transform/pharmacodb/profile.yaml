@@ -6,9 +6,6 @@ name: pharmacodb_profiles_gx
 
 config:
   treatmentResponseFile: ../../tables/pharmacodb_profiles.tsv
-  treatmentDoseFile: ../../tables/pharmacodb_profiles.tsv.dose.tsv
-  treatmentViabilityFile: ../../tables/pharmacodb_profiles.tsv.viability.tsv
-  doseViabilityFile: ../../tables/pharmacodb_profiles.tsv.DV.tsv
   schema: ../../schema/
 
 inputs:

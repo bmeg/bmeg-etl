@@ -14,6 +14,7 @@ option_list = list(
 opt_parser = OptionParser(option_list=option_list)
 opt = parse_args(opt_parser);
 
+#output location is required
 if (is.null(opt$out)){
   print_help(opt_parser)
   stop("Missing parameter: tsv output destination", call.=FALSE)
@@ -21,6 +22,7 @@ if (is.null(opt$out)){
 outFile = opt$out
 cat(c("Output:", outFile, "\n"))
 
+#storage location for pharmacogx objects is required
 if (is.null(opt$source)){
   print_help(opt_parser)
   stop("Missing parameter: source storage directory", call.=FALSE)
@@ -54,13 +56,14 @@ friendlyRbind <- function(x, y, id){
   return(result)
 }
 
-
 cat("library loaded\n")
+
 
 names = availablePSets()$`PSet Name`
 
 CASE_IDS = c('Cellosaurus.Accession.id', 'PatientId', 'depmap_id', 'Cell line', 'Cosmic ID', 'sampleid','MODEL')
 
+#finding where we left off if this program was run before
 if (is.null(opt$resume)){
   cat("No resume value given, starting from the top")
   big = data.frame()
@@ -73,12 +76,14 @@ if (is.null(opt$resume)){
 }
 cat(",", as.character(length(remaining)), "sets to process\n")
 
+#Processing each PSet remaining
 for(setName in remaining){
   cat("Loading", setName, "\n")
 
   PSET = downloadPSet(setName, saveDir=sourceDir, pSetFileName=setName, timeout=1200)
 
   cat("Processing PSet:\n")
+  #Pulling tables from the pharmacoGx object. info = sample and drug info for each experiment, raw = raw dose and viability data, profiles = drug response profiles, samples = sample info, treatments = standardized treatment names
   info = PSET@treatmentResponse$info
   raw = PSET@treatmentResponse$raw
   profiles = PSET@treatmentResponse$profiles
@@ -92,30 +97,30 @@ for(setName in remaining){
     cat("Not enough fields found. Using the first two columns")
     samples = PSET@sample[1:2]
   }
-
   treatments = PSET@curation$treatment
 
-  cat(" -converting raw data array to data.frames\n")  
+  cat("Rearranging data.frames\n")  
+  #raw array is split into two frames and changing the column names
   doses = as.data.frame(raw[,,"Dose"])
   colnames(doses) = paste("rawDdose",1:ncol(doses),sep="")
   doses$responseID = paste(setName,rownames(doses),sep="/")
   viabilities = as.data.frame(raw[,,"Viability"])
   colnames(viabilities) = paste("rawVdose",1:ncol(viabilities),sep="")
   viabilities$responseID = paste(setName,rownames(viabilities),sep="/")
+
+  #merging the dose and viabilities tables together
   dv = merge(doses, viabilities, by="responseID") 
+
+  #merging the info and drug response profiles together
   secondii = merge(info,profiles, by.x='row.names', by.y='row.names')
 
-  cat(" -renaming columns\n")  
+  #re-formatting the treatment data frame so it is easier to merge with the info/profile table
   samples$sampleid = rownames(samples)
-  cat("Treatment names before:", names(treatments), "\n")
   treatments = treatments[,1:2]
   names(treatments)[which(names(treatments)!="unique.treatmentid")] = "projecttreatmentid"
-  cat("Treatment names after:", names(treatments), "\n")
-  
   treatments = treatments[which(treatments$projecttreatmentid != ""),]
   twoPart = treatments[str_detect(treatments$projecttreatmentid,"///"),]
   treatments = treatments[!(str_detect(treatments$projecttreatmentid,"///")),]
-  cat("Length of twoPart:", nrow(twoPart), "\n")
   if(nrow(twoPart) >0){
     split = str_split(twoPart$projecttreatmentid,"///", simplify=TRUE)
     firstHalf = twoPart
@@ -126,18 +131,25 @@ for(setName in remaining){
     treatments = rbind(treatments, append)
   }
 
+  #merging the info/pofile table with the samples and treatments tables
   secondi = merge(secondii,samples, by="sampleid")
   second = merge(secondi,treatments, by.x="treatmentid", by.y="projecttreatmentid", all.x = TRUE)
 
+  #adding project, experimentID and responseID to the info/profile/samples/treatments table
   second$project = setName
   colnames(second)[which(names(second)=="Row.names")] = "experimentID"
   second$responseID = paste(second$project, second$experimentID, sep = "/")
+
+  #merging the info/profile/samples/treatments table with the raw dose/viability table
   final = merge(second, dv, by="responseID")
 
   cat("Appending to big data.frame\n")  
-  big = friendlyRbind(big,final,"responseID")
+  #adding the data.frame for this set to the big one that represents all datasets on pharmacodb
+  big = friendlyRbind(big,second,"responseID")
 
-  cat("Saving to files\n")
+  cat("Saving to file\n")
+  #backing up to a file
+  write.table(big, file=outFile, sep = "\t", row.names = FALSE, na="")
 }
 
 cat("done\n")
