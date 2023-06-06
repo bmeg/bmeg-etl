@@ -5,8 +5,7 @@ outdir: ../../output/pharmacodb/
 name: pharmacodb_profiles_gx
 
 config:
-  #treatmentResponseFile: ../../tables/pharmacodb_profiles.tsv
-  treatmentResponseFile: ../../tables/pharmacodb_blendedTreatment.tsv
+  treatmentResponseFile: ../../tables/pharmacodb_profiles.tsv
   synonymsFile: ../../tables/chemblSynonyms.longTable.synonyms.json.gz
   schema: ../../schema/
 
@@ -93,15 +92,15 @@ pipelines:
             if not ("UNIQUEtreatmentid" in row) or row["UNIQUEtreatmentid"]=='':
               row["UNIQUEtreatmentid"] = row["treatmentid"]
             if ":" in row["UNIQUEtreatmentid"]:
-              UNIQUEid = " (".split(row["UNIQUEtreatmentid"])[0]
+              UNIQUEid = row["UNIQUEtreatmentid"].split(" (")[0]
             else:
               UNIQUEid = row["UNIQUEtreatmentid"]
             row["drug0"] = ""
             row["drug1"] = ""
             row["drug2"] = ""
             
-            for drugnum in range(0, len(":".split(UNIQUEid))):
-              row["drug" + str(drugnum)] = ":".split(UNIQUEid)[drugnum]
+            for drugnum in range(0, len(UNIQUEid.split(":"))):
+              row["drug" + str(drugnum)] = UNIQUEid.split(":")[drugnum]
             
             project = row["project"].split("_")[0]
             row["id"] = "drugResponse/" + project + ":pharmacodb:" + row["sampleid"] + ":" + row["treatmentid"]
@@ -133,15 +132,18 @@ pipelines:
         lookup: "{{row.drug2}}"
         copy:
           chembl2: id
+    - emit:
+        name: debug
     - map:
         method: finalclean
         gpython: |
           def finalclean(row):
             row["compounds"] = []
-            for key in row:
-              if key[0:6] == "chembl" and len(row[key]) > 0:
-                row["compounds"].append({"id": row[key]})
-              print(row["UNIQUEtreatmentid"])
+            for drugNum in range(0,3):
+              if "chembl"+str(drugNum) in row:
+                row["compounds"].append({"id": row["chembl"+str(drugNum)]})
+              elif len(row["drug" + str(drugNum)])>0:
+                print(row["UNIQUEtreatmentid"])
             return row
  
   drugResponse:
