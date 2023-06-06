@@ -5,7 +5,9 @@ outdir: ../../output/pharmacodb/
 name: pharmacodb_profiles_gx
 
 config:
-  treatmentResponseFile: ../../tables/pharmacodb_profiles.tsv
+  #treatmentResponseFile: ../../tables/pharmacodb_profiles.tsv
+  treatmentResponseFile: ../../tables/pharmacodb_blendedTreatment.tsv
+  synonymsFile: ../../tables/chemblSynonyms.longTable.synonyms.json.gz
   schema: ../../schema/
 
 inputs:
@@ -15,7 +17,6 @@ inputs:
       sep: "\t"
 
 pipelines:
-
   transform:
     - from: profileReader
     - map:
@@ -53,7 +54,7 @@ pipelines:
                 responseMetrics.append(field)
             recompute = []
             for field in responseMetrics:
-              if row[field]:
+              if len(row[field]) > 0:
                 if field[-10:] == "RECOMPUTED":
                   recompute.append(field)
                 else:
@@ -89,18 +90,60 @@ pipelines:
               row["case"] = {"id": row["Cellosaurus.Accession.id"]}
             if "depmap_id" in row:
               row["case"] = {"id": row["depmap_id"]}            
-            if not ("projecttreatmentid" in row):
-              row["projecttreatmentid"] = row["treatmentid"]
+            if not ("UNIQUEtreatmentid" in row) or row["UNIQUEtreatmentid"]=='':
+              row["UNIQUEtreatmentid"] = row["treatmentid"]
+            if ":" in row["UNIQUEtreatmentid"]:
+              UNIQUEid = " (".split(row["UNIQUEtreatmentid"])[0]
+            else:
+              UNIQUEid = row["UNIQUEtreatmentid"]
+            row["drug0"] = ""
+            row["drug1"] = ""
+            row["drug2"] = ""
+            
+            for drugnum in range(0, len(":".split(UNIQUEid))):
+              row["drug" + str(drugnum)] = ":".split(UNIQUEid)[drugnum]
+            
             project = row["project"].split("_")[0]
             row["id"] = "drugResponse/" + project + ":pharmacodb:" + row["sampleid"] + ":" + row["treatmentid"]
             row["project_id"] = "project/" + project
             row["submitter_id"] = row["experimentID"]
-            row["compounds"] = {"id": row['projecttreatmentid']}
+            #row["compounds"] = {"id": row['projecttreatmentid']}
             row["aliquot"] = {"id": "aliquot/" + project + ":pharmacodb:" + row["sampleid"]}
             row["aliquotSubID"] = project + ":pharmacodb:" + row["sampleid"]
             row["sample"] = {"id": "sample/" + project + ":pharmacodb:" + row["sampleid"]}
             return row
-
+    - lookup:
+        json:
+          input: "{{config.synonymsFile}}"
+          key: synonyms
+        lookup: "{{row.drug0}}"
+        copy:
+          chembl0: id
+    - lookup:
+        json:
+          input: "{{config.synonymsFile}}"
+          key: synonyms
+        lookup: "{{row.drug1}}"
+        copy:
+          chembl1: id
+    - lookup:
+        json:
+          input: "{{config.synonymsFile}}"
+          key: synonyms
+        lookup: "{{row.drug2}}"
+        copy:
+          chembl2: id
+    - map:
+        method: finalclean
+        gpython: |
+          def finalclean(row):
+            row["compounds"] = []
+            for key in row:
+              if key[0:6] == "chembl" and len(row[key]) > 0:
+                row["compounds"].append({"id": row[key]})
+              print(row["UNIQUEtreatmentid"])
+            return row
+ 
   drugResponse:
     - from: transform
     - objectValidate:
