@@ -4,5 +4,6 @@ name: pubmedDownload
 class: lathe
 
 prep:
-  - commandLine: ./download.py -o ../../source/pubmed/baseline
-
+  - commandLine: ./download.py -o {{outputs.dir}}
+    outputs:
+      dir: ../../source/pubmed/baseline

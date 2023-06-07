@@ -4,35 +4,27 @@
 class: lathe
 name: ensembleDownload
 
+makeDirs:
+  - ../../source/ensembl
+
 prep:
-  - ifmissing: ../../source/ensembl
-    commandLine: mkdir -p ../../source/ensembl
-
-scripts:
-
-  ensemblDownload:
-    commandLine: "curl -o ../../source/ensembl/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz https://ftp.ensembl.org/pub/release-108/gtf/homo_sapiens/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz"
+  -
+    commandLine: "curl -o {{outputs.gtf}} https://ftp.ensembl.org/pub/release-108/gtf/homo_sapiens/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz"
     outputs:
-      - ../../source/ensembl/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz
-
-  ensemblProteinDownload:
-    commandLine: "curl -o ../../source/ensembl/Homo_sapiens.GRCh38.108.uniprot.tsv.gz https://ftp.ensembl.org/pub/release-108/tsv/homo_sapiens/Homo_sapiens.GRCh38.108.uniprot.tsv.gz"
+      gtf: ../../source/ensembl/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz
+  -
+    commandLine: "curl -o {{outputs.uniprot}} https://ftp.ensembl.org/pub/release-108/tsv/homo_sapiens/Homo_sapiens.GRCh38.108.uniprot.tsv.gz"
     outputs:
-      - ../../source/ensembl/Homo_sapiens.GRCh38.108.uniprot.tsv.gz
-
-
-  regulatory:
-    commandLine: "curl -o ../../source/ensembl/homo_sapiens.GRCh38.Regulatory_Build.regulatory_features.20221007.gff.gz  https://ftp.ensembl.org/pub/current_regulation/homo_sapiens/homo_sapiens.GRCh38.Regulatory_Build.regulatory_features.20221007.gff.gz"
+      uniprot: ../../source/ensembl/Homo_sapiens.GRCh38.108.uniprot.tsv.gz
+  -
+    commandLine: "curl -o {{outputs.regGFF}} https://ftp.ensembl.org/pub/current_regulation/homo_sapiens/homo_sapiens.GRCh38.Regulatory_Build.regulatory_features.20221007.gff.gz"
     outputs:
-      - ../../source/ensembl/homo_sapiens.GRCh38.Regulatory_Build.regulatory_features.20221007.gff.gz
-
-  uniprotDownload:
-    commandLine: "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ensembl.org/pub/grch37/release-96/tsv/homo_sapiens/Homo_sapiens.GRCh37.85.uniprot.tsv.gz --output ../../source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz"
+      regGFF: ../../source/ensembl/homo_sapiens.GRCh38.Regulatory_Build.regulatory_features.20221007.gff.gz
+  -
+    commandLine: "curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ensembl.org/pub/grch37/release-96/tsv/homo_sapiens/Homo_sapiens.GRCh37.85.uniprot.tsv.gz --output {{uniprot}}"
     outputs:
-      - "../../source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz"
-    order: 2
-
-  gene2entrez:
-    commandLine: curl -o ../../source/ensembl/gene2ensembl.gz https://ftp.ncbi.nih.gov/gene/DATA/gene2ensembl.gz
+      uniprot: "../../source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz"
+  -
+    commandLine: curl -o {{outputs.gene2ensembl}} https://ftp.ncbi.nih.gov/gene/DATA/gene2ensembl.gz
     outputs:
-      - "../../source/ensembl/gene2ensembl.gz"
+      gene2ensembl: "../../source/ensembl/gene2ensembl.gz"
