@@ -6,7 +6,7 @@ outdir: ../../output/g2p
 config:
   base: ../../source/g2p/
   schema: ../../schema
-  hugo: ../../hugo2ensembl.tsv
+  hugo: ../../tables/hugo2ensembl.tsv
   liftOver: ../../source/g2p/tables/hglft_genome_2749d_8437f0.bed
 
 inputs:
@@ -21,8 +21,8 @@ pipelines:
     - lookup:
         tsv:
           input: "{{config.hugo}}"
-          key: "Approved symbol"
-          value: "Ensembl ID(supplied by Ensembl)"
+          key: "symbol"
+          value: "id"
         replace: genes
     - map:
         method: feature_scan

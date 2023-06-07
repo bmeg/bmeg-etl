@@ -19,10 +19,13 @@ if __name__ == "__main__":
     parser.add_argument("-o", "--output", default="source/pubmed/baseline")
     parser.add_argument("-N", default=1, type=int)
     args = parser.parse_args()
-
+    try:
+        os.mkdir(args.output)    
+    except:
+        pass
     ftp = FTP('ftp.ncbi.nlm.nih.gov')
     ftp.login()
-    ftp.cwd('/pubmed/baseline/') 
+    ftp.cwd('/pubmed/baseline/')
     for i in tqdm(ftp.nlst("/pubmed/baseline/*.xml.gz")):
         name = os.path.basename(i)
         localPath = os.path.join(args.output, name)

@@ -1,9 +1,10 @@
 
-
-name: pubmedDownload
 class: lathe
+name: pubmedDownload
 
 prep:
-  - commandLine: ./download.py -o {{outputs.dir}}
+  - commandLine: "{{inputs.script}} -o {{outputs.dir}}"
+    inputs:
+      script: ./download.py
     outputs:
       dir: ../../source/pubmed/baseline

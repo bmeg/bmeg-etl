@@ -2,22 +2,18 @@
 class: sifter
 name: bindingdbTsv
 
-outdir: ../../output/bindingdb
+outdir: ../../output/bindingdb/
 
 config:
   tsv: ../../source/bindingdb/BindingDB_All.tsv
-  schema: ../../schema/
+  schema: ../../schema
 
 inputs:
   bindingdb:
-    tableLoad:
-      input: "{{config.tsv}}"
+    plugin:
+      commandLine: ../../util/bindingdbParse.py {{config.tsv}}
 
 pipelines:
-  debug:
-    - from: bindingdb
-    - emit:
-        name: debug
   start:
     - from: bindingdb
     - map:
@@ -26,7 +22,18 @@ pipelines:
           def fix(row):
             protein = row["UniProt (SwissProt) Primary ID of Target Chain"]
             compound = row["ChEMBL ID of Ligand"]
-            if protein == "" or compound == "":
+            structures = row["PDB ID(s) of Target Chain"]
+            structuresSplit = []
+            for s in structures:
+              if len(s):
+                structuresSplit+=s.split(",")
+            pstring = ""
+            pfinal = []
+            for p in protein:
+              pstring+=p
+              if len(p):
+                pfinal.append(p)
+            if (pstring == "" and structuresSplit == []) or compound == "":
               return {"association_type":""}
             try:
               kiFloat = float(row["Ki (nM)"])
@@ -36,7 +43,8 @@ pipelines:
               "id" : "bindingdb/%s" % (row["BindingDB Reactant_set_id"]),
               "association_type" : "binding",
               "compound" : compound,
-              "proteins" : [ {"id" : protein}],
+              "proteins" : [ {"id" : p} for p in pfinal],
+              "protein_structures" : [ {"id" : s} for s in structuresSplit ],
               "submitter_id" : row["BindingDB Reactant_set_id"],
               "source" : row["Curation/DataSource"],
               "ki_nm" : kiFloat,

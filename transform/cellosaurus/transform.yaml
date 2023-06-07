@@ -28,12 +28,17 @@ pipelines:
             for x in row.get("xref", []):
               if x.startswith("NCIt:"):
                 row["ncit"] = "NCIT:" + x.split(":")[1]
+              elif x.startswith("NCBI_TaxID:"):
+                row["species"] = x.split(":")[-1]
             if "comment" in row:
               row["comment"] = row["comment"][0]
             for i in row.get("subset", []):
               if i in ["Male", "Female"]:
                 row["sex"] = i
             return row
+    - filter:
+        field: species
+        match: Human
     - lookup:
         json:
           input: "{{config.ncit2mondo}}"

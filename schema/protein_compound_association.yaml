@@ -51,6 +51,12 @@ links:
     name: publications
     required: false
     target_type: publication
+  - backref: protein_compound_association
+    label: protein_structures
+    multiplicity: many_to_many
+    name: protein_structures
+    required: false
+    target_type: protein_structure
 
 properties:
   id:
@@ -74,6 +80,13 @@ properties:
         backref: protein_compound_associations
     $ref: _definitions.yaml#/to_many
     description: "Protein ids"
+  protein_structures:
+    targets:
+      - type:
+          $ref: protein_structure.yaml
+        backref: protein_compound_associations
+    $ref: _definitions.yaml#/to_many
+    description: "Protein structure ids"
   genes:
     targets:
       - type:
