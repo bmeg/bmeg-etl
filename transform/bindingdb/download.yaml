@@ -3,14 +3,15 @@
 class: lathe
 name: bindingdbDownload
 
-scripts:
-  download:
-    commandLine: curl -o ../../source/bindingdb/BindingDB_All_2023m1.tsv.zip https://www.bindingdb.org/bind/downloads/BindingDB_All_2023m1.tsv.zip
+prep:
+  - 
+    commandLine: curl -o {{outputs.bindingZip}} https://www.bindingdb.org/bind/downloads/BindingDB_All_2023m2.tsv.zip
     outputs:
-      - ../../source/bindingdb/BindingDB_All_2023m1.tsv.zip
-  unzip:
-    commandLine: unzip -d ../../source/bindingdb ../../source/bindingdb/BindingDB_All_2023m1.tsv.zip
+      bindingZip: ../../source/bindingdb/BindingDB_All_2023m1.tsv.zip
+  -
+    commandLine: unzip -d {{outputs.bindingDir}} {{inputs.bindingZip}}
     inputs:
-      - ../../source/bindingdb/BindingDB_All_2023m1.tsv.zip
+      bindingZip: ../../source/bindingdb/BindingDB_All_2023m1.tsv.zip
     outputs:
-      -  ../../source/bindingdb/BindingDB_All.tsv
+      bindingDir: ../../source/bindingdb
+      bindingTSV: ../../source/bindingdb/BindingDB_All.tsv

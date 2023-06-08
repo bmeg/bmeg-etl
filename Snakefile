@@ -1,138 +1,117 @@
 
-
+scattergather:
+	compoundDist_compoundDist=100
 
 rule all:
 	input:
-		"source/pathway_commons/PathwayCommons12.panther.complex",
-		"output/uniprot/uniprot_trembl.start.protein.json.gz",
-		"output/bindingdb/bindingdb.assay.assay.json.gz",
-		"output/chembl/chemblTransform.records.compound.json.gz",
-		"source/pathway_commons/PathwayCommons12.corum.extSIF",
-		"source/gdc/files.json",
-		"output/gdc/rnaseq.rna.gene_rnaseq.json.gz",
-		"output/mondo/mondo.extract.phenotype.json.gz",
-		"source/pathway_commons/PathwayCommons12.panther.extSIF",
-		"source/pathway_commons/PathwayCommons12.inoh.extSIF",
-		"source/pathway_commons/PathwayCommons12.pid.extSIF",
-		"output/pathway_commons/pathway_commons.complexBundle.complex.json.gz",
-		"source/pathway_commons/PathwayCommons12.kegg.complex",
-		"source/pathway_commons/PathwayCommons12.msigdb.complex",
-		"source/pathway_commons/PathwayCommons12.msigdb.extSIF",
-		"source/pathway_commons/PathwayCommons12.innatedb.extSIF",
-		"output/prism/prism_transform.primary.drug_response.json.gz",
-		"output/gdc/gdc.aliquotAlias.table.json.gz",
-		"output/gtex/GTEX_Gene_Expression.gctProcess.gene_expression.json.gz",
-		"source/pathway_commons/PathwayCommons12.netpath.complex",
-		"source/pathway_commons/PathwayCommons12.biogrid.extSIF",
-		"output/bindingdb/bindingdbTsv.start.protein_compound_association.json.gz",
-		"output/gdsc/GDSC_Transform.aliquot.aliquot.json.gz",
-		"output/bindingdb/bindingdb.start.raw.json.gz",
-		"source/pharmacodb/tables/source_statistics.tsv.gz",
-		"source/pharmacodb/tables/source_tissue_names.tsv.gz",
-		"source/pharmacodb/tables/gene_drugs.tsv.gz",
-		"output/pharmacodb/pharmacodb_profiles.cellAliquot.aliquot.json.gz",
-		"output/bindingdb/bindingdbTsv.debug.debug.json.gz",
-		"output/g2p/g2p.main.assocation.json.gz",
-		"source/pathway_commons/PathwayCommons12.inoh.complex",
-		"source/gtex/GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt",
-		"output/ensembl/ensembl_gtf.genes.gene.json.gz",
-		"source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz",
-		"source/pharmacodb/tables/source_cell_names.tsv.gz",
-		"source/pathway_commons/PathwayCommons12.drugbank.complex",
-		"output/pdb/pdb.start.protein_structure.json.gz",
-		"source/pharmacodb/tables/dataset_cells.tsv.gz",
-		"source/go/go.json",
-		"source/pathway_commons/PathwayCommons12.netpath.extSIF",
-		"output/uniprot/uniprot_sprot.start.protein.json.gz",
-		"source/pathway_commons/PathwayCommons12.psp.complex",
-		"output/chembl/chemblDrugMechanismExtract.build.protein_compound_association.json.gz",
-		"output/ensembl/ensembl_gtf.exons.exon.json.gz",
-		"output/gdc/gdc.aliquotObject.aliquot.json.gz",
-		"source/pathway_commons/PathwayCommons12.humancyc.complex",
+		"graph/graphbuild_GDSC_Transform.transform-graph.edge.json.gz",
+		"graph/graphbuild_ensembl_gtf.exons-graph.vertex.json.gz",
+		"graph/graphbuild_gdc.caseObject-graph.vertex.json.gz",
+		"graph/graphbuild_GDSC_rnaseq_Transform.aliquot-graph.vertex.json.gz",
+		"graph/graphbuild_depmap-mafs.callsets-graph.vertex.json.gz",
+		"graph/graphbuild_GDSC_Transform.transform-graph.vertex.json.gz",
+		"graph/graphbuild_depmap-cases.aliquots-graph.edge.json.gz",
+		"graph/graphbuild_gdc-mafs.somaticCallsets-graph.vertex.json.gz",
+		"graph/graphbuild_gdc.projectObject-graph.edge.json.gz",
+		"graph/graphbuild_GDSC_rnaseq_Transform.start-graph.vertex.json.gz",
+		"graph/graphbuild_pdb.start-graph.edge.json.gz",
+		"graph/graphbuild_gdc.aliquotObject-graph.edge.json.gz",
+		"normalize/chembl/compounds.dist.compoundDistant.json.gz",
+		"graph/graphbuild_GDSC_VCF_Transform.callset-graph.edge.json.gz",
+		"graph/graphbuild_annotatedAllele.allele-graph.vertex.json.gz",
+		"graph/graphbuild_cellosaurus.transform-graph.vertex.json.gz",
+		"graph/graphbuild_chemblTransform.records-graph.vertex.json.gz",
+		"graph/graphbuild_rnaseq.rna-graph.vertex.json.gz",
+		"graph/graphbuild_uniprot_trembl.start-graph.edge.json.gz",
+		"tables/pharmacodb/dr_reduce.curveReduce.dose_response_curve.json.gz",
+		"graph/graphbuild_ensembl_gtf.exons-graph.edge.json.gz",
+		"graph/graphbuild_pubmed.transform-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_profiles_gx.aliquot-graph.edge.json.gz",
+		"graph/graphbuild_depmap-cases.sampleObjects-graph.vertex.json.gz",
+		"graph/graphbuild_gdc.projectObject-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.cellAliquot-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.cellSample-graph.edge.json.gz",
 		"source/g2p/tables/g2p_source.bed",
-		"output/pathway_commons/pathway_commons.interactionMap.interaction.json.gz",
-		"output/msigdb/msigdb.transform.gene_set.json.gz",
-		"source/pathway_commons/PathwayCommons12.reactome.complex",
-		"source/pathway_commons/PathwayCommons12.hprd.complex",
-		"source/pathway_commons/PathwayCommons12.bind.extSIF",
-		"output/pharmacodb/pharmacodb_profiles.cellProject.project.json.gz",
-		"source/pathway_commons/PathwayCommons12.psp.extSIF",
-		"source/pharmacodb/tables/tissues.tsv.gz",
-		"source/docm/variants.json",
-		"output/gdc/gdc.caseObject.case.json.gz",
-		"source/pathway_commons/PathwayCommons12.reactome.extSIF",
-		"source/pharmgkb/relationships.zip",
-		"output/bindingdb/bindingdb.monomer.monomer.json.gz",
-		"source/pathway_commons/PathwayCommons12.mirtarbase.extSIF",
-		"source/pathway_commons/PathwayCommons12.pathbank.extSIF",
-		"source/pathway_commons/PathwayCommons12.bind.complex",
-		"source/pathway_commons/PathwayCommons12.pathbank.complex",
-		"output/depmap/depmap-expression.values.expression.json.gz",
-		"output/gdc/gdc.sampleObject.sample.json.gz",
-		"output/go/go.transform.term.json.gz",
-		"source/pathway_commons/PathwayCommons12.ctd.extSIF",
-		"source/ucscGenome/cytoBandIdeo.txt.gz",
-		"output/gdsc/GDSC_rnaseq_Transform.start.geneExpression.json.gz",
-		"source/pathway_commons/PathwayCommons12.reconx.extSIF",
-		"source/pathway_commons/PathwayCommons12.hprd.extSIF",
-		"source/pathway_commons/PathwayCommons12.innatedb.complex",
-		"output/ensembl/ensembl_gtf.transcripts.transcript.json.gz",
-		"output/gdsc/GDSC_rnaseq_Transform.aliquot.aliquot.json.gz",
-		"source/pathway_commons/PathwayCommons12.ctd.complex",
-		"output/depmap/depmap-cases.aliquots.aliquot.json.gz",
-		"output/gdsc/GDSC_VCF_Transform.variants.somatic_variant.json.gz",
-		"output/gtex/GTEX_Transcript_Expression.update.transcript_expression.json.gz",
-		"output/depmap/depmap-mafs.callsets.callset.json.gz",
-		"source/pharmacodb/tables/cell_tissues.tsv.gz",
-		"output/pubmed/pubmed.transform.publication.json.gz",
-		"source/pharmacodb/tables/drug_annots.tsv.gz",
-		"source/pharmacodb/tables/cellosaurus.tsv.gz",
-		"output/gdsc/GDSC_Transform.transform.geneExpression.json.gz",
-		"source/ncit/ncit.obo",
-		"source/pathway_commons/PathwayCommons12.reconx.complex",
-		"source/pathway_commons/PathwayCommons12.dip.extSIF",
-		"source/pathway_commons/PathwayCommons12.humancyc.extSIF",
-		"output/pharmacodb/pharmacodb_profiles.drObject.drug_response.json.gz",
-		"source/pharmgkb/clinicalAnnotations.zip",
-		"output/gdsc/GDSC_VCF_Transform.callset.somatic_callset.json.gz",
-		"source/pathway_commons/PathwayCommons12.biogrid.complex",
-		"source/pharmacodb/tables/source_drug_names.tsv.gz",
-		"output/pharmacodb/pharmacodb_profiles.cellDistinct.checkpoint.json.gz",
-		"output/cellosarus/cellosarus.transform.cases.json.gz",
-		"output/gdc/open-maf/gdc-mafs.somaticCallsets.callset.json.gz",
-		"source/pharmacodb/tables/sources.tsv.gz",
-		"output/gdc/open-maf/gdc-mafs.scan.variant.json.gz",
-		"source/pathway_commons/PathwayCommons12.kegg.extSIF",
-		"source/pathway_commons/PathwayCommons12.mirtarbase.complex",
-		"source/pathway_commons/PathwayCommons12.pid.complex",
-		"source/pathway_commons/PathwayCommons12.corum.complex",
-		"output/prism/prism_transform.secondary.drug_response.json.gz",
-		"output/clinvar/clinvar.transform.raw.json.gz",
-		"output/depmap/depmap-mafs.variants.variants.json.gz",
+		"graph/graphbuild_bindingdbTsv.start-graph.edge.json.gz",
+		"graph/graphbuild_pathway_commons.interactionMap-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.drObject-graph.vertex.json.gz",
+		"graph/graphbuild_GTEX_Gene_Expression.gctProcess-graph.vertex.json.gz",
+		"graph/graphbuild_chemblDrugMechanismExtract.build-graph.vertex.json.gz",
+		"graph/graphbuild_g2p.main-graph.vertex.json.gz",
+		"source/gdsc/tables/cosmic2ach.translate.link.json.gz",
+		"graph/graphbuild_ensembl_gtf.transcripts-graph.vertex.json.gz",
+		"graph/graphbuild_msigdb.transform-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_profiles_gx.sample-graph.vertex.json.gz",
+		"graph/graphbuild_bindingdbTsv.start-graph.vertex.json.gz",
+		"graph/graphbuild_prism_transform.secondary-graph.vertex.json.gz",
+		"output/gdc/gdc.aliquotAlias.table.json.gz",
+		"output/go/go_gaf.dump.gaf.json.gz",
+		"graph/graphbuild_go.transform-graph.vertex.json.gz",
+		"graph/graphbuild_pdb.start-graph.vertex.json.gz",
+		"graph/graphbuild_chemblTransform.records-graph.edge.json.gz",
+		"output/pharmacodb/pharmacodb_profiles_gx.transform.debug.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.cellCase-graph.vertex.json.gz",
+		"graph/graphbuild_msigdb.transform-graph.vertex.json.gz",
+		"graph/graphbuild_annotatedAllele.alleleEffect-graph.vertex.json.gz",
+		"graph/graphbuild_depmap-cases.aliquots-graph.vertex.json.gz",
+		"graph/graphbuild_GTEX_Transcript_Expression.update-graph.vertex.json.gz",
+		"graph/graphbuild_rnaseq.rna-graph.edge.json.gz",
+		"graph/graphbuild_ensembl_gtf.genes-graph.edge.json.gz",
+		"graph/graphbuild_ensembl_gtf.transcripts-graph.edge.json.gz",
+		"graph/graphbuild_gdc.sampleObject-graph.edge.json.gz",
+		"graph/graphbuild_GDSC_VCF_Transform.variants-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.cellCase-graph.edge.json.gz",
+		"graph/graphbuild_prism_transform.primary-graph.vertex.json.gz",
+		"graph/graphbuild_gdc-mafs.scan-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_profiles_gx.drugResponse-graph.edge.json.gz",
+		"output-normalize/allele.vcf",
+		"graph/graphbuild_annotatedAllele.allele-graph.edge.json.gz",
+		"graph/graphbuild_gdc.sampleObject-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.cellAliquot-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_profiles_gx.aliquot-graph.vertex.json.gz",
+		"graph/graphbuild_cellosaurus.transform-graph.edge.json.gz",
+		"graph/graphbuild_mondo.extract-graph.vertex.json.gz",
+		"graph/graphbuild_GDSC_VCF_Transform.callset-graph.vertex.json.gz",
+		"graph/graphbuild_annotatedAllele.alleleEffect-graph.edge.json.gz",
+		"graph/graphbuild_uniprot_trembl.start-graph.vertex.json.gz",
 		"output/gdsc/GDSC_VCF_Transform.namefix.source.json.gz",
-		"source/pathway_commons/PathwayCommons12.dip.complex",
-		"output/allele/annotatedAllele.transform.allele.json.gz",
-		"output/depmap/depmap-cases.samples.sample.json.gz",
-		"output/pharmacodb/pharmacodb_profiles.cellSample.sample.json.gz",
-		"source/gtex/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt",
-		"source/pathway_commons/PathwayCommons12.drugbank.extSIF",
-		"output/pharmacodb/pharmacodb_profiles.cellCase.case.json.gz",
-		"output/bindingdb/bindingdb.complex.complex.json.gz",
-		"source/ensembl/Homo_sapiens.GRCh38.108.uniprot.tsv.gz",
-		"source/ensembl/homo_sapiens.GRCh38.Regulatory_Build.regulatory_features.20221007.gff.gz",
-		"output/go/go_gaf.dump.gaf.json.gz"
-
-rule bindingdb:
-	input:
-		"source/bindingdb/BDB_my-202301.dmp",
-		"transform/bindingdb/transform.yaml"
-	output:
-		"output/bindingdb/bindingdb.assay.assay.json.gz",
-		"output/bindingdb/bindingdb.complex.complex.json.gz",
-		"output/bindingdb/bindingdb.monomer.monomer.json.gz",
-		"output/bindingdb/bindingdb.start.raw.json.gz"
-	shell:
-		"sifter run transform/bindingdb/transform.yaml"
+		"graph/graphbuild_chemblDrugMechanismExtract.build-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_profiles_gx.sample-graph.edge.json.gz",
+		"graph/graphbuild_depmap-mafs.variants-graph.edge.json.gz",
+		"graph/graphbuild_prism_transform.secondary-graph.edge.json.gz",
+		"graph/graphbuild_GDSC_Transform.aliquot-graph.vertex.json.gz",
+		"graph/graphbuild_GDSC_rnaseq_Transform.aliquot-graph.edge.json.gz",
+		"graph/graphbuild_depmap-mafs.callsets-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.drObject-graph.edge.json.gz",
+		"graph/graphbuild_gdc-mafs.somaticCallsets-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.cellProject-graph.edge.json.gz",
+		"graph/graphbuild_uniprot_sprot.start-graph.edge.json.gz",
+		"graph/graphbuild_GDSC_Transform.aliquot-graph.edge.json.gz",
+		"graph/graphbuild_GTEX_Transcript_Expression.update-graph.edge.json.gz",
+		"graph/graphbuild_depmap-cases.sampleObjects-graph.edge.json.gz",
+		"graph/graphbuild_depmap-mafs.variants-graph.vertex.json.gz",
+		"graph/graphbuild_gdc-mafs.scan-graph.vertex.json.gz",
+		"graph/graphbuild_gdc.caseObject-graph.edge.json.gz",
+		"graph/graphbuild_depmap-cases.depMapCases-graph.vertex.json.gz",
+		"graph/graphbuild_depmap-cases.depMapCases-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.cellProject-graph.vertex.json.gz",
+		"graph/graphbuild_depmap-expression.values-graph.vertex.json.gz",
+		"graph/graphbuild_go.transform-graph.edge.json.gz",
+		"graph/graphbuild_mondo.extract-graph.edge.json.gz",
+		"graph/graphbuild_gdc.aliquotObject-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.cellSample-graph.vertex.json.gz",
+		"output/pathway_commons/pathway_commons.complexBundle.complex.json.gz",
+		"graph/graphbuild_GTEX_Gene_Expression.gctProcess-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_profiles_gx.drugResponse-graph.vertex.json.gz",
+		"graph/graphbuild_prism_transform.primary-graph.edge.json.gz",
+		"graph/graphbuild_pubmed.transform-graph.edge.json.gz",
+		"graph/graphbuild_GDSC_VCF_Transform.variants-graph.vertex.json.gz",
+		"graph/graphbuild_GDSC_rnaseq_Transform.start-graph.edge.json.gz",
+		"graph/graphbuild_uniprot_sprot.start-graph.vertex.json.gz",
+		"graph/graphbuild_depmap-expression.values-graph.edge.json.gz",
+		"graph/graphbuild_ensembl_gtf.genes-graph.vertex.json.gz",
+		"graph/graphbuild_g2p.main-graph.edge.json.gz",
+		"graph/graphbuild_pathway_commons.interactionMap-graph.edge.json.gz"
 
 rule bindingdbTsv:
 	input:
@@ -140,44 +119,47 @@ rule bindingdbTsv:
 		"schema",
 		"transform/bindingdb/transform_tsv.yaml"
 	output:
-		"output/bindingdb/bindingdbTsv.debug.debug.json.gz",
 		"output/bindingdb/bindingdbTsv.start.protein_compound_association.json.gz"
 	shell:
 		"sifter run transform/bindingdb/transform_tsv.yaml"
 
-rule synonyms:
+rule cellosarusSynonyms:
 	input:
-		"source/cellosarus/cellosaurus.obo",
-		"transform/cellosarus/alias_table.yaml"
+		"source/cellosaurus/cellosaurus.obo",
+		"transform/cellosaurus/alias_table.yaml"
 	output:
-		"source/cellosarus/table/synonyms.caseTable.ach2cellosarus.json.gz"
+		"tables/cellosarusSynonyms.caseTable.ach2cellosaurus.json.gz"
 	shell:
-		"sifter run transform/cellosarus/alias_table.yaml"
+		"sifter run transform/cellosaurus/alias_table.yaml"
 
-rule cellosarus:
+rule cellosaurus:
 	input:
-		"source/cellosarus/cellosaurus.obo",
-		"source/mondo/tables/mondo.ncit_extract.mapping.json.gz",
+		"source/cellosaurus/cellosaurus.obo",
+		"tables/ncit2mondo.ncit_extract.mapping.json.gz",
 		"schema",
-		"transform/cellosarus/transform.yaml"
+		"transform/cellosaurus/transform.yaml"
 	output:
-		"output/cellosarus/cellosarus.transform.cases.json.gz"
+		"output/cellosaurus/cellosaurus.transform.cases.json.gz"
 	shell:
-		"sifter run transform/cellosarus/transform.yaml"
+		"sifter run transform/cellosaurus/transform.yaml"
 
-rule chemblDownload_curl:
-	output:
-		"source/chembl/chembl_31_sqlite.tar.gz"
-	shell:
-		"cd transform/chembl && curl -o ../../source/chembl/chembl_31_sqlite.tar.gz https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_31_sqlite.tar.gz"
-
-rule chemblDownload_tar:
+rule compoundDist_compoundDist_compoundDist_scatter:
 	input:
-		"source/chembl/chembl_31_sqlite.tar.gz"
+		input= "output/chembl/chemblTransform.records.compound.json.gz"
 	output:
-		"source/chembl/chembl_31/chembl_31_sqlite/chembl_31.db"
+		output= "transform/chembl/shards/{shard}-of-{total}"
+	resources:
+		mem_mb=30000
 	shell:
-		"cd transform/chembl && tar xvzf ../../source/chembl/chembl_31_sqlite.tar.gz -C ../../source/chembl/"
+		"/Users/ellrott/workspaces/bmeg-etl/util/compound_distance.py -n {threads} -i {input} -s {wildcards.shard} -t {wildcards.total} -o {output}"
+
+rule compoundDist_compoundDist_compoundDist_gather:
+	input:
+		input= gather.compoundDist_compoundDist("transform/chembl/shards/{scatteritem}")
+	output:
+		output= "normalize/chembl/compounds.dist.compoundDistant.json.gz"
+	shell:
+		"cat {input} > {output}"
 
 rule chemblDrugMechanismExtract:
 	input:
@@ -189,19 +171,20 @@ rule chemblDrugMechanismExtract:
 	shell:
 		"sifter run transform/chembl/drug_mechanism.yaml"
 
-rule synonyms_1:
+rule chemblSynonyms:
 	input:
 		"source/chembl/chembl_31/chembl_31_sqlite/chembl_31.db",
 		"transform/chembl/synonyms.yaml"
 	output:
-		"source/chembl/tables/synonyms.buildTable.synonyms.json.gz"
+		"tables/chemblSynonyms.longTable.synonyms.json.gz",
+		"tables/chemblSynonyms.buildTable.synonyms.json.gz"
 	shell:
 		"sifter run transform/chembl/synonyms.yaml"
 
 rule chemblTransform:
 	input:
 		"source/chembl/chembl_31/chembl_31_sqlite/chembl_31.db",
-		"source/chembl/tables/synonyms.buildTable.synonyms.json.gz",
+		"tables/chemblSynonyms.buildTable.synonyms.json.gz",
 		"schema",
 		"transform/chembl/transform.yaml"
 	output:
@@ -209,32 +192,25 @@ rule chemblTransform:
 	shell:
 		"sifter run transform/chembl/transform.yaml"
 
-rule clinvar:
-	input:
-		"source/clinvar/ClinVarFullRelease_2023-01.xml.gz",
-		"transform/clinvar/transform.yaml"
-	output:
-		"output/clinvar/clinvar.transform.raw.json.gz"
-	shell:
-		"sifter run transform/clinvar/transform.yaml"
-
 rule depmap_cases:
 	input:
 		"source/depmap/Model.csv",
 		"schema",
-		"source/cellosarus/table/synonyms.caseTable.ach2cellosarus.json.gz",
 		"schema",
+		"schema",
+		"tables/cellosarusSynonyms.caseTable.ach2cellosaurus.json.gz",
 		"transform/depmap/cases.yaml"
 	output:
-		"output/depmap/depmap-cases.samples.sample.json.gz",
-		"output/depmap/depmap-cases.aliquots.aliquot.json.gz"
+		"output/depmap/depmap-cases.aliquots.aliquot.json.gz",
+		"output/depmap/depmap-cases.depMapCases.case.json.gz",
+		"output/depmap/depmap-cases.sampleObjects.sample.json.gz"
 	shell:
 		"sifter run transform/depmap/cases.yaml"
 
 rule depmap_expression:
 	input:
 		"source/depmap/OmicsExpressionProteinCodingGenesTPMLogp1.csv",
-		"source/ensembl/gene2ensembl.translate.link.json.gz",
+		"tables/gene2ensembl.translate.link.json.gz",
 		"schema",
 		"transform/depmap/expression.yaml"
 	output:
@@ -256,30 +232,6 @@ rule depmap_mafs:
 	shell:
 		"sifter run transform/depmap/mutations.yaml"
 
-rule download_downloadGO:
-	output:
-		"source/docm/variants.json"
-	shell:
-		"cd transform/docm && curl -o ../../source/docm/variants.json http://www.docm.info/api/v1/variants.json"
-
-rule ensembleDownload_ensemblDownload:
-	output:
-		"source/ensembl/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz"
-	shell:
-		"cd transform/ensembl && curl -o ../../source/ensembl/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz https://ftp.ensembl.org/pub/release-108/gtf/homo_sapiens/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz"
-
-rule ensembleDownload_ensemblProteinDownload:
-	output:
-		"source/ensembl/Homo_sapiens.GRCh38.108.uniprot.tsv.gz"
-	shell:
-		"cd transform/ensembl && curl -o ../../source/ensembl/Homo_sapiens.GRCh38.108.uniprot.tsv.gz https://ftp.ensembl.org/pub/release-108/tsv/homo_sapiens/Homo_sapiens.GRCh38.108.uniprot.tsv.gz"
-
-rule ensembleDownload_regulatory:
-	output:
-		"source/ensembl/homo_sapiens.GRCh38.Regulatory_Build.regulatory_features.20221007.gff.gz"
-	shell:
-		"cd transform/ensembl && curl -o ../../source/ensembl/homo_sapiens.GRCh38.Regulatory_Build.regulatory_features.20221007.gff.gz  https://ftp.ensembl.org/pub/current_regulation/homo_sapiens/homo_sapiens.GRCh38.Regulatory_Build.regulatory_features.20221007.gff.gz"
-
 rule ensembl_gtf:
 	input:
 		"source/ensembl/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz",
@@ -299,29 +251,20 @@ rule gene2ensembl:
 		"source/ensembl/gene2ensembl.gz",
 		"transform/ensembl/gene2ensembl.yaml"
 	output:
-		"source/ensembl/gene2ensembl.translate.link.json.gz"
+		"tables/gene2ensembl.translate.link.json.gz"
 	shell:
 		"sifter run transform/ensembl/gene2ensembl.yaml"
 
-rule hugoDownload_gene2entrez:
+rule hugo2ensembl:
+	input:
+		"source/ensembl/Homo_sapiens.GRCh38.108.chr_patch_hapl_scaff.gtf.gz",
+		"transform/ensembl/hugo2ensembl.yaml"
 	output:
-		"source/ensembl/gene2ensembl.gz"
+		"tables/hugo2ensembl.tsv"
 	shell:
-		"cd transform/ensembl && curl -o ../../source/ensembl/gene2ensembl.gz https://ftp.ncbi.nih.gov/gene/DATA/gene2ensembl.gz"
+		"sifter run transform/ensembl/hugo2ensembl.yaml"
 
-rule hugoDownload_hugoDownload:
-	output:
-		"source/hugo/hugo.tsv"
-	shell:
-		"cd transform/ensembl && curl -o ../../source/hugo/hugo.tsv https://www.genenames.org/cgi-bin/download/custom?col=gd_hgnc_id&col=gd_app_sym&col=gd_app_name&col=gd_status&col=gd_prev_sym&col=gd_aliases&col=gd_pub_chrom_map&col=gd_pub_acc_ids&col=gd_pub_refseq_ids&col=md_ensembl_id&col=md_prot_id&status=Approved&status=Entry%20Withdrawn&hgnc_dbtag=on&order_by=gd_app_sym_sort&format=text&submit=submit"
-
-rule hugoDownload_uniprotDownload:
-	output:
-		"source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz"
-	shell:
-		"cd transform/ensembl && curl --verbose --progress-bar --ipv4 --connect-timeout 8 --max-time 120 --retry 128 --ftp-ssl --disable-epsv --ftp-pasv ftp://ftp.ensembl.org/pub/grch37/release-96/tsv/homo_sapiens/Homo_sapiens.GRCh37.85.uniprot.tsv.gz --output ../../source/ensembl/Homo_sapiens.GRCh37.85.uniprot.tsv.gz"
-
-rule g2p:
+rule g2p_bedfile:
 	input:
 		"source/g2p",
 		"transform/g2p/bed_file.yaml"
@@ -330,31 +273,19 @@ rule g2p:
 	shell:
 		"sifter run transform/g2p/bed_file.yaml"
 
-rule g2p_1:
+rule g2p:
 	input:
 		"source/g2p",
-		"source/hugo/hugo.tsv",
-		"source/g2p/tables/hglft_genome_2749d_8437f0.bed",
 		"schema",
+		"tables/hugo2ensembl.tsv",
+		"source/g2p/tables/hglft_genome_2749d_8437f0.bed",
 		"schema",
 		"transform/g2p/transform.yaml"
 	output:
-		"output/g2p/g2p.main.assocation.json.gz",
-		"output/g2p/g2p.alleles.allele.json.gz"
+		"output/g2p/g2p.alleles.allele.json.gz",
+		"output/g2p/g2p.main.assocation.json.gz"
 	shell:
 		"sifter run transform/g2p/transform.yaml"
-
-rule download_cases:
-	output:
-		"source/gdc/cases.json"
-	shell:
-		"cd transform/gdc && ./gdc-scan.py cases ../../source/gdc/cases.json"
-
-rule download_files:
-	output:
-		"source/gdc/files.json"
-	shell:
-		"cd transform/gdc && ./gdc-scan.py files ../../source/gdc/files.json"
 
 rule gdc_mafs:
 	input:
@@ -364,14 +295,15 @@ rule gdc_mafs:
 		"schema",
 		"transform/gdc/maf-files.yaml"
 	output:
-		"output/gdc/open-maf/gdc-mafs.somaticCallsets.callset.json.gz",
 		"output/gdc/open-maf/gdc-mafs.allele.allele.json.gz",
-		"output/gdc/open-maf/gdc-mafs.scan.variant.json.gz"
+		"output/gdc/open-maf/gdc-mafs.scan.variant.json.gz",
+		"output/gdc/open-maf/gdc-mafs.somaticCallsets.callset.json.gz"
 	shell:
 		"sifter run transform/gdc/maf-files.yaml"
 
 rule rnaseq:
 	input:
+		"source/gdc/files.json",
 		"source/gdc/rna-seq",
 		"schema",
 		"transform/gdc/rna-expression.yaml"
@@ -386,10 +318,12 @@ rule gdc:
 		"schema",
 		"schema",
 		"schema",
+		"schema",
 		"transform/gdc/transform.yaml"
 	output:
 		"output/gdc/gdc.aliquotObject.aliquot.json.gz",
 		"output/gdc/gdc.caseObject.case.json.gz",
+		"output/gdc/gdc.projectObject.project.json.gz",
 		"output/gdc/gdc.sampleObject.sample.json.gz",
 		"output/gdc/gdc.aliquotAlias.table.json.gz"
 	shell:
@@ -404,38 +338,12 @@ rule cosmic2ach:
 	shell:
 		"sifter run transform/gdsc/cosmic_to_ach.yaml"
 
-rule downloadGDSC_geneInfo:
-	output:
-		"source/gdsc/gene_identifiers_20191101.csv"
-	shell:
-		"cd transform/gdsc && curl https://cog.sanger.ac.uk/cmp/download/gene_identifiers_20191101.csv -o ../../source/gdsc/gene_identifiers_20191101.csv"
-
-rule downloadGDSC_rnaSepUnzip:
-	input:
-		"source/gdsc/rnaseq_sanger_20210316.zip"
-	output:
-		"source/gdsc/rnaseq_sanger_20210316.csv"
-	shell:
-		"cd transform/gdsc && unzip -d ../../source/gdsc ../../source/gdsc/rnaseq_sanger_20210316.zip"
-
-rule downloadGDSC_rnaSeq:
-	output:
-		"source/gdsc/rnaseq_sanger_20210316.zip"
-	shell:
-		"cd transform/gdsc && curl https://cog.sanger.ac.uk/cmp/download/rnaseq_sanger_20210316.zip -o ../../source/gdsc/rnaseq_sanger_20210316.zip"
-
-rule downloadGDSC_sampleInfo:
-	output:
-		"source/gdsc/model_list_20230110.csv"
-	shell:
-		"cd transform/gdsc && curl https://cog.sanger.ac.uk/cmp/download/model_list_20230110.csv -o ../../source/gdsc/model_list_20230110.csv"
-
 rule GDSC_Transform:
 	input:
 		"source/gdsc/Cell_line_RMA_proc_basalExp.txt",
-		"source/gdsc/tables/cosmic2ach.translate.link.json.gz",
+		"tables/cosmic2ach.translate.link.json.gz",
 		"schema",
-		"source/hugo/hugo.tsv",
+		"tables/hugo2ensembl.tsv",
 		"schema",
 		"transform/gdsc/rna_transform.yaml"
 	output:
@@ -467,24 +375,12 @@ rule GDSC_VCF_Transform:
 		"schema",
 		"transform/gdsc/vcf_transform.yaml"
 	output:
+		"output/gdsc/GDSC_VCF_Transform.namefix.source.json.gz",
 		"output/gdsc/GDSC_VCF_Transform.variants.somatic_variant.json.gz",
 		"output/gdsc/GDSC_VCF_Transform.allele.allele.json.gz",
-		"output/gdsc/GDSC_VCF_Transform.callset.somatic_callset.json.gz",
-		"output/gdsc/GDSC_VCF_Transform.namefix.source.json.gz"
+		"output/gdsc/GDSC_VCF_Transform.callset.somatic_callset.json.gz"
 	shell:
 		"sifter run transform/gdsc/vcf_transform.yaml"
-
-rule download_downloadGAF:
-	output:
-		"source/go/goa_human.gaf.gz"
-	shell:
-		"cd transform/go && curl -o ../../source/go/goa_human.gaf.gz http://release.geneontology.org/2022-09-19/annotations/goa_human.gaf.gz"
-
-rule download_downloadGO_1:
-	output:
-		"source/go/go.json"
-	shell:
-		"cd transform/go && curl -o ../../source/go/go.json http://release.geneontology.org/2022-09-19/ontology/go.json"
 
 rule go_gaf:
 	input:
@@ -505,30 +401,6 @@ rule go:
 	shell:
 		"sifter run transform/go/go_obo.yaml"
 
-rule download_gtex_downloadSubjectPhenotypes:
-	output:
-		"source/gtex/GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt"
-	shell:
-		"cd transform/gtex && curl -o ../../source/gtex/GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt https://storage.googleapis.com/gtex_analysis_v8/annotations/GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt"
-
-rule download_gtex_downloadTranscriptTPM:
-	output:
-		"source/gtex/GTEx_Analysis_2017-06-05_v8_RSEMv1.3.0_transcript_tpm.gct.gz"
-	shell:
-		"cd transform/gtex && curl https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/GTEx_Analysis_2017-06-05_v8_RSEMv1.3.0_transcript_tpm.gct.gz -o ../../source/gtex/GTEx_Analysis_2017-06-05_v8_RSEMv1.3.0_transcript_tpm.gct.gz"
-
-rule download_gtex_downloadGeneTPM:
-	output:
-		"source/gtex/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz"
-	shell:
-		"cd transform/gtex && curl -o ../../source/gtex/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz"
-
-rule download_gtex_downloadSampleAttributes:
-	output:
-		"source/gtex/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt"
-	shell:
-		"cd transform/gtex && curl -o ../../source/gtex/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt https://storage.googleapis.com/gtex_analysis_v8/annotations/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt"
-
 rule GTEX_Gene_Expression:
 	input:
 		"source/gtex/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz",
@@ -536,6 +408,8 @@ rule GTEX_Gene_Expression:
 		"transform/gtex/gene_transform.yaml"
 	output:
 		"output/gtex/GTEX_Gene_Expression.gctProcess.gene_expression.json.gz"
+	resources:
+		mem_mb=50000
 	shell:
 		"sifter run transform/gtex/gene_transform.yaml"
 
@@ -546,8 +420,17 @@ rule GTEX_Transcript_Expression:
 		"transform/gtex/transcript_transform.yaml"
 	output:
 		"output/gtex/GTEX_Transcript_Expression.update.transcript_expression.json.gz"
+	resources:
+		mem_mb=80000
 	shell:
 		"sifter run transform/gtex/transcript_transform.yaml"
+
+rule interpro:
+	input:
+		"source/interpro/interpro.xml.gz",
+		"transform/interpro/transform.yaml"
+	shell:
+		"sifter run transform/interpro/transform.yaml"
 
 rule mondo:
 	input:
@@ -559,397 +442,25 @@ rule mondo:
 	shell:
 		"sifter run transform/mondo/mondo.yaml"
 
-rule mondo_1:
+rule ncit2mondo:
 	input:
 		"source/mondo/mondo.json",
 		"transform/mondo/ncit2mondo_table.yaml"
 	output:
-		"source/mondo/tables/mondo.ncit_extract.mapping.json.gz"
+		"tables/ncit2mondo.ncit_extract.mapping.json.gz"
 	shell:
 		"sifter run transform/mondo/ncit2mondo_table.yaml"
-
-rule downloads_msigdb:
-	output:
-		"source/msigdb/msigdb_v7.5.1.xml"
-	shell:
-		"cd transform/msigdb && curl -o ../../source/msigdb/msigdb_v7.5.1.xml https://data.broadinstitute.org/gsea-msigdb/msigdb/release/7.5.1/msigdb_v7.5.1.xml"
 
 rule msigdb:
 	input:
 		"source/msigdb/msigdb_v7.5.1.xml",
-		"source/ensembl/gene2ensembl.translate.link.json.gz",
+		"tables/gene2ensembl.translate.link.json.gz",
 		"schema",
 		"transform/msigdb/transform.yaml"
 	output:
 		"output/msigdb/msigdb.transform.gene_set.json.gz"
 	shell:
 		"sifter run transform/msigdb/transform.yaml"
-
-rule download_downloadGO_2:
-	output:
-		"source/ncit/ncit.obo"
-	shell:
-		"cd transform/ncit && curl -L -o ../../source/ncit/ncit.obo https://github.com/NCI-Thesaurus/thesaurus-obo-edition/releases/download/v2022-08-19/ncit.obo"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_psp:
-	output:
-		"source/pathway_commons/PathwayCommons12.psp.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.psp.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.psp.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_msigdb:
-	output:
-		"source/pathway_commons/PathwayCommons12.msigdb.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.msigdb.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.msigdb.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_kegg:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.kegg.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.kegg.extSIF",
-		"source/pathway_commons/PathwayCommons12.kegg.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.kegg.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.kegg"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_hprd:
-	output:
-		"source/pathway_commons/PathwayCommons12.hprd.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.hprd.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.hprd.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_ctd:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.ctd.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.ctd.extSIF",
-		"source/pathway_commons/PathwayCommons12.ctd.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.ctd.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.ctd"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_humancyc:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.humancyc.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.humancyc.extSIF",
-		"source/pathway_commons/PathwayCommons12.humancyc.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.humancyc.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.humancyc"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_drugbank:
-	output:
-		"source/pathway_commons/PathwayCommons12.drugbank.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.drugbank.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.drugbank.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_mirtarbase:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.mirtarbase.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.mirtarbase.extSIF",
-		"source/pathway_commons/PathwayCommons12.mirtarbase.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.mirtarbase.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.mirtarbase"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_msigdb:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.msigdb.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.msigdb.extSIF",
-		"source/pathway_commons/PathwayCommons12.msigdb.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.msigdb.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.msigdb"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_reconx:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.reconx.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.reconx.extSIF",
-		"source/pathway_commons/PathwayCommons12.reconx.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.reconx.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.reconx"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_pathbank:
-	output:
-		"source/pathway_commons/PathwayCommons12.pathbank.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.pathbank.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.pathbank.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_bind:
-	output:
-		"source/pathway_commons/PathwayCommons12.bind.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.bind.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.bind.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_dip:
-	output:
-		"source/pathway_commons/PathwayCommons12.dip.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.dip.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.dip.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_humancyc:
-	output:
-		"source/pathway_commons/PathwayCommons12.humancyc.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.humancyc.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.humancyc.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_dip:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.dip.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.dip.extSIF",
-		"source/pathway_commons/PathwayCommons12.dip.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.dip.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.dip"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_innatedb:
-	output:
-		"source/pathway_commons/PathwayCommons12.innatedb.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.innatedb.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.innatedb.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_biogrid:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.biogrid.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.biogrid.extSIF",
-		"source/pathway_commons/PathwayCommons12.biogrid.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.biogrid.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.biogrid"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_panther:
-	output:
-		"source/pathway_commons/PathwayCommons12.panther.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.panther.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.panther.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_ctd:
-	output:
-		"source/pathway_commons/PathwayCommons12.ctd.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.ctd.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.ctd.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_kegg:
-	output:
-		"source/pathway_commons/PathwayCommons12.kegg.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.kegg.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.kegg.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_corum:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.corum.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.corum.extSIF",
-		"source/pathway_commons/PathwayCommons12.corum.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.corum.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.corum"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_psp:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.psp.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.psp.extSIF",
-		"source/pathway_commons/PathwayCommons12.psp.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.psp.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.psp"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_hprd:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.hprd.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.hprd.extSIF",
-		"source/pathway_commons/PathwayCommons12.hprd.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.hprd.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.hprd"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_corum:
-	output:
-		"source/pathway_commons/PathwayCommons12.corum.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.corum.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.corum.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_drugbank:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.drugbank.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.drugbank.extSIF",
-		"source/pathway_commons/PathwayCommons12.drugbank.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.drugbank.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.drugbank"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_biogrid:
-	output:
-		"source/pathway_commons/PathwayCommons12.biogrid.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.biogrid.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.biogrid.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_inoh:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.inoh.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.inoh.extSIF",
-		"source/pathway_commons/PathwayCommons12.inoh.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.inoh.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.inoh"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_netpath:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.netpath.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.netpath.extSIF",
-		"source/pathway_commons/PathwayCommons12.netpath.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.netpath.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.netpath"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_mirtarbase:
-	output:
-		"source/pathway_commons/PathwayCommons12.mirtarbase.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.mirtarbase.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.mirtarbase.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_pid:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.pid.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.pid.extSIF",
-		"source/pathway_commons/PathwayCommons12.pid.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.pid.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.pid"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_reconx:
-	output:
-		"source/pathway_commons/PathwayCommons12.reconx.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.reconx.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.reconx.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_bind:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.bind.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.bind.extSIF",
-		"source/pathway_commons/PathwayCommons12.bind.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.bind.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.bind"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_inoh:
-	output:
-		"source/pathway_commons/PathwayCommons12.inoh.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.inoh.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.inoh.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_innatedb:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.innatedb.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.innatedb.extSIF",
-		"source/pathway_commons/PathwayCommons12.innatedb.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.innatedb.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.innatedb"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_reactome:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.reactome.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.reactome.extSIF",
-		"source/pathway_commons/PathwayCommons12.reactome.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.reactome.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.reactome"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_panther:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.panther.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.panther.extSIF",
-		"source/pathway_commons/PathwayCommons12.panther.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.panther.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.panther"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_reactome:
-	output:
-		"source/pathway_commons/PathwayCommons12.reactome.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.reactome.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.reactome.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_netpath:
-	output:
-		"source/pathway_commons/PathwayCommons12.netpath.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.netpath.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.netpath.BIOPAX.owl.gz"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_process_pathbank:
-	input:
-		"transform/pathway_commons/target/pc-extract-1.0-jar-with-dependencies.jar",
-		"source/pathway_commons/PathwayCommons12.pathbank.BIOPAX.owl.gz"
-	output:
-		"source/pathway_commons/PathwayCommons12.pathbank.extSIF",
-		"source/pathway_commons/PathwayCommons12.pathbank.complex"
-	resources:
-		mem_mb=15000
-	shell:
-		"cd transform/pathway_commons && java -Xmx15g -jar ../../tools/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.pathbank.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.pathbank"
-
-rule pathwayCommonsDownload_pathwayCommonsDownload_pc_prep_download_pid:
-	output:
-		"source/pathway_commons/PathwayCommons12.pid.BIOPAX.owl.gz"
-	shell:
-		"cd transform/pathway_commons && curl -o ../../source/pathway_commons/PathwayCommons12.pid.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.pid.BIOPAX.owl.gz"
 
 rule pathway_commons:
 	input:
@@ -960,6 +471,8 @@ rule pathway_commons:
 	output:
 		"output/pathway_commons/pathway_commons.complexBundle.complex.json.gz",
 		"output/pathway_commons/pathway_commons.interactionMap.interaction.json.gz"
+	resources:
+		mem_mb=20000
 	shell:
 		"sifter run transform/pathway_commons/transform.yaml"
 
@@ -973,81 +486,41 @@ rule pdb:
 	shell:
 		"sifter run transform/pdb/transform.yaml"
 
-rule pharmacodb:
+rule pharmacoTableGenerate_pharmacodb:
 	input:
-		"source/pharmacodb/pharmacodb-1.1.1.sql",
-		"transform/pharmacodb/database.yaml"
+		source= "source/pharmacodb",
+		script= "transform/pharmacodb/drug_response_tsv.R"
 	output:
-		"source/pharmacodb/tables/drug_annots.tsv.gz",
-		"source/pharmacodb/tables/dose_responses.tsv.gz",
-		"source/pharmacodb/tables/profiles.tsv.gz",
-		"source/pharmacodb/tables/source_statistics.tsv.gz",
-		"source/pharmacodb/tables/source_tissue_names.tsv.gz",
-		"source/pharmacodb/tables/gene_drugs.tsv.gz",
-		"source/pharmacodb/tables/dataset_cells.tsv.gz",
-		"source/pharmacodb/tables/drugs.tsv.gz",
-		"source/pharmacodb/tables/source_cell_names.tsv.gz",
-		"source/pharmacodb/tables/cell_tissues.tsv.gz",
-		"source/pharmacodb/tables/cells.tsv.gz",
-		"source/pharmacodb/tables/source_drug_names.tsv.gz",
-		"source/pharmacodb/tables/cellosaurus.tsv.gz",
-		"source/pharmacodb/tables/datasets.tsv.gz",
-		"source/pharmacodb/tables/experiments.tsv.gz",
-		"source/pharmacodb/tables/tissues.tsv.gz",
-		"source/pharmacodb/tables/sources.tsv.gz"
+		profile= "tables/pharmacodb_profiles.tsv"
 	shell:
-		"sifter run transform/pharmacodb/database.yaml"
+		"{input.script} -o {output.profile} -s {input.source}"
 
-rule pharmacodbDownload_download:
-	output:
-		"source/pharmacodb/pharmacodb-1.1.1.sql"
-	shell:
-		"cd transform/pharmacodb && curl -o ../../source/pharmacodb/pharmacodb-1.1.1.sql https://zenodo.org/record/1143645/files/pharmacodb-1.1.1.sql"
-
-rule pharmacodb_profiles:
+rule pharmacodb_profiles_gx:
 	input:
-		"source/pharmacodb/tables/profiles.tsv.gz",
-		"schema",
-		"schema",
-		"source/pharmacodb/tables/dr_reduce.curveReduce.dose_response_curve.json.gz",
-		"source/pharmacodb/tables/experiments.tsv.gz",
-		"source/pharmacodb/tables/drugs.tsv.gz",
-		"source/pharmacodb/tables/datasets.tsv.gz",
-		"source/pharmacodb/tables/cells.tsv.gz",
+		"tables/pharmacodb_profiles.tsv",
+		"tables/chemblSynonyms.longTable.synonyms.json.gz",
+		"tables/chemblSynonyms.longTable.synonyms.json.gz",
+		"tables/chemblSynonyms.longTable.synonyms.json.gz",
 		"schema",
 		"schema",
 		"schema",
 		"transform/pharmacodb/profile.yaml"
 	output:
-		"output/pharmacodb/pharmacodb_profiles.cellAliquot.aliquot.json.gz",
-		"output/pharmacodb/pharmacodb_profiles.cellCase.case.json.gz",
-		"output/pharmacodb/pharmacodb_profiles.cellDistinct.checkpoint.json.gz",
-		"output/pharmacodb/pharmacodb_profiles.cellProject.project.json.gz",
-		"output/pharmacodb/pharmacodb_profiles.cellSample.sample.json.gz",
-		"output/pharmacodb/pharmacodb_profiles.drObject.drug_response.json.gz"
+		"output/pharmacodb/pharmacodb_profiles_gx.transform.debug.json.gz",
+		"output/pharmacodb/pharmacodb_profiles_gx.aliquot.aliquot.json.gz",
+		"output/pharmacodb/pharmacodb_profiles_gx.drugResponse.drug_response.json.gz",
+		"output/pharmacodb/pharmacodb_profiles_gx.sample.sample.json.gz"
 	shell:
 		"sifter run transform/pharmacodb/profile.yaml"
 
 rule dr_reduce:
 	input:
-		"source/pharmacodb/tables/dose_responses.tsv.gz",
+		"tables/pharmacodb/dose_responses.tsv.gz",
 		"transform/pharmacodb/reduce_dr_data.yaml"
 	output:
-		"source/pharmacodb/tables/dr_reduce.curveReduce.dose_response_curve.json.gz"
+		"tables/pharmacodb/dr_reduce.curveReduce.dose_response_curve.json.gz"
 	shell:
 		"sifter run transform/pharmacodb/reduce_dr_data.yaml"
-
-rule downloadPharmgkb_downloadAnnotations:
-	output:
-		"source/pharmgkb/clinicalAnnotations.zip"
-	shell:
-		"cd transform/pharmgkb && curl -o ../../source/pharmgkb/clinicalAnnotations.zip https://api.pharmgkb.org/v1/download/file/data/clinicalAnnotations.zip"
-
-rule downloadPharmgkb_downloadPharmgkb:
-	output:
-		"source/pharmgkb/relationships.zip"
-	shell:
-		"cd transform/pharmgkb && curl -o ../../source/pharmgkb/relationships.zip https://api.pharmgkb.org/v1/download/file/data/relationships.zip"
 
 rule prism_transform:
 	input:
@@ -1071,14 +544,10 @@ rule pubmed:
 		"transform/pubmed/transform.yaml"
 	output:
 		"output/pubmed/pubmed.transform.publication.json.gz"
+	resources:
+		mem_mb=20000
 	shell:
 		"sifter run transform/pubmed/transform.yaml"
-
-rule downloadUCSC_downloadPharmgkb:
-	output:
-		"source/ucscGenome/cytoBandIdeo.txt.gz"
-	shell:
-		"cd transform/ucscGenome && curl -o ../../source/ucscGenome/cytoBandIdeo.txt.gz https://hgdownload.cse.ucsc.edu/goldenPath/hg38/database/cytoBandIdeo.txt.gz"
 
 rule uniprot_sprot:
 	input:
@@ -1115,19 +584,13 @@ rule annotatedAllele:
 	input:
 		"output-normalize/allele.annotated.vcf",
 		"schema",
+		"schema",
 		"normalize/allele/annotate_transform.yaml"
 	output:
-		"output/allele/annotatedAllele.transform.allele.json.gz"
+		"output/allele/annotatedAllele.allele.allele.json.gz",
+		"output/allele/annotatedAllele.alleleEffect.alleleEffect.json.gz"
 	shell:
 		"sifter run normalize/allele/annotate_transform.yaml"
-
-rule alleleAnnotate_alleleAnnotate:
-	input:
-		"output-normalize/allele.vcf"
-	output:
-		"output-normalize/allele.annotated.vcf"
-	shell:
-		"cd normalize/allele && java -jar ../../util/snpEff/snpEff.jar ann -dataDir `pwd`/../../source/allele/data -nodownload  GRCh38.86 ../../output-normalize/allele.vcf > ../../output-normalize/allele.annotated.vcf"
 
 rule annotated_VCF_transform:
 	input:
@@ -1138,5 +601,402 @@ rule annotated_VCF_transform:
 	shell:
 		"sifter run normalize/allele/vcf_transform.yaml"
 
+rule graphbuild_GDSC_Transform:
+	input:
+		"output/gdsc/GDSC_Transform.transform.geneExpression.json.gz",
+		"output/gdsc/GDSC_Transform.aliquot.aliquot.json.gz",
+		"schema",
+		"schema",
+		"graph-build/graphbuild_GDSC_Transform.yaml"
+	output:
+		"graph/graphbuild_GDSC_Transform.aliquot-graph.vertex.json.gz",
+		"graph/graphbuild_GDSC_Transform.aliquot-graph.edge.json.gz",
+		"graph/graphbuild_GDSC_Transform.transform-graph.vertex.json.gz",
+		"graph/graphbuild_GDSC_Transform.transform-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_GDSC_Transform.yaml"
 
+rule graphbuild_GDSC_VCF_Transform:
+	input:
+		"output/gdsc/GDSC_VCF_Transform.callset.somatic_callset.json.gz",
+		"output/gdsc/GDSC_VCF_Transform.variants.somatic_variant.json.gz",
+		"schema",
+		"schema",
+		"graph-build/graphbuild_GDSC_VCF_Transform.yaml"
+	output:
+		"graph/graphbuild_GDSC_VCF_Transform.callset-graph.vertex.json.gz",
+		"graph/graphbuild_GDSC_VCF_Transform.callset-graph.edge.json.gz",
+		"graph/graphbuild_GDSC_VCF_Transform.variants-graph.vertex.json.gz",
+		"graph/graphbuild_GDSC_VCF_Transform.variants-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_GDSC_VCF_Transform.yaml"
+
+rule graphbuild_GDSC_rnaseq_Transform:
+	input:
+		"output/gdsc/GDSC_rnaseq_Transform.aliquot.aliquot.json.gz",
+		"output/gdsc/GDSC_rnaseq_Transform.start.geneExpression.json.gz",
+		"schema",
+		"schema",
+		"graph-build/graphbuild_GDSC_rnaseq_Transform.yaml"
+	output:
+		"graph/graphbuild_GDSC_rnaseq_Transform.start-graph.edge.json.gz",
+		"graph/graphbuild_GDSC_rnaseq_Transform.aliquot-graph.vertex.json.gz",
+		"graph/graphbuild_GDSC_rnaseq_Transform.aliquot-graph.edge.json.gz",
+		"graph/graphbuild_GDSC_rnaseq_Transform.start-graph.vertex.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_GDSC_rnaseq_Transform.yaml"
+
+rule graphbuild_GTEX_Gene_Expression:
+	input:
+		"output/gtex/GTEX_Gene_Expression.gctProcess.gene_expression.json.gz",
+		"schema",
+		"graph-build/graphbuild_GTEX_Gene_Expression.yaml"
+	output:
+		"graph/graphbuild_GTEX_Gene_Expression.gctProcess-graph.vertex.json.gz",
+		"graph/graphbuild_GTEX_Gene_Expression.gctProcess-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_GTEX_Gene_Expression.yaml"
+
+rule graphbuild_GTEX_Transcript_Expression:
+	input:
+		"output/gtex/GTEX_Transcript_Expression.update.transcript_expression.json.gz",
+		"schema",
+		"graph-build/graphbuild_GTEX_Transcript_Expression.yaml"
+	output:
+		"graph/graphbuild_GTEX_Transcript_Expression.update-graph.edge.json.gz",
+		"graph/graphbuild_GTEX_Transcript_Expression.update-graph.vertex.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_GTEX_Transcript_Expression.yaml"
+
+rule graphbuild_annotatedAllele:
+	input:
+		"output/allele/annotatedAllele.allele.allele.json.gz",
+		"output/allele/annotatedAllele.alleleEffect.alleleEffect.json.gz",
+		"schema",
+		"schema",
+		"graph-build/graphbuild_annotatedAllele.yaml"
+	output:
+		"graph/graphbuild_annotatedAllele.alleleEffect-graph.vertex.json.gz",
+		"graph/graphbuild_annotatedAllele.alleleEffect-graph.edge.json.gz",
+		"graph/graphbuild_annotatedAllele.allele-graph.vertex.json.gz",
+		"graph/graphbuild_annotatedAllele.allele-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_annotatedAllele.yaml"
+
+rule graphbuild_bindingdbTsv:
+	input:
+		"output/bindingdb/bindingdbTsv.start.protein_compound_association.json.gz",
+		"schema",
+		"graph-build/graphbuild_bindingdbTsv.yaml"
+	output:
+		"graph/graphbuild_bindingdbTsv.start-graph.edge.json.gz",
+		"graph/graphbuild_bindingdbTsv.start-graph.vertex.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_bindingdbTsv.yaml"
+
+rule graphbuild_cellosaurus:
+	input:
+		"output/cellosaurus/cellosaurus.transform.cases.json.gz",
+		"schema",
+		"graph-build/graphbuild_cellosaurus.yaml"
+	output:
+		"graph/graphbuild_cellosaurus.transform-graph.vertex.json.gz",
+		"graph/graphbuild_cellosaurus.transform-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_cellosaurus.yaml"
+
+rule graphbuild_chemblDrugMechanismExtract:
+	input:
+		"output/chembl/chemblDrugMechanismExtract.build.protein_compound_association.json.gz",
+		"schema",
+		"graph-build/graphbuild_chemblDrugMechanismExtract.yaml"
+	output:
+		"graph/graphbuild_chemblDrugMechanismExtract.build-graph.vertex.json.gz",
+		"graph/graphbuild_chemblDrugMechanismExtract.build-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_chemblDrugMechanismExtract.yaml"
+
+rule graphbuild_chemblTransform:
+	input:
+		"output/chembl/chemblTransform.records.compound.json.gz",
+		"schema",
+		"graph-build/graphbuild_chemblTransform.yaml"
+	output:
+		"graph/graphbuild_chemblTransform.records-graph.vertex.json.gz",
+		"graph/graphbuild_chemblTransform.records-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_chemblTransform.yaml"
+
+rule graphbuild_depmap_cases:
+	input:
+		"output/depmap/depmap-cases.depMapCases.case.json.gz",
+		"output/depmap/depmap-cases.sampleObjects.sample.json.gz",
+		"output/depmap/depmap-cases.aliquots.aliquot.json.gz",
+		"schema",
+		"schema",
+		"schema",
+		"graph-build/graphbuild_depmap-cases.yaml"
+	output:
+		"graph/graphbuild_depmap-cases.sampleObjects-graph.edge.json.gz",
+		"graph/graphbuild_depmap-cases.aliquots-graph.vertex.json.gz",
+		"graph/graphbuild_depmap-cases.aliquots-graph.edge.json.gz",
+		"graph/graphbuild_depmap-cases.depMapCases-graph.vertex.json.gz",
+		"graph/graphbuild_depmap-cases.depMapCases-graph.edge.json.gz",
+		"graph/graphbuild_depmap-cases.sampleObjects-graph.vertex.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_depmap-cases.yaml"
+
+rule graphbuild_depmap_expression:
+	input:
+		"output/depmap/depmap-expression.values.expression.json.gz",
+		"schema",
+		"graph-build/graphbuild_depmap-expression.yaml"
+	output:
+		"graph/graphbuild_depmap-expression.values-graph.vertex.json.gz",
+		"graph/graphbuild_depmap-expression.values-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_depmap-expression.yaml"
+
+rule graphbuild_depmap_mafs:
+	input:
+		"output/depmap/depmap-mafs.callsets.callset.json.gz",
+		"output/depmap/depmap-mafs.variants.variants.json.gz",
+		"schema",
+		"schema",
+		"graph-build/graphbuild_depmap-mafs.yaml"
+	output:
+		"graph/graphbuild_depmap-mafs.callsets-graph.vertex.json.gz",
+		"graph/graphbuild_depmap-mafs.callsets-graph.edge.json.gz",
+		"graph/graphbuild_depmap-mafs.variants-graph.vertex.json.gz",
+		"graph/graphbuild_depmap-mafs.variants-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_depmap-mafs.yaml"
+
+rule graphbuild_ensembl_gtf:
+	input:
+		"output/ensembl/ensembl_gtf.exons.exon.json.gz",
+		"output/ensembl/ensembl_gtf.genes.gene.json.gz",
+		"output/ensembl/ensembl_gtf.transcripts.transcript.json.gz",
+		"schema",
+		"schema",
+		"schema",
+		"graph-build/graphbuild_ensembl_gtf.yaml"
+	output:
+		"graph/graphbuild_ensembl_gtf.exons-graph.edge.json.gz",
+		"graph/graphbuild_ensembl_gtf.genes-graph.vertex.json.gz",
+		"graph/graphbuild_ensembl_gtf.genes-graph.edge.json.gz",
+		"graph/graphbuild_ensembl_gtf.transcripts-graph.vertex.json.gz",
+		"graph/graphbuild_ensembl_gtf.transcripts-graph.edge.json.gz",
+		"graph/graphbuild_ensembl_gtf.exons-graph.vertex.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_ensembl_gtf.yaml"
+
+rule graphbuild_g2p:
+	input:
+		"output/g2p/g2p.main.assocation.json.gz",
+		"schema",
+		"graph-build/graphbuild_g2p.yaml"
+	output:
+		"graph/graphbuild_g2p.main-graph.vertex.json.gz",
+		"graph/graphbuild_g2p.main-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_g2p.yaml"
+
+rule graphbuild_gdc_mafs:
+	input:
+		"output/gdc/open-maf/gdc-mafs.scan.variant.json.gz",
+		"output/gdc/open-maf/gdc-mafs.somaticCallsets.callset.json.gz",
+		"schema",
+		"schema",
+		"graph-build/graphbuild_gdc-mafs.yaml"
+	output:
+		"graph/graphbuild_gdc-mafs.scan-graph.vertex.json.gz",
+		"graph/graphbuild_gdc-mafs.scan-graph.edge.json.gz",
+		"graph/graphbuild_gdc-mafs.somaticCallsets-graph.vertex.json.gz",
+		"graph/graphbuild_gdc-mafs.somaticCallsets-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_gdc-mafs.yaml"
+
+rule graphbuild_gdc:
+	input:
+		"output/gdc/gdc.aliquotObject.aliquot.json.gz",
+		"output/gdc/gdc.caseObject.case.json.gz",
+		"output/gdc/gdc.projectObject.project.json.gz",
+		"output/gdc/gdc.sampleObject.sample.json.gz",
+		"schema",
+		"schema",
+		"schema",
+		"schema",
+		"graph-build/graphbuild_gdc.yaml"
+	output:
+		"graph/graphbuild_gdc.caseObject-graph.edge.json.gz",
+		"graph/graphbuild_gdc.projectObject-graph.vertex.json.gz",
+		"graph/graphbuild_gdc.projectObject-graph.edge.json.gz",
+		"graph/graphbuild_gdc.sampleObject-graph.vertex.json.gz",
+		"graph/graphbuild_gdc.sampleObject-graph.edge.json.gz",
+		"graph/graphbuild_gdc.aliquotObject-graph.vertex.json.gz",
+		"graph/graphbuild_gdc.aliquotObject-graph.edge.json.gz",
+		"graph/graphbuild_gdc.caseObject-graph.vertex.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_gdc.yaml"
+
+rule graphbuild_go:
+	input:
+		"output/go/go.transform.term.json.gz",
+		"schema",
+		"graph-build/graphbuild_go.yaml"
+	output:
+		"graph/graphbuild_go.transform-graph.edge.json.gz",
+		"graph/graphbuild_go.transform-graph.vertex.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_go.yaml"
+
+rule graphbuild_mondo:
+	input:
+		"output/mondo/mondo.extract.phenotype.json.gz",
+		"schema",
+		"graph-build/graphbuild_mondo.yaml"
+	output:
+		"graph/graphbuild_mondo.extract-graph.vertex.json.gz",
+		"graph/graphbuild_mondo.extract-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_mondo.yaml"
+
+rule graphbuild_msigdb:
+	input:
+		"output/msigdb/msigdb.transform.gene_set.json.gz",
+		"schema",
+		"graph-build/graphbuild_msigdb.yaml"
+	output:
+		"graph/graphbuild_msigdb.transform-graph.edge.json.gz",
+		"graph/graphbuild_msigdb.transform-graph.vertex.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_msigdb.yaml"
+
+rule graphbuild_pathway_commons:
+	input:
+		"output/pathway_commons/pathway_commons.interactionMap.interaction.json.gz",
+		"schema",
+		"graph-build/graphbuild_pathway_commons.yaml"
+	output:
+		"graph/graphbuild_pathway_commons.interactionMap-graph.vertex.json.gz",
+		"graph/graphbuild_pathway_commons.interactionMap-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_pathway_commons.yaml"
+
+rule graphbuild_pdb:
+	input:
+		"output/pdb/pdb.start.protein_structure.json.gz",
+		"schema",
+		"graph-build/graphbuild_pdb.yaml"
+	output:
+		"graph/graphbuild_pdb.start-graph.vertex.json.gz",
+		"graph/graphbuild_pdb.start-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_pdb.yaml"
+
+rule graphbuild_pharmacodb_profiles:
+	input:
+		"output/pharmacodb/pharmacodb_profiles.cellAliquot.aliquot.json.gz",
+		"output/pharmacodb/pharmacodb_profiles.cellCase.case.json.gz",
+		"output/pharmacodb/pharmacodb_profiles.cellProject.project.json.gz",
+		"output/pharmacodb/pharmacodb_profiles.cellSample.sample.json.gz",
+		"output/pharmacodb/pharmacodb_profiles.drObject.drug_response.json.gz",
+		"schema",
+		"schema",
+		"schema",
+		"schema",
+		"schema",
+		"graph-build/graphbuild_pharmacodb_profiles.yaml"
+	output:
+		"graph/graphbuild_pharmacodb_profiles.cellCase-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.cellSample-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.drObject-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.cellCase-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.cellAliquot-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.cellProject-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.cellProject-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.cellSample-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.drObject-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_profiles.cellAliquot-graph.vertex.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_pharmacodb_profiles.yaml"
+
+rule graphbuild_pharmacodb_profiles_gx:
+	input:
+		"output/pharmacodb/pharmacodb_profiles_gx.aliquot.aliquot.json.gz",
+		"output/pharmacodb/pharmacodb_profiles_gx.drugResponse.drug_response.json.gz",
+		"output/pharmacodb/pharmacodb_profiles_gx.sample.sample.json.gz",
+		"schema",
+		"schema",
+		"schema",
+		"graph-build/graphbuild_pharmacodb_profiles_gx.yaml"
+	output:
+		"graph/graphbuild_pharmacodb_profiles_gx.aliquot-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_profiles_gx.aliquot-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_profiles_gx.drugResponse-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_profiles_gx.drugResponse-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_profiles_gx.sample-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_profiles_gx.sample-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_pharmacodb_profiles_gx.yaml"
+
+rule graphbuild_prism_transform:
+	input:
+		"output/prism/prism_transform.primary.drug_response.json.gz",
+		"output/prism/prism_transform.secondary.drug_response.json.gz",
+		"schema",
+		"schema",
+		"graph-build/graphbuild_prism_transform.yaml"
+	output:
+		"graph/graphbuild_prism_transform.secondary-graph.vertex.json.gz",
+		"graph/graphbuild_prism_transform.secondary-graph.edge.json.gz",
+		"graph/graphbuild_prism_transform.primary-graph.vertex.json.gz",
+		"graph/graphbuild_prism_transform.primary-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_prism_transform.yaml"
+
+rule graphbuild_pubmed:
+	input:
+		"output/pubmed/pubmed.transform.publication.json.gz",
+		"schema",
+		"graph-build/graphbuild_pubmed.yaml"
+	output:
+		"graph/graphbuild_pubmed.transform-graph.vertex.json.gz",
+		"graph/graphbuild_pubmed.transform-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_pubmed.yaml"
+
+rule graphbuild_rnaseq:
+	input:
+		"output/gdc/rnaseq.rna.gene_rnaseq.json.gz",
+		"schema",
+		"graph-build/graphbuild_rnaseq.yaml"
+	output:
+		"graph/graphbuild_rnaseq.rna-graph.vertex.json.gz",
+		"graph/graphbuild_rnaseq.rna-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_rnaseq.yaml"
+
+rule graphbuild_uniprot_sprot:
+	input:
+		"output/uniprot/uniprot_sprot.start.protein.json.gz",
+		"schema",
+		"graph-build/graphbuild_uniprot_sprot.yaml"
+	output:
+		"graph/graphbuild_uniprot_sprot.start-graph.vertex.json.gz",
+		"graph/graphbuild_uniprot_sprot.start-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_uniprot_sprot.yaml"
+
+rule graphbuild_uniprot_trembl:
+	input:
+		"output/uniprot/uniprot_trembl.start.protein.json.gz",
+		"schema",
+		"graph-build/graphbuild_uniprot_trembl.yaml"
+	output:
+		"graph/graphbuild_uniprot_trembl.start-graph.vertex.json.gz",
+		"graph/graphbuild_uniprot_trembl.start-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_uniprot_trembl.yaml"
 

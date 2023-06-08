@@ -3,10 +3,9 @@
 class: lathe
 name: download
 
-scripts:
-
-  downloadGO:
-    commandLine: curl -o ../../source/docm/variants.json http://www.docm.info/api/v1/variants.json
+prep:
+  - 
+    commandLine: curl -o {{outputs.variants}} http://www.docm.info/api/v1/variants.json
     outputs:
-      - ../../source/docm/variants.json
+      variants: ../../source/docm/variants.json
 
