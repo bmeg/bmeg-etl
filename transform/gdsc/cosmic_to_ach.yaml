@@ -2,7 +2,7 @@
 class: sifter
 name: cosmic2ach
 
-outdir: ../../source/gdsc/tables
+outdir: ../../tables
 
 config:
   file: ../../source/gdsc/model_list_20191104.csv

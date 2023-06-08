@@ -3,17 +3,18 @@ class: lathe
 name: download
 
 prep:
-  - commandLine: ./gdc-scan.py compounds ../../source/gdc/compounds/
-  - commandLine: ./gdc-scan.py expression ../../source/gdc/rna-seq/
-  - commandLine: ./gdc-scan.py open-maf ../../source/gdc/open-maf/
-
-scripts:
-  cases:
-    commandLine: ./gdc-scan.py cases ../../source/gdc/cases.json
+  - commandLine: ./gdc-scan.py compounds {{output.compoundDir}}
     outputs:
-      - ../../source/gdc/cases.json
-
-  files:
-    commandLine: ./gdc-scan.py files ../../source/gdc/files.json
+      compoundDir: ../../source/gdc/compounds/
+  - commandLine: ./gdc-scan.py expression {{outputs.rnaDir}}
     outputs:
-      - ../../source/gdc/files.json
+      rnaDir: ../../source/gdc/rna-seq/
+  - commandLine: ./gdc-scan.py open-maf {{outputs.mafDir}}
+    outputs:
+      mafDir: ../../source/gdc/open-maf/
+  - commandLine: ./gdc-scan.py cases {{outputs.bases}}
+    outputs:
+      cases: ../../source/gdc/cases.json
+  - commandLine: ./gdc-scan.py files {{outputs.files}}
+    outputs:
+      files: ../../source/gdc/files.json

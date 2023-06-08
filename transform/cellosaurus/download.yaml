@@ -2,8 +2,7 @@
 name: downloadCellosaurus
 class: lathe
 
-scripts:
-  obo:
-    commandLine: curl https://ftp.expasy.org/databases/cellosaurus/cellosaurus.obo -o ../../source/cellosaurus/cellosaurus.obo
+prep:
+  - commandLine: curl https://ftp.expasy.org/databases/cellosaurus/cellosaurus.obo -o {{outputs.cellObo}}
     outputs: 
-      - ../../source/cellosaurus/cellosaurus.obo
+      cellObo: ../../source/cellosaurus/cellosaurus.obo

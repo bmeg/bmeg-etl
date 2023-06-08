@@ -42,9 +42,3 @@ pipelines:
     - emit: 
         name: compound
   
-  distances:
-    - from: records
-    - plugin:
-        commandLine: "../../util/compound_distance.py"
-    - emit:
-        name: distances

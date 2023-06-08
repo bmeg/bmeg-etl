@@ -1,0 +1,23 @@
+
+class: sifter
+
+name: interpro
+outdir: ../../output/interpro
+
+config:
+  xmlFile: ../../source/interpro/interpro.xml.gz
+  schema: ../../schema
+
+inputs:
+  xmlData:
+    xmlLoad:
+      input: "{{config.xmlFile}}"
+
+pipelines:
+  doc:
+    - from: xmlData
+    - fieldProcess:
+        field: interprodb
+    - fieldProcess:
+        field: interpro
+    - debug: {}
