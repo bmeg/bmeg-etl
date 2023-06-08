@@ -86,9 +86,9 @@ pipelines:
                 row["hs"] = float(row[field])
             
             if "Cellosaurus.Accession.id" in row:
-              row["case"] = {"id": row["Cellosaurus.Accession.id"]}
+              row["case"] = {"id": "case/" + row["Cellosaurus.Accession.id"]}
             if "depmap_id" in row:
-              row["case"] = {"id": row["depmap_id"]}            
+              row["case"] = {"id": "case/" + row["depmap_id"]}            
             if not ("projecttreatmentid" in row):
               row["projecttreatmentid"] = row["treatmentid"]
             project = row["project"].split("_")[0]
