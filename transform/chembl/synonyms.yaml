@@ -12,7 +12,7 @@ inputs:
   sqlQuery:
     sqliteLoad:
       input: "{{config.sqlite}}"
-      query:  "select * from MOLECULE_SYNONYMS order by MOLREGNO"
+      query:  "select * from MOLECULE_SYNONYMS as a LEFT JOIN MOLECULE_DICTIONARY as b on a.MOLREGNO=b.MOLREGNO"
 
 pipelines:
   buildTable:
@@ -36,5 +36,18 @@ pipelines:
         fields:
           - id
           - synonyms
+    - emit:
+        name: synonyms
+  longTable:
+    - from: sqlQuery
+    - project:
+        mapping:
+          id: "{{row.chembl_id}}"
+    - clean:
+        fields:
+          - id
+          - synonyms
+    - distinct:
+        value: "{{row.synonyms}}"
     - emit:
         name: synonyms

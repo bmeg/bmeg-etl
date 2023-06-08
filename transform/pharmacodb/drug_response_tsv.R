@@ -119,6 +119,7 @@ for(setName in remaining){
   treatments = treatments[,1:2]
   names(treatments)[which(names(treatments)=="treatmentid")] = "unique.treatmentid"
   names(treatments)[which(names(treatments)!="unique.treatmentid")] = "projecttreatmentid"
+  names(treatments)[which(names(treatments)=="unique.treatmentid")] = "UNIQUEtreatmentid"
   treatments = treatments[which(treatments$projecttreatmentid != ""),]
   twoPart = treatments[str_detect(treatments$projecttreatmentid,"///"),]
   treatments = treatments[!(str_detect(treatments$projecttreatmentid,"///")),]
@@ -146,7 +147,7 @@ for(setName in remaining){
 
   cat("Appending to big data.frame\n")  
   #adding the data.frame for this set to the big one that represents all datasets on pharmacodb
-  big = friendlyRbind(big,second,"responseID")
+  big = friendlyRbind(big,final,"responseID")
 
   cat("Saving to file\n")
   #backing up to a file
