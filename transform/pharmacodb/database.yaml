@@ -4,8 +4,9 @@ name: pharmacoTableGenerate
 
 scripts:
   pharmacodb:
-    commandLine: "docker run -u `id -u` -v `cd ../.. && pwd`:/usr/src/local Rscript {{inputs.script}} --out=local/transform/pharmacodb/{{outputs.profile}} --source=local/transform/pharmacodb/{{inputs.source}}"
+    commandLine: "docker run -u `id -u` -v `cd ../.. && pwd`:/usr/src/local {{inputs.image}} Rscript {{inputs.script}} --out=local/transform/pharmacodb/{{outputs.profile}} --source=local/transform/pharmacodb/{{inputs.source}}"
     inputs:
+      image: `pharmaco-gx:4.3.0`
       script: ./drug_response_tsv.R
       source: ../../source/pharmacodb
     outputs:
