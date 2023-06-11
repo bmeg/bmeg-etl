@@ -48,7 +48,7 @@ def calcDistance(n):
             #c2 = DataStructs.cDataStructs.CreateFromBitString(fingerprints[j])
             tan_sim = DataStructs.FingerprintSimilarity(c1, c2, metric=DataStructs.TanimotoSimilarity)
             dice_sim = DataStructs.FingerprintSimilarity(c1, c2, metric=DataStructs.DiceSimilarity)
-            if dice_sim >= 0.5:
+            if dice_sim >= 0.7:
                 o = json.dumps( {
                     "compound_1" : i,
                     "compound_2" : j,
