@@ -93,16 +93,23 @@ pipelines:
               row["case"] = {"id": row["depmap_id"]}            
             if not ("UNIQUEtreatmentid" in row) or row["UNIQUEtreatmentid"]=='':
               row["UNIQUEtreatmentid"] = row["treatmentid"]
-            if ":" in row["UNIQUEtreatmentid"]:
+            if ";" in row["UNIQUEtreatmentid"]:
+              UNIQUEid = row["UNIQUEtreatmentid"].split(";")
+            elif "mol/mol)" in row["UNIQUEtreatmentid"]:
               UNIQUEid = row["UNIQUEtreatmentid"].split(" (")[0]
+              UNIQUEid = UNIQUEid.split(":")
             else:
-              UNIQUEid = row["UNIQUEtreatmentid"]
+              UNIQUEid = [row["UNIQUEtreatmentid"]]
+
             row["drug0"] = ""
             row["drug1"] = ""
             row["drug2"] = ""
             
-            for drugnum in range(0, len(UNIQUEid.split(":"))):
-              row["drug" + str(drugnum)] = UNIQUEid.split(":")[drugnum]
+            for drugnum in range(0, len(UNIQUEid)):
+              aUnique = UNIQUEid[drugnum]
+              if aUnique[0:3] == "NSC" and aUnique[3] != "-":
+                aUnique = "NSC-" + aUnique[4:]
+              row["drug" + str(drugnum)] = UNIQUEid[drugnum]
             
             project = row["project"].split("_")[0]
             row["id"] = "drugResponse/" + project + ":pharmacodb:" + row["sampleid"] + ":" + row["treatmentid"]
@@ -143,7 +150,10 @@ pipelines:
               if "chembl"+str(drugNum) in row:
                 row["compounds"].append({"id": row["chembl"+str(drugNum)]})
               elif len(row["drug"+str(drugNum)]) > 1:
-                print(row["drug"+str(drugNum)] + "\n")
+                if row["drug"+str(drugNum)][0:6] == "Chembl":
+                  row["compounds"].append({"id": "CHEMBL"+row["drug"+str(drugNum)][6:]})
+                else:
+                  print(row["drug"+str(drugNum)] + "\n")
             return row
  
   drugResponse:

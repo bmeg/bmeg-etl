@@ -12,7 +12,11 @@ inputs:
   sqlQuery:
     sqliteLoad:
       input: "{{config.sqlite}}"
-      query:  "select * from MOLECULE_SYNONYMS as a LEFT JOIN MOLECULE_DICTIONARY as b on a.MOLREGNO=b.MOLREGNO"
+      query: "select * from MOLECULE_DICTIONARY as a INNER JOIN MOLECULE_SYNONYMS as b on a.MOLREGNO=b.MOLREGNO"
+  sqlQueryIUPAC:
+    sqliteLoad:
+      input: "{{config.sqlite}}"
+      query: "select CHEMBL_ID,a.MOLREGNO,SYNONYMS from MOLECULE_DICTIONARY as a INNER JOIN MOLECULE_SYNONYMS as b on a.MOLREGNO=b.MOLREGNO UNION ALL select CHEMBL_ID,a.MOLREGNO,COMPOUND_NAME AS SYNONYMS from MOLECULE_DICTIONARY as a INNER JOIN COMPOUND_RECORDS as c on a.MOLREGNO=c.MOLREGNO"
 
 pipelines:
   buildTable:
@@ -39,7 +43,7 @@ pipelines:
     - emit:
         name: synonyms
   longTable:
-    - from: sqlQuery
+    - from: sqlQueryIUPAC
     - project:
         mapping:
           id: "{{row.chembl_id}}"

@@ -1,9 +1,0 @@
-
-class: lathe
-
-name: pharmacodbDownload
-
-prep:
-  - commandLine: curl -o {{outputs.sql}} https://zenodo.org/record/1143645/files/pharmacodb-1.1.1.sql
-    outputs:
-      sql: ../../source/pharmacodb/pharmacodb-1.1.1.sql
