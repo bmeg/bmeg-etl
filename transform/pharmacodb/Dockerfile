@@ -1,24 +1,21 @@
-FROM rocker/r-base:4.2.1
+FROM rocker/r-base:4.3.0
 
 #establishing working directory so we can mount easier
-WORKDIR /src
+WORKDIR /usr/src
 
 #copying over the two R scripts we'd be using
-COPY ./drug_response_tsv.R /
-COPY ./download_pharmaco.R /
-
-#and making sure we are allowed to run them in docker
-RUN chmod +x /drug_response_tsv.R /
-RUN chmod +x /drug_response_tsv.R /
+COPY drug_response_tsv.R ./
+COPY download_pharmaco.R ./
+COPY installPharmacoGx.R ./
 
 #installing library dependencies
-RUN R -e "install.packages('BiocManager',dependencies=TRUE, repos='http://cran.rstudio.com/')"
-RUN R -e "install.packages('optparse',dependencies=TRUE, repos='http://cran.rstudio.com/')"
-RUN R -e "install.packages('stringr',dependencies=TRUE, repos='http://cran.rstudio.com/')"
+
+#adding curl so R libraries get installed ok
+RUN apt-get -y update; apt-get -y install curl
+RUN apt-get install -y libcurl4-openssl-dev
+
+RUN R -e "install.packages('BiocManager',dependencies=TRUE)"
 RUN R -e "BiocManager::install('PharmacoGx')"
-
-#Preparing code and default arguments for running
-ENTRYPOINT ["Rscript"]
-CMD ["drug_response_tsv.R"]
-
+RUN R -e "install.packages('optparse',dependencies=TRUE)"
+RUN R -e "install.packages('stringr',dependencies=TRUE)"
 
