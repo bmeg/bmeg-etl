@@ -87,10 +87,6 @@ pipelines:
               elif id[:2] == "HS" or id == "SLO":
                 row["hs"] = float(row[field])
             
-            if "Cellosaurus.Accession.id" in row:
-              row["case"] = {"id": "case/" + row["Cellosaurus.Accession.id"]}
-            if "depmap_id" in row:
-              row["case"] = {"id": row["depmap_id"]}            
             if not ("UNIQUEtreatmentid" in row) or row["UNIQUEtreatmentid"]=='':
               row["UNIQUEtreatmentid"] = row["treatmentid"]
             if ";" in row["UNIQUEtreatmentid"]:
@@ -111,14 +107,14 @@ pipelines:
                 aUnique = "NSC-" + aUnique[4:]
               row["drug" + str(drugnum)] = UNIQUEid[drugnum]
             
-            project = row["project"].split("_")[0]
+            project = row["project"]
             row["id"] = "drugResponse/" + project + ":pharmacodb:" + row["sampleid"] + ":" + row["treatmentid"]
             row["project_id"] = "project/" + project
             row["submitter_id"] = row["experimentID"]
             #row["compounds"] = {"id": row['projecttreatmentid']}
             row["aliquot"] = {"id": "aliquot/" + project + ":pharmacodb:" + row["sampleid"]}
-            row["aliquotSubID"] = project + ":pharmacodb:" + row["sampleid"]
-            row["sample"] = {"id": "sample/" + project + ":pharmacodb:" + row["sampleid"]}
+            #row["aliquotSubID"] = project + ":pharmacodb:" + row["sampleid"]
+            #row["sample"] = {"id": "sample/" + project + ":pharmacodb:" + row["sampleid"]}
             return row
     - lookup:
         json:
@@ -163,31 +159,4 @@ pipelines:
         schema: "{{config.schema}}"
     - emit:
         name: drug_response
-  aliquot:
-    - from: transform
-    - project:
-        mapping:
-          id: "{{row.aliquot.id}}"
-          submitter_id: "{{row.aliquotSubID}}"
-    - distinct:
-        value: "{{row.id}}"
-    - objectValidate:
-        title: Aliquot
-        schema: "{{config.schema}}"
-    - emit:
-        name: aliquot
-  sample:
-    - from: transform
-    - project:
-        mapping:
-          id: "{{row.sample.id}}"
-          submitter_id: "{{row.aliquotSubID}}"
-    - distinct:
-        value: "{{row.id}}"
-    - objectValidate:
-        title: Sample
-        schema: "{{config.schema}}"
-    - emit:
-        name: sample
-
-    
+   

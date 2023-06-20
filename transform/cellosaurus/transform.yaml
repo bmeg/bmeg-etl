@@ -38,7 +38,7 @@ pipelines:
             return row
     - filter:
         field: species
-        match: Human
+        match: Homo sapiens
     - lookup:
         json:
           input: "{{config.ncit2mondo}}"

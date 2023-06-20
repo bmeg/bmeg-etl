@@ -32,41 +32,31 @@ cat(c("Source directory:", sourceDir, "\n"))
 
 suppressMessages(library(PharmacoGx))
 
-friendlyRbind <- function(x, y, id){
-  #allows the merging of two tables with some shared column names and no identical row names
-  if(ncol(x)==0){
-    return(y)
+friendlyRBind = function(x, y){
+  xDiff = setdiff(names(x),names(y))
+  yDiff = setdiff(names(y),names(x))
+  for(xCol in xDiff){
+    y[[xCol]] = NA
   }
-  if(ncol(y)==0){
-    return(x)
+  for(yCol in yDiff){
+    x[[yCol]] = NA
   }
-  sharedCols = intersect(colnames(x),colnames(y))
-  if( length(sharedCols)<1){
-    stop("Improper use of friendlyRbind, no overlap between x and y column names")
-  }
-  xexclusive = x[,c(id, setdiff(colnames(x), sharedCols))]
-  yexclusive = y[,c(id, setdiff(colnames(y), sharedCols))]
-  result = rbind(x[,sharedCols],y[,sharedCols])
-  if(ncol(x)>length(sharedCols)){
-    result = merge(x = xexclusive, y = result, by=id, all=TRUE)
-  }
-  if(ncol(y)>length(sharedCols)){
-    result = merge(x = result, y = yexclusive, by=id, all=TRUE)
-  }
-  return(result)
-}
+  return(rbind(x,y))
+} 
+
 
 cat("library loaded\n")
 
 
 names = availablePSets()$`PSet Name`
 
-CASE_IDS = c('Cellosaurus.Accession.id', 'PatientId', 'depmap_id', 'Cell line', 'Cosmic ID', 'sampleid','MODEL','Patient_id')
+EXCLUDE = c('GDSC_2020(v1-8.2)','GBM_scr2')
 
 #finding where we left off if this program was run before
 if (is.null(opt$resume)){
   cat("No resume value given, starting from the top")
   big = data.frame()
+  bigSample = data.frame()
   remaining = names
 }else{
   cat("Resuming from file", opt$resume)
@@ -74,11 +64,13 @@ if (is.null(opt$resume)){
   done = unique(big$project)
   remaining = setdiff(names, done)
 }
+remaining = setdiff(remaining, EXCLUDE)
 cat(",", as.character(length(remaining)), "sets to process\n")
 
 #Processing each PSet remaining
 for(setName in remaining){
   cat("Loading", setName, "\n")
+  setNameShort = gsub("_.*", "", setName) 
 
   PSET = downloadPSet(setName, saveDir=sourceDir, pSetFileName=setName, timeout=1200)
 
@@ -88,34 +80,25 @@ for(setName in remaining){
   raw = PSET@treatmentResponse$raw
   profiles = PSET@treatmentResponse$profiles
   colnames(profiles)=paste("profileInfo_", toupper(colnames(profiles)), sep="")
-  sampleFields = names(PSET@sample)
-  applicableFields = intersect(CASE_IDS, sampleFields)
-  if(length(applicableFields >= 2)){
-    cat("Applicable sample/case ID fields include ", applicableFields, "\n")
-    samples = PSET@sample[applicableFields]
-  }else{
-    cat("Not enough fields found. Using the first two columns")
-    samples = PSET@sample[1:2]
-  }
+  samples = PSET@sample
   treatments = PSET@curation$treatment
 
   cat("Rearranging data.frames\n")  
   #raw array is split into two frames and changing the column names
   doses = as.data.frame(raw[,,"Dose"])
   colnames(doses) = paste("rawDdose",1:ncol(doses),sep="")
-  doses$responseID = paste(setName,rownames(doses),sep="/")
+  doses$responseID = paste(setNameShort,rownames(doses),sep="/")
   viabilities = as.data.frame(raw[,,"Viability"])
   colnames(viabilities) = paste("rawVdose",1:ncol(viabilities),sep="")
-  viabilities$responseID = paste(setName,rownames(viabilities),sep="/")
+  viabilities$responseID = paste(setNameShort,rownames(viabilities),sep="/")
 
   #merging the dose and viabilities tables together
   dv = merge(doses, viabilities, by="responseID") 
-
   #merging the info and drug response profiles together
   secondii = merge(info,profiles, by.x='row.names', by.y='row.names')
-
   #re-formatting the treatment data frame so it is easier to merge with the info/profile table
   samples$sampleid = rownames(samples)
+  
   treatments = treatments[,1:2]
   names(treatments)[which(names(treatments)=="treatmentid")] = "unique.treatmentid"
   names(treatments)[which(names(treatments)!="unique.treatmentid")] = "projecttreatmentid"
@@ -132,13 +115,13 @@ for(setName in remaining){
     append = rbind(firstHalf,secondHalf)
     treatments = rbind(treatments, append)
   }
-
+  
   #merging the info/pofile table with the samples and treatments tables
-  secondi = merge(secondii,samples, by="sampleid")
-  second = merge(secondi,treatments, by.x="treatmentid", by.y="projecttreatmentid", all.x = TRUE)
-
+  #secondi = merge(secondii,samples, by="sampleid")
+  second = merge(secondii,treatments, by.x="treatmentid", by.y="projecttreatmentid", all.x = TRUE)
   #adding project, experimentID and responseID to the info/profile/samples/treatments table
-  second$project = setName
+  second$project = setNameShort
+  samples$project = setNameShort
   colnames(second)[which(names(second)=="Row.names")] = "experimentID"
   second$responseID = paste(second$project, second$experimentID, sep = "/")
 
@@ -147,12 +130,18 @@ for(setName in remaining){
 
   cat("Appending to big data.frame\n")  
   #adding the data.frame for this set to the big one that represents all datasets on pharmacodb
-  big = friendlyRbind(big,final,"responseID")
-
-  cat("Saving to file\n")
-  #backing up to a file
-  write.table(big, file=outFile, sep = "\t", row.names = FALSE, na="")
+  if(length(intersect(names(big), names(final))) == 0){
+    big = final
+    bigSample = samples
+  }else{  
+    big = friendlyRBind(big,final)
+    bigSample = friendlyRBind(bigSample, samples)
+  }
 }
+cat("Saving to file\n")
+#backing up to a file
+write.table(big, file=outFile, sep = "\t", row.names = FALSE, na="", qmethod="d")
+write.table(bigSample, file=paste(outFile, "samples.tsv", sep="."), sep = "\t", row.names = FALSE, na="", qmethod="d")
 
 cat("done\n")
 

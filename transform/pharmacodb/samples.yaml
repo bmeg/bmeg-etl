@@ -1,0 +1,70 @@
+
+class: sifter
+
+outdir: ../../output/pharmacodb/
+name: pharmacodb_samples_gx
+
+config:
+  sampleFile: ../../tables/pharmacodb_profiles.tsv.samples.tsv
+  cellosaurusDepmap: ../../source/cellosaurus/table/cellosarusSynonyms.caseTable.ach2cellosaurus.json.gz
+  schema: ../../schema/
+
+inputs:
+  sampleReader:
+    tableLoad:
+      input: "{{config.sampleFile}}"
+      sep: "\t"
+
+
+pipelines:
+  transform:
+    - from: sampleReader
+    - map:
+        method: checkDepmap
+        gpython: |
+          def checkDepmap(row):
+            if "depmap_id" not in row:
+              row["depmap_id"] = ""
+            return row
+    - lookup:
+        json:
+          input: "{{config.cellosaurusDepmap}}"
+          key: depmap_id
+        lookup: "{{row.depmap_id}}"
+        copy:
+          CellosaurusID: cellosaurus_id
+    - map:
+        method: genCase
+        gpython: |
+          def genCase(row):
+            if "CellosaurusID" in row and len(row["CellosaurusID"]) > 4:
+              row["Cellosaurus.Accession.id"] = row["CellosaurusID"]
+            if "Cellosaurus.Accession.id" in row and len(row["Cellosaurus.Accession.id"]) > 4:
+              row["case"] = {"id": "case/" + row["Cellosaurus.Accession.id"]}
+            row["project_id"] = "project/" + row["project"]
+            row["aliquot_id"] = "aliquot/" + row["project"] + ":pharmacodb:" + row["sampleid"]
+            row["projects"] = [{"id": row["project_id"]}]
+            row["sample"] = {"id":"sample/" + row["sampleid"]}
+            return row
+  aliquot:
+    - from: transform
+    - project:
+        mapping:
+          id: "{{row.aliquot_id}}"
+          submitter_id: "{{row.sampleid}}"
+    - objectValidate:
+        title: Aliquot
+        schema: "{{config.schema}}"
+    - emit:
+        name: aliquot
+  sample:
+    - from: transform
+    - project:
+        mapping:
+          id: "{{row.sample.id}}"
+          submitter_id: "{{row.sampleid}}"
+    - objectValidate:
+        title: Sample
+        schema: "{{config.schema}}"
+    - emit:
+        name: sample
