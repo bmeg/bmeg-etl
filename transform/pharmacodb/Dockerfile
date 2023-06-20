@@ -6,7 +6,6 @@ WORKDIR /usr/src
 #copying over the two R scripts we'd be using
 COPY drug_response_tsv.R ./
 COPY download_pharmaco.R ./
-COPY installPharmacoGx.R ./
 
 #installing library dependencies
 
