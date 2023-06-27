@@ -57,6 +57,7 @@ if (is.null(opt$resume)){
   cat("No resume value given, starting from the top")
   big = data.frame()
   bigSample = data.frame()
+  bigTreatment = data.frame()
   remaining = names
 }else{
   cat("Resuming from file", opt$resume)
@@ -99,26 +100,25 @@ for(setName in remaining){
   #re-formatting the treatment data frame so it is easier to merge with the info/profile table
   samples$sampleid = rownames(samples)
   
+  cat(names(treatments),"\n")
   treatments = treatments[,1:2]
-  names(treatments)[which(names(treatments)=="treatmentid")] = "unique.treatmentid"
-  names(treatments)[which(names(treatments)!="unique.treatmentid")] = "projecttreatmentid"
-  names(treatments)[which(names(treatments)=="unique.treatmentid")] = "UNIQUEtreatmentid"
-  treatments = treatments[which(treatments$projecttreatmentid != ""),]
-  twoPart = treatments[str_detect(treatments$projecttreatmentid,"///"),]
-  treatments = treatments[!(str_detect(treatments$projecttreatmentid,"///")),]
+  names(treatments) = c("UNIQUEtreatmentid", "PROJECTtreatmentid")
+  treatments = treatments[which(treatments$PROJECTtreatmentid != ""),]
+  twoPart = treatments[str_detect(treatments$PROJECTtreatmentid,"///"),]
+  treatments = treatments[!(str_detect(treatments$PROJECTtreatmentid,"///")),]
   if(nrow(twoPart) >0){
-    split = str_split(twoPart$projecttreatmentid,"///", simplify=TRUE)
+    split = str_split(twoPart$PROJECTtreatmentid,"///", simplify=TRUE)
     firstHalf = twoPart
-    firstHalf$projecttreatmentid = split[,1]
+    firstHalf$PROJECTtreatmentid = split[,1]
     secondHalf = twoPart
-    secondHalf$projecttreatmentid = split[,2]
+    secondHalf$PROJECTtreatmentid = split[,2]
     append = rbind(firstHalf,secondHalf)
     treatments = rbind(treatments, append)
   }
   
   #merging the info/pofile table with the samples and treatments tables
   #secondi = merge(secondii,samples, by="sampleid")
-  second = merge(secondii,treatments, by.x="treatmentid", by.y="projecttreatmentid", all.x = TRUE)
+  second = merge(secondii,treatments, by.x="treatmentid", by.y="PROJECTtreatmentid", all.x = TRUE)
   #adding project, experimentID and responseID to the info/profile/samples/treatments table
   second$project = setNameShort
   samples$project = setNameShort
@@ -133,15 +133,16 @@ for(setName in remaining){
   if(length(intersect(names(big), names(final))) == 0){
     big = final
     bigSample = samples
+    bigTreatment = treatments
   }else{  
     big = friendlyRBind(big,final)
     bigSample = friendlyRBind(bigSample, samples)
+    bigTreatment = rbind(bigTreatment, treatments)
   }
 }
 cat("Saving to file\n")
 #backing up to a file
 write.table(big, file=outFile, sep = "\t", row.names = FALSE, na="", qmethod="d")
 write.table(bigSample, file=paste(outFile, "samples.tsv", sep="."), sep = "\t", row.names = FALSE, na="", qmethod="d")
-
+write.table(bigTreatment, file=paste(outFile, "treatments.tsv", sep="."), sep = "\t", row.names = FALSE, na="", qmethod="d")
 cat("done\n")
-

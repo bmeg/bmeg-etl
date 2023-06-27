@@ -6,14 +6,14 @@ name: pharmacodb_profiles_gx
 
 config:
   treatmentResponseFile: ../../tables/pharmacodb_profiles.tsv
-  synonymsFile: ../../tables/chemblSynonyms.longTable.synonyms.json.gz
+  treatmentSynonymsFile: ../../tables/pharmacodb_profiles.tsv.treatments.tsv
+  synonymsFile: ../../tables/chemblSynonyms.longTable.synonyms.json
   schema: ../../schema/
 
 inputs:
   profileReader:
-    tableLoad:
-      input: "{{config.treatmentResponseFile}}"
-      sep: "\t"
+    plugin:
+      commandline: "../../util/chembl-matchup.py {{config.treatmentResponseFile}} {{config.treatmentSynonymsFile}} {{config.synonymsFile}}"
 
 pipelines:
   transform:
@@ -87,70 +87,33 @@ pipelines:
               elif id[:2] == "HS" or id == "SLO":
                 row["hs"] = float(row[field])
             
-            if not ("UNIQUEtreatmentid" in row) or row["UNIQUEtreatmentid"]=='':
-              row["UNIQUEtreatmentid"] = row["treatmentid"]
-            if ";" in row["UNIQUEtreatmentid"]:
-              UNIQUEid = row["UNIQUEtreatmentid"].split(";")
-            elif "mol/mol)" in row["UNIQUEtreatmentid"]:
-              UNIQUEid = row["UNIQUEtreatmentid"].split(" (")[0]
-              UNIQUEid = UNIQUEid.split(":")
-            else:
-              UNIQUEid = [row["UNIQUEtreatmentid"]]
-
-            row["drug0"] = ""
-            row["drug1"] = ""
-            row["drug2"] = ""
+           # for drugnum in range(0, len(UNIQUEid)):
+           #   aUnique = UNIQUEid[drugnum]
+           #   if aUnique[0:3] == "NSC" and aUnique[3] != "-":
+           #     aUnique = "NSC-" + aUnique[4:]
+           #   row["drug" + str(drugnum)] = UNIQUEid[drugnum]
             
-            for drugnum in range(0, len(UNIQUEid)):
-              aUnique = UNIQUEid[drugnum]
-              if aUnique[0:3] == "NSC" and aUnique[3] != "-":
-                aUnique = "NSC-" + aUnique[4:]
-              row["drug" + str(drugnum)] = UNIQUEid[drugnum]
-            
-            project = row["project"]
-            row["id"] = "drugResponse/" + project + ":pharmacodb:" + row["sampleid"] + ":" + row["treatmentid"]
-            row["project_id"] = "project/" + project
+            row["id"] = "drugResponse/" + row["project"] + ":pharmacodb:" + row["sampleid"] + ":" + row["treatmentid"]
+            row["project_id"] = "project/" + row["project"]
             row["submitter_id"] = row["experimentID"]
-            #row["compounds"] = {"id": row['projecttreatmentid']}
-            row["aliquot"] = {"id": "aliquot/" + project + ":pharmacodb:" + row["sampleid"]}
-            #row["aliquotSubID"] = project + ":pharmacodb:" + row["sampleid"]
-            #row["sample"] = {"id": "sample/" + project + ":pharmacodb:" + row["sampleid"]}
+            if 'chemblid' in row:
+              row["compounds"] = [{"id": row['chemblid']}]
+            row["aliquot"] = {"id": "aliquot/" + row["project"] + ":pharmacodb:" + row["sampleid"]}
             return row
-    - lookup:
-        json:
-          input: "{{config.synonymsFile}}"
-          key: synonyms
-        lookup: "{{row.drug0}}"
-        copy:
-          chembl0: id
-    - lookup:
-        json:
-          input: "{{config.synonymsFile}}"
-          key: synonyms
-        lookup: "{{row.drug1}}"
-        copy:
-          chembl1: id
-    - lookup:
-        json:
-          input: "{{config.synonymsFile}}"
-          key: synonyms
-        lookup: "{{row.drug2}}"
-        copy:
-          chembl2: id
-    - map:
-        method: finalclean
-        gpython: |
-          def finalclean(row):
-            row["compounds"] = []
-            for drugNum in range(0,3):
-              if "chembl"+str(drugNum) in row:
-                row["compounds"].append({"id": row["chembl"+str(drugNum)]})
-              elif len(row["drug"+str(drugNum)]) > 1:
-                if row["drug"+str(drugNum)][0:6] == "Chembl":
-                  row["compounds"].append({"id": "CHEMBL"+row["drug"+str(drugNum)][6:]})
-                else:
-                  print(row["drug"+str(drugNum)] + "\n")
-            return row
+#    - map:
+#        method: finalclean
+#        gpython: |
+#          def finalclean(row):
+#            row["compounds"] = []
+#            for drugNum in range(0,3):
+#              if "chembl"+str(drugNum) in row:
+#                row["compounds"].append({"id": row["chembl"+str(drugNum)]})
+#              elif len(row["drug"+str(drugNum)]) > 1:
+#                if row["drug"+str(drugNum)][0:6] == "Chembl" or row["drug"+str(drugNum)][0:6] == "CHEMBL":
+#                  row["compounds"].append({"id": "CHEMBL"+row["drug"+str(drugNum)][6:]})
+#                else:
+#                  print(row["drug"+str(drugNum)] + "\n")
+#            return row
  
   drugResponse:
     - from: transform
