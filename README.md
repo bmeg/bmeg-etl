@@ -17,6 +17,13 @@ Install go following instructions at https://go.dev/dl/
 go install github.com/bmeg/sifter@main
 go install github.com/bmeg/lathe@main
 ```
+### Install other dependencies
+```
+conda install -c conda-forge rdkit
+conda install -c conda-forge pandas
+conda install -c conda-forge pyarrow
+conda install -c conda-forge polars
+```
 
 ### Update path
 
