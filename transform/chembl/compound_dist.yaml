@@ -5,7 +5,7 @@ name: compoundDist
 
 scatterGather: 
   compoundDist:
-    shards: 100
+    shards: 500
     memMB: 30000
     shardPath: ../../shards/chemdist.{{shard}}.gz
     input: ../../output/chembl/chemblTransform.records.compound.json.gz
