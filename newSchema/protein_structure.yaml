@@ -33,7 +33,7 @@ links:
   targetSchema:
     $ref: protein.yaml
   templatePointers:
-  - /protein/-/id
+    id: /protein/-/id
   targetHints:
     directionality:
     - outbound

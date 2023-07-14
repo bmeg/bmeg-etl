@@ -39,7 +39,7 @@ links:
   targetSchema:
     $ref: allele.yaml
   templatePointers:
-  - /alleles/-/id
+    id: /alleles/-/id
   targetHints:
     directionality:
     - outbound
@@ -53,7 +53,7 @@ links:
   targetSchema:
     $ref: interaction_inpu.yaml
   templatePointers:
-  - /interaction_input/-/id
+    id: /interaction_input/-/id
   targetHints:
     directionality:
     - outbound
@@ -67,7 +67,7 @@ links:
   targetSchema:
     $ref: g2p_association.yaml
   templatePointers:
-  - /g2p_associations/-/id
+    id: /g2p_associations/-/id
   targetHints:
     directionality:
     - outbound
@@ -81,7 +81,7 @@ links:
   targetSchema:
     $ref: gene_ontology_term.yaml
   templatePointers:
-  - /gene_ontology_terms/-/id
+    id: /gene_ontology_terms/-/id
   targetHints:
     directionality:
     - outbound
@@ -95,7 +95,7 @@ links:
   targetSchema:
     $ref: gene_set.yaml
   templatePointers:
-  - /gene_sets/-/id
+    id: /gene_sets/-/id
   targetHints:
     directionality:
     - outbound
@@ -109,7 +109,7 @@ links:
   targetSchema:
     $ref: genomic_feature.yaml
   templatePointers:
-  - /genomic_features/-/id
+    id: /genomic_features/-/id
   targetHints:
     directionality:
     - outbound
@@ -123,7 +123,7 @@ links:
   targetSchema:
     $ref: pathway.yaml
   templatePointers:
-  - /pathways/-/id
+    id: /pathways/-/id
   targetHints:
     directionality:
     - outbound
@@ -137,7 +137,7 @@ links:
   targetSchema:
     $ref: transcript.yaml
   templatePointers:
-  - /transcripts/-/id
+    id: /transcripts/-/id
   targetHints:
     directionality:
     - outbound

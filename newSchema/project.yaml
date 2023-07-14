@@ -34,7 +34,7 @@ links:
   targetSchema:
     $ref: case.yaml
   templatePointers:
-  - /cases/-/id
+    id: /cases/-/id
   targetHints:
     directionality:
     - outbound
@@ -48,7 +48,7 @@ links:
   targetSchema:
     $ref: compound.yaml
   templatePointers:
-  - /compounds/-/id
+    id: /compounds/-/id
   targetHints:
     directionality:
     - outbound
@@ -62,7 +62,7 @@ links:
   targetSchema:
     $ref: program.yaml
   templatePointers:
-  - /programs/-/id
+    id: /programs/-/id
   targetHints:
     directionality:
     - outbound

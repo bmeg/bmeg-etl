@@ -34,7 +34,7 @@ links:
   targetSchema:
     $ref: input_t.yaml
   templatePointers:
-  - /input_to/-/id
+    id: /input_to/-/id
   targetHints:
     directionality:
     - outbound
@@ -48,7 +48,7 @@ links:
   targetSchema:
     $ref: created_by.yaml
   templatePointers:
-  - /created_by/-/id
+    id: /created_by/-/id
   targetHints:
     directionality:
     - outbound
@@ -62,7 +62,7 @@ links:
   targetSchema:
     $ref: aliquot.yaml
   templatePointers:
-  - /aliquots/-/id
+    id: /aliquots/-/id
   targetHints:
     directionality:
     - outbound

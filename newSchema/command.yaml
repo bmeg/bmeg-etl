@@ -35,7 +35,7 @@ links:
   targetSchema:
     $ref: file.yaml
   templatePointers:
-  - /reads/-/id
+    id: /reads/-/id
   targetHints:
     directionality:
     - outbound
@@ -49,7 +49,7 @@ links:
   targetSchema:
     $ref: file.yaml
   templatePointers:
-  - /writes/-/id
+    id: /writes/-/id
   targetHints:
     directionality:
     - outbound

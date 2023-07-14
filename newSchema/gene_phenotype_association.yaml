@@ -34,7 +34,7 @@ links:
   targetSchema:
     $ref: allele.yaml
   templatePointers:
-  - /alleles/-/id
+    id: /alleles/-/id
   targetHints:
     directionality:
     - outbound
@@ -48,7 +48,7 @@ links:
   targetSchema:
     $ref: compound.yaml
   templatePointers:
-  - /compounds/-/id
+    id: /compounds/-/id
   targetHints:
     directionality:
     - outbound
@@ -62,7 +62,7 @@ links:
   targetSchema:
     $ref: gene.yaml
   templatePointers:
-  - /genes/-/id
+    id: /genes/-/id
   targetHints:
     directionality:
     - outbound
@@ -76,7 +76,7 @@ links:
   targetSchema:
     $ref: genomic_feature.yaml
   templatePointers:
-  - /genomic_features/-/id
+    id: /genomic_features/-/id
   targetHints:
     directionality:
     - outbound
@@ -90,7 +90,7 @@ links:
   targetSchema:
     $ref: phenotype.yaml
   templatePointers:
-  - /phenotypes/-/id
+    id: /phenotypes/-/id
   targetHints:
     directionality:
     - outbound
@@ -104,7 +104,7 @@ links:
   targetSchema:
     $ref: publication.yaml
   templatePointers:
-  - /publications/-/id
+    id: /publications/-/id
   targetHints:
     directionality:
     - outbound

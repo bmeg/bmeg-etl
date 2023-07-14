@@ -38,7 +38,7 @@ links:
   targetSchema:
     $ref: transcript.yaml
   templatePointers:
-  - /transcripts/-/id
+    id: /transcripts/-/id
   targetHints:
     directionality:
     - outbound

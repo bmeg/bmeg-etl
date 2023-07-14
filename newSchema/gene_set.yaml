@@ -33,7 +33,7 @@ links:
   targetSchema:
     $ref: gene.yaml
   templatePointers:
-  - /genes/-/id
+    id: /genes/-/id
   targetHints:
     directionality:
     - outbound
@@ -47,7 +47,7 @@ links:
   targetSchema:
     $ref: publication.yaml
   templatePointers:
-  - /publications/-/id
+    id: /publications/-/id
   targetHints:
     directionality:
     - outbound

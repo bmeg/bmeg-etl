@@ -33,7 +33,7 @@ links:
   targetSchema:
     $ref: aliquot.yaml
   templatePointers:
-  - /aliquots/-/id
+    id: /aliquots/-/id
   targetHints:
     directionality:
     - outbound

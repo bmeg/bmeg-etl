@@ -36,7 +36,7 @@ links:
   targetSchema:
     $ref: gene_expression.yaml
   templatePointers:
-  - /gene_expressions/-/id
+    id: /gene_expressions/-/id
   targetHints:
     directionality:
     - outbound
@@ -50,7 +50,7 @@ links:
   targetSchema:
     $ref: drug_response.yaml
   templatePointers:
-  - /drug_responses/-/id
+    id: /drug_responses/-/id
   targetHints:
     directionality:
     - outbound
@@ -64,7 +64,7 @@ links:
   targetSchema:
     $ref: somatic_callset.yaml
   templatePointers:
-  - /somatic_callsets/-/id
+    id: /somatic_callsets/-/id
   targetHints:
     directionality:
     - outbound
@@ -78,7 +78,7 @@ links:
   targetSchema:
     $ref: copy_number_alteration.yaml
   templatePointers:
-  - /copy_number_alterations/-/id
+    id: /copy_number_alterations/-/id
   targetHints:
     directionality:
     - outbound
@@ -92,7 +92,7 @@ links:
   targetSchema:
     $ref: project.yaml
   templatePointers:
-  - /projects/-/id
+    id: /projects/-/id
   targetHints:
     directionality:
     - outbound
@@ -106,7 +106,7 @@ links:
   targetSchema:
     $ref: sample.yaml
   templatePointers:
-  - /sample/-/id
+    id: /sample/-/id
   targetHints:
     directionality:
     - outbound
@@ -120,7 +120,7 @@ links:
   targetSchema:
     $ref: transcript_expression.yaml
   templatePointers:
-  - /transcript_expressions/-/id
+    id: /transcript_expressions/-/id
   targetHints:
     directionality:
     - outbound

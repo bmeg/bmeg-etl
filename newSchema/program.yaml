@@ -31,7 +31,7 @@ links:
   targetSchema:
     $ref: project.yaml
   templatePointers:
-  - /projects/-/id
+    id: /projects/-/id
   targetHints:
     directionality:
     - outbound

@@ -20,7 +20,7 @@ links:
   targetSchema:
     $ref: somatic_callset.yaml
   templatePointers:
-  - /somatic_callset/-/id
+    id: /somatic_callset/-/id
   targetHints:
     directionality:
     - outbound
@@ -34,7 +34,7 @@ links:
   targetSchema:
     $ref: allele.yaml
   templatePointers:
-  - /allele/-/id
+    id: /allele/-/id
   targetHints:
     directionality:
     - outbound

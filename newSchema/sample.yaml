@@ -38,7 +38,7 @@ links:
   targetSchema:
     $ref: aliquot.yaml
   templatePointers:
-  - /aliquots/-/id
+    id: /aliquots/-/id
   targetHints:
     directionality:
     - outbound
@@ -52,7 +52,7 @@ links:
   targetSchema:
     $ref: case.yaml
   templatePointers:
-  - /case/-/id
+    id: /case/-/id
   targetHints:
     directionality:
     - outbound
@@ -66,7 +66,7 @@ links:
   targetSchema:
     $ref: phenotype.yaml
   templatePointers:
-  - /phenotypes/-/id
+    id: /phenotypes/-/id
   targetHints:
     directionality:
     - outbound
@@ -80,7 +80,7 @@ links:
   targetSchema:
     $ref: project.yaml
   templatePointers:
-  - /projects/-/id
+    id: /projects/-/id
   targetHints:
     directionality:
     - outbound

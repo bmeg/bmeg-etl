@@ -33,7 +33,7 @@ links:
   targetSchema:
     $ref: gene.yaml
   templatePointers:
-  - /genes/-/id
+    id: /genes/-/id
   targetHints:
     directionality:
     - outbound
@@ -47,7 +47,7 @@ links:
   targetSchema:
     $ref: interaction.yaml
   templatePointers:
-  - /interactions/-/id
+    id: /interactions/-/id
   targetHints:
     directionality:
     - outbound
@@ -61,7 +61,7 @@ links:
   targetSchema:
     $ref: publication.yaml
   templatePointers:
-  - /publications/-/id
+    id: /publications/-/id
   targetHints:
     directionality:
     - outbound
@@ -75,7 +75,7 @@ links:
   targetSchema:
     $ref: pathway.yaml
   templatePointers:
-  - /parent_pathways/-/id
+    id: /parent_pathways/-/id
   targetHints:
     directionality:
     - outbound
@@ -89,7 +89,7 @@ links:
   targetSchema:
     $ref: pathway.yaml
   templatePointers:
-  - /sub_pathways/-/id
+    id: /sub_pathways/-/id
   targetHints:
     directionality:
     - outbound

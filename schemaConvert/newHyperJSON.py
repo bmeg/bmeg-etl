@@ -81,7 +81,7 @@ def yaml_dir(input_path, output_path):
                             "href":hname+"/{id}",
                             "templateRequired": ["id"],
                             "targetSchema": {'$ref': schema['properties'][p]['targets'][0]['type']['$ref']} if 'targets' in schema['properties'][p] else {"$ref":p[0: -1 if '$ref' in schema["properties"][p] and schema["properties"][p]['$ref'].endswith('many') else None]+'.yaml'},
-                            "templatePointers": ["/%s/-/id" % p],
+                            "templatePointers": {'id': "/%s/-/id" % p},
                             "targetHints": {
                                 "directionality": ["outbound"],
                                 "multiplicity": ["has_many"] if '$ref' in schema["properties"][p] and schema["properties"][p]['$ref'].endswith('many') else ["has_one"],

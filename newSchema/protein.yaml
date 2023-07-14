@@ -33,7 +33,7 @@ links:
   targetSchema:
     $ref: protein_structure.yaml
   templatePointers:
-  - /protein_structures/-/id
+    id: /protein_structures/-/id
   targetHints:
     directionality:
     - outbound
@@ -47,7 +47,7 @@ links:
   targetSchema:
     $ref: gene.yaml
   templatePointers:
-  - /gene/-/id
+    id: /gene/-/id
   targetHints:
     directionality:
     - outbound
@@ -61,7 +61,7 @@ links:
   targetSchema:
     $ref: transcript.yaml
   templatePointers:
-  - /transcript/-/id
+    id: /transcript/-/id
   targetHints:
     directionality:
     - outbound

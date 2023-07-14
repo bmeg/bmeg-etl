@@ -10,7 +10,7 @@ links:
   targetSchema:
     $ref: gene.yaml
   templatePointers:
-  - /ensembl_gene/-/id
+    id: /ensembl_gene/-/id
   targetHints:
     directionality:
     - outbound
@@ -24,7 +24,7 @@ links:
   targetSchema:
     $ref: transcript.yaml
   templatePointers:
-  - /ensembl_transcript/-/id
+    id: /ensembl_transcript/-/id
   targetHints:
     directionality:
     - outbound

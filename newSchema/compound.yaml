@@ -31,7 +31,7 @@ links:
   targetSchema:
     $ref: case.yaml
   templatePointers:
-  - /cases/-/id
+    id: /cases/-/id
   targetHints:
     directionality:
     - outbound
@@ -45,7 +45,7 @@ links:
   targetSchema:
     $ref: drug_response.yaml
   templatePointers:
-  - /drug_responses/-/id
+    id: /drug_responses/-/id
   targetHints:
     directionality:
     - outbound
@@ -59,7 +59,7 @@ links:
   targetSchema:
     $ref: g2p_association.yaml
   templatePointers:
-  - /g2p_associations/-/id
+    id: /g2p_associations/-/id
   targetHints:
     directionality:
     - outbound
@@ -73,7 +73,7 @@ links:
   targetSchema:
     $ref: project.yaml
   templatePointers:
-  - /projects/-/id
+    id: /projects/-/id
   targetHints:
     directionality:
     - outbound

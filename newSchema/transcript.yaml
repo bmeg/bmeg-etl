@@ -39,7 +39,7 @@ links:
   targetSchema:
     $ref: exon.yaml
   templatePointers:
-  - /exons/-/id
+    id: /exons/-/id
   targetHints:
     directionality:
     - outbound
@@ -53,7 +53,7 @@ links:
   targetSchema:
     $ref: gene.yaml
   templatePointers:
-  - /gene/-/id
+    id: /gene/-/id
   targetHints:
     directionality:
     - outbound
@@ -67,7 +67,7 @@ links:
   targetSchema:
     $ref: protein.yaml
   templatePointers:
-  - /proteins/-/id
+    id: /proteins/-/id
   targetHints:
     directionality:
     - outbound

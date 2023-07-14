@@ -39,7 +39,7 @@ links:
   targetSchema:
     $ref: gene_ontology_term.yaml
   templatePointers:
-  - /child_terms/-/id
+    id: /child_terms/-/id
   targetHints:
     directionality:
     - outbound
@@ -53,7 +53,7 @@ links:
   targetSchema:
     $ref: gene_ontology_term.yaml
   templatePointers:
-  - /parent_terms/-/id
+    id: /parent_terms/-/id
   targetHints:
     directionality:
     - outbound
@@ -67,7 +67,7 @@ links:
   targetSchema:
     $ref: gene.yaml
   templatePointers:
-  - /genes/-/id
+    id: /genes/-/id
   targetHints:
     directionality:
     - outbound
