@@ -2,22 +2,10 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: gene_ontology_term
 title: GeneOntologyTerm
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: reference
 description: 'The Gene Ontology project provides an ontology of defined terms representing  gene
   product properties.
 
   '
-additionalProperties: false
-submittable: true
-validators: null
-systemProperties:
-- id
-- project_id
-- created_datetime
-- updated_datetime
 required:
 - submitter_id
 - synonym
@@ -27,10 +15,6 @@ required:
 - go_id
 - definition
 - namespace
-uniqueKeys:
-- - id
-- - project_id
-  - submitter_id
 links:
 - rel: child_terms
   href: childterm/{id}

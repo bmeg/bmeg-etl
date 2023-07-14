@@ -2,21 +2,9 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: transcript
 title: Transcript
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: reference
 description: 'A transcript.
 
   '
-additionalProperties: false
-submittable: true
-validators: null
-systemProperties:
-- id
-- project_id
-- created_datetime
-- updated_datetime
 required:
 - submitter_id
 - project_id
@@ -27,10 +15,6 @@ required:
 - genome
 - end
 - transcript_id
-uniqueKeys:
-- - id
-- - project_id
-  - submitter_id
 links:
 - rel: exons
   href: exon/{id}

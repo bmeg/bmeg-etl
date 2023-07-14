@@ -68,6 +68,10 @@ properties:
   name:
     type: string
   g2p_associations:
+    targets:
+      - type:
+          $ref: gene_phenotype_association.yaml
+        backref: genomic_features
     $ref: _definitions.yaml#/to_many
   genes:
     targets:

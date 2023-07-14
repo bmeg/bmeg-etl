@@ -2,31 +2,15 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: methylation_probe
 title: MethylationProbe
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: reference
 description: 'Definition for a methylation probe
 
   '
-additionalProperties: false
-submittable: true
-validators: null
 required:
 - submitter_id
 - project_id
 - probe_id
 - chromosome
 - position
-systemProperties:
-- id
-- project_id
-- created_datetime
-- updated_datetime
-uniqueKeys:
-- - id
-- - project_id
-  - submitter_id
 links:
 - rel: gene
   href: gene/{id}

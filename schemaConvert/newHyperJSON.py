@@ -21,7 +21,8 @@ def cli():
               show_default=True,
               help='Path to cytoscape files directory'
               )
-def yaml_dir(input_path, output_path):
+@click.option('--include_links/--exclude_links', default=True)
+def yaml_dir(input_path, output_path, include_links):
     """
     Extract a SIF file for import into cytoscape.
     python schema.py cytoscape --input_path aced-bmeg.json --output_path output
@@ -30,7 +31,7 @@ def yaml_dir(input_path, output_path):
     input_path = pathlib.Path(input_path)
     output_path = pathlib.Path(output_path)
     edgeTitles = ["SomaticVariant"]
-    specialParse = ["id", "$schema", "links", "properties"]
+    copyFields = ["description", "required", "title", "type"]
     assert input_path.is_dir()
     assert output_path.is_dir()
     paths = [file for file in glob.glob(os.path.join(input_path, "*.yaml"))]
@@ -43,18 +44,21 @@ def yaml_dir(input_path, output_path):
                 new_schema["$schema"] = schema["$schema"]
                 new_schema["$id"] = schema["id"]
                 for k in schema:
-                   if k not in specialParse:
+                   if k in copyFields:
                        new_schema[k] = schema[k]
                 is_edge = schema["title"] in edgeTitles
                 new_schema["links"] = []
-                new_schema["properties"] = {
-                    "links": {
-                        "type":"array",
-                        "items": {
-                            "$ref": "https://json-schema.org/draft/2020-12/links"
-                        }
-                    }
-                }
+                if include_links:
+                  new_schema["properties"] = {
+                      "links": {
+                          "type":"array",
+                          "items": {
+                              "$ref": "https://json-schema.org/draft/2020-12/links"
+                          }
+                      }
+                  }
+                else:
+                  new_schema['properties'] = {}
 #                if "links" in schema:
 #                  for l in schema["links"]:
 #                    new_link = {
@@ -80,7 +84,7 @@ def yaml_dir(input_path, output_path):
                             "rel":p,
                             "href":hname+"/{id}",
                             "templateRequired": ["id"],
-                            "targetSchema": {'$ref': schema['properties'][p]['targets'][0]['type']['$ref']} if 'targets' in schema['properties'][p] else {"$ref":p[0: -1 if '$ref' in schema["properties"][p] and schema["properties"][p]['$ref'].endswith('many') else None]+'.yaml'},
+                            "targetSchema": {'$ref': schema['properties'][p]['targets'][0]['type']['$ref'] if 'targets' in schema['properties'][p] else p[0: -1 if '$ref' in schema["properties"][p] and schema["properties"][p]['$ref'].endswith('many') else None]+'.yaml'},
                             "templatePointers": {'id': "/%s/-/id" % p},
                             "targetHints": {
                                 "directionality": ["outbound"],

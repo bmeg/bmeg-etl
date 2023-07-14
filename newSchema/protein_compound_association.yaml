@@ -2,26 +2,11 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: protein_compound_association
 title: ProteinCompoundAssociation
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: reference
 description: Definitions for protein-compound Associations
-additionalProperties: false
-submittable: true
-validators: null
-systemProperties:
-- project_id
-- created_datetime
-- updated_datetime
 required:
 - id
 - submitter_id
 - project_id
-uniqueKeys:
-- - id
-- - project_id
-  - submitter_id
 links:
 - rel: compound
   href: compound/{id}

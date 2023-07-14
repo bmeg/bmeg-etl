@@ -44,6 +44,10 @@ properties:
   filename:
     type: string
   input_to:
+    targets:
+      - type:
+          $ref: file.yaml
+        backref: output_from
     $ref: _definitions.yaml#/to_many
   created_by:
     $ref: _definitions.yaml#/to_one

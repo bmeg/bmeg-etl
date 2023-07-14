@@ -2,29 +2,13 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: drug_response
 title: DrugResponse
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: genomic
 description: 'Drug response curve fit parameters.
 
   '
-additionalProperties: false
-submittable: true
-validators: null
-systemProperties:
-- id
-- project_id
-- created_datetime
-- updated_datetime
 required:
 - id
 - submitter_id
 - project_id
-uniqueKeys:
-- - id
-- - project_id
-  - submitter_id
 links:
 - rel: aliquot
   href: aliquot/{id}

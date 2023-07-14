@@ -9,10 +9,6 @@ required:
 - genome
 - reference_bases
 - alternate_bases
-uniqueKeys:
-- - id
-- - project_id
-  - submitter_id
 links:
 - rel: effects
   href: effect/{id}

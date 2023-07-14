@@ -2,10 +2,6 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: sample
 title: Sample
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: biospecimen
 description: 'Any material sample taken from a biological entity for testing, diagnostic,
   propagation, treatment or research purposes, including a sample obtained from a
   living organism or taken from the biological object after halting of all its life
@@ -14,22 +10,10 @@ description: 'Any material sample taken from a biological entity for testing, di
   products.
 
   '
-additionalProperties: false
-submittable: true
-validators: null
-systemProperties:
-- id
-- project_id
-- created_datetime
-- updated_datetime
 required:
 - id
 - submitter_id
 - project_id
-uniqueKeys:
-- - id
-- - project_id
-  - submitter_id
 links:
 - rel: aliquots
   href: aliquot/{id}

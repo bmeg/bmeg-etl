@@ -56,8 +56,16 @@ properties:
   alleles:
     $ref: _definitions.yaml#/to_many
   interaction_input:
+    targets:
+      - type:
+          $ref: file.yaml
+        backref: genes
     $ref: _definitions.yaml#/to_many
   g2p_associations:
+    targets:
+      - type:
+          $ref: gene_phenotype_association.yaml
+        backref: genes
     $ref: _definitions.yaml#/to_many
   gene_ontology_terms:
     $ref: _definitions.yaml#/to_many

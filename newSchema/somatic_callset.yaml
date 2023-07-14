@@ -2,29 +2,13 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: somatic_callset
 title: SomaticCallset
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: genomic
 description: 'A collection of somatic variants.
 
   '
-additionalProperties: false
-submittable: true
-validators: null
-systemProperties:
-- id
-- project_id
-- created_datetime
-- updated_datetime
 required:
 - submitter_id
 - tumor_aliquot_id
 - project_id
-uniqueKeys:
-- - id
-- - project_id
-  - submitter_id
 links:
 - rel: aliquots
   href: aliquot/{id}

@@ -2,36 +2,20 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: genomic_feature
 title: GenomicFeature
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: reference
 description: 'An abstract genomic feature
 
   '
-additionalProperties: false
-submittable: true
-validators: null
-systemProperties:
-- id
-- project_id
-- created_datetime
-- updated_datetime
 required:
 - submitter_id
 - project_id
 - name
-uniqueKeys:
-- - id
-- - project_id
-  - submitter_id
 links:
 - rel: g2p_associations
   href: g2passociation/{id}
   templateRequired:
   - id
   targetSchema:
-    $ref: g2p_association.yaml
+    $ref: gene_phenotype_association.yaml
   templatePointers:
     id: /g2p_associations/-/id
   targetHints:
