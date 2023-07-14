@@ -19,7 +19,7 @@ links:
   templateRequired:
   - id
   targetSchema:
-    $ref: effect.yaml
+    $ref: allele_effect.yaml
   templatePointers:
   - /effects/-/id
   targetHints:

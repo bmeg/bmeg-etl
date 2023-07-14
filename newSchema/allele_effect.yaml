@@ -8,7 +8,7 @@ links:
   templateRequired:
   - id
   targetSchema:
-    $ref: ensembl_gene.yaml
+    $ref: gene.yaml
   templatePointers:
   - /ensembl_gene/-/id
   targetHints:
@@ -22,7 +22,7 @@ links:
   templateRequired:
   - id
   targetSchema:
-    $ref: ensembl_transcript.yaml
+    $ref: transcript.yaml
   templatePointers:
   - /ensembl_transcript/-/id
   targetHints:

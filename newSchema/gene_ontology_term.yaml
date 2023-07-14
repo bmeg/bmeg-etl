@@ -37,7 +37,7 @@ links:
   templateRequired:
   - id
   targetSchema:
-    $ref: child_term.yaml
+    $ref: gene_ontology_term.yaml
   templatePointers:
   - /child_terms/-/id
   targetHints:
@@ -51,7 +51,7 @@ links:
   templateRequired:
   - id
   targetSchema:
-    $ref: parent_term.yaml
+    $ref: gene_ontology_term.yaml
   templatePointers:
   - /parent_terms/-/id
   targetHints:

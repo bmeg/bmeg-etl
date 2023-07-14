@@ -89,7 +89,7 @@ links:
   templateRequired:
   - id
   targetSchema:
-    $ref: same_a.yaml
+    $ref: case.yaml
   templatePointers:
   - /same_as/-/id
   targetHints:

@@ -73,7 +73,7 @@ links:
   templateRequired:
   - id
   targetSchema:
-    $ref: parent_pathway.yaml
+    $ref: pathway.yaml
   templatePointers:
   - /parent_pathways/-/id
   targetHints:
@@ -87,7 +87,7 @@ links:
   templateRequired:
   - id
   targetSchema:
-    $ref: sub_pathway.yaml
+    $ref: pathway.yaml
   templatePointers:
   - /sub_pathways/-/id
   targetHints:

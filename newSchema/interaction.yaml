@@ -33,7 +33,7 @@ links:
   templateRequired:
   - id
   targetSchema:
-    $ref: interaction_inpu.yaml
+    $ref: protein.yaml
   templatePointers:
   - /interaction_input/-/id
   targetHints:
@@ -47,7 +47,7 @@ links:
   templateRequired:
   - id
   targetSchema:
-    $ref: interaction_outpu.yaml
+    $ref: protein.yaml
   templatePointers:
   - /interaction_output/-/id
   targetHints:

@@ -33,7 +33,7 @@ links:
   templateRequired:
   - id
   targetSchema:
-    $ref: child_term.yaml
+    $ref: phenotype.yaml
   templatePointers:
   - /child_terms/-/id
   targetHints:
@@ -47,7 +47,7 @@ links:
   templateRequired:
   - id
   targetSchema:
-    $ref: parent_term.yaml
+    $ref: phenotype.yaml
   templatePointers:
   - /parent_terms/-/id
   targetHints:

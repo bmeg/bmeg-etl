@@ -33,7 +33,7 @@ links:
   templateRequired:
   - id
   targetSchema:
-    $ref: read.yaml
+    $ref: file.yaml
   templatePointers:
   - /reads/-/id
   targetHints:
@@ -47,7 +47,7 @@ links:
   templateRequired:
   - id
   targetSchema:
-    $ref: write.yaml
+    $ref: file.yaml
   templatePointers:
   - /writes/-/id
   targetHints:
