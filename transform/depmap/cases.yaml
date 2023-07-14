@@ -38,11 +38,11 @@ pipelines:
             return row
     - project:
         mapping:
-          id: "sample/{{row.ModelID}}"
+          id: "{{row.ModelID}}"
           submitter_id: "{{row.ModelID}}"
           project_id: DepMap
-          sample_id: "sample/{{row.ModelID}}"
-          case: [ {"id" : "case/{{row.cell_id}}" } ]
+          sample_id: "{{row.ModelID}}"
+          case: [ {"id" : "{{row.cell_id}}" } ]
           type: Sample
 
 
@@ -65,8 +65,8 @@ pipelines:
             return False
     - project:
         mapping:
-          id: "case/{{row.cell_id}}"
-          case_id: "case/{{row.cell_id}}"
+          id: "{{row.cell_id}}"
+          case_id: "{{row.cell_id}}"
           comment: "{{row.OncotreePrimaryDisease}}"
           type: Case
           projects: [ {"id": "project/cellosaurus"} ] # this is a bit of a hack to keep all the cellline within the same project
@@ -80,11 +80,11 @@ pipelines:
     - from: model
     - project:
         mapping:
-          id: "aliquot/{{row.ModelID}}"
+          id: "{{row.ModelID}}"
           submitter_id: "{{row.ModelID}}"
           project_id: DepMap
           aliquot_id: "Aliquot:{{row.ModelID}}"
-          sample: [ {"id" : "sample/{{row.ModelID}}" } ]
+          sample: [ {"id" : "{{row.ModelID}}" } ]
     - objectValidate:
         schema: "{{config.schema}}"
         title: Aliquot

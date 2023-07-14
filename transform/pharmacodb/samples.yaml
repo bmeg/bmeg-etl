@@ -40,11 +40,11 @@ pipelines:
             if "CellosaurusID" in row and len(row["CellosaurusID"]) > 4:
               row["Cellosaurus.Accession.id"] = row["CellosaurusID"]
             if "Cellosaurus.Accession.id" in row and len(row["Cellosaurus.Accession.id"]) > 4:
-              row["case"] = {"id": "case/" + row["Cellosaurus.Accession.id"]}
-            row["project_id"] = "project/" + row["project"]
-            row["aliquot_id"] = "aliquot/" + row["project"] + ":pharmacodb:" + row["sampleid"]
+              row["case"] = [{"id": row["Cellosaurus.Accession.id"]}]
+            row["project_id"] = row["project"]
+            row["aliquot_id"] = row["project"] + ":pharmacodb:" + row["sampleid"]
             row["projects"] = [{"id": row["project_id"]}]
-            row["sample"] = {"id":"sample/" + row["sampleid"]}
+            row["sample"] = [{"id": row["sampleid"]}]
             return row
   aliquot:
     - from: transform

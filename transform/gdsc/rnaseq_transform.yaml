@@ -30,8 +30,8 @@ pipelines:
             for i in row["rows"]:
               values[i["gene_id"]] = int(i["read_count"])
             out = {
-              "id" : "geneExpression/" + row["model_id"],
-              "aliquot" : [ {"id" : "aliquot/" + row["model_id"]} ],
+              "id" : row["model_id"],
+              "aliquot" : [ {"id" : row["model_id"]} ],
               "submitter_id" : row["model_id"],
               "project_id" : "Sanger", 
               'method' : "RNA-Seq",

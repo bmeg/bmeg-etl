@@ -62,7 +62,7 @@ pipelines:
         method: fix
         gpython: |
           def fix(row):
-            row["id"] = "geneSet/"+ row["submitter_id"]
+            row["id"] = row["submitter_id"]
             row['genes'] = list( {"id":i} for i in row['genes'] if i.startswith("ENSG") )
             row['publications'] = list( {"id":i} for i in row['publications'] if len(i) > 0 )
             return row

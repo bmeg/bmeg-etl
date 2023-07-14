@@ -99,12 +99,12 @@ pipelines:
            #     aUnique = "NSC-" + aUnique[4:]
            #   row["drug" + str(drugnum)] = UNIQUEid[drugnum]
             
-            row["id"] = "drugResponse/" + row["project"] + ":pharmacodb:" + row["sampleid"] + ":" + row["treatmentid"]
-            row["project_id"] = "project/" + row["project"]
+            row["id"] = row["project"] + ":pharmacodb:" + row["sampleid"] + ":" + row["treatmentid"]
+            row["project_id"] = row["project"]
             row["submitter_id"] = row["experimentID"]
             if 'chemblid' in row:
               row["compounds"] = [{"id": row['chemblid']}]
-            row["aliquot"] = {"id": "aliquot/" + row["project"] + ":pharmacodb:" + row["sampleid"]}
+            row["aliquot"] = [{"id": row["project"] + ":pharmacodb:" + row["sampleid"]}]
             return row
 #    - map:
 #        method: finalclean

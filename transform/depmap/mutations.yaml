@@ -21,9 +21,9 @@ pipelines:
         value: "{{row.DepMap_ID}}"
     - project:
         mapping:
-          id: "callset/{{row.DepMap_ID}}"
+          id: "{{row.DepMap_ID}}"
           submitter_id: "{{row.DepMap_ID}}"
-          tumor_aliquot_id: "aliquot/{{row.DepMap_ID}}"
+          tumor_aliquot_id: "{{row.DepMap_ID}}"
           project_id: DepMap
     - objectValidate:
         schema: "{{config.schema}}"
@@ -35,7 +35,7 @@ pipelines:
     - from: mutations
     - project:
         mapping:
-          somatic_callset: "callset/{{row.DepMap_ID}}"
+          somatic_callset: "{{row.DepMap_ID}}"
           allele: "GRCh38:{{row.Chrom}}:{{row.Pos}}:{{row.Ref}}:{{row.Alt}}"
           ref: "{{row.Ref}}"
           alt: "{{row.Alt}}"

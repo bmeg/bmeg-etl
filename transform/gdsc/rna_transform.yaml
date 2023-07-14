@@ -39,9 +39,9 @@ pipelines:
                   pass
             cosmic_id = row["id"].split(".")[1]
             return {
-              "aliquot" : [ {"id" : "aliquot/" + cosmic_id } ],
+              "aliquot" : [ {"id" : cosmic_id } ],
               "submitter_id" : cosmic_id,
-              "id" : "geneExpression/" + cosmic_id,
+              "id" : cosmic_id,
               "project_id" : "GDSC", 
               'method' : "MicroArray",
               'metric': "RMA",
@@ -81,7 +81,7 @@ pipelines:
             row["id"] = row["aliquot"][0]["id"]
             row["aliquot_id"] = row["aliquot"][0]["id"]
             if "broad_id" in row:
-              row["sample"] = [ {"id" : "sample/" + row["broad_id"] } ]
+              row["sample"] = [ {"id" : row["broad_id"] } ]
             return row          
     - objectValidate:
         schema: "{{config.schema}}"
