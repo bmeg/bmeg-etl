@@ -1,0 +1,97 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: phenotype
+title: Phenotype
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: reference
+description: 'An observable characteristics of a case or sample resulting from the  interaction
+  of its genotype with the environment (i.e. a disease).
+
+  '
+additionalProperties: false
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- created_datetime
+- updated_datetime
+required:
+- submitter_id
+- term_id
+- term
+- project_id
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+links:
+- rel: child_terms
+  href: childterm/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: child_term.yaml
+  templatePointers:
+  - /child_terms/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: parent_terms
+- rel: parent_terms
+  href: parentterm/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: parent_term.yaml
+  templatePointers:
+  - /parent_terms/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: child_terms
+properties:
+  links:
+    type: array
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+  id:
+    type: string
+  term:
+    type: string
+  term_id:
+    type: string
+  name:
+    type:
+    - 'null'
+    - string
+  description:
+    type: string
+  child_terms:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  parent_terms:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+    - string
+    - 'null'
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

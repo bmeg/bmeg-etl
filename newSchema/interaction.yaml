@@ -1,0 +1,128 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: interaction
+title: Interaction
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: genomic
+description: 'A biological interaction. This node represent an interaction between
+  two or  more entities (e.g. protein-protein, gene-drug, catalysis, or synthesis).
+
+  '
+additionalProperties: false
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- created_datetime
+- updated_datetime
+required:
+- submitter_id
+- project_id
+- source
+- type
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+links:
+- rel: interaction_input
+  href: interactioninpu/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: interaction_inpu.yaml
+  templatePointers:
+  - /interaction_input/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: interactions
+- rel: interaction_output
+  href: interactionoutpu/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: interaction_outpu.yaml
+  templatePointers:
+  - /interaction_output/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: interactions
+- rel: pathways
+  href: pathway/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: pathway.yaml
+  templatePointers:
+  - /pathways/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: interactions
+- rel: publications
+  href: publication/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: publication.yaml
+  templatePointers:
+  - /publications/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: interactions
+properties:
+  links:
+    type: array
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+  source:
+    type: string
+  type:
+    type: string
+  interaction_input:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  interaction_output:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  pathways:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  publications:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+    - string
+    - 'null'
+  id:
+    type: string
+    systemAlias: node_id
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

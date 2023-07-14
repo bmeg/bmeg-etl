@@ -1,0 +1,170 @@
+"$schema": "https://json-schema.org/draft/2020-12/schema"
+
+"$id": "aliquot"
+title: Aliquot
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: biospecimen
+description: >
+  Pertaining to a portion of the whole; any one of two or more samples of something, of the same
+  volume or weight.
+additionalProperties: false
+submittable: true
+validators: null
+
+systemProperties:
+  - id
+  - project_id
+  - created_datetime
+  - updated_datetime
+
+required:
+  - submitter_id
+  - project_id
+  - id
+
+uniqueKeys:
+  - [id]
+  - [project_id, submitter_id]
+
+graph_element: vertex
+graph_id: id
+
+links:
+  - rel: sample
+    href: Sample/{id}
+    templateRequired:
+    - id
+    targetSchema:
+      "$ref": sample
+    templatePointers:
+    - "/id"
+    targetHints:
+      multiplicity: 
+        - has_one
+      direction:
+        - out
+      backref:
+        - aliquots
+  - rel: projects 
+    href: Project/{id}
+    templateRequired:
+    - id
+    targetSchema:
+      "$ref": project
+    templatePointers:
+    - "/id"
+    targetHints:
+      multiplicity:
+        - has_many
+      direction:
+        - out
+      backref:
+        - aliquots
+  - rel: gene_expressions
+    href: Gene_Expression/{id}
+    templateRequired:
+    - id
+    targetSchema:
+      "$ref": gene_expression
+    templatePointers:
+    - "/id"
+    targetHints:
+      multiplicity:
+        - has_many
+      direction:
+        - out
+      backref:
+        - aliquot
+  - rel: drug_responses
+    href: Drug_Response/{id}
+    templateRequired:
+    - id
+    targetSchema:
+      "$ref": drug_response
+    templatePointers:
+    - "/id"
+    targetHints:
+      multiplicity:
+        - has_many
+      direction:
+        - out
+      backref:
+        - aliquot
+  - rel: somatic_callsets
+    href: Somatic_Callset/{id}
+    templateRequired:
+    - id
+    targetSchema:
+      "$ref": somatic_callset
+    templatePointers:
+    - "/id"
+    targetHints:
+      multiplicity:
+        - has_many
+      direction:
+        - out
+      backref:
+        - aliquot
+  - rel: copy_number_alterations
+    href: Copy_Number_Alteration/{id}
+    templateRequired:
+    - id
+    targetSchema:
+      "$ref": copy_number_alterations
+    templatePointers:
+    - "/id"
+    targetHints:
+      multiplicity:
+        - has_many
+      direction:
+        - out
+      backref:
+        - aliquot
+  - rel: transcript_expressions
+    href: Transcript_Expression/{id}
+    templateRequired:
+    - id
+    targetSchema:
+      "$ref": transcript_expressions
+    templatePointers:
+    - "/id"
+    targetHints:
+      multiplicity:
+        - has_many
+      direction:
+        - out
+      backref:
+        - aliquot
+
+properties:
+  id:
+    type: string
+
+  cellline_attributes:
+    type:
+      - 'null'
+      - object
+  gdc_attributes:
+    type:
+      - 'null'
+      - object
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+      - string
+      - 'null'
+  type:
+    type: string
+  links:
+    type: array
+    items:
+      "$ref": https://json-schema.org/draft/2020-12/links
+
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

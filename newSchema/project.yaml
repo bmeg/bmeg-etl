@@ -1,0 +1,109 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: project
+title: Project
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: administrative
+description: 'Any specifically defined piece of work that is undertaken or attempted
+  to meet a single requirement.
+
+  '
+additionalProperties: false
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- created_datetime
+- updated_datetime
+required:
+- id
+- submitter_id
+- project_id
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+links:
+- rel: cases
+  href: case/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: case.yaml
+  templatePointers:
+  - /cases/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: projects
+- rel: compounds
+  href: compound/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: compound.yaml
+  templatePointers:
+  - /compounds/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: projects
+- rel: programs
+  href: program/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: program.yaml
+  templatePointers:
+  - /programs/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: projects
+properties:
+  links:
+    type: array
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+  id:
+    type: string
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  gdc_attributes:
+    type:
+    - 'null'
+    - object
+  cases:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  compounds:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  programs:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  submitter_id:
+    type:
+    - string
+    - 'null'
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

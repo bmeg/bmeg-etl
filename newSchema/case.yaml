@@ -1,0 +1,162 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: case
+title: Case
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: administrative
+description: 'The collection of all data related to a specific subject in the context
+  of a specific experiment.
+
+  '
+additionalProperties: false
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- created_datetime
+- updated_datetime
+required:
+- submitter_id
+- project_id
+- case_id
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+graph_element: vertex
+links:
+- rel: compounds
+  href: compound/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: compound.yaml
+  templatePointers:
+  - /compounds/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: cases
+- rel: phenotypes
+  href: phenotype/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: phenotype.yaml
+  templatePointers:
+  - /phenotypes/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: cases
+- rel: projects
+  href: project/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: project.yaml
+  templatePointers:
+  - /projects/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: cases
+- rel: samples
+  href: sample/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: sample.yaml
+  templatePointers:
+  - /samples/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: case
+- rel: same_as
+  href: samea/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: same_a.yaml
+  templatePointers:
+  - /same_as/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: cases
+properties:
+  links:
+    type: array
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+  case_id:
+    type: string
+  cellline_attributes:
+    type:
+    - 'null'
+    - object
+  gdc_attributes:
+    type:
+    - 'null'
+    - object
+  gtex_attributes:
+    type:
+    - 'null'
+    - object
+  sex:
+    type: string
+  compounds:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  phenotypes:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  projects:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  samples:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  same_as:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+    - string
+    - 'null'
+  id:
+    type: string
+  comment:
+    type: string
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

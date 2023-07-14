@@ -1,0 +1,127 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: allele
+title: Allele
+type: object
+required:
+- id
+- chromosome
+- start
+- genome
+- reference_bases
+- alternate_bases
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+links:
+- rel: effects
+  href: effect/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: effect.yaml
+  templatePointers:
+  - /effects/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: alleles
+- rel: gene
+  href: gene/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: gene.yaml
+  templatePointers:
+  - /gene/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    backref: alleles
+- rel: transcript
+  href: transcript/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: transcript.yaml
+  templatePointers:
+  - /transcript/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    backref: alleles
+- rel: protein
+  href: protein/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: protein.yaml
+  templatePointers:
+  - /protein/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    backref: alleles
+properties:
+  links:
+    type: array
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+  id:
+    type: string
+  reference_bases:
+    type: string
+  alternate_bases:
+    type: string
+  genome:
+    $ref: _definitions.yaml#/genome
+  chromosome:
+    $ref: _definitions.yaml#/chromosome
+  start:
+    type: integer
+  end:
+    type: integer
+  strand:
+    $ref: _definitions.yaml#/strand
+  dbsnp_rs:
+    type: string
+  effects:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  gene:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  transcript:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  protein:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+    - string
+    - 'null'
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

@@ -1,0 +1,177 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: compound
+title: Compound
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: reference
+description: Definitions for Compound
+additionalProperties: false
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- created_datetime
+- updated_datetime
+required:
+- id
+- submitter_id
+- project_id
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+links:
+- rel: cases
+  href: case/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: case.yaml
+  templatePointers:
+  - /cases/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: compounds
+- rel: drug_responses
+  href: drugresponse/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: drug_response.yaml
+  templatePointers:
+  - /drug_responses/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: compounds
+- rel: g2p_associations
+  href: g2passociation/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: g2p_association.yaml
+  templatePointers:
+  - /g2p_associations/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: compounds
+- rel: projects
+  href: project/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: project.yaml
+  templatePointers:
+  - /projects/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: compounds
+properties:
+  links:
+    type: array
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+  id:
+    type: string
+  pubchem_id:
+    type:
+    - 'null'
+    - string
+  chebi_id:
+    type:
+    - 'null'
+    - string
+  chembl_id:
+    type:
+    - 'null'
+    - string
+  drugbank_id:
+    type:
+    - 'null'
+    - string
+  synonym:
+    type: array
+    items:
+      type: string
+  inchi:
+    type:
+    - 'null'
+    - string
+  inchi_key:
+    type:
+    - 'null'
+    - string
+  usan_stem_definition:
+    type:
+    - 'null'
+    - string
+  taxonomy:
+    type:
+    - 'null'
+    - object
+  approved_countries:
+    type:
+    - 'null'
+    - array
+  source_url:
+    type:
+    - 'null'
+    - string
+  id_source:
+    type:
+    - 'null'
+    - string
+  morgan_fingerprint_2:
+    type:
+    - 'null'
+    - array
+  similar_compounds:
+    type:
+    - 'null'
+    - array
+  cases:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  drug_responses:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  g2p_associations:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  projects:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+    - string
+    - 'null'
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

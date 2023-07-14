@@ -1,0 +1,125 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: gene_ontology_term
+title: GeneOntologyTerm
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: reference
+description: 'The Gene Ontology project provides an ontology of defined terms representing  gene
+  product properties.
+
+  '
+additionalProperties: false
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- created_datetime
+- updated_datetime
+required:
+- submitter_id
+- synonym
+- project_id
+- name
+- xref
+- go_id
+- definition
+- namespace
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+links:
+- rel: child_terms
+  href: childterm/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: child_term.yaml
+  templatePointers:
+  - /child_terms/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: parent_terms
+- rel: parent_terms
+  href: parentterm/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: parent_term.yaml
+  templatePointers:
+  - /parent_terms/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: child_terms
+- rel: genes
+  href: gene/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: gene.yaml
+  templatePointers:
+  - /genes/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: gene_ontology_terms
+properties:
+  links:
+    type: array
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+  go_id:
+    type: string
+  name:
+    type: string
+  namespace:
+    type: string
+  definition:
+    type: string
+  synonym:
+    type: array
+  xref:
+    type: array
+    items:
+      type: string
+  child_terms:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  parent_terms:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  genes:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+    - string
+    - 'null'
+  id:
+    type: string
+    systemAlias: node_id
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

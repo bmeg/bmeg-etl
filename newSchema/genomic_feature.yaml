@@ -1,0 +1,116 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: genomic_feature
+title: GenomicFeature
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: reference
+description: 'An abstract genomic feature
+
+  '
+additionalProperties: false
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- created_datetime
+- updated_datetime
+required:
+- submitter_id
+- project_id
+- name
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+links:
+- rel: g2p_associations
+  href: g2passociation/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: g2p_association.yaml
+  templatePointers:
+  - /g2p_associations/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: genomic_features
+- rel: genes
+  href: gene/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: gene.yaml
+  templatePointers:
+  - /genes/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: genomic_features
+properties:
+  links:
+    type: array
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+  annotations:
+    type:
+    - 'null'
+    - array
+  effect:
+    type:
+    - 'null'
+    - string
+  genome:
+    oneOf:
+    - type: 'null'
+    - $ref: _definitions.yaml#/genome
+  chromosome:
+    oneOf:
+    - type: 'null'
+    - $ref: _definitions.yaml#/chromosome
+  end:
+    type:
+    - 'null'
+    - integer
+  start:
+    type:
+    - 'null'
+    - integer
+  strand:
+    oneOf:
+    - type: 'null'
+    - $ref: _definitions.yaml#/strand
+  name:
+    type: string
+  g2p_associations:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  genes:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+    - string
+    - 'null'
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

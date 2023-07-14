@@ -1,0 +1,219 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: gene
+title: Gene
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: reference
+description: 'A gene.
+
+  '
+additionalProperties: false
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- created_datetime
+- updated_datetime
+required:
+- submitter_id
+- project_id
+- description
+- chromosome
+- strand
+- start
+- genome
+- end
+- symbol
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+links:
+- rel: alleles
+  href: allele/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: allele.yaml
+  templatePointers:
+  - /alleles/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: genes
+- rel: interaction_input
+  href: interactioninpu/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: interaction_inpu.yaml
+  templatePointers:
+  - /interaction_input/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: genes
+- rel: g2p_associations
+  href: g2passociation/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: g2p_association.yaml
+  templatePointers:
+  - /g2p_associations/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: genes
+- rel: gene_ontology_terms
+  href: geneontologyterm/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: gene_ontology_term.yaml
+  templatePointers:
+  - /gene_ontology_terms/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: genes
+- rel: gene_sets
+  href: geneset/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: gene_set.yaml
+  templatePointers:
+  - /gene_sets/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: genes
+- rel: genomic_features
+  href: genomicfeature/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: genomic_feature.yaml
+  templatePointers:
+  - /genomic_features/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: genes
+- rel: pathways
+  href: pathway/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: pathway.yaml
+  templatePointers:
+  - /pathways/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: genes
+- rel: transcripts
+  href: transcript/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: transcript.yaml
+  templatePointers:
+  - /transcripts/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: genes
+properties:
+  links:
+    type: array
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+  id:
+    type: string
+  description:
+    type: string
+  symbol:
+    type: string
+  genome:
+    $ref: _definitions.yaml#/genome
+  chromosome:
+    $ref: _definitions.yaml#/chromosome
+  start:
+    type: integer
+  end:
+    type: integer
+  strand:
+    $ref: _definitions.yaml#/strand
+  alleles:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  interaction_input:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  g2p_associations:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  gene_ontology_terms:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  gene_sets:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  genomic_features:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  pathways:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  transcripts:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+    - string
+    - 'null'
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime

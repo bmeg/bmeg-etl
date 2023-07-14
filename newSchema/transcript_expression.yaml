@@ -1,0 +1,79 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: transcript_expression
+title: TranscriptExpression
+type: object
+namespace: http://gdc.nci.nih.gov
+program: '*'
+project: '*'
+category: genomic
+description: 'Transcript level expression values for an aliquot
+
+  '
+additionalProperties: false
+submittable: true
+validators: null
+systemProperties:
+- id
+- project_id
+- created_datetime
+- updated_datetime
+required:
+- submitter_id
+- project_id
+- values
+- method
+- metric
+uniqueKeys:
+- - id
+- - project_id
+  - submitter_id
+links:
+- rel: aliquot
+  href: aliquot/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: aliquot.yaml
+  templatePointers:
+  - /aliquot/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    backref: transcript_expressions
+properties:
+  links:
+    type: array
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+  method:
+    type: string
+  metric:
+    $ref: _definitions.yaml#/expression_metric
+  values:
+    type: object
+    propertyNames:
+      pattern: ^ENST[0-9]+
+    additionalProperties:
+      type: number
+  aliquot:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+    - string
+    - 'null'
+  id:
+    type: string
+    systemAlias: node_id
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
