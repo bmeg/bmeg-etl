@@ -11,20 +11,6 @@ required:
 - source
 - project_id
 links:
-- rel: alleles
-  href: allele/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: allele.yaml
-  templatePointers:
-    id: /alleles/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: gene_phenotype_associations
 - rel: compounds
   href: compound/{id}
   templateRequired:
@@ -33,6 +19,20 @@ links:
     $ref: compound.yaml
   templatePointers:
     id: /compounds/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: gene_phenotype_associations
+- rel: alleles
+  href: allele/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: allele.yaml
+  templatePointers:
+    id: /alleles/-/id
   targetHints:
     directionality:
     - outbound
@@ -54,27 +54,13 @@ links:
     - has_many
     backref: gene_phenotype_associations
 - rel: genomic_features
-  href: genomicfeature/{id}
+  href: genomic_feature/{id}
   templateRequired:
   - id
   targetSchema:
     $ref: genomic_feature.yaml
   templatePointers:
     id: /genomic_features/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: gene_phenotype_associations
-- rel: phenotypes
-  href: phenotype/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: phenotype.yaml
-  templatePointers:
-    id: /phenotypes/-/id
   targetHints:
     directionality:
     - outbound
@@ -89,6 +75,20 @@ links:
     $ref: publication.yaml
   templatePointers:
     id: /publications/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: gene_phenotype_associations
+- rel: phenotypes
+  href: phenotype/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: phenotype.yaml
+  templatePointers:
+    id: /phenotypes/-/id
   targetHints:
     directionality:
     - outbound

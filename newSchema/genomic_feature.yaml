@@ -10,20 +10,6 @@ required:
 - project_id
 - name
 links:
-- rel: g2p_associations
-  href: g2passociation/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: gene_phenotype_association.yaml
-  templatePointers:
-    id: /g2p_associations/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: genomic_features
 - rel: genes
   href: gene/{id}
   templateRequired:
@@ -73,11 +59,6 @@ properties:
     - $ref: _definitions.yaml#/strand
   name:
     type: string
-  g2p_associations:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   genes:
     type:
     - array

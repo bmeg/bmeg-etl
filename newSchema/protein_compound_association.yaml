@@ -8,20 +8,6 @@ required:
 - submitter_id
 - project_id
 links:
-- rel: compound
-  href: compound/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: compound.yaml
-  templatePointers:
-    id: /compound/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_one
-    backref: protein_compound_associations
 - rel: proteins
   href: protein/{id}
   templateRequired:
@@ -30,20 +16,6 @@ links:
     $ref: protein.yaml
   templatePointers:
     id: /proteins/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: protein_compound_associations
-- rel: protein_structures
-  href: proteinstructure/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: protein_structure.yaml
-  templatePointers:
-    id: /protein_structures/-/id
   targetHints:
     directionality:
     - outbound
@@ -64,6 +36,20 @@ links:
     multiplicity:
     - has_many
     backref: protein_compound_associations
+- rel: compound
+  href: compound/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: compound.yaml
+  templatePointers:
+    id: /compound/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    backref: protein_compound_associations
 - rel: publications
   href: publication/{id}
   templateRequired:
@@ -72,6 +58,20 @@ links:
     $ref: publication.yaml
   templatePointers:
     id: /publications/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: protein_compound_associations
+- rel: protein_structures
+  href: protein_structure/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: protein_structure.yaml
+  templatePointers:
+    id: /protein_structures/-/id
   targetHints:
     directionality:
     - outbound

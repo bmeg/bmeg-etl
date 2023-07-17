@@ -38,36 +38,8 @@ links:
     multiplicity:
     - has_many
     backref: pathways
-- rel: publications
-  href: publication/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: publication.yaml
-  templatePointers:
-    id: /publications/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: pathways
-- rel: parent_pathways
-  href: parentpathway/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: pathway.yaml
-  templatePointers:
-    id: /parent_pathways/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: sub_pathways
 - rel: sub_pathways
-  href: subpathway/{id}
+  href: pathway/{id}
   templateRequired:
   - id
   targetSchema:
@@ -79,7 +51,7 @@ links:
     - outbound
     multiplicity:
     - has_many
-    backref: parent_pathways
+    backref: pathways
 properties:
   links:
     type: array
@@ -96,16 +68,6 @@ properties:
     items:
       $ref: reference.yaml
   interactions:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  publications:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  parent_pathways:
     type:
     - array
     items:

@@ -1,32 +1,38 @@
 $schema: https://json-schema.org/draft/2020-12/schema
-$id: program
-title: Program
+$id: file
+title: File
 type: object
-description: 'A broad framework of goals to be achieved. (i.e. TCGA or FM-AD)
+description: 'A file
 
   '
 required:
 - submitter_id
-- program_id
+- project_id
+- md5
+- filename
 links: []
 properties:
   links:
     type: array
     items:
       $ref: https://json-schema.org/draft/2020-12/links
-  program_id:
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
+  md5:
     type: string
-  gdc_attributes:
-    type:
-    - 'null'
-    - object
+  path:
+    type: string
+  cmd:
+    type: string
+  filename:
+    type: string
+  project_id:
+    $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
     - string
     - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
   type:
     type: string
   created_datetime:

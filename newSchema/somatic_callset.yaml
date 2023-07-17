@@ -10,6 +10,20 @@ required:
 - tumor_aliquot_id
 - project_id
 links:
+- rel: alleles
+  href: allele/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: allele.yaml
+  templatePointers:
+    id: /alleles/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: somatic_callsets
 - rel: aliquots
   href: aliquot/{id}
   templateRequired:

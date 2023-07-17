@@ -9,49 +9,7 @@ required:
 - id
 - submitter_id
 - project_id
-links:
-- rel: protein_structures
-  href: proteinstructure/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: protein_structure.yaml
-  templatePointers:
-    id: /protein_structures/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: protein
-- rel: gene
-  href: gene/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: gene.yaml
-  templatePointers:
-    id: /gene/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_one
-    backref: proteins
-- rel: transcript
-  href: transcript/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: transcript.yaml
-  templatePointers:
-    id: /transcript/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_one
-    backref: protein
+links: []
 properties:
   links:
     type: array
@@ -61,21 +19,6 @@ properties:
     type: string
   sequence:
     type: string
-  protein_structures:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  gene:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  transcript:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   submitter_id:
     type:
     - string

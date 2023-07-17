@@ -23,7 +23,7 @@ links:
     - outbound
     multiplicity:
     - has_one
-    backref: drug_responses
+    backref: drug_response
 - rel: compounds
   href: compound/{id}
   templateRequired:

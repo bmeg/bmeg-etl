@@ -59,26 +59,27 @@ def yaml_dir(input_path, output_path, include_links):
                   }
                 else:
                   new_schema['properties'] = {}
-#                if "links" in schema:
-#                  for l in schema["links"]:
-#                    new_link = {
-#                        "rel":l["label"],
-#                        "href":string.capwords(l["label"])+"/{id}",
-#                        "templateRequired": ["id"],
-#                        "targetSchema": {"'$ref'": l["label"]},
-#                        "templatePointers": ["/id"],
-#                        "targetHints": {
-#                            "directionality": ["outbound"],
-#                            "multiplicity": ["has_one"] if l["multiplicity"].endswith('one') else ["has_many"],
-#                        }
-#                    }
-#                    if is_edge:
-#                        new_link["targetHints"]["association"] = True
-#                    else:
-#                        new_link["targetHints"]["backref"] = l["backref"]
-#                    new_schema["links"].append(new_link)
+                if "links" in schema:
+                  for l in schema["links"]:
+                    new_link = {
+                        "rel":l["label"],
+                        "href":l["target_type"]+"/{id}",
+                        "templateRequired": ["id"],
+                        "targetSchema": {"$ref": l["target_type"]+'.yaml'},
+                        "templatePointers": {'id': "/%s/-/id" % l['label']},
+                        "targetHints": {
+                            "directionality": ["outbound"],
+                            "multiplicity": ["has_one"] if l["multiplicity"].endswith('one') else ["has_many"],
+                       }
+                    }
+                    if is_edge:
+                        new_link["targetHints"]["association"] = True
+                    else:
+                        new_link["targetHints"]["backref"] = schema['id']+('s' if l['multiplicity'].startswith('many') else '')
+                    new_schema["links"].append(new_link)
                 for p in schema["properties"]:
                     if "targets" in schema["properties"][p] or ('$ref' in schema["properties"][p] and schema['properties'][p]['$ref'].split("/")[-1][0:3] == 'to_'):
+                      if is_edge:
                         hname = "".join(p.split("_"))[0: -1 if '$ref' in schema["properties"][p] and schema["properties"][p]['$ref'].endswith('many') else None]
                         new_link = {
                             "rel":p,
@@ -88,17 +89,13 @@ def yaml_dir(input_path, output_path, include_links):
                             "templatePointers": {'id': "/%s/-/id" % p},
                             "targetHints": {
                                 "directionality": ["outbound"],
-                                "multiplicity": ["has_many"] if '$ref' in schema["properties"][p] and schema["properties"][p]['$ref'].endswith('many') else ["has_one"],
+                                "multiplicity": ["has_one"],
+                                "association": True
                             }
                         }
-                        if is_edge:
-                            new_link["targetHints"]["association"] = True
-                        else:
-                            try:
-                                new_link["targetHints"]["backref"] = schema["properties"][p]["targets"][0]["backref"]
-                            except:
-                                new_link["targetHints"]["backref"] = schema["id"] + 's'
                         new_schema["links"].append(new_link)
+                        new_schema['properties'][p] = {'type': ['array'], 'items': {'$ref': 'reference.yaml'}}
+                      elif p in [lin['rel'] for lin in new_schema['links']]:
                         new_schema['properties'][p] = {'type': ['array'], 'items': {'$ref': 'reference.yaml'}}
                     else:
                         new_schema["properties"][p] = schema["properties"][p]
@@ -109,4 +106,3 @@ if __name__ == '__main__':
   cli()
 
 
-### schema can be messed with like it's a json file. write to a new one

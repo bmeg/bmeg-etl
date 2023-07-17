@@ -12,42 +12,14 @@ required:
 - source
 - type
 links:
-- rel: interaction_input
-  href: interactioninpu/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: protein.yaml
-  templatePointers:
-    id: /interaction_input/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: interactions
 - rel: interaction_output
-  href: interactionoutpu/{id}
+  href: gene/{id}
   templateRequired:
   - id
   targetSchema:
-    $ref: protein.yaml
+    $ref: gene.yaml
   templatePointers:
     id: /interaction_output/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: interactions
-- rel: pathways
-  href: pathway/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: pathway.yaml
-  templatePointers:
-    id: /pathways/-/id
   targetHints:
     directionality:
     - outbound
@@ -77,17 +49,7 @@ properties:
     type: string
   type:
     type: string
-  interaction_input:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   interaction_output:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  pathways:
     type:
     - array
     items:

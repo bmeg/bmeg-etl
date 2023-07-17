@@ -16,34 +16,6 @@ required:
 - definition
 - namespace
 links:
-- rel: child_terms
-  href: childterm/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: gene_ontology_term.yaml
-  templatePointers:
-    id: /child_terms/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: parent_terms
-- rel: parent_terms
-  href: parentterm/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: gene_ontology_term.yaml
-  templatePointers:
-    id: /parent_terms/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: child_terms
 - rel: genes
   href: gene/{id}
   templateRequired:
@@ -52,6 +24,34 @@ links:
     $ref: gene.yaml
   templatePointers:
     id: /genes/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: gene_ontology_terms
+- rel: pfam_families
+  href: pfam_family/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: pfam_family.yaml
+  templatePointers:
+    id: /pfam_families/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: gene_ontology_terms
+- rel: child_terms
+  href: gene_ontology_term/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: gene_ontology_term.yaml
+  templatePointers:
+    id: /child_terms/-/id
   targetHints:
     directionality:
     - outbound
@@ -78,11 +78,6 @@ properties:
     items:
       type: string
   child_terms:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  parent_terms:
     type:
     - array
     items:

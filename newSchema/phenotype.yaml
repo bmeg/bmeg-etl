@@ -13,7 +13,7 @@ required:
 - project_id
 links:
 - rel: child_terms
-  href: childterm/{id}
+  href: phenotype/{id}
   templateRequired:
   - id
   targetSchema:
@@ -25,21 +25,7 @@ links:
     - outbound
     multiplicity:
     - has_many
-    backref: parent_terms
-- rel: parent_terms
-  href: parentterm/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: phenotype.yaml
-  templatePointers:
-    id: /parent_terms/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: child_terms
+    backref: phenotypes
 properties:
   links:
     type: array
@@ -58,11 +44,6 @@ properties:
   description:
     type: string
   child_terms:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  parent_terms:
     type:
     - array
     items:

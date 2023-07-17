@@ -12,7 +12,7 @@ mapping = {ord(c): None for c in string.whitespace}
 #importing main tsv:
 
 
-if sys.argv[1][-7:] == ".tsv.gz":
+if sys.argv[1][-7:] == ".tsv.gz" or sys.argv[1][-4:] == '.tsv':
   pharmaco = pl.read_csv(sys.argv[1], separator="\t", infer_schema_length=0)
 elif sys.argv[1][-7:] == "json.gz":
   pharmaco = pl.from_pandas(pd.read_json(sys.argv[1], lines=True))
@@ -25,7 +25,7 @@ pharmacoTreat = pl.read_csv(sys.argv[2], separator="\t", infer_schema_length=0)
 treatfinal = pharmacoTreat.with_columns(pl.col("PROJECTtreatmentid").apply(lambda x: x.lower().translate(mapping)).alias("standard")).unique("standard") 
 
 #importing reference for chembl ids
-chembl = pl.read_ndjson(sys.argv[3])
+chembl = pl.from_pandas(pd.read_json(sys.argv[3], lines=True))
 chemblfinal = chembl.with_columns(pl.col("synonyms").apply(lambda x: x.lower().translate(mapping)).alias("standard")).rename({"id":"chID"}).sort("chID").unique("standard", keep="first")
 
 combine = pharmacofinal.join(treatfinal, on="standard", how="left")
@@ -38,7 +38,7 @@ ct = combinefinal.join(chemblfinal, on="standard", how="left")
 
 ctfinal = ct.with_columns(pl.coalesce(["chID","standard"]).apply(lambda x: x.upper() if x.upper()[0:6] == "CHEMBL" else None).alias("chemblid"))
 
-for row in ctfinal.iter_rows(named=True):
+for row in ctfinal.select(pl.exclude('compounds')).iter_rows(named=True):
   rowd = {k:v for k,v in row.items() if v is not None}
   #if "sampleid" in rowd and "treatmentid" in rowd:
   print(json.dumps(rowd))

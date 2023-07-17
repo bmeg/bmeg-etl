@@ -16,20 +16,6 @@ required:
 - end
 - transcript_id
 links:
-- rel: exons
-  href: exon/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: exon.yaml
-  templatePointers:
-    id: /exons/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: transcripts
 - rel: gene
   href: gene/{id}
   templateRequired:
@@ -43,20 +29,6 @@ links:
     - outbound
     multiplicity:
     - has_one
-    backref: transcripts
-- rel: proteins
-  href: protein/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: protein.yaml
-  templatePointers:
-    id: /proteins/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
     backref: transcripts
 properties:
   links:
@@ -77,17 +49,7 @@ properties:
     type: integer
   strand:
     $ref: _definitions.yaml#/strand
-  exons:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   gene:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  proteins:
     type:
     - array
     items:

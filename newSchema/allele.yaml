@@ -9,63 +9,7 @@ required:
 - genome
 - reference_bases
 - alternate_bases
-links:
-- rel: effects
-  href: effect/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: allele_effect.yaml
-  templatePointers:
-    id: /effects/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: alleles
-- rel: gene
-  href: gene/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: gene.yaml
-  templatePointers:
-    id: /gene/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_one
-    backref: alleles
-- rel: transcript
-  href: transcript/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: transcript.yaml
-  templatePointers:
-    id: /transcript/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_one
-    backref: alleles
-- rel: protein
-  href: protein/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: protein.yaml
-  templatePointers:
-    id: /protein/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_one
-    backref: alleles
+links: []
 properties:
   links:
     type: array
@@ -89,26 +33,6 @@ properties:
     $ref: _definitions.yaml#/strand
   dbsnp_rs:
     type: string
-  effects:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  gene:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  transcript:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  protein:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:

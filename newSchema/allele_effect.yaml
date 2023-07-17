@@ -2,35 +2,7 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: allele_effect
 title: AlleleEffect
 type: object
-links:
-- rel: ensembl_gene
-  href: ensemblgene/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: gene.yaml
-  templatePointers:
-    id: /ensembl_gene/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_one
-    backref: allele_effects
-- rel: ensembl_transcript
-  href: ensembltranscript/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: transcript.yaml
-  templatePointers:
-    id: /ensembl_transcript/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_one
-    backref: allele_effects
+links: []
 properties:
   links:
     type: array
@@ -60,16 +32,6 @@ properties:
     type: string
   hgvsp:
     type: string
-  ensembl_gene:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  ensembl_transcript:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   hugo_symbol:
     type: string
   biotype:

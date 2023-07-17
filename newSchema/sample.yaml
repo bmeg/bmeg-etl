@@ -15,20 +15,6 @@ required:
 - submitter_id
 - project_id
 links:
-- rel: aliquots
-  href: aliquot/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: aliquot.yaml
-  templatePointers:
-    id: /aliquots/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: sample
 - rel: case
   href: case/{id}
   templateRequired:
@@ -43,20 +29,6 @@ links:
     multiplicity:
     - has_one
     backref: samples
-- rel: phenotypes
-  href: phenotype/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: phenotype.yaml
-  templatePointers:
-    id: /phenotypes/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: samples
 - rel: projects
   href: project/{id}
   templateRequired:
@@ -65,6 +37,20 @@ links:
     $ref: project.yaml
   templatePointers:
     id: /projects/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: samples
+- rel: phenotypes
+  href: phenotype/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: phenotype.yaml
+  templatePointers:
+    id: /phenotypes/-/id
   targetHints:
     directionality:
     - outbound
@@ -90,11 +76,6 @@ properties:
     type:
     - 'null'
     - object
-  aliquots:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   case:
     type:
     - array

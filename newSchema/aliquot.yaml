@@ -11,76 +11,6 @@ required:
 - project_id
 - id
 links:
-- rel: gene_expressions
-  href: geneexpression/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: gene_expression.yaml
-  templatePointers:
-    id: /gene_expressions/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: aliquot
-- rel: drug_responses
-  href: drugresponse/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: drug_response.yaml
-  templatePointers:
-    id: /drug_responses/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: aliquot
-- rel: somatic_callsets
-  href: somaticcallset/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: somatic_callset.yaml
-  templatePointers:
-    id: /somatic_callsets/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: aliquot
-- rel: copy_number_alterations
-  href: copynumberalteration/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: copy_number_alteration.yaml
-  templatePointers:
-    id: /copy_number_alterations/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: aliquot
-- rel: projects
-  href: project/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: project.yaml
-  templatePointers:
-    id: /projects/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: aliquots
 - rel: sample
   href: sample/{id}
   templateRequired:
@@ -95,20 +25,20 @@ links:
     multiplicity:
     - has_one
     backref: aliquots
-- rel: transcript_expressions
-  href: transcriptexpression/{id}
+- rel: projects
+  href: project/{id}
   templateRequired:
   - id
   targetSchema:
-    $ref: transcript_expression.yaml
+    $ref: project.yaml
   templatePointers:
-    id: /transcript_expressions/-/id
+    id: /projects/-/id
   targetHints:
     directionality:
     - outbound
     multiplicity:
     - has_many
-    backref: aliquot
+    backref: aliquots
 properties:
   links:
     type: array
@@ -124,37 +54,12 @@ properties:
     type:
     - 'null'
     - object
-  gene_expressions:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  drug_responses:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  somatic_callsets:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  copy_number_alterations:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   projects:
     type:
     - array
     items:
       $ref: reference.yaml
   sample:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  transcript_expressions:
     type:
     - array
     items:

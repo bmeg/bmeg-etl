@@ -11,14 +11,14 @@ required:
 - submitter_id
 - project_id
 links:
-- rel: cases
-  href: case/{id}
+- rel: programs
+  href: program/{id}
   templateRequired:
   - id
   targetSchema:
-    $ref: case.yaml
+    $ref: program.yaml
   templatePointers:
-    id: /cases/-/id
+    id: /programs/-/id
   targetHints:
     directionality:
     - outbound
@@ -39,20 +39,6 @@ links:
     multiplicity:
     - has_many
     backref: projects
-- rel: programs
-  href: program/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: program.yaml
-  templatePointers:
-    id: /programs/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: projects
 properties:
   links:
     type: array
@@ -66,11 +52,6 @@ properties:
     type:
     - 'null'
     - object
-  cases:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   compounds:
     type:
     - array

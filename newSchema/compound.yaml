@@ -8,48 +8,6 @@ required:
 - submitter_id
 - project_id
 links:
-- rel: cases
-  href: case/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: case.yaml
-  templatePointers:
-    id: /cases/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: compounds
-- rel: drug_responses
-  href: drugresponse/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: drug_response.yaml
-  templatePointers:
-    id: /drug_responses/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: compounds
-- rel: g2p_associations
-  href: g2passociation/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: drug_response.yaml
-  templatePointers:
-    id: /g2p_associations/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: compounds
 - rel: projects
   href: project/{id}
   templateRequired:
@@ -58,6 +16,20 @@ links:
     $ref: project.yaml
   templatePointers:
     id: /projects/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: compounds
+- rel: similar_compounds
+  href: compound/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: compound.yaml
+  templatePointers:
+    id: /similar_compounds/-/id
   targetHints:
     directionality:
     - outbound
@@ -127,21 +99,6 @@ properties:
     type:
     - 'null'
     - array
-  cases:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  drug_responses:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  g2p_associations:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   projects:
     type:
     - array
