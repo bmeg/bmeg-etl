@@ -10,10 +10,6 @@ required:
 - program_id
 links: []
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   program_id:
     type: string
   gdc_attributes:

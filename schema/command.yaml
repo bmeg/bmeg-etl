@@ -1,14 +1,14 @@
 $schema: "https://json-schema.org/draft/2020-12/schema"
 
-id: "genomic_feature"
-title: GenomicFeature
+id: "command"
+title: Command
 type: object
 namespace: http://gdc.nci.nih.gov
 program: '*'
 project: '*'
-category: reference
+category: data_file
 description: >
-  An abstract genomic feature
+  A DVC command that was run
 additionalProperties: false
 submittable: true
 validators: null
@@ -22,58 +22,44 @@ systemProperties:
 required:
   - submitter_id
   - project_id
-  - name
+  - md5
+  - cmd
+  - filename
 
 uniqueKeys:
   - [id]
   - [project_id, submitter_id]
 
 links:
-  - backref: genomic_features
-    label: genes
+  - backref: input_to
+    label: reads
     multiplicity: many_to_many
-    name: genes
+    name: reads
     required: false
-    target_type: gene
+    target_type: file
+  - backref: created_by
+    label: writes
+    multiplicity: one_to_many
+    name: writes
+    required: false
+    target_type: file
 
 properties:
-  annotations:
-    type:
-      - 'null'
-      - array
-  effect:
-    type:
-      - 'null'
-      - string
-  genome:
-    oneOf:
-      - type: 'null'
-      - $ref: _definitions.yaml#/genome
-  chromosome:
-    oneOf:
-      - type: 'null'
-      - $ref: _definitions.yaml#/chromosome
-  end:
-    type:
-      - 'null'
-      - integer
-  start:
-    type:
-      - 'null'
-      - integer
-  strand:
-    oneOf:
-      - type: 'null'
-      - $ref: _definitions.yaml#/strand
-  name:
+  md5:
     type: string
-  g2p_associations:
-    $ref: _definitions.yaml#/to_many
-  genes:
+  cmd:
+    type: string
+  filename:
+    type: string
+  reads:
     targets:
       - type:
-          $ref: gene.yaml
-        backref: genomic_features
+          $ref: file.yaml
+    $ref: _definitions.yaml#/to_many
+  writes:
+    targets:
+      - type:
+          $ref: file.yaml
     $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id

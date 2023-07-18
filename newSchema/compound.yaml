@@ -8,20 +8,6 @@ required:
 - submitter_id
 - project_id
 links:
-- rel: projects
-  href: project/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: project.yaml
-  templatePointers:
-    id: /projects/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: compounds
 - rel: similar_compounds
   href: compound/{id}
   templateRequired:
@@ -37,10 +23,6 @@ links:
     - has_many
     backref: compounds
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   id:
     type: string
   pubchem_id:
@@ -96,10 +78,6 @@ properties:
     - 'null'
     - array
   similar_compounds:
-    type:
-    - 'null'
-    - array
-  projects:
     type:
     - array
     items:

@@ -79,42 +79,13 @@ links:
     - has_many
     backref: protein_compound_associations
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   id:
     type: string
   association_type:
     type: string
     description: protein-compound association keyword, example inhibitor
-  compound:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  proteins:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  protein_structures:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  genes:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   project_id:
     $ref: _definitions.yaml#/project_id
-  publications:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   source:
     type: string
   submitter_id:
@@ -131,3 +102,28 @@ properties:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  proteins:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  genes:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  compound:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  publications:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  protein_structures:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

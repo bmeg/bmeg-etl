@@ -1,14 +1,14 @@
 $schema: "https://json-schema.org/draft/2020-12/schema"
 
-id: "gene"
-title: Gene
+id: "file"
+title: File
 type: object
 namespace: http://gdc.nci.nih.gov
 program: '*'
 project: '*'
-category: reference
+category: data_file
 description: >
-  A gene.
+  A file
 additionalProperties: false
 submittable: true
 validators: null
@@ -22,13 +22,8 @@ systemProperties:
 required:
   - submitter_id
   - project_id
-  - description
-  - chromosome
-  - strand
-  - start
-  - genome
-  - end
-  - symbol
+  - md5
+  - filename
 
 uniqueKeys:
   - [id]
@@ -38,43 +33,32 @@ links: []
 
 properties:
   id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
+  md5:
     type: string
-  description:
+  path:
     type: string
-  symbol:
+  cmd: 
     type: string
-  genome:
-    $ref: _definitions.yaml#/genome
-  chromosome:
-    $ref: _definitions.yaml#/chromosome
-  start:
-    type: integer
-  end:
-    type: integer
-  strand:
-    $ref: _definitions.yaml#/strand
-  alleles:
+  filename:
+    type: string
+  input_to:
     $ref: _definitions.yaml#/to_many
-  interaction_input:
-    $ref: _definitions.yaml#/to_many
-  g2p_associations:
-    $ref: _definitions.yaml#/to_many
-  gene_ontology_terms:
-    $ref: _definitions.yaml#/to_many
-  gene_sets:
-    $ref: _definitions.yaml#/to_many
-  genomic_features:
-    $ref: _definitions.yaml#/to_many
-  pathways:
-    $ref: _definitions.yaml#/to_many
-  transcripts:
-    $ref: _definitions.yaml#/to_many
+  created_by:
+    $ref: _definitions.yaml#/to_one
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
       - string
       - 'null'
+  aliquots:
+    targets:
+      - type: 
+          $ref: aliquot.yaml
+        backref: files
+    $ref: _definitions.yaml#/to_many
   type:
     type: string
   created_datetime:

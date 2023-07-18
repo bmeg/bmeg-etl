@@ -30,10 +30,6 @@ links:
     - has_many
     backref: exons
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   id:
     type: string
   exon_id:
@@ -48,11 +44,6 @@ properties:
     type: integer
   strand:
     $ref: _definitions.yaml#/strand
-  transcripts:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
@@ -65,3 +56,8 @@ properties:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  transcripts:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

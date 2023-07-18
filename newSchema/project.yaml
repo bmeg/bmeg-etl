@@ -25,25 +25,7 @@ links:
     multiplicity:
     - has_many
     backref: projects
-- rel: compounds
-  href: compound/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: compound.yaml
-  templatePointers:
-    id: /compounds/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: projects
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   id:
     type: string
   project_id:
@@ -52,16 +34,6 @@ properties:
     type:
     - 'null'
     - object
-  compounds:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  programs:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   submitter_id:
     type:
     - string
@@ -72,3 +44,8 @@ properties:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  programs:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

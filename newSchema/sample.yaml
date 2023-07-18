@@ -58,10 +58,6 @@ links:
     - has_many
     backref: samples
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   id:
     type: string
   cellline_attributes:
@@ -76,21 +72,6 @@ properties:
     type:
     - 'null'
     - object
-  case:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  phenotypes:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  projects:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
@@ -103,3 +84,18 @@ properties:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  case:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  projects:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  phenotypes:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

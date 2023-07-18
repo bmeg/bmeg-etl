@@ -2,12 +2,36 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: allele_effect
 title: AlleleEffect
 type: object
-links: []
+links:
+- rel: ensembl_gene
+  href: ensemblgene/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: gene.yaml
+  templatePointers:
+    id: /ensembl_gene/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    association: true
+- rel: ensembl_transcript
+  href: ensembltranscript/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: transcript.yaml
+  templatePointers:
+    id: /ensembl_transcript/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    association: true
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   id:
     type: string
   annotation:
@@ -36,3 +60,13 @@ properties:
     type: string
   biotype:
     type: string
+  ensembl_gene:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  ensembl_transcript:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

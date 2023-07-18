@@ -112,10 +112,6 @@ properties:
   drug_responses:
     $ref: _definitions.yaml#/to_many
   g2p_associations:
-    targets:
-      - type:
-          $ref: drug_response.yaml
-        backref: compounds
     $ref: _definitions.yaml#/to_many
   projects:
     $ref: _definitions.yaml#/to_many

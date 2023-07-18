@@ -96,10 +96,6 @@ links:
     - has_many
     backref: gene_phenotype_associations
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   id:
     type: string
   description:
@@ -126,12 +122,24 @@ properties:
     type:
     - 'null'
     - string
-  alleles:
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+    - string
+    - 'null'
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
+  compounds:
     type:
     - array
     items:
       $ref: reference.yaml
-  compounds:
+  alleles:
     type:
     - array
     items:
@@ -146,25 +154,13 @@ properties:
     - array
     items:
       $ref: reference.yaml
-  phenotypes:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   publications:
     type:
     - array
     items:
       $ref: reference.yaml
-  project_id:
-    $ref: _definitions.yaml#/project_id
-  submitter_id:
+  phenotypes:
     type:
-    - string
-    - 'null'
-  type:
-    type: string
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
+    - array
+    items:
+      $ref: reference.yaml

@@ -39,10 +39,6 @@ links:
     - has_many
     backref: somatic_callsets
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   id:
     type: string
   tumor_aliquot_id:
@@ -51,11 +47,6 @@ properties:
     type:
     - 'null'
     - string
-  aliquots:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
@@ -68,3 +59,13 @@ properties:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  alleles:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  aliquots:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

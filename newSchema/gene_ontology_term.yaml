@@ -30,20 +30,6 @@ links:
     multiplicity:
     - has_many
     backref: gene_ontology_terms
-- rel: pfam_families
-  href: pfam_family/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: pfam_family.yaml
-  templatePointers:
-    id: /pfam_families/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: gene_ontology_terms
 - rel: child_terms
   href: gene_ontology_term/{id}
   templateRequired:
@@ -59,10 +45,6 @@ links:
     - has_many
     backref: gene_ontology_terms
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   go_id:
     type: string
   name:
@@ -77,16 +59,6 @@ properties:
     type: array
     items:
       type: string
-  child_terms:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  genes:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
@@ -102,3 +74,13 @@ properties:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  genes:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  child_terms:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

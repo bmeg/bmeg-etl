@@ -52,16 +52,38 @@ links:
     multiplicity:
     - has_many
     backref: pathways
+- rel: publications
+  href: publication/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: publication.yaml
+  templatePointers:
+    id: /publications/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    association: true
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   id:
     type: string
     systemAlias: node_id
   name:
     type: string
+  project_id:
+    $ref: _definitions.yaml#/project_id
+  submitter_id:
+    type:
+    - string
+    - 'null'
+  type:
+    type: string
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
   genes:
     type:
     - array
@@ -77,15 +99,8 @@ properties:
     - array
     items:
       $ref: reference.yaml
-  project_id:
-    $ref: _definitions.yaml#/project_id
-  submitter_id:
+  publications:
     type:
-    - string
-    - 'null'
-  type:
-    type: string
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
+    - array
+    items:
+      $ref: reference.yaml

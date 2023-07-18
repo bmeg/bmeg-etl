@@ -39,10 +39,6 @@ links:
     - has_many
     backref: gene_sets
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   id:
     type: string
   standard_name:
@@ -73,16 +69,6 @@ properties:
     type: string
   description_full:
     type: string
-  genes:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  publications:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
@@ -95,3 +81,13 @@ properties:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  genes:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  publications:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

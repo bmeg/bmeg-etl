@@ -40,25 +40,25 @@ links:
     multiplicity:
     - has_many
     backref: interactions
+- rel: interaction_input
+  href: interactioninpu/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: protein.yaml
+  templatePointers:
+    id: /interaction_input/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    association: true
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   source:
     type: string
   type:
     type: string
-  interaction_output:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  publications:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
@@ -72,3 +72,18 @@ properties:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  interaction_output:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  publications:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  interaction_input:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

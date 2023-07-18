@@ -10,12 +10,22 @@ required:
 - project_id
 - md5
 - filename
-links: []
+links:
+- rel: aliquots
+  href: aliquot/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: aliquot.yaml
+  templatePointers:
+    id: /aliquots/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    association: true
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   id:
     $ref: _definitions.yaml#/UUID
     systemAlias: node_id
@@ -39,3 +49,8 @@ properties:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  aliquots:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

@@ -11,20 +11,6 @@ required:
 - project_id
 - case_id
 links:
-- rel: projects
-  href: project/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: project.yaml
-  templatePointers:
-    id: /projects/-/id
-  targetHints:
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-    backref: cases
 - rel: compounds
   href: compound/{id}
   templateRequired:
@@ -33,6 +19,20 @@ links:
     $ref: compound.yaml
   templatePointers:
     id: /compounds/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: cases
+- rel: projects
+  href: project/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: project.yaml
+  templatePointers:
+    id: /projects/-/id
   targetHints:
     directionality:
     - outbound
@@ -68,10 +68,6 @@ links:
     - has_many
     backref: cases
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   case_id:
     type: string
   cellline_attributes:
@@ -88,26 +84,6 @@ properties:
     - object
   sex:
     type: string
-  compounds:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  phenotypes:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  projects:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  same_as:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
@@ -124,3 +100,23 @@ properties:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  compounds:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  projects:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  phenotypes:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  same_as:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

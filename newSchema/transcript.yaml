@@ -31,10 +31,6 @@ links:
     - has_one
     backref: transcripts
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   transcript_id:
     type: string
   biotype:
@@ -49,11 +45,6 @@ properties:
     type: integer
   strand:
     $ref: _definitions.yaml#/strand
-  gene:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
@@ -69,3 +60,8 @@ properties:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  gene:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

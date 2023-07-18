@@ -27,10 +27,6 @@ links:
     - has_one
     backref: transcript_expressions
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   method:
     type: string
   metric:
@@ -41,11 +37,6 @@ properties:
       pattern: ^ENST[0-9]+
     additionalProperties:
       type: number
-  aliquot:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
@@ -61,3 +52,8 @@ properties:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  aliquot:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

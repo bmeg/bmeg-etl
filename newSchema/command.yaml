@@ -1,58 +1,54 @@
 $schema: https://json-schema.org/draft/2020-12/schema
-$id: gene_expression
-title: GeneExpression
+$id: command
+title: Command
 type: object
-description: 'Gene level expression values for an aliquot
+description: 'A DVC command that was run
 
   '
 required:
 - submitter_id
 - project_id
-- values
-- method
-- metric
+- md5
+- cmd
+- filename
 links:
-- rel: aliquot
-  href: aliquot/{id}
+- rel: writes
+  href: file/{id}
   templateRequired:
   - id
   targetSchema:
-    $ref: aliquot.yaml
+    $ref: file.yaml
   templatePointers:
-    id: /aliquot/-/id
+    id: /writes/-/id
   targetHints:
     directionality:
     - outbound
     multiplicity:
-    - has_one
-    backref: gene_expressions
+    - has_many
+    backref: command
 properties:
-  id:
+  md5:
     type: string
-    systemAlias: node_id
-  method:
+  cmd:
     type: string
-  metric:
-    $ref: _definitions.yaml#/expression_metric
-  values:
-    type: object
-    propertyNames:
-      pattern: ^ENSG[0-9]+
-    additionalProperties:
-      type: number
+  filename:
+    type: string
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
     - string
     - 'null'
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
   type:
     type: string
   created_datetime:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
-  aliquot:
+  writes:
     type:
     - array
     items:

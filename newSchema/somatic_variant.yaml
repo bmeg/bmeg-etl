@@ -35,23 +35,9 @@ links:
     - has_one
     association: true
 properties:
-  links:
-    type: array
-    items:
-      $ref: https://json-schema.org/draft/2020-12/links
   id:
     type: string
     systemAlias: node_id
-  somatic_callset:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
-  allele:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
   ref:
     type: string
   alt:
@@ -80,3 +66,13 @@ properties:
     type: string
   ensembl_gene:
     type: string
+  somatic_callset:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  allele:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
