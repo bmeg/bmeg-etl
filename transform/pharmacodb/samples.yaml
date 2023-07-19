@@ -5,15 +5,15 @@ outdir: ../../output/pharmacodb/
 name: pharmacodb_samples_gx
 
 config:
-  sampleFile: ../../tables/pharmacodb_profiles.tsv.samples.tsv
+  sampleDir: ../../tables/
   cellosaurusDepmap: ../../source/cellosaurus/table/cellosarusSynonyms.caseTable.ach2cellosaurus.json.gz
   schema: ../../schema/
 
 inputs:
   sampleReader:
-    tableLoad:
-      input: "{{config.sampleFile}}"
-      sep: "\t"
+    glob:
+      input: "{{config.sampleDir}}*.samples.tsv"
+      tableLoad: {}
 
 
 pipelines:
@@ -61,7 +61,7 @@ pipelines:
     - from: transform
     - project:
         mapping:
-          id: "{{row.sample.id}}"
+          id: "{{row.sampleid}}"
           submitter_id: "{{row.sampleid}}"
     - objectValidate:
         title: Sample

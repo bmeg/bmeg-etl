@@ -41,6 +41,7 @@ properties:
     targets:
       - type:
           $ref: allele_effect.yaml
+        backref: allele
     #type: array
     #items:
     #  $ref: allele_effect.yaml
@@ -59,6 +60,7 @@ properties:
     targets:
       - type:
           $ref: protein.yaml
+        backref: allele
     $ref: _definitions.yaml#/to_one
   project_id:
     $ref: _definitions.yaml#/project_id
