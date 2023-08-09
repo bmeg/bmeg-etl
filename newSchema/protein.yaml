@@ -23,7 +23,7 @@ links:
     - outbound
     multiplicity:
     - has_one
-    association: true
+    backref: proteins
 - rel: transcript
   href: transcript/{id}
   templateRequired:
@@ -37,7 +37,7 @@ links:
     - outbound
     multiplicity:
     - has_one
-    association: true
+    backref: protein
 properties:
   id:
     type: string

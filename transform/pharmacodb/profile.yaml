@@ -5,15 +5,15 @@ outdir: ../../output/pharmacodb/
 name: pharmacodb_profiles_gx
 
 config:
-  treatmentResponseFile: ../../tables/pharmacodb_profiles.tsv
-  treatmentSynonymsFile: ../../tables/pharmacodb_profiles.tsv.treatments.tsv
+  treatmentResponseDir: ../../tables/
+  treatmentSynonymsFile: ../../tables/pharmacodb_treatment.utable.final.json.gz
   synonymsFile: ../../tables/chemblSynonyms.longTable.synonyms.json.gz
   schema: ../../schema/
 
 inputs:
   profileReader:
     plugin:
-      commandline: "../../util/chembl-matchup.py {{config.treatmentResponseFile}} {{config.treatmentSynonymsFile}} {{config.synonymsFile}}"
+      commandline: "../../util/chembl-matchup.py -r {{config.treatmentresponsedir}}/..._response.tsv -i {{config.treatmentsynonymsfile}} -c {{config.synonymsfile}}"
 
 pipelines:
   transform:
@@ -104,7 +104,7 @@ pipelines:
             row["submitter_id"] = row["experimentID"]
             if 'chemblid' in row:
               row["compounds"] = [{"id": row['chemblid']}]
-            row["aliquot"] = [{"id": row["project"] + ":pharmacodb:" + row["sampleid"]}]
+            row["aliquot"] = [{"id": "pharmacodb:" + row["project"] + ":aliquot:" + row["sampleid"]}]
             return row
 #    - map:
 #        method: finalclean
@@ -121,11 +121,11 @@ pipelines:
 #                  print(row["drug"+str(drugNum)] + "\n")
 #            return row
  
-  drugResponse:
+  drug_response:
     - from: transform
     - objectValidate:
         title: DrugResponse
         schema: "{{config.schema}}"
     - emit:
-        name: drug_response
+        name: DrugResponse
    

@@ -53,7 +53,7 @@ links:
     - outbound
     multiplicity:
     - has_one
-    association: true
+    backref: interactions
 properties:
   source:
     type: string

@@ -61,6 +61,8 @@ pipelines:
               row["description"] = row["association"]["description"]
               if "drug_labels" in row["association"]:
                 row["compounds"] = [ { "id" : row["association"]["drug_labels"] } ]
+                if 'response_type' in row["association"]:
+                  row["response_type"] = row['association']['response_type']
             row["submitter_id"] = row["text_object"]["id"]
             row["project_id"] = row["source"]
             g = []
@@ -89,7 +91,8 @@ pipelines:
                       }
                   if o is not None:
                     a.append(o)
-            row["alleles"] = a
+            if a:
+              row["alleles"] = a
             return row
     - project:
         mapping:

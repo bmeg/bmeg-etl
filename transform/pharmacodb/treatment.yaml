@@ -1,0 +1,22 @@
+
+class: sifter
+
+outdir: ../../tables/
+name: pharmacodb_treatment
+
+config:
+  tableDir: ../../tables/
+
+inputs:
+  treatmentReader:
+    glob:
+      input: "{{config.tableDir}}/*_treatments.tsv"
+      tableLoad: {}
+
+pipelines:
+  utable:
+    - from: treatmentReader
+    - distinct:
+        value: "{{row.UNIQUEtreatmentid}}+{{row.PROJECTtreatmentid}}"
+    - emit:
+        name: final

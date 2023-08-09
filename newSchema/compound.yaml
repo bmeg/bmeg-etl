@@ -8,6 +8,20 @@ required:
 - submitter_id
 - project_id
 links:
+- rel: projects
+  href: project/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: project.yaml
+  templatePointers:
+    id: /projects/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: compounds
 - rel: similar_compounds
   href: compound/{id}
   templateRequired:
@@ -94,3 +108,8 @@ properties:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  projects:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

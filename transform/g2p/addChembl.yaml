@@ -6,14 +6,14 @@ outdir: ../../output/g2p
 config:
   association: ../../tables/g2pPrep.main.assocationPrep.json.gz
   schema: ../../schema
-  treatmentSynonymsFile: ../../tables/pharmacodb_profiles.tsv.treatments.tsv
+  treatmentSynonymsFile: ../../tables/pharmacodb_treatment.utable.final.json.gz
   synonymsFile: ../../tables/chemblSynonyms.longTable.synonyms.json
 
 
 inputs:
   g2pData:
     plugin:
-      commandline: "../../util/chembl-matchup.py {{config.association}} {{config.treatmentSynonymsFile}} {{config.synonymsFile}}"
+      commandline: "../../util/chembl-matchup.py -r {{config.association}} -i {{config.treatmentSynonymsFile}} -c {{config.synonymsFile}}"
 
 pipelines:
   main:
@@ -29,10 +29,13 @@ pipelines:
         title: GenePhenotypeAssociation
         schema: "{{config.schema}}"
     - emit:
-        name: assocation
+        name: GenePhenotypeAssociation
 
   alleles:
     - from: main
+    - filter:
+        field: alleles
+        check: exists
     - flatmap:
         method: flatten
         gpython: |

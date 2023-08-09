@@ -1,0 +1,33 @@
+
+class: sifter
+
+name: annotatedAlleleEffect
+outdir: ../../output/allele
+
+config:
+  AEPath: ../../output/allele/annotatedAllele.alleleEffect.AlleleEffect.json.gz 
+  uniprotFeatures: ../../tables/uniprot_features.features.final.json.gz
+  schema: ../../schema/
+
+inputs:
+  effectMerge:
+    plugin:
+      commandLine: './effectMerge.py -f {{config.uniprotFeatures}} -v {{config.AEPath}}'
+
+pipelines:
+  transform:
+    - from: effectMerge
+    - map:
+        method: fix
+        gpython: |
+          def fix(row):
+            if 'ensembl_transcript' in row:
+              row['ensembl_transcript'] = [{'id': row['ensembl_transcript']}]
+            if 'ensembl_gene' in row:
+              row['ensembl_gene'] = [{'id': row['ensembl_gene']}]
+            return row
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: AlleleEffect
+    - emit:
+        name: AlleleEffect

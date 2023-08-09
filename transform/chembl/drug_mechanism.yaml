@@ -74,4 +74,4 @@ pipelines:
         title: ProteinCompoundAssociation
         schema: "{{config.schema}}"
     - emit:
-        name: protein_compound_association
+        name: ProteinCompoundAssociation

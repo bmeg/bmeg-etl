@@ -38,42 +38,60 @@ pipelines:
     - map:
         method: fix
         gpython: |
-          header = "Allele | Annotation | Annotation_Impact | Gene_Name | Gene_ID | Feature_Type | Feature_ID | Transcript_BioType | Rank | HGVS.c | HGVS.p | cDNA.pos / cDNA.length | CDS.pos / CDS.length | AA.pos / AA.length | Distance | ERRORS / WARNINGS / INFO".split(" | ")
+          ANN_header = "Allele | Annotation | Annotation_Impact | Gene_Name | Gene_ID | Feature_Type | Feature_ID | Transcript_BioType | Rank | HGVS.c | HGVS.p | cDNA.pos / cDNA.length | CDS.pos / CDS.length | AA.pos / AA.length | Distance | ERRORS / WARNINGS / INFO".split(" | ")
+          NMD_header = 'Gene_Name | Gene_ID | Number_of_transcripts_in_gene | Percent_of_transcripts_affected'.split(' | ')
+
           def fix(row):
             row["start"] = int(row["POS"])
             row["end"] = row["start"] + len(row["REF"])
-            t = row["INFO"].split("=")
-            o = []
-            if len(t) > 1:
-              a = t[1].split(",")
-              for n, i in enumerate(a):
-                b = dict(zip(header, i.split("|")))
-                b["hgvsc"] = b["HGVS.c"]
-                b["hgvsp"] = b["HGVS.p"]
-                b["biotype"] = b["Transcript_BioType"]
-                b["impact"] = b["Annotation_Impact"]
-                b["annotation"] =  b["Annotation"]
-                b["hugo_symbol"] = b["Gene_Name"]
-                b["ensembl_gene"] = b["Gene_ID"]
-                if b["Feature_Type"] == "transcript":
-                  b["ensembl_transcript"] = b["Feature_ID"].split(".")[0]
-                aa = b["AA.pos / AA.length"]
-                if len(aa):
-                  aa_pos, aa_len = aa.split("/")
-                  b["aa_position"] = int(aa_pos)
-                  b["aa_length"] = int(aa_len)
-                cds = b["CDS.pos / CDS.length"]
-                if len(cds):
-                  cds_pos, cds_len = cds.split("/")
-                  b["cds_position"] = int(cds_pos)
-                  b["cds_length"] = int(cds_len)
-                cdna = b["cDNA.pos / cDNA.length"]
-                if len(cdna):
-                  cdna_pos, cdna_len = cdna.split("/")
-                  b["cdna_position"] = int(cdna_pos)
-                  b["cdna_length"] = int(cdna_len)
-                b["id"] = row["id"] + "/" + str(n)
-                o.append(b)
+            for f in row['INFO'].split(';'):
+              t = f.split("=")
+              o = []
+              if len(t) > 1:
+                a = t[1].split(",")
+                if t[0] == 'ANN':
+                  for n, i in enumerate(a):
+                    b = dict(zip(ANN_header, i.split("|")))
+                    b["impact"] = b["Annotation_Impact"]
+                    b["annotation"] =  b["Annotation"]
+                    b["hgvsc"] = b["HGVS.c"]
+                    b["hgvsp"] = b["HGVS.p"]
+                    if len(b['hgvsp']):
+                      b['aa_ref'] = b['hgvsp'][2:5]
+                      b['aa_var'] = b['hgvsp'][-3:]
+                    b["biotype"] = b["Transcript_BioType"]
+                    b["hugo_symbol"] = b["Gene_Name"]
+                    b["ensembl_gene"] = b["Gene_ID"]
+                    if b["Feature_Type"] == "transcript":
+                      b["ensembl_transcript"] = b["Feature_ID"].split(".")[0]
+                    if len(b['Rank']):
+                      b['exon_rank'] = b['Rank']
+                    aa = b["AA.pos / AA.length"]
+                    if len(aa):
+                      aa_pos, aa_len = aa.split("/")
+                      b["aa_position"] = int(aa_pos)
+                      b["aa_length"] = int(aa_len)
+                    cds = b["CDS.pos / CDS.length"]
+                    if len(cds):
+                      cds_pos, cds_len = cds.split("/")
+                      b["cds_position"] = int(cds_pos)
+                      b["cds_length"] = int(cds_len)
+                    cdna = b["cDNA.pos / cDNA.length"]
+                    if len(cdna):
+                      cdna_pos, cdna_len = cdna.split("/")
+                      b["cdna_position"] = int(cdna_pos)
+                      b["cdna_length"] = int(cdna_len)
+                    b["id"] = row["id"] + "/ANN/" + str(n)
+                    o.append(b)
+                elif t[0] in ['NMD', 'LOF']:
+                  for n, i in enumerate(a):
+                    b = dict(zip(NMD_header, i[1:-1].split("|")))
+                    b["hugo_symbol"] = b["Gene_Name"]
+                    b["ensembl_gene"] = b["Gene_ID"]
+                    b["num_transcripts"] = int(b["Number_of_transcripts_in_gene"])
+                    b["percent_transcripts_affected"] = float(b["Percent_of_transcripts_affected"])
+                    b['id'] = row['id'] + '/' + t[0] + '/' + str(n)
+                    o.append(b)
             row["effects"] = o
             return row
 
@@ -87,8 +105,10 @@ pipelines:
             o = []
             for i in row["effects"]:
               o.append( {"id" : i["id"]} )
-            row["effects"] = o
-            return row
+            if o:
+              row["effects"] = o
+            newRow = {k:v for k,v in row.items() if v is not None and v != []}
+            return newRow
     - objectValidate:
         schema: "{{config.schema}}"
         title: Allele
@@ -102,8 +122,8 @@ pipelines:
         gpython: |
           def fix(row):
             return row["effects"]
-    - objectValidate:
-        schema: "{{config.schema}}"
-        title: AlleleEffect
+#    - objectValidate:
+#        schema: "{{config.schema}}"
+#        title: AlleleEffect
     - emit:
-        name: alleleEffect
+        name: AlleleEffect

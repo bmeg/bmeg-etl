@@ -65,7 +65,7 @@ links:
     - outbound
     multiplicity:
     - has_one
-    association: true
+    backref: pathways
 properties:
   id:
     type: string

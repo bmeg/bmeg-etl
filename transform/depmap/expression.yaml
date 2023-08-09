@@ -33,8 +33,8 @@ pipelines:
                 t = k.split(" ")[1].replace("(", "").replace(")", "")
                 values[t] = float(v)
             return {
-              "id" : sub_id,
-              "aliquot" : [ {"id" : sub_id} ],
+              "id" : 'DepMap:DepMap:expression:'+sub_id,
+              "aliquot" : [ {"id" : 'DepMap:DepMap:aliquot:'+sub_id} ],
               "submitter_id" : sub_id,
               "project_id" : "Depmap",
               "metric" : "TPM_GENE",
@@ -61,4 +61,4 @@ pipelines:
         title: GeneExpression
         schema: "{{config.schema}}"
     - emit:
-        name: expression
+        name: GeneExpression

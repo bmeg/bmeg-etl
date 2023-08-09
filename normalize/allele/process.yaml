@@ -9,7 +9,7 @@ name: alleleAnnotate
 scripts:
 
   alleleAnnotate:
-    commandLine: "java -jar ../../util/snpEff/snpEff.jar ann -dataDir `pwd`/../../source/allele/data -nodownload  GRCh38.86 ../../output-normalize/allele.vcf > ../../output-normalize/allele.annotated.vcf"
+    commandLine: "java -jar ../../util/snpEff/snpEff.jar ann -dataDir `pwd`/../../source/allele/data -nodownload GRCh38.86 ../../output-normalize/allele.vcf > ../../output-normalize/allele.annotated.vcf"
     inputs:
       - ../../output-normalize/allele.vcf
     outputs:

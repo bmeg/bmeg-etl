@@ -24,7 +24,7 @@ links:
     - outbound
     multiplicity:
     - has_one
-    association: true
+    backref: files
 properties:
   id:
     $ref: _definitions.yaml#/UUID

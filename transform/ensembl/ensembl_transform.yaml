@@ -71,7 +71,7 @@ pipelines:
         schema: "{{config.schema}}"
         title: Transcript
     - emit:
-        name: transcript
+        name: Transcript
 
   exons:
     - from: transform
@@ -100,7 +100,7 @@ pipelines:
         schema: "{{config.schema}}"
         title: Exon
     - emit:
-        name: exon
+        name: Exon
 
   genes:
     - from: transform
@@ -126,5 +126,4 @@ pipelines:
         schema: "{{config.schema}}"
         title: Gene
     - emit:
-        name: gene
-
+        name: Gene

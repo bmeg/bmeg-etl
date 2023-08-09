@@ -89,13 +89,6 @@ def yaml_dir(input_path, output_path, include_links):
                     #links in properties get a priority of 1 that is added onto depending on the link properties
                     if "targets" in schema["properties"][p] or ('$ref' in schema["properties"][p] and schema['properties'][p]['$ref'].split("/")[-1][0:3] == 'to_'):
                       priority = 1
-                      if is_edge:
-                        #highest priority if the object is an edge object
-                        priority += 3
-                      if 'targets' in schema['properties'][p]:
-                        priority += 1
-                      if '$ref' in schema["properties"][p] and schema['properties'][p]['$ref'].endswith('one'):
-                        priority += 1
                       
                       hname = "".join(p.split("_"))[0: -1 if '$ref' in schema["properties"][p] and schema["properties"][p]['$ref'].endswith('many') else None]
                       new_link = {
@@ -107,10 +100,24 @@ def yaml_dir(input_path, output_path, include_links):
                           "targetHints": {
                               "directionality": ["outbound"],
                               "multiplicity": ["has_one"],
-                              "association": True
                           }
                       }
+
+                      if is_edge:
+                        #highest priority if the object is an edge object
+                        priority += 3
+                        new_link['targetHints']['association'] = True
+                      else:
+                        if 'targets' in schema['properties'][p] and 'backref' in schema['properties'][p]['targets'][0]:
+                          new_link['targetHints']['backref'] = schema['properties'][p]['targets'][0]['backref']
+                        else:
+                          new_link['targetHints']['backref'] = schema['id']+'s'
+                      if 'targets' in schema['properties'][p]:
+                        priority += 1
+                      if '$ref' in schema["properties"][p] and schema['properties'][p]['$ref'].endswith('one'):
+                        priority += 1
                       
+
                       if new_link['targetSchema']['$ref'].split('.')[0] not in links[new_schema["$id"]]:
                         links[new_schema['$id']][new_link['targetSchema']['$ref'].split('.')[0]] = {'priority': priority, 'link': new_link}
                       #  new_schema['properties'][p] = {'type': ['array'], 'items': {'$ref': 'reference.yaml'}}

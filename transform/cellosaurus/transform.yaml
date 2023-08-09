@@ -58,4 +58,4 @@ pipelines:
         schema: "{{config.schema}}"    
         title: Case   
     - emit:
-        name: cases
+        name: Case

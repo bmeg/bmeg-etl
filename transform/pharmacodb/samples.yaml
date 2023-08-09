@@ -12,7 +12,7 @@ config:
 inputs:
   sampleReader:
     glob:
-      input: "{{config.sampleDir}}*.samples.tsv"
+      input: "{{config.sampleDir}}/*_samples.tsv"
       tableLoad: {}
 
 
@@ -42,9 +42,10 @@ pipelines:
             if "Cellosaurus.Accession.id" in row and len(row["Cellosaurus.Accession.id"]) > 4:
               row["case"] = [{"id": row["Cellosaurus.Accession.id"]}]
             row["project_id"] = row["project"]
-            row["aliquot_id"] = row["project"] + ":pharmacodb:" + row["sampleid"]
+            row["aliquot_id"] = "pharmacodb:" + row["project"] + ":aliquot:" + row["sampleid"]
             row["projects"] = [{"id": row["project_id"]}]
-            row["sample"] = [{"id": row["sampleid"]}]
+            row["sample_id"] = "pharmacodb:"+ row["project"] + ":" + row["sampleid"]
+            row["sample"] = [{"id": row['sample_id']}]
             return row
   aliquot:
     - from: transform
@@ -56,15 +57,15 @@ pipelines:
         title: Aliquot
         schema: "{{config.schema}}"
     - emit:
-        name: aliquot
+        name: Aliquot
   sample:
     - from: transform
     - project:
         mapping:
-          id: "{{row.sampleid}}"
+          id: "{{row.sample_id}}"
           submitter_id: "{{row.sampleid}}"
     - objectValidate:
         title: Sample
         schema: "{{config.schema}}"
     - emit:
-        name: sample
+        name: Sample
