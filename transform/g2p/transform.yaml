@@ -1,7 +1,7 @@
 
 class: sifter
-name: g2p
-outdir: ../../output/g2p
+name: g2pPrep
+outdir: ../../tables
 
 config:
   base: ../../source/g2p/
@@ -61,6 +61,8 @@ pipelines:
               row["description"] = row["association"]["description"]
               if "drug_labels" in row["association"]:
                 row["compounds"] = [ { "id" : row["association"]["drug_labels"] } ]
+                if 'response_type' in row["association"]:
+                  row["response_type"] = row['association']['response_type']
             row["submitter_id"] = row["text_object"]["id"]
             row["project_id"] = row["source"]
             g = []
@@ -89,7 +91,8 @@ pipelines:
                       }
                   if o is not None:
                     a.append(o)
-            row["alleles"] = a
+            if a:
+              row["alleles"] = a
             return row
     - project:
         mapping:
@@ -97,26 +100,12 @@ pipelines:
     - objectValidate:
         title: GenePhenotypeAssociation
         schema: "{{config.schema}}"
-    - emit:
-        name: assocation
-  
-  alleles:
-    - from: main
-    - flatmap:
-        method: flatten
+    - map:
+        method: prepChembl
         gpython: |
-          def flatten(row):
-            out = []
-            for a in row["alleles"]:
-              a["project_id"] = row["project_id"]
-              out.append(a)
-            return out
-
-    - objectValidate:
-        title: Allele
-        schema: "{{config.schema}}"
-
+          def prepChembl(row):
+            if "compounds" in row:
+              row["treatmentid"] = row["compounds"][0]["id"]
+            return row
     - emit:
-        name: allele
-
-
+        name: assocationPrep

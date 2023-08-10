@@ -21,7 +21,7 @@ if(file.exists(logLoc)){
   log = read.table(logLoc, header=TRUE, sep="\t", comment.char="")
   failed = log[log$status == "started","name"]
   for(fname in failed){
-    path = paste(sourceDir, fname, sep="/")
+    path = paste0(sourceDir,'/', fname, '.rdata')
     cat("Removing failed download:", path, "\n")
     log = log[log$name != fname,]
     file.remove(path)
@@ -41,7 +41,7 @@ remaining = setdiff(names, completed)
 for(setName in remaining){
   cat("Loading", setName, "\n")
   write.table(rbind(log, list(name=setName, status = "started")), file=logLoc, sep = "\t", row.names = FALSE, na="")
-  PSET = downloadPSet(setName, saveDir=sourceDir, pSetFileName=setName, timeout=2400)
+  PSET = downloadPSet(setName, saveDir=sourceDir, pSetFileName=paste0(setName,'.rdata'), timeout=2400)
   cat(setName, "loaded successfully!\n")
   log = rbind(log, list(name=setName, status = "completed"))
   write.table(log, file=logLoc, sep = "\t", row.names = FALSE, na="")

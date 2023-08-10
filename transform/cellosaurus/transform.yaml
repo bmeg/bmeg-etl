@@ -19,7 +19,7 @@ pipelines:
         mapping:
           submitter_id: "{{row.id[0]}}"
           case_id: "{{row.id[0]}}"
-          id: "case/{{row.id[0]}}"
+          id: "{{row.id[0]}}"
           project_id: "cellosaurus"
     - map: 
         method: fix
@@ -38,7 +38,7 @@ pipelines:
             return row
     - filter:
         field: species
-        match: Human
+        match: Homo sapiens
     - lookup:
         json:
           input: "{{config.ncit2mondo}}"
@@ -51,11 +51,11 @@ pipelines:
         gpython: |
           def fix(row):
             if "mondo_id" in row:
-              row["phenotypes"] = [ {"id":row["mondo_id"]} ]
+              row["phenotypes"] = [{"id":row["mondo_id"]}]
             row["projects"] = [{"id": "project/cellosaurus"}]
             return row
     - objectValidate:
         schema: "{{config.schema}}"    
         title: Case   
     - emit:
-        name: cases
+        name: Case

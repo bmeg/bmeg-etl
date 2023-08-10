@@ -40,5 +40,4 @@ pipelines:
         schema: "{{config.schema}}"
         title: Compound
     - emit: 
-        name: compound
-  
+        name: Compound

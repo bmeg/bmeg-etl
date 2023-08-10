@@ -58,30 +58,30 @@ properties:
     type:
       - 'null'
       - object
-  gene_expressions:
-    targets:
-      - type: 
-          $ref: gene_expression.yaml
-        backref: aliquot
-    $ref: _definitions.yaml#/to_many
-  drug_responses:
-    targets:
-      - type: 
-          $ref: drug_response.yaml
-        backref: aliquot
-    $ref: _definitions.yaml#/to_many
-  somatic_callsets:
-    targets:
-      - type: 
-          $ref: somatic_callset.yaml
-        backref: aliquot
-    $ref: _definitions.yaml#/to_many
-  copy_number_alterations:
-    targets:
-      - type: 
-          $ref: copy_number_alteration.yaml
-        backref: aliquot
-    $ref: _definitions.yaml#/to_many
+#  gene_expressions:
+#    targets:
+#      - type: 
+#          $ref: gene_expression.yaml
+#        backref: aliquot
+#    $ref: _definitions.yaml#/to_many
+#  drug_responses:
+#    targets:
+#      - type: 
+#          $ref: drug_response.yaml
+#        backref: aliquot
+#    $ref: _definitions.yaml#/to_many
+#  somatic_callsets:
+#    targets:
+#      - type: 
+#          $ref: somatic_callset.yaml
+#        backref: aliquot
+#    $ref: _definitions.yaml#/to_many
+#  copy_number_alterations:
+#    targets:
+#      - type: 
+#          $ref: copy_number_alteration.yaml
+#        backref: aliquot
+#    $ref: _definitions.yaml#/to_many
   projects:
     $ref: _definitions.yaml#/to_many
   sample:
@@ -90,12 +90,12 @@ properties:
           $ref: sample.yaml
         backref: aliquots
     $ref: _definitions.yaml#/to_one
-  transcript_expressions:
-    targets:
-      - type: 
-          $ref: transcript_expression.yaml
-        backref: aliquot
-    $ref: _definitions.yaml#/to_many
+#  transcript_expressions:
+#    targets:
+#      - type: 
+#          $ref: transcript_expression.yaml
+#        backref: aliquot
+#    $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:

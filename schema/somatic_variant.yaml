@@ -19,15 +19,15 @@ properties:
     systemAlias: node_id
 
   somatic_callset:
-    type: string
     targets:
       - type: 
           $ref: somatic_callset.yaml
+    $ref: _definitions.yaml#/to_one
   allele:
-    type: string
     targets:
       - type: 
           $ref: allele.yaml
+    $ref: _definitions.yaml#/to_one
   ref:
     type: string
   alt:

@@ -71,7 +71,7 @@ pipelines:
             row["n_alt_count"] = int(row["normal"]["MTR"])
             row["filter"] = row["FILTER"]
             row["methods"] = ["caveman"]
-            row["somatic_callset"] = "callset/" + row["aliquot_id"]
+            row["somatic_callset"] = row["aliquot_id"]
             row["allele"] = "GRCh38:%s:%s:%s:%s" % (row["CHROM"], row["POS"], row["REF"], row["ALT"] )
             return row
     - project:
@@ -89,9 +89,9 @@ pipelines:
         method: fix
         gpython: |
           def fix(row):
-            row["id"] = "callset/" + row["aliquot_id"]
+            row["id"] = row["aliquot_id"]
             #row["submitter_id"] = row["aliquot_id"]
-            row["tumor_aliquot_id"] = "aliquot/" + row["aliquot_id"]
+            row["tumor_aliquot_id"] = row["aliquot_id"]
             row["project_id"] = "GDSC"
             return row
     - distinct:

@@ -5,31 +5,37 @@ outdir: ../../output/pharmacodb/
 name: pharmacodb_profiles_gx
 
 config:
-  treatmentResponseFile: ../../tables/pharmacodb_profiles.tsv
+  treatmentResponseDir: ../../tables/
+  treatmentSynonymsFile: ../../tables/pharmacodb_treatment.utable.final.json.gz
   synonymsFile: ../../tables/chemblSynonyms.longTable.synonyms.json.gz
   schema: ../../schema/
 
 inputs:
   profileReader:
-    tableLoad:
-      input: "{{config.treatmentResponseFile}}"
-      sep: "\t"
+    plugin:
+      commandline: "../../util/chembl-matchup.py -r {{config.treatmentresponsedir}}/..._response.tsv -i {{config.treatmentsynonymsfile}} -c {{config.synonymsfile}}"
 
 pipelines:
   transform:
     - from: profileReader
+    - filter:
+        field: treatmentid
+        check: 
+    - filter:
+        field: sampleid
+        check:
     - map:
         method: cleanDoseViability
         gpython: |
           def cleanDoseViability(row):
             #group the individual dose and viabilities together:
             row["dose"] = {}
-            row["response"] = {}
+            row["viability"] = {}
             for key in row:
               if key[0:4] == "rawD":
                 row["dose"][key[4:]] = row[key]
               elif key[0:4] == "rawV":
-                row["response"][key[4:]] = row[key]
+                row["viability"][key[4:]] = row[key]
             #connect the doses and viabilitiess together
             dosePairs = []
             newDose = []
@@ -37,15 +43,17 @@ pipelines:
             for dose in row["dose"]:
               try:
                 nd = float(row["dose"][dose])
+                nv = float(row["viability"][dose])
               except:
                 continue
               else:
-                dosePairs.append((nd, float(row["response"][dose])))
-            dosePairs.sort(key=lambda pair: pair[0])
-            pairs = list(zip(*dosePairs))
-            row["dose_um"] = list(pairs[0])
-            row["response"] = list(pairs[1])
-
+                dosePairs.append((nd, nv))
+            if len(dosePairs) > 1:
+              dosePairs.sort(key=lambda pair: pair[0])
+              pairs = list(zip(*dosePairs))
+              row["dose_um"] = list(pairs[0])
+              row["response"] = list(pairs[1])
+              
             #find the profile measurements and make sure to grab the right ones
             responseMetrics = []
             for field in row:
@@ -85,99 +93,39 @@ pipelines:
               elif id[:2] == "HS" or id == "SLO":
                 row["hs"] = float(row[field])
             
-            if "Cellosaurus.Accession.id" in row:
-              row["case"] = {"id": "case/" + row["Cellosaurus.Accession.id"]}
-            if "depmap_id" in row:
-              row["case"] = {"id": row["depmap_id"]}            
-            if not ("UNIQUEtreatmentid" in row) or row["UNIQUEtreatmentid"]=='':
-              row["UNIQUEtreatmentid"] = row["treatmentid"]
-            if ":" in row["UNIQUEtreatmentid"]:
-              UNIQUEid = row["UNIQUEtreatmentid"].split(" (")[0]
-            else:
-              UNIQUEid = row["UNIQUEtreatmentid"]
-            row["drug0"] = ""
-            row["drug1"] = ""
-            row["drug2"] = ""
+           # for drugnum in range(0, len(UNIQUEid)):
+           #   aUnique = UNIQUEid[drugnum]
+           #   if aUnique[0:3] == "NSC" and aUnique[3] != "-":
+           #     aUnique = "NSC-" + aUnique[4:]
+           #   row["drug" + str(drugnum)] = UNIQUEid[drugnum]
             
-            for drugnum in range(0, len(UNIQUEid.split(":"))):
-              row["drug" + str(drugnum)] = UNIQUEid.split(":")[drugnum]
-            
-            project = row["project"].split("_")[0]
-            row["id"] = "drugResponse/" + project + ":pharmacodb:" + row["sampleid"] + ":" + row["treatmentid"]
-            row["project_id"] = "project/" + project
+            row["id"] = row["project"] + ":pharmacodb:" + row["sampleid"] + ":" + row["treatmentid"]
+            row["project_id"] = row["project"]
             row["submitter_id"] = row["experimentID"]
-            #row["compounds"] = {"id": row['projecttreatmentid']}
-            row["aliquot"] = {"id": "aliquot/" + project + ":pharmacodb:" + row["sampleid"]}
-            row["aliquotSubID"] = project + ":pharmacodb:" + row["sampleid"]
-            row["sample"] = {"id": "sample/" + project + ":pharmacodb:" + row["sampleid"]}
+            if 'chemblid' in row:
+              row["compounds"] = [{"id": row['chemblid']}]
+            row["aliquot"] = [{"id": "pharmacodb:" + row["project"] + ":aliquot:" + row["sampleid"]}]
             return row
-    - lookup:
-        json:
-          input: "{{config.synonymsFile}}"
-          key: synonyms
-        lookup: "{{row.drug0}}"
-        copy:
-          chembl0: id
-    - lookup:
-        json:
-          input: "{{config.synonymsFile}}"
-          key: synonyms
-        lookup: "{{row.drug1}}"
-        copy:
-          chembl1: id
-    - lookup:
-        json:
-          input: "{{config.synonymsFile}}"
-          key: synonyms
-        lookup: "{{row.drug2}}"
-        copy:
-          chembl2: id
-    - emit:
-        name: debug
-    - map:
-        method: finalclean
-        gpython: |
-          def finalclean(row):
-            row["compounds"] = []
-            for drugNum in range(0,3):
-              if "chembl"+str(drugNum) in row:
-                row["compounds"].append({"id": row["chembl"+str(drugNum)]})
-              elif len(row["drug" + str(drugNum)])>0:
-                print(row["UNIQUEtreatmentid"])
-            return row
+#    - map:
+#        method: finalclean
+#        gpython: |
+#          def finalclean(row):
+#            row["compounds"] = []
+#            for drugNum in range(0,3):
+#              if "chembl"+str(drugNum) in row:
+#                row["compounds"].append({"id": row["chembl"+str(drugNum)]})
+#              elif len(row["drug"+str(drugNum)]) > 1:
+#                if row["drug"+str(drugNum)][0:6] == "Chembl" or row["drug"+str(drugNum)][0:6] == "CHEMBL":
+#                  row["compounds"].append({"id": "CHEMBL"+row["drug"+str(drugNum)][6:]})
+#                else:
+#                  print(row["drug"+str(drugNum)] + "\n")
+#            return row
  
-  drugResponse:
+  drug_response:
     - from: transform
     - objectValidate:
         title: DrugResponse
         schema: "{{config.schema}}"
     - emit:
-        name: drug_response
-  aliquot:
-    - from: transform
-    - project:
-        mapping:
-          id: "{{row.aliquot.id}}"
-          submitter_id: "{{row.aliquotSubID}}"
-    - distinct:
-        value: "{{row.id}}"
-    - objectValidate:
-        title: Aliquot
-        schema: "{{config.schema}}"
-    - emit:
-        name: aliquot
-  sample:
-    - from: transform
-    - project:
-        mapping:
-          id: "{{row.sample.id}}"
-          submitter_id: "{{row.aliquotSubID}}"
-    - distinct:
-        value: "{{row.id}}"
-    - objectValidate:
-        title: Sample
-        schema: "{{config.schema}}"
-    - emit:
-        name: sample
-
-    
+        name: DrugResponse
+   

@@ -47,7 +47,7 @@ pipelines:
         mapping:
           submitter_id: "{{row.project_id}}"
           type: project
-          id: "project/{{row.project_id}}"
+          id: "{{row.project_id}}"
     - clean:
         fields:
           - id

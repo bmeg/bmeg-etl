@@ -2,7 +2,6 @@
 class: lathe
 name: chemblDownload
 
-
 prep:
   - commandLine: curl -o {{outputs.sqlite}} https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_32_sqlite.tar.gz
     outputs:

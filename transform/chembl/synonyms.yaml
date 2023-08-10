@@ -12,7 +12,83 @@ inputs:
   sqlQuery:
     sqliteLoad:
       input: "{{config.sqlite}}"
-      query:  "select * from MOLECULE_SYNONYMS as a LEFT JOIN MOLECULE_DICTIONARY as b on a.MOLREGNO=b.MOLREGNO"
+      query: "select * from MOLECULE_DICTIONARY as a INNER JOIN MOLECULE_SYNONYMS as b on a.MOLREGNO=b.MOLREGNO"
+  sqlQueryIUPAC:
+    sqliteLoad:
+      input: "{{config.sqlite}}"
+      query: "SELECT * FROM (SELECT *, ROW_NUMBER() OVER(
+         PARTITION BY UPPER(synonyms)
+         ORDER BY priority
+         ) as precedence  FROM (SELECT 1 AS priority, chembl_id, a.molregno, synonyms
+        FROM 
+          MOLECULE_DICTIONARY as a 
+            INNER JOIN 
+          MOLECULE_SYNONYMS as b 
+            on a.molregno=b.molregno 
+           
+           UNION ALL
+           SELECT 2 AS priority, chembl_id, a.molregno, compound_name AS synonyms
+        FROM
+          MOLECULE_DICTIONARY as a
+            INNER JOIN
+          (SELECT *
+           FROM (
+             SELECT
+               molregno,
+               compound_name,
+               RANK() OVER(
+                 PARTITION BY UPPER(compound_name)
+                 ORDER BY COUNT(*) DESC
+               ) as rnum
+             FROM COMPOUND_RECORDS
+             WHERE compound_name != ''
+             GROUP BY molregno, UPPER(compound_name)
+           )
+         WHERE rnum = 1
+        ) as c
+          on a.MOLREGNO=C.MOLREGNO))WHERE precedence = 1"
+##      query: "WITH syntable AS (SELECT 1 AS priority, chembl_id, a.molregno, synonyms
+##        FROM 
+##          MOLECULE_DICTIONARY as a 
+##            INNER JOIN 
+##          MOLECULE_SYNONYMS as b 
+##            on a.molregno=b.molregno 
+##           ),
+##           nametable AS (SELECT 2 AS priority, chembl_id, a.molregno, compound_name AS synonyms 
+##        FROM 
+##          MOLECULE_DICTIONARY as a 
+##            INNER JOIN
+##          (SELECT *
+##           FROM (
+##             SELECT 
+##               molregno, 
+##               compound_name, 
+##               ROW_NUMBER() OVER(
+##                 PARTITION BY compound_name
+##                 ORDER BY COUNT(*) DESC
+##               ) as rnum
+##             FROM COMPOUND_RECORDS
+##             WHERE compound_name != ''
+##             GROUP BY molregno, compound_name
+##           )
+##         WHERE rnum = 1
+##        ) as c
+##          on a.MOLREGNO=C.MOLREGNO)
+##     SELECT * FROM(
+##       SELECT *, RANK() OVER(
+##         PARTITION BY synonyms
+##         ORDER BY priority
+##         ) as precedence
+##       FROM(
+##         SELECT * 
+##           FROM syntable
+##         UNION ALL
+##         SELECT * 
+##           FROM nametable
+##       )
+##     )
+##     WHERE precedence = 1"
+
 
 pipelines:
   buildTable:
@@ -39,7 +115,7 @@ pipelines:
     - emit:
         name: synonyms
   longTable:
-    - from: sqlQuery
+    - from: sqlQueryIUPAC
     - project:
         mapping:
           id: "{{row.chembl_id}}"
@@ -47,7 +123,5 @@ pipelines:
         fields:
           - id
           - synonyms
-    - distinct:
-        value: "{{row.synonyms}}"
     - emit:
         name: synonyms

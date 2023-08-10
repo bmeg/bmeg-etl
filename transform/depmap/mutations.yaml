@@ -21,29 +21,33 @@ pipelines:
         value: "{{row.DepMap_ID}}"
     - project:
         mapping:
-          id: "callset/{{row.DepMap_ID}}"
+          id: "DepMap:DepMap:callset:{{row.DepMap_ID}}"
           submitter_id: "{{row.DepMap_ID}}"
-          tumor_aliquot_id: "aliquot/{{row.DepMap_ID}}"
+          tumor_aliquot_id: "DepMap:DepMap:aliquot:{{row.DepMap_ID}}"
+          aliquots:
+            id: "DepMap:DepMap:callset:{{row.DepMap_ID}}"
           project_id: DepMap
     - objectValidate:
         schema: "{{config.schema}}"
         title: SomaticCallset
     - emit:
-        name: callset
+        name: SomaticCallset
 
   variants:
     - from: mutations
     - project:
         mapping:
-          somatic_callset: "callset/{{row.DepMap_ID}}"
-          allele: "GRCh38:{{row.Chrom}}:{{row.Pos}}:{{row.Ref}}:{{row.Alt}}"
+          somatic_callset: 
+            id: "{{row.id}}"
+          allele: 
+            id: "GRCh38:{{row.Chrom}}:{{row.Pos}}:{{row.Ref}}:{{row.Alt}}"
           ref: "{{row.Ref}}"
           alt: "{{row.Alt}}"
           t_ref_count: "{{row.RefCount}}"
           t_alt_count: "{{row.AltCount}}"
     - project:
         mapping:
-          id: "{{row.somatic_callset}}--{{row.allele}}"
+          id: "DepMap:DepMap:{{row.somatic_callset}}--{{row.allele}}"
     - fieldType:
         t_depth: int
         t_ref_count: int
@@ -52,13 +56,11 @@ pipelines:
         n_ref_count: int
         n_alt_count: int
         start: int
-
-
     - objectValidate:
         schema: "{{config.schema}}"
         title: SomaticVariant
     - emit:
-        name: variants
+        name: SomaticVariant
   
   allele:
     - from: mutations

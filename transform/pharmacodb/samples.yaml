@@ -1,0 +1,71 @@
+
+class: sifter
+
+outdir: ../../output/pharmacodb/
+name: pharmacodb_samples_gx
+
+config:
+  sampleDir: ../../tables/
+  cellosaurusDepmap: ../../source/cellosaurus/table/cellosarusSynonyms.caseTable.ach2cellosaurus.json.gz
+  schema: ../../schema/
+
+inputs:
+  sampleReader:
+    glob:
+      input: "{{config.sampleDir}}/*_samples.tsv"
+      tableLoad: {}
+
+
+pipelines:
+  transform:
+    - from: sampleReader
+    - map:
+        method: checkDepmap
+        gpython: |
+          def checkDepmap(row):
+            if "depmap_id" not in row:
+              row["depmap_id"] = ""
+            return row
+    - lookup:
+        json:
+          input: "{{config.cellosaurusDepmap}}"
+          key: depmap_id
+        lookup: "{{row.depmap_id}}"
+        copy:
+          CellosaurusID: cellosaurus_id
+    - map:
+        method: genCase
+        gpython: |
+          def genCase(row):
+            if "CellosaurusID" in row and len(row["CellosaurusID"]) > 4:
+              row["Cellosaurus.Accession.id"] = row["CellosaurusID"]
+            if "Cellosaurus.Accession.id" in row and len(row["Cellosaurus.Accession.id"]) > 4:
+              row["case"] = [{"id": row["Cellosaurus.Accession.id"]}]
+            row["project_id"] = row["project"]
+            row["aliquot_id"] = "pharmacodb:" + row["project"] + ":aliquot:" + row["sampleid"]
+            row["projects"] = [{"id": row["project_id"]}]
+            row["sample_id"] = "pharmacodb:"+ row["project"] + ":" + row["sampleid"]
+            row["sample"] = [{"id": row['sample_id']}]
+            return row
+  aliquot:
+    - from: transform
+    - project:
+        mapping:
+          id: "{{row.aliquot_id}}"
+          submitter_id: "{{row.sampleid}}"
+    - objectValidate:
+        title: Aliquot
+        schema: "{{config.schema}}"
+    - emit:
+        name: Aliquot
+  sample:
+    - from: transform
+    - project:
+        mapping:
+          id: "{{row.sample_id}}"
+          submitter_id: "{{row.sampleid}}"
+    - objectValidate:
+        title: Sample
+        schema: "{{config.schema}}"
+    - emit:
+        name: Sample

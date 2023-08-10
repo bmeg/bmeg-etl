@@ -38,21 +38,24 @@ pipelines:
             return row
     - project:
         mapping:
-          id: "sample/{{row.ModelID}}"
+          id: "{{row.ModelID}}"
           submitter_id: "{{row.ModelID}}"
           project_id: DepMap
-          sample_id: "sample/{{row.ModelID}}"
-          case: [ {"id" : "case/{{row.cell_id}}" } ]
+          sample_id: "sample{{row.ModelID}}"
+          case: [ {"id" : "{{row.cell_id}}" } ]
           type: Sample
 
 
   sampleObjects:
     - from: samples
+    - project:
+        mapping:
+          id: "DepMap:DepMap:{{row.ModelID}}"
     - objectValidate:
         schema: "{{config.schema}}"
         title: Sample
     - emit:
-        name: sample
+        name: Sample
 
   depMapCases:
     - from: samples
@@ -65,28 +68,28 @@ pipelines:
             return False
     - project:
         mapping:
-          id: "case/{{row.cell_id}}"
-          case_id: "case/{{row.cell_id}}"
+          id: "{{row.cell_id}}"
+          case_id: "{{row.cell_id}}"
           comment: "{{row.OncotreePrimaryDisease}}"
           type: Case
-          projects: [ {"id": "project/cellosaurus"} ] # this is a bit of a hack to keep all the cellline within the same project
+          projects: [ {"id": "cellosaurus"} ] # this is a bit of a hack to keep all the cellline within the same project
     - objectValidate:
         schema: "{{config.schema}}"
         title: Case
     - emit:
-        name: case
+        name: Case
 
   aliquots:
     - from: model
     - project:
         mapping:
-          id: "aliquot/{{row.ModelID}}"
+          id: "DepMap:DepMap:aliquot:{{row.ModelID}}"
           submitter_id: "{{row.ModelID}}"
           project_id: DepMap
-          aliquot_id: "Aliquot:{{row.ModelID}}"
-          sample: [ {"id" : "sample/{{row.ModelID}}" } ]
+          aliquot_id: "{{row.ModelID}}"
+          sample: [ {"id" : "DepMap:DepMap:{{row.ModelID}}" } ]
     - objectValidate:
         schema: "{{config.schema}}"
         title: Aliquot
     - emit:
-        name: aliquot
+        name: Aliquot
