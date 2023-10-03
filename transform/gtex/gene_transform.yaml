@@ -2,7 +2,7 @@
 class: sifter
 name: GTEX_Gene_Expression
 outdir: ../../output/gtex
-memMB: 50000
+memMB: 80000
 
 config:
   gctFile: ../../source/gtex/GTEx_Analysis_2017-06-05_v8_RNASeQCv1.1.9_gene_tpm.gct.gz

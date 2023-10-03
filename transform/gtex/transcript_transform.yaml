@@ -2,7 +2,7 @@
 class: sifter
 name: GTEX_Transcript_Expression
 outdir: ../../output/gtex
-memMB: 80000
+memMB: 120000
 
 config:
   gctFile: ../../source/gtex/GTEx_Analysis_2017-06-05_v8_RSEMv1.3.0_transcript_tpm.gct.gz

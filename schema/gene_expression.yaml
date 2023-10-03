@@ -1,49 +1,35 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "gene_expression"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: gene_expression
 title: GeneExpression
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: genomic
-description: >
-  Gene level expression values for an aliquot
-additionalProperties: false
-submittable: true
-validators: null
+description: 'Gene level expression values for an aliquot
 
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
-
+  '
 required:
-  - submitter_id
-  - project_id
-  - values
-  - method
-  - metric
-
-uniqueKeys:
-  - [id]
-  - [project_id, submitter_id]
-
+- submitter_id
+- project_id
+- values
+- method
+- metric
 links:
-  - backref: gene_expressions
-    label: aliquot
-    multiplicity: many_to_one
-    name: aliquot
-    required: false
-    target_type: aliquot
-
+- rel: aliquot
+  href: aliquot/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: aliquot.yaml
+  templatePointers:
+    id: /aliquot/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    backref: gene_expressions
 properties:
   id:
-    #$ref: _definitions.yaml#/UUID
     type: string
     systemAlias: node_id
-
   method:
     type: string
   metric:
@@ -51,24 +37,23 @@ properties:
   values:
     type: object
     propertyNames:
-      pattern: "^ENSG[0-9]+"
-    additionalProperties: 
+      pattern: ^ENSG[0-9]+
+    additionalProperties:
       type: number
-  aliquot:
-    targets:
-      - type:
-          $ref: aliquot.yaml
-        backref: gene_expressions
-    $ref: _definitions.yaml#/to_one
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
-      - string
-      - 'null'
+    - string
+    - 'null'
   type:
     type: string
   created_datetime:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  aliquot:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

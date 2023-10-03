@@ -1,59 +1,45 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "copy_number_alteration"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: copy_number_alteration
 title: CopyNumberAlteration
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: genomic
-description: >
-  Gene level copy number estimates for an aliquot
-additionalProperties: false
-submittable: true
-validators: null
+description: 'Gene level copy number estimates for an aliquot
 
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
-
+  '
 required:
-  - submitter_id
-  - project_id
-  - values
-  - method
-
-uniqueKeys:
-  - [id]
-  - [project_id, submitter_id]
-
+- submitter_id
+- project_id
+- values
+- method
 links:
-  - backref: copy_number_alterations
-    label: aliquot
-    multiplicity: many_to_one
-    name: aliquot
-    required: false
-    target_type: aliquot
-
+- rel: aliquot
+  href: aliquot/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: aliquot.yaml
+  templatePointers:
+    id: /aliquot/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    backref: copy_number_alterations
 properties:
   method:
     type: string
   values:
     type: object
     propertyNames:
-      pattern: "^ENSG[0-9]+"
+      pattern: ^ENSG[0-9]+
     additionalProperties:
       type: number
-  aliquot:
-    $ref: _definitions.yaml#/to_one
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
-      - string
-      - 'null'
+    - string
+    - 'null'
   id:
     $ref: _definitions.yaml#/UUID
     systemAlias: node_id
@@ -63,3 +49,8 @@ properties:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  aliquot:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

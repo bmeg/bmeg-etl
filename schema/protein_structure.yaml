@@ -1,50 +1,36 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "protein_structure"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: protein_structure
 title: ProteinStructure
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: reference
-description: >
-  A protein structure.
-additionalProperties: false
-submittable: true
-validators: null
+description: 'A protein structure.
 
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
-
+  '
 required:
-  - id
-  - submitter_id
-  - project_id
-
-uniqueKeys:
-  - [id]
-  - [project_id, submitter_id]
-
+- id
+- submitter_id
+- project_id
 links:
-  - backref: protein_structures
-    label: protein
-    multiplicity: many_to_one
-    name: protein
-    required: false
-    target_type: protein
-
+- rel: protein
+  href: protein/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: protein.yaml
+  templatePointers:
+    id: /protein/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    backref: protein_structures
 properties:
   id:
-    #$ref: _definitions.yaml#/UUID
-    #systemAlias: node_id
     type: string
   resolution:
     type:
-      - number
-      - 'null'
+    - number
+    - 'null'
   description:
     type: string
   short_description:
@@ -55,21 +41,20 @@ properties:
     type: string
   experiment_type:
     type: string
-  protein:
-    $ref: _definitions.yaml#/to_one
-    targets:
-      - type:
-          $ref: protein.yaml
-        backref: protein_structures
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
-      - string
-      - 'null'
+    - string
+    - 'null'
   type:
     type: string
   created_datetime:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  protein:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

@@ -1,9 +1,36 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "allele_effect"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: allele_effect
 title: AlleleEffect
 type: object
-
+links:
+- rel: ensembl_gene
+  href: ensemblgene/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: gene.yaml
+  templatePointers:
+    id: /ensembl_gene/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    backref: allele_effects
+- rel: ensembl_transcript
+  href: ensembltranscript/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: transcript.yaml
+  templatePointers:
+    id: /ensembl_transcript/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    backref: allele_effects
 properties:
   id:
     type: string
@@ -99,17 +126,17 @@ properties:
     type: string
   non_standard_amino_acid:
     type: string
-  ensembl_gene:
-    targets:
-      - type:
-          $ref: gene.yaml
-    type: array
-  ensembl_transcript:
-    targets:
-      - type:
-          $ref: transcript.yaml
-    type: array    
   hugo_symbol:
     type: string
   biotype:
     type: string
+  ensembl_gene:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  ensembl_transcript:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

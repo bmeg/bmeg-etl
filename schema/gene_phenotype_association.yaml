@@ -1,142 +1,166 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "gene_phenotype_association"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: gene_phenotype_association
 title: GenePhenotypeAssociation
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: reference
-description: >
-  Associations of genomic features, drugs and diseases
-additionalProperties: false
-submittable: true
-validators: null
+description: 'Associations of genomic features, drugs and diseases
 
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
-
+  '
 required:
-  - submitter_id
-  - description
-  - source
-  - project_id
-
-uniqueKeys:
-  - [id]
-  - [project_id, submitter_id]
-
+- submitter_id
+- description
+- source
+- project_id
 links:
-  - backref: gene_phenotype_associations
-    label: compounds
-    multiplicity: many_to_many
-    name: compounds
-    required: false
-    target_type: compound
-  - backref: gene_phenotype_associations
-    label: alleles
-    multiplicity: many_to_many
-    name: alleles
-    required: false
-    target_type: allele
-  - backref: gene_phenotype_associations
-    label: genes
-    multiplicity: many_to_many
-    name: genes
-    required: false
-    target_type: gene
-  - backref: gene_phenotype_associations
-    label: genomic_features
-    multiplicity: many_to_many
-    name: genomic_features
-    required: false
-    target_type: genomic_feature
-  - backref: gene_phenotype_associations
-    label: publications
-    multiplicity: many_to_many
-    name: publications
-    required: false
-    target_type: publication
-  - backref: gene_phenotype_associations
-    label: phenotypes
-    multiplicity: many_to_many
-    name: phenotypes
-    required: false
-    target_type: phenotype
-
+- rel: compounds
+  href: compound/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: compound.yaml
+  templatePointers:
+    id: /compounds/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: gene_phenotype_associations
+- rel: alleles
+  href: allele/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: allele.yaml
+  templatePointers:
+    id: /alleles/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: gene_phenotype_associations
+- rel: genes
+  href: gene/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: gene.yaml
+  templatePointers:
+    id: /genes/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: gene_phenotype_associations
+- rel: genomic_features
+  href: genomic_feature/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: genomic_feature.yaml
+  templatePointers:
+    id: /genomic_features/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: gene_phenotype_associations
+- rel: publications
+  href: publication/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: publication.yaml
+  templatePointers:
+    id: /publications/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: gene_phenotype_associations
+- rel: phenotypes
+  href: phenotype/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: phenotype.yaml
+  templatePointers:
+    id: /phenotypes/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: gene_phenotype_associations
 properties:
   id:
     type: string
-    #$ref: _definitions.yaml#/UUID
-    #systemAlias: node_id
   description:
     type: string
   evidence_label:
     type:
-      - 'null'
-      - string
+    - 'null'
+    - string
   oncogenic:
     type:
-      - 'null'
-      - string
+    - 'null'
+    - string
   response_type:
     type:
-      - 'null'
-      - string
+    - 'null'
+    - string
   source:
     type: string
   source_document:
     type:
-      - 'null'
-      - string
+    - 'null'
+    - string
   source_url:
     type:
-      - 'null'
-      - string
-  alleles:
-    targets:
-      - type:
-          $ref: allele.yaml
-        backref: gene_phenotype_associations
-    $ref: _definitions.yaml#/to_many
-  compounds:
-    targets:
-      - type:
-          $ref: compound.yaml
-        backref: gene_phenotype_associations
-    $ref: _definitions.yaml#/to_many
-  genes:
-    targets:
-      - type:
-          $ref: gene.yaml
-        backref: gene_phenotype_associations
-    $ref: _definitions.yaml#/to_many
-  genomic_features:
-    $ref: _definitions.yaml#/to_many
-  phenotypes:
-    targets:
-      - type:
-          $ref: phenotype.yaml
-        backref: gene_phenotype_associations
-    $ref: _definitions.yaml#/to_many
-  publications:
-    targets:
-      - type:
-          $ref: publication.yaml
-        backref: gene_phenotype_associations
-    $ref: _definitions.yaml#/to_many
+    - 'null'
+    - string
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
-      - string
-      - 'null'
+    - string
+    - 'null'
   type:
     type: string
   created_datetime:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  compounds:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  alleles:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  genes:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  genomic_features:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  publications:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  phenotypes:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

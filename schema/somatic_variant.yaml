@@ -1,33 +1,43 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "somatic_variant"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: somatic_variant
 title: SomaticVariant
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: genomic
-description: >
-  A collection of somatic variants.
-additionalProperties: false
-submittable: true
-validators: null
+description: 'A collection of somatic variants.
 
+  '
+links:
+- rel: somatic_callset
+  href: somaticcallset/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: somatic_callset.yaml
+  templatePointers:
+    id: /somatic_callset/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    association: true
+- rel: allele
+  href: allele/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: allele.yaml
+  templatePointers:
+    id: /allele/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    association: true
 properties:
   id:
     type: string
     systemAlias: node_id
-
-  somatic_callset:
-    targets:
-      - type: 
-          $ref: somatic_callset.yaml
-    $ref: _definitions.yaml#/to_one
-  allele:
-    targets:
-      - type: 
-          $ref: allele.yaml
-    $ref: _definitions.yaml#/to_one
   ref:
     type: string
   alt:
@@ -56,3 +66,13 @@ properties:
     type: string
   ensembl_gene:
     type: string
+  somatic_callset:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  allele:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

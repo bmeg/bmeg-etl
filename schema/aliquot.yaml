@@ -1,110 +1,74 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "aliquot"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: aliquot
 title: Aliquot
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: biospecimen
-description: >
-  Pertaining to a portion of the whole; any one of two or more samples of something, of the same
-  volume or weight.
-additionalProperties: false
-submittable: true
-validators: null
+description: 'Pertaining to a portion of the whole; any one of two or more samples
+  of something, of the same volume or weight.
 
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
-
+  '
 required:
-  - submitter_id
-  - project_id
-  - id
-
-uniqueKeys:
-  - [id]
-  - [project_id, submitter_id]
-
-graph_element: vertex
-graph_id: id
-
+- submitter_id
+- project_id
+- id
 links:
-  - backref: aliquots
-    label: sample
-    multiplicity: many_to_one
-    name: sample
-    required: false
-    target_type: sample
-  - backref: aliquots
-    label: projects
-    multiplicity: many_to_many
-    name: projects
-    required: false
-    target_type: project
-
+- rel: sample
+  href: sample/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: sample.yaml
+  templatePointers:
+    id: /sample/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    backref: aliquots
+- rel: projects
+  href: project/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: project.yaml
+  templatePointers:
+    id: /projects/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: aliquots
 properties:
   id:
     type: string
-
   cellline_attributes:
     type:
-      - 'null'
-      - object
+    - 'null'
+    - object
   gdc_attributes:
     type:
-      - 'null'
-      - object
-#  gene_expressions:
-#    targets:
-#      - type: 
-#          $ref: gene_expression.yaml
-#        backref: aliquot
-#    $ref: _definitions.yaml#/to_many
-#  drug_responses:
-#    targets:
-#      - type: 
-#          $ref: drug_response.yaml
-#        backref: aliquot
-#    $ref: _definitions.yaml#/to_many
-#  somatic_callsets:
-#    targets:
-#      - type: 
-#          $ref: somatic_callset.yaml
-#        backref: aliquot
-#    $ref: _definitions.yaml#/to_many
-#  copy_number_alterations:
-#    targets:
-#      - type: 
-#          $ref: copy_number_alteration.yaml
-#        backref: aliquot
-#    $ref: _definitions.yaml#/to_many
-  projects:
-    $ref: _definitions.yaml#/to_many
-  sample:
-    targets:
-      - type: 
-          $ref: sample.yaml
-        backref: aliquots
-    $ref: _definitions.yaml#/to_one
-#  transcript_expressions:
-#    targets:
-#      - type: 
-#          $ref: transcript_expression.yaml
-#        backref: aliquot
-#    $ref: _definitions.yaml#/to_many
+    - 'null'
+    - object
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
-      - string
-      - 'null'
+    - string
+    - 'null'
   type:
     type: string
   created_datetime:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  sample:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  projects:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

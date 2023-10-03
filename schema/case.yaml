@@ -1,60 +1,72 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "case"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: case
 title: Case
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: administrative
-description: >
-  The collection of all data related to a specific subject in the
-  context of a specific experiment.
-additionalProperties: false
-submittable: true
-validators: null
+description: 'The collection of all data related to a specific subject in the context
+  of a specific experiment.
 
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
-
+  '
 required:
-  - submitter_id
-  - project_id
-  - case_id
-
-uniqueKeys:
-  - [id]
-  - [project_id, submitter_id]
-
+- submitter_id
+- project_id
+- case_id
 links:
-- backref: cases
-  label: projects
-  multiplicity: many_to_many
-  name: projects
-  required: false
-  target_type: project
-- backref: cases
-  label: compounds
-  multiplicity: many_to_many
-  name: compounds
-  required: false
-  target_type: compound
-- backref: cases
-  label: phenotypes
-  multiplicity: many_to_many
-  name: phenotypes
-  required: false
-  target_type: phenotype
-- label: same_as
-  multiplicity: many_to_many
-  name: same_as
-  target_type: case
-
-graph_element: vertex
-
+- rel: compounds
+  href: compound/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: compound.yaml
+  templatePointers:
+    id: /compounds/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: cases
+- rel: projects
+  href: project/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: project.yaml
+  templatePointers:
+    id: /projects/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: cases
+- rel: phenotypes
+  href: phenotype/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: phenotype.yaml
+  templatePointers:
+    id: /phenotypes/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: cases
+- rel: same_as
+  href: case/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: case.yaml
+  templatePointers:
+    id: /same_as/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: cases
 properties:
   case_id:
     type: string
@@ -70,43 +82,15 @@ properties:
     type:
     - 'null'
     - object
-
   sex:
     type: string
-
-  compounds:
-    targets: 
-      - type: 
-          $ref: compound.yaml
-    $ref: _definitions.yaml#/to_many
-  phenotypes:
-    $ref: _definitions.yaml#/to_many
-  projects:
-    targets: 
-      - type: 
-          $ref: project.yaml
-        backref: cases
-    $ref: _definitions.yaml#/to_many
-  samples:
-    targets: 
-      - type: 
-          $ref: sample.yaml
-        backref: case
-    $ref: _definitions.yaml#/to_many
-  same_as:
-    targets: 
-      - type: 
-          $ref: case.yaml
-    $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
-      - string
-      - 'null'
+    - string
+    - 'null'
   id:
-    #$ref: _definitions.yaml#/UUID
-    #systemAlias: node_id
     type: string
   comment:
     type: string
@@ -116,3 +100,23 @@ properties:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  compounds:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  projects:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  phenotypes:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  same_as:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

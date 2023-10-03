@@ -1,129 +1,115 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "compound"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: compound
 title: Compound
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: reference
 description: Definitions for Compound
-additionalProperties: false
-submittable: true
-validators: null
-
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
-
 required:
-  - id
-  - submitter_id
-  - project_id
-
-uniqueKeys:
-  - [id]
-  - [project_id, submitter_id]
-
+- id
+- submitter_id
+- project_id
 links:
-  - backref: compounds
-    label: projects
-    multiplicity: many_to_many
-    name: projects
-    required: false
-    target_type: project
-  - name: similar_compounds
-    label: similar_compounds
-    multiplicity: many_to_many
-    required: false
-    target_type: compound
-    target_field: compound
-    properties:
-      morgan_fingerprint_2_dice:
-        type: float
-      morgan_fingerprint_2_tanimoto:
-        type: float
-
+- rel: projects
+  href: project/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: project.yaml
+  templatePointers:
+    id: /projects/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: compounds
+- rel: similar_compounds
+  href: compound/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: compound.yaml
+  templatePointers:
+    id: /similar_compounds/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: compounds
 properties:
   id:
     type: string
-    #$ref: _definitions.yaml#/UUID
-    #systemAlias: node_id
   pubchem_id:
     type:
-      - 'null'
-      - string
+    - 'null'
+    - string
   chebi_id:
     type:
-      - 'null'
-      - string
+    - 'null'
+    - string
   chembl_id:
     type:
-      - 'null'
-      - string
+    - 'null'
+    - string
   drugbank_id:
     type:
-      - 'null'
-      - string
+    - 'null'
+    - string
   synonym:
     type: array
     items:
       type: string
   inchi:
     type:
-      - 'null'
-      - string
+    - 'null'
+    - string
   inchi_key:
     type:
-      - 'null'
-      - string
+    - 'null'
+    - string
   usan_stem_definition:
     type:
-      - 'null'
-      - string
+    - 'null'
+    - string
   taxonomy:
     type:
-      - 'null'
-      - object
+    - 'null'
+    - object
   approved_countries:
     type:
-      - 'null'
-      - array
+    - 'null'
+    - array
   source_url:
     type:
-      - 'null'
-      - string
+    - 'null'
+    - string
   id_source:
     type:
-      - 'null'
-      - string
+    - 'null'
+    - string
   morgan_fingerprint_2:
     type:
-      - 'null'
-      - array
+    - 'null'
+    - array
   similar_compounds:
     type:
-      - 'null'
-      - array
-  cases:
-    $ref: _definitions.yaml#/to_many
-  drug_responses:
-    $ref: _definitions.yaml#/to_many
-  g2p_associations:
-    $ref: _definitions.yaml#/to_many
-  projects:
-    $ref: _definitions.yaml#/to_many
+    - array
+    items:
+      $ref: reference.yaml
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
-      - string
-      - 'null'
+    - string
+    - 'null'
   type:
     type: string
   created_datetime:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  projects:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

@@ -3,7 +3,7 @@ class: sifter
 
 name: pubmed
 outdir: ../../output/pubmed
-memMB: 20000
+memMB: 64000
 
 config:
   baseline: ../../source/pubmed/baseline

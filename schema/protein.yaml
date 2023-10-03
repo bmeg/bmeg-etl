@@ -1,78 +1,71 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "protein"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: protein
 title: Protein
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: reference
-description: >
-  A protein.
-additionalProperties: false
-submittable: true
-validators: null
+description: 'A protein.
 
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
-
+  '
 required:
+- id
+- submitter_id
+- project_id
+links:
+- rel: gene
+  href: gene/{id}
+  templateRequired:
   - id
-  - submitter_id
-  - project_id
-
-uniqueKeys:
-  - [id]
-  - [project_id, submitter_id]
-
-
+  targetSchema:
+    $ref: gene.yaml
+  templatePointers:
+    id: /gene/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    backref: proteins
+- rel: transcript
+  href: transcript/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: transcript.yaml
+  templatePointers:
+    id: /transcript/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    backref: protein
 properties:
   id:
     type: string
-
   sequence:
     type: string
-
-  protein_structures:
-    targets:
-      - type: 
-          $ref: protein_structure.yaml
-        backref: protein
-    $ref: _definitions.yaml#/to_many
-
-  gene:
-    targets:
-      - type: 
-          $ref: gene.yaml
-    $ref: _definitions.yaml#/to_one
-
-  transcript:
-    targets:
-      - type: 
-          $ref: transcript.yaml
-        backref: protein
-    $ref: _definitions.yaml#/to_one
-
   submitter_id:
     type:
-      - string
-      - 'null'
-
+    - string
+    - 'null'
   project_id:
     $ref: _definitions.yaml#/project_id
-
   length:
-    type: number  
-
+    type: number
   mass:
-    type: number  
-
+    type: number
   type:
     type: string
   created_datetime:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  gene:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  transcript:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

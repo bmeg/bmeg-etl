@@ -1,47 +1,43 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "gene_set"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: gene_set
 title: GeneSet
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: genomic
-description: >
-  A set of biologically related genes
-additionalProperties: false
-submittable: true
-validators: null
+description: 'A set of biologically related genes
 
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
-
+  '
 required:
-  - id
-  - submitter_id
-  - project_id
-
-uniqueKeys:
-  - [id]
-  - [project_id, submitter_id]
-
+- id
+- submitter_id
+- project_id
 links:
-  - backref: gene_sets
-    label: genes
-    multiplicity: many_to_many
-    name: genes
-    required: false
-    target_type: gene
-  - backref: gene_sets
-    label: publications
-    multiplicity: many_to_many
-    name: publications
-    required: false
-    target_type: publication
-
+- rel: genes
+  href: gene/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: gene.yaml
+  templatePointers:
+    id: /genes/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: gene_sets
+- rel: publications
+  href: publication/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: publication.yaml
+  templatePointers:
+    id: /publications/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: gene_sets
 properties:
   id:
     type: string
@@ -73,27 +69,25 @@ properties:
     type: string
   description_full:
     type: string
-  genes:
-    targets:
-      - type:
-          $ref: gene.yaml
-        backref: gene_sets
-    $ref: _definitions.yaml#/to_many
-  publications:
-    targets:
-      - type:
-          $ref: publication.yaml
-        backref: gene_sets
-    $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
-      - string
-      - 'null'
+    - string
+    - 'null'
   type:
     type: string
   created_datetime:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  genes:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  publications:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

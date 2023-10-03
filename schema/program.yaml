@@ -1,33 +1,14 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "program"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: program
 title: Program
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: administrative
-description: >
-   A broad framework of goals to be achieved. (i.e. TCGA or FM-AD)
-additionalProperties: false
-submittable: true
-validators: null
+description: 'A broad framework of goals to be achieved. (i.e. TCGA or FM-AD)
 
-systemProperties:
-  - id
-  - created_datetime
-  - updated_datetime
-
+  '
 required:
-  - submitter_id
-  - program_id
-  
-uniqueKeys:
-  - [id]
-  - [project_id, submitter_id]
-
+- submitter_id
+- program_id
 links: []
-
 properties:
   program_id:
     type: string
@@ -35,16 +16,10 @@ properties:
     type:
     - 'null'
     - object
-  projects:
-    targets:
-      - type:
-          $ref: project.yaml
-        backref: project
-    $ref: _definitions.yaml#/to_many
   submitter_id:
     type:
-      - string
-      - 'null'
+    - string
+    - 'null'
   id:
     $ref: _definitions.yaml#/UUID
     systemAlias: node_id

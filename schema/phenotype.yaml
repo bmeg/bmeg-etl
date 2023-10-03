@@ -1,44 +1,31 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "phenotype"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: phenotype
 title: Phenotype
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: reference
-description: >
-  An observable characteristics of a case or sample resulting from the 
-  interaction of its genotype with the environment (i.e. a disease).
-additionalProperties: false
-submittable: true
-validators: null
+description: 'An observable characteristics of a case or sample resulting from the  interaction
+  of its genotype with the environment (i.e. a disease).
 
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
-
+  '
 required:
-  - submitter_id
-  - term_id
-  - term
-  - project_id
-
-uniqueKeys:
-  - [id]
-  - [project_id, submitter_id]
-
+- submitter_id
+- term_id
+- term
+- project_id
 links:
-  - backref: parent_terms
-    label: child_terms
-    multiplicity: many_to_many
-    name: parent_terms
-    required: false
-    target_type: phenotype
-
-
+- rel: child_terms
+  href: phenotype/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: phenotype.yaml
+  templatePointers:
+    id: /child_terms/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: phenotypes
 properties:
   id:
     type: string
@@ -48,31 +35,24 @@ properties:
     type: string
   name:
     type:
-      - 'null'
-      - string
+    - 'null'
+    - string
   description:
     type: string
-  child_terms:
-    targets:
-      - type:
-          $ref: phenotype.yaml
-        backref: parent_terms
-    $ref: _definitions.yaml#/to_many
-  parent_terms:
-    targets:
-      - type:
-          $ref: phenotype.yaml
-        backref: child_terms
-    $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
-      - string
-      - 'null'
+    - string
+    - 'null'
   type:
     type: string
   created_datetime:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  child_terms:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

@@ -4,103 +4,102 @@ scattergather:
 
 rule all:
 	input:
-		"graph/graphbuild_pdb.start-graph.vertex.json.gz",
-		"graph/graphbuild_gdc.projectObject-graph.vertex.json.gz",
-		"graph/graphbuild_mondo.extract-graph.vertex.json.gz",
-		"graph/graphbuild_gdc-mafs.somaticCallsets-graph.edge.json.gz",
-		"graph/graphbuild_GDSC_Transform.transform-graph.vertex.json.gz",
-		"graph/graphbuild_chemblDrugMechanismExtract.build-graph.edge.json.gz",
-		"graph/graphbuild_gdc.caseObject-graph.vertex.json.gz",
-		"graph/graphbuild_depmap-cases.aliquots-graph.edge.json.gz",
-		"graph/graphbuild_depmap-mafs.callsets-graph.edge.json.gz",
-		"tables/pharmacodb/dr_reduce.curveReduce.dose_response_curve.json.gz",
-		"graph/graphbuild_go.transform-graph.edge.json.gz",
-		"graph/graphbuild_pubmed.transform-graph.edge.json.gz",
-		"graph/graphbuild_ensembl_gtf.transcripts-graph.vertex.json.gz",
-		"graph/graphbuild_pharmacodb_profiles_gx.drugResponse-graph.edge.json.gz",
-		"output/pharmacodb/pharmacodb_profiles_gx.transform.debug.json.gz",
-		"graph/graphbuild_GDSC_Transform.transform-graph.edge.json.gz",
-		"graph/graphbuild_ensembl_gtf.exons-graph.vertex.json.gz",
-		"graph/graphbuild_cellosaurus.transform-graph.vertex.json.gz",
-		"graph/graphbuild_cellosaurus.transform-graph.edge.json.gz",
-		"graph/graphbuild_g2p.main-graph.edge.json.gz",
+		"graph/graphbuild_uniprot_sprot.start-graph.vertex.json.gz",
+		"graph/graphbuild_gdc.projectObject-graph.edge.json.gz",
 		"graph/graphbuild_GTEX_Transcript_Expression.update-graph.vertex.json.gz",
-		"graph/graphbuild_depmap-mafs.variants-graph.edge.json.gz",
-		"graph/graphbuild_gdc.aliquotObject-graph.vertex.json.gz",
-		"graph/graphbuild_go.transform-graph.vertex.json.gz",
-		"graph/graphbuild_pharmacodb_profiles_gx.sample-graph.vertex.json.gz",
-		"graph/graphbuild_GTEX_Gene_Expression.gctProcess-graph.vertex.json.gz",
-		"graph/graphbuild_GTEX_Transcript_Expression.update-graph.edge.json.gz",
-		"graph/graphbuild_rnaseq.rna-graph.vertex.json.gz",
-		"graph/graphbuild_pharmacodb_profiles_gx.sample-graph.edge.json.gz",
-		"graph/graphbuild_gdc.sampleObject-graph.vertex.json.gz",
-		"graph/graphbuild_annotatedAllele.alleleEffect-graph.vertex.json.gz",
-		"graph/graphbuild_gdc-mafs.somaticCallsets-graph.vertex.json.gz",
-		"graph/graphbuild_pathway_commons.interactionMap-graph.vertex.json.gz",
-		"graph/graphbuild_pubmed.transform-graph.vertex.json.gz",
-		"graph/graphbuild_depmap-expression.values-graph.edge.json.gz",
-		"graph/graphbuild_depmap-mafs.callsets-graph.vertex.json.gz",
-		"graph/graphbuild_depmap-mafs.variants-graph.vertex.json.gz",
-		"output/go/go_gaf.dump.gaf.json.gz",
-		"graph/graphbuild_annotatedAllele.allele-graph.edge.json.gz",
-		"graph/graphbuild_chemblTransform.records-graph.edge.json.gz",
-		"graph/graphbuild_uniprot_trembl.start-graph.edge.json.gz",
+		"graph/graphbuild_ensembl_gtf.genes-graph.vertex.json.gz",
+		"graph/graphbuild_GDSC_rnaseq_Transform.start-graph.edge.json.gz",
+		"graph/graphbuild_mondo.extract-graph.edge.json.gz",
 		"graph/graphbuild_uniprot_sprot.start-graph.edge.json.gz",
-		"normalize/chembl/compounds.dist.compoundDistant.json.gz",
-		"graph/graphbuild_pharmacodb_profiles_gx.drugResponse-graph.vertex.json.gz",
-		"graph/graphbuild_prism_transform.secondary-graph.edge.json.gz",
-		"graph/graphbuild_depmap-cases.aliquots-graph.vertex.json.gz",
-		"graph/graphbuild_depmap-expression.values-graph.vertex.json.gz",
-		"graph/graphbuild_GDSC_VCF_Transform.variants-graph.vertex.json.gz",
-		"graph/graphbuild_msigdb.transform-graph.edge.json.gz",
-		"graph/graphbuild_prism_transform.primary-graph.edge.json.gz",
-		"graph/graphbuild_annotatedAllele.alleleEffect-graph.edge.json.gz",
+		"graph/graphbuild_depmap-mafs.callsets-graph.vertex.json.gz",
 		"graph/graphbuild_gdc.aliquotObject-graph.edge.json.gz",
 		"graph/graphbuild_gdc.caseObject-graph.edge.json.gz",
-		"graph/graphbuild_ensembl_gtf.genes-graph.vertex.json.gz",
-		"graph/graphbuild_pathway_commons.interactionMap-graph.edge.json.gz",
+		"graph/graphbuild_g2p.main-graph.edge.json.gz",
 		"output/gdc/gdc.aliquotAlias.table.json.gz",
-		"graph/graphbuild_GDSC_VCF_Transform.callset-graph.edge.json.gz",
+		"graph/graphbuild_pathway_commons.interactionMap-graph.vertex.json.gz",
+		"graph/graphbuild_GDSC_rnaseq_Transform.aliquot-graph.edge.json.gz",
 		"graph/graphbuild_GDSC_rnaseq_Transform.start-graph.vertex.json.gz",
-		"graph/graphbuild_bindingdbTsv.start-graph.edge.json.gz",
-		"graph/graphbuild_ensembl_gtf.exons-graph.edge.json.gz",
-		"graph/graphbuild_prism_transform.primary-graph.vertex.json.gz",
-		"graph/graphbuild_uniprot_trembl.start-graph.vertex.json.gz",
-		"graph/graphbuild_chemblDrugMechanismExtract.build-graph.vertex.json.gz",
-		"graph/graphbuild_pdb.start-graph.edge.json.gz",
-		"output/pathway_commons/pathway_commons.complexBundle.complex.json.gz",
-		"output-normalize/allele.vcf",
-		"graph/graphbuild_annotatedAllele.allele-graph.vertex.json.gz",
-		"graph/graphbuild_pharmacodb_profiles_gx.aliquot-graph.vertex.json.gz",
-		"graph/graphbuild_chemblTransform.records-graph.vertex.json.gz",
-		"graph/graphbuild_ensembl_gtf.transcripts-graph.edge.json.gz",
-		"graph/graphbuild_gdc-mafs.scan-graph.edge.json.gz",
-		"graph/graphbuild_msigdb.transform-graph.vertex.json.gz",
-		"graph/graphbuild_depmap-cases.depMapCases-graph.vertex.json.gz",
-		"graph/graphbuild_GTEX_Gene_Expression.gctProcess-graph.edge.json.gz",
-		"graph/graphbuild_gdc.sampleObject-graph.edge.json.gz",
-		"graph/graphbuild_prism_transform.secondary-graph.vertex.json.gz",
-		"graph/graphbuild_bindingdbTsv.start-graph.vertex.json.gz",
-		"graph/graphbuild_GDSC_rnaseq_Transform.aliquot-graph.vertex.json.gz",
-		"graph/graphbuild_ensembl_gtf.genes-graph.edge.json.gz",
-		"graph/graphbuild_gdc-mafs.scan-graph.vertex.json.gz",
-		"graph/graphbuild_GDSC_rnaseq_Transform.start-graph.edge.json.gz",
+		"graph/graphbuild_gdc.projectObject-graph.vertex.json.gz",
+		"graph/graphbuild_depmap-mafs.callsets-graph.edge.json.gz",
+		"graph/graphbuild_depmap-mafs.variants-graph.vertex.json.gz",
+		"output/go/go_gaf.dump.gaf.json.gz",
 		"graph/graphbuild_GDSC_Transform.aliquot-graph.vertex.json.gz",
-		"graph/graphbuild_GDSC_VCF_Transform.callset-graph.vertex.json.gz",
-		"graph/graphbuild_GDSC_VCF_Transform.variants-graph.edge.json.gz",
+		"graph/graphbuild_annotatedAllele.allele-graph.edge.json.gz",
+		"graph/graphbuild_annotatedAlleleEffect.transform-graph.vertex.json.gz",
+		"graph/graphbuild_ensembl_gtf.genes-graph.edge.json.gz",
+		"graph/graphbuild_g2pPrep.main-graph.vertex.json.gz",
+		"graph/graphbuild_msigdb.transform-graph.vertex.json.gz",
+		"graph/graphbuild_rnaseq.rna-graph.vertex.json.gz",
+		"graph/graphbuild_uniprot_trembl.start-graph.vertex.json.gz",
+		"graph/graphbuild_GDSC_Transform.transform-graph.vertex.json.gz",
+		"graph/graphbuild_annotatedAlleleEffect.transform-graph.edge.json.gz",
+		"graph/graphbuild_bindingdbTsv.start-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_samples_gx.aliquot-graph.vertex.json.gz",
+		"graph/graphbuild_mondo.extract-graph.vertex.json.gz",
+		"graph/graphbuild_GTEX_Gene_Expression.gctProcess-graph.vertex.json.gz",
+		"graph/graphbuild_gdc-mafs.somaticCallsets-graph.edge.json.gz",
+		"graph/graphbuild_gdc.sampleObject-graph.edge.json.gz",
+		"graph/graphbuild_chemblDrugMechanismExtract.build-graph.vertex.json.gz",
+		"graph/graphbuild_chemblDrugMechanismExtract.build-graph.edge.json.gz",
 		"graph/graphbuild_depmap-cases.depMapCases-graph.edge.json.gz",
-		"graph/graphbuild_pharmacodb_profiles_gx.aliquot-graph.edge.json.gz",
+		"output-normalize/allele.vcf",
+		"graph/graphbuild_depmap-cases.aliquots-graph.vertex.json.gz",
+		"graph/graphbuild_pdb.start-graph.edge.json.gz",
+		"graph/graphbuild_g2pPrep.main-graph.edge.json.gz",
+		"graph/graphbuild_prism_transform.primary-graph.edge.json.gz",
+		"graph/graphbuild_depmap-cases.sampleObjects-graph.vertex.json.gz",
+		"graph/graphbuild_gdc.caseObject-graph.vertex.json.gz",
+		"graph/graphbuild_go.transform-graph.vertex.json.gz",
+		"graph/graphbuild_bindingdbTsv.start-graph.edge.json.gz",
+		"graph/graphbuild_cellosaurus.transform-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_samples_gx.aliquot-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_samples_gx.sample-graph.edge.json.gz",
+		"graph/graphbuild_prism_transform.secondary-graph.vertex.json.gz",
+		"graph/graphbuild_GDSC_VCF_Transform.callset-graph.vertex.json.gz",
+		"graph/graphbuild_ensembl_gtf.transcripts-graph.vertex.json.gz",
+		"graph/graphbuild_depmap-expression.values-graph.vertex.json.gz",
+		"graph/graphbuild_gdc-mafs.scan-graph.vertex.json.gz",
+		"normalize/chembl/compounds.dist.compoundDistant.json.gz",
+		"output/gdsc/GDSC_VCF_Transform.namefix.source.json.gz",
+		"output/pathway_commons/pathway_commons.complexBundle.complex.json.gz",
+		"graph/graphbuild_depmap-cases.depMapCases-graph.vertex.json.gz",
+		"graph/graphbuild_ensembl_gtf.exons-graph.vertex.json.gz",
+		"graph/graphbuild_cellosaurus.transform-graph.edge.json.gz",
+		"graph/graphbuild_gdc-mafs.scan-graph.edge.json.gz",
+		"graph/graphbuild_pathway_commons.interactionMap-graph.edge.json.gz",
+		"tables/chemblSynonyms.longTable.synonyms.json.gz",
+		"graph/graphbuild_depmap-mafs.variants-graph.edge.json.gz",
+		"graph/graphbuild_ensembl_gtf.transcripts-graph.edge.json.gz",
+		"graph/graphbuild_prism_transform.primary-graph.vertex.json.gz",
+		"graph/graphbuild_GDSC_Transform.aliquot-graph.edge.json.gz",
+		"graph/graphbuild_GTEX_Gene_Expression.gctProcess-graph.edge.json.gz",
+		"graph/graphbuild_GTEX_Transcript_Expression.update-graph.edge.json.gz",
+		"graph/graphbuild_ensembl_gtf.exons-graph.edge.json.gz",
+		"graph/graphbuild_pdb.start-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_samples_gx.sample-graph.vertex.json.gz",
+		"graph/graphbuild_chemblTransform.records-graph.vertex.json.gz",
+		"graph/graphbuild_chemblTransform.records-graph.edge.json.gz",
+		"graph/graphbuild_gdc-mafs.somaticCallsets-graph.vertex.json.gz",
+		"graph/graphbuild_pubmed.transform-graph.vertex.json.gz",
+		"graph/graphbuild_annotatedAllele.allele-graph.vertex.json.gz",
+		"graph/graphbuild_depmap-cases.sampleObjects-graph.edge.json.gz",
+		"graph/graphbuild_prism_transform.secondary-graph.edge.json.gz",
+		"graph/graphbuild_GDSC_VCF_Transform.variants-graph.edge.json.gz",
+		"graph/graphbuild_depmap-cases.aliquots-graph.edge.json.gz",
+		"graph/graphbuild_depmap-expression.values-graph.edge.json.gz",
+		"graph/graphbuild_GDSC_Transform.transform-graph.edge.json.gz",
+		"graph/graphbuild_msigdb.transform-graph.edge.json.gz",
+		"graph/graphbuild_pubmed.transform-graph.edge.json.gz",
+		"graph/graphbuild_GDSC_VCF_Transform.variants-graph.vertex.json.gz",
+		"graph/graphbuild_GDSC_rnaseq_Transform.aliquot-graph.vertex.json.gz",
+		"graph/graphbuild_gdc.sampleObject-graph.vertex.json.gz",
+		"graph/graphbuild_GDSC_VCF_Transform.callset-graph.edge.json.gz",
+		"graph/graphbuild_uniprot_trembl.start-graph.edge.json.gz",
 		"source/g2p/tables/g2p_source.bed",
 		"graph/graphbuild_g2p.main-graph.vertex.json.gz",
-		"graph/graphbuild_gdc.projectObject-graph.edge.json.gz",
-		"graph/graphbuild_mondo.extract-graph.edge.json.gz",
-		"graph/graphbuild_uniprot_sprot.start-graph.vertex.json.gz",
-		"output/gdsc/GDSC_VCF_Transform.namefix.source.json.gz",
-		"graph/graphbuild_depmap-cases.sampleObjects-graph.edge.json.gz",
-		"graph/graphbuild_GDSC_rnaseq_Transform.aliquot-graph.edge.json.gz",
-		"graph/graphbuild_depmap-cases.sampleObjects-graph.vertex.json.gz",
-		"graph/graphbuild_rnaseq.rna-graph.edge.json.gz",
-		"graph/graphbuild_GDSC_Transform.aliquot-graph.edge.json.gz"
+		"graph/graphbuild_go.transform-graph.edge.json.gz",
+		"graph/graphbuild_gdc.aliquotObject-graph.vertex.json.gz",
+		"graph/graphbuild_rnaseq.rna-graph.edge.json.gz"
 
 rule bindingdbTsv:
 	input:
@@ -128,17 +127,9 @@ rule cellosaurus:
 		"schema",
 		"transform/cellosaurus/transform.yaml"
 	output:
-		"output/cellosaurus/cellosaurus.transform.cases.json.gz"
+		"output/cellosaurus/cellosaurus.transform.Case.json.gz"
 	shell:
 		"sifter run transform/cellosaurus/transform.yaml"
-
-rule compoundDist_compoundDist_compoundDist_gather:
-	input:
-		input= gather.compoundDist_compoundDist("transform/chembl/shards/{scatteritem}")
-	output:
-		output= "normalize/chembl/compounds.dist.compoundDistant.json.gz"
-	shell:
-		"cat {input} > {output}"
 
 rule compoundDist_compoundDist_compoundDist_scatter:
 	input:
@@ -150,19 +141,28 @@ rule compoundDist_compoundDist_compoundDist_scatter:
 	shell:
 		"/home/groups/EllrottLab/bmeg-etl/util/compound_distance.py -n {threads} -i {input} -s {wildcards.shard} -t {wildcards.total} -o {output}"
 
+rule compoundDist_compoundDist_compoundDist_gather:
+	input:
+		input= gather.compoundDist_compoundDist("transform/chembl/shards/{scatteritem}")
+	output:
+		output= "normalize/chembl/compounds.dist.compoundDistant.json.gz"
+	shell:
+		"cat {input} > {output}"
+
 rule chemblDrugMechanismExtract:
 	input:
 		"source/chembl/chembl_31/chembl_31_sqlite/chembl_31.db",
 		"schema",
 		"transform/chembl/drug_mechanism.yaml"
 	output:
-		"output/chembl/chemblDrugMechanismExtract.build.protein_compound_association.json.gz"
+		"output/chembl/chemblDrugMechanismExtract.build.ProteinCompoundAssociation.json.gz"
 	shell:
 		"sifter run transform/chembl/drug_mechanism.yaml"
 
 rule chemblSynonyms:
 	input:
-		"source/chembl/chembl_31/chembl_31_sqlite/chembl_31.db",
+		"source/chembl/chembl_32/chembl_32_sqlite/chembl_32.db",
+		"source/chembl/chembl_32/chembl_32_sqlite/chembl_32.db",
 		"transform/chembl/synonyms.yaml"
 	output:
 		"tables/chemblSynonyms.buildTable.synonyms.json.gz",
@@ -177,7 +177,7 @@ rule chemblTransform:
 		"schema",
 		"transform/chembl/transform.yaml"
 	output:
-		"output/chembl/chemblTransform.records.compound.json.gz"
+		"output/chembl/chemblTransform.records.Compound.json.gz"
 	shell:
 		"sifter run transform/chembl/transform.yaml"
 
@@ -185,14 +185,14 @@ rule depmap_cases:
 	input:
 		"source/depmap/Model.csv",
 		"schema",
+		"schema",
+		"schema",
 		"tables/cellosarusSynonyms.caseTable.ach2cellosaurus.json.gz",
-		"schema",
-		"schema",
 		"transform/depmap/cases.yaml"
 	output:
-		"output/depmap/depmap-cases.aliquots.aliquot.json.gz",
-		"output/depmap/depmap-cases.depMapCases.case.json.gz",
-		"output/depmap/depmap-cases.sampleObjects.sample.json.gz"
+		"output/depmap/depmap-cases.depMapCases.Case.json.gz",
+		"output/depmap/depmap-cases.sampleObjects.Sample.json.gz",
+		"output/depmap/depmap-cases.aliquots.Aliquot.json.gz"
 	shell:
 		"sifter run transform/depmap/cases.yaml"
 
@@ -203,7 +203,7 @@ rule depmap_expression:
 		"schema",
 		"transform/depmap/expression.yaml"
 	output:
-		"output/depmap/depmap-expression.values.expression.json.gz"
+		"output/depmap/depmap-expression.values.GeneExpression.json.gz"
 	shell:
 		"sifter run transform/depmap/expression.yaml"
 
@@ -215,9 +215,9 @@ rule depmap_mafs:
 		"schema",
 		"transform/depmap/mutations.yaml"
 	output:
+		"output/depmap/depmap-mafs.variants.SomaticVariant.json.gz",
 		"output/depmap/depmap-mafs.allele.allele.json.gz",
-		"output/depmap/depmap-mafs.callsets.callset.json.gz",
-		"output/depmap/depmap-mafs.variants.variants.json.gz"
+		"output/depmap/depmap-mafs.callsets.SomaticCallset.json.gz"
 	shell:
 		"sifter run transform/depmap/mutations.yaml"
 
@@ -229,9 +229,9 @@ rule ensembl_gtf:
 		"schema",
 		"transform/ensembl/ensembl_transform.yaml"
 	output:
-		"output/ensembl/ensembl_gtf.genes.gene.json.gz",
-		"output/ensembl/ensembl_gtf.transcripts.transcript.json.gz",
-		"output/ensembl/ensembl_gtf.exons.exon.json.gz"
+		"output/ensembl/ensembl_gtf.exons.Exon.json.gz",
+		"output/ensembl/ensembl_gtf.genes.Gene.json.gz",
+		"output/ensembl/ensembl_gtf.transcripts.Transcript.json.gz"
 	shell:
 		"sifter run transform/ensembl/ensembl_transform.yaml"
 
@@ -253,6 +253,20 @@ rule hugo2ensembl:
 	shell:
 		"sifter run transform/ensembl/hugo2ensembl.yaml"
 
+rule g2p:
+	input:
+		"tables/g2pPrep.main.assocationPrep.json.gz",
+		"tables/pharmacodb_treatment.utable.final.json.gz",
+		"tables/chemblSynonyms.longTable.synonyms.json",
+		"schema",
+		"schema",
+		"transform/g2p/addChembl.yaml"
+	output:
+		"output/g2p/g2p.main.GenePhenotypeAssociation.json.gz",
+		"output/g2p/g2p.alleles.allele.json.gz"
+	shell:
+		"sifter run transform/g2p/addChembl.yaml"
+
 rule g2p_bedfile:
 	input:
 		"source/g2p",
@@ -262,17 +276,15 @@ rule g2p_bedfile:
 	shell:
 		"sifter run transform/g2p/bed_file.yaml"
 
-rule g2p:
+rule g2pPrep:
 	input:
 		"source/g2p",
-		"schema",
 		"tables/hugo2ensembl.tsv",
 		"source/g2p/tables/hglft_genome_2749d_8437f0.bed",
 		"schema",
 		"transform/g2p/transform.yaml"
 	output:
-		"output/g2p/g2p.alleles.allele.json.gz",
-		"output/g2p/g2p.main.assocation.json.gz"
+		"tables/g2pPrep.main.assocationPrep.json.gz"
 	shell:
 		"sifter run transform/g2p/transform.yaml"
 
@@ -284,9 +296,9 @@ rule gdc_mafs:
 		"schema",
 		"transform/gdc/maf-files.yaml"
 	output:
-		"output/gdc/open-maf/gdc-mafs.allele.allele.json.gz",
 		"output/gdc/open-maf/gdc-mafs.scan.variant.json.gz",
-		"output/gdc/open-maf/gdc-mafs.somaticCallsets.callset.json.gz"
+		"output/gdc/open-maf/gdc-mafs.somaticCallsets.callset.json.gz",
+		"output/gdc/open-maf/gdc-mafs.allele.allele.json.gz"
 	shell:
 		"sifter run transform/gdc/maf-files.yaml"
 
@@ -310,11 +322,11 @@ rule gdc:
 		"schema",
 		"transform/gdc/transform.yaml"
 	output:
+		"output/gdc/gdc.aliquotObject.aliquot.json.gz",
 		"output/gdc/gdc.caseObject.case.json.gz",
 		"output/gdc/gdc.projectObject.project.json.gz",
 		"output/gdc/gdc.sampleObject.sample.json.gz",
-		"output/gdc/gdc.aliquotAlias.table.json.gz",
-		"output/gdc/gdc.aliquotObject.aliquot.json.gz"
+		"output/gdc/gdc.aliquotAlias.table.json.gz"
 	shell:
 		"sifter run transform/gdc/transform.yaml"
 
@@ -350,17 +362,17 @@ rule GDSC_rnaseq_Transform:
 		"schema",
 		"transform/gdsc/rnaseq_transform.yaml"
 	output:
-		"output/gdsc/GDSC_rnaseq_Transform.aliquot.aliquot.json.gz",
-		"output/gdsc/GDSC_rnaseq_Transform.start.geneExpression.json.gz"
+		"output/gdsc/GDSC_rnaseq_Transform.start.geneExpression.json.gz",
+		"output/gdsc/GDSC_rnaseq_Transform.aliquot.aliquot.json.gz"
 	shell:
 		"sifter run transform/gdsc/rnaseq_transform.yaml"
 
 rule GDSC_VCF_Transform:
 	input:
 		"source/gdsc/mutations_wes_vcf_20221010",
-		"schema",
-		"schema",
 		"source/gdsc/model_list_20230110.csv",
+		"schema",
+		"schema",
 		"schema",
 		"transform/gdsc/vcf_transform.yaml"
 	output:
@@ -458,8 +470,8 @@ rule pathway_commons:
 		"schema",
 		"transform/pathway_commons/transform.yaml"
 	output:
-		"output/pathway_commons/pathway_commons.complexBundle.complex.json.gz",
-		"output/pathway_commons/pathway_commons.interactionMap.interaction.json.gz"
+		"output/pathway_commons/pathway_commons.interactionMap.interaction.json.gz",
+		"output/pathway_commons/pathway_commons.complexBundle.complex.json.gz"
 	resources:
 		mem_mb=20000
 	shell:
@@ -475,41 +487,27 @@ rule pdb:
 	shell:
 		"sifter run transform/pdb/transform.yaml"
 
-rule pharmacoTableGenerate_pharmacodb:
+rule pharmacodb_samples_gx:
 	input:
-		script= "transform/pharmacodb/drug_response_tsv.R",
-		source= "source/pharmacodb"
+		"tables",
+		"schema",
+		"schema",
+		"source/cellosaurus/table/cellosarusSynonyms.caseTable.ach2cellosaurus.json.gz",
+		"transform/pharmacodb/samples.yaml"
 	output:
-		profile= "tables/pharmacodb_profiles.tsv"
+		"output/pharmacodb/pharmacodb_samples_gx.sample.Sample.json.gz",
+		"output/pharmacodb/pharmacodb_samples_gx.aliquot.Aliquot.json.gz"
 	shell:
-		"{input.script} -o {output.profile} -s {input.source}"
+		"sifter run transform/pharmacodb/samples.yaml"
 
-rule pharmacodb_profiles_gx:
+rule pharmacodb_treatment:
 	input:
-		"tables/pharmacodb_profiles.tsv",
-		"tables/chemblSynonyms.longTable.synonyms.json.gz",
-		"tables/chemblSynonyms.longTable.synonyms.json.gz",
-		"tables/chemblSynonyms.longTable.synonyms.json.gz",
-		"schema",
-		"schema",
-		"schema",
-		"transform/pharmacodb/profile.yaml"
+		"tables",
+		"transform/pharmacodb/treatment.yaml"
 	output:
-		"output/pharmacodb/pharmacodb_profiles_gx.transform.debug.json.gz",
-		"output/pharmacodb/pharmacodb_profiles_gx.aliquot.aliquot.json.gz",
-		"output/pharmacodb/pharmacodb_profiles_gx.drugResponse.drug_response.json.gz",
-		"output/pharmacodb/pharmacodb_profiles_gx.sample.sample.json.gz"
+		"tables/pharmacodb_treatment.utable.final.json.gz"
 	shell:
-		"sifter run transform/pharmacodb/profile.yaml"
-
-rule dr_reduce:
-	input:
-		"tables/pharmacodb/dose_responses.tsv.gz",
-		"transform/pharmacodb/reduce_dr_data.yaml"
-	output:
-		"tables/pharmacodb/dr_reduce.curveReduce.dose_response_curve.json.gz"
-	shell:
-		"sifter run transform/pharmacodb/reduce_dr_data.yaml"
+		"sifter run transform/pharmacodb/treatment.yaml"
 
 rule prism_transform:
 	input:
@@ -537,6 +535,15 @@ rule pubmed:
 		mem_mb=20000
 	shell:
 		"sifter run transform/pubmed/transform.yaml"
+
+rule uniprot_features:
+	input:
+		"source/uniprot",
+		"transform/uniprot/featuresTable.yaml"
+	output:
+		"tables/uniprot_features.features.final.json.gz"
+	shell:
+		"sifter run transform/uniprot/featuresTable.yaml"
 
 rule uniprot_sprot:
 	input:
@@ -569,15 +576,25 @@ rule collect_Allele:
 	shell:
 		"lathe class-concat Allele transform -o output-normalize/allele.merge.json.gz"
 
+rule annotatedAlleleEffect:
+	input:
+		"tables/uniprot_features.features.final.json.gz",
+		"output/allele/annotatedAllele.alleleEffect.AlleleEffect.json.gz",
+		"schema",
+		"normalize/allele/annotate_peptide.yaml"
+	output:
+		"output/allele/annotatedAlleleEffect.transform.AlleleEffect.json.gz"
+	shell:
+		"sifter run normalize/allele/annotate_peptide.yaml"
+
 rule annotatedAllele:
 	input:
 		"output-normalize/allele.annotated.vcf",
 		"schema",
-		"schema",
 		"normalize/allele/annotate_transform.yaml"
 	output:
 		"output/allele/annotatedAllele.allele.allele.json.gz",
-		"output/allele/annotatedAllele.alleleEffect.alleleEffect.json.gz"
+		"output/allele/annotatedAllele.alleleEffect.AlleleEffect.json.gz"
 	shell:
 		"sifter run normalize/allele/annotate_transform.yaml"
 
@@ -652,25 +669,32 @@ rule graphbuild_GTEX_Transcript_Expression:
 		"schema",
 		"graph-build/graphbuild_GTEX_Transcript_Expression.yaml"
 	output:
-		"graph/graphbuild_GTEX_Transcript_Expression.update-graph.edge.json.gz",
-		"graph/graphbuild_GTEX_Transcript_Expression.update-graph.vertex.json.gz"
+		"graph/graphbuild_GTEX_Transcript_Expression.update-graph.vertex.json.gz",
+		"graph/graphbuild_GTEX_Transcript_Expression.update-graph.edge.json.gz"
 	shell:
 		"sifter run graph-build/graphbuild_GTEX_Transcript_Expression.yaml"
 
 rule graphbuild_annotatedAllele:
 	input:
 		"output/allele/annotatedAllele.allele.allele.json.gz",
-		"output/allele/annotatedAllele.alleleEffect.alleleEffect.json.gz",
-		"schema",
 		"schema",
 		"graph-build/graphbuild_annotatedAllele.yaml"
 	output:
 		"graph/graphbuild_annotatedAllele.allele-graph.vertex.json.gz",
-		"graph/graphbuild_annotatedAllele.allele-graph.edge.json.gz",
-		"graph/graphbuild_annotatedAllele.alleleEffect-graph.vertex.json.gz",
-		"graph/graphbuild_annotatedAllele.alleleEffect-graph.edge.json.gz"
+		"graph/graphbuild_annotatedAllele.allele-graph.edge.json.gz"
 	shell:
 		"sifter run graph-build/graphbuild_annotatedAllele.yaml"
+
+rule graphbuild_annotatedAlleleEffect:
+	input:
+		"output/allele/annotatedAlleleEffect.transform.AlleleEffect.json.gz",
+		"schema",
+		"graph-build/graphbuild_annotatedAlleleEffect.yaml"
+	output:
+		"graph/graphbuild_annotatedAlleleEffect.transform-graph.vertex.json.gz",
+		"graph/graphbuild_annotatedAlleleEffect.transform-graph.edge.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_annotatedAlleleEffect.yaml"
 
 rule graphbuild_bindingdbTsv:
 	input:
@@ -685,7 +709,7 @@ rule graphbuild_bindingdbTsv:
 
 rule graphbuild_cellosaurus:
 	input:
-		"output/cellosaurus/cellosaurus.transform.cases.json.gz",
+		"output/cellosaurus/cellosaurus.transform.Case.json.gz",
 		"schema",
 		"graph-build/graphbuild_cellosaurus.yaml"
 	output:
@@ -696,7 +720,7 @@ rule graphbuild_cellosaurus:
 
 rule graphbuild_chemblDrugMechanismExtract:
 	input:
-		"output/chembl/chemblDrugMechanismExtract.build.protein_compound_association.json.gz",
+		"output/chembl/chemblDrugMechanismExtract.build.ProteinCompoundAssociation.json.gz",
 		"schema",
 		"graph-build/graphbuild_chemblDrugMechanismExtract.yaml"
 	output:
@@ -707,82 +731,82 @@ rule graphbuild_chemblDrugMechanismExtract:
 
 rule graphbuild_chemblTransform:
 	input:
-		"output/chembl/chemblTransform.records.compound.json.gz",
+		"output/chembl/chemblTransform.records.Compound.json.gz",
 		"schema",
 		"graph-build/graphbuild_chemblTransform.yaml"
 	output:
-		"graph/graphbuild_chemblTransform.records-graph.edge.json.gz",
-		"graph/graphbuild_chemblTransform.records-graph.vertex.json.gz"
+		"graph/graphbuild_chemblTransform.records-graph.vertex.json.gz",
+		"graph/graphbuild_chemblTransform.records-graph.edge.json.gz"
 	shell:
 		"sifter run graph-build/graphbuild_chemblTransform.yaml"
 
 rule graphbuild_depmap_cases:
 	input:
-		"output/depmap/depmap-cases.sampleObjects.sample.json.gz",
-		"output/depmap/depmap-cases.aliquots.aliquot.json.gz",
-		"output/depmap/depmap-cases.depMapCases.case.json.gz",
+		"output/depmap/depmap-cases.aliquots.Aliquot.json.gz",
+		"output/depmap/depmap-cases.depMapCases.Case.json.gz",
+		"output/depmap/depmap-cases.sampleObjects.Sample.json.gz",
 		"schema",
 		"schema",
 		"schema",
 		"graph-build/graphbuild_depmap-cases.yaml"
 	output:
-		"graph/graphbuild_depmap-cases.aliquots-graph.vertex.json.gz",
 		"graph/graphbuild_depmap-cases.aliquots-graph.edge.json.gz",
 		"graph/graphbuild_depmap-cases.depMapCases-graph.vertex.json.gz",
 		"graph/graphbuild_depmap-cases.depMapCases-graph.edge.json.gz",
 		"graph/graphbuild_depmap-cases.sampleObjects-graph.vertex.json.gz",
-		"graph/graphbuild_depmap-cases.sampleObjects-graph.edge.json.gz"
+		"graph/graphbuild_depmap-cases.sampleObjects-graph.edge.json.gz",
+		"graph/graphbuild_depmap-cases.aliquots-graph.vertex.json.gz"
 	shell:
 		"sifter run graph-build/graphbuild_depmap-cases.yaml"
 
 rule graphbuild_depmap_expression:
 	input:
-		"output/depmap/depmap-expression.values.expression.json.gz",
+		"output/depmap/depmap-expression.values.GeneExpression.json.gz",
 		"schema",
 		"graph-build/graphbuild_depmap-expression.yaml"
 	output:
-		"graph/graphbuild_depmap-expression.values-graph.edge.json.gz",
-		"graph/graphbuild_depmap-expression.values-graph.vertex.json.gz"
+		"graph/graphbuild_depmap-expression.values-graph.vertex.json.gz",
+		"graph/graphbuild_depmap-expression.values-graph.edge.json.gz"
 	shell:
 		"sifter run graph-build/graphbuild_depmap-expression.yaml"
 
 rule graphbuild_depmap_mafs:
 	input:
-		"output/depmap/depmap-mafs.callsets.callset.json.gz",
-		"output/depmap/depmap-mafs.variants.variants.json.gz",
+		"output/depmap/depmap-mafs.callsets.SomaticCallset.json.gz",
+		"output/depmap/depmap-mafs.variants.SomaticVariant.json.gz",
 		"schema",
 		"schema",
 		"graph-build/graphbuild_depmap-mafs.yaml"
 	output:
+		"graph/graphbuild_depmap-mafs.variants-graph.edge.json.gz",
 		"graph/graphbuild_depmap-mafs.callsets-graph.vertex.json.gz",
 		"graph/graphbuild_depmap-mafs.callsets-graph.edge.json.gz",
-		"graph/graphbuild_depmap-mafs.variants-graph.vertex.json.gz",
-		"graph/graphbuild_depmap-mafs.variants-graph.edge.json.gz"
+		"graph/graphbuild_depmap-mafs.variants-graph.vertex.json.gz"
 	shell:
 		"sifter run graph-build/graphbuild_depmap-mafs.yaml"
 
 rule graphbuild_ensembl_gtf:
 	input:
-		"output/ensembl/ensembl_gtf.exons.exon.json.gz",
-		"output/ensembl/ensembl_gtf.genes.gene.json.gz",
-		"output/ensembl/ensembl_gtf.transcripts.transcript.json.gz",
+		"output/ensembl/ensembl_gtf.exons.Exon.json.gz",
+		"output/ensembl/ensembl_gtf.genes.Gene.json.gz",
+		"output/ensembl/ensembl_gtf.transcripts.Transcript.json.gz",
 		"schema",
 		"schema",
 		"schema",
 		"graph-build/graphbuild_ensembl_gtf.yaml"
 	output:
-		"graph/graphbuild_ensembl_gtf.exons-graph.vertex.json.gz",
-		"graph/graphbuild_ensembl_gtf.exons-graph.edge.json.gz",
 		"graph/graphbuild_ensembl_gtf.genes-graph.vertex.json.gz",
 		"graph/graphbuild_ensembl_gtf.genes-graph.edge.json.gz",
 		"graph/graphbuild_ensembl_gtf.transcripts-graph.vertex.json.gz",
-		"graph/graphbuild_ensembl_gtf.transcripts-graph.edge.json.gz"
+		"graph/graphbuild_ensembl_gtf.transcripts-graph.edge.json.gz",
+		"graph/graphbuild_ensembl_gtf.exons-graph.vertex.json.gz",
+		"graph/graphbuild_ensembl_gtf.exons-graph.edge.json.gz"
 	shell:
 		"sifter run graph-build/graphbuild_ensembl_gtf.yaml"
 
 rule graphbuild_g2p:
 	input:
-		"output/g2p/g2p.main.assocation.json.gz",
+		"output/g2p/g2p.main.GenePhenotypeAssociation.json.gz",
 		"schema",
 		"graph-build/graphbuild_g2p.yaml"
 	output:
@@ -790,6 +814,17 @@ rule graphbuild_g2p:
 		"graph/graphbuild_g2p.main-graph.edge.json.gz"
 	shell:
 		"sifter run graph-build/graphbuild_g2p.yaml"
+
+rule graphbuild_g2pPrep:
+	input:
+		"tables/g2pPrep.main.assocationPrep.json.gz",
+		"schema",
+		"graph-build/graphbuild_g2pPrep.yaml"
+	output:
+		"graph/graphbuild_g2pPrep.main-graph.edge.json.gz",
+		"graph/graphbuild_g2pPrep.main-graph.vertex.json.gz"
+	shell:
+		"sifter run graph-build/graphbuild_g2pPrep.yaml"
 
 rule graphbuild_gdc_mafs:
 	input:
@@ -799,10 +834,10 @@ rule graphbuild_gdc_mafs:
 		"schema",
 		"graph-build/graphbuild_gdc-mafs.yaml"
 	output:
-		"graph/graphbuild_gdc-mafs.somaticCallsets-graph.edge.json.gz",
 		"graph/graphbuild_gdc-mafs.scan-graph.vertex.json.gz",
 		"graph/graphbuild_gdc-mafs.scan-graph.edge.json.gz",
-		"graph/graphbuild_gdc-mafs.somaticCallsets-graph.vertex.json.gz"
+		"graph/graphbuild_gdc-mafs.somaticCallsets-graph.vertex.json.gz",
+		"graph/graphbuild_gdc-mafs.somaticCallsets-graph.edge.json.gz"
 	shell:
 		"sifter run graph-build/graphbuild_gdc-mafs.yaml"
 
@@ -818,14 +853,14 @@ rule graphbuild_gdc:
 		"schema",
 		"graph-build/graphbuild_gdc.yaml"
 	output:
-		"graph/graphbuild_gdc.aliquotObject-graph.edge.json.gz",
-		"graph/graphbuild_gdc.caseObject-graph.vertex.json.gz",
-		"graph/graphbuild_gdc.caseObject-graph.edge.json.gz",
-		"graph/graphbuild_gdc.projectObject-graph.vertex.json.gz",
 		"graph/graphbuild_gdc.projectObject-graph.edge.json.gz",
 		"graph/graphbuild_gdc.sampleObject-graph.vertex.json.gz",
 		"graph/graphbuild_gdc.sampleObject-graph.edge.json.gz",
-		"graph/graphbuild_gdc.aliquotObject-graph.vertex.json.gz"
+		"graph/graphbuild_gdc.aliquotObject-graph.vertex.json.gz",
+		"graph/graphbuild_gdc.aliquotObject-graph.edge.json.gz",
+		"graph/graphbuild_gdc.caseObject-graph.vertex.json.gz",
+		"graph/graphbuild_gdc.caseObject-graph.edge.json.gz",
+		"graph/graphbuild_gdc.projectObject-graph.vertex.json.gz"
 	shell:
 		"sifter run graph-build/graphbuild_gdc.yaml"
 
@@ -846,8 +881,8 @@ rule graphbuild_mondo:
 		"schema",
 		"graph-build/graphbuild_mondo.yaml"
 	output:
-		"graph/graphbuild_mondo.extract-graph.edge.json.gz",
-		"graph/graphbuild_mondo.extract-graph.vertex.json.gz"
+		"graph/graphbuild_mondo.extract-graph.vertex.json.gz",
+		"graph/graphbuild_mondo.extract-graph.edge.json.gz"
 	shell:
 		"sifter run graph-build/graphbuild_mondo.yaml"
 
@@ -884,37 +919,33 @@ rule graphbuild_pdb:
 	shell:
 		"sifter run graph-build/graphbuild_pdb.yaml"
 
-rule graphbuild_pharmacodb_profiles_gx:
+rule graphbuild_pharmacodb_samples_gx:
 	input:
-		"output/pharmacodb/pharmacodb_profiles_gx.aliquot.aliquot.json.gz",
-		"output/pharmacodb/pharmacodb_profiles_gx.drugResponse.drug_response.json.gz",
-		"output/pharmacodb/pharmacodb_profiles_gx.sample.sample.json.gz",
+		"output/pharmacodb/pharmacodb_samples_gx.aliquot.Aliquot.json.gz",
+		"output/pharmacodb/pharmacodb_samples_gx.sample.Sample.json.gz",
 		"schema",
 		"schema",
-		"schema",
-		"graph-build/graphbuild_pharmacodb_profiles_gx.yaml"
+		"graph-build/graphbuild_pharmacodb_samples_gx.yaml"
 	output:
-		"graph/graphbuild_pharmacodb_profiles_gx.aliquot-graph.edge.json.gz",
-		"graph/graphbuild_pharmacodb_profiles_gx.drugResponse-graph.vertex.json.gz",
-		"graph/graphbuild_pharmacodb_profiles_gx.drugResponse-graph.edge.json.gz",
-		"graph/graphbuild_pharmacodb_profiles_gx.sample-graph.vertex.json.gz",
-		"graph/graphbuild_pharmacodb_profiles_gx.sample-graph.edge.json.gz",
-		"graph/graphbuild_pharmacodb_profiles_gx.aliquot-graph.vertex.json.gz"
+		"graph/graphbuild_pharmacodb_samples_gx.aliquot-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_samples_gx.aliquot-graph.edge.json.gz",
+		"graph/graphbuild_pharmacodb_samples_gx.sample-graph.vertex.json.gz",
+		"graph/graphbuild_pharmacodb_samples_gx.sample-graph.edge.json.gz"
 	shell:
-		"sifter run graph-build/graphbuild_pharmacodb_profiles_gx.yaml"
+		"sifter run graph-build/graphbuild_pharmacodb_samples_gx.yaml"
 
 rule graphbuild_prism_transform:
 	input:
-		"output/prism/prism_transform.secondary.drug_response.json.gz",
 		"output/prism/prism_transform.primary.drug_response.json.gz",
+		"output/prism/prism_transform.secondary.drug_response.json.gz",
 		"schema",
 		"schema",
 		"graph-build/graphbuild_prism_transform.yaml"
 	output:
-		"graph/graphbuild_prism_transform.primary-graph.vertex.json.gz",
 		"graph/graphbuild_prism_transform.primary-graph.edge.json.gz",
 		"graph/graphbuild_prism_transform.secondary-graph.vertex.json.gz",
-		"graph/graphbuild_prism_transform.secondary-graph.edge.json.gz"
+		"graph/graphbuild_prism_transform.secondary-graph.edge.json.gz",
+		"graph/graphbuild_prism_transform.primary-graph.vertex.json.gz"
 	shell:
 		"sifter run graph-build/graphbuild_prism_transform.yaml"
 

@@ -1,62 +1,65 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "sample"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: sample
 title: Sample
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: biospecimen
-description: >
-  Any material sample taken from a biological entity for testing, diagnostic, propagation, treatment
-  or research purposes, including a sample obtained from a living organism or taken from the
-  biological object after halting of all its life functions. Biospecimen can contain one or more
-  components including but not limited to cellular molecules, cells, tissues, organs, body fluids,
-  embryos, and body excretory products.
-additionalProperties: false
-submittable: true
-validators: null
+description: 'Any material sample taken from a biological entity for testing, diagnostic,
+  propagation, treatment or research purposes, including a sample obtained from a
+  living organism or taken from the biological object after halting of all its life
+  functions. Biospecimen can contain one or more components including but not limited
+  to cellular molecules, cells, tissues, organs, body fluids, embryos, and body excretory
+  products.
 
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
-
+  '
 required:
-  - id
-  - submitter_id
-  - project_id
-
-uniqueKeys:
-  - [id]
-  - [project_id, submitter_id]
-
+- id
+- submitter_id
+- project_id
 links:
-  - backref: samples
-    label: case
-    multiplicity: many_to_one
-    name: case
-    required: false
-    target_type: case
-  - backref: samples
-    label: projects
-    multiplicity: many_to_many
-    name: projects
-    required: false
-    target_type: project
-  - backref: samples
-    label: phenotypes
-    multiplicity: many_to_many
-    name: phenotypes
-    required: false
-    target_type: phenotype
-
+- rel: case
+  href: case/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: case.yaml
+  templatePointers:
+    id: /case/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    backref: samples
+- rel: projects
+  href: project/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: project.yaml
+  templatePointers:
+    id: /projects/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: samples
+- rel: phenotypes
+  href: phenotype/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: phenotype.yaml
+  templatePointers:
+    id: /phenotypes/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: samples
 properties:
   id:
     type: string
-    #$ref: _definitions.yaml#/UUID
-    #systemAlias: node_id
   cellline_attributes:
     type:
     - 'null'
@@ -69,35 +72,30 @@ properties:
     type:
     - 'null'
     - object
-  aliquots:
-    targets:
-      - type: 
-          $ref: aliquot.yaml
-        backref: sample
-    $ref: _definitions.yaml#/to_many
-  case:
-    targets: 
-      - type: 
-          $ref: case.yaml
-        backref: samples
-    $ref: _definitions.yaml#/to_one
-  phenotypes:
-    targets: 
-      - type: 
-          $ref: phenotype.yaml
-        backref: samples
-    $ref: _definitions.yaml#/to_many
-  projects:
-    $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
-      - string
-      - 'null'
+    - string
+    - 'null'
   type:
     type: string
   created_datetime:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  case:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  projects:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  phenotypes:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

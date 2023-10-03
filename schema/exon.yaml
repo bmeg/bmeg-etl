@@ -1,46 +1,34 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "exon"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: exon
 title: Exon
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: reference
-description: >
-  An exon.
-additionalProperties: false
-submittable: true
-validators: null
+description: 'An exon.
 
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
-
+  '
 required:
-  - submitter_id
-  - project_id
-  - chromosome
-  - strand
-  - start
-  - genome
-  - end
-  - exon_id
-
-uniqueKeys:
-  - [id]
-  - [project_id, submitter_id]
-
+- submitter_id
+- project_id
+- chromosome
+- strand
+- start
+- genome
+- end
+- exon_id
 links:
-  - backref: exons
-    label: transcripts
-    multiplicity: many_to_many
-    name: transcripts
-    required: false
-    target_type: transcript
-
+- rel: transcripts
+  href: transcript/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: transcript.yaml
+  templatePointers:
+    id: /transcripts/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: exons
 properties:
   id:
     type: string
@@ -56,21 +44,20 @@ properties:
     type: integer
   strand:
     $ref: _definitions.yaml#/strand
-  transcripts:
-    $ref: _definitions.yaml#/to_many
-    targets:
-      - type:
-          $ref: transcript.yaml
-        backref: exons
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
-      - string
-      - 'null'
+    - string
+    - 'null'
   type:
     type: string
   created_datetime:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  transcripts:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

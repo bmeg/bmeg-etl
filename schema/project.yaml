@@ -1,48 +1,30 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "project"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: project
 title: Project
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: administrative
-description: >
-  Any specifically defined piece of work that is undertaken or attempted to meet a single
-  requirement.
-additionalProperties: false
-submittable: true
-validators: null
+description: 'Any specifically defined piece of work that is undertaken or attempted
+  to meet a single requirement.
 
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
-
+  '
 required:
-  - id
-  - submitter_id
-  - project_id
-
-uniqueKeys:
-  - [id]
-  - [project_id, submitter_id]
-
+- id
+- submitter_id
+- project_id
 links:
-  - backref: projects
-    label: programs
-    multiplicity: many_to_many
-    name: programs
-    required: false
-    target_type: program
-#  - backref: projects
-#    label: compounds
-#    multiplicity: many_to_many
-#    name: compounds
-#    required: false
-#    target_type: compound
-
+- rel: programs
+  href: program/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: program.yaml
+  templatePointers:
+    id: /programs/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: projects
 properties:
   id:
     type: string
@@ -52,31 +34,18 @@ properties:
     type:
     - 'null'
     - object
-  cases:
-    targets:
-      - type:
-          $ref: case.yaml
-        backref: projects
-    $ref: _definitions.yaml#/to_many
-  compounds:
-    targets:
-      - type:
-          $ref: compound.yaml 
-        backref: projects
-    $ref: _definitions.yaml#/to_many
-  programs:
-    targets:
-      - type:
-          $ref: program.yaml
-        backref: projects
-    $ref: _definitions.yaml#/to_many
   submitter_id:
     type:
-      - string
-      - 'null'
+    - string
+    - 'null'
   type:
     type: string
   created_datetime:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  programs:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

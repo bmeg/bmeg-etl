@@ -1,42 +1,30 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "methylation"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: methylation
 title: Methylation
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: genomic
-description: >
-  Methylatyion values for an aliquot
-additionalProperties: false
-submittable: true
-validators: null
+description: 'Methylatyion values for an aliquot
 
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
-
+  '
 required:
-  - submitter_id
-  - project_id
-  - values
-  - method
-
-uniqueKeys:
-  - [id]
-  - [project_id, submitter_id]
-
+- submitter_id
+- project_id
+- values
+- method
 links:
-  - backref: methylations
-    label: aliquot
-    multiplicity: many_to_one
-    name: aliquot
-    required: false
-    target_type: aliquot
-
+- rel: aliquot
+  href: aliquot/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: aliquot.yaml
+  templatePointers:
+    id: /aliquot/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    backref: methylations
 properties:
   method:
     type: string
@@ -45,20 +33,15 @@ properties:
   values:
     type: object
     additionalProperties:
-      type: 
-        - number
-        - 'null'
-  aliquot:
-    targets:
-      - type:
-          $ref: aliquot.yaml
-    $ref: _definitions.yaml#/to_one
+      type:
+      - number
+      - 'null'
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
-      - string
-      - 'null'
+    - string
+    - 'null'
   id:
     $ref: _definitions.yaml#/UUID
     systemAlias: node_id
@@ -68,3 +51,8 @@ properties:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  aliquot:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

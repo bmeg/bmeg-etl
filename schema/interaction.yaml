@@ -1,87 +1,89 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "interaction"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: interaction
 title: Interaction
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: genomic
-description: >
-  A biological interaction. This node represent an interaction between two or 
-  more entities (e.g. protein-protein, gene-drug, catalysis, or synthesis).
-additionalProperties: false
-submittable: true
-validators: null
+description: 'A biological interaction. This node represent an interaction between
+  two or  more entities (e.g. protein-protein, gene-drug, catalysis, or synthesis).
 
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
-
+  '
 required:
-  - submitter_id
-  - project_id
-  - source
-  - type
-
-uniqueKeys:
-  - [id]
-  - [project_id, submitter_id]
-
+- submitter_id
+- project_id
+- source
+- type
 links:
-  - backref: interaction_input
-    label: interaction_output
-    multiplicity: many_to_many
-    name: interaction_output
-    required: true
-    target_type: gene
-  - backref: interactions
-    label: publications
-    multiplicity: many_to_many
-    name: publications
-    required: false
-    target_type: publication
-
+- rel: interaction_output
+  href: gene/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: gene.yaml
+  templatePointers:
+    id: /interaction_output/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: interactions
+- rel: publications
+  href: publication/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: publication.yaml
+  templatePointers:
+    id: /publications/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: interactions
+- rel: interaction_input
+  href: interactioninpu/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: protein.yaml
+  templatePointers:
+    id: /interaction_input/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_one
+    backref: interactions
 properties:
   source:
     type: string
   type:
     type: string
-  interaction_input:
-    targets:
-      - type:
-          $ref: protein.yaml
-    $ref: _definitions.yaml#/to_many
-  interaction_output:
-    targets:
-      - type:
-          $ref: protein.yaml
-    $ref: _definitions.yaml#/to_many
-  pathways:
-    targets:
-      - type:
-          $ref: pathway.yaml
-    $ref: _definitions.yaml#/to_many
-  publications:
-    targets:
-      - type:
-          $ref: publication.yaml
-    $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
-      - string
-      - 'null'
+    - string
+    - 'null'
   id:
     type: string
-    #$ref: _definitions.yaml#/UUID
     systemAlias: node_id
-  type:
-    type: string
   created_datetime:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  interaction_output:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  publications:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  interaction_input:
+    type:
+    - array
+    items:
+      $ref: reference.yaml

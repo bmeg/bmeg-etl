@@ -5,7 +5,7 @@ name: chemblSynonyms
 outdir: ../../tables/
 
 config:
-  sqlite:  ../../source/chembl/chembl_32/chembl_32_sqlite/chembl_32.db
+  sqlite:  ../../source/chembl/chembl_33/chembl_33_sqlite/chembl_33.db
   schema: ../../schema/
 
 inputs:

@@ -1,77 +1,49 @@
-$schema: "https://json-schema.org/draft/2020-12/schema"
-
-id: "gene_ontology_term"
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: gene_ontology_term
 title: GeneOntologyTerm
 type: object
-namespace: http://gdc.nci.nih.gov
-program: '*'
-project: '*'
-category: reference
-description: >
-  The Gene Ontology project provides an ontology of defined terms representing 
-  gene product properties.
-additionalProperties: false
-submittable: true
-validators: null
+description: 'The Gene Ontology project provides an ontology of defined terms representing  gene
+  product properties.
 
-systemProperties:
-  - id
-  - project_id
-  - created_datetime
-  - updated_datetime
-
+  '
 required:
-  - submitter_id
-  - synonym
-  - project_id
-  - name
-  - xref
-  - go_id
-  - definition
-  - namespace
-
-uniqueKeys:
-  - [id]
-  - [project_id, submitter_id]
-
+- submitter_id
+- synonym
+- project_id
+- name
+- xref
+- go_id
+- definition
+- namespace
 links:
-  - backref: gene_ontology_terms
-    label: genes
-    multiplicity: many_to_many
-    name: genes
-    required: false
-    target_type: gene
-    properties:
-      evidence:
-        type: string
-      references:
-        type: array
-        items:
-          type: string
-      title:
-        type: string
-  - backref: gene_ontology_terms
-    label: pfam_families
-    multiplicity: many_to_many
-    name: pfam_families
-    required: false
-    target_type: pfam_family
-    properties:
-      evidence:
-        type: string
-      references:
-        type: array
-        items:
-          type: string
-      title:
-        type: string
-  - backref: parent_terms
-    label: child_terms
-    multiplicity: many_to_many
-    name: child_terms
-    required: false
-    target_type: gene_ontology_term
-
+- rel: genes
+  href: gene/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: gene.yaml
+  templatePointers:
+    id: /genes/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: gene_ontology_terms
+- rel: child_terms
+  href: gene_ontology_term/{id}
+  templateRequired:
+  - id
+  targetSchema:
+    $ref: gene_ontology_term.yaml
+  templatePointers:
+    id: /child_terms/-/id
+  targetHints:
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+    backref: gene_ontology_terms
 properties:
   go_id:
     type: string
@@ -87,31 +59,13 @@ properties:
     type: array
     items:
       type: string
-  child_terms:
-    targets:
-      - type:
-          $ref: gene_ontology_term.yaml
-        backref: parent_terms
-    $ref: _definitions.yaml#/to_many
-  parent_terms:
-    targets:
-      - type:
-          $ref: gene_ontology_term.yaml
-        backref: child_terms
-    $ref: _definitions.yaml#/to_many
-  genes:
-    targets:
-      - type:
-          $ref: gene.yaml
-    $ref: _definitions.yaml#/to_many
   project_id:
     $ref: _definitions.yaml#/project_id
   submitter_id:
     type:
-      - string
-      - 'null'
+    - string
+    - 'null'
   id:
-    #$ref: _definitions.yaml#/UUID
     type: string
     systemAlias: node_id
   type:
@@ -120,3 +74,13 @@ properties:
     $ref: _definitions.yaml#/datetime
   updated_datetime:
     $ref: _definitions.yaml#/datetime
+  genes:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
+  child_terms:
+    type:
+    - array
+    items:
+      $ref: reference.yaml
