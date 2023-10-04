@@ -2,24 +2,18 @@
 class: lathe
 name: pharmacoTableGenerate
 
+dockerImages:
+  - name: pharmaco-gx:4.3.0
+    dir: ./
+
 scripts:
-  - prepwork:
-    commandLine: "cp -r {{inputs.source}} {{inputs.scratch}}"
+
+  pharmacodb:
+    docker:
+      image: pharmaco-gx:4.3.0
+    commandLine: "Rscript ./drug_response_tsv.R --out={{outputs.profile}} --source={{inputs.source}}"
     inputs:
       source: ../../source/pharmacodb
     outputs:
-      scratch: /mnt/scratch/
-
-  - pharmacodb:
-    commandLine: "docker run -u `id -u` -v `cd ../.. && pwd`:/usr/src/local pharmaco-gx:4.3.0 Rscript ./drug_response_tsv.R --out=local/transform/pharmacodb/{{outputs.profile}} --source=local/transform/pharmacodb/{{inputs.source}}"
-      inputs:
-        source: /mnt/scratch/pharmacodb
-      outputs:
-        profile: /mnt/scratch/pharmacodb/pharmacodb_profiles.tsv
-  
-  - relocate:
-      commandLine: "cp {{inputs.outfiles}}* {{outputs.outdirectory}}"
-      inputs:
-        outfiles: /mnt/scratch/pharmacodb/
-      outputs:
-        outdirectory: ../../tables/
+      profile: ../tables/pharmacodb_profiles.tsv
+ 

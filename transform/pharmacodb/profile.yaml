@@ -13,7 +13,7 @@ config:
 inputs:
   profileReader:
     plugin:
-      commandline: "../../util/chembl-matchup.py -r {{config.treatmentresponseDir}}/..._response.tsv -i {{config.treatmentsynonymsfile}} -c {{config.synonymsfile}}"
+      commandline: "../../util/chembl-matchup.py -r {{config.treatmentResponseDir}}/..._response.tsv -i {{config.treatmentSynonymsFile}} -c {{config.synonymsFile}}"
 
 pipelines:
   transform:

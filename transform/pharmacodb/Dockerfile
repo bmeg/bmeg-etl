@@ -11,7 +11,7 @@ COPY download_pharmaco.R ./
 
 #adding curl so R libraries get installed ok
 RUN apt-get -y update; apt-get -y install curl
-RUN apt-get install -y libcurl4-openssl-dev
+RUN apt-get install -y libcurl4-openssl-dev libssl-dev
 
 RUN R -e "install.packages('BiocManager',dependencies=TRUE)"
 RUN R -e "BiocManager::install('PharmacoGx')"
