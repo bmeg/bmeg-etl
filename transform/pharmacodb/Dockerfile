@@ -18,3 +18,7 @@ RUN R -e "BiocManager::install('PharmacoGx')"
 RUN R -e "install.packages('optparse',dependencies=TRUE)"
 RUN R -e "install.packages('stringr',dependencies=TRUE)"
 
+#copying over the two R scripts we'd be using
+COPY drug_response_tsv.R ./
+COPY drug_response_single.R ./
+COPY download_pharmaco.R ./

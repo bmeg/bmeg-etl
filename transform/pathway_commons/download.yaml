@@ -8,6 +8,8 @@ name: pathwayCommonsDownload
 #    outputs:
 #      - target/pc-extract-1.0-jar-with-dependencies.jar
 
+scripts: {}
+
 templates:
   pc-prep:
     inputs:
@@ -37,25 +39,26 @@ templates:
       "{{#merge}}":
         "{{#each inputs}}":
           "download_{{name}}":
-            commandLine: curl -o ../../source/pathway_commons/PathwayCommons12.{{name}}.BIOPAX.owl.gz https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.{{name}}.BIOPAX.owl.gz
+            commandLine: "curl -o \\{{outputs.gz}} https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.{{name}}.BIOPAX.owl.gz"
             outputs:
-              - ../../source/pathway_commons/PathwayCommons12.{{name}}.BIOPAX.owl.gz
+              gz: "../../source/pathway_commons/PathwayCommons12.{{name}}.BIOPAX.owl.gz"
           "process_{{name}}":
             inputs:
-              - ../../util/extsif/target/pc-extract-1.0-jar-with-dependencies.jar
-              - ../../source/pathway_commons/PathwayCommons12.{{name}}.BIOPAX.owl.gz
+              jar: ../../util/extsif/target/pc-extract-1.0-jar-with-dependencies.jar
+              gz: "../../source/pathway_commons/PathwayCommons12.{{name}}.BIOPAX.owl.gz"
             # conda install -c conda-forge openjdk=11
             # docker run  --rm -u `id -u` -v `pwd`/../../:`pwd`/../../ -w `pwd` openjdk:11 
-            commandLine: java -Xmx15g -jar ../../util/extsif/target/pc-extract-1.0-jar-with-dependencies.jar ../../source/pathway_commons/PathwayCommons12.{{name}}.BIOPAX.owl.gz ../../source/pathway_commons/PathwayCommons12.{{name}}
+            commandLine: java -Xmx15g -jar \{{inputs.jar}} \{{inputs.gz}} ../../source/pathway_commons/PathwayCommons12.{{name}}
             memMB: 15000
             outputs:
-              - ../../source/pathway_commons/PathwayCommons12.{{name}}.extSIF
-              - ../../source/pathway_commons/PathwayCommons12.{{name}}.complex
+              extSif: ../../source/pathway_commons/PathwayCommons12.{{name}}.extSIF
+              complex: ../../source/pathway_commons/PathwayCommons12.{{name}}.complex
       concat:
         inputs:
-          "{{#each inputs}}" :
-              "../../source/pathway_commons/PathwayCommons12.{{name}}.extSIF"
+          "{{#merge}}":
+            "{{#each inputs}}" :
+                "{{name}}": "../../source/pathway_commons/PathwayCommons12.{{name}}.extSIF"
         outputs:
-          "../../source/pathway_commons/PathwayCommons12.ALL.extSIF"
+          outSif: "../../source/pathway_commons/PathwayCommons12.ALL.extSIF"
         commandLine:
-          "cat {input} > ../../source/pathway_commons/PathwayCommons12.ALL.extSIF"
+          "cat {input} > \\{{outputs.outSif}}"
