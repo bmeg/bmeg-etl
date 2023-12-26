@@ -2,24 +2,47 @@
 class: lathe
 name: pharmacoTableGenerate
 
-scripts:
-  - prepwork:
-    commandLine: "cp -r {{inputs.source}} {{inputs.scratch}}"
-    inputs:
-      source: ../../source/pharmacodb
-    outputs:
-      scratch: /mnt/scratch/
+dockerImages:
+  - name: pharmaco-gx:4.3.0
+    dir: ./
 
-  - pharmacodb:
-    commandLine: "docker run -u `id -u` -v `cd ../.. && pwd`:/usr/src/local pharmaco-gx:4.3.0 Rscript ./drug_response_tsv.R --out=local/transform/pharmacodb/{{outputs.profile}} --source=local/transform/pharmacodb/{{inputs.source}}"
-      inputs:
-        source: /mnt/scratch/pharmacodb
-      outputs:
-        profile: /mnt/scratch/pharmacodb/pharmacodb_profiles.tsv
-  
-  - relocate:
-      commandLine: "cp {{inputs.outfiles}}* {{outputs.outdirectory}}"
-      inputs:
-        outfiles: /mnt/scratch/pharmacodb/
-      outputs:
-        outdirectory: ../../tables/
+
+prep:
+  - commandLine: cwltool --outdir {{paths.outdir}} {{paths.script}}
+    paths:
+      outdir: ../../source/pharmacodb/rdata
+      script: ./download_pharmaco.cwl
+
+templates:
+  pharmacoExtract:
+    inputs:
+      - name: "BeatAML_2018"
+      - name: "FIMM_2016"
+      #- name: "GDSC_2020(v1-8.2)"
+      - name: "NCI60_2021"
+      - name: "Tavor_2020"
+      - name: "CCLE_2015"
+      - name: "GBM_scr2"
+      #- name: "GDSC_2020(v2-8.2)"
+      - name: "PDTX_2019"
+      - name: "UHNBreast_2019"
+      - name: "CTRPv2_2015"
+      - name: "GBM_scr3"
+      - name: "GRAY_2017"
+      - name: "PRISM_2020"
+      - name: "gCSI_2019"
+    scripts:
+      "{{#merge}}":
+        "{{#each inputs}}":
+          "process_{{name}}":
+            commandLine: cwltool --outdir \{{paths.outdir}} \{{inputs.workflow}} --input \{{inputs.rfile}}
+            outputs:
+              response: ../../source/pharmacodb/{{name}}/response.tsv	
+              samples: ../../source/pharmacodb/{{name}}/samples.tsv	
+              treatments: ../../source/pharmacodb/{{name}}/treatments.tsv
+            inputs:
+              rfile: ../../source/pharmacodb/rdata/{{name}}.rdata
+              workflow: extract_response.cwl
+            paths:
+              outdir: ../../source/pharmacodb/{{name}}
+            memMB: 15000
