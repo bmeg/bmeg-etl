@@ -4,7 +4,7 @@ class: CommandLineTool
 
 requirements:
   - class: DockerRequirement
-    dockerImageId: pharmaco-gx:4.3.0
+    dockerImageId: quay.io/bmeg/pharmaco-gx:4.3.0
 
 baseCommand: [Rscript, /usr/src/drug_response_single.R,  --out=./]
 
