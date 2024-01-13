@@ -1,0 +1,48 @@
+
+projects = [
+      {name: "reconx"},
+      {name: "reactome"},
+      {name: "psp"},
+      {name: "pid"},
+      {name: "pathbank"},
+      {name: "panther"},
+      {name: "netpath"},
+      {name: "msigdb"},
+      {name: "mirtarbase"},
+      {name: "kegg"},
+      {name: "inoh"},
+      {name: "innatedb"},
+      {name: "humancyc"},
+      {name: "hprd"},
+      {name: "drugbank"},
+      {name: "dip"},
+      {name: "ctd"},
+      {name: "corum"},
+      {name: "biogrid"},
+      {name: "bind"}
+]
+
+prep = lathe.Workflow("prep")
+
+projects.forEach(element => {
+    d = lathe.Process({
+        commandLine: `curl -o {{outputs.gz}} https://www.pathwaycommons.org/archives/PC2/v12/PathwayCommons12.${element.name}.BIOPAX.owl.gz`,
+        outputs: {
+          gz: `../../source/pathway_commons/PathwayCommons12.${element.name}.BIOPAX.owl.gz`
+        }
+    }) 
+    prep.Add(d)
+    p = lathe.Process({
+        commandLine: `java -Xmx15g -jar {{inputs.jar}} {{inputs.gz}} ../../source/pathway_commons/PathwayCommons12.${element.name}`,
+        memMB: 15000,
+        outputs: {
+            extSif: `../../source/pathway_commons/PathwayCommons12.${element.name}.extSIF`,
+            complex: `../../source/pathway_commons/PathwayCommons12.${element.name}.complex`
+        },
+        inputs: {
+            jar: "../../util/extsif/target/pc-extract-1.0-jar-with-dependencies.jar",
+            gz: `../../source/pathway_commons/PathwayCommons12.${element.name}.BIOPAX.owl.gz`
+        }
+    })
+    prep.Add(p)
+});

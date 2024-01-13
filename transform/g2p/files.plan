@@ -1,0 +1,66 @@
+
+w = lathe.Workflow("prep")
+
+w.Add(lathe.File({
+    name: "brca.vr.json",
+    source: "https://drive.google.com/drive/folders/1ZY6o3uaLOZSjOQPpXSMsnMbXmFWpb58d",
+    path: "../../source/g2p/brca.vr.json",
+    meta: {
+        downloadDate: "2022-12-20"
+    }
+}))
+
+w.Add(lathe.File({
+    name: "cgi.vr.json",
+    source: "https://drive.google.com/drive/folders/1ZY6o3uaLOZSjOQPpXSMsnMbXmFWpb58d",
+    path: "../../source/g2p/cgi.vr.json",
+    meta: {
+        downloadDate: "2022-12-20"
+    }
+}))
+
+w.Add(lathe.File({
+    name: "civic.vr.json",
+    source: "https://drive.google.com/drive/folders/1ZY6o3uaLOZSjOQPpXSMsnMbXmFWpb58d",
+    path: "../../source/g2p/civic.vr.json",
+    meta: {
+        downloadDate: "2022-12-20"
+    }
+}))
+
+w.Add(lathe.File({
+    name: "jax.vr.json",
+    source: "https://drive.google.com/drive/folders/1ZY6o3uaLOZSjOQPpXSMsnMbXmFWpb58d",
+    path: "../../source/g2p/jax.vr.json",
+    meta: {
+        downloadDate: "2022-12-20"
+    }
+}))
+
+
+w.Add(lathe.File({
+    name: "molecularmatch.vr.json",
+    source: "https://drive.google.com/drive/folders/1ZY6o3uaLOZSjOQPpXSMsnMbXmFWpb58d",
+    path: "../../source/g2p/molecularmatch.vr.json",
+    meta: {
+        downloadDate: "2022-12-20"
+    }
+}))
+
+w.Add(lathe.File({
+    name: "oncokb.vr.json",
+    source: "https://drive.google.com/drive/folders/1ZY6o3uaLOZSjOQPpXSMsnMbXmFWpb58d",
+    path: "../../source/g2p/oncokb.vr.json",
+    meta: {
+        downloadDate: "2022-12-20"
+    }
+}))
+
+w.Add(lathe.File({
+    name: "pmkb.vr.json",
+    source: "https://drive.google.com/drive/folders/1ZY6o3uaLOZSjOQPpXSMsnMbXmFWpb58d",
+    path: "../../source/g2p/pmkb.vr.json",
+    meta: {
+        downloadDate: "2022-12-20"
+    }
+}))

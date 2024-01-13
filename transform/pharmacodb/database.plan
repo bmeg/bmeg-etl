@@ -1,0 +1,59 @@
+
+//dockerImages:
+//  - name: pharmaco-gx:4.3.0
+//    dir: ./
+
+
+prep = lathe.Workflow("prep")
+
+projects = [
+    {name: "BeatAML_2018"},
+    {name: "FIMM_2016"},
+    //- {name: "GDSC_2020(v1-8.2)"},
+    {name: "NCI60_2021"},
+    {name: "Tavor_2020"},
+    {name: "CCLE_2015"},
+    {name: "GBM_scr2"},
+    //- {name: "GDSC_2020(v2-8.2)"},
+    {name: "PDTX_2019"},
+    {name: "UHNBreast_2019"},
+    {name: "CTRPv2_2015"},
+    {name: "GBM_scr3"},
+    {name: "GRAY_2017"},
+    {name: "PRISM_2020"},
+    {name: "gCSI_2019"}
+]
+
+
+downloadOutputs = {}
+
+projects.forEach( (element, index) => {
+    downloadOutputs[`file_${index}`] = `../../source/pharmacodb/rdata/${element.name}.rdata`
+})
+
+p = lathe.Process({
+    name: "download",
+    commandLine: `cwltool --outdir ../../source/pharmacodb/rdata ./download_pharmaco.cwl`,
+    outputs: downloadOutputs
+})
+prep.Add(p)  
+
+print("Adding project\n")
+projects.forEach(element => {
+    p = lathe.Process({
+        name: `process_${element.name}`,
+        commandLine: `cwltool --outdir ../../source/pharmacodb/${element.name} {{inputs.workflow}} --input {{inputs.rfile}}`,
+        outputs: {
+              response: `../../source/pharmacodb/${element.name}/response.tsv`,
+              samples: `../../source/pharmacodb/${element.name}/samples.tsv`,
+              treatments: `../../source/pharmacodb/${element.name}/treatments.tsv`
+        },
+        inputs: {
+              rfile: `../../source/pharmacodb/rdata/${element.name}.rdata`,
+              workflow: "extract_response.cwl"
+        },
+        memMB: 15000
+    })
+    prep.Add(p)
+})
+            

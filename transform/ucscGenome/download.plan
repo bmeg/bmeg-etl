@@ -1,0 +1,10 @@
+
+
+w = lathe.Workflow("prep")
+
+w.Add(lathe.Process({
+    commandLine: "curl -o {{outputs.gz}} https://hgdownload.cse.ucsc.edu/goldenPath/hg38/database/cytoBandIdeo.txt.gz",
+    outputs:{
+        gz: "../../source/ucscGenome/cytoBandIdeo.txt.gz"
+    }
+}))

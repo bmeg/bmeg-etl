@@ -1,0 +1,33 @@
+
+prep = lathe.Workflow("prep")
+
+transforms = glob("./transform/*/*.plan")
+
+plans = transforms.map(x => {
+    return lathe.LoadPlan(x)
+}).filter( x => {
+    return "prep" in x
+})
+
+plans.forEach(x => {
+    println(x)
+    prep.Add(x["prep"])
+})
+
+build = lathe.Workflow("build")
+
+alleleFiles = {}
+
+lathe.Plugin("sifter scan objects -s -j ./transform").filter(x => {
+    return x["objectType"] == "Allele"
+}).forEach( (x,i) => {
+    //println(x["outFile"])
+    alleleFiles[ `allele_${i}` ] = x["outFile"]
+})
+
+build = lathe.Workflow("build")
+
+build.Add(lathe.Process({
+    commandLine: "echo test",
+    inputs: alleleFiles
+}))

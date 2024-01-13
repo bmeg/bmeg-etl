@@ -1,0 +1,9 @@
+
+w  = lathe.Workflow("prep")
+
+w.Add(lathe.Process({
+    commandLine: "curl -L -o {{outputs.json}} http://purl.obolibrary.org/obo/mondo.json",
+    outputs: {
+      json: "../../source/mondo/mondo.json"
+    }
+}))

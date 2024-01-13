@@ -1,0 +1,20 @@
+
+prep = lathe.Workflow("prep")
+
+prep.Add(lathe.Process({ 
+    commandLine: "curl -o {{outputs.bindingZip}} https://www.bindingdb.org/bind/downloads/BindingDB_All_2023m2.tsv.zip",
+    outputs: {
+      bindingZip: "../../source/bindingdb/BindingDB_All_2023m1.tsv.zip"
+    }
+}))
+
+prep.Add(lathe.Process({
+    commandLine: "unzip -d {{outputs.bindingDir}} {{inputs.bindingZip}}",
+    inputs:{
+      bindingZip: "../../source/bindingdb/BindingDB_All_2023m1.tsv.zip"
+    },
+    outputs:{
+      bindingDir: "../../source/bindingdb",
+      bindingTSV: "../../source/bindingdb/BindingDB_All.tsv"
+    }
+}))

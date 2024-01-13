@@ -1,0 +1,37 @@
+
+workflow = lathe.Workflow("build")
+
+shards = 500
+
+shardfiles = []
+
+for (i = 0; i < shards; i++) {
+    s = `../../shards/chemdist.${i}.gz`
+    shardfiles.push(s)
+    p = lathe.Process({
+        commandLine: `../../util/compound_distance.py -i {{inputs.compounds}} -s ${i} -t ${shards} -o {{outputs.shardpath}}`,
+        inputs: {
+            compounds: "../../output/chembl/chemblTransform.records.compound.json.gz"
+        },
+        outputs: {
+            shardpath: s
+        },
+        memMB: 30000
+    })
+    workflow.Add(p)
+}
+
+shardInputs = {}
+shardfiles.forEach( (y,i) => {
+    shardInputs[`input_${i}`] = y
+})
+
+p = lathe.Process({
+    commandLine: `cat ../../shards/chemdist.*.gz > {{outputs.outfile}}`,
+    outputs: {
+        compounds: "../../normalize/chembl/compounds.dist.compoundDistant.json.gz"
+    },
+    inputs: shardInputs,
+    memMB: 30000
+})
+workflow.Add(p)

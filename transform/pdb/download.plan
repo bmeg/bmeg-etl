@@ -1,0 +1,10 @@
+
+
+prep = lathe.Workflow("prep")
+
+prep.Add(lathe.Process({
+    commandLine: "curl -o {{outputs.idx}} https://files.wwpdb.org/pub/pdb/derived_data/index/entries.idx",
+    outputs: {
+      idx: "../../source/pdb/entries.idx"
+    }
+})) 

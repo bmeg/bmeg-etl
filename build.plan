@@ -1,0 +1,38 @@
+build = lathe.Workflow("build")
+
+lathe.Plugin("sifter scan scripts -j -b ./ ./transform").map( x => {
+    out = {
+        commandLine: `sifter run ${x.path}`,
+        inputs: {},
+        outputs: {},
+    }
+
+    x.inputs.forEach( (y,i) => {
+        out["inputs"][`input_${i}`] = y
+    })
+
+    x.outputs.forEach( (y,i) => {
+        out["outputs"][`output_${i}`] = y
+    })
+
+    return out
+
+}).forEach( x => {
+    build.Add(lathe.Process(x))
+})
+
+alleleFiles = {}
+
+lathe.Plugin("sifter scan objects -s -j ./transform").filter(x => {
+    return x["objectType"] == "Allele"
+}).forEach( (x,i) => {
+    //println(x["outFile"])
+    alleleFiles[ `allele_${i}` ] = x["outFile"]
+})
+
+build = lathe.Workflow("build")
+
+build.Add(lathe.Process({
+    commandLine: "echo test",
+    inputs: alleleFiles
+}))

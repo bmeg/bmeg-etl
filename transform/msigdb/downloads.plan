@@ -1,0 +1,9 @@
+
+w = lathe.Workflow("prep")
+
+w.Add(lathe.Process({
+    commandLine: "curl -o {{outputs.xml}} https://data.broadinstitute.org/gsea-msigdb/msigdb/release/7.5.1/msigdb_v7.5.1.xml",
+    outputs:{
+      xml: "../../source/msigdb/msigdb_v7.5.1.xml"
+    }
+}))

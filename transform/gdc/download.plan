@@ -1,0 +1,44 @@
+
+
+prep = lathe.Workflow("prep")
+
+prep.Add(lathe.Process({
+    commandLine: "./gdc-scan.py compounds {{outputs.compoundDir}}",
+    outputs:{
+        compoundDir: "../../source/gdc/compounds/"
+    }
+}))
+
+prep.Add(lathe.Process({
+    commandLine: "./gdc-scan.py compounds {{outputs.compoundDir}}",
+    outputs:{
+      compoundDir: " ../../source/gdc/compounds/"}
+}))
+
+prep.Add(lathe.Process({
+    commandLine: "./gdc-scan.py expression {{outputs.rnaDir}}",
+    outputs:{
+      rnaDir: "../../source/gdc/rna-seq/"
+    }
+}))
+
+prep.Add(lathe.Process({
+    commandLine:" ./gdc-scan.py open-maf {{outputs.mafDir}}",
+    outputs:{
+      mafDir: "../../source/gdc/open-maf/"
+    }
+}))
+
+prep.Add(lathe.Process({
+commandLine: "./gdc-scan.py cases {{outputs.cases}}",
+    outputs:{
+      cases: "../../source/gdc/cases.json"
+    }
+}))
+
+prep.Add(lathe.Process({
+    commandLine: "./gdc-scan.py files {{outputs.files}}",
+    outputs:{
+      files: "../../source/gdc/files.json"
+    }
+}))

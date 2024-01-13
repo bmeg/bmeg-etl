@@ -1,0 +1,9 @@
+
+w = lathe.Workflow("prep")
+
+w.Add( lathe.Process({
+    commandLine: "curl -L -o {{outputs.obo}} https://github.com/NCI-Thesaurus/thesaurus-obo-edition/releases/download/v2022-08-19/ncit.obo",
+    outputs:{
+      obo: "../../source/ncit/ncit.obo"
+    }
+}))

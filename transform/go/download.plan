@@ -1,0 +1,24 @@
+
+
+prep = lathe.Workflow("prep")
+
+prep.Add(lathe.Process({
+    commandLine: "curl -o {{outputs.goJson}} http://release.geneontology.org/2022-09-19/ontology/go.json",
+    outputs:{
+        compoundDir: "../../source/go/go.json"
+    }
+}))
+
+prep.Add(lathe.Process({
+    commandLine: "curl -o {{outputs.goObo}} http://current.geneontology.org/ontology/go.obo",
+    outputs:{
+        compoundDir: "../../source/go/go.obo"
+    }
+}))
+
+prep.Add(lathe.Process({
+    commandLine: "curl -o {{outputs.goGaf}} http://release.geneontology.org/2022-09-19/annotations/goa_human.gaf.gz",
+    outputs:{
+        compoundDir: "../../source/go/goa_human.gaf.gz"
+    }
+}))

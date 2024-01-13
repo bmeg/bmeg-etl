@@ -1,0 +1,14 @@
+
+
+w = lathe.Workflow("w")
+
+w.Add(lathe.Process({
+    commandLine: "{{inputs.script}} -o {{outputs.dir}}",
+    inputs: {
+      script: "./download.py"
+    },
+    outputs:{
+      dir: "../../source/pubmed/baseline"
+    }
+}))
+

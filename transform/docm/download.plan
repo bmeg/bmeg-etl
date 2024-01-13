@@ -1,0 +1,9 @@
+
+w = lathe.Workflow("prep")
+
+w.Add(lathe.Process({
+    commandLine: "curl -o {{outputs.variants}} http://www.docm.info/api/v1/variants.json",
+    outputs: {
+      variants: "../../source/docm/variants.json"
+    }
+}))

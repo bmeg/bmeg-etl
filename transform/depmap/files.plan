@@ -1,0 +1,39 @@
+
+w = lathe.Workflow("prep")
+
+w.Add(lathe.File({
+    name: "OmicsSomaticMutations.csv",
+    source: "https://depmap.org/portal/download/all/",
+    path: "../../source/depmap/OmicsSomaticMutations.csv",
+    meta: {
+        downloadDate: "2022-12-20"
+    }
+}))
+
+w.Add(lathe.File({
+    name: "OmicsProfiles.csv",
+    source: "https://depmap.org/portal/download/all/",
+    path: "../../source/depmap/OmicsProfiles.csv",
+    meta: {
+        downloadDate: "2022-12-20"
+    }
+}))
+
+w.Add(lathe.File({
+    name: "Model.csv",
+    source: "https://depmap.org/portal/download/all/",
+    path: "../../source/depmap/Model.csv",
+    meta: {
+        downloadDate: "2022-12-20"
+    }
+}))
+
+
+w.Add(lathe.File({
+    name: "OmicsExpressionProteinCodingGenesTPMLogp1.csv",
+    source: "https://depmap.org/portal/download/all/",
+    path: "../../source/depmap/OmicsExpressionProteinCodingGenesTPMLogp1.csv",
+    meta: {
+        downloadDate: "2022-12-20"
+    }
+}))
