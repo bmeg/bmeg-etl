@@ -2,9 +2,9 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: transcript_expression
 title: TranscriptExpression
 type: object
-description: 'Transcript level expression values for an aliquot
-
-  '
+description: 'Transcript level expression values for an aliquot - Transcript expression is the pattern of gene expression
+at the level of genetic transcription in a specific organism or under specific circumstances in specific cells.
+Here in aliquot samples.'
 required:
 - submitter_id
 - project_id

@@ -2,9 +2,8 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: genomic_feature
 title: GenomicFeature
 type: object
-description: 'An abstract genomic feature
-
-  '
+description: 'An abstract genomic feature - A sequence feature (continuous extent of biological sequence) that is of
+genomic origin (i.e. carries sequence from the genome of a cell or organism)'
 required:
 - submitter_id
 - project_id

@@ -2,9 +2,9 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: gene_expression
 title: GeneExpression
 type: object
-description: 'Gene level expression values for an aliquot
-
-  '
+description: 'Gene level expression values for an aliquot - The process in which a genes sequence is converted into a
+mature gene product (protein or RNA). This includes the production of an RNA transcript and its processing,
+as well as translation and maturation for protein-coding genes.'
 required:
 - submitter_id
 - project_id

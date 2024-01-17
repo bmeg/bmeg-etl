@@ -2,9 +2,8 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: protein
 title: Protein
 type: object
-description: 'A protein.
-
-  '
+description: 'A protein - A biological macromolecule minimally consisting of one polypeptide chain synthesized
+at the ribosome.'
 required:
 - id
 - submitter_id

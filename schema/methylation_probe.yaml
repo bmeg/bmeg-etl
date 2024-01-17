@@ -2,9 +2,8 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: methylation_probe
 title: MethylationProbe
 type: object
-description: 'Definition for a methylation probe
-
-  '
+description: 'Definition for a methylation probe - A probe is a DNA sequence used experimentally to detect the presence
+or absence of a complementary nucleic acid.'
 required:
 - submitter_id
 - project_id

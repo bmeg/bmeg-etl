@@ -2,9 +2,7 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: transcript
 title: Transcript
 type: object
-description: 'A transcript.
-
-  '
+description: 'A transcript - An RNA synthesized on a DNA or RNA template by an RNA polymerase.'
 required:
 - submitter_id
 - project_id

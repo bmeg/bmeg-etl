@@ -2,9 +2,10 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: command
 title: Command
 type: object
-description: 'A DVC command that was run
-
-  '
+description: 'A DVC command that was run. Data Version Control (DVC) is a free and open-source, platform-agnostic
+version system for data, machine learning models, and experiments.It is designed to make ML models shareable,
+experiments reproducible, and to track versions of models, data, and pipelines. DVC works on top of Git repositories
+and cloud storage.'
 required:
 - submitter_id
 - project_id
