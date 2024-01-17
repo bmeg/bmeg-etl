@@ -1,0 +1,66 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: File
+title: File
+type: object
+description: A file
+required:
+  - submitter_id
+  - project_id
+  - md5
+  - filename
+links:
+  - rel: aliquots
+    href: Aliquot/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Aliquot.yaml
+    templatePointers:
+      id: /aliquots/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      backref:
+        - files
+properties:
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
+    element_property: true
+  md5:
+    type: string
+    element_property: true
+  path:
+    type: string
+    element_property: true
+  cmd:
+    type: string
+    element_property: true
+  filename:
+    type: string
+    element_property: true
+  project_id:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitter_id:
+    element_property: true
+  type:
+    type: string
+    element_property: true
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  aliquots:
+    items:
+      $ref: Aliquot.yaml
+    backref: files
+    element_property: true
+  resourceType:
+    default: File
+    type: string
+    description: One of the resource types defined as part of BMEG

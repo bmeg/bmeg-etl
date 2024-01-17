@@ -1,0 +1,69 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: ProteinStructure
+title: ProteinStructure
+type: object
+description: A protein structure.
+required:
+  - id
+  - submitter_id
+  - project_id
+links:
+  - rel: protein
+    href: Protein/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Protein.yaml
+    templatePointers:
+      id: /protein/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      backref:
+        - protein_structures
+properties:
+  id:
+    type: string
+    element_property: true
+  resolution:
+    element_property: true
+  description:
+    type: string
+    element_property: true
+  short_description:
+    type: string
+    element_property: true
+  source:
+    type: string
+    element_property: true
+  submission_date:
+    type: string
+    element_property: true
+  experiment_type:
+    type: string
+    element_property: true
+  project_id:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitter_id:
+    element_property: true
+  type:
+    type: string
+    element_property: true
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  protein:
+    items:
+      $ref: Protein.yaml
+    backref: protein_structures
+    element_property: true
+  resourceType:
+    default: ProteinStructure
+    type: string
+    description: One of the resource types defined as part of BMEG

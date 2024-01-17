@@ -1,0 +1,80 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: Transcript
+title: Transcript
+type: object
+description: A transcript.
+required:
+  - submitter_id
+  - project_id
+  - biotype
+  - chromosome
+  - strand
+  - start
+  - genome
+  - end
+  - transcript_id
+links:
+  - rel: gene
+    href: Gene/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Gene.yaml
+    templatePointers:
+      id: /gene/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      backref:
+        - transcripts
+properties:
+  transcript_id:
+    type: string
+    element_property: true
+  biotype:
+    type: string
+    element_property: true
+  genome:
+    $ref: _definitions.yaml#/genome
+    element_property: true
+  chromosome:
+    $ref: _definitions.yaml#/chromosome
+    element_property: true
+  start:
+    type: integer
+    element_property: true
+  end:
+    type: integer
+    element_property: true
+  strand:
+    $ref: _definitions.yaml#/strand
+    element_property: true
+  project_id:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitter_id:
+    element_property: true
+  id:
+    type: string
+    systemAlias: node_id
+    element_property: true
+  type:
+    type: string
+    element_property: true
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  gene:
+    items:
+      $ref: Gene.yaml
+    backref: transcripts
+    element_property: true
+  resourceType:
+    default: Transcript
+    type: string
+    description: One of the resource types defined as part of BMEG

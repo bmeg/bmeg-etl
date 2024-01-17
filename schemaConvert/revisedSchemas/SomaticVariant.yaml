@@ -1,0 +1,92 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: SomaticVariant
+title: SomaticVariant
+type: object
+description: A collection of somatic variants.
+links:
+  - rel: somatic_callset
+    href: Somaticcallset/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: SomaticCallset.yaml
+    templatePointers:
+      id: /somatic_callset/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      association: true
+  - rel: allele
+    href: Allele/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Allele.yaml
+    templatePointers:
+      id: /allele/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      association: true
+properties:
+  id:
+    type: string
+    systemAlias: node_id
+    element_property: true
+  ref:
+    type: string
+    element_property: true
+  alt:
+    type: string
+    element_property: true
+  t_depth:
+    type: integer
+    element_property: true
+  t_ref_count:
+    type: integer
+    element_property: true
+  t_alt_count:
+    type: integer
+    element_property: true
+  n_depth:
+    type: integer
+    element_property: true
+  n_ref_count:
+    type: integer
+    element_property: true
+  n_alt_count:
+    type: integer
+    element_property: true
+  filter:
+    type: string
+    element_property: true
+  methods:
+    type: array
+    items:
+      type: string
+    element_property: true
+  ensembl_protein:
+    type: string
+    element_property: true
+  ensembl_transcript:
+    type: string
+    element_property: true
+  ensembl_gene:
+    type: string
+    element_property: true
+  somatic_callset:
+    items:
+      $ref: SomaticCallset.yaml
+    element_property: true
+  allele:
+    items:
+      $ref: Allele.yaml
+    element_property: true
+  resourceType:
+    default: SomaticVariant
+    type: string
+    description: One of the resource types defined as part of BMEG

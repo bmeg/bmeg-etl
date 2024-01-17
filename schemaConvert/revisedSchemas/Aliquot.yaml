@@ -1,0 +1,77 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: Aliquot
+title: Aliquot
+type: object
+description: Pertaining to a portion of the whole; any one of two or more samples
+  of something, of the same volume or weight.
+required:
+  - submitter_id
+  - project_id
+  - id
+links:
+  - rel: sample
+    href: Sample/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Sample.yaml
+    templatePointers:
+      id: /sample/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      backref:
+        - aliquots
+  - rel: projects
+    href: Project/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Project.yaml
+    templatePointers:
+      id: /projects/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - aliquots
+properties:
+  id:
+    type: string
+    element_property: true
+  cellline_attributes:
+    element_property: true
+  gdc_attributes:
+    element_property: true
+  project_id:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitter_id:
+    element_property: true
+  type:
+    type: string
+    element_property: true
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  sample:
+    items:
+      $ref: Sample.yaml
+    backref: aliquots
+    element_property: true
+  projects:
+    items:
+      $ref: Project.yaml
+    backref: aliquots
+    element_property: true
+  resourceType:
+    default: Aliquot
+    type: string
+    description: One of the resource types defined as part of BMEG

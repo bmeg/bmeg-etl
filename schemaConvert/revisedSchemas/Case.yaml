@@ -1,0 +1,128 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: Case
+title: Case
+type: object
+description: The collection of all data related to a specific subject in the context
+  of a specific experiment.
+required:
+  - submitter_id
+  - project_id
+  - case_id
+links:
+  - rel: compounds
+    href: Compound/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Compound.yaml
+    templatePointers:
+      id: /compounds/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - cases
+  - rel: projects
+    href: Project/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Project.yaml
+    templatePointers:
+      id: /projects/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - cases
+  - rel: phenotypes
+    href: Phenotype/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Phenotype.yaml
+    templatePointers:
+      id: /phenotypes/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - cases
+  - rel: same_as
+    href: Case/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Case.yaml
+    templatePointers:
+      id: /same_as/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - cases
+properties:
+  case_id:
+    type: string
+    element_property: true
+  cellline_attributes:
+    element_property: true
+  gdc_attributes:
+    element_property: true
+  gtex_attributes:
+    element_property: true
+  sex:
+    type: string
+    element_property: true
+  project_id:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitter_id:
+    element_property: true
+  id:
+    type: string
+    element_property: true
+  comment:
+    type: string
+    element_property: true
+  type:
+    type: string
+    element_property: true
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  compounds:
+    items:
+      $ref: Compound.yaml
+    backref: cases
+    element_property: true
+  projects:
+    items:
+      $ref: Project.yaml
+    backref: cases
+    element_property: true
+  phenotypes:
+    items:
+      $ref: Phenotype.yaml
+    backref: cases
+    element_property: true
+  same_as:
+    items:
+      $ref: Case.yaml
+    backref: cases
+    element_property: true
+  resourceType:
+    default: Case
+    type: string
+    description: One of the resource types defined as part of BMEG

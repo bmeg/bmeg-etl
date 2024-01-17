@@ -1,0 +1,138 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: Allele
+title: Allele
+type: object
+required:
+  - id
+  - chromosome
+  - start
+  - genome
+  - reference_bases
+  - alternate_bases
+links:
+  - rel: gene
+    href: Gene/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Gene.yaml
+    templatePointers:
+      id: /gene/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      backref:
+        - alleles
+  - rel: effects
+    href: Effect/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: AlleleEffect.yaml
+    templatePointers:
+      id: /effects/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      backref:
+        - allele
+  - rel: transcript
+    href: Transcript/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Transcript.yaml
+    templatePointers:
+      id: /transcript/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      backref:
+        - alleles
+  - rel: protein
+    href: Protein/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Protein.yaml
+    templatePointers:
+      id: /protein/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      backref:
+        - allele
+properties:
+  id:
+    type: string
+    element_property: true
+  reference_bases:
+    type: string
+    element_property: true
+  alternate_bases:
+    type: string
+    element_property: true
+  genome:
+    $ref: _definitions.yaml#/genome
+    element_property: true
+  chromosome:
+    $ref: _definitions.yaml#/chromosome
+    element_property: true
+  start:
+    type: integer
+    element_property: true
+  end:
+    type: integer
+    element_property: true
+  strand:
+    $ref: _definitions.yaml#/strand
+    element_property: true
+  dbsnp_rs:
+    type: string
+    element_property: true
+  project_id:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitter_id:
+    element_property: true
+  type:
+    type: string
+    element_property: true
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  gene:
+    items:
+      $ref: Gene.yaml
+    backref: alleles
+    element_property: true
+  effects:
+    items:
+      $ref: AlleleEffect.yaml
+    backref: allele
+    element_property: true
+  transcript:
+    items:
+      $ref: Transcript.yaml
+    backref: alleles
+    element_property: true
+  protein:
+    items:
+      $ref: Protein.yaml
+    backref: allele
+    element_property: true
+  resourceType:
+    default: Allele
+    type: string
+    description: One of the resource types defined as part of BMEG

@@ -3,6 +3,7 @@ import yaml
 import glob
 import pathlib
 import os
+import re
 from collections import OrderedDict
 import yaml.emitter
 import yaml.serializer
@@ -41,7 +42,7 @@ def yaml_dir(input_path, output_path):
                     # aliquot, allele_effect and allele are missing descriptions
                     # was able to get aliquot description from the GDC data dictionary but not sure about the others
                     if schema["$id"] == "Aliquot":
-                        schema["description"] = "Pertaining to a portion of the whole. Any one of two or more samples of something, of the same volume or weight"
+                        schema["description"] = "Pertaining to a portion of the whole. Any one of two or more samples of something, of the same volume or weight."
                     if schema["$id"] == "AlleleEffect":
                         schema["description"] = "TODO: This needs to be filled in with relevent information"
                     if schema["$id"] == "Allele":
@@ -53,20 +54,48 @@ def yaml_dir(input_path, output_path):
 
                 if "links" in schema:
                     for i, _ in enumerate(schema["links"]):
-                        if "href" in schema["links"][i]:
-                            split_values = schema["links"][i]["href"].split("/")
-                            schema["links"][i]["href"] = convert_file_to_title(split_values[0], False) + "/" + split_values[1]
-                        if "targetSchema" in schema["links"][i] and "$ref" in schema["links"][i]["targetSchema"]:
-                            schema["links"][i]["targetSchema"]["$ref"] = convert_file_to_title(schema["links"][i]["targetSchema"]["$ref"], True)
-                            if "items" in schema["properties"][schema["links"][i]["rel"]] and "$ref" in schema["properties"][schema["links"][i]["rel"]]["items"]:
-                                item = schema["properties"][schema["links"][i]["rel"]]["items"]["$ref"]
-                                if item == "reference.yaml" and "eference" not in schema["links"][i]["targetSchema"]["$ref"]:
-                                    schema["properties"][schema["links"][i]["rel"]]["items"]["$ref"] = schema["links"][i]["targetSchema"]["$ref"]
 
-                        if "targetHints" in schema["links"][i] and \
-                            "backref" in schema["links"][i]["targetHints"] and\
-                                isinstance(schema["links"][i]["targetHints"]["backref"], str):
-                            schema["links"][i]["targetHints"]["backref"] = [schema["links"][i]["targetHints"]["backref"]]
+                        schema_links_i = schema["links"][i]
+                        if "href" in schema_links_i:
+                            split_values = schema_links_i["href"].split("/")
+                            schema_links_i["href"] = convert_file_to_title(split_values[0], False) + "/" + split_values[1]
+                        if "targetSchema" in schema_links_i and "$ref" in schema_links_i["targetSchema"]:
+                            schema_links_i["targetSchema"]["$ref"] = convert_file_to_title(schema_links_i["targetSchema"]["$ref"], True)
+                            if "items" in schema["properties"][schema_links_i["rel"]] and "$ref" in schema["properties"][schema_links_i["rel"]]["items"]:
+                                item = schema["properties"][schema_links_i["rel"]]["items"]["$ref"]
+                                if item == "reference.yaml" and "eference" not in schema_links_i["targetSchema"]["$ref"]:
+                                    schema["properties"][schema_links_i["rel"]]["items"]["$ref"] = schema_links_i["targetSchema"]["$ref"]
+
+                        if "targetHints" in schema_links_i and \
+                            "backref" in schema_links_i["targetHints"] and\
+                                isinstance(schema_links_i["targetHints"]["backref"], str):
+                            schema["links"][i]["targetHints"]["backref"] = [schema_links_i["targetHints"]["backref"]]
+                        if "targetHints" in schema_links_i and "backref" in schema_links_i["targetHints"]:
+                            schema["properties"][schema_links_i["rel"]]["backref"] = schema_links_i["targetHints"]["backref"][0]
+
+                        # TODO: add a lookup that goes property by property and adds desecription fields for links.
+
+                        """
+                        Didn't end up changing "rel" or "backref" fields because of nodes like
+                        Phenotype.yaml where its templatePointer is /child_terms/-/id, when applied to a
+                        ref it would semantically mean that child and terms are two different fields beause it would like like
+                        rel: child_terms_Phenotype . This has to do with the naming style of properties in the data.
+
+                        if "rel" in schema["links"][i] and\
+                            "templatePointers" in schema["links"][i] and\
+                                "id" in schema["links"][i]["templatePointers"]:
+                            pointers = re.split(r'/', schema["links"][i]["templatePointers"]["id"].replace("-", ""))
+                            new_rel = ""
+                            for entry in pointers:
+                                if entry not in ["", "id"]:
+                                    new_rel += entry + "_"
+                            #print(new_rel[:-1] != schema["links"][i]["href"].split("/")[0])
+                            if new_rel[:-1] != schema["links"][i]["href"].split("/")[0]:
+                                new_rel += schema["links"][i]["href"].split("/")[0]
+                                schema["links"][i]["rel"] = new_rel
+
+                                #print("POINTERS: ", new_rel)
+                        """
 
                 if "properties" in schema:
                     for key in schema["properties"].keys():
@@ -85,8 +114,17 @@ def yaml_dir(input_path, output_path):
                         # Special case row looked like {'oneOf': [{'type': 'null'}, {'$ref': '_definitions.yaml#/genome'}]}
                         elif "oneOf" in schema["properties"][key]:
                             schema["properties"][key]["oneOf"] = schema["properties"][key]["oneOf"][1]
-                            # print(schema["properties"][key])
-                            # print(schema["properties"][key]["type"], "WHOLE STRUCT: ", schema["properties"][key])
+
+                        # Everything in BMEG is an element property. Not everything in FHIR is.  ex: fhir_comments propert in DocumentRference
+                        schema["properties"][key]["element_property"] = True
+
+                    # resourceType property is very useful in ETL knowing what the node type is
+                    # without having to rely on the file name. Should probably be added.
+                    schema["properties"]["resourceType"] = {"default": schema["$id"],
+                                                            "type": "string",
+                                                            "description": "One of the resource types defined as part of BMEG"
+                                                            }
+
 
         # Reorder schema keys so that new keys that are added aren't appended to the end of the file
         order = ["$schema", "$id", "title", "type", "description", "required", "links", "properties"]

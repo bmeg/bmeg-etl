@@ -1,0 +1,64 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: CopyNumberAlteration
+title: CopyNumberAlteration
+type: object
+description: Gene level copy number estimates for an aliquot
+required:
+  - submitter_id
+  - project_id
+  - values
+  - method
+links:
+  - rel: aliquot
+    href: Aliquot/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Aliquot.yaml
+    templatePointers:
+      id: /aliquot/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      backref:
+        - copy_number_alterations
+properties:
+  method:
+    type: string
+    element_property: true
+  values:
+    type: object
+    propertyNames:
+      pattern: ^ENSG[0-9]+
+    additionalProperties:
+      type: number
+    element_property: true
+  project_id:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitter_id:
+    element_property: true
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
+    element_property: true
+  type:
+    type: string
+    element_property: true
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  aliquot:
+    items:
+      $ref: Aliquot.yaml
+    backref: copy_number_alterations
+    element_property: true
+  resourceType:
+    default: CopyNumberAlteration
+    type: string
+    description: One of the resource types defined as part of BMEG

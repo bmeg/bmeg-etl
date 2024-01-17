@@ -1,0 +1,197 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: AlleleEffect
+title: AlleleEffect
+type: object
+links:
+  - rel: ensembl_gene
+    href: Ensemblgene/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Gene.yaml
+    templatePointers:
+      id: /ensembl_gene/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      backref:
+        - allele_effects
+  - rel: ensembl_transcript
+    href: Ensembltranscript/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Transcript.yaml
+    templatePointers:
+      id: /ensembl_transcript/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      backref:
+        - allele_effects
+properties:
+  id:
+    type: string
+    element_property: true
+  annotation:
+    type: string
+    element_property: true
+  annotation_impact:
+    type: string
+    element_property: true
+  aa_position:
+    type: integer
+    element_property: true
+  aa_length:
+    type: integer
+    element_property: true
+  aa_ref:
+    type: string
+    element_property: true
+  aa_var:
+    type: string
+    element_property: true
+  cds_position:
+    type: integer
+    element_property: true
+  cds_length:
+    type: integer
+    element_property: true
+  cdna_position:
+    type: integer
+    element_property: true
+  cdna_length:
+    type: integer
+    element_property: true
+  exon_rank:
+    type: string
+    element_property: true
+  hgnc_id:
+    type: string
+    element_property: true
+  hgvsc:
+    type: string
+    element_property: true
+  hgvsp:
+    type: string
+    element_property: true
+  num_transcripts:
+    type: number
+    element_property: true
+  percent_transcripts_affected:
+    type: number
+    element_property: true
+  initiator_methionine:
+    type: string
+    element_property: true
+  chain:
+    type: string
+    element_property: true
+  site:
+    type: string
+    element_property: true
+  modified_residue:
+    type: string
+    element_property: true
+  sequence_conflict:
+    type: string
+    element_property: true
+  structure:
+    type: string
+    element_property: true
+  cross_link:
+    type: string
+    element_property: true
+  splice_variant:
+    type: string
+    element_property: true
+  sequence_variant:
+    type: string
+    element_property: true
+  mutagenesis_site:
+    type: string
+    element_property: true
+  region_of_interest:
+    type: string
+    element_property: true
+  compositionally_biased_region:
+    type: string
+    element_property: true
+  repeat:
+    type: string
+    element_property: true
+  short_sequence_motif:
+    type: string
+    element_property: true
+  domain:
+    type: string
+    element_property: true
+  transmembrane_region:
+    type: string
+    element_property: true
+  active_site:
+    type: string
+    element_property: true
+  transit_peptide:
+    type: string
+    element_property: true
+  topological_domain:
+    type: string
+    element_property: true
+  glycosylation_site:
+    type: string
+    element_property: true
+  lipid_moiety_binding_region:
+    type: string
+    element_property: true
+  disulfide_bond:
+    type: string
+    element_property: true
+  propeptide:
+    type: string
+    element_property: true
+  binding_site:
+    type: string
+    element_property: true
+  peptide:
+    type: string
+    element_property: true
+  intramembrane_region:
+    type: string
+    element_property: true
+  zinc_finger_region:
+    type: string
+    element_property: true
+  DNA_binding_region:
+    type: string
+    element_property: true
+  signal_peptide:
+    type: string
+    element_property: true
+  non_standard_amino_acid:
+    type: string
+    element_property: true
+  hugo_symbol:
+    type: string
+    element_property: true
+  biotype:
+    type: string
+    element_property: true
+  ensembl_gene:
+    items:
+      $ref: Gene.yaml
+    backref: allele_effects
+    element_property: true
+  ensembl_transcript:
+    items:
+      $ref: Transcript.yaml
+    backref: allele_effects
+    element_property: true
+  resourceType:
+    default: AlleleEffect
+    type: string
+    description: One of the resource types defined as part of BMEG

@@ -1,0 +1,98 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: Interaction
+title: Interaction
+type: object
+description: A biological interaction. This node represent an interaction between
+  two or  more entities (e.g. protein-protein, gene-drug, catalysis, or synthesis).
+required:
+  - submitter_id
+  - project_id
+  - source
+  - type
+links:
+  - rel: interaction_output
+    href: Gene/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Gene.yaml
+    templatePointers:
+      id: /interaction_output/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - interactions
+  - rel: publications
+    href: Publication/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Publication.yaml
+    templatePointers:
+      id: /publications/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - interactions
+  - rel: interaction_input
+    href: Interactioninpu/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Protein.yaml
+    templatePointers:
+      id: /interaction_input/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      backref:
+        - interactions
+properties:
+  source:
+    type: string
+    element_property: true
+  type:
+    type: string
+    element_property: true
+  project_id:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitter_id:
+    element_property: true
+  id:
+    type: string
+    systemAlias: node_id
+    element_property: true
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  interaction_output:
+    items:
+      $ref: Gene.yaml
+    backref: interactions
+    element_property: true
+  publications:
+    items:
+      $ref: Publication.yaml
+    backref: interactions
+    element_property: true
+  interaction_input:
+    items:
+      $ref: Protein.yaml
+    backref: interactions
+    element_property: true
+  resourceType:
+    default: Interaction
+    type: string
+    description: One of the resource types defined as part of BMEG

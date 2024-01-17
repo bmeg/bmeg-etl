@@ -1,0 +1,67 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: Methylation
+title: Methylation
+type: object
+description: Methylatyion values for an aliquot
+required:
+  - submitter_id
+  - project_id
+  - values
+  - method
+links:
+  - rel: aliquot
+    href: Aliquot/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Aliquot.yaml
+    templatePointers:
+      id: /aliquot/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      backref:
+        - methylations
+properties:
+  method:
+    type: string
+    element_property: true
+  metric:
+    type: string
+    element_property: true
+  values:
+    type: object
+    additionalProperties:
+      type:
+        - number
+        - 'null'
+    element_property: true
+  project_id:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitter_id:
+    element_property: true
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
+    element_property: true
+  type:
+    type: string
+    element_property: true
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  aliquot:
+    items:
+      $ref: Aliquot.yaml
+    backref: methylations
+    element_property: true
+  resourceType:
+    default: Methylation
+    type: string
+    description: One of the resource types defined as part of BMEG

@@ -1,0 +1,55 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: Project
+title: Project
+type: object
+description: Any specifically defined piece of work that is undertaken or attempted
+  to meet a single requirement.
+required:
+  - id
+  - submitter_id
+  - project_id
+links:
+  - rel: programs
+    href: Program/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Program.yaml
+    templatePointers:
+      id: /programs/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - projects
+properties:
+  id:
+    type: string
+    element_property: true
+  project_id:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  gdc_attributes:
+    element_property: true
+  submitter_id:
+    element_property: true
+  type:
+    type: string
+    element_property: true
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  programs:
+    items:
+      $ref: Program.yaml
+    backref: projects
+    element_property: true
+  resourceType:
+    default: Project
+    type: string
+    description: One of the resource types defined as part of BMEG

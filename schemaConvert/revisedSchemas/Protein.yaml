@@ -1,0 +1,81 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: Protein
+title: Protein
+type: object
+description: A protein.
+required:
+  - id
+  - submitter_id
+  - project_id
+links:
+  - rel: gene
+    href: Gene/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Gene.yaml
+    templatePointers:
+      id: /gene/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      backref:
+        - proteins
+  - rel: transcript
+    href: Transcript/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Transcript.yaml
+    templatePointers:
+      id: /transcript/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      backref:
+        - protein
+properties:
+  id:
+    type: string
+    element_property: true
+  sequence:
+    type: string
+    element_property: true
+  submitter_id:
+    element_property: true
+  project_id:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  length:
+    type: number
+    element_property: true
+  mass:
+    type: number
+    element_property: true
+  type:
+    type: string
+    element_property: true
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  gene:
+    items:
+      $ref: Gene.yaml
+    backref: proteins
+    element_property: true
+  transcript:
+    items:
+      $ref: Transcript.yaml
+    backref: protein
+    element_property: true
+  resourceType:
+    default: Protein
+    type: string
+    description: One of the resource types defined as part of BMEG

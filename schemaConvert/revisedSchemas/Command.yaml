@@ -1,0 +1,64 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: Command
+title: Command
+type: object
+description: A DVC command that was run
+required:
+  - submitter_id
+  - project_id
+  - md5
+  - cmd
+  - filename
+links:
+  - rel: writes
+    href: File/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: File.yaml
+    templatePointers:
+      id: /writes/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - command
+properties:
+  md5:
+    type: string
+    element_property: true
+  cmd:
+    type: string
+    element_property: true
+  filename:
+    type: string
+    element_property: true
+  project_id:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitter_id:
+    element_property: true
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
+    element_property: true
+  type:
+    type: string
+    element_property: true
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  writes:
+    items:
+      $ref: File.yaml
+    backref: command
+    element_property: true
+  resourceType:
+    default: Command
+    type: string
+    description: One of the resource types defined as part of BMEG

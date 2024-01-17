@@ -1,0 +1,103 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: Sample
+title: Sample
+type: object
+description: Any material sample taken from a biological entity for testing, diagnostic,
+  propagation, treatment or research purposes, including a sample obtained from a
+  living organism or taken from the biological object after halting of all its life
+  functions. Biospecimen can contain one or more components including but not limited
+  to cellular molecules, cells, tissues, organs, body fluids, embryos, and body excretory
+  products.
+required:
+  - id
+  - submitter_id
+  - project_id
+links:
+  - rel: case
+    href: Case/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Case.yaml
+    templatePointers:
+      id: /case/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      backref:
+        - samples
+  - rel: projects
+    href: Project/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Project.yaml
+    templatePointers:
+      id: /projects/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - samples
+  - rel: phenotypes
+    href: Phenotype/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Phenotype.yaml
+    templatePointers:
+      id: /phenotypes/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - samples
+properties:
+  id:
+    type: string
+    element_property: true
+  cellline_attributes:
+    element_property: true
+  gdc_attributes:
+    element_property: true
+  gtex_attributes:
+    element_property: true
+  project_id:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitter_id:
+    element_property: true
+  type:
+    type: string
+    element_property: true
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  case:
+    items:
+      $ref: Case.yaml
+    backref: samples
+    element_property: true
+  projects:
+    items:
+      $ref: Project.yaml
+    backref: samples
+    element_property: true
+  phenotypes:
+    items:
+      $ref: Phenotype.yaml
+    backref: samples
+    element_property: true
+  resourceType:
+    default: Sample
+    type: string
+    description: One of the resource types defined as part of BMEG

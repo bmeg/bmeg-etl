@@ -1,0 +1,66 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: MethylationProbe
+title: MethylationProbe
+type: object
+description: Definition for a methylation probe
+required:
+  - submitter_id
+  - project_id
+  - probe_id
+  - chromosome
+  - position
+links:
+  - rel: gene
+    href: Gene/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Gene.yaml
+    templatePointers:
+      id: /gene/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_one
+      backref:
+        - methylation_probes
+properties:
+  probe_id:
+    type: string
+    element_property: true
+  chromosome:
+    $ref: _definitions.yaml#/chromosome
+    element_property: true
+  position:
+    type: integer
+    element_property: true
+  target:
+    element_property: true
+  project_id:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitter_id:
+    element_property: true
+  id:
+    $ref: _definitions.yaml#/UUID
+    systemAlias: node_id
+    element_property: true
+  type:
+    type: string
+    element_property: true
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  gene:
+    items:
+      $ref: Gene.yaml
+    backref: methylation_probes
+    element_property: true
+  resourceType:
+    default: MethylationProbe
+    type: string
+    description: One of the resource types defined as part of BMEG

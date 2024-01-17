@@ -1,0 +1,169 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: GenePhenotypeAssociation
+title: GenePhenotypeAssociation
+type: object
+description: Associations of genomic features, drugs and diseases
+required:
+  - submitter_id
+  - description
+  - source
+  - project_id
+links:
+  - rel: compounds
+    href: Compound/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Compound.yaml
+    templatePointers:
+      id: /compounds/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - gene_phenotype_associations
+  - rel: alleles
+    href: Allele/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Allele.yaml
+    templatePointers:
+      id: /alleles/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - gene_phenotype_associations
+  - rel: genes
+    href: Gene/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Gene.yaml
+    templatePointers:
+      id: /genes/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - gene_phenotype_associations
+  - rel: genomic_features
+    href: GenomicFeature/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: GenomicFeature.yaml
+    templatePointers:
+      id: /genomic_features/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - gene_phenotype_associations
+  - rel: publications
+    href: Publication/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Publication.yaml
+    templatePointers:
+      id: /publications/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - gene_phenotype_associations
+  - rel: phenotypes
+    href: Phenotype/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Phenotype.yaml
+    templatePointers:
+      id: /phenotypes/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - gene_phenotype_associations
+properties:
+  id:
+    type: string
+    element_property: true
+  description:
+    type: string
+    element_property: true
+  evidence_label:
+    element_property: true
+  oncogenic:
+    element_property: true
+  response_type:
+    element_property: true
+  source:
+    type: string
+    element_property: true
+  source_document:
+    element_property: true
+  source_url:
+    element_property: true
+  project_id:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitter_id:
+    element_property: true
+  type:
+    type: string
+    element_property: true
+  created_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updated_datetime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  compounds:
+    items:
+      $ref: Compound.yaml
+    backref: gene_phenotype_associations
+    element_property: true
+  alleles:
+    items:
+      $ref: Allele.yaml
+    backref: gene_phenotype_associations
+    element_property: true
+  genes:
+    items:
+      $ref: Gene.yaml
+    backref: gene_phenotype_associations
+    element_property: true
+  genomic_features:
+    items:
+      $ref: GenomicFeature.yaml
+    backref: gene_phenotype_associations
+    element_property: true
+  publications:
+    items:
+      $ref: Publication.yaml
+    backref: gene_phenotype_associations
+    element_property: true
+  phenotypes:
+    items:
+      $ref: Phenotype.yaml
+    backref: gene_phenotype_associations
+    element_property: true
+  resourceType:
+    default: GenePhenotypeAssociation
+    type: string
+    description: One of the resource types defined as part of BMEG
