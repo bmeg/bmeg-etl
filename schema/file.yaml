@@ -2,9 +2,10 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: file
 title: File
 type: object
-description: 'A file
-
-  '
+description: 'A file Represents a file within a data system. Contains information about a file,
+  including its unique identifiers, checksum (MD5), filename, project association,
+  submitter information, creation and update timestamps, and references to related aliquots.
+  The file object serves as a key entity for linking, organizing, and managing data files.'
 required:
 - submitter_id
 - project_id

@@ -2,9 +2,9 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: pathway
 title: Pathway
 type: object
-description: 'A biological pathway
-
-  '
+description: 'A biological pathway - A pathway is a set of inter-connected reactions and interactions whose
+delineation and scope are used as a model for exploring and studying, describing and understanding the working
+of and relationships between biomolecules within a context.'
 required:
 - submitter_id
 - project_id

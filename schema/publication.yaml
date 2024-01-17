@@ -2,9 +2,8 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: publication
 title: Publication
 type: object
-description: 'A publication.
-
-  '
+description: 'A publication - In academic publishing, a scientific journal is a periodical publication intended to
+further the progress of science, usually by sharing findings from research with readers.'
 required:
 - url
 - submitter_id

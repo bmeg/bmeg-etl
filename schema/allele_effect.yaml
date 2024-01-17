@@ -2,6 +2,8 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: allele_effect
 title: AlleleEffect
 type: object
+description: 'Allele effect refers to the specific impact or influence that a particular allele, or variant of a gene
+has on a trait or phenotype.'
 links:
 - rel: ensembl_gene
   href: ensemblgene/{id}

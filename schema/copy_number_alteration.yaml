@@ -2,9 +2,9 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: copy_number_alteration
 title: CopyNumberAlteration
 type: object
-description: 'Gene level copy number estimates for an aliquot
-
-  '
+description: 'Gene level copy number estimates for an aliquot. Variation in the number of copies of a particular
+sequence within the genetic material of an individual. Large-scale copy number polymorphisms are common and widely
+distributed in the human genome.'
 required:
 - submitter_id
 - project_id

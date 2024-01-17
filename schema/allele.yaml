@@ -2,6 +2,16 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: allele
 title: Allele
 type: object
+description: 'One of a set of sequence features known to exist at a particular genomic location. An allele is a sequence
+ feature at a genomic location where variation occurs (i.e. where >1 different sequence is known to exist). An allele
+ can span only the extent of sequence known to vary (e.g. a single base SNP, or short insertion), or it can span a
+ larger extent that includes one or more variable features as proper parts (e.g. a gene allele that spans the extent
+ of an entire gene which contains several sequence alterations). Alleles can carry reference or variant sequence - depending
+ on whether the its state matches that considered to be the reference at that location. Alleles whose state differs
+ from the reference are called variant alleles, and those that match the reference are called reference alleles.
+ What is considered the reference state at a particular location may vary, depending on the context/goal of a particular
+ analysis. A sequence alteration is a variant allele that varies along its entire extent (i.e every position varies from
+ that of some defined reference sequence).'
 required:
 - id
 - chromosome

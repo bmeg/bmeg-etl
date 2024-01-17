@@ -2,9 +2,8 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: methylation
 title: Methylation
 type: object
-description: 'Methylatyion values for an aliquot
-
-  '
+description: 'Methylatyion values for an aliquot - Methylatyion is the covalent chemical or biochemical addition of a methyl group(s)
+to a compound.'
 required:
 - submitter_id
 - project_id

@@ -2,9 +2,9 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: drug_response
 title: DrugResponse
 type: object
-description: 'Drug response curve fit parameters.
-
-  '
+description: 'Drug response curve fit parameters. The dose–response relationship, or exposure–response relationship,
+describes the magnitude of the response of an organism, as a function of exposure (or doses) to a stimulus or
+stressor (a chemical) after a certain exposure time.'
 required:
 - id
 - submitter_id

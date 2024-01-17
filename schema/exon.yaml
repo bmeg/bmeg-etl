@@ -2,9 +2,8 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: exon
 title: Exon
 type: object
-description: 'An exon.
-
-  '
+description: 'An exon - Exon is a region of the transcript sequence within a gene which is not removed from the
+primary RNA transcript by RNA splicing.'
 required:
 - submitter_id
 - project_id
