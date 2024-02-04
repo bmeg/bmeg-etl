@@ -4,11 +4,10 @@ title: GeneSet
 type: object
 description: A set of biologically related genes
 required:
-  - id
-  - submitter_id
-  - project_id
+  - submitterId
+  - projectId
 links:
-  - rel: genes
+  - rel: genes_Gene
     href: Gene/{id}
     templateRequired:
       - id
@@ -22,8 +21,8 @@ links:
       multiplicity:
         - has_many
       backref:
-        - gene_sets
-  - rel: publications
+        - genes_gene_set
+  - rel: publications_Publication
     href: Publication/{id}
     templateRequired:
       - id
@@ -37,78 +36,81 @@ links:
       multiplicity:
         - has_many
       backref:
-        - gene_sets
+        - publications_gene_set
 properties:
   id:
-    type: string
-    element_property: true
-  standard_name:
-    type: string
-    element_property: true
-  systematic_name:
-    type: string
-    element_property: true
-  historical_names:
     type: string
     element_property: true
   geoid:
     type: string
     element_property: true
-  exact_source:
-    type: string
-    element_property: true
-  geneset_listing_url:
-    type: string
-    element_property: true
-  external_details_url:
-    type: string
-    element_property: true
   chip:
-    type: string
-    element_property: true
-  category_code:
-    type: string
-    element_property: true
-  sub_category_code:
     type: string
     element_property: true
   contributor:
     type: string
     element_property: true
-  contributor_org:
-    type: string
-    element_property: true
-  description_brief:
-    type: string
-    element_property: true
-  description_full:
-    type: string
-    element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  submitter_id:
-    element_property: true
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   genes:
+    type: array
     items:
       $ref: Gene.yaml
-    backref: gene_sets
     element_property: true
+    backref: genes_gene_set
   publications:
+    type: array
     items:
       $ref: Publication.yaml
-    backref: gene_sets
+    element_property: true
+    backref: publications_gene_set
+  standardName:
+    type: string
+    element_property: true
+  systematicName:
+    type: string
+    element_property: true
+  historicalNames:
+    type: string
+    element_property: true
+  exactSource:
+    type: string
+    element_property: true
+  genesetListingUrl:
+    type: string
+    element_property: true
+  externalDetailsUrl:
+    type: string
+    element_property: true
+  categoryCode:
+    type: string
+    element_property: true
+  subCategoryCode:
+    type: string
+    element_property: true
+  contributorOrg:
+    type: string
+    element_property: true
+  descriptionBrief:
+    type: string
+    element_property: true
+  descriptionFull:
+    type: string
+    element_property: true
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
     element_property: true
   resourceType:
-    default: GeneSet
+    default: gene_set
     type: string
     description: One of the resource types defined as part of BMEG

@@ -2,15 +2,14 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: TranscriptExpression
 title: TranscriptExpression
 type: object
-description: Transcript level expression values for an aliquot
+description: Transcript level expression values for an aliquot - Transcript expression
+  is the pattern of gene expression at the level of genetic transcription in a specific
+  organism or under specific circumstances in specific cells. Here in aliquot samples.
 required:
-  - submitter_id
-  - project_id
-  - values
-  - method
-  - metric
+  - submitterId
+  - projectId
 links:
-  - rel: aliquot
+  - rel: aliquot_Aliquot
     href: Aliquot/{id}
     templateRequired:
       - id
@@ -24,7 +23,7 @@ links:
       multiplicity:
         - has_one
       backref:
-        - transcript_expressions
+        - aliquot_transcript_expression
 properties:
   method:
     type: string
@@ -39,11 +38,6 @@ properties:
     additionalProperties:
       type: number
     element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  submitter_id:
-    element_property: true
   id:
     type: string
     systemAlias: node_id
@@ -51,18 +45,25 @@ properties:
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   aliquot:
+    type: array
     items:
       $ref: Aliquot.yaml
-    backref: transcript_expressions
+    element_property: true
+    backref: aliquot_transcript_expression
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
     element_property: true
   resourceType:
-    default: TranscriptExpression
+    default: transcript_expression
     type: string
     description: One of the resource types defined as part of BMEG

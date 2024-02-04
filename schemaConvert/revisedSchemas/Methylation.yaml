@@ -2,14 +2,13 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: Methylation
 title: Methylation
 type: object
-description: Methylatyion values for an aliquot
+description: Methylatyion values for an aliquot - Methylatyion is the covalent chemical
+  or biochemical addition of a methyl group(s) to a compound.
 required:
-  - submitter_id
-  - project_id
-  - values
-  - method
+  - submitterId
+  - projectId
 links:
-  - rel: aliquot
+  - rel: aliquot_Aliquot
     href: Aliquot/{id}
     templateRequired:
       - id
@@ -23,7 +22,7 @@ links:
       multiplicity:
         - has_one
       backref:
-        - methylations
+        - aliquot_methylation
 properties:
   method:
     type: string
@@ -38,11 +37,6 @@ properties:
         - number
         - 'null'
     element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  submitter_id:
-    element_property: true
   id:
     $ref: _definitions.yaml#/UUID
     systemAlias: node_id
@@ -50,18 +44,25 @@ properties:
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   aliquot:
+    type: array
     items:
       $ref: Aliquot.yaml
-    backref: methylations
+    element_property: true
+    backref: aliquot_methylation
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
     element_property: true
   resourceType:
-    default: Methylation
+    default: methylation
     type: string
     description: One of the resource types defined as part of BMEG

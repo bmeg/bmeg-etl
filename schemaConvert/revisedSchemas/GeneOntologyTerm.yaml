@@ -5,16 +5,11 @@ type: object
 description: The Gene Ontology project provides an ontology of defined terms representing  gene
   product properties.
 required:
-  - submitter_id
-  - synonym
-  - project_id
-  - name
-  - xref
-  - go_id
-  - definition
-  - namespace
+  - submitterId
+  - projectId
+  - goId
 links:
-  - rel: genes
+  - rel: genes_Gene
     href: Gene/{id}
     templateRequired:
       - id
@@ -28,26 +23,23 @@ links:
       multiplicity:
         - has_many
       backref:
-        - gene_ontology_terms
-  - rel: child_terms
+        - genes_gene_ontology_term
+  - rel: childTerms_GeneOntologyTer
     href: GeneOntologyTerm/{id}
     templateRequired:
       - id
     targetSchema:
       $ref: GeneOntologyTerm.yaml
     templatePointers:
-      id: /child_terms/-/id
+      id: /childTerms/-/id
     targetHints:
       directionality:
         - outbound
       multiplicity:
         - has_many
       backref:
-        - gene_ontology_terms
+        - childTerms_gene_ontology_term
 properties:
-  go_id:
-    type: string
-    element_property: true
   name:
     type: string
     element_property: true
@@ -65,11 +57,6 @@ properties:
     items:
       type: string
     element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  submitter_id:
-    element_property: true
   id:
     type: string
     systemAlias: node_id
@@ -77,23 +64,34 @@ properties:
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   genes:
+    type: array
     items:
       $ref: Gene.yaml
-    backref: gene_ontology_terms
     element_property: true
-  child_terms:
+    backref: genes_gene_ontology_term
+  goId:
+    type: string
+    element_property: true
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  childTerms:
+    type: array
     items:
       $ref: GeneOntologyTerm.yaml
-    backref: gene_ontology_terms
     element_property: true
+    backref: childTerms_gene_ontology_term
   resourceType:
-    default: GeneOntologyTerm
+    default: gene_ontology_term
     type: string
     description: One of the resource types defined as part of BMEG

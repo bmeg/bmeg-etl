@@ -4,11 +4,10 @@ title: ProteinCompoundAssociation
 type: object
 description: Definitions for protein-compound Associations
 required:
-  - id
-  - submitter_id
-  - project_id
+  - submitterId
+  - projectId
 links:
-  - rel: proteins
+  - rel: proteins_Protein
     href: Protein/{id}
     templateRequired:
       - id
@@ -22,8 +21,8 @@ links:
       multiplicity:
         - has_many
       backref:
-        - protein_compound_associations
-  - rel: genes
+        - proteins_protein_compound_association
+  - rel: genes_Gene
     href: Gene/{id}
     templateRequired:
       - id
@@ -37,8 +36,8 @@ links:
       multiplicity:
         - has_many
       backref:
-        - protein_compound_associations
-  - rel: compound
+        - genes_protein_compound_association
+  - rel: compound_Compound
     href: Compound/{id}
     templateRequired:
       - id
@@ -52,8 +51,8 @@ links:
       multiplicity:
         - has_one
       backref:
-        - protein_compound_associations
-  - rel: publications
+        - compound_protein_compound_association
+  - rel: publications_Publication
     href: Publication/{id}
     templateRequired:
       - id
@@ -67,75 +66,82 @@ links:
       multiplicity:
         - has_many
       backref:
-        - protein_compound_associations
-  - rel: protein_structures
+        - publications_protein_compound_association
+  - rel: proteinStructures_ProteinStructure
     href: ProteinStructure/{id}
     templateRequired:
       - id
     targetSchema:
       $ref: ProteinStructure.yaml
     templatePointers:
-      id: /protein_structures/-/id
+      id: /proteinStructures/-/id
     targetHints:
       directionality:
         - outbound
       multiplicity:
         - has_many
       backref:
-        - protein_compound_associations
+        - proteinStructures_protein_compound_association
 properties:
   id:
     type: string
     element_property: true
-  association_type:
-    type: string
-    description: protein-compound association keyword, example inhibitor
-    element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
   source:
     type: string
-    element_property: true
-  submitter_id:
-    element_property: true
-  ki_nm:
     element_property: true
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   proteins:
+    type: array
     items:
       $ref: Protein.yaml
-    backref: protein_compound_associations
     element_property: true
+    backref: proteins_protein_compound_association
   genes:
+    type: array
     items:
       $ref: Gene.yaml
-    backref: protein_compound_associations
     element_property: true
+    backref: genes_protein_compound_association
   compound:
+    type: array
     items:
       $ref: Compound.yaml
-    backref: protein_compound_associations
     element_property: true
+    backref: compound_protein_compound_association
   publications:
+    type: array
     items:
       $ref: Publication.yaml
-    backref: protein_compound_associations
     element_property: true
-  protein_structures:
+    backref: publications_protein_compound_association
+  associationType:
+    type: string
+    description: protein-compound association keyword, example inhibitor
+    element_property: true
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  kiNm:
+    type: number
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  proteinStructures:
+    type: array
     items:
       $ref: ProteinStructure.yaml
-    backref: protein_compound_associations
     element_property: true
+    backref: proteinStructures_protein_compound_association
   resourceType:
-    default: ProteinCompoundAssociation
+    default: protein_compound_association
     type: string
     description: One of the resource types defined as part of BMEG

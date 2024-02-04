@@ -2,19 +2,14 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: Transcript
 title: Transcript
 type: object
-description: A transcript.
+description: A transcript - An RNA synthesized on a DNA or RNA template by an RNA
+  polymerase.
 required:
-  - submitter_id
-  - project_id
-  - biotype
-  - chromosome
-  - strand
-  - start
-  - genome
-  - end
-  - transcript_id
+  - submitterId
+  - projectId
+  - transcriptId
 links:
-  - rel: gene
+  - rel: gene_Gene
     href: Gene/{id}
     templateRequired:
       - id
@@ -28,11 +23,8 @@ links:
       multiplicity:
         - has_one
       backref:
-        - transcripts
+        - gene_transcript
 properties:
-  transcript_id:
-    type: string
-    element_property: true
   biotype:
     type: string
     element_property: true
@@ -51,11 +43,6 @@ properties:
   strand:
     $ref: _definitions.yaml#/strand
     element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  submitter_id:
-    element_property: true
   id:
     type: string
     systemAlias: node_id
@@ -63,18 +50,28 @@ properties:
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   gene:
+    type: array
     items:
       $ref: Gene.yaml
-    backref: transcripts
+    element_property: true
+    backref: gene_transcript
+  transcriptId:
+    type: string
+    element_property: true
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
     element_property: true
   resourceType:
-    default: Transcript
+    default: transcript
     type: string
     description: One of the resource types defined as part of BMEG

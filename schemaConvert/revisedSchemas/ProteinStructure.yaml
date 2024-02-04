@@ -2,13 +2,13 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: ProteinStructure
 title: ProteinStructure
 type: object
-description: A protein structure.
+description: A protein structure - The amino acids and their 3-D arrangement in constituting
+  a protein.
 required:
-  - id
-  - submitter_id
-  - project_id
+  - submitterId
+  - projectId
 links:
-  - rel: protein
+  - rel: protein_Protein
     href: Protein/{id}
     templateRequired:
       - id
@@ -22,48 +22,51 @@ links:
       multiplicity:
         - has_one
       backref:
-        - protein_structures
+        - protein_protein_structure
 properties:
   id:
     type: string
     element_property: true
   resolution:
+    type: number
     element_property: true
   description:
-    type: string
-    element_property: true
-  short_description:
     type: string
     element_property: true
   source:
     type: string
     element_property: true
-  submission_date:
-    type: string
-    element_property: true
-  experiment_type:
-    type: string
-    element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  submitter_id:
-    element_property: true
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   protein:
+    type: array
     items:
       $ref: Protein.yaml
-    backref: protein_structures
+    element_property: true
+    backref: protein_protein_structure
+  shortDescription:
+    type: string
+    element_property: true
+  submissionDate:
+    type: string
+    element_property: true
+  experimentType:
+    type: string
+    element_property: true
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
     element_property: true
   resourceType:
-    default: ProteinStructure
+    default: protein_structure
     type: string
     description: One of the resource types defined as part of BMEG

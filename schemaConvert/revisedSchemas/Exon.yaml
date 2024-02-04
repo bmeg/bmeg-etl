@@ -2,18 +2,14 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: Exon
 title: Exon
 type: object
-description: An exon.
+description: An exon - Exon is a region of the transcript sequence within a gene which
+  is not removed from the primary RNA transcript by RNA splicing.
 required:
-  - submitter_id
-  - project_id
-  - chromosome
-  - strand
-  - start
-  - genome
-  - end
-  - exon_id
+  - submitterId
+  - projectId
+  - exonId
 links:
-  - rel: transcripts
+  - rel: transcripts_Transcript
     href: Transcript/{id}
     templateRequired:
       - id
@@ -27,12 +23,9 @@ links:
       multiplicity:
         - has_many
       backref:
-        - exons
+        - transcripts_exon
 properties:
   id:
-    type: string
-    element_property: true
-  exon_id:
     type: string
     element_property: true
   genome:
@@ -50,26 +43,31 @@ properties:
   strand:
     $ref: _definitions.yaml#/strand
     element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  submitter_id:
-    element_property: true
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   transcripts:
+    type: array
     items:
       $ref: Transcript.yaml
-    backref: exons
+    element_property: true
+    backref: transcripts_exon
+  exonId:
+    type: string
+    element_property: true
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
     element_property: true
   resourceType:
-    default: Exon
+    default: exon
     type: string
     description: One of the resource types defined as part of BMEG

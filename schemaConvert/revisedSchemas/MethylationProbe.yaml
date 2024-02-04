@@ -2,15 +2,14 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: MethylationProbe
 title: MethylationProbe
 type: object
-description: Definition for a methylation probe
+description: Definition for a methylation probe - A probe is a DNA sequence used experimentally
+  to detect the presence or absence of a complementary nucleic acid.
 required:
-  - submitter_id
-  - project_id
-  - probe_id
-  - chromosome
-  - position
+  - submitterId
+  - projectId
+  - probeId
 links:
-  - rel: gene
+  - rel: gene_Gene
     href: Gene/{id}
     templateRequired:
       - id
@@ -24,11 +23,8 @@ links:
       multiplicity:
         - has_one
       backref:
-        - methylation_probes
+        - gene_methylation_probe
 properties:
-  probe_id:
-    type: string
-    element_property: true
   chromosome:
     $ref: _definitions.yaml#/chromosome
     element_property: true
@@ -36,11 +32,7 @@ properties:
     type: integer
     element_property: true
   target:
-    element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  submitter_id:
+    type: string
     element_property: true
   id:
     $ref: _definitions.yaml#/UUID
@@ -49,18 +41,28 @@ properties:
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   gene:
+    type: array
     items:
       $ref: Gene.yaml
-    backref: methylation_probes
+    element_property: true
+    backref: gene_methylation_probe
+  probeId:
+    type: string
+    element_property: true
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
     element_property: true
   resourceType:
-    default: MethylationProbe
+    default: methylation_probe
     type: string
     description: One of the resource types defined as part of BMEG

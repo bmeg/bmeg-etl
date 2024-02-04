@@ -4,17 +4,10 @@ title: Program
 type: object
 description: A broad framework of goals to be achieved. (i.e. TCGA or FM-AD)
 required:
-  - submitter_id
-  - program_id
+  - submitterId
+  - programId
 links: []
 properties:
-  program_id:
-    type: string
-    element_property: true
-  gdc_attributes:
-    element_property: true
-  submitter_id:
-    element_property: true
   id:
     $ref: _definitions.yaml#/UUID
     systemAlias: node_id
@@ -22,13 +15,21 @@ properties:
   type:
     type: string
     element_property: true
-  created_datetime:
+  programId:
+    type: string
+    element_property: true
+  gdcAttributes:
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
     $ref: _definitions.yaml#/datetime
     element_property: true
-  updated_datetime:
+  updatedDateTime:
     $ref: _definitions.yaml#/datetime
     element_property: true
   resourceType:
-    default: Program
+    default: program
     type: string
     description: One of the resource types defined as part of BMEG

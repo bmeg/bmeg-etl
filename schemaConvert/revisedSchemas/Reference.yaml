@@ -5,12 +5,12 @@ type: object
 description: 'A reference to another entity in the graph.
 
   The id of the entity is required.'
-required:
-  - id
+required: []
 properties:
   id:
+    type: string
     element_property: true
   resourceType:
-    default: Reference
+    default: reference
     type: string
     description: One of the resource types defined as part of BMEG

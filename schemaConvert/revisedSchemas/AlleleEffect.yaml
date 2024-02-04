@@ -2,75 +2,44 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: AlleleEffect
 title: AlleleEffect
 type: object
+description: Allele effect refers to the specific impact or influence that a particular
+  allele, or variant of a gene has on a trait or phenotype.
 links:
-  - rel: ensembl_gene
+  - rel: ensemblGene_Gene
     href: Ensemblgene/{id}
     templateRequired:
       - id
     targetSchema:
       $ref: Gene.yaml
     templatePointers:
-      id: /ensembl_gene/-/id
+      id: /ensemblGene/-/id
     targetHints:
       directionality:
         - outbound
       multiplicity:
         - has_one
       backref:
-        - allele_effects
-  - rel: ensembl_transcript
+        - ensemblGene_allele_effect
+  - rel: ensemblTranscript_Transcript
     href: Ensembltranscript/{id}
     templateRequired:
       - id
     targetSchema:
       $ref: Transcript.yaml
     templatePointers:
-      id: /ensembl_transcript/-/id
+      id: /ensemblTranscript/-/id
     targetHints:
       directionality:
         - outbound
       multiplicity:
         - has_one
       backref:
-        - allele_effects
+        - ensemblTranscript_allele_effect
 properties:
   id:
     type: string
     element_property: true
   annotation:
-    type: string
-    element_property: true
-  annotation_impact:
-    type: string
-    element_property: true
-  aa_position:
-    type: integer
-    element_property: true
-  aa_length:
-    type: integer
-    element_property: true
-  aa_ref:
-    type: string
-    element_property: true
-  aa_var:
-    type: string
-    element_property: true
-  cds_position:
-    type: integer
-    element_property: true
-  cds_length:
-    type: integer
-    element_property: true
-  cdna_position:
-    type: integer
-    element_property: true
-  cdna_length:
-    type: integer
-    element_property: true
-  exon_rank:
-    type: string
-    element_property: true
-  hgnc_id:
     type: string
     element_property: true
   hgvsc:
@@ -79,119 +48,154 @@ properties:
   hgvsp:
     type: string
     element_property: true
-  num_transcripts:
-    type: number
-    element_property: true
-  percent_transcripts_affected:
-    type: number
-    element_property: true
-  initiator_methionine:
-    type: string
-    element_property: true
   chain:
     type: string
     element_property: true
   site:
     type: string
     element_property: true
-  modified_residue:
-    type: string
-    element_property: true
-  sequence_conflict:
-    type: string
-    element_property: true
   structure:
-    type: string
-    element_property: true
-  cross_link:
-    type: string
-    element_property: true
-  splice_variant:
-    type: string
-    element_property: true
-  sequence_variant:
-    type: string
-    element_property: true
-  mutagenesis_site:
-    type: string
-    element_property: true
-  region_of_interest:
-    type: string
-    element_property: true
-  compositionally_biased_region:
     type: string
     element_property: true
   repeat:
     type: string
     element_property: true
-  short_sequence_motif:
-    type: string
-    element_property: true
   domain:
-    type: string
-    element_property: true
-  transmembrane_region:
-    type: string
-    element_property: true
-  active_site:
-    type: string
-    element_property: true
-  transit_peptide:
-    type: string
-    element_property: true
-  topological_domain:
-    type: string
-    element_property: true
-  glycosylation_site:
-    type: string
-    element_property: true
-  lipid_moiety_binding_region:
-    type: string
-    element_property: true
-  disulfide_bond:
     type: string
     element_property: true
   propeptide:
     type: string
     element_property: true
-  binding_site:
-    type: string
-    element_property: true
   peptide:
-    type: string
-    element_property: true
-  intramembrane_region:
-    type: string
-    element_property: true
-  zinc_finger_region:
-    type: string
-    element_property: true
-  DNA_binding_region:
-    type: string
-    element_property: true
-  signal_peptide:
-    type: string
-    element_property: true
-  non_standard_amino_acid:
-    type: string
-    element_property: true
-  hugo_symbol:
     type: string
     element_property: true
   biotype:
     type: string
     element_property: true
-  ensembl_gene:
+  annotationImpact:
+    type: string
+    element_property: true
+  aaPosition:
+    type: integer
+    element_property: true
+  aaLength:
+    type: integer
+    element_property: true
+  aaRef:
+    type: string
+    element_property: true
+  aaVar:
+    type: string
+    element_property: true
+  cdsPosition:
+    type: integer
+    element_property: true
+  cdsLength:
+    type: integer
+    element_property: true
+  cdnaPosition:
+    type: integer
+    element_property: true
+  cdnaLength:
+    type: integer
+    element_property: true
+  exonRank:
+    type: string
+    element_property: true
+  hgncId:
+    type: string
+    element_property: true
+  numTranscripts:
+    type: number
+    element_property: true
+  percentTranscriptsAffected:
+    type: number
+    element_property: true
+  initiatorMethionine:
+    type: string
+    element_property: true
+  modifiedResidue:
+    type: string
+    element_property: true
+  sequenceConflict:
+    type: string
+    element_property: true
+  crossLink:
+    type: string
+    element_property: true
+  spliceVariant:
+    type: string
+    element_property: true
+  sequenceVariant:
+    type: string
+    element_property: true
+  mutagenesisSite:
+    type: string
+    element_property: true
+  regionOfInterest:
+    type: string
+    element_property: true
+  compositionallyBiasedRegion:
+    type: string
+    element_property: true
+  shortSequenceMotif:
+    type: string
+    element_property: true
+  transmembraneRegion:
+    type: string
+    element_property: true
+  activeSite:
+    type: string
+    element_property: true
+  transitPeptide:
+    type: string
+    element_property: true
+  topologicalDomain:
+    type: string
+    element_property: true
+  glycosylationSite:
+    type: string
+    element_property: true
+  lipidMoietyBindingRegion:
+    type: string
+    element_property: true
+  disulfideBond:
+    type: string
+    element_property: true
+  bindingSite:
+    type: string
+    element_property: true
+  intramembraneRegion:
+    type: string
+    element_property: true
+  zincFingerRegion:
+    type: string
+    element_property: true
+  dnaBindingRegion:
+    type: string
+    element_property: true
+  signalPeptide:
+    type: string
+    element_property: true
+  nonStandardAminoAcid:
+    type: string
+    element_property: true
+  hugoSymbol:
+    type: string
+    element_property: true
+  ensemblGene:
+    type: array
     items:
       $ref: Gene.yaml
-    backref: allele_effects
     element_property: true
-  ensembl_transcript:
+    backref: ensemblGene_allele_effect
+  ensemblTranscript:
+    type: array
     items:
       $ref: Transcript.yaml
-    backref: allele_effects
     element_property: true
+    backref: ensemblTranscript_allele_effect
   resourceType:
-    default: AlleleEffect
+    default: allele_effect
     type: string
     description: One of the resource types defined as part of BMEG

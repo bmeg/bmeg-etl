@@ -5,11 +5,10 @@ type: object
 description: Any specifically defined piece of work that is undertaken or attempted
   to meet a single requirement.
 required:
-  - id
-  - submitter_id
-  - project_id
+  - submitterId
+  - projectId
 links:
-  - rel: programs
+  - rel: programs_Progr
     href: Program/{id}
     templateRequired:
       - id
@@ -23,33 +22,35 @@ links:
       multiplicity:
         - has_many
       backref:
-        - projects
+        - programs_project
 properties:
   id:
     type: string
     element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  gdc_attributes:
-    element_property: true
-  submitter_id:
-    element_property: true
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   programs:
+    type: array
     items:
       $ref: Program.yaml
-    backref: projects
+    element_property: true
+    backref: programs_project
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  gdcAttributes:
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
     element_property: true
   resourceType:
-    default: Project
+    default: project
     type: string
     description: One of the resource types defined as part of BMEG

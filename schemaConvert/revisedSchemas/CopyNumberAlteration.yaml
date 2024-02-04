@@ -2,14 +2,15 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: CopyNumberAlteration
 title: CopyNumberAlteration
 type: object
-description: Gene level copy number estimates for an aliquot
+description: Gene level copy number estimates for an aliquot. Variation in the number
+  of copies of a particular sequence within the genetic material of an individual.
+  Large-scale copy number polymorphisms are common and widely distributed in the human
+  genome.
 required:
-  - submitter_id
-  - project_id
-  - values
-  - method
+  - submitterId
+  - projectId
 links:
-  - rel: aliquot
+  - rel: aliquot_Aliquot
     href: Aliquot/{id}
     templateRequired:
       - id
@@ -23,7 +24,7 @@ links:
       multiplicity:
         - has_one
       backref:
-        - copy_number_alterations
+        - aliquot_copy_number_alteration
 properties:
   method:
     type: string
@@ -35,11 +36,6 @@ properties:
     additionalProperties:
       type: number
     element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  submitter_id:
-    element_property: true
   id:
     $ref: _definitions.yaml#/UUID
     systemAlias: node_id
@@ -47,18 +43,25 @@ properties:
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   aliquot:
+    type: array
     items:
       $ref: Aliquot.yaml
-    backref: copy_number_alterations
+    element_property: true
+    backref: aliquot_copy_number_alteration
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
     element_property: true
   resourceType:
-    default: CopyNumberAlteration
+    default: copy_number_alteration
     type: string
     description: One of the resource types defined as part of BMEG

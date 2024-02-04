@@ -2,11 +2,12 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: Publication
 title: Publication
 type: object
-description: A publication.
+description: A publication - In academic publishing, a scientific journal is a periodical
+  publication intended to further the progress of science, usually by sharing findings
+  from research with readers.
 required:
-  - url
-  - submitter_id
-  - project_id
+  - submitterId
+  - projectId
 links: []
 properties:
   id:
@@ -17,32 +18,39 @@ properties:
     type: string
     element_property: true
   abstract:
+    type: string
     element_property: true
   author:
+    type: array
     element_property: true
   citation:
+    type: array
     element_property: true
   date:
+    type: string
     element_property: true
   text:
+    type: string
     element_property: true
   title:
-    element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  submitter_id:
+    type: string
     element_property: true
   type:
     type: string
     element_property: true
-  created_datetime:
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
     $ref: _definitions.yaml#/datetime
     element_property: true
-  updated_datetime:
+  updatedDateTime:
     $ref: _definitions.yaml#/datetime
     element_property: true
   resourceType:
-    default: Publication
+    default: publication
     type: string
     description: One of the resource types defined as part of BMEG

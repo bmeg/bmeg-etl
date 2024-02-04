@@ -5,26 +5,25 @@ type: object
 description: An observable characteristics of a case or sample resulting from the  interaction
   of its genotype with the environment (i.e. a disease).
 required:
-  - submitter_id
-  - term_id
-  - term
-  - project_id
+  - submitterId
+  - termId
+  - projectId
 links:
-  - rel: child_terms
+  - rel: childTerms_Phenotype
     href: Phenotype/{id}
     templateRequired:
       - id
     targetSchema:
       $ref: Phenotype.yaml
     templatePointers:
-      id: /child_terms/-/id
+      id: /childTerms/-/id
     targetHints:
       directionality:
         - outbound
       multiplicity:
         - has_many
       backref:
-        - phenotypes
+        - childTerms_phenotype
 properties:
   id:
     type: string
@@ -32,34 +31,37 @@ properties:
   term:
     type: string
     element_property: true
-  term_id:
-    type: string
-    element_property: true
   name:
+    type: string
     element_property: true
   description:
     type: string
     element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  submitter_id:
-    element_property: true
   type:
     type: string
     element_property: true
-  created_datetime:
+  termId:
+    type: string
+    element_property: true
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
     $ref: _definitions.yaml#/datetime
     element_property: true
-  updated_datetime:
+  updatedDateTime:
     $ref: _definitions.yaml#/datetime
     element_property: true
-  child_terms:
+  childTerms:
+    type: array
     items:
       $ref: Phenotype.yaml
-    backref: phenotypes
     element_property: true
+    backref: childTerms_phenotype
   resourceType:
-    default: Phenotype
+    default: phenotype
     type: string
     description: One of the resource types defined as part of BMEG

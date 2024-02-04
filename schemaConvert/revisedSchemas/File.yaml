@@ -2,14 +2,16 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: File
 title: File
 type: object
-description: A file
+description: A file Represents a file within a data system. Contains information about
+  a file, including its unique identifiers, checksum (MD5), filename, project association,
+  submitter information, creation and update timestamps, and references to related
+  aliquots. The file object serves as a key entity for linking, organizing, and managing
+  data files.
 required:
-  - submitter_id
-  - project_id
-  - md5
-  - filename
+  - submitterId
+  - projectId
 links:
-  - rel: aliquots
+  - rel: aliquots_Aliquot
     href: Aliquot/{id}
     templateRequired:
       - id
@@ -23,7 +25,7 @@ links:
       multiplicity:
         - has_one
       backref:
-        - files
+        - aliquots_file
 properties:
   id:
     $ref: _definitions.yaml#/UUID
@@ -41,26 +43,28 @@ properties:
   filename:
     type: string
     element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  submitter_id:
-    element_property: true
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   aliquots:
+    type: array
     items:
       $ref: Aliquot.yaml
-    backref: files
+    element_property: true
+    backref: aliquots_file
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
     element_property: true
   resourceType:
-    default: File
+    default: file
     type: string
     description: One of the resource types defined as part of BMEG

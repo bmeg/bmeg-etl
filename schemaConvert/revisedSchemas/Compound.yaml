@@ -4,11 +4,10 @@ title: Compound
 type: object
 description: Definitions for Compound
 required:
-  - id
-  - submitter_id
-  - project_id
+  - submitterId
+  - projectId
 links:
-  - rel: projects
+  - rel: projects_Project
     href: Project/{id}
     templateRequired:
       - id
@@ -22,33 +21,25 @@ links:
       multiplicity:
         - has_many
       backref:
-        - compounds
-  - rel: similar_compounds
+        - projects_compound
+  - rel: similarCompounds_Compound
     href: Compound/{id}
     templateRequired:
       - id
     targetSchema:
       $ref: Compound.yaml
     templatePointers:
-      id: /similar_compounds/-/id
+      id: /similarCompounds/-/id
     targetHints:
       directionality:
         - outbound
       multiplicity:
         - has_many
       backref:
-        - compounds
+        - similarCompounds_compound
 properties:
   id:
     type: string
-    element_property: true
-  pubchem_id:
-    element_property: true
-  chebi_id:
-    element_property: true
-  chembl_id:
-    element_property: true
-  drugbank_id:
     element_property: true
   synonym:
     type: array
@@ -56,46 +47,68 @@ properties:
       type: string
     element_property: true
   inchi:
-    element_property: true
-  inchi_key:
-    element_property: true
-  usan_stem_definition:
+    type: string
     element_property: true
   taxonomy:
-    element_property: true
-  approved_countries:
-    element_property: true
-  source_url:
-    element_property: true
-  id_source:
-    element_property: true
-  morgan_fingerprint_2:
-    element_property: true
-  similar_compounds:
-    items:
-      $ref: Compound.yaml
-    backref: compounds
-    element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  submitter_id:
     element_property: true
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   projects:
+    type: array
     items:
       $ref: Project.yaml
-    backref: compounds
+    element_property: true
+    backref: projects_compound
+  pubchemId:
+    type: string
+    element_property: true
+  chebiId:
+    type: string
+    element_property: true
+  chemblId:
+    type: string
+    element_property: true
+  drugbankId:
+    type: string
+    element_property: true
+  inchiKey:
+    type: string
+    element_property: true
+  usanStemDefinition:
+    type: string
+    element_property: true
+  approvedCountries:
+    type: array
+    element_property: true
+  sourceUrl:
+    type: string
+    element_property: true
+  idSource:
+    type: string
+    element_property: true
+  morganFingerprint2:
+    type: array
+    element_property: true
+  similarCompounds:
+    type: array
+    items:
+      $ref: Compound.yaml
+    element_property: true
+    backref: similarCompounds_compound
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
     element_property: true
   resourceType:
-    default: Compound
+    default: compound
     type: string
     description: One of the resource types defined as part of BMEG

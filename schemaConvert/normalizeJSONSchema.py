@@ -16,6 +16,14 @@ def cli():
     pass
 
 
+def camelCase(st):
+    output = ''.join(x for x in st.title() if x.isalnum())
+    out = output[1:]
+    # fix special case
+    if "Datetime" in str(output[1:]):
+        out = str(output[1:]).strip("Datetime") + "DateTime"
+    return output[0].lower() + out
+
 @cli.command('yaml_dir')
 @click.option('--input_path', required=True,
               default='schema',
@@ -23,7 +31,7 @@ def cli():
               help='Path to schema files directory'
               )
 @click.option('--output_path', required=True,
-              default='schemaConvert/output',
+              default='schemaConvert/revisedSchemas',
               show_default=True,
               help='Path to cytoscape files directory'
               )
@@ -38,6 +46,41 @@ def yaml_dir(input_path, output_path):
         if str(path).split("/")[-1][0] != "_":
             with open(path, "r") as file:
                 schema = yaml.safe_load(file)
+                if "required" in schema:
+                    schema["required"] = [camelCase(elem) for elem in schema["required"] if "_" in elem]
+                if "properties" in schema:
+                    for key in list(schema["properties"].keys()):
+                        schema["properties"][camelCase(key)] = schema["properties"][key]
+                        if key != camelCase(key):
+                            del schema["properties"][key]
+                        key = camelCase(key)
+
+                        if "type" in schema["properties"][key]:
+                            prop_type_field = schema["properties"][key]["type"]
+                            # Logic to simplify the property typing to match FHIR conventions
+                            if "type" in schema["properties"][key] and isinstance(prop_type_field, list):
+                                if len(prop_type_field) == 1 and prop_type_field[0] not in ["null", "object"]:
+                                    schema["properties"][key]["type"] = schema["properties"][key]["type"][0]
+                                elif len(prop_type_field) == 2 and prop_type_field[0] in ["null", "object"] and prop_type_field[1] not in ["null", "object"]:
+                                    schema["properties"][key]["type"] = schema["properties"][key]["type"][1]
+                                elif len(prop_type_field) == 2 and prop_type_field[1] in ["null", "object"] and prop_type_field[0] not in ["null", "object"]:
+                                    schema["properties"][key]["type"] = schema["properties"][key]["type"][0]
+                                else:
+                                    del schema["properties"][key]["type"]
+
+                        # Special case row looked like {'oneOf': [{'type': 'null'}, {'$ref': '_definitions.yaml#/genome'}]}
+                        elif "oneOf" in schema["properties"][key]:
+                            schema["properties"][key]["oneOf"][0]["type"] = "array"
+
+                        # Everything in BMEG is an element property. Not everything in FHIR is.  ex: fhir_comments propert in DocumentRference
+                        schema["properties"][key]["element_property"] = True
+
+                    # resourceType property is very useful in ETL knowing what the node type is
+                    # without having to rely on the file name. Should probably be added.
+                    schema["properties"]["resourceType"] = {"default": schema["$id"],
+                                                            "type": "string",
+                                                            "description": "One of the resource types defined as part of BMEG"
+                                                            }
                 if "description" not in schema:
                     # aliquot, allele_effect and allele are missing descriptions
                     # was able to get aliquot description from the GDC data dictionary but not sure about the others
@@ -54,77 +97,42 @@ def yaml_dir(input_path, output_path):
 
                 if "links" in schema:
                     for i, _ in enumerate(schema["links"]):
-
                         schema_links_i = schema["links"][i]
                         if "href" in schema_links_i:
                             split_values = schema_links_i["href"].split("/")
                             schema_links_i["href"] = convert_file_to_title(split_values[0], False) + "/" + split_values[1]
                         if "targetSchema" in schema_links_i and "$ref" in schema_links_i["targetSchema"]:
+                            schema_links_i_rel_camel_case = camelCase(schema_links_i["rel"])
                             schema_links_i["targetSchema"]["$ref"] = convert_file_to_title(schema_links_i["targetSchema"]["$ref"], True)
-                            if "items" in schema["properties"][schema_links_i["rel"]] and "$ref" in schema["properties"][schema_links_i["rel"]]["items"]:
-                                item = schema["properties"][schema_links_i["rel"]]["items"]["$ref"]
+                            if "items" in schema["properties"][schema_links_i_rel_camel_case] and "$ref" in schema["properties"][schema_links_i_rel_camel_case]["items"]:
+                                item = schema["properties"][schema_links_i_rel_camel_case]["items"]["$ref"]
                                 if item == "reference.yaml" and "eference" not in schema_links_i["targetSchema"]["$ref"]:
-                                    schema["properties"][schema_links_i["rel"]]["items"]["$ref"] = schema_links_i["targetSchema"]["$ref"]
+                                    schema["properties"][schema_links_i_rel_camel_case]["items"]["$ref"] = schema_links_i["targetSchema"]["$ref"]
+
+                        if "templatePointers" in schema_links_i:
+                            string_ex = schema_links_i["templatePointers"]["id"].split("/")
+                            camel_case = camelCase(string_ex[1])
+                            if "_" in string_ex[1]:
+                                # This implies that only "/projects/-/id" exist and not /projects/-/name/-/id
+                                schema_links_i["templatePointers"]["id"] = "/" + camel_case + "/" + "/".join(string_ex[2:])
+                            if "rel" in schema_links_i:
+                                schema_links_i["rel"] = camel_case + "_" + schema_links_i["targetSchema"]["$ref"].strip(".yaml")
 
                         if "targetHints" in schema_links_i and \
                             "backref" in schema_links_i["targetHints"] and\
                                 isinstance(schema_links_i["targetHints"]["backref"], str):
                             schema["links"][i]["targetHints"]["backref"] = [schema_links_i["targetHints"]["backref"]]
+                        if "backref" in schema_links_i['targetHints']:
+                            for i, v in enumerate(schema_links_i['targetHints']["backref"]):
+                                word = v
+                                # Get rid of pluralization of backref since that style doesn't exist in fhir
+                                if word.endswith("s"):
+                                    word = word[:-1]
+                                # Another one that assumes that there aren't any /projects/-/name/-/id refs in Bmeg
+                                schema_links_i['targetHints']["backref"][i] = schema_links_i["rel"].split("_")[0] + "_"+ word
+
                         if "targetHints" in schema_links_i and "backref" in schema_links_i["targetHints"]:
-                            schema["properties"][schema_links_i["rel"]]["backref"] = schema_links_i["targetHints"]["backref"][0]
-
-                        # TODO: add a lookup that goes property by property and adds desecription fields for links.
-
-                        """
-                        Didn't end up changing "rel" or "backref" fields because of nodes like
-                        Phenotype.yaml where its templatePointer is /child_terms/-/id, when applied to a
-                        ref it would semantically mean that child and terms are two different fields beause it would like like
-                        rel: child_terms_Phenotype . This has to do with the naming style of properties in the data.
-
-                        if "rel" in schema["links"][i] and\
-                            "templatePointers" in schema["links"][i] and\
-                                "id" in schema["links"][i]["templatePointers"]:
-                            pointers = re.split(r'/', schema["links"][i]["templatePointers"]["id"].replace("-", ""))
-                            new_rel = ""
-                            for entry in pointers:
-                                if entry not in ["", "id"]:
-                                    new_rel += entry + "_"
-                            #print(new_rel[:-1] != schema["links"][i]["href"].split("/")[0])
-                            if new_rel[:-1] != schema["links"][i]["href"].split("/")[0]:
-                                new_rel += schema["links"][i]["href"].split("/")[0]
-                                schema["links"][i]["rel"] = new_rel
-
-                                #print("POINTERS: ", new_rel)
-                        """
-
-                if "properties" in schema:
-                    for key in schema["properties"].keys():
-                        if "type" in schema["properties"][key]:
-                            prop_type_field = schema["properties"][key]["type"]
-                            # Logic to simplify the property typing to match FHIR conventions
-                            if "type" in schema["properties"][key] and isinstance(prop_type_field, list):
-                                if len(prop_type_field) == 1 and prop_type_field[0] not in ["null", "object"]:
-                                    schema["properties"][key]["type"] = schema["properties"][key]["type"][0]
-                                elif len(prop_type_field) == 2 and prop_type_field[0] in ["null", "object"] and prop_type_field[1] not in ["null", "object"]:
-                                    schema["properties"][key]["type"] = schema["properties"][key]["type"][1]
-                                elif len(prop_type_field) == 2 and prop_type_field[1] in ["null", "object"] and prop_type_field[0] not in ["null", "object"]:
-                                    schema["properties"][key]["type"] = schema["properties"][key]["type"][0]
-                                del schema["properties"][key]["type"]
-
-                        # Special case row looked like {'oneOf': [{'type': 'null'}, {'$ref': '_definitions.yaml#/genome'}]}
-                        elif "oneOf" in schema["properties"][key]:
-                            schema["properties"][key]["oneOf"] = schema["properties"][key]["oneOf"][1]
-
-                        # Everything in BMEG is an element property. Not everything in FHIR is.  ex: fhir_comments propert in DocumentRference
-                        schema["properties"][key]["element_property"] = True
-
-                    # resourceType property is very useful in ETL knowing what the node type is
-                    # without having to rely on the file name. Should probably be added.
-                    schema["properties"]["resourceType"] = {"default": schema["$id"],
-                                                            "type": "string",
-                                                            "description": "One of the resource types defined as part of BMEG"
-                                                            }
-
+                            schema["properties"][schema_links_i_rel_camel_case]["backref"] = schema_links_i["targetHints"]["backref"][0]
 
         # Reorder schema keys so that new keys that are added aren't appended to the end of the file
         order = ["$schema", "$id", "title", "type", "description", "required", "links", "properties"]

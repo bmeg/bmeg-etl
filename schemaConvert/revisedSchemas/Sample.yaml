@@ -9,11 +9,10 @@ description: Any material sample taken from a biological entity for testing, dia
   to cellular molecules, cells, tissues, organs, body fluids, embryos, and body excretory
   products.
 required:
-  - id
-  - submitter_id
-  - project_id
+  - submitterId
+  - projectId
 links:
-  - rel: case
+  - rel: case_Case
     href: Case/{id}
     templateRequired:
       - id
@@ -27,8 +26,8 @@ links:
       multiplicity:
         - has_one
       backref:
-        - samples
-  - rel: projects
+        - case_sample
+  - rel: projects_Project
     href: Project/{id}
     templateRequired:
       - id
@@ -42,8 +41,8 @@ links:
       multiplicity:
         - has_many
       backref:
-        - samples
-  - rel: phenotypes
+        - projects_sample
+  - rel: phenotypes_Phenotype
     href: Phenotype/{id}
     templateRequired:
       - id
@@ -57,47 +56,51 @@ links:
       multiplicity:
         - has_many
       backref:
-        - samples
+        - phenotypes_sample
 properties:
   id:
     type: string
     element_property: true
-  cellline_attributes:
-    element_property: true
-  gdc_attributes:
-    element_property: true
-  gtex_attributes:
-    element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  submitter_id:
-    element_property: true
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   case:
+    type: array
     items:
       $ref: Case.yaml
-    backref: samples
     element_property: true
+    backref: case_sample
   projects:
+    type: array
     items:
       $ref: Project.yaml
-    backref: samples
     element_property: true
+    backref: projects_sample
   phenotypes:
+    type: array
     items:
       $ref: Phenotype.yaml
-    backref: samples
+    element_property: true
+    backref: phenotypes_sample
+  celllineAttributes:
+    element_property: true
+  gdcAttributes:
+    element_property: true
+  gtexAttributes:
+    element_property: true
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
     element_property: true
   resourceType:
-    default: Sample
+    default: sample
     type: string
     description: One of the resource types defined as part of BMEG

@@ -2,15 +2,12 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: Allele
 title: Allele
 type: object
+description: An allele is one of a set of coexisting sequence variants of a gene.
 required:
-  - id
-  - chromosome
-  - start
-  - genome
-  - reference_bases
-  - alternate_bases
+  - referenceBases
+  - alternateBases
 links:
-  - rel: gene
+  - rel: gene_Gene
     href: Gene/{id}
     templateRequired:
       - id
@@ -24,8 +21,8 @@ links:
       multiplicity:
         - has_one
       backref:
-        - alleles
-  - rel: effects
+        - gene_allele
+  - rel: effects_AlleleEffect
     href: Effect/{id}
     templateRequired:
       - id
@@ -39,8 +36,8 @@ links:
       multiplicity:
         - has_one
       backref:
-        - allele
-  - rel: transcript
+        - effects_allele
+  - rel: transcript_Transcript
     href: Transcript/{id}
     templateRequired:
       - id
@@ -54,8 +51,8 @@ links:
       multiplicity:
         - has_one
       backref:
-        - alleles
-  - rel: protein
+        - transcript_allele
+  - rel: protein_Protein
     href: Protein/{id}
     templateRequired:
       - id
@@ -69,15 +66,9 @@ links:
       multiplicity:
         - has_one
       backref:
-        - allele
+        - protein_allele
 properties:
   id:
-    type: string
-    element_property: true
-  reference_bases:
-    type: string
-    element_property: true
-  alternate_bases:
     type: string
     element_property: true
   genome:
@@ -95,44 +86,55 @@ properties:
   strand:
     $ref: _definitions.yaml#/strand
     element_property: true
-  dbsnp_rs:
-    type: string
-    element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  submitter_id:
-    element_property: true
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   gene:
+    type: array
     items:
       $ref: Gene.yaml
-    backref: alleles
     element_property: true
+    backref: gene_allele
   effects:
+    type: array
     items:
       $ref: AlleleEffect.yaml
-    backref: allele
     element_property: true
+    backref: effects_allele
   transcript:
+    type: array
     items:
       $ref: Transcript.yaml
-    backref: alleles
     element_property: true
+    backref: transcript_allele
   protein:
+    type: array
     items:
       $ref: Protein.yaml
-    backref: allele
+    element_property: true
+    backref: protein_allele
+  referenceBases:
+    type: string
+    element_property: true
+  alternateBases:
+    type: string
+    element_property: true
+  dbsnpRs:
+    type: string
+    element_property: true
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
     element_property: true
   resourceType:
-    default: Allele
+    default: allele
     type: string
     description: One of the resource types defined as part of BMEG

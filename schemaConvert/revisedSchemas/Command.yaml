@@ -2,15 +2,16 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: Command
 title: Command
 type: object
-description: A DVC command that was run
+description: A DVC command that was run. Data Version Control (DVC) is a free and
+  open-source, platform-agnostic version system for data, machine learning models,
+  and experiments.It is designed to make ML models shareable, experiments reproducible,
+  and to track versions of models, data, and pipelines. DVC works on top of Git repositories
+  and cloud storage.
 required:
-  - submitter_id
-  - project_id
-  - md5
-  - cmd
-  - filename
+  - submitterId
+  - projectId
 links:
-  - rel: writes
+  - rel: writes_File
     href: File/{id}
     templateRequired:
       - id
@@ -24,7 +25,7 @@ links:
       multiplicity:
         - has_many
       backref:
-        - command
+        - writes_command
 properties:
   md5:
     type: string
@@ -35,11 +36,6 @@ properties:
   filename:
     type: string
     element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  submitter_id:
-    element_property: true
   id:
     $ref: _definitions.yaml#/UUID
     systemAlias: node_id
@@ -47,18 +43,25 @@ properties:
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   writes:
+    type: array
     items:
       $ref: File.yaml
-    backref: command
+    element_property: true
+    backref: writes_command
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
     element_property: true
   resourceType:
-    default: Command
+    default: command
     type: string
     description: One of the resource types defined as part of BMEG

@@ -2,13 +2,13 @@ $schema: https://json-schema.org/draft/2020-12/schema
 $id: Protein
 title: Protein
 type: object
-description: A protein.
+description: A protein - A biological macromolecule minimally consisting of one polypeptide
+  chain synthesized at the ribosome.
 required:
-  - id
-  - submitter_id
-  - project_id
+  - submitterId
+  - projectId
 links:
-  - rel: gene
+  - rel: gene_Gene
     href: Gene/{id}
     templateRequired:
       - id
@@ -22,8 +22,8 @@ links:
       multiplicity:
         - has_one
       backref:
-        - proteins
-  - rel: transcript
+        - gene_protein
+  - rel: transcript_Transcript
     href: Transcript/{id}
     templateRequired:
       - id
@@ -37,18 +37,13 @@ links:
       multiplicity:
         - has_one
       backref:
-        - protein
+        - transcript_protein
 properties:
   id:
     type: string
     element_property: true
   sequence:
     type: string
-    element_property: true
-  submitter_id:
-    element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
     element_property: true
   length:
     type: number
@@ -59,23 +54,31 @@ properties:
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   gene:
+    type: array
     items:
       $ref: Gene.yaml
-    backref: proteins
     element_property: true
+    backref: gene_protein
   transcript:
+    type: array
     items:
       $ref: Transcript.yaml
-    backref: protein
+    element_property: true
+    backref: transcript_protein
+  submitterId:
+    type: string
+    element_property: true
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
     element_property: true
   resourceType:
-    default: Protein
+    default: protein
     type: string
     description: One of the resource types defined as part of BMEG

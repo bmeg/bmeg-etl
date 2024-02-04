@@ -5,11 +5,11 @@ type: object
 description: The collection of all data related to a specific subject in the context
   of a specific experiment.
 required:
-  - submitter_id
-  - project_id
-  - case_id
+  - submitterId
+  - projectId
+  - caseId
 links:
-  - rel: compounds
+  - rel: compounds_Compound
     href: Compound/{id}
     templateRequired:
       - id
@@ -23,8 +23,8 @@ links:
       multiplicity:
         - has_many
       backref:
-        - cases
-  - rel: projects
+        - compounds_case
+  - rel: projects_Project
     href: Project/{id}
     templateRequired:
       - id
@@ -38,8 +38,8 @@ links:
       multiplicity:
         - has_many
       backref:
-        - cases
-  - rel: phenotypes
+        - projects_case
+  - rel: phenotypes_Phenotype
     href: Phenotype/{id}
     templateRequired:
       - id
@@ -53,39 +53,25 @@ links:
       multiplicity:
         - has_many
       backref:
-        - cases
-  - rel: same_as
+        - phenotypes_case
+  - rel: sameAs_Case
     href: Case/{id}
     templateRequired:
       - id
     targetSchema:
       $ref: Case.yaml
     templatePointers:
-      id: /same_as/-/id
+      id: /sameAs/-/id
     targetHints:
       directionality:
         - outbound
       multiplicity:
         - has_many
       backref:
-        - cases
+        - sameAs_case
 properties:
-  case_id:
-    type: string
-    element_property: true
-  cellline_attributes:
-    element_property: true
-  gdc_attributes:
-    element_property: true
-  gtex_attributes:
-    element_property: true
   sex:
     type: string
-    element_property: true
-  project_id:
-    $ref: _definitions.yaml#/project_id
-    element_property: true
-  submitter_id:
     element_property: true
   id:
     type: string
@@ -96,33 +82,52 @@ properties:
   type:
     type: string
     element_property: true
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-    element_property: true
   compounds:
+    type: array
     items:
       $ref: Compound.yaml
-    backref: cases
     element_property: true
+    backref: compounds_case
   projects:
+    type: array
     items:
       $ref: Project.yaml
-    backref: cases
     element_property: true
+    backref: projects_case
   phenotypes:
+    type: array
     items:
       $ref: Phenotype.yaml
-    backref: cases
     element_property: true
-  same_as:
+    backref: phenotypes_case
+  caseId:
+    type: string
+    element_property: true
+  celllineAttributes:
+    element_property: true
+  gdcAttributes:
+    element_property: true
+  gtexAttributes:
+    element_property: true
+  projectId:
+    $ref: _definitions.yaml#/project_id
+    element_property: true
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  updatedDateTime:
+    $ref: _definitions.yaml#/datetime
+    element_property: true
+  sameAs:
+    type: array
     items:
       $ref: Case.yaml
-    backref: cases
     element_property: true
+    backref: sameAs_case
   resourceType:
-    default: Case
+    default: case
     type: string
     description: One of the resource types defined as part of BMEG
