@@ -10,11 +10,17 @@ import yaml.serializer
 import yaml.representer
 import yaml.resolver
 
+"""
+Need to normalize how links are defined in the schemas. Below is how it is done in iceberg:
+links:
+    items:
+        $ref: https://json-schema.org/draft/2020-12/links
+    type: array
+"""
 
 @click.group()
 def cli():
     pass
-
 
 def camelCase(st):
     output = ''.join(x for x in st.title() if x.isalnum())
@@ -25,6 +31,11 @@ def camelCase(st):
     return output[0].lower() + out
 
 @cli.command('yaml_dir')
+@click.option('--defs_path', required=True,
+              default='schema/_definitions.yaml',
+              show_default=True,
+              help='Path to schema files directory'
+              )
 @click.option('--input_path', required=True,
               default='schema',
               show_default=True,
@@ -35,11 +46,20 @@ def camelCase(st):
               show_default=True,
               help='Path to cytoscape files directory'
               )
-def yaml_dir(input_path, output_path):
+def yaml_dir(defs_path, input_path, output_path):
+    defs_path = pathlib.Path(defs_path)
     input_path = pathlib.Path(input_path)
     output_path = pathlib.Path(output_path)
+
+    if not output_path.is_dir():
+        os.mkdir(output_path)
+
+    assert defs_path.is_file()
     assert input_path.is_dir()
-    assert output_path.is_dir()
+
+    with open(defs_path) as defs_file:
+       defs = yaml.safe_load(defs_file)
+
     paths = [file for file in glob.glob(os.path.join(input_path, "*.yaml"))]
     schemas = {}
     for path in paths:
@@ -49,11 +69,12 @@ def yaml_dir(input_path, output_path):
                 if "required" in schema:
                     schema["required"] = [camelCase(elem) for elem in schema["required"] if "_" in elem]
                 if "properties" in schema:
-                    for key in list(schema["properties"].keys()):
+                    for key, value in list(schema["properties"].items()):
                         schema["properties"][camelCase(key)] = schema["properties"][key]
                         if key != camelCase(key):
                             del schema["properties"][key]
                         key = camelCase(key)
+
 
                         if "type" in schema["properties"][key]:
                             prop_type_field = schema["properties"][key]["type"]
@@ -68,12 +89,31 @@ def yaml_dir(input_path, output_path):
                                 else:
                                     del schema["properties"][key]["type"]
 
-                        # Special case row looked like {'oneOf': [{'type': 'null'}, {'$ref': '_definitions.yaml#/genome'}]}
+                        # This oneOf key is not going to play nice with the rest of FHIR and it doesn't make sense that the second type is always null
+                        # Refer to old schema: GenomicFeature property strand for an example of what this is doing.
                         elif "oneOf" in schema["properties"][key]:
-                            schema["properties"][key]["oneOf"][0]["type"] = "array"
+                            stripped_ref =schema["properties"][key]["oneOf"][1]["$ref"].replace("_definitions.yaml#/", "")
+                            schema["properties"][key].update(defs[stripped_ref])
+                            del schema["properties"][key]["oneOf"]
 
                         # Everything in BMEG is an element property. Not everything in FHIR is.  ex: fhir_comments propert in DocumentRference
                         schema["properties"][key]["element_property"] = True
+
+                        if "$ref" in value and "_definitions.yaml#/" in value["$ref"]:
+                            stripped_ref = value["$ref"].replace("_definitions.yaml#/", "")
+                            if stripped_ref not in defs:
+                                raise Exception(f"ref to defs {stripped_ref} exists in schema but not in defs {defs.keys()}")
+
+                            #Terms never got populated in the old schema. Remove artifact
+                            if "term" in defs[stripped_ref]:
+                                del(defs[stripped_ref]["term"])
+
+                            del(schema["properties"][key]["$ref"])
+
+                            # remove the other instances of oneOf in the schemas
+                            if "oneOf" in defs[stripped_ref]:
+                                defs[stripped_ref] = defs[stripped_ref]["oneOf"][0]
+                            schema["properties"][key].update(defs[stripped_ref])
 
                     # resourceType property is very useful in ETL knowing what the node type is
                     # without having to rely on the file name. Should probably be added.
@@ -81,6 +121,8 @@ def yaml_dir(input_path, output_path):
                                                             "type": "string",
                                                             "description": "One of the resource types defined as part of BMEG"
                                                             }
+
+
                 if "description" not in schema:
                     # aliquot, allele_effect and allele are missing descriptions
                     # was able to get aliquot description from the GDC data dictionary but not sure about the others
