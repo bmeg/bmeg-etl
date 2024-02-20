@@ -1,4 +1,6 @@
 
+lathe.DockerImage("images", "sifter")
+
 prep = lathe.Workflow("prep")
 
 transforms = glob("./transform/*/*.plan")
@@ -14,20 +16,16 @@ plans.forEach(x => {
     prep.Add(x["prep"])
 })
 
-build = lathe.Workflow("build")
-
-alleleFiles = {}
-
-lathe.Plugin("sifter scan objects -s -j ./transform").filter(x => {
-    return x["objectType"] == "Allele"
-}).forEach( (x,i) => {
-    //println(x["outFile"])
-    alleleFiles[ `allele_${i}` ] = x["outFile"]
+lathe.Plugin("sifter scan scripts -j transform").forEach(x => {
+    n = x["name"]
+    p = {
+        commandLine: "sifter graph-plan -o ./graph -C ./graph-build {{inputs.script}}",
+        inputs: {
+            script: x["path"]
+        },
+        outputs: {
+            out: `./graph-build/${n}.yaml`
+        }
+    }
+    prep.Add(lathe.Process(p))
 })
-
-build = lathe.Workflow("build")
-
-build.Add(lathe.Process({
-    commandLine: "echo test",
-    inputs: alleleFiles
-}))

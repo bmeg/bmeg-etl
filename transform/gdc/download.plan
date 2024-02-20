@@ -9,11 +9,13 @@ prep.Add(lathe.Process({
     }
 }))
 
+/*
 prep.Add(lathe.Process({
     commandLine: "./gdc-scan.py compounds {{outputs.compoundDir}}",
     outputs:{
       compoundDir: " ../../source/gdc/compounds/"}
 }))
+*/
 
 prep.Add(lathe.Process({
     commandLine: "./gdc-scan.py expression {{outputs.rnaDir}}",

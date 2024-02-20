@@ -30,8 +30,6 @@ lathe.Plugin("sifter scan objects -s -j ./transform").filter(x => {
     alleleFiles[ `allele_${i}` ] = x["outFile"]
 })
 
-build = lathe.Workflow("build")
-
 build.Add(lathe.Process({
     commandLine: "echo test",
     inputs: alleleFiles

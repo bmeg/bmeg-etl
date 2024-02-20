@@ -9,7 +9,6 @@ prep.Add(lathe.Process({
     }
 }))
 
-
 prep.Add(lathe.Process({
     commandLine: "curl https://storage.googleapis.com/gtex_analysis_v8/rna_seq_data/GTEx_Analysis_2017-06-05_v8_RSEMv1.3.0_transcript_tpm.gct.gz -o {{outputs.gz}}",
     outputs:{
