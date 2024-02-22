@@ -6,17 +6,13 @@ lathe.Plugin("sifter scan scripts -j -b ./ ./transform").map( x => {
         inputs: {},
         outputs: {},
     }
-
     x.inputs.forEach( (y,i) => {
         out["inputs"][`input_${i}`] = y
     })
-
     x.outputs.forEach( (y,i) => {
         out["outputs"][`output_${i}`] = y
     })
-
     return out
-
 }).forEach( x => {
     build.Add(lathe.Process(x))
 })
@@ -31,6 +27,30 @@ lathe.Plugin("sifter scan objects -s -j ./transform").filter(x => {
 })
 
 build.Add(lathe.Process({
-    commandLine: "echo test",
+    shell: "cat {{#each inputs}} {{ this }}{{/each}} > {{outputs.mergeFile}}",
+    outputs: {
+        mergeFile: "output-normalize/allele.merge.json.gz"
+    },
     inputs: alleleFiles
 }))
+
+lathe.Plugin("sifter scan scripts -j -b ./  ./normalize/").map( x => {
+    out = {
+        commandLine: `sifter run ${x.path}`,
+        inputs: {},
+        outputs: {},
+    }
+    x.inputs.forEach( (y,i) => {
+        out["inputs"][`input_${i}`] = y
+    })
+    x.outputs.forEach( (y,i) => {
+        out["outputs"][`output_${i}`] = y
+    })
+    return out
+}).forEach( x => {
+    build.Add(lathe.Process(x))
+})
+
+p = lathe.LoadPlan("./normalize/allele/process.plan")
+
+build.Add(p["build"])

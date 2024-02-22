@@ -7,7 +7,7 @@ config:
   association: ../../tables/g2pPrep.main.assocationPrep.json.gz
   schema: ../../schema
   treatmentSynonymsFile: ../../tables/pharmacodb_treatment.utable.final.json.gz
-  synonymsFile: ../../tables/chemblSynonyms.longTable.synonyms.json
+  synonymsFile: ../../tables/chemblSynonyms.longTable.synonyms.json.gz
 
 
 inputs:

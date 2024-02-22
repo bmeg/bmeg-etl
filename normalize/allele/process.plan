@@ -2,7 +2,7 @@
 w = lathe.Workflow("build")
 
 w.Add(lathe.Process({
-    commandLine: "java -jar {{inputs.jar}} ann -dataDir {{inputs.snpData}} -nodownload GRCh38.86 {{inputs.vcf}} > {{output.vcf}}",
+    shell: "java -jar {{inputs.jar}} ann -dataDir {{inputs.snpData}} -nodownload GRCh38.86 {{inputs.vcf}} > {{outputs.vcf}}",
     inputs:{
       jar: "../../util/snpEff/snpEff.jar",
       vcf: "../../output-normalize/allele.vcf",
