@@ -1,21 +1,26 @@
 build = lathe.Workflow("build")
 
-lathe.Plugin("sifter scan scripts -j -b ./ ./transform").map( x => {
-    out = {
-        commandLine: `sifter run ${x.path}`,
-        inputs: {},
-        outputs: {},
-    }
-    x.inputs.forEach( (y,i) => {
-        out["inputs"][`input_${i}`] = y
+addSifterTasks = function(dir) {
+    lathe.Plugin(`sifter scan scripts -j -b ./ ${dir}`).map( x => {
+        out = {
+            commandLine: `sifter run ${x.path}`,
+            inputs: {},
+            outputs: {},
+        }
+        x.inputs.forEach( (y,i) => {
+            out["inputs"][`input_${i}`] = y
+        })
+        x.outputs.forEach( (y,i) => {
+            out["outputs"][`output_${i}`] = y
+        })
+        return out
+    }).forEach( x => {
+        build.Add(lathe.Process(x))
     })
-    x.outputs.forEach( (y,i) => {
-        out["outputs"][`output_${i}`] = y
-    })
-    return out
-}).forEach( x => {
-    build.Add(lathe.Process(x))
-})
+}
+
+addSifterTasks("./transform")
+
 
 alleleFiles = {}
 
@@ -34,23 +39,10 @@ build.Add(lathe.Process({
     inputs: alleleFiles
 }))
 
-lathe.Plugin("sifter scan scripts -j -b ./  ./normalize/").map( x => {
-    out = {
-        commandLine: `sifter run ${x.path}`,
-        inputs: {},
-        outputs: {},
-    }
-    x.inputs.forEach( (y,i) => {
-        out["inputs"][`input_${i}`] = y
-    })
-    x.outputs.forEach( (y,i) => {
-        out["outputs"][`output_${i}`] = y
-    })
-    return out
-}).forEach( x => {
-    build.Add(lathe.Process(x))
-})
+addSifterTasks("./normalize")
 
 p = lathe.LoadPlan("./normalize/allele/process.plan")
 
 build.Add(p["build"])
+
+addSifterTasks("./graph-build")

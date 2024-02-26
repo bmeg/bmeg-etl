@@ -5,12 +5,12 @@ outdir: ../../tables/
 name: pharmacodb_treatment
 
 config:
-  tableDir: ../../tables/
+  tableDir: ../../source/pharmacodb
 
 inputs:
   treatmentReader:
     glob:
-      input: "{{config.tableDir}}/*_treatments.tsv"
+      input: "{{config.tableDir}}/*/treatments.tsv"
       tableLoad: {}
 
 pipelines:

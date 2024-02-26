@@ -5,14 +5,14 @@ outdir: ../../output/pharmacodb/
 name: pharmacodb_samples_gx
 
 config:
-  sampleDir: ../../tables/
+  sampleDir: ../../source/pharmacodb
   cellosaurusDepmap: ../../source/cellosaurus/table/cellosarusSynonyms.caseTable.ach2cellosaurus.json.gz
   schema: ../../schema/
 
 inputs:
   sampleReader:
     glob:
-      input: "{{config.sampleDir}}/*_samples.tsv"
+      input: "{{config.sampleDir}}/*/samples.tsv"
       tableLoad: {}
 
 

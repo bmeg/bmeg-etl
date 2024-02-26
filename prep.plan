@@ -19,7 +19,7 @@ plans.forEach(x => {
 lathe.Plugin("sifter scan scripts -j transform").forEach(x => {
     n = x["name"]
     p = {
-        commandLine: "sifter graph-plan -o ./graph -C ./graph-build {{inputs.script}}",
+        commandLine: "sifter graph-plan -o ./graph -C ./graph-build {{inputs.script}} -x Allele",
         inputs: {
             script: x["path"]
         },
