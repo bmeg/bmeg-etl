@@ -24,11 +24,12 @@ pipelines:
         regex: 'http:\/\/europepmc\.org\/abstract\/MED\/'
         replace: 'pmid/'
         dst: publications
+    - emit: { name: debug }
     - project:
         mapping:
           association_type: "{{row.action_type}}"
           compound: "{{row.chembl_id}}"
-          genes: [ { "id" : "{{row.protein}}" } ]
+          proteins: [ { "id" : "{{row.accession}}" } ]
           project_id: Project:reference
           submitter_id: "CHEMBL-MEC:{{row.mec_id}}"
           id: "CHEMBL-MEC:{{row.mec_id}}"
@@ -65,7 +66,7 @@ pipelines:
           def fix(row):
             o = []
             for i in row["publications"]:
-              if i["id"].startswith("PMID"):
+              if i["id"].startswith("pmid"):
                 o.append(i)
             row["publications"] = o
             return row

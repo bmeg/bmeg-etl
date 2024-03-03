@@ -7,7 +7,7 @@ description: 'Associations of genomic features, drugs and diseases
   '
 required:
 - submitter_id
-- description
+#- description
 - source
 - project_id
 links:

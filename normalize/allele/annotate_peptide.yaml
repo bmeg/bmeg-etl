@@ -5,18 +5,29 @@ name: annotatedAlleleEffect
 outdir: ../../output/allele
 
 config:
-  AEPath: ../../output/allele/annotatedAllele.alleleEffect.AlleleEffect.json.gz 
+  AEPath: ../../output/allele/annotatedAllele.alleleEffect.AlleleEffect.json.gz
   uniprotFeatures: ../../tables/uniprot_features.features.final.json.gz
   schema: ../../schema/
 
 inputs:
-  effectMerge:
-    plugin:
-      commandLine: './effectMerge.py -f {{config.uniprotFeatures}} -v {{config.AEPath}}'
+  alleleEffects:
+    jsonLoad:
+      input: '{{config.AEPath}}'
 
 pipelines:
   transform:
-    - from: effectMerge
+    - from: alleleEffects
+    # TODO: this doesn't really do anything useful. The Uniprot domains need to be worked on 
+    - intervalIntersect:
+        json:
+          input: "{{config.uniprotFeatures}}"
+          start: start
+          end: end
+          match: transcript
+        start: aa_position
+        end: aa_position
+        match: ensembl_transcript
+        field: features
     - map:
         method: fix
         gpython: |
