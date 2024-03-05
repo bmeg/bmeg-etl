@@ -1,0 +1,118 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: GeneSet
+title: GeneSet
+type: object
+description: A set of biologically related genes
+required:
+  - submitterId
+  - projectId
+links:
+  - rel: genes_Gene
+    href: Gene/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Gene.yaml
+    templatePointers:
+      id: /genes/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - genes_gene_set
+  - rel: publications_Publication
+    href: Publication/{id}
+    templateRequired:
+      - id
+    targetSchema:
+      $ref: Publication.yaml
+    templatePointers:
+      id: /publications/-/id
+    targetHints:
+      directionality:
+        - outbound
+      multiplicity:
+        - has_many
+      backref:
+        - publications_gene_set
+properties:
+  id:
+    type: string
+    element_property: true
+  geoid:
+    type: string
+    element_property: true
+  chip:
+    type: string
+    element_property: true
+  contributor:
+    type: string
+    element_property: true
+  type:
+    type: string
+    element_property: true
+  genes:
+    type: array
+    items:
+      $ref: Gene.yaml
+    element_property: true
+    backref: genes_gene_set
+  publications:
+    type: array
+    items:
+      $ref: Publication.yaml
+    element_property: true
+    backref: publications_gene_set
+  standardName:
+    type: string
+    element_property: true
+  systematicName:
+    type: string
+    element_property: true
+  historicalNames:
+    type: string
+    element_property: true
+  exactSource:
+    type: string
+    element_property: true
+  genesetListingUrl:
+    type: string
+    element_property: true
+  externalDetailsUrl:
+    type: string
+    element_property: true
+  categoryCode:
+    type: string
+    element_property: true
+  subCategoryCode:
+    type: string
+    element_property: true
+  contributorOrg:
+    type: string
+    element_property: true
+  descriptionBrief:
+    type: string
+    element_property: true
+  descriptionFull:
+    type: string
+    element_property: true
+  projectId:
+    element_property: true
+    type: string
+  submitterId:
+    type: string
+    element_property: true
+  createdDateTime:
+    element_property: true
+    type: string
+    format: date-time
+  updatedDateTime:
+    element_property: true
+    type: string
+    format: date-time
+  resourceType:
+    default: gene_set
+    type: string
+    description: One of the resource types defined as part of BMEG
