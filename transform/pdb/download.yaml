@@ -1,9 +1,0 @@
-
-class: lathe
-name: pdbDownload
-
-
-prep:
-  - commandLine: curl -o {{outputs.idx}} https://files.wwpdb.org/pub/pdb/derived_data/index/entries.idx
-    outputs: 
-      idx: ../../source/pdb/entries.idx
