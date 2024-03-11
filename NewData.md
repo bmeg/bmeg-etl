@@ -11,12 +11,14 @@ to build dependencies.
 Lathe files are written in Javascript. The program is executed to declare workflows and processes. 
 Each process is declared with the following properties:
 
-| commandLine | string | Command line to be invoked |
-| shell  |  string | Similar to `CommandLine` except executed using BASH to evaluate in scripting commands, such as pipe commands `>` | 
-| inputs | map[string]string | Key/Value mapping of named inputs to their paths |
-| outputs | map[string]string |
-| memMB  | uint | Number of MB of RAM required for the job |
-| nppus  | uint | Number of CPUs to be reseved for the job |
+| Field | Type | Description |
+| ----- | ---- | ----------- |
+| `commandLine` | `string` | Command line to be invoked |
+| `shell`  |  `string` | Similar to `CommandLine` except executed using BASH to evaluate in scripting commands, such as pipe commands `>` |
+| `inputs` | `map[string]string` | Key/Value mapping of named inputs to their paths |
+| `outputs` | `map[string]string` |
+| `memMB`  | `uint` | Number of MB of RAM required for the job |
+| `ncpus`  | `uint` | Number of CPUs to be reseved for the job |
 
 The `commandLine` and `shell` commands are evaluated using the [Mustache](https://mustache.github.io/) templating language, 
 with the `inputs` and `outputs` maps being mad avalible. 
