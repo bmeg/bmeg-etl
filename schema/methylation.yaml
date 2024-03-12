@@ -1,57 +1,71 @@
+$id: Methylation
 $schema: https://json-schema.org/draft/2020-12/schema
-$id: methylation
-title: Methylation
-type: object
-description: 'Methylatyion values for an aliquot - Methylatyion is the covalent chemical or biochemical addition of a methyl group(s)
-to a compound.'
-required:
-- submitter_id
-- project_id
-- values
-- method
+description: Methylatyion values for an aliquot - Methylatyion is the covalent chemical
+  or biochemical addition of a methyl group(s) to a compound.
 links:
-- rel: aliquot
-  href: aliquot/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: aliquot.yaml
-  templatePointers:
-    id: /aliquot/-/id
+- href: Specimen/{id}
+  rel: specimen_Specimen
   targetHints:
+    backref:
+    - specimen_methylation
     directionality:
     - outbound
     multiplicity:
     - has_one
-    backref: methylations
+  targetSchema:
+    $ref: Specimen.yaml
+  templatePointers:
+    id: /specimen/-/id
+  templateRequired:
+  - id
 properties:
+  createdDateTime:
+    element_property: true
+    format: date-time
+    type: string
+  id:
+    element_property: true
+    pattern: ^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$
+    systemAlias: node_id
+    type: string
   method:
+    element_property: true
     type: string
   metric:
+    element_property: true
+    type: string
+  projectId:
+    element_property: true
+    type: string
+  resourceType:
+    default: methylation
+    description: One of the resource types defined as part of BMEG
+    type: string
+  specimen:
+    backref: specimen_methylation
+    element_property: true
+    items:
+      $ref: Specimen.yaml
+    type: array
+  submitterId:
+    element_property: true
+    type: string
+  type:
+    element_property: true
+    type: string
+  updatedDateTime:
+    element_property: true
+    format: date-time
     type: string
   values:
-    type: object
     additionalProperties:
       type:
       - number
       - 'null'
-  project_id:
-    $ref: _definitions.yaml#/project_id
-  submitter_id:
-    type:
-    - string
-    - 'null'
-  id:
-    $ref: _definitions.yaml#/UUID
-    systemAlias: node_id
-  type:
-    type: string
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-  aliquot:
-    type:
-    - array
-    items:
-      $ref: reference.yaml
+    element_property: true
+    type: object
+required:
+- submitterId
+- projectId
+title: Methylation
+type: object
