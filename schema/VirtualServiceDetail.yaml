@@ -1,0 +1,130 @@
+$id: VirtualServiceDetail
+additionalProperties: false
+description: Virtual Service Contact Details. [See https://hl7.org/fhir/R5/VirtualServiceDetail.html]
+links: []
+properties:
+  _additionalInfo:
+    items:
+      $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``additionalInfo``.
+    type: array
+  _addressString:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``addressString``.
+  _addressUrl:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``addressUrl``.
+  _maxParticipants:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``maxParticipants``.
+  _sessionKey:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``sessionKey``.
+  additionalInfo:
+    element_property: true
+    items:
+      format: uri
+      maxLength: 65536
+      minLength: 1
+      type: string
+    title: Address to see alternative connection details
+    type: array
+  addressContactPoint:
+    $ref: ContactPoint.yaml
+    description: What address or number needs to be used for a user to connect to
+      the virtual service to join. The channelType informs as to which datatype is
+      appropriate to use (requires knowledge of the specific type).
+    element_property: true
+    one_of_many: address
+    one_of_many_required: false
+    title: Contact address/number
+  addressExtendedContactDetail:
+    $ref: ExtendedContactDetail.yaml
+    description: What address or number needs to be used for a user to connect to
+      the virtual service to join. The channelType informs as to which datatype is
+      appropriate to use (requires knowledge of the specific type).
+    element_property: true
+    one_of_many: address
+    one_of_many_required: false
+    title: Contact address/number
+  addressString:
+    description: What address or number needs to be used for a user to connect to
+      the virtual service to join. The channelType informs as to which datatype is
+      appropriate to use (requires knowledge of the specific type).
+    element_property: true
+    one_of_many: address
+    one_of_many_required: false
+    pattern: '[ \r\n\t\S]+'
+    title: Contact address/number
+    type: string
+  addressUrl:
+    description: What address or number needs to be used for a user to connect to
+      the virtual service to join. The channelType informs as to which datatype is
+      appropriate to use (requires knowledge of the specific type).
+    element_property: true
+    format: uri
+    maxLength: 65536
+    minLength: 1
+    one_of_many: address
+    one_of_many_required: false
+    title: Contact address/number
+    type: string
+  channelType:
+    $ref: Coding.yaml
+    binding_description: The purpose for which an extended contact detail should be
+      used.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/virtual-service-type
+    binding_version: null
+    description: The type of virtual service to connect to (i.e. Teams, Zoom, Specific
+      VMR technology, WhatsApp).
+    element_property: true
+    title: Channel Type
+  extension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element. To make the use of extensions safe and
+      managable, there is a strict set of governance applied to the definition and
+      use of extensions. Though any implementer can define an extension, there is
+      a set of requirements that SHALL be met as part of the definition of the extension.
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Additional content defined by implementations
+    type: array
+  fhir_comments:
+    anyOf:
+    - type: string
+    - items:
+        type: string
+      type: array
+    element_property: false
+    title: Fhir Comments
+  id:
+    description: Unique id for the element within a resource (for internal references).
+      This may be any string value that does not contain spaces.
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Unique id for inter-element referencing
+    type: string
+  links:
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+    type: array
+  maxParticipants:
+    element_property: true
+    exclusiveMinimum: 0
+    title: Maximum number of participants supported by the virtual service
+    type: integer
+  resourceType:
+    const: VirtualServiceDetail
+    default: VirtualServiceDetail
+    description: One of the resource types defined as part of FHIR
+    title: Resource Type
+    type: string
+  sessionKey:
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Session Key required by the virtual service
+    type: string
+title: VirtualServiceDetail
+type: object

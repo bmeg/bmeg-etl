@@ -1,0 +1,110 @@
+$id: EncounterAdmission
+additionalProperties: false
+description: Details about the admission to a healthcare service. Details about the
+  stay during which a healthcare service is provided. This does not describe the event
+  of admitting the patient, but rather any information that is relevant from the time
+  of admittance until the time of discharge. [See https://hl7.org/fhir/R5/EncounterAdmission.html]
+links: []
+properties:
+  admitSource:
+    $ref: CodeableConcept.yaml
+    binding_description: From where the patient was admitted.
+    binding_strength: preferred
+    binding_uri: http://hl7.org/fhir/ValueSet/encounter-admit-source
+    binding_version: null
+    element_property: true
+    title: From where patient was admitted (physician referral, transfer)
+  destination:
+    $ref: Reference.yaml
+    backref: destination_encounter_admission
+    element_property: true
+    enum_reference_types:
+    - Location
+    - Organization
+    title: Location/organization to which the patient is discharged
+  dischargeDisposition:
+    $ref: CodeableConcept.yaml
+    binding_description: Discharge Disposition.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/encounter-discharge-disposition
+    binding_version: null
+    element_property: true
+    title: Category or kind of location after discharge
+  extension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element. To make the use of extensions safe and
+      managable, there is a strict set of governance applied to the definition and
+      use of extensions. Though any implementer can define an extension, there is
+      a set of requirements that SHALL be met as part of the definition of the extension.
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Additional content defined by implementations
+    type: array
+  fhir_comments:
+    anyOf:
+    - type: string
+    - items:
+        type: string
+      type: array
+    element_property: false
+    title: Fhir Comments
+  id:
+    description: Unique id for the element within a resource (for internal references).
+      This may be any string value that does not contain spaces.
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Unique id for inter-element referencing
+    type: string
+  links:
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+    type: array
+  modifierExtension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element and that modifies the understanding of
+      the element in which it is contained and/or the understanding of the containing
+      element's descendants. Usually modifier elements provide negation or qualification.
+      To make the use of extensions safe and managable, there is a strict set of governance
+      applied to the definition and use of extensions. Though any implementer can
+      define an extension, there is a set of requirements that SHALL be met as part
+      of the definition of the extension. Applications processing a resource are required
+      to check for modifier extensions.  Modifier extensions SHALL NOT change the
+      meaning of any elements on Resource or DomainResource (including cannot change
+      the meaning of modifierExtension itself).
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Extensions that cannot be ignored even if unrecognized
+    type: array
+  origin:
+    $ref: Reference.yaml
+    backref: origin_encounter_admission
+    element_property: true
+    enum_reference_types:
+    - Location
+    - Organization
+    title: The location/organization from which the patient came before admission
+  preAdmissionIdentifier:
+    $ref: Identifier.yaml
+    element_property: true
+    title: Pre-admission identifier
+  reAdmission:
+    $ref: CodeableConcept.yaml
+    binding_description: The reason for re-admission of this admission encounter.
+    binding_strength: example
+    binding_uri: http://terminology.hl7.org/ValueSet/v2-0092
+    binding_version: null
+    description: Indicates that this encounter is directly related to a prior admission,
+      often because the conditions addressed in the prior admission were not fully
+      addressed.
+    element_property: true
+    title: Indicates that the patient is being re-admitted
+  resourceType:
+    const: EncounterAdmission
+    default: EncounterAdmission
+    description: One of the resource types defined as part of FHIR
+    title: Resource Type
+    type: string
+title: EncounterAdmission
+type: object

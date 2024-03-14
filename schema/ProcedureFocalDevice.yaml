@@ -1,0 +1,81 @@
+$id: ProcedureFocalDevice
+additionalProperties: false
+description: Manipulated, implanted, or removed device. A device that is implanted,
+  removed or otherwise manipulated (calibration, battery replacement, fitting a prosthesis,
+  attaching a wound-vac, etc.) as a focal portion of the Procedure. [See https://hl7.org/fhir/R5/ProcedureFocalDevice.html]
+links: []
+properties:
+  action:
+    $ref: CodeableConcept.yaml
+    binding_description: A kind of change that happened to the device during the procedure.
+    binding_strength: preferred
+    binding_uri: http://hl7.org/fhir/ValueSet/device-action
+    binding_version: null
+    description: The kind of change that happened to the device during the procedure.
+    element_property: true
+    title: Kind of change to device
+  extension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element. To make the use of extensions safe and
+      managable, there is a strict set of governance applied to the definition and
+      use of extensions. Though any implementer can define an extension, there is
+      a set of requirements that SHALL be met as part of the definition of the extension.
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Additional content defined by implementations
+    type: array
+  fhir_comments:
+    anyOf:
+    - type: string
+    - items:
+        type: string
+      type: array
+    element_property: false
+    title: Fhir Comments
+  id:
+    description: Unique id for the element within a resource (for internal references).
+      This may be any string value that does not contain spaces.
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Unique id for inter-element referencing
+    type: string
+  links:
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+    type: array
+  manipulated:
+    $ref: Reference.yaml
+    backref: procedure_focal_device
+    description: The device that was manipulated (changed) during the procedure.
+    element_property: true
+    enum_reference_types:
+    - Device
+    title: Device that was changed
+  modifierExtension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element and that modifies the understanding of
+      the element in which it is contained and/or the understanding of the containing
+      element's descendants. Usually modifier elements provide negation or qualification.
+      To make the use of extensions safe and managable, there is a strict set of governance
+      applied to the definition and use of extensions. Though any implementer can
+      define an extension, there is a set of requirements that SHALL be met as part
+      of the definition of the extension. Applications processing a resource are required
+      to check for modifier extensions.  Modifier extensions SHALL NOT change the
+      meaning of any elements on Resource or DomainResource (including cannot change
+      the meaning of modifierExtension itself).
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Extensions that cannot be ignored even if unrecognized
+    type: array
+  resourceType:
+    const: ProcedureFocalDevice
+    default: ProcedureFocalDevice
+    description: One of the resource types defined as part of FHIR
+    title: Resource Type
+    type: string
+required:
+- manipulated
+title: ProcedureFocalDevice
+type: object
