@@ -1,0 +1,156 @@
+class: sifter
+name: gdcFHIR
+outdir: ../../output/gdc_fhir
+
+
+config:
+  patients: ../../source/gdc_fhir/META/Patient.ndjson
+  research_studies: ../../source/gdc_fhir/META/ResearchStudy.ndjson
+  research_subjects: ../../source/gdc_fhir/META/ResearchSubject.ndjson
+  specimens: ../../source/gdc_fhir/META/Specimen.ndjson
+  procedures: ../../source/gdc_fhir/META/Procedure.ndjson
+  conditions: ../../source/gdc_fhir/META/Condition.ndjson
+  observations: ../../source/gdc_fhir/META/Patient.ndjson
+  encounters: ../../source/gdc_fhir/META/Encounter.ndjson
+  medication_administrations: ../../source/gdc_fhir/META/MedicationAdministration.ndjson
+  medications: ../../source/gdc_fhir/META/Medication.ndjson
+  imaging_studies: ../../source/gdc_fhir/META/ImagingStudy.ndjson
+  schema: ../../schema
+
+
+inputs:
+  patient:
+    jsonLoad:
+      input: "{{config.patients}}"
+
+  research_study:
+    jsonLoad:
+      input: "{{config.research_studies}}"
+
+  research_subject:
+    jsonLoad:
+      input: "{{config.research_subjects}}"
+
+  specimen:
+    jsonLoad:
+      input: "{{config.specimens}}"
+
+  procedure:
+    jsonLoad:
+      input: "{{config.procedures}}"
+
+  condition:
+    jsonLoad:
+      input: "{{config.conditions}}"
+
+  observation:
+    jsonLoad:
+      input: "{{config.observations}}"
+
+  encounter:
+    jsonLoad:
+      input: "{{config.encounters}}"
+
+  medication_administration:
+    jsonLoad:
+      input: "{{config.medication_administrations}}"
+
+  medication:
+    jsonLoad:
+      input: "{{config.medications}}"
+
+  imaging_study:
+    jsonLoad:
+      input: "{{config.imaging_studies}}"
+
+
+
+pipelines:
+  patientObj:
+    - objectValidate:
+        title: Patient
+        schema: "{{config.schema}}"
+
+    - emit:
+        name: patient
+
+  researchStudyObj:
+    - objectValidate:
+        title: ResearchStudy
+        schema: "{{config.schema}}"
+
+    - emit:
+        name: research_study
+
+  researchSubjectObj:
+    - objectValidate:
+        title: ResearchSubject
+        schema: "{{config.schema}}"
+
+    - emit:
+        name: research_subject
+
+  specimenObj:
+    - objectValidate:
+        title: Specimen
+        schema: "{{config.schema}}"
+
+    - emit:
+        name: specimen
+
+  procedureObj:
+    - objectValidate:
+        title: Procedure
+        schema: "{{config.schema}}"
+
+    - emit:
+        name: proccedure
+
+  conditionObj:
+    - objectValidate:
+        title: Condition
+        schema: "{{config.schema}}"
+
+    - emit:
+        name: condition
+
+  observationObj:
+    - objectValidate:
+        title: Observation
+        schema: "{{config.schema}}"
+
+    - emit:
+        name: observation
+
+  encounterObj:
+    - objectValidate:
+        title: Encounter
+        schema: "{{config.schema}}"
+
+    - emit:
+        name: encounter
+
+  medicationAdministrationObj:
+    - objectValidate:
+        title: MedicationAdministration
+        schema: "{{config.schema}}"
+
+    - emit:
+        name: medication_administration
+
+  medicationObj:
+    - objectValidate:
+        title: Medication
+        schema: "{{config.schema}}"
+
+    - emit:
+        name: medication
+
+  imagingStudyObj:
+    - objectValidate:
+        title: imagingStudy
+        schema: "{{config.schema}}"
+
+    - emit:
+        name: imaging_study
+

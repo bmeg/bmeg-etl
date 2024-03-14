@@ -1,18 +1,10 @@
-/* 
-
-Co-dependent workflow: 1. convert GDC keys to FHIR like keys. 2. Generate GDC-FHIR graph entities ndjson files. 
-
-1. gdc2fhir convert --name case --in_path cases.ndjson --out_path ../../source/gdc_fhir/cases_key.ndjson --verbose True
-2. gdc2fhir generate --name case --out_dir ../../source/gdc_fhir/META --entity_path ../../source/gdc_fhir/cases_key.ndjson
-
-*/ 
 
 
 prep = lathe.Workflow("prep")
 
 
 prep.Add(lathe.Process({
-commandLine: "gdc2fhir convert --name case --in_path cases.json --out_path {{outputs.gdcGraphKeys}} --verbose True",
+commandLine: "gdc2fhir convert --name case --in_path ../../source/gdc/cases.json --out_path {{outputs.gdcGraphKeys}} --verbose False",
     outputs:{
       gdcGraphKeys: "../../source/gdc_fhir/cases_key.ndjson"
     }
