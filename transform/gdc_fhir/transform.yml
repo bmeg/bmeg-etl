@@ -15,6 +15,7 @@ config:
   medication_administrations: ../../source/gdc_fhir/META/MedicationAdministration.ndjson
   medications: ../../source/gdc_fhir/META/Medication.ndjson
   imaging_studies: ../../source/gdc_fhir/META/ImagingStudy.ndjson
+  document_reference: ../../source/gdc_fhir/META/DocumentReference.ndjson
   schema: ../../schema
 
 
@@ -62,6 +63,10 @@ inputs:
   imaging_study:
     jsonLoad:
       input: "{{config.imaging_studies}}"
+
+  document_reference:
+    jsonLoad:
+      input: "{{config.document_reference}}"
 
 
 
@@ -153,4 +158,12 @@ pipelines:
 
     - emit:
         name: imaging_study
+
+  documentReferenceObj:
+    - objectValidate:
+        title: documentReference
+        schema: "{{config.schema}}"
+
+    - emit:
+        name: document_reference
 
