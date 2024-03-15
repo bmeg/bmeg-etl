@@ -1,5 +1,5 @@
 class: sifter
-name: gdcFHIR
+name: gdc_fhir
 outdir: ../../output/gdc_fhir
 
 
@@ -10,12 +10,12 @@ config:
   specimens: ../../source/gdc_fhir/META/Specimen.ndjson
   procedures: ../../source/gdc_fhir/META/Procedure.ndjson
   conditions: ../../source/gdc_fhir/META/Condition.ndjson
-  observations: ../../source/gdc_fhir/META/Patient.ndjson
+  observations: ../../source/gdc_fhir/META/Observation.ndjson
   encounters: ../../source/gdc_fhir/META/Encounter.ndjson
   medication_administrations: ../../source/gdc_fhir/META/MedicationAdministration.ndjson
   medications: ../../source/gdc_fhir/META/Medication.ndjson
   imaging_studies: ../../source/gdc_fhir/META/ImagingStudy.ndjson
-  document_reference: ../../source/gdc_fhir/META/DocumentReference.ndjson
+  document_references: ../../source/gdc_fhir/META/DocumentReference.ndjson
   schema: ../../schema
 
 
@@ -66,104 +66,116 @@ inputs:
 
   document_reference:
     jsonLoad:
-      input: "{{config.document_reference}}"
+      input: "{{config.document_references}}"
 
 
 
 pipelines:
   patientObj:
+    - from: patient
     - objectValidate:
         title: Patient
         schema: "{{config.schema}}"
 
     - emit:
-        name: patient
+        name: Patient
 
   researchStudyObj:
+    - from: research_study
     - objectValidate:
         title: ResearchStudy
         schema: "{{config.schema}}"
 
     - emit:
-        name: research_study
+        name: ResearchStudy
 
   researchSubjectObj:
+    - from: research_subject
     - objectValidate:
         title: ResearchSubject
         schema: "{{config.schema}}"
 
     - emit:
-        name: research_subject
+        name: ResearchSubject
 
   specimenObj:
+    - from: specimen
     - objectValidate:
         title: Specimen
         schema: "{{config.schema}}"
 
     - emit:
-        name: specimen
+        name: Specimen
 
   procedureObj:
+    - from: procedure
     - objectValidate:
         title: Procedure
         schema: "{{config.schema}}"
 
     - emit:
-        name: proccedure
+        name: Procedure
 
   conditionObj:
+    - from: condition
     - objectValidate:
         title: Condition
         schema: "{{config.schema}}"
 
     - emit:
-        name: condition
+        name: Condition
 
   observationObj:
+    - from: observation
     - objectValidate:
         title: Observation
         schema: "{{config.schema}}"
 
     - emit:
-        name: observation
+        name: Observation
 
   encounterObj:
+    - from: encounter
     - objectValidate:
         title: Encounter
         schema: "{{config.schema}}"
 
     - emit:
-        name: encounter
+        name: Encounter
 
   medicationAdministrationObj:
+    - from: medication_administration
     - objectValidate:
         title: MedicationAdministration
         schema: "{{config.schema}}"
 
     - emit:
-        name: medication_administration
+        name: MedicationAdministration
 
   medicationObj:
+    - from: medication
     - objectValidate:
         title: Medication
         schema: "{{config.schema}}"
 
     - emit:
-        name: medication
+        name: Medication
 
   imagingStudyObj:
+    - from: imaging_study
     - objectValidate:
-        title: imagingStudy
+        title: ImagingStudy
         schema: "{{config.schema}}"
 
     - emit:
-        name: imaging_study
+        name: ImagingStudy
 
   documentReferenceObj:
+    - from: document_reference
     - objectValidate:
-        title: documentReference
+        title: DocumentReference
         schema: "{{config.schema}}"
 
     - emit:
-        name: document_reference
+        name: DocumentReference
 
