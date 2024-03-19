@@ -1,58 +1,90 @@
+$id: Phenotype
 $schema: https://json-schema.org/draft/2020-12/schema
-$id: phenotype
-title: Phenotype
-type: object
-description: 'An observable characteristics of a case or sample resulting from the  interaction
+description: An observable characteristics of a case or sample resulting from the  interaction
   of its genotype with the environment (i.e. a disease).
-
-  '
-required:
-- submitter_id
-- term_id
-- term
-- project_id
 links:
-- rel: child_terms
-  href: phenotype/{id}
-  templateRequired:
-  - id
-  targetSchema:
-    $ref: phenotype.yaml
-  templatePointers:
-    id: /child_terms/-/id
+- href: Phenotype/{id}
+  rel: childTerms_Phenotype
   targetHints:
+    backref:
+    - childTerms_phenotype
     directionality:
     - outbound
     multiplicity:
     - has_many
-    backref: phenotypes
+  targetSchema:
+    $ref: Phenotype.yaml
+  templatePointers:
+    id: /childTerms/-/id
+  templateRequired:
+  - id
+- href: Patient/{id}
+  rel: patients_Patient
+  targetHints:
+    backref:
+    - patients_phenotype
+    directionality:
+    - outbound
+    multiplicity:
+    - has_many
+  targetSchema:
+    $ref: Patient.yaml
+  templatePointers:
+    id: /patients/-/id
+  templateRequired:
+  - id
 properties:
+  childTerms:
+    backref: childTerms_phenotype
+    element_property: true
+    items:
+      $ref: Phenotype.yaml
+    type: array
+  createdDateTime:
+    element_property: true
+    format: date-time
+    type: string
+  description:
+    element_property: true
+    type: string
   id:
-    type: string
-  term:
-    type: string
-  term_id:
+    element_property: true
     type: string
   name:
-    type:
-    - 'null'
-    - string
-  description:
+    element_property: true
     type: string
-  project_id:
-    $ref: _definitions.yaml#/project_id
-  submitter_id:
-    type:
-    - string
-    - 'null'
-  type:
-    type: string
-  created_datetime:
-    $ref: _definitions.yaml#/datetime
-  updated_datetime:
-    $ref: _definitions.yaml#/datetime
-  child_terms:
-    type:
-    - array
+  patients:
+    backref: patients_phenotype
+    element_property: true
     items:
-      $ref: reference.yaml
+      $ref: Patient.yaml
+    type: array
+  projectId:
+    element_property: true
+    type: string
+  resourceType:
+    default: phenotype
+    description: One of the resource types defined as part of BMEG
+    type: string
+  submitterId:
+    element_property: true
+    type: string
+  term:
+    element_property: true
+    type: string
+  termId:
+    element_property: true
+    type: string
+  type:
+    element_property: true
+    type: string
+  updatedDateTime:
+    element_property: true
+    format: date-time
+    type: string
+required:
+- submitterId
+- termId
+- projectId
+title: Phenotype
+type: object
