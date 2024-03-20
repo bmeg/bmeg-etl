@@ -161,14 +161,14 @@ pipelines:
     - emit:
         name: Medication
 
-  imagingStudyObj:
-    - from: imaging_study
-    - objectValidate:
-        title: ImagingStudy
-        schema: "{{config.schema}}"
+  # imagingStudyObj:
+  #   - from: imaging_study
+  #   - objectValidate:
+  #       title: ImagingStudy
+  #       schema: "{{config.schema}}"
 
-    - emit:
-        name: ImagingStudy
+  #   - emit:
+  #       name: ImagingStudy
 
   documentReferenceObj:
     - from: document_reference

@@ -4,7 +4,7 @@ prep = lathe.Workflow("prep")
 
 
 prep.Add(lathe.Process({
-commandLine: "gdc2fhir convert --name case --in_path ../../source/gdc/cases.json --out_path {{outputs.gdcGraphKeys}} --verbose False",
+commandLine: "fhirizer convert --name case --in_path ../../source/gdc/cases.json --out_path {{outputs.gdcGraphKeys}} --verbose False",
     outputs:{
       gdcGraphKeys: "../../source/gdc_fhir/cases_key.ndjson"
     }
@@ -12,7 +12,7 @@ commandLine: "gdc2fhir convert --name case --in_path ../../source/gdc/cases.json
 
 
 prep.Add(lathe.Process({
-commandLine: "gdc2fhir generate --name case --out_dir {{outputs.gdcGraphDir}} --entity_path ../../source/gdc_fhir/cases_key.ndjson",
+commandLine: "fhirizer generate --name case --out_dir {{outputs.gdcGraphDir}} --entity_path ../../source/gdc_fhir/cases_key.ndjson",
     outputs:{
       gdcGraphDir: "../../source/gdc_fhir/META"
     }
@@ -20,7 +20,7 @@ commandLine: "gdc2fhir generate --name case --out_dir {{outputs.gdcGraphDir}} --
 
 
 prep.Add(lathe.Process({
-commandLine: "gdc2fhir convert --name file --in_path ../../source/gdc/files.json --out_path {{outputs.gdcGraphFileKeys}} --verbose False",
+commandLine: "fhirizer convert --name file --in_path ../../source/gdc/files.json --out_path {{outputs.gdcGraphFileKeys}} --verbose False",
     outputs:{
       gdcGraphFileKeys: "../../source/gdc_fhir/files_key.ndjson"
     }
@@ -28,7 +28,7 @@ commandLine: "gdc2fhir convert --name file --in_path ../../source/gdc/files.json
 
 
 prep.Add(lathe.Process({
-commandLine: "gdc2fhir generate --name file --out_dir {{outputs.gdcGraphDir}} --entity_path ../../source/gdc_fhir/files_key.ndjson",
+commandLine: "fhirizer generate --name file --out_dir {{outputs.gdcGraphDir}} --entity_path ../../source/gdc_fhir/files_key.ndjson",
     outputs:{
       gdcGraphDir: "../../source/gdc_fhir/META"
     }
