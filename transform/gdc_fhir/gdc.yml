@@ -1,0 +1,152 @@
+name: gdc
+outdir: ./out
+
+config:
+  schema: ../schema
+  dir: ./META
+
+inputs:
+  condition:
+    jsonLoad:
+      input: "{{config.dir}}/Condition.json"
+  
+  observation:
+    jsonLoad:
+      input: "{{config.dir}}/Observation.json"
+
+  documentReference:
+    jsonLoad:
+      input: "{{config.dir}}/DocumentReference.json"
+
+  patient:
+    jsonLoad:
+      input: "{{config.dir}}/Patient.json"
+
+  encounter:
+    jsonLoad:
+      input: "{{config.dir}}/Encounter.json"
+
+  procedure:
+    jsonLoad:
+      input: "{{config.dir}}/Procedure.json"
+
+  imagingStudy:
+    jsonLoad:
+      input: "{{config.dir}}/ImagingStudy.json"
+
+  researchStudy:
+    jsonLoad:
+      input: "{{config.dir}}/ResearchStudy.json"
+
+  medication:
+    jsonLoad:
+      input: "{{config.dir}}/Medication.json"
+
+  researchSubject:
+    jsonLoad:
+      input: "{{config.dir}}/ResearchSubject.json"
+
+  medicationAdministration:
+    jsonLoad:
+      input: "{{config.dir}}/MedicationAdministration.json"
+
+  specimen:
+    jsonLoad:
+      input: "{{config.dir}}/Specimen.json"
+
+pipelines:
+  conditionValidate:
+    - from: condition
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Condition
+    - emit:
+        name: condition
+
+  observationValidate:
+    - from: observation
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Observation
+    - emit:
+        name: observation
+
+  documentReferenceValidate:
+    - from: documentReference
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: DocumentReference
+    - emit:
+        name: documentReference
+
+  patientValidate:
+    - from: patient
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Patient
+    - emit:
+        name: patient
+
+  encounterValidate:
+    - from: encounter
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Encounter
+    - emit:
+        name: encounter
+
+  procedureValidate:
+    - from: procedure
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Procedure
+    - emit:
+        name: procedure
+
+  imagingStudyValidate:
+    - from: imagingStudy
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: ImagingStudy
+    - emit:
+        name: imagingStudy
+
+  researchStudyValidate:
+    - from: researchStudy
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: ResearchStudy
+    - emit:
+        name: researchStudy
+
+  medicationValidate:
+    - from: medication
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Medication
+    - emit:
+        name: medication
+
+  researchSubjectValidate:
+    - from: researchSubject
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: ResearchSubject
+    - emit:
+        name: researchSubject
+
+  medicationAdministrationValidate:
+    - from: medicationAdministration
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: MedicationAdministration
+    - emit:
+        name: medicationAdministration
+
+  specimenValidate:
+    - from: specimen
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Specimen
+    - emit:
+        name: specimen
