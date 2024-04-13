@@ -37,11 +37,11 @@ pipelines:
     - from: extSif
     - project:
         mapping:
-          id: "{{row.SRC_ID}}-{{row.INTERACTION_TYPE}}-{{row.DST_ID}}"
-          submitter_id:  "{{row.SRC_ID}}-{{row.INTERACTION_TYPE}}-{{row.DST_ID}}"
-          project_id: Reference
-          interaction_output: [ { "id": "{{row.DST_ID}}" } ]
-          interaction_input: [ { "id" : "{{row.SRC_ID}}" } ]
+          #id: "{{row.SRC_ID}}-{{row.INTERACTION_TYPE}}-{{row.DST_ID}}"
+          submitterId:  "{{row.SRC_ID}}-{{row.INTERACTION_TYPE}}-{{row.DST_ID}}"
+          projectId: Reference
+          interactionOutput: [ { "submitterId": "{{row.DST_ID}}", "projectId":"reference" } ]
+          interactionInput: [ { "submitterId" : "{{row.SRC_ID}}", "projectId":"reference" } ]
           source: "{{row.SOURCE}}"
           type: interaction
     - map:
@@ -50,7 +50,7 @@ pipelines:
           def fix(row):
             o = []
             for i in row["PUBMED"].split(","):
-              o.append( {"id" : "pmid/" + i} )
+              o.append( {"submitterId" : "pmid/" + i, "projectId":"reference"})
             row["publications"] = o
             return row
 
@@ -74,9 +74,9 @@ pipelines:
       
     - project:
         mapping:
-          id: "{{row.COMPLEX_ID}}"
-          project_id: Reference
-          submitter_id: "{{row.COMPLEX_ID}}"
+          #id: "{{row.COMPLEX_ID}}"
+          projectId: Reference
+          submitterId: "{{row.COMPLEX_ID}}"
     
     - emit:
         name: complex
