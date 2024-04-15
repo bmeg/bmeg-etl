@@ -31,16 +31,3 @@ prep.Add(lathe.Process({
     }
 }))
 
-prep.Add(lathe.Process({
-commandLine: "./gdc-scan.py cases {{outputs.cases}}",
-    outputs:{
-      cases: "../../source/gdc/cases.json"
-    }
-}))
-
-prep.Add(lathe.Process({
-    commandLine: "./gdc-scan.py files {{outputs.files}}",
-    outputs:{
-      files: "../../source/gdc/files.json"
-    }
-}))
