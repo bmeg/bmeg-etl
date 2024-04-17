@@ -1,5 +1,5 @@
 
-prep = lathe.Workspace("prep")
+prep = lathe.Workflow("prep")
 
 prep.Add(lathe.Process({
   commandLine: "../gdc/gdc-scan.py cases {{outputs.cases}}",
