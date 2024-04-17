@@ -3,7 +3,7 @@ outdir: ./out
 
 config:
   schema: ../schema
-  dir: ./META
+  dir: ../../source/gdc_fhir/META
 
 inputs:
   condition:
