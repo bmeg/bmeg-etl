@@ -1,8 +1,0 @@
-prep = lathe.Workflow("prep")
-
-prep.Add(lathe.Process({ 
-    commandLine: "curl https://ftp.expasy.org/databases/cellosaurus/cellosaurus.obo -o {{outputs.cellObo}}",
-    outputs: {
-       cellObo: "../../source/cellosaurus/cellosaurus.obo"
-    }
-}))
