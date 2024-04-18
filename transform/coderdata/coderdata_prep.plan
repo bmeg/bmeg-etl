@@ -1,0 +1,72 @@
+
+prep = lathe.Workflow("prep")
+
+prep.Add(lathe.Process({
+  commandLine: "coderdata download --prefix beataml",
+  outputs: {
+    beataml_drugs: "./beataml_drugs.tsv",
+    beataml_experiments: "./beataml_experiments.tsv",
+    beataml_mutations: "./beataml_mutations.csv.gz",
+    beataml_proteomics: "./beataml_proteomics.csv.gz",
+    beataml_samples: "./beataml_samples.csv.gz",
+    beataml_transcriptomics: "./beataml_transcriptomics.csv.gz"
+  } 
+}))
+
+
+prep.Add(lathe.Process({
+  commandLine: "coderdata download --prefix broad",
+  outputs: {
+    broad_drugs: "./broad_sanger_drugs.tsv",
+    broad_experiments: "./broad_sanger_experiments.tsv",
+    broad_mutations: "./broad_sanger_mutations.csv.gz",
+    broad_proteomics: "./broad_sanger_proteomics.csv.gz",
+    broad_samples: "./broad_sanger_samples.csv.gz",
+    broad_transcriptomics: "./broad_sanger_transcriptomics.csv.gz"
+  } 
+}))
+
+
+prep.Add(lathe.Process({
+  commandLine: "coderdata download --prefix mpnst",
+  outputs: {
+    mpnst_drugs: "./mpnst_drugs.tsv",
+    mpnst_experiments: "./mpnst_experiments.tsv",
+    mpnst_mutations: "./mpnst_mutations.csv.gz",
+    mpnst_samples: "./mpnst_samples.csv",
+    mpnst_transcriptomics: "./mpnst_transcriptomics.csv.gz", 
+    mpnst_copy_number: "./mpnst_copy_number.csv.gz"
+  } 
+}))
+
+/*prep.Add(lathe.Process({
+  commandLine: "mv ./*.gz ./*.csv ./*.tsv ../../source/coderdata",
+}))*/
+
+
+prep.Add(lathe.Process({
+  commandLine: "datamodel-codegen  --input ../../schema/Patient.yaml --input-file-type jsonschema  --output-model-type pydantic_v2.BaseModel --output {{outputs.bmegPatient}}",
+  outputs: {
+  bmegPatient: "bmegPatient.py"
+  }
+}))
+
+
+prep.Add(lathe.Process({
+  commandLine: "datamodel-codegen  --input ../../schema/DrugResponse.yaml --input-file-type jsonschema  --output-model-type pydantic_v2.BaseModel --output {{outputs.bmegDrugResponse}}",
+  outputs: {
+  bmegDrugResponse: "bmegDrugResponse.py"
+  }
+}))
+
+
+
+prep.Add(lathe.Process({
+  commandLine: "./wrangle.py",
+  outputs: {
+    experiments: "../../source/coderdata/bm_experiments.csv",
+    drugs: "../../source/coderdata/bm_drugs.csv",
+    samples: "../../source/coderdata/bm_samples.csv"
+  }
+}))
+
