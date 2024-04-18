@@ -39,6 +39,6 @@ experiments_pivot.replace('nan', 0, inplace=True)
 # save data wrangled 
 bm.experiments.to_csv("../../source/coderdata/bm_experiments.csv", index=False)
 experiments.to_csv("../../source/coderdata/cleaned_experiments.csv", index=False)
-experiments_pivot.to_csv("../../source/coderdata/cleaned_pivoted_experiments.csv", index=False)
+experiments_pivot.to_csv("../../source/coderdata/cleaned_pivoted_experiments.csv", index=True)
 bm.drugs.to_csv("../../source/coderdata/bm_drugs.csv", index=False)
 bm.samples.to_csv("../../source/coderdata/bm_samples.csv", index=False)
