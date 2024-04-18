@@ -2,15 +2,6 @@
 
 import pandas as pd
 import coderdata as cd
-from fhir.resources.substance import Substance
-from fhir.resources.reference import Reference
-from fhir.resources.identifier import Identifier
-from fhir.resources.codeablereference import CodeableReference
-from fhir.resources.codeableconcept import CodeableConcept
-from fhir.resources.substancedefinition import SubstanceDefinition, SubstanceDefinitionStructure, \
-    SubstanceDefinitionStructureRepresentation
-from bmegDrugResponse import DrugResponse
-from bmegPatient import Patient
 
 
 beataml = cd.DatasetLoader("beataml")
