@@ -35,6 +35,7 @@ experiments.loc[:, 'dose_response_metric'] = experiments.dose_response_metric.st
 experiments_pivot = experiments.pivot(index="id", columns=['dose_response_metric'], values="dose_response_value")
 experiments_pivot.fillna(0, inplace=True)
 experiments_pivot.replace('nan', 0, inplace=True)
+experiments_pivot['id'] = experiments_pivot.index
 
 # save data wrangled 
 bm.experiments.to_csv("../../source/coderdata/bm_experiments.csv", index=False)

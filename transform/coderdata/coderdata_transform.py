@@ -40,12 +40,29 @@ def build_substance(row):
     return substance
 
 
+def build_response(row, substance):
+    id = row['id']
+    acc = row['acc']
+    auc = row['auc']
+    dss1 = row['dss']
+    ec50 = row['ec50']
+    einf = row['einf']
+    hs = row['hs']
+    ic50 = row['ic50']
+
+    # substance = build_substance(substance_row)
+
+    # drugResponse BMEG BaseModel (TODO: replace and confirm BMEG id def)
+    dr = DrugResponse(**{"id": id, "projectId": id, "submitterId": id, "acc": acc, "auc":auc,
+                    "dss1": dss1, "ec50": ec50, "einf": einf, "hs": hs, "ic50": ic50,
+                    "substances": [substance]})
+    return dr
+
 # -----------------------------------------------------------------
 # patient BMEG BaseModel (TODO: substanceDef schema) 
 # patient_id = "PLACE-HOLDER-3456"
 # patient_identifier = Identifier(**{"value": "PLACE-HOLDER-1234", "system": "https://pnnl-compbio.github.io/coderdata/"})
 # patient = Patient(**{"id": patient_id, "substances": [substance]})
 
-# drugResponse BMEG BaseModel (TODO: confirm BMEG id def)
-# DrugResponse(**{"id": "BeatAML:synapse:4819:SMI_1006", "projectId": "123456", "submitterId": "1234", "substances": [substance]})
+# Specimen has - sample.type info ex. cancer / normal
 
