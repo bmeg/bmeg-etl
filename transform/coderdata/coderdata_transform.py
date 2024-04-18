@@ -11,8 +11,7 @@ from fhir.resources.substancedefinition import SubstanceDefinition, SubstanceDef
 from bmegDrugResponse import DrugResponse
 from bmegPatient import Patient
 
-# build plan
-# substance
+
 def build_substance(row):
     smile_rep = row['canSMILES']
     InChI_rep = row['InChIKey']
@@ -37,10 +36,11 @@ def build_substance(row):
 
     cr = CodeableReference(**{"reference": Reference(**{"reference": "/".join(["SubstanceDefinition", id])})})
     substance = Substance(**{"instance": True, "code": cr})
-    return substance
+    # return pydantic object or json/dict
+    return substance 
 
 
-def build_response(row, substance):
+def build_response(row):
     id = row['id']
     acc = row['acc']
     auc = row['auc']
@@ -50,6 +50,7 @@ def build_response(row, substance):
     hs = row['hs']
     ic50 = row['ic50']
 
+    # can we pass in substance or substance_row from build_substance
     # substance = build_substance(substance_row)
 
     # drugResponse BMEG BaseModel (TODO: replace and confirm BMEG id def)
