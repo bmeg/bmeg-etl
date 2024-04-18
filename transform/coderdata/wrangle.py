@@ -30,7 +30,7 @@ bm.experiments["id"] = bm.experiments["study"] + ":" + bm.experiments["source"] 
     "improve_sample_id"] + ":" + bm.experiments["improve_drug_id"]
 
 experiments = bm.experiments[bm.experiments.dose_response_metric.isin(
-    ['fit_auc', 'fit_ic50', 'fit_ec50', 'fit_r2', 'fit_ec50se', 'fit_einf', 'fit_hs', 'aac', 'dss'])]
+    ['fit_auc', 'fit_ic50', 'fit_ec50', 'fit_einf', 'fit_hs', 'aac', 'dss'])]
 
 experiments.loc[:, 'dose_response_metric'] = experiments.dose_response_metric.str.replace('fit_auc', 'auc', regex=False)
 experiments.loc[:, 'dose_response_metric'] = experiments.dose_response_metric.str.replace('fit_ic50', 'ic50',
@@ -41,7 +41,13 @@ experiments.loc[:, 'dose_response_metric'] = experiments.dose_response_metric.st
                                                                                           regex=False)
 experiments.loc[:, 'dose_response_metric'] = experiments.dose_response_metric.str.replace('fit_hs', 'hs', regex=False)
 
+experiments_pivot = experiments.pivot(index="id", columns=['dose_response_metric'], values="dose_response_value")
+experiments_pivot.fillna(0, inplace=True)
+experiments_pivot.replace('nan', 0, inplace=True)
+
 # save data wrangled 
 bm.experiments.to_csv("../../source/coderdata/bm_experiments.csv", index=False)
+experiments.to_csv("../../source/coderdata/cleaned_experiments.csv", index=False)
+experiments_pivot.to_csv("../../source/coderdata/cleaned_pivoted_experiments.csv", index=False)
 bm.drugs.to_csv("../../source/coderdata/bm_drugs.csv", index=False)
 bm.samples.to_csv("../../source/coderdata/bm_samples.csv", index=False)
