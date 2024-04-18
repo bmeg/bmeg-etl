@@ -1,28 +1,24 @@
-
-
-name: coderdata-graph
-class: sifter
-
-outdir: graph
+name: coderdata
+outdir: ./out
 
 config:
-
-    substance: out/coderdata.substance.substance.json.gz
-    substanceSchema: ../schema
-
+  schema: ../schema
+  dir: ../../source/coderdata
 
 inputs:
-
-    substance:
-        jsonLoad:
-            input: "{{config.substance}}"
-
+  substanceReader:
+    tableLoad:
+      input: "{{config.dir}}/bm_drugs.csv"
 
 pipelines:
-
-    substance-graph:
-        - from: substance
-        - graphBuild:
-            schema: "{{config.substanceSchema}}"
-            title: Substance
-
+  substance:
+    - from: substanceReader
+    - map:
+        method: build_substance
+        gpython:
+          $ref: coderdata_transform.py
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Substance
+    - emit:
+        name: substance
