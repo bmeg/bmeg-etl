@@ -1,0 +1,28 @@
+
+
+name: coderdata-graph
+class: sifter
+
+outdir: graph
+
+config:
+
+    substance: out/coderdata.substance.substance.json.gz
+    substanceSchema: ../schema
+
+
+inputs:
+
+    substance:
+        jsonLoad:
+            input: "{{config.substance}}"
+
+
+pipelines:
+
+    substance-graph:
+        - from: substance
+        - graphBuild:
+            schema: "{{config.substanceSchema}}"
+            title: Substance
+
