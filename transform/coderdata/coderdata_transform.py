@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 import pandas as pd
+import orjson
+import uuid
 from fhir.resources.substance import Substance
 from fhir.resources.reference import Reference
 from fhir.resources.identifier import Identifier
@@ -31,13 +33,13 @@ def build_substance(row):
 
     sds = SubstanceDefinitionStructure(**{"representation": [sdfr_smile, sdfr_InChI]})
     id = row['pubchem_id']
-    substanceDef_ident = Identifier(**{"value": "PLACE-HOLDER-1234", "system": "https://pubchem.ncbi.nlm.nih.gov/"})
+    substanceDef_ident = Identifier(**{"value": id, "system": "https://pubchem.ncbi.nlm.nih.gov/"})
     sd = SubstanceDefinition(**{"id": id, "identifier": [substanceDef_ident], "structure": sds})
 
     cr = CodeableReference(**{"reference": Reference(**{"reference": "/".join(["SubstanceDefinition", id])})})
     substance = Substance(**{"instance": True, "code": cr})
-    # return pydantic object or json/dict
-    return substance 
+
+    return orjson.loads(substance.json()) 
 
 
 def build_response(row):
@@ -50,20 +52,29 @@ def build_response(row):
     hs = row['hs']
     ic50 = row['ic50']
 
-    # can we pass in substance or substance_row from build_substance
-    # substance = build_substance(substance_row)
+    substance_row = row[['pubchem_id', 'canSMILES', 'InChI']]
+    substance = build_substance(substance_row)
 
     # drugResponse BMEG BaseModel (TODO: replace and confirm BMEG id def)
     dr = DrugResponse(**{"id": id, "projectId": id, "submitterId": id, "acc": acc, "auc":auc,
                     "dss1": dss1, "ec50": ec50, "einf": einf, "hs": hs, "ic50": ic50,
                     "substances": [substance]})
-    return dr
+    return orjson.loads(substance.json())
 
-# -----------------------------------------------------------------
-# patient BMEG BaseModel (TODO: substanceDef schema) 
-# patient_id = "PLACE-HOLDER-3456"
-# patient_identifier = Identifier(**{"value": "PLACE-HOLDER-1234", "system": "https://pnnl-compbio.github.io/coderdata/"})
-# patient = Patient(**{"id": patient_id, "substances": [substance]})
 
-# Specimen has - sample.type info ex. cancer / normal
+def build_patient(row):
+    # patient BMEG BaseModel (TODO: substanceDef schema) 
+    # Specimen has - sample.type info ex. cancer / normal
+
+    patient_id = str(uuid.uuid4()) # TODO: replace and confirm BMEG id def
+    patient_identifier = Identifier(**{"value": row['improve_sample_id'], "system": "https://pnnl-compbio.github.io/coderdata/"})
+
+    substance_row = row[['pubchem_id', 'canSMILES', 'InChI']]
+    substance = build_substance(substance_row)
+
+    patient = Patient(**{"id": patient_id, "identifier": patient_identifier, "substances": [substance]})
+    return orjson.loads(patient.json())
+
+
+
 

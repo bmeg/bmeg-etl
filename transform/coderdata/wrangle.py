@@ -16,6 +16,11 @@ bm.experiments.loc[:, 'improve_sample_id'] = pd.to_numeric(bm.experiments['impro
     'Int64').astype('str')
 
 bm.drugs['pubchem_id'] = pd.to_numeric(bm.drugs['pubchem_id'], errors='coerce').astype('Int64').astype('str')
+bm.drugs = bm.drugs.drop_duplicates(subset=['canSMILES', 'InChIKey', 'improve_drug_id'])
+bm.samples = bm.samples.drop_duplicates(subset=['cancer_type', 'model_type', 'improve_sample_id'])
+
+
+bm.samples['improve_sample_id'] = pd.to_numeric(bm.samples['improve_sample_id'], errors='coerce').astype('Int64').astype('str')
 
 bm.experiments["id"] = bm.experiments["study"] + ":" + bm.experiments["source"] + ":" + bm.experiments[
     "improve_sample_id"] + ":" + bm.experiments["improve_drug_id"]
@@ -37,9 +42,22 @@ experiments_pivot.fillna(0, inplace=True)
 experiments_pivot.replace('nan', 0, inplace=True)
 experiments_pivot['id'] = experiments_pivot.index
 
+df = experiments_pivot['id'].str.split(':', expand=True)
+df.columns = ['study', 'source', 'improve_sample_id', 'improve_drug_id']
+df2 = pd.concat([experiments_pivot, df], axis=1)
+
+# create experiments / dugs table for metadata required to build DrugResponse
+df3 = df2.merge(bm.drugs, on='improve_drug_id', how='left')
+df3 = df3.drop_duplicates(subset=['id'])
+
+# create samples / dugs table for metadata required to build Patient
+df4 = df3.merge(bm.samples, on='improve_sample_id', how='left')
+df4 = df4.drop_duplicates(subset=['id'])
+
 # save data wrangled 
 bm.experiments.to_csv("../../source/coderdata/bm_experiments.csv", index=False)
 experiments.to_csv("../../source/coderdata/cleaned_experiments.csv", index=False)
 experiments_pivot.to_csv("../../source/coderdata/cleaned_pivoted_experiments.csv", index=True)
+experiments_pivot.to_csv("../../source/coderdata/cleaned_pivoted_experiments_drugs_samples.csv", index=True)
 bm.drugs.to_csv("../../source/coderdata/bm_drugs.csv", index=False)
 bm.samples.to_csv("../../source/coderdata/bm_samples.csv", index=False)
