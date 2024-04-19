@@ -38,7 +38,6 @@ def build_substance(row):
 
     cr = CodeableReference(**{"reference": Reference(**{"reference": "/".join(["SubstanceDefinition", id])})})
     substance = Substance(**{"instance": True, "code": cr})
-
     return orjson.loads(substance.json()) 
 
 
@@ -74,7 +73,4 @@ def build_patient(row):
 
     patient = Patient(**{"id": patient_id, "identifier": patient_identifier, "substances": [substance]})
     return orjson.loads(patient.json())
-
-
-
 
