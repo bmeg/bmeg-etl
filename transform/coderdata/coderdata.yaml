@@ -6,13 +6,13 @@ config:
   dir: ../../source/coderdata
 
 inputs:
-  substanceReader:
+  experimentsData:
     tableLoad:
-      input: "{{config.dir}}/bm_drugs.csv"
+      input: "{{config.dir}}/cleaned_pivoted_experiments_drugs_samples.csv"
 
 pipelines:
   substance:
-    - from: substanceReader
+    - from: experimentsData
     - map:
         method: build_substance
         gpython:
@@ -22,3 +22,27 @@ pipelines:
         title: Substance
     - emit:
         name: substance
+
+  drug_response:
+    - from: experimentsData
+    - map:
+        method: build_response
+        gpython:
+          $ref: coderdata_transform.py
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: DrugResponse
+    - emit:
+        name: drug_response
+
+  patient:
+    - from: experimentsData
+    - map:
+        method: build_patient
+        gpython:
+          $ref: coderdata_transform.py
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Patient
+    - emit:
+        name: patient
