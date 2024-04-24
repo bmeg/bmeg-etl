@@ -1,0 +1,223 @@
+[
+  {
+    "value": "Whole Blood",
+    "sctid": "258580003"
+  },
+  {
+    "value": "Brain - Frontal Cortex (BA9)",
+    "sctid": "26972005"
+  },
+  {
+    "value": "Adipose - Subcutaneous",
+    "sctid": "67769002"
+  },
+  {
+    "value": "Muscle - Skeletal",
+    "sctid": "127954009"
+  },
+  {
+    "value": "Artery - Tibial",
+    "sctid": "181351007"
+  },
+  {
+    "value": "Artery - Coronary",
+    "sctid": "41801008"
+  },
+  {
+    "value": "Heart - Atrial Appendage",
+    "sctid": "59652004"
+  },
+  {
+    "value": "Adipose - Visceral (Omentum)",
+    "sctid": "27398004"
+  },
+  {
+    "value": "Ovary",
+    "sctid": "15497006"
+  },
+  {
+    "value": "Uterus",
+    "sctid": "35039007"
+  },
+  {
+    "value": "Vagina",
+    "sctid": "76784001"
+  },
+  {
+    "value": "Breast - Mammary Tissue",
+    "sctid": "204340007"
+  },
+  {
+    "value": "Skin - Not Sun Exposed (Suprapubic)",
+    "sctid": "367578008"
+  },
+  {
+    "value": "Minor Salivary Gland",
+    "sctid": "87626005"
+  },
+  {
+    "value": "Brain - Cortex",
+    "sctid": "40146001"
+  },
+  {
+    "value": "Adrenal Gland",
+    "sctid": "23451007"
+  },
+  {
+    "value": "Thyroid",
+    "sctid": "69748006"
+  },
+  {
+    "value": "Lung",
+    "sctid": "39607008"
+  },
+  {
+    "value": "Spleen",
+    "sctid": "78961009"
+  },
+  {
+    "value": "Pancreas",
+    "sctid": "15776009"
+  },
+  {
+    "value": "Esophagus - Muscularis",
+    "sctid": "360961009"
+  },
+  {
+    "value": "Esophagus - Mucosa",
+    "sctid": "82082004"
+  },
+  {
+    "value": "Esophagus - Gastroesophageal Junction",
+    "sctid": "32849002"
+  },
+  {
+    "value": "Stomach",
+    "sctid": "69695003"
+  },
+  {
+    "value": "Colon - Sigmoid",
+    "sctid": "60184004"
+  },
+  {
+    "value": "Small Intestine - Terminal Ileum",
+    "sctid": "85774003"
+  },
+  {
+    "value": "Colon - Transverse",
+    "sctid": "485005"
+  },
+  {
+    "value": "Prostate",
+    "sctid": "41216001"
+  },
+  {
+    "value": "Testis",
+    "sctid": "40689003"
+  },
+  {
+    "value": "Skin - Sun Exposed (Lower leg)",
+    "sctid": "75144006"
+  },
+  {
+    "value": "Nerve - Tibial",
+    "sctid": "45684006"
+  },
+  {
+    "value": "Heart - Left Ventricle",
+    "sctid": "87878005"
+  },
+  {
+    "value": "Pituitary",
+    "sctid": "56329008"
+  },
+  {
+    "value": "Brain - Cerebellum",
+    "sctid": "113305005"
+  },
+  {
+    "value": "Cells - Cultured fibroblasts",
+    "sctid": "52547004"
+  },
+  {
+    "value": "Artery - Aorta",
+    "sctid": "15825003"
+  },
+  {
+    "value": "Cells - EBV-transformed lymphocytes",
+    "sctid": "709252005"
+  },
+  {
+    "value": "Brain - Cerebellar Hemisphere",
+    "sctid": "6566002"
+  },
+  {
+    "value": "Brain - Caudate (basal ganglia)",
+    "sctid": "32610002"
+  },
+  {
+    "value": "Brain - Nucleus accumbens (basal ganglia)",
+    "sctid": "427667007"
+  },
+  {
+    "value": "Brain - Putamen (basal ganglia)",
+    "sctid": "89278009"
+  },
+  {
+    "value": "Brain - Hypothalamus",
+    "sctid": "67923007"
+  },
+  {
+    "value": "Brain - Spinal cord (cervical c-1)",
+    "sctid": "54785003"
+  },
+  {
+    "value": "Liver",
+    "sctid": "10200004"
+  },
+  {
+    "value": "Brain - Hippocampus",
+    "sctid": "5366008"
+  },
+  {
+    "value": "Brain - Anterior cingulate cortex (BA24)",
+    "sctid": "1179107006"
+  },
+  {
+    "value": "Brain - Substantia nigra",
+    "sctid": "70007007"
+  },
+  {
+    "value": "Kidney - Cortex",
+    "sctid": "50403003"
+  },
+  {
+    "value": "Brain - Amygdala",
+    "sctid": "4958002"
+  },
+  {
+    "value": "Cervix - Ectocervix",
+    "sctid": "264459002"
+  },
+  {
+    "value": "Fallopian Tube",
+    "sctid": "31435000"
+  },
+  {
+    "value": "Cervix - Endocervix",
+    "sctid": "36973007"
+  },
+  {
+    "value": "Bladder",
+    "sctid": "89837001"
+  },
+  {
+    "value": "Kidney - Medulla",
+    "sctid": "30737000"
+  },
+  {
+    "value": "Cells - Leukemia cell line (CML)",
+    "sctid": "000000",
+    "_comment": "replace"
+  }
+]
