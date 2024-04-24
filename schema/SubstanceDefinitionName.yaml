@@ -1,0 +1,203 @@
+$id: SubstanceDefinitionName
+additionalProperties: false
+description: Names applicable to this substance. [See https://hl7.org/fhir/R5/SubstanceDefinitionName.html]
+links:
+- href: DocumentReference/{id}
+  rel: source
+  targetHints:
+    backref:
+    - source_substance_definition_name
+    direction:
+    - outbound
+    multiplicity:
+    - has_many
+  targetSchema:
+    $ref: DocumentReference.yaml
+  templatePointers:
+    id: /source/-/reference
+  templateRequired:
+  - id
+- $comment: From SubstanceDefinitionName/synonym
+  href: DocumentReference/{id}
+  rel: synonym_source
+  targetHints:
+    backref:
+    - source_substance_definition_name
+    direction:
+    - outbound
+    multiplicity:
+    - has_many
+  targetSchema:
+    $ref: DocumentReference.yaml
+  templatePointers:
+    id: /synonym/-/source/-/reference
+  templateRequired:
+  - id
+- $comment: From SubstanceDefinitionName/translation
+  href: DocumentReference/{id}
+  rel: translation_source
+  targetHints:
+    backref:
+    - source_substance_definition_name
+    direction:
+    - outbound
+    multiplicity:
+    - has_many
+  targetSchema:
+    $ref: DocumentReference.yaml
+  templatePointers:
+    id: /translation/-/source/-/reference
+  templateRequired:
+  - id
+properties:
+  _name:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``name``.
+  _preferred:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``preferred``.
+  domain:
+    binding_description: The use context of a substance name for example if there
+      is a different name when used as a drug active ingredient as opposed to a food
+      colour additive.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/substance-name-domain
+    binding_version: null
+    description: The use context of this name for example if there is a different
+      name a drug active ingredient as opposed to a food colour additive.
+    element_property: true
+    items:
+      $ref: CodeableConcept.yaml
+    title: The use context of this name e.g. as an active ingredient or as a food
+      colour additive
+    type: array
+  extension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element. To make the use of extensions safe and
+      managable, there is a strict set of governance applied to the definition and
+      use of extensions. Though any implementer can define an extension, there is
+      a set of requirements that SHALL be met as part of the definition of the extension.
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Additional content defined by implementations
+    type: array
+  fhir_comments:
+    anyOf:
+    - type: string
+    - items:
+        type: string
+      type: array
+    element_property: false
+    title: Fhir Comments
+  id:
+    description: Unique id for the element within a resource (for internal references).
+      This may be any string value that does not contain spaces.
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Unique id for inter-element referencing
+    type: string
+  jurisdiction:
+    binding_description: Jurisdiction codes
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/jurisdiction
+    binding_version: null
+    element_property: true
+    items:
+      $ref: CodeableConcept.yaml
+    title: The jurisdiction where this name applies
+    type: array
+  language:
+    binding_description: IETF language tag for a human language
+    binding_strength: required
+    binding_uri: http://hl7.org/fhir/ValueSet/all-languages
+    binding_version: 5.0.0
+    element_property: true
+    items:
+      $ref: CodeableConcept.yaml
+    title: Human language that the name is written in
+    type: array
+  links:
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+    type: array
+  modifierExtension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element and that modifies the understanding of
+      the element in which it is contained and/or the understanding of the containing
+      element's descendants. Usually modifier elements provide negation or qualification.
+      To make the use of extensions safe and managable, there is a strict set of governance
+      applied to the definition and use of extensions. Though any implementer can
+      define an extension, there is a set of requirements that SHALL be met as part
+      of the definition of the extension. Applications processing a resource are required
+      to check for modifier extensions.  Modifier extensions SHALL NOT change the
+      meaning of any elements on Resource or DomainResource (including cannot change
+      the meaning of modifierExtension itself).
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Extensions that cannot be ignored even if unrecognized
+    type: array
+  name:
+    element_property: true
+    element_required: true
+    pattern: '[ \r\n\t\S]+'
+    title: The actual name
+    type: string
+  official:
+    element_property: true
+    items:
+      $ref: SubstanceDefinitionNameOfficial.yaml
+    title: Details of the official nature of this name
+    type: array
+  preferred:
+    element_property: true
+    title: If this is the preferred name for this substance
+    type: boolean
+  resourceType:
+    const: SubstanceDefinitionName
+    default: SubstanceDefinitionName
+    description: One of the resource types defined as part of FHIR
+    title: Resource Type
+    type: string
+  source:
+    backref: source_substance_definition_name
+    element_property: true
+    enum_reference_types:
+    - DocumentReference
+    items:
+      $ref: Reference.yaml
+    title: Supporting literature
+    type: array
+  status:
+    $ref: CodeableConcept.yaml
+    binding_description: The lifecycle status of an artifact.
+    binding_strength: preferred
+    binding_uri: http://hl7.org/fhir/ValueSet/publication-status
+    binding_version: null
+    description: The status of the name, for example 'current', 'proposed'.
+    element_property: true
+    title: The status of the name e.g. 'current', 'proposed'
+  synonym:
+    element_property: true
+    items:
+      $ref: SubstanceDefinitionName.yaml
+    title: A synonym of this particular name, by which the substance is also known
+    type: array
+  translation:
+    element_property: true
+    items:
+      $ref: SubstanceDefinitionName.yaml
+    title: A translation for this name into another human language
+    type: array
+  type:
+    $ref: CodeableConcept.yaml
+    binding_description: The type of a name given to a substance.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/substance-name-type
+    binding_version: null
+    description: Name type, for example 'systematic',  'scientific, 'brand'.
+    element_property: true
+    title: Name type e.g. 'systematic',  'scientific, 'brand'
+title: SubstanceDefinitionName
+type: object
