@@ -29,3 +29,11 @@ prep.Add(lathe.Process({
         txt: "../../source/gtex/GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt"
     }
 }))
+
+prep.Add(lathe.Process({
+  commandLine: "./wrangle.py",
+  outputs: {
+    patient_pheno: "../../source/gtex/patient_pheno.csv"
+    sample_pheno: "../../source/gtex/sample_pheno.csv",
+  }
+}))

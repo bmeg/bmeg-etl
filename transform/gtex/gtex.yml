@@ -1,0 +1,39 @@
+name: gtex
+outdir: ./out
+
+config:
+  schema: ../schema
+  dir: ../../source/gtex
+
+inputs:
+  specimenData:
+    tableLoad:
+      input: "{{config.dir}}/sample_pheno.csv"
+  patientData:
+    tableLoad:
+      input: "{{config.dir}}/patient_pheno.csv"
+
+pipelines:
+  patient:
+    - from: patientData
+    - map:
+        method: build_patient
+        gpython:
+          $ref: gtex_transform.py
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Patient
+    - emit:
+        name: patient
+
+  specimen:
+    - from: specimenData
+    - map:
+        method: build_specimen
+        gpython:
+          $ref: gtex_transform.py
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Specimen
+    - emit:
+        name: specimen
