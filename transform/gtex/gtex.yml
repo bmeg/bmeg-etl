@@ -2,7 +2,7 @@ name: gtex
 outdir: ./out
 
 config:
-  schema: ../schema
+  schema: ../../schema
   dir: ../../source/gtex
 
 inputs:

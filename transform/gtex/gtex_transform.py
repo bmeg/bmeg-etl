@@ -1,9 +1,11 @@
+"""
 import orjson
 from fhir.resources.patient import Patient
 from fhir.resources.specimen import Specimen
 from fhir.resources.reference import Reference
 from fhir.resources.identifier import Identifier
 from fhir.resources.codeableconcept import CodeableConcept
+"""
 
 
 def build_patient(row):
