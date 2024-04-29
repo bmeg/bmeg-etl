@@ -33,7 +33,8 @@ prep.Add(lathe.Process({
 prep.Add(lathe.Process({
   commandLine: "./wrangle.py",
   outputs: {
-    patient_pheno: "../../source/gtex/patient_pheno.csv"
-    sample_pheno: "../../source/gtex/sample_pheno.csv",
+    patient_pheno: "../../source/gtex/patient_pheno.csv",
+    sample_pheno: "../../source/gtex/sample_pheno.csv"
   }
+  /*image: "gtex"*/
 }))

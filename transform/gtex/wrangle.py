@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import json
 import datetime
 import pandas as pd 
@@ -45,4 +47,3 @@ sample_pheno['sctid'] = sample_pheno.SMTSD.apply(lambda x: get_snomed_code(x, gt
 # save data wrangled 
 sample_pheno.to_csv("../../source/gtex/sample_pheno.csv", index=False)
 patient_pheno.to_csv("../../source/gtex/patient_pheno.csv", index=False)
-
