@@ -6,12 +6,12 @@ config:
   dir: ../../source/gtex
 
 inputs:
-  specimenData:
-    tableLoad:
-      input: "{{config.dir}}/sample_pheno.csv"
   patientData:
     tableLoad:
-      input: "{{config.dir}}/patient_pheno.csv"
+      input: "{{config.dir}}/patient_pheno.tsv"
+  specimenData:
+    tableLoad:
+      input: "{{config.dir}}/sample_pheno.tsv"
 
 pipelines:
   patient:
