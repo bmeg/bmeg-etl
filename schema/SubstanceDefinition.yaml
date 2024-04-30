@@ -1,0 +1,395 @@
+$id: SubstanceDefinition
+additionalProperties: false
+description: The detailed description of a substance, typically at a level beyond
+  what is used for prescribing. [See https://hl7.org/fhir/R5/SubstanceDefinition.html]
+links:
+- $comment: From SubstanceDefinitionCode/code
+  href: DocumentReference/{id}
+  rel: code_source
+  targetHints:
+    backref:
+    - source_substance_definition_code
+    direction:
+    - outbound
+    multiplicity:
+    - has_many
+  targetSchema:
+    $ref: DocumentReference.yaml
+  templatePointers:
+    id: /code/-/source/-/reference
+  templateRequired:
+  - id
+- $comment: From SubstanceDefinitionName/name
+  href: DocumentReference/{id}
+  rel: name_source
+  targetHints:
+    backref:
+    - source_substance_definition_name
+    direction:
+    - outbound
+    multiplicity:
+    - has_many
+  targetSchema:
+    $ref: DocumentReference.yaml
+  templatePointers:
+    id: /name/-/source/-/reference
+  templateRequired:
+  - id
+- $comment: From Annotation/note
+  href: Patient/{id}
+  rel: note_authorReference_Patient
+  targetHints:
+    backref:
+    - annotation
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+  targetSchema:
+    $ref: Patient.yaml
+  templatePointers:
+    id: /note/-/authorReference/reference
+  templateRequired:
+  - id
+- $comment: From SubstanceDefinitionRelationship/relationship
+  href: DocumentReference/{id}
+  rel: relationship_source
+  targetHints:
+    backref:
+    - source_substance_definition_relationship
+    direction:
+    - outbound
+    multiplicity:
+    - has_many
+  targetSchema:
+    $ref: DocumentReference.yaml
+  templatePointers:
+    id: /relationship/-/source/-/reference
+  templateRequired:
+  - id
+- $comment: From SubstanceDefinitionRelationship/relationship
+  href: SubstanceDefinition/{id}
+  rel: relationship_substanceDefinitionReference
+  targetHints:
+    backref:
+    - substance_definition_relationship
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+  targetSchema:
+    $ref: SubstanceDefinition.yaml
+  templatePointers:
+    id: /relationship/-/substanceDefinitionReference/reference
+  templateRequired:
+  - id
+- $comment: From SubstanceDefinitionStructure/structure
+  href: DocumentReference/{id}
+  rel: structure_sourceDocument
+  targetHints:
+    backref:
+    - sourceDocument_substance_definition_structure
+    direction:
+    - outbound
+    multiplicity:
+    - has_many
+  targetSchema:
+    $ref: DocumentReference.yaml
+  templatePointers:
+    id: /structure/sourceDocument/-/reference
+  templateRequired:
+  - id
+properties:
+  _description:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``description``.
+  _implicitRules:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``implicitRules``.
+  _language:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``language``.
+  _version:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``version``.
+  characterization:
+    element_property: true
+    items:
+      $ref: SubstanceDefinitionCharacterization.yaml
+    title: General specifications for this substance
+    type: array
+  classification:
+    description: A high level categorization, e.g. polymer or nucleic acid, or food,
+      chemical, biological, or a lower level such as the general types of polymer
+      (linear or branch chain) or type of impurity (process related or contaminant).
+    element_property: true
+    items:
+      $ref: CodeableConcept.yaml
+    title: A categorization, high level e.g. polymer or nucleic acid, or food, chemical,
+      biological, or lower e.g. polymer linear or branch chain, or type of impurity
+    type: array
+  code:
+    element_property: true
+    items:
+      $ref: SubstanceDefinitionCode.yaml
+    title: Codes associated with the substance
+    type: array
+  contained:
+    description: These resources do not have an independent existence apart from the
+      resource that contains them - they cannot be identified independently, nor can
+      they have their own independent transaction scope. This is allowed to be a Parameters
+      resource if and only if it is referenced by a resource that provides context/meaning.
+    element_property: true
+    items:
+      $ref: Resource.yaml
+    title: Contained, inline Resources
+    type: array
+  description:
+    element_property: true
+    pattern: \s*(\S|\s)*
+    title: Textual description of the substance
+    type: string
+  domain:
+    $ref: CodeableConcept.yaml
+    binding_description: Applicable domain for this product (e.g. human, veterinary).
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/medicinal-product-domain
+    binding_version: null
+    element_property: true
+    title: If the substance applies to human or veterinary use
+  extension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the resource. To make the use of extensions safe
+      and managable, there is a strict set of governance applied to the definition
+      and use of extensions. Though any implementer can define an extension, there
+      is a set of requirements that SHALL be met as part of the definition of the
+      extension.
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Additional content defined by implementations
+    type: array
+  fhir_comments:
+    anyOf:
+    - type: string
+    - items:
+        type: string
+      type: array
+    element_property: false
+    title: Fhir Comments
+  grade:
+    binding_description: The quality standard, established benchmark, to which a substance
+      complies
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/substance-grade
+    binding_version: null
+    description: The quality standard, established benchmark, to which substance complies
+      (e.g. USP/NF, Ph. Eur, JP, BP, Company Standard).
+    element_property: true
+    items:
+      $ref: CodeableConcept.yaml
+    title: The quality standard, established benchmark, to which substance complies
+      (e.g. USP/NF, BP)
+    type: array
+  id:
+    description: The logical id of the resource, as used in the URL for the resource.
+      Once assigned, this value never changes.
+    element_property: true
+    maxLength: 64
+    minLength: 1
+    pattern: ^[A-Za-z0-9\-.]+$
+    title: Logical id of this artifact
+    type: string
+  identifier:
+    element_property: true
+    items:
+      $ref: Identifier.yaml
+    title: Identifier by which this substance is known
+    type: array
+  implicitRules:
+    description: A reference to a set of rules that were followed when the resource
+      was constructed, and which must be understood when processing the content. Often,
+      this is a reference to an implementation guide that defines the special rules
+      along with other profiles etc.
+    element_property: true
+    pattern: \S*
+    title: A set of rules under which this content was created
+    type: string
+  informationSource:
+    backref: informationSource_substance_definition
+    element_property: true
+    enum_reference_types:
+    - Citation
+    items:
+      $ref: Reference.yaml
+    title: Supporting literature
+    type: array
+  language:
+    binding_description: IETF language tag for a human language
+    binding_strength: required
+    binding_uri: http://hl7.org/fhir/ValueSet/all-languages
+    binding_version: 5.0.0
+    description: The base language in which the resource is written.
+    element_property: true
+    pattern: ^[^\s]+(\s[^\s]+)*$
+    title: Language of the resource content
+    type: string
+  links:
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+    type: array
+  manufacturer:
+    backref: manufacturer_substance_definition
+    description: The entity that creates, makes, produces or fabricates the substance.
+      This is a set of potential manufacturers but is not necessarily comprehensive.
+    element_property: true
+    enum_reference_types:
+    - Organization
+    items:
+      $ref: Reference.yaml
+    title: The entity that creates, makes, produces or fabricates the substance
+    type: array
+  meta:
+    $ref: Meta.yaml
+    description: The metadata about the resource. This is content that is maintained
+      by the infrastructure. Changes to the content might not always be associated
+      with version changes to the resource.
+    element_property: true
+    title: Metadata about the resource
+  modifierExtension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the resource and that modifies the understanding
+      of the element that contains it and/or the understanding of the containing element's
+      descendants. Usually modifier elements provide negation or qualification. To
+      make the use of extensions safe and managable, there is a strict set of governance
+      applied to the definition and use of extensions. Though any implementer is allowed
+      to define an extension, there is a set of requirements that SHALL be met as
+      part of the definition of the extension. Applications processing a resource
+      are required to check for modifier extensions.  Modifier extensions SHALL NOT
+      change the meaning of any elements on Resource or DomainResource (including
+      cannot change the meaning of modifierExtension itself).
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Extensions that cannot be ignored
+    type: array
+  moiety:
+    element_property: true
+    items:
+      $ref: SubstanceDefinitionMoiety.yaml
+    title: Moiety, for structural modifications
+    type: array
+  molecularWeight:
+    description: The average mass of a molecule of a compound compared to 1/12 the
+      mass of carbon 12 and calculated as the sum of the atomic weights of the constituent
+      atoms.
+    element_property: true
+    items:
+      $ref: SubstanceDefinitionMolecularWeight.yaml
+    title: The average mass of a molecule of a compound
+    type: array
+  name:
+    element_property: true
+    items:
+      $ref: SubstanceDefinitionName.yaml
+    title: Names applicable to this substance
+    type: array
+  note:
+    element_property: true
+    items:
+      $ref: Annotation.yaml
+    title: Textual comment about the substance's catalogue or registry record
+    type: array
+  nucleicAcid:
+    $ref: Reference.yaml
+    backref: substance_definition
+    element_property: true
+    enum_reference_types:
+    - SubstanceNucleicAcid
+    title: Data items specific to nucleic acids
+  polymer:
+    $ref: Reference.yaml
+    backref: substance_definition
+    element_property: true
+    enum_reference_types:
+    - SubstancePolymer
+    title: Data items specific to polymers
+  property:
+    element_property: true
+    items:
+      $ref: SubstanceDefinitionProperty.yaml
+    title: General specifications for this substance
+    type: array
+  protein:
+    $ref: Reference.yaml
+    backref: substance_definition
+    element_property: true
+    enum_reference_types:
+    - SubstanceProtein
+    title: Data items specific to proteins
+  referenceInformation:
+    $ref: Reference.yaml
+    backref: substance_definition
+    element_property: true
+    enum_reference_types:
+    - SubstanceReferenceInformation
+    title: General information detailing this substance
+  relationship:
+    description: A link between this substance and another, with details of the relationship.
+    element_property: true
+    items:
+      $ref: SubstanceDefinitionRelationship.yaml
+    title: A link between this substance and another
+    type: array
+  resourceType:
+    const: SubstanceDefinition
+    default: SubstanceDefinition
+    description: One of the resource types defined as part of FHIR
+    title: Resource Type
+    type: string
+  sourceMaterial:
+    $ref: SubstanceDefinitionSourceMaterial.yaml
+    description: Material or taxonomic/anatomical source for the substance.
+    element_property: true
+    title: Material or taxonomic/anatomical source
+  status:
+    $ref: CodeableConcept.yaml
+    binding_description: The lifecycle status of an artifact.
+    binding_strength: preferred
+    binding_uri: http://hl7.org/fhir/ValueSet/publication-status
+    binding_version: null
+    element_property: true
+    title: Status of substance within the catalogue e.g. active, retired
+  structure:
+    $ref: SubstanceDefinitionStructure.yaml
+    element_property: true
+    title: Structural information
+  supplier:
+    backref: supplier_substance_definition
+    description: An entity that is the source for the substance. It may be different
+      from the manufacturer. Supplier is synonymous to a distributor.
+    element_property: true
+    enum_reference_types:
+    - Organization
+    items:
+      $ref: Reference.yaml
+    title: An entity that is the source for the substance. It may be different from
+      the manufacturer
+    type: array
+  text:
+    $ref: Narrative.yaml
+    description: A human-readable narrative that contains a summary of the resource
+      and can be used to represent the content of the resource to a human. The narrative
+      need not encode all the structured data, but is required to contain sufficient
+      detail to make it "clinically safe" for a human to just read the narrative.
+      Resource definitions may define what content should be represented in the narrative
+      to ensure clinical safety.
+    element_property: true
+    title: Text summary of the resource, for human interpretation
+  version:
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: A business level version identifier of the substance
+    type: string
+title: SubstanceDefinition
+type: object

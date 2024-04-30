@@ -1,0 +1,114 @@
+$id: SubstanceDefinitionSourceMaterial
+additionalProperties: false
+description: Material or taxonomic/anatomical source. Material or taxonomic/anatomical
+  source for the substance. [See https://hl7.org/fhir/R5/SubstanceDefinitionSourceMaterial.html]
+links: []
+properties:
+  countryOfOrigin:
+    binding_description: Jurisdiction codes
+    binding_strength: required
+    binding_uri: http://hl7.org/fhir/ValueSet/country
+    binding_version: 5.0.0
+    element_property: true
+    items:
+      $ref: CodeableConcept.yaml
+    title: The country or countries where the material is harvested
+    type: array
+  extension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element. To make the use of extensions safe and
+      managable, there is a strict set of governance applied to the definition and
+      use of extensions. Though any implementer can define an extension, there is
+      a set of requirements that SHALL be met as part of the definition of the extension.
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Additional content defined by implementations
+    type: array
+  fhir_comments:
+    anyOf:
+    - type: string
+    - items:
+        type: string
+      type: array
+    element_property: false
+    title: Fhir Comments
+  genus:
+    $ref: CodeableConcept.yaml
+    binding_description: The genus of an organism, typically referring to the Latin
+      epithet of the genus element of the plant/animal scientific name.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/substance-source-material-genus
+    binding_version: null
+    description: The genus of an organism, typically referring to the Latin epithet
+      of the genus element of the plant/animal scientific name.
+    element_property: true
+    title: The genus of an organism e.g. the Latin epithet of the plant/animal scientific
+      name
+  id:
+    description: Unique id for the element within a resource (for internal references).
+      This may be any string value that does not contain spaces.
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Unique id for inter-element referencing
+    type: string
+  links:
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+    type: array
+  modifierExtension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element and that modifies the understanding of
+      the element in which it is contained and/or the understanding of the containing
+      element's descendants. Usually modifier elements provide negation or qualification.
+      To make the use of extensions safe and managable, there is a strict set of governance
+      applied to the definition and use of extensions. Though any implementer can
+      define an extension, there is a set of requirements that SHALL be met as part
+      of the definition of the extension. Applications processing a resource are required
+      to check for modifier extensions.  Modifier extensions SHALL NOT change the
+      meaning of any elements on Resource or DomainResource (including cannot change
+      the meaning of modifierExtension itself).
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Extensions that cannot be ignored even if unrecognized
+    type: array
+  part:
+    $ref: CodeableConcept.yaml
+    binding_description: An anatomical origin of the source material within an organism.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/substance-source-material-part
+    binding_version: null
+    element_property: true
+    title: An anatomical origin of the source material within an organism
+  resourceType:
+    const: SubstanceDefinitionSourceMaterial
+    default: SubstanceDefinitionSourceMaterial
+    description: One of the resource types defined as part of FHIR
+    title: Resource Type
+    type: string
+  species:
+    $ref: CodeableConcept.yaml
+    binding_description: A species of origin a substance raw material.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/substance-source-material-species
+    binding_version: null
+    description: The species of an organism, typically referring to the Latin epithet
+      of the species of the plant/animal.
+    element_property: true
+    title: The species of an organism e.g. the Latin epithet of the species of the
+      plant/animal
+  type:
+    $ref: CodeableConcept.yaml
+    binding_description: A classification that provides the origin of the substance
+      raw material.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/substance-source-material-type
+    binding_version: null
+    description: 'A classification that provides the origin of the raw material. Example:
+      cat hair would be an Animal source type.'
+    element_property: true
+    title: Classification of the origin of the raw material. e.g. cat hair is an Animal
+      source type
+title: SubstanceDefinitionSourceMaterial
+type: object

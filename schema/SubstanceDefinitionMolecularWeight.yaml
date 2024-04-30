@@ -1,0 +1,90 @@
+$id: SubstanceDefinitionMolecularWeight
+additionalProperties: false
+description: The average mass of a molecule of a compound. The average mass of a molecule
+  of a compound compared to 1/12 the mass of carbon 12 and calculated as the sum of
+  the atomic weights of the constituent atoms. [See https://hl7.org/fhir/R5/SubstanceDefinitionMolecularWeight.html]
+links: []
+properties:
+  amount:
+    $ref: Quantity.yaml
+    description: Used to capture quantitative values for a variety of elements. If
+      only limits are given, the arithmetic mean would be the average. If only a single
+      definite value for a given element is given, it would be captured in this field.
+    element_property: true
+    title: Used to capture quantitative values for a variety of elements
+  extension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element. To make the use of extensions safe and
+      managable, there is a strict set of governance applied to the definition and
+      use of extensions. Though any implementer can define an extension, there is
+      a set of requirements that SHALL be met as part of the definition of the extension.
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Additional content defined by implementations
+    type: array
+  fhir_comments:
+    anyOf:
+    - type: string
+    - items:
+        type: string
+      type: array
+    element_property: false
+    title: Fhir Comments
+  id:
+    description: Unique id for the element within a resource (for internal references).
+      This may be any string value that does not contain spaces.
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Unique id for inter-element referencing
+    type: string
+  links:
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+    type: array
+  method:
+    $ref: CodeableConcept.yaml
+    binding_description: The method by which the substance weight was measured.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/substance-weight-method
+    binding_version: null
+    description: The method by which the molecular weight was determined.
+    element_property: true
+    title: The method by which the weight was determined
+  modifierExtension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element and that modifies the understanding of
+      the element in which it is contained and/or the understanding of the containing
+      element's descendants. Usually modifier elements provide negation or qualification.
+      To make the use of extensions safe and managable, there is a strict set of governance
+      applied to the definition and use of extensions. Though any implementer can
+      define an extension, there is a set of requirements that SHALL be met as part
+      of the definition of the extension. Applications processing a resource are required
+      to check for modifier extensions.  Modifier extensions SHALL NOT change the
+      meaning of any elements on Resource or DomainResource (including cannot change
+      the meaning of modifierExtension itself).
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Extensions that cannot be ignored even if unrecognized
+    type: array
+  resourceType:
+    const: SubstanceDefinitionMolecularWeight
+    default: SubstanceDefinitionMolecularWeight
+    description: One of the resource types defined as part of FHIR
+    title: Resource Type
+    type: string
+  type:
+    $ref: CodeableConcept.yaml
+    binding_description: The type of substance weight measurement.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/substance-weight-type
+    binding_version: null
+    description: Type of molecular weight such as exact, average (also known as. number
+      average), weight average.
+    element_property: true
+    title: Type of molecular weight e.g. exact, average, weight average
+required:
+- amount
+title: SubstanceDefinitionMolecularWeight
+type: object
