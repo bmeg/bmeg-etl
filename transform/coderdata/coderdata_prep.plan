@@ -2,45 +2,6 @@
 prep = lathe.Workflow("prep")
 
 prep.Add(lathe.Process({
-  commandLine: "coderdata download --prefix beataml",
-  outputs: {
-    beataml_drugs: "./beataml_drugs.tsv",
-    beataml_experiments: "./beataml_experiments.tsv",
-    beataml_mutations: "./beataml_mutations.csv.gz",
-    beataml_proteomics: "./beataml_proteomics.csv.gz",
-    beataml_samples: "./beataml_samples.csv.gz",
-    beataml_transcriptomics: "./beataml_transcriptomics.csv.gz"
-  } 
-}))
-
-
-prep.Add(lathe.Process({
-  commandLine: "coderdata download --prefix broad",
-  outputs: {
-    broad_drugs: "./broad_sanger_drugs.tsv",
-    broad_experiments: "./broad_sanger_experiments.tsv",
-    broad_mutations: "./broad_sanger_mutations.csv.gz",
-    broad_proteomics: "./broad_sanger_proteomics.csv.gz",
-    broad_samples: "./broad_sanger_samples.csv.gz",
-    broad_transcriptomics: "./broad_sanger_transcriptomics.csv.gz"
-  } 
-}))
-
-
-prep.Add(lathe.Process({
-  commandLine: "coderdata download --prefix mpnst",
-  outputs: {
-    mpnst_drugs: "./mpnst_drugs.tsv",
-    mpnst_experiments: "./mpnst_experiments.tsv",
-    mpnst_mutations: "./mpnst_mutations.csv.gz",
-    mpnst_samples: "./mpnst_samples.csv",
-    mpnst_transcriptomics: "./mpnst_transcriptomics.csv.gz", 
-    mpnst_copy_number: "./mpnst_copy_number.csv.gz"
-  } 
-}))
-
-
-prep.Add(lathe.Process({
   commandLine: "./wrangle.py",
   outputs: {
     experiments_pivot_drugs_sample: "../../source/coderdata/cleaned_pivoted_experiments_drugs_samples.tsv"
