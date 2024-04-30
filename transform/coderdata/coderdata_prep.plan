@@ -43,7 +43,7 @@ prep.Add(lathe.Process({
 prep.Add(lathe.Process({
   commandLine: "./wrangle.py",
   outputs: {
-    experiments_pivot_drugs_sample: "../../source/coderdata/cleaned_pivoted_experiments_drugs_samples.csv"
+    experiments_pivot_drugs_sample: "../../source/coderdata/cleaned_pivoted_experiments_drugs_samples.tsv"
     /*experiments_pivot: "../../source/coderdata/cleaned_pivoted_experiments.csv",
     experiments_cleaned: "../../source/coderdata/cleaned_experiments.csv",
     experiments: "../../source/coderdata/bm_experiments.csv",

@@ -8,7 +8,7 @@ config:
 inputs:
   experimentsData:
     tableLoad:
-      input: "{{config.dir}}/cleaned_pivoted_experiments_drugs_samples.csv"
+      input: "{{config.dir}}/cleaned_pivoted_experiments_drugs_samples.tsv"
 
 pipelines:
   substance_definition:

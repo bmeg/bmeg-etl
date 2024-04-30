@@ -4,11 +4,15 @@
 def build_substance_definition(row):
     substance_def = {
         "resourceType": "SubstanceDefinition",
-        "id": str(int(row['pubchem_id'])),
+        "id": row['drug_id'],
         "identifier": [
             {
                 "system": "https://pubchem.ncbi.nlm.nih.gov/",
-                "value": str(int(row['pubchem_id']))
+                "value": row["pubchem_id"]
+            }, 
+            {
+                "system": "https://pnnl-compbio.github.io/coderdata/",
+                "value": row["improve_drug_id"]
             }
         ],
         "structure": {
@@ -47,10 +51,11 @@ def build_substance_definition(row):
 def build_substance(row):
     substance = {
         "resourceType": "Substance",
+        "id": row['drug_id'],
         "instance": True,
         "code": {
             "reference": {
-                "reference": "SubstanceDefinition/" + str(int(row['pubchem_id']))
+                "reference": "SubstanceDefinition/" + row['drug_id']
             }
         }
     }
@@ -60,22 +65,22 @@ def build_substance(row):
 
 def build_response(row):
     drug_response = {
-        "aac": row['aac'],
-        "auc": row['auc'],
-        "dss1": row['dss1'],
-        "ec50": row['ec50'],
-        "einf": row['einf'],
-        "hs": row['hs'],
-        "ic50": row['ic50'],
+        "aac": float(row['aac']),
+        "auc": float(row['auc']),
+        "dss1": float(row['dss']),
+        "ec50": float(row['ec50']),
+        "einf": float(row['einf']),
+        "hs": float(row['hs']),
+        "ic50": float(row['ic50']),
         "id": row['id'],
-        "projectId": row['id'],
+        "projectId": row['study'],
         "resourceType": "drug_response",
-        "submitterId": row["improve_drug_id"] + ":" + str(row["improve_sample_id"]),
+        "submitterId": row["improve_drug_id"] + "." + str(row["improve_sample_id"]),
         "substances": [
             {
                 "code": {
                     "reference": {
-                        "reference": "SubstanceDefinition/" + str(int(row["pubchem_id"])),
+                        "reference": "SubstanceDefinition/" +  row['drug_id'],
                         "resourceType": "Reference"
                     },
                     "resourceType": "CodeableReference"
@@ -92,18 +97,19 @@ def build_patient(row):
     # Specimen has - sample.type info ex. cancer / normal
     substance = {
         "resourceType": "Substance",
+        "id": row["drug_id"],
         "instance": True,
         "code": {
             "reference": {
-                "reference": "SubstanceDefinition/" + str(int(row["pubchem_id"]))
+                "reference": "SubstanceDefinition/" + row['drug_id']
             }
         }
     }
 
     patient = {"resourceType": "Patient",
-               "id": str(row["improve_sample_id"]) + ":" + row["improve_drug_id"],
+               "id": row["sample_id"],
                "identifier": [{"system": "https://pnnl-compbio.github.io/coderdata/",
-                               "value": str(row['improve_sample_id'])}],
+                               "value": row['id']}],
                "substances": [substance]}
     return patient
 
