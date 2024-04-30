@@ -1,10 +1,9 @@
 
 
 def build_patient(row):
-    # TODO: replace and confirm BMEG id def
     patient = {
         "resourceType": "Patient",
-        "id": row["SUBJID"] + "-gtex",
+        "id": row["patient_id"],
         "identifier": [
             {
                 "system": "https://gtexportal.org/subject",
@@ -19,10 +18,16 @@ def build_patient(row):
 
 
 def build_specimen(row):
-    # TODO: replace and confirm BMEG id def
+    print(row)
     sample = {
         "resourceType": "Specimen",
-        "id": row["SAMPID"] + "-gtex",
+        "id": row["sample_id"],
+        "identifier": [
+            {
+                "system": "https://gtexportal.org/sample",
+                "value": row["SAMPID"]
+            }
+        ],
         "type": {
             "coding": [
                 {
@@ -33,7 +38,7 @@ def build_specimen(row):
             ]
         },
         "subject": {
-            "reference": "Patient" + "/" + row["SUBJID"] + "-gtex"
+            "reference": "Patient" + "/" + row["sample_patient_id"]
         }
     }
     return sample 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import json
+import uuid
 import datetime
 import pandas as pd 
 
@@ -23,9 +24,13 @@ patient_pheno = pd.read_csv("../../source/gtex/GTEx_Analysis_v8_Annotations_Subj
 
 patient_pheno["SEX_string"] = patient_pheno.SEX.apply(lambda x: assign_sex(x))
 patient_pheno['fhir_birthDate'] = patient_pheno.AGE.apply(lambda x: datetime.datetime(datetime.datetime.now().year - int(x.split('-')[1]), 1, 1)) # needs to be reverted back to int for analysis 
-
+patient_pheno['patient_id'] = patient_pheno.SUBJID.apply(lambda x: str(uuid.uuid3(uuid.NAMESPACE_DNS, x)))
 
 sample_pheno['SUBJID'] = sample_pheno.SAMPID.apply(lambda x: "-".join(x.split('-', 2)[0:2]))
+sample_pheno['sample_id'] = sample_pheno.SAMPID.apply(lambda x: str(uuid.uuid3(uuid.NAMESPACE_DNS, x)))
+sample_pheno['sample_patient_id'] = sample_pheno.SUBJID.apply(lambda x: str(uuid.uuid3(uuid.NAMESPACE_DNS, x)))
+
+
 sample_pheno = sample_pheno.merge(patient_pheno, on='SUBJID', how='left')
 
 tissue_list = list(sample_pheno.SMTSD.unique())
