@@ -39,27 +39,6 @@ prep.Add(lathe.Process({
   } 
 }))
 
-/*prep.Add(lathe.Process({
-  commandLine: "mv ./*.gz ./*.csv ./*.tsv ../../source/coderdata",
-}))*/
-
-
-prep.Add(lathe.Process({
-  commandLine: "datamodel-codegen  --input ../../schema/Patient.yaml --input-file-type jsonschema  --output-model-type pydantic_v2.BaseModel --output {{outputs.bmegPatient}}",
-  outputs: {
-  bmegPatient: "bmegPatient.py"
-  }
-}))
-
-
-prep.Add(lathe.Process({
-  commandLine: "datamodel-codegen  --input ../../schema/DrugResponse.yaml --input-file-type jsonschema  --output-model-type pydantic_v2.BaseModel --output {{outputs.bmegDrugResponse}}",
-  outputs: {
-  bmegDrugResponse: "bmegDrugResponse.py"
-  }
-}))
-
-
 
 prep.Add(lathe.Process({
   commandLine: "./wrangle.py",

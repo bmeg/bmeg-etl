@@ -55,7 +55,7 @@ df4 = df3.merge(bm.samples, on='improve_sample_id', how='left')
 df4 = df4.drop_duplicates(subset=['id'])
 
 # save data wrangled 
-experiments_pivot.to_csv("../../source/coderdata/cleaned_pivoted_experiments_drugs_samples.csv", index=True)
+df4.to_csv("../../source/coderdata/cleaned_pivoted_experiments_drugs_samples.csv", index=True)
 # bm.experiments.to_csv("../../source/coderdata/bm_experiments.csv", index=False)
 # experiments.to_csv("../../source/coderdata/cleaned_experiments.csv", index=False)
 # experiments_pivot.to_csv("../../source/coderdata/cleaned_pivoted_experiments.csv", index=True)

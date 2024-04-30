@@ -2,7 +2,7 @@ name: coderdata
 outdir: ./out
 
 config:
-  schema: ../schema
+  schema: ../../schema
   dir: ../../source/coderdata
 
 inputs:
@@ -11,6 +11,18 @@ inputs:
       input: "{{config.dir}}/cleaned_pivoted_experiments_drugs_samples.csv"
 
 pipelines:
+  substance_definition:
+    - from: experimentsData
+    - map:
+        method: build_substance_definition
+        gpython:
+          $ref: coderdata_transform.py
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: SubstanceDefinition
+    - emit:
+        name: substance_definition
+
   substance:
     - from: experimentsData
     - map:
