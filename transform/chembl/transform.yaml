@@ -6,7 +6,7 @@ name: chemblTransform
 outdir: ../../output/chembl
 
 config:
-  sqlite:  ../../source/chembl/chembl_33/chembl_33_sqlite/chembl_33.db
+  sqlite:  ../../source/chembl/chembl_34/chembl_34_sqlite/chembl_34.db
   schema: ../../schema/
   synonyms: ../../tables/chemblSynonyms.buildTable.synonyms.json.gz
 
