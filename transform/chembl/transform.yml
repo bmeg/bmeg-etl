@@ -1,9 +1,9 @@
 name: chemblTransform
-outdir: ../../source/chembl
+outdir: ./out
 
 config:
   sqlite:  ../../source/chembl/chembl_34/chembl_34_sqlite/chembl_34.db
-  schema: ../../schema/
+  schema: ../../schema
   synonyms: ../../tables/chemblSynonyms.buildTable.synonyms.json.gz
 
 inputs:
@@ -25,15 +25,11 @@ pipelines:
         lookup: "{{row.molregno}}"
         copy:
           synonyms: synonym
-#     - project:
-#        mapping:
-#          id: "{{row.chembl_id}}"
-#          submitter_id: "{{row.chembl_id}}"
-#          project_id: "reference"
-#          inchi: "{{row.standard_inchi}}"
-#          inchi_key: "{{row.standard_inchi_key}}"
-#    - objectValidate:
-#        schema: "{{config.schema}}"
-#        title: Compound
-#    - emit: 
-#        name: Compound
+    - project:
+        mapping:
+          id: "{{row.chembl_id}}"
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: Substance
+    - emit: 
+        name: substance
