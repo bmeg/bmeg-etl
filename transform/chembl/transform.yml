@@ -25,11 +25,12 @@ pipelines:
         lookup: "{{row.molregno}}"
         copy:
           synonyms: synonym
-    - project:
-        mapping:
-          id: "{{row.chembl_id}}"
+    - map:
+        method: build_substance_definition
+        gpython:
+          $ref: chembl_transform.py
     - objectValidate:
         schema: "{{config.schema}}"
-        title: Substance
+        title: SubstanceDefinition
     - emit: 
-        name: substance
+        name: substance_definition
