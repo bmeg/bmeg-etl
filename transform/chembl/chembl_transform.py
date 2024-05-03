@@ -1,9 +1,14 @@
 def build_substance_definition(row):
     # "informationSource": Reference(Citation) for publications
+    if row["pref_name"]: 
+        name = row["pref_name"]
+    else: 
+        name = "place_holder"
+        
     substance_def = {
         "resourceType": "SubstanceDefinition",
         "id": row["chembl_id"],
-        "name": [{"name": row["pref_name"], "synonym": [{"name": "synonym_name_place_holder"}] }],
+        "name": [{"name": name, "synonym": [{"name": "synonym_name_place_holder"}] }],
         "identifier": [
             {
                 "system": "https://www.ebi.ac.uk/chembl/",
