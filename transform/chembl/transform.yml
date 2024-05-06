@@ -53,3 +53,39 @@ pipelines:
         title: SubstanceDefinition
     - emit: 
         name: substance_definition
+
+  substance:
+    - from: sqlQuery
+    - map:
+        method: build_substance
+        gpython:
+          $ref: chembl_transform.py
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Substance
+    - emit:
+        name: substance
+
+  research_study:
+    - from: sqlQuery
+    - map:
+        method: build_research_study
+        gpython:
+          $ref: chembl_transform.py
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: ResearchStudy
+    - emit:
+        name: research_study
+ 
+#  citaiton:
+#    - from: sqlQuery
+#    - map:
+#        method: build_citaiton
+#        gpython:
+#          $ref: chembl_transform.py
+#    - objectValidate:
+#        schema: '{{config.schema}}'
+#        title: Citation
+#    - emit:
+#        name: citaiton

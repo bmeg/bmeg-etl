@@ -1,10 +1,49 @@
+def build_citation(row):
+    citation = {
+        "resourceType": "Citation",
+        "id": row["pubmed_id"],
+        "identifier": [
+            {
+                "system": "https://pubmed.ncbi.nlm.nih.gov/",
+                "value": row["pubmed_id"]
+            }
+        ],
+        "status": "active",
+        "citedArtifact": {
+            "webLocation": [
+                {
+                    "id": row["doi"],
+                    "classifier": [
+                        {
+                            "coding": [
+                                {
+                                    "system": "http://hl7.org/fhir/artifact-url-classifier",
+                                    "code": "doi-based",
+                                    "display": "DOI Based"
+                                }
+                            ]
+                        }
+                    ],
+                    "url": "".join(["https://doi.org/", row["doi"]])
+                }
+            ]
+        }
+    }
+    return citation
+
+
 def build_substance_definition(row):
-    # "informationSource": Reference(Citation) for publications
+    # print("******ROW: ", row, "\n")
     if row["pref_name"]: 
         name = row["pref_name"]
     else: 
         name = "place_holder"
-        
+
+    if "pubmed_id" in row.keys() and row["pubmed_id"]:
+        information_source = [{"reference": "Citation/" + row["pubmed_id"]}]
+    else: 
+        information_source = None
+
     substance_def = {
         "resourceType": "SubstanceDefinition",
         "id": row["chembl_id"],
@@ -15,6 +54,16 @@ def build_substance_definition(row):
                 "value": row["chembl_id"]
             }
         ],
+        "informationSource": information_source,
+        "classification": [{
+            "coding": [
+                            {
+                                "system": "https://www.rdkit.org/",
+                                "code": "Morgan Fingerprint Bit Vector",
+                                "display": str(row["morgan_fingerprint_2"]) # use json.loads to revert back to list
+                            }
+                        ]
+        }], 
         "structure": {
             "representation": [
                 {
@@ -62,6 +111,29 @@ def build_substance(row):
 
 
 def build_research_study(row):
-    # ResearchStudy.phase -> codeableConcept 
-    # ResearchStudy.focus -> Substance
-    return 
+    if row["max_pahse"]:
+        phase = {
+            "coding": [
+                {
+                    "system": "https://www.ebi.ac.uk/chembl/",
+                    "code": "-".join(["phase", str(row["max_pahse"])]),
+                    "display": "-".join(["phase", str(row["max_pahse"])])
+                }
+            ]
+        }
+    else:
+        phase = None
+
+    research_study = {
+        "resourceType": "ResearchStudy",
+        "status": "unknown",
+        "phase": phase,
+        "focus": [
+            {
+                "reference": {
+                    "reference": "".join(["Substance/", row["chembl_id"]])
+                }
+            }
+        ]
+    }
+    return research_study
