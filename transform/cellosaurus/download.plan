@@ -6,3 +6,14 @@ prep.Add(lathe.Process({
        cellObo: "../../source/cellosaurus/cellosaurus.obo"
     }
 }))
+
+
+/*prep.Add(lathe.Process({ 
+    commandLine: "python3 ../../util/obo_reader.py {{inputs.cellObo}} > {outputs.celllines}}",
+    inputs:{
+       cellObo: "../../source/cellosaurus/cellosaurus.obo"
+    },
+    outputs: {
+       celllines: "../../source/cellosaurus/cells.json"
+    }
+}))*/
