@@ -34,7 +34,13 @@ def build_citation(row):
 
 def build_substance_definition(row):
     # print("******ROW: ", row, "\n")
-    if row["pref_name"]: 
+    if "synonyms" in row:
+        synonyms_list = [{"name": s} for s in row["synonyms"]]
+    else: 
+        synonyms_list = [{"name": "synonym_name_place_holder"}]
+        
+
+    if "pref_name" in row and row["pref_name"]: 
         name = row["pref_name"]
     else: 
         name = "place_holder"
@@ -44,18 +50,8 @@ def build_substance_definition(row):
     else: 
         information_source = None
 
-    substance_def = {
-        "resourceType": "SubstanceDefinition",
-        "id": row["chembl_id"],
-        "name": [{"name": name, "synonym": [{"name": "synonym_name_place_holder"}] }],
-        "identifier": [
-            {
-                "system": "https://www.ebi.ac.uk/chembl/",
-                "value": row["chembl_id"]
-            }
-        ],
-        "informationSource": information_source,
-        "classification": [{
+    if "morgan_fingerprint_2" in row: 
+        classification = [{
             "coding": [
                             {
                                 "system": "https://www.rdkit.org/",
@@ -63,7 +59,22 @@ def build_substance_definition(row):
                                 "display": str(row["morgan_fingerprint_2"]) # use json.loads to revert back to list
                             }
                         ]
-        }], 
+        }]
+    else: 
+        classification = None
+
+    substance_def = {
+        "resourceType": "SubstanceDefinition",
+        "id": row["chembl_id"],
+        "name": [{"name": name, "synonym": synonyms_list }],
+        "identifier": [
+            {
+                "system": "https://www.ebi.ac.uk/chembl/",
+                "value": row["chembl_id"]
+            }
+        ],
+        "informationSource": information_source,
+        "classification": classification, 
         "structure": {
             "representation": [
                 {
@@ -111,13 +122,14 @@ def build_substance(row):
 
 
 def build_research_study(row):
-    if row["max_pahse"]:
+    if "max_pahse" in row.keys() and row["max_pahse"]:
+        print(row["max_pahse"])
         phase = {
             "coding": [
                 {
                     "system": "https://www.ebi.ac.uk/chembl/",
-                    "code": "-".join(["phase", str(row["max_pahse"])]),
-                    "display": "-".join(["phase", str(row["max_pahse"])])
+                    "code": "phase" + "-" + row["max_pahse"],
+                    "display": "phase" + "-" + row["max_pahse"]
                 }
             ]
         }
@@ -131,7 +143,7 @@ def build_research_study(row):
         "focus": [
             {
                 "reference": {
-                    "reference": "".join(["Substance/", row["chembl_id"]])
+                    "reference": "Substance/" + row["chembl_id"]
                 }
             }
         ]

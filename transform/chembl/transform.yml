@@ -43,7 +43,7 @@ pipelines:
           key: id
         lookup: "{{row.molregno}}"
         copy:
-          synonyms: synonym
+          synonyms: synonyms
     - map:
         method: build_substance_definition
         gpython:
