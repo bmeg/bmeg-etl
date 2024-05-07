@@ -64,6 +64,45 @@ def build_substance_definition(row):
     else: 
         classification = None
 
+    representation = []
+    if "canonical_smiles" in row: 
+        canonical_smiles_rep = {
+                    "representation": row['canonical_smiles'],
+                    "format": {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/substance-representation-format",
+                                "code": "SMILES",
+                                "display": "SMILES"
+                            }
+                        ]
+                    }
+                }
+        representation.append(canonical_smiles_rep)
+
+    if "standard_inchi_key" in row:
+        standard_inchi_key_rep = {
+                    "representation": row['standard_inchi_key'],
+                    "format": {
+                        "coding": [
+                            {
+                                "system": "http://hl7.org/fhir/substance-representation-format",
+                                "code": "InChI",
+                                "display": "InChI"
+                            }
+                        ]
+                    }
+                }
+        representation.append(standard_inchi_key_rep)
+
+    if representation:
+        structure = {
+            "representation": representation
+            }
+    else: 
+        structure = None
+
+
     substance_def = {
         "resourceType": "SubstanceDefinition",
         "id": row["chembl_id"],
@@ -76,35 +115,9 @@ def build_substance_definition(row):
         ],
         "informationSource": information_source,
         "classification": classification, 
-        "structure": {
-            "representation": [
-                {
-                    "representation": row['canonical_smiles'],
-                    "format": {
-                        "coding": [
-                            {
-                                "system": "http://hl7.org/fhir/substance-representation-format",
-                                "code": "SMILES",
-                                "display": "SMILES"
-                            }
-                        ]
-                    }
-                },
-                {
-                    "representation": row['standard_inchi_key'],
-                    "format": {
-                        "coding": [
-                            {
-                                "system": "http://hl7.org/fhir/substance-representation-format",
-                                "code": "InChI",
-                                "display": "InChI"
-                            }
-                        ]
-                    }
-                }
-            ]
-        }
+        "structure": structure
     }
+    # print(substance_def)
     return substance_def
 
 
