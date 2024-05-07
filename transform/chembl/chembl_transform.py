@@ -33,9 +33,10 @@ def build_citation(row):
 
 
 def build_substance_definition(row):
-    # print("******ROW: ", row, "\n")
+
     if "synonyms" in row:
-        synonyms_list = [{"name": s} for s in row["synonyms"]]
+        synonymns = list(set(row["synonyms"]))
+        synonyms_list = [{"name": s} for s in synonymns]
     else: 
         synonyms_list = [{"name": "synonym_name_place_holder"}]
         
