@@ -1,5 +1,4 @@
 def build_citation(row):
-    print("row", row)
     if "pubmed_id" in row.keys() and row["pubmed_id"]: 
         if "doi" in row.keys() and row["doi"]:
             cited_artifact = {
@@ -147,7 +146,7 @@ def build_substance(row):
 
 def build_research_study(row):
     if "max_pahse" in row.keys() and row["max_pahse"]:
-        print(row["max_pahse"])
+        # print(row["max_pahse"])
         phase = {
             "coding": [
                 {
