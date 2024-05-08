@@ -1,34 +1,44 @@
 def build_citation(row):
-    citation = {
-        "resourceType": "Citation",
-        "id": row["pubmed_id"],
-        "identifier": [
-            {
-                "system": "https://pubmed.ncbi.nlm.nih.gov/",
-                "value": row["pubmed_id"]
+    print("row", row)
+    if "pubmed_id" in row.keys() and row["pubmed_id"]: 
+        if "doi" in row.keys() and row["doi"]:
+            cited_artifact = {
+                "webLocation": [
+                    {
+                        "id": row["doi"],
+                        "classifier": [
+                            {
+                                "coding": [
+                                    {
+                                        "system": "http://hl7.org/fhir/artifact-url-classifier",
+                                        "code": "doi-based",
+                                        "display": "DOI Based"
+                                    }
+                                ]
+                            }
+                        ],
+                        "url": "".join(["https://doi.org/", row["doi"]])
+                    }
+                ]
             }
-        ],
-        "status": "active",
-        "citedArtifact": {
-            "webLocation": [
+        else: 
+            cited_artifact = None
+
+        citation = {
+            "resourceType": "Citation",
+            "id": row["pubmed_id"],
+            "identifier": [
                 {
-                    "id": row["doi"],
-                    "classifier": [
-                        {
-                            "coding": [
-                                {
-                                    "system": "http://hl7.org/fhir/artifact-url-classifier",
-                                    "code": "doi-based",
-                                    "display": "DOI Based"
-                                }
-                            ]
-                        }
-                    ],
-                    "url": "".join(["https://doi.org/", row["doi"]])
+                    "system": "https://pubmed.ncbi.nlm.nih.gov/",
+                    "value": row["pubmed_id"]
                 }
-            ]
+            ],
+            "status": "active",
+            "citedArtifact": cited_artifact
         }
-    }
+    else: 
+        citation = None
+
     return citation
 
 
