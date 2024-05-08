@@ -1,0 +1,98 @@
+$id: CitationCitedArtifactPublicationFormPublishedIn
+additionalProperties: false
+description: The collection the cited article or artifact is published in. [See https://hl7.org/fhir/R5/CitationCitedArtifactPublicationFormPublishedIn.html]
+links: []
+properties:
+  _publisherLocation:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``publisherLocation``.
+  _title:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``title``.
+  extension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element. To make the use of extensions safe and
+      managable, there is a strict set of governance applied to the definition and
+      use of extensions. Though any implementer can define an extension, there is
+      a set of requirements that SHALL be met as part of the definition of the extension.
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Additional content defined by implementations
+    type: array
+  fhir_comments:
+    anyOf:
+    - type: string
+    - items:
+        type: string
+      type: array
+    element_property: false
+    title: Fhir Comments
+  id:
+    description: Unique id for the element within a resource (for internal references).
+      This may be any string value that does not contain spaces.
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Unique id for inter-element referencing
+    type: string
+  identifier:
+    element_property: true
+    items:
+      $ref: Identifier.yaml
+    title: Journal identifiers include ISSN, ISO Abbreviation and NLMuniqueID; Book
+      identifiers include ISBN
+    type: array
+  links:
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+    type: array
+  modifierExtension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element and that modifies the understanding of
+      the element in which it is contained and/or the understanding of the containing
+      element's descendants. Usually modifier elements provide negation or qualification.
+      To make the use of extensions safe and managable, there is a strict set of governance
+      applied to the definition and use of extensions. Though any implementer can
+      define an extension, there is a set of requirements that SHALL be met as part
+      of the definition of the extension. Applications processing a resource are required
+      to check for modifier extensions.  Modifier extensions SHALL NOT change the
+      meaning of any elements on Resource or DomainResource (including cannot change
+      the meaning of modifierExtension itself).
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Extensions that cannot be ignored even if unrecognized
+    type: array
+  publisher:
+    $ref: Reference.yaml
+    backref: citation_cited_artifact_publication_form_published_in
+    element_property: true
+    enum_reference_types:
+    - Organization
+    title: Name of or resource describing the publisher
+  publisherLocation:
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Geographic location of the publisher
+    type: string
+  resourceType:
+    const: CitationCitedArtifactPublicationFormPublishedIn
+    default: CitationCitedArtifactPublicationFormPublishedIn
+    description: One of the resource types defined as part of FHIR
+    title: Resource Type
+    type: string
+  title:
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Name of the database or title of the book or journal
+    type: string
+  type:
+    $ref: CodeableConcept.yaml
+    binding_description: null
+    binding_strength: extensible
+    binding_uri: http://hl7.org/fhir/ValueSet/published-in-type
+    binding_version: null
+    element_property: true
+    title: Kind of container (e.g. Periodical, database, or book)
+title: CitationCitedArtifactPublicationFormPublishedIn
+type: object

@@ -1,0 +1,134 @@
+$id: CitationCitedArtifactContributorshipEntry
+additionalProperties: false
+description: An individual entity named as a contributor. An individual entity named
+  as a contributor, for example in the author list or contributor list. [See https://hl7.org/fhir/R5/CitationCitedArtifactContributorshipEntry.html]
+links: []
+properties:
+  _correspondingContact:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``correspondingContact``.
+  _forenameInitials:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``forenameInitials``.
+  _rankingOrder:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``rankingOrder``.
+  affiliation:
+    backref: affiliation_citation_cited_artifact_contributorship_entry
+    description: Organization affiliated with the contributor.
+    element_property: true
+    enum_reference_types:
+    - Organization
+    - PractitionerRole
+    items:
+      $ref: Reference.yaml
+    title: Organizational affiliation
+    type: array
+  contributionInstance:
+    element_property: true
+    items:
+      $ref: CitationCitedArtifactContributorshipEntryContributionInstance.yaml
+    title: Contributions with accounting for time or number
+    type: array
+  contributionType:
+    binding_description: null
+    binding_strength: extensible
+    binding_uri: http://hl7.org/fhir/ValueSet/artifact-contribution-type
+    binding_version: null
+    description: "This element identifies the specific nature of an individual\u2019\
+      s contribution with respect to the cited work."
+    element_property: true
+    items:
+      $ref: CodeableConcept.yaml
+    title: The specific contribution
+    type: array
+  contributor:
+    $ref: Reference.yaml
+    backref: contributor_citation_cited_artifact_contributorship_entry
+    element_property: true
+    enum_reference_types:
+    - Practitioner
+    - Organization
+    title: The identity of the individual contributor
+  correspondingContact:
+    element_property: true
+    title: Whether the contributor is the corresponding contributor for the role
+    type: boolean
+  extension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element. To make the use of extensions safe and
+      managable, there is a strict set of governance applied to the definition and
+      use of extensions. Though any implementer can define an extension, there is
+      a set of requirements that SHALL be met as part of the definition of the extension.
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Additional content defined by implementations
+    type: array
+  fhir_comments:
+    anyOf:
+    - type: string
+    - items:
+        type: string
+      type: array
+    element_property: false
+    title: Fhir Comments
+  forenameInitials:
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: For citation styles that use initials
+    type: string
+  id:
+    description: Unique id for the element within a resource (for internal references).
+      This may be any string value that does not contain spaces.
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Unique id for inter-element referencing
+    type: string
+  links:
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+    type: array
+  modifierExtension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element and that modifies the understanding of
+      the element in which it is contained and/or the understanding of the containing
+      element's descendants. Usually modifier elements provide negation or qualification.
+      To make the use of extensions safe and managable, there is a strict set of governance
+      applied to the definition and use of extensions. Though any implementer can
+      define an extension, there is a set of requirements that SHALL be met as part
+      of the definition of the extension. Applications processing a resource are required
+      to check for modifier extensions.  Modifier extensions SHALL NOT change the
+      meaning of any elements on Resource or DomainResource (including cannot change
+      the meaning of modifierExtension itself).
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Extensions that cannot be ignored even if unrecognized
+    type: array
+  rankingOrder:
+    description: Provides a numerical ranking to represent the degree of contributorship
+      relative to other contributors, such as 1 for first author and 2 for second
+      author.
+    element_property: true
+    exclusiveMinimum: 0
+    title: Ranked order of contribution
+    type: integer
+  resourceType:
+    const: CitationCitedArtifactContributorshipEntry
+    default: CitationCitedArtifactContributorshipEntry
+    description: One of the resource types defined as part of FHIR
+    title: Resource Type
+    type: string
+  role:
+    $ref: CodeableConcept.yaml
+    binding_description: null
+    binding_strength: extensible
+    binding_uri: http://hl7.org/fhir/ValueSet/contributor-role
+    binding_version: null
+    element_property: true
+    title: The role of the contributor (e.g. author, editor, reviewer, funder)
+required:
+- contributor
+title: CitationCitedArtifactContributorshipEntry
+type: object
