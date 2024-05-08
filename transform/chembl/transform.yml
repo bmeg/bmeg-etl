@@ -80,14 +80,14 @@ pipelines:
     - emit:
         name: research_study
  
-#  citaiton:
-#    - from: sqlQuery
-#    - map:
-#        method: build_citaiton
-#        gpython:
-#          $ref: chembl_transform.py
-#    - objectValidate:
-#        schema: '{{config.schema}}'
-#        title: Citation
-#    - emit:
-#        name: citaiton
+  citaiton:
+    - from: sqlQuery
+    - map:
+        method: build_citation
+        gpython:
+          $ref: chembl_transform.py
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Citation
+    - emit:
+        name: citaiton
