@@ -16,7 +16,7 @@ def build_citation(row):
                                 ]
                             }
                         ],
-                        "url": "".join(["https://doi.org/", row["doi"]])
+                        "url": "https://doi.org/" + row["doi"]
                     }
                 ]
             }
@@ -35,10 +35,9 @@ def build_citation(row):
             "status": "active",
             "citedArtifact": cited_artifact
         }
+        return citation
     else: 
-        citation = None
-
-    return citation
+        pass
 
 
 def build_substance_definition(row):
@@ -146,7 +145,6 @@ def build_substance(row):
 
 def build_research_study(row):
     if "max_pahse" in row.keys() and row["max_pahse"]:
-        # print(row["max_pahse"])
         phase = {
             "coding": [
                 {

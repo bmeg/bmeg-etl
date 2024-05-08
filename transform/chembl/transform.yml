@@ -32,7 +32,6 @@ inputs:
                   ACTIVITIES as p ON a.MOLREGNO = p.MOLREGNO
               LEFT JOIN 
                   DOCS as d ON p.DOC_ID = d.DOC_ID"
-              # WHERE c.CANONICAL_SMILES IS NOT NULL;" 20872984 - 20662416 = 210,568 don't have canonical smiles 
 
 pipelines:
   records:
