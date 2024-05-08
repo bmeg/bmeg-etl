@@ -3,18 +3,20 @@
 prep = lathe.Workflow("prep")
 
 prep.Add(lathe.Process({
-    commandLine: "curl -o {{outputs.sqlite}} https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_33_sqlite.tar.gz",
+    commandLine: "curl -o {{outputs.sqlite}} https://ftp.ebi.ac.uk/pub/databases/chembl/ChEMBLdb/latest/chembl_34_sqlite.tar.gz",
     outputs:{
-      sqlite: "../../source/chembl/chembl_33_sqlite.tar.gz"
+      sqlite: "../../source/chembl/chembl_34_sqlite.tar.gz"
     }
 }))
 
 prep.Add(lathe.Process({
     commandLine: "tar xvzf {{inputs.tarball}} -C ../../source/chembl/",
     inputs:{
-      tarball: "../../source/chembl/chembl_33_sqlite.tar.gz"
+      tarball: "../../source/chembl/chembl_34_sqlite.tar.gz"
     },
     outputs:{
-      sqlite: "../../source/chembl/chembl_33/chembl_33_sqlite/chembl_33.db"
+      sqlite: "../../source/chembl/chembl_34/chembl_34_sqlite/chembl_34.db"
     }
 }))
+
+
