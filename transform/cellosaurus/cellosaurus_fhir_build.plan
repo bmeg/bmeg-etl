@@ -1,0 +1,29 @@
+build = lathe.Workflow("build")
+
+
+build.Add(lathe.Process({
+commandLine: "fhirizer resource --name cellosaurus --path {{inputs.cellPath}} --out_dir {{inputs.outDir}}",
+  inputs: {
+    cellPath: "../../source/cellosaurus/cells.json.gz",
+    outDir: "../../source/cellosaurus"
+  },
+  outputs:{
+    cells: "../../source/cellosaurus/cellosaurus_cellines.ndjson",
+  },
+  image: "fhirizer"
+}))
+
+
+build.Add(lathe.Process({
+commandLine: "fhirizer generate --name cellosaurus --out_dir {{inputs.outDir}} --entity_path {{inputs.cells}}",
+  inputs: {
+    cells: "../../source/cellosaurus/cellosaurus_cellines.ndjson", 
+    outDir: "../../source/cellosaurus/META"
+  },
+  outputs:{
+    patient: "../../source/cellosaurus/META/Patient.ndjson",
+    specimen: "../../source/cellosaurus/META/Specimen.ndjson",
+    condition: "../../source/cellosaurus/META/Condition.ndjson"
+  },
+  image: "fhirizer"
+}))
