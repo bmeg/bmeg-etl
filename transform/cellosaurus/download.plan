@@ -8,12 +8,12 @@ prep.Add(lathe.Process({
 }))
 
 
-/*prep.Add(lathe.Process({ 
-    commandLine: "python3 ../../util/obo_reader.py {{inputs.cellObo}} > {outputs.celllines}}",
+prep.Add(lathe.Process({ 
+    commandLine: "../../util/obo_reader.py {{inputs.cellObo}} | gzip > {{outputs.celllines}}",
     inputs:{
        cellObo: "../../source/cellosaurus/cellosaurus.obo"
     },
     outputs: {
-       celllines: "../../source/cellosaurus/cells.json"
+       celllines: "../../source/cellosaurus/cells.json.gz"
     }
-}))*/
+}))
