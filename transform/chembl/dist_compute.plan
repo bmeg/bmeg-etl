@@ -29,7 +29,7 @@ shardfiles.forEach( (y,i) => {
 p = lathe.Process({
     commandLine: `cat ../../shards/chemdist.*.gz > {{outputs.outfile}}`,
     outputs: {
-        compounds: "../../normalize/chembl/compounds.dist.compoundDistant.json.gz"
+        outfile: "../../normalize/chembl/compounds.dist.compoundDistant.json.gz"
     },
     inputs: shardInputs,
     memMB: 30000
