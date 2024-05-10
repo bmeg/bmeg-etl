@@ -110,17 +110,20 @@ def build_substance_definition(row):
     else: 
         structure = None
 
+    identifier_list = [{
+        "system": "https://www.ebi.ac.uk/chembl/",
+        "value": row["chembl_id"]}]
+
+    if "scr_short_name" in row.keys() and "PUBCHEM" in row["scr_short_name"] and row["src_compound_id"]:
+        identifier_list.append({"system": "https://pubchem.ncbi.nlm.nih.gov",
+                                "value": row["src_compound_id"]})
+
 
     substance_def = {
         "resourceType": "SubstanceDefinition",
         "id": row["chembl_id"],
         "name": [{"name": name, "synonym": synonyms_list }],
-        "identifier": [
-            {
-                "system": "https://www.ebi.ac.uk/chembl/",
-                "value": row["chembl_id"]
-            }
-        ],
+        "identifier": identifier_list,
         "informationSource": information_source,
         "classification": classification, 
         "structure": structure
