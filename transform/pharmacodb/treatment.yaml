@@ -1,19 +1,28 @@
 
-class: sifter
-
-outdir: ../../tables/
 name: pharmacodb_treatment
+outdir: ../../tables/
 
 config:
+  sqlite:  ../../source/chembl/chembl_34/chembl_34_sqlite/chembl_34.db
   tableDir: ../../source/pharmacodb
+  chembl_34_ids: ../../tables/pharmacodb_treatment.chembl_34.ids.json 
 
 inputs:
   treatmentReader:
     glob:
       input: "{{config.tableDir}}/*/treatments.tsv"
       tableLoad: {}
+  sqlQuery:
+    sqliteLoad:
+      input: "{{config.sqlite}}"
+      query: "SELECT pref_name, chembl_id FROM MOLECULE_DICTIONARY WHERE pref_name NOT NULL;"
 
 pipelines:
+  chembl_34:
+    - from: sqlQuery
+    - emit: 
+        name: ids
+
   utable:
     - from: treatmentReader
     - distinct:
