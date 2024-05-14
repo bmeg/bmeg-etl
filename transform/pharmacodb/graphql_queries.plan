@@ -1,0 +1,27 @@
+
+
+prep = lathe.Workflow("prep")
+
+/*compunds relational table*/
+prep.Add(lathe.Process({ 
+    commandLine: 'curl -X POST https://pharmacodb.ca/graphql -H "Content-Type: application/json" -d \'{"query":"{ compounds(all: true) { id uid name annotation { pubchem chembl smiles inchikey fda_status } } }"}\' -o {{outputs.compounds}}',
+    outputs: {
+       compounds: "../../source/pharmacodb/compounds_table.json"
+    }
+}))
+
+/*available data-sets*/
+prep.Add(lathe.Process({
+    commandLine: 'curl -X POST https://pharmacodb.ca/graphql -H "Content-Type: application/json" -d \'{"query":"{ datasets { id name } }"}\' -o {{outputs.datasets}}',
+    outputs: {
+       datasets: "../../source/pharmacodb/datasets.json"
+    }
+}))
+
+/*experiments*/
+/*prep.Add(lathe.Process({
+    commandLine: './fetch_experiments.sh',
+    outputs: {
+       experiments: "../../source/pharmacodb/experiments.json"
+    }
+}))*/
