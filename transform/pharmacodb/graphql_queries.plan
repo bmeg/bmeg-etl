@@ -10,6 +10,17 @@ prep.Add(lathe.Process({
     }
 }))
 
+/*fetch pubchem compound property info*/ 
+/*prep.Add(lathe.Process({
+    commandLine: './fetch_compound_property.py',
+    inputs: {
+       compounds: "../../source/pharmacodb/graphql_dump/compounds_table.json"
+    },
+    outputs: {
+       pubchem_info: "../../source/pharmacodb/graphql_dump/compounds_table_pubchem_updates.json"
+    }
+}))*/
+
 /*available data-sets*/
 prep.Add(lathe.Process({
     commandLine: 'curl -X POST https://pharmacodb.ca/graphql -H "Content-Type: application/json" -d \'{"query":"{ datasets { id name } }"}\' -o {{outputs.datasets}}',
