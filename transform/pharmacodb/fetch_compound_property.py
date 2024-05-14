@@ -2,15 +2,13 @@ import json
 import requests
 
 
-path = "../../source/pharmacodb/compounds_table.json"
-
 def load_json(path):
         try:
-        with open(path, encoding='utf-8') as f:
-            this_json = json.load(f)
-            return this_json
-    except json.JSONDecodeError as e:
-        print("Error decoding JSON: {}".format(e))
+            with open(path, encoding='utf-8') as f:
+                this_json = json.load(f)
+                return this_json
+        except json.JSONDecodeError as e:
+            print("Error decoding JSON: {}".format(e))
 
 
 def fetch_pubchem_property(pubchem_id, compound_data):
@@ -29,7 +27,7 @@ def fetch_pubchem_property(pubchem_id, compound_data):
         return None
 
 
-def update_compounds_pubchem_property(path)
+def update_compounds_pubchem_property(path):
     """compounds property annotations in pubchem"""
     dat = load_json(path)
 
@@ -37,7 +35,8 @@ def update_compounds_pubchem_property(path)
         if compound['annotation']['pubchem']:
             fetch_pubchem_property(compound['annotation']['pubchem'], compound)
 
-    with open("../../source/pharmacodb/compounds_table_pubchem_updates.json", "w") as output_file:
+    with open("../../source/pharmacodb/graphql_dump/compounds_table_pubchem_updates.json", "w") as output_file:
         output_file.write(json.dumps(dat, indent=4))
 
-update_compounds_pubchem_property(path)
+
+update_compounds_pubchem_property(path="../../source/pharmacodb/graphql_dump/compounds_table.json")
