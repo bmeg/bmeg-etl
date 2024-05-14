@@ -114,6 +114,7 @@ def build_substance_definition(row):
         "system": "https://www.ebi.ac.uk/chembl/",
         "value": row["chembl_id"]}]
 
+    # not all pubchem sources are explicitly defined in compound_records table (SRC_COMPOUND_ID Identifier for the compound in the source database (e.g., pubchem SID))
     if "scr_short_name" in row.keys() and "PUBCHEM" in row["scr_short_name"] and row["src_compound_id"]:
         identifier_list.append({"system": "https://pubchem.ncbi.nlm.nih.gov",
                                 "value": row["src_compound_id"]})
