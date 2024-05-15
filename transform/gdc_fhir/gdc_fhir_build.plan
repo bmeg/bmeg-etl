@@ -1,0 +1,60 @@
+
+
+build = lathe.Workflow("build")
+
+build.Add(lathe.Process({
+commandLine: "fhirizer convert --name case --in_path {{inputs.cases}} --out_path {{outputs.gdcGraphKeys}} --verbose False",
+  inputs: {
+    cases: "../../source/gdc/cases.json"
+  },
+  outputs:{
+    gdcGraphKeys: "../../source/gdc_fhir/cases_key.ndjson"
+  },
+  image: "fhirizer"
+}))
+
+
+build.Add(lathe.Process({
+commandLine: "fhirizer generate --name case --out_dir ../../source/gdc_fhir/META --entity_path {{inputs.caseEntities}}",
+  inputs: {
+    caseEntities: "../../source/gdc_fhir/cases_key.ndjson"
+  },
+  outputs:{
+    condition: "../../source/gdc_fhir/META/Condition.ndjson",
+    medication: "../../source/gdc_fhir/META/Medication.ndjson",
+    patient: "../../source/gdc_fhir/META/Patient.ndjson",
+    researchSubject: "../../source/gdc_fhir/META/ResearchSubject.ndjson",
+    encounter: "../../source/gdc_fhir/META/Encounter.ndjson",
+    medicationAdministration: "../../source/gdc_fhir/META/MedicationAdministration.ndjson",
+    procedure: "../../source/gdc_fhir/META/Procedure.ndjson",
+    specimen: "../../source/gdc_fhir/META/Specimen.ndjson",
+    imagingStudy: "../../source/gdc_fhir/META/ImagingStudy.ndjson",
+    observation: "../../source/gdc_fhir/META/Observation.ndjson",
+    researchStudy: "../../source/gdc_fhir/META/ResearchStudy.ndjson"
+  },
+  image: "fhirizer"
+}))
+
+
+build.Add(lathe.Process({
+commandLine: "fhirizer convert --name file --in_path {{inputs.files}} --out_path {{outputs.gdcGraphFileKeys}} --verbose False",
+  inputs: {
+    files: "../../source/gdc/files.json"
+  },
+  outputs:{
+    gdcGraphFileKeys: "../../source/gdc_fhir/files_key.ndjson"
+  },
+  image: "fhirizer"
+}))
+
+
+build.Add(lathe.Process({
+commandLine: "fhirizer generate --name file --out_dir ../../source/gdc_fhir/META/ --entity_path {{inputs.fileEntities}}",
+  inputs: {
+    fileEntities: "../../source/gdc_fhir/files_key.ndjson"
+  },
+  outputs:{
+    docRef: "../../source/gdc_fhir/META/DocumentReference.ndjson"
+  },
+  image: "fhirizer"
+}))
