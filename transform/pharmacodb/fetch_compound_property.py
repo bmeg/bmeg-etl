@@ -1,5 +1,6 @@
 import json
 import requests
+import requests_cache
 
 
 def load_json(path):
@@ -43,6 +44,7 @@ def fetch_pubchem_property(pubchem_id, compound_data):
 def update_compounds_pubchem_property(path):
     """compounds property annotations in pubchem"""
     dat = load_json(path)
+    requests_cache.install_cache('pubchem_compound_data_cache')
 
     for compound in dat['data']['compounds']:
         if compound['annotation']['pubchem']:
