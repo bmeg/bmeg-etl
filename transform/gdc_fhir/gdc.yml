@@ -1,58 +1,58 @@
 name: gdc
-outdir: ./out
+outdir: ../../output/gdc_fhir/
 
 config:
-  schema: ../schema
+  schema: ../../schema
   dir: ../../source/gdc_fhir/META
 
 inputs:
   condition:
     jsonLoad:
-      input: "{{config.dir}}/Condition.json"
+      input: "{{config.dir}}/Condition.ndjson"
   
   observation:
     jsonLoad:
-      input: "{{config.dir}}/Observation.json"
+      input: "{{config.dir}}/Observation.ndjson"
 
   documentReference:
     jsonLoad:
-      input: "{{config.dir}}/DocumentReference.json"
+      input: "{{config.dir}}/DocumentReference.ndjson"
 
   patient:
     jsonLoad:
-      input: "{{config.dir}}/Patient.json"
+      input: "{{config.dir}}/Patient.ndjson"
 
   encounter:
     jsonLoad:
-      input: "{{config.dir}}/Encounter.json"
+      input: "{{config.dir}}/Encounter.ndjson"
 
   procedure:
     jsonLoad:
-      input: "{{config.dir}}/Procedure.json"
+      input: "{{config.dir}}/Procedure.ndjson"
 
   imagingStudy:
     jsonLoad:
-      input: "{{config.dir}}/ImagingStudy.json"
+      input: "{{config.dir}}/ImagingStudy.ndjson"
 
   researchStudy:
     jsonLoad:
-      input: "{{config.dir}}/ResearchStudy.json"
+      input: "{{config.dir}}/ResearchStudy.ndjson"
 
   medication:
     jsonLoad:
-      input: "{{config.dir}}/Medication.json"
+      input: "{{config.dir}}/Medication.ndjson"
 
   researchSubject:
     jsonLoad:
-      input: "{{config.dir}}/ResearchSubject.json"
+      input: "{{config.dir}}/ResearchSubject.ndjson"
 
   medicationAdministration:
     jsonLoad:
-      input: "{{config.dir}}/MedicationAdministration.json"
+      input: "{{config.dir}}/MedicationAdministration.ndjson"
 
   specimen:
     jsonLoad:
-      input: "{{config.dir}}/Specimen.json"
+      input: "{{config.dir}}/Specimen.ndjson"
 
 pipelines:
   conditionValidate:
