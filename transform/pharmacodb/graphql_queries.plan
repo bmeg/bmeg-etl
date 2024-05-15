@@ -35,7 +35,7 @@ prep.Add(lathe.Process({
 /*prep.Add(lathe.Process({
     commandLine: './fetch_experiments.sh',
     outputs: {
-       experiments: "../../source/pharmacodb/graphql_dump/experiments.json"
+       experiments: "../../source/pharmacodb/graphql_dump/experiments.ndjson"
     }
 }))*/
 
