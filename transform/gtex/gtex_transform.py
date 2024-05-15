@@ -18,7 +18,7 @@ def build_patient(row):
 
 
 def build_specimen(row):
-    print(row)
+    #print(row)
     sample = {
         "resourceType": "Specimen",
         "id": row["sample_id"],

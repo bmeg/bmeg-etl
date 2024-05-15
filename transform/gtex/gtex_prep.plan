@@ -5,6 +5,11 @@ prep = lathe.Workflow("prep")
 
 prep.Add(lathe.Process({
   commandLine: "./wrangle.py",
+  inputs: {
+    samples: "../../source/gtex/GTEx_Analysis_v8_Annotations_SampleAttributesDS.txt",
+    annotations: "../../source/gtex/GTEx_Analysis_v8_Annotations_SubjectPhenotypesDS.txt",
+    tissues: "../../source/gtex/gtex_tissue_type.json"
+  },
   outputs: {
     patient_pheno: "../../source/gtex/patient_pheno.tsv",
     sample_pheno: "../../source/gtex/sample_pheno.tsv"

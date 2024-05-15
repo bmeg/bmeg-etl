@@ -1,5 +1,5 @@
 name: gtex
-outdir: ./out
+outdir: ../../output/gtex/
 
 config:
   schema: ../../schema
