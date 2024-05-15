@@ -1,0 +1,93 @@
+name: chemblTransform
+outdir: ./out
+
+config:
+  sqlite:  ../../source/chembl/chembl_34/chembl_34_sqlite/chembl_34.db
+  schema: ../../schema
+  synonyms: ../../tables/chemblSynonyms.buildTable.synonyms.json.gz
+
+inputs:
+  sqlQuery:
+    sqliteLoad:
+      input: "{{config.sqlite}}"
+      # query: "select * from MOLECULE_DICTIONARY as a LEFT JOIN MOLECULE_SYNONYMS as b on a.MOLREGNO=b.MOLREGNO LEFT JOIN COMPOUND_STRUCTURES as c on a.MOLREGNO=c.MOLREGNO"
+      # query:  "select * from MOLECULE_DICTIONARY as a LEFT JOIN COMPOUND_STRUCTURES as c on a.MOLREGNO=c.MOLREGNO"
+      query: "SELECT 
+                  a.MOLREGNO,
+                  a.PREF_NAME,
+                  a.CHEMBL_ID,
+                  a.MAX_PHASE,
+                  a.STRUCTURE_TYPE,
+                  c.STANDARD_INCHI,
+                  c.STANDARD_INCHI_KEY,
+                  c.CANONICAL_SMILES,
+                  d.DOC_ID,
+                  d.PUBMED_ID,
+                  d.DOI 
+              FROM 
+                  MOLECULE_DICTIONARY as a
+              LEFT JOIN 
+                  COMPOUND_STRUCTURES as c ON a.MOLREGNO = c.MOLREGNO
+              LEFT JOIN 
+                  ACTIVITIES as p ON a.MOLREGNO = p.MOLREGNO
+              LEFT JOIN 
+                  DOCS as d ON p.DOC_ID = d.DOC_ID"
+              # WHERE c.CANONICAL_SMILES IS NOT NULL;" 20872984 - 20662416 = 210,568 don't have canonical smiles 
+
+pipelines:
+  records:
+    - from: sqlQuery
+    - plugin:
+        commandLine: "../../util/calc_fingerprint.py"
+    - lookup:
+        json:
+          input: "{{config.synonyms}}"
+          key: id
+        lookup: "{{row.molregno}}"
+        copy:
+          synonyms: synonyms
+    - map:
+        method: build_substance_definition
+        gpython:
+          $ref: chembl_transform.py
+    - objectValidate:
+        schema: "{{config.schema}}"
+        title: SubstanceDefinition
+    - emit: 
+        name: substance_definition
+
+  substance:
+    - from: sqlQuery
+    - map:
+        method: build_substance
+        gpython:
+          $ref: chembl_transform.py
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Substance
+    - emit:
+        name: substance
+
+  research_study:
+    - from: sqlQuery
+    - map:
+        method: build_research_study
+        gpython:
+          $ref: chembl_transform.py
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: ResearchStudy
+    - emit:
+        name: research_study
+ 
+#  citaiton:
+#    - from: sqlQuery
+#    - map:
+#        method: build_citaiton
+#        gpython:
+#          $ref: chembl_transform.py
+#    - objectValidate:
+#        schema: '{{config.schema}}'
+#        title: Citation
+#    - emit:
+#        name: citaiton

@@ -11,7 +11,7 @@ for (i = 0; i < shards; i++) {
     p = lathe.Process({
         commandLine: `../../util/compound_distance.py -i {{inputs.compounds}} -s ${i} -t ${shards} -o {{outputs.shardpath}}`,
         inputs: {
-            compounds: "../../output/chembl/chemblTransform.records.compound.json.gz"
+            compounds: "../../output/chembl/chemblTransform.records.substance_definition.json.gz"
         },
         outputs: {
             shardpath: s

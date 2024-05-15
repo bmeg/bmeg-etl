@@ -1,0 +1,195 @@
+$id: CitationCitedArtifactPublicationForm
+additionalProperties: false
+description: If multiple, used to represent alternative forms of the article that
+  are not separate citations. [See https://hl7.org/fhir/R5/CitationCitedArtifactPublicationForm.html]
+links: []
+properties:
+  _accessionNumber:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``accessionNumber``.
+  _articleDate:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``articleDate``.
+  _copyright:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``copyright``.
+  _firstPage:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``firstPage``.
+  _issue:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``issue``.
+  _lastPage:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``lastPage``.
+  _lastRevisionDate:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``lastRevisionDate``.
+  _pageCount:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``pageCount``.
+  _pageString:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``pageString``.
+  _publicationDateSeason:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``publicationDateSeason``.
+  _publicationDateText:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``publicationDateText``.
+  _volume:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``volume``.
+  accessionNumber:
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Entry number or identifier for inclusion in a database
+    type: string
+  articleDate:
+    element_property: true
+    format: date-time
+    title: The date the article was added to the database, or the date the article
+      was released
+    type: string
+  citedMedium:
+    $ref: CodeableConcept.yaml
+    binding_description: null
+    binding_strength: extensible
+    binding_uri: http://hl7.org/fhir/ValueSet/cited-medium
+    binding_version: null
+    description: Describes the form of the medium cited. Common codes are "Internet"
+      or "Print". The CitedMedium value set has 6 codes. The codes internet, print,
+      and offline-digital-storage are the common codes for a typical publication form,
+      though internet and print are more common for study citations. Three additional
+      codes (each appending one of the primary codes with "-without-issue" are used
+      for situations when a study is published both within an issue (of a periodical
+      release as commonly done for journals) AND is published separately from the
+      issue (as commonly done with early online publication), to represent specific
+      identification of the publication form not associated with the issue.
+    element_property: true
+    title: Internet or Print
+  copyright:
+    element_property: true
+    pattern: \s*(\S|\s)*
+    title: Copyright notice for the full article or artifact
+    type: string
+  extension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element. To make the use of extensions safe and
+      managable, there is a strict set of governance applied to the definition and
+      use of extensions. Though any implementer can define an extension, there is
+      a set of requirements that SHALL be met as part of the definition of the extension.
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Additional content defined by implementations
+    type: array
+  fhir_comments:
+    anyOf:
+    - type: string
+    - items:
+        type: string
+      type: array
+    element_property: false
+    title: Fhir Comments
+  firstPage:
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Used for isolated representation of first page
+    type: string
+  id:
+    description: Unique id for the element within a resource (for internal references).
+      This may be any string value that does not contain spaces.
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Unique id for inter-element referencing
+    type: string
+  issue:
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Issue, part or supplement of journal or other collection in which the article
+      is published
+    type: string
+  language:
+    binding_description: A human language.
+    binding_strength: preferred
+    binding_uri: http://hl7.org/fhir/ValueSet/languages
+    binding_version: null
+    description: The language or languages in which this form of the article is published.
+    element_property: true
+    items:
+      $ref: CodeableConcept.yaml
+    title: Language(s) in which this form of the article is published
+    type: array
+  lastPage:
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Used for isolated representation of last page
+    type: string
+  lastRevisionDate:
+    element_property: true
+    format: date-time
+    title: The date the article was last revised or updated in the database
+    type: string
+  links:
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+    type: array
+  modifierExtension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element and that modifies the understanding of
+      the element in which it is contained and/or the understanding of the containing
+      element's descendants. Usually modifier elements provide negation or qualification.
+      To make the use of extensions safe and managable, there is a strict set of governance
+      applied to the definition and use of extensions. Though any implementer can
+      define an extension, there is a set of requirements that SHALL be met as part
+      of the definition of the extension. Applications processing a resource are required
+      to check for modifier extensions.  Modifier extensions SHALL NOT change the
+      meaning of any elements on Resource or DomainResource (including cannot change
+      the meaning of modifierExtension itself).
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Extensions that cannot be ignored even if unrecognized
+    type: array
+  pageCount:
+    description: Actual or approximate number of pages or screens. Distinct from reporting
+      the page numbers.
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Number of pages or screens
+    type: string
+  pageString:
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Used for full display of pagination
+    type: string
+  publicationDateSeason:
+    description: Spring, Summer, Fall/Autumn, Winter.
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Season in which the cited artifact was published
+    type: string
+  publicationDateText:
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Text representation of the date on which the issue of the cited artifact
+      was published
+    type: string
+  publishedIn:
+    $ref: CitationCitedArtifactPublicationFormPublishedIn.yaml
+    element_property: true
+    title: The collection the cited article or artifact is published in
+  resourceType:
+    const: CitationCitedArtifactPublicationForm
+    default: CitationCitedArtifactPublicationForm
+    description: One of the resource types defined as part of FHIR
+    title: Resource Type
+    type: string
+  volume:
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Volume number of journal or other collection in which the article is published
+    type: string
+title: CitationCitedArtifactPublicationForm
+type: object
