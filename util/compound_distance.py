@@ -37,6 +37,13 @@ def lineProcess(line):
         #return d["chembl_id"], bitstring
     return None, None
 
+def lineProcessFHIR(line):
+    d = json.loads(line)
+    if "classification" in d.keys() and d["classification"]:
+        morgan_fingerprint = json.loads(d['classification'][0]['coding'][0]['display'])
+        return d["id"], list2fingerprint(morgan_fingerprint)
+    return None, None
+
 def calcDistance(n):
     out = []
     i = compounds[n]

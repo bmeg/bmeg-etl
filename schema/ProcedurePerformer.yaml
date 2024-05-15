@@ -1,0 +1,117 @@
+$id: ProcedurePerformer
+additionalProperties: false
+description: Who performed the procedure and what they did. Indicates who or what
+  performed the procedure and how they were involved. [See https://hl7.org/fhir/R5/ProcedurePerformer.html]
+links:
+- href: Patient/{id}
+  rel: actor_Patient
+  targetHints:
+    backref:
+    - actor_procedure_performer
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+  targetSchema:
+    $ref: Patient.yaml
+  templatePointers:
+    id: /actor/reference
+  templateRequired:
+  - id
+properties:
+  actor:
+    $ref: Reference.yaml
+    backref: actor_procedure_performer
+    description: Indicates who or what performed the procedure.
+    element_property: true
+    enum_reference_types:
+    - Practitioner
+    - PractitionerRole
+    - Organization
+    - Patient
+    - RelatedPerson
+    - Device
+    - CareTeam
+    - HealthcareService
+    title: Who performed the procedure
+  extension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element. To make the use of extensions safe and
+      managable, there is a strict set of governance applied to the definition and
+      use of extensions. Though any implementer can define an extension, there is
+      a set of requirements that SHALL be met as part of the definition of the extension.
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Additional content defined by implementations
+    type: array
+  fhir_comments:
+    anyOf:
+    - type: string
+    - items:
+        type: string
+      type: array
+    element_property: false
+    title: Fhir Comments
+  function:
+    $ref: CodeableConcept.yaml
+    binding_description: A code that identifies the role of a performer of the procedure.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/performer-role
+    binding_version: null
+    description: Distinguishes the type of involvement of the performer in the procedure.
+      For example, surgeon, anaesthetist, endoscopist.
+    element_property: true
+    title: Type of performance
+  id:
+    description: Unique id for the element within a resource (for internal references).
+      This may be any string value that does not contain spaces.
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Unique id for inter-element referencing
+    type: string
+  links:
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+    type: array
+  modifierExtension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element and that modifies the understanding of
+      the element in which it is contained and/or the understanding of the containing
+      element's descendants. Usually modifier elements provide negation or qualification.
+      To make the use of extensions safe and managable, there is a strict set of governance
+      applied to the definition and use of extensions. Though any implementer can
+      define an extension, there is a set of requirements that SHALL be met as part
+      of the definition of the extension. Applications processing a resource are required
+      to check for modifier extensions.  Modifier extensions SHALL NOT change the
+      meaning of any elements on Resource or DomainResource (including cannot change
+      the meaning of modifierExtension itself).
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Extensions that cannot be ignored even if unrecognized
+    type: array
+  onBehalfOf:
+    $ref: Reference.yaml
+    backref: onBehalfOf_procedure_performer
+    description: The Organization the Patient, RelatedPerson, Device, CareTeam, and
+      HealthcareService was acting on behalf of.
+    element_property: true
+    enum_reference_types:
+    - Organization
+    title: Organization the device or practitioner was acting for
+  period:
+    $ref: Period.yaml
+    description: Time period during which the performer performed the procedure.
+    element_property: true
+    title: When the performer performed the procedure
+  resourceType:
+    const: ProcedurePerformer
+    default: ProcedurePerformer
+    description: One of the resource types defined as part of FHIR
+    title: Resource Type
+    type: string
+required:
+- actor
+title: ProcedurePerformer
+type: object

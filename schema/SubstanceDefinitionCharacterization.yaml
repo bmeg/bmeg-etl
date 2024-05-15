@@ -1,0 +1,97 @@
+$id: SubstanceDefinitionCharacterization
+additionalProperties: false
+description: General specifications for this substance. [See https://hl7.org/fhir/R5/SubstanceDefinitionCharacterization.html]
+links: []
+properties:
+  _description:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``description``.
+  description:
+    element_property: true
+    pattern: \s*(\S|\s)*
+    title: The description or justification in support of the interpretation of the
+      data file
+    type: string
+  extension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element. To make the use of extensions safe and
+      managable, there is a strict set of governance applied to the definition and
+      use of extensions. Though any implementer can define an extension, there is
+      a set of requirements that SHALL be met as part of the definition of the extension.
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Additional content defined by implementations
+    type: array
+  fhir_comments:
+    anyOf:
+    - type: string
+    - items:
+        type: string
+      type: array
+    element_property: false
+    title: Fhir Comments
+  file:
+    element_property: true
+    items:
+      $ref: Attachment.yaml
+    title: 'The data produced by the analytical instrument or a pictorial representation
+      of that data. Examples: a JCAMP, JDX, or ADX file, or a chromatogram or spectrum
+      analysis'
+    type: array
+  form:
+    $ref: CodeableConcept.yaml
+    binding_description: null
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/substance-form
+    binding_version: null
+    element_property: true
+    title: Describes the nature of the chemical entity and explains, for instance,
+      whether this is a base or a salt form
+  id:
+    description: Unique id for the element within a resource (for internal references).
+      This may be any string value that does not contain spaces.
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Unique id for inter-element referencing
+    type: string
+  links:
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+    type: array
+  modifierExtension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element and that modifies the understanding of
+      the element in which it is contained and/or the understanding of the containing
+      element's descendants. Usually modifier elements provide negation or qualification.
+      To make the use of extensions safe and managable, there is a strict set of governance
+      applied to the definition and use of extensions. Though any implementer can
+      define an extension, there is a set of requirements that SHALL be met as part
+      of the definition of the extension. Applications processing a resource are required
+      to check for modifier extensions.  Modifier extensions SHALL NOT change the
+      meaning of any elements on Resource or DomainResource (including cannot change
+      the meaning of modifierExtension itself).
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Extensions that cannot be ignored even if unrecognized
+    type: array
+  resourceType:
+    const: SubstanceDefinitionCharacterization
+    default: SubstanceDefinitionCharacterization
+    description: One of the resource types defined as part of FHIR
+    title: Resource Type
+    type: string
+  technique:
+    $ref: CodeableConcept.yaml
+    binding_description: The method used to elucidate the characterization of the
+      drug substance.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/substance-structure-technique
+    binding_version: null
+    description: 'The method used to elucidate the characterization of the drug substance.
+      Example: HPLC.'
+    element_property: true
+    title: The method used to find the characterization e.g. HPLC
+title: SubstanceDefinitionCharacterization
+type: object

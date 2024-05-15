@@ -1,0 +1,764 @@
+$id: Procedure
+additionalProperties: false
+description: An action that is being or was performed on an individual or entity.
+  An action that is or was performed on or for a patient, practitioner, device, organization,
+  or location. For example, this can be a physical intervention on a patient like
+  an operation, or less invasive like long term services, counseling, or hypnotherapy.  This
+  can be a quality or safety inspection for a location, organization, or device.  This
+  can be an accreditation procedure on a practitioner for licensing. [See https://hl7.org/fhir/R5/Procedure.html]
+links:
+- href: Encounter/{id}
+  rel: encounter
+  targetHints:
+    backref:
+    - procedure
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+  targetSchema:
+    $ref: Encounter.yaml
+  templatePointers:
+    id: /encounter/reference
+  templateRequired:
+  - id
+- href: Patient/{id}
+  rel: focus_Patient
+  targetHints:
+    backref:
+    - focus_procedure
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+  targetSchema:
+    $ref: Patient.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: Specimen/{id}
+  rel: focus_Specimen
+  targetHints:
+    backref:
+    - focus_procedure
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+  targetSchema:
+    $ref: Specimen.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: Procedure/{id}
+  rel: partOf_Procedure
+  targetHints:
+    backref:
+    - partOf_procedure
+    direction:
+    - outbound
+    multiplicity:
+    - has_many
+  targetSchema:
+    $ref: Procedure.yaml
+  templatePointers:
+    id: /partOf/-/reference
+  templateRequired:
+  - id
+- href: Observation/{id}
+  rel: partOf_Observation
+  targetHints:
+    backref:
+    - partOf_procedure
+    direction:
+    - outbound
+    multiplicity:
+    - has_many
+  targetSchema:
+    $ref: Observation.yaml
+  templatePointers:
+    id: /partOf/-/reference
+  templateRequired:
+  - id
+- href: MedicationAdministration/{id}
+  rel: partOf_MedicationAdministration
+  targetHints:
+    backref:
+    - partOf_procedure
+    direction:
+    - outbound
+    multiplicity:
+    - has_many
+  targetSchema:
+    $ref: MedicationAdministration.yaml
+  templatePointers:
+    id: /partOf/-/reference
+  templateRequired:
+  - id
+- href: Patient/{id}
+  rel: recorder_Patient
+  targetHints:
+    backref:
+    - recorder_procedure
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+  targetSchema:
+    $ref: Patient.yaml
+  templatePointers:
+    id: /recorder/reference
+  templateRequired:
+  - id
+- href: DocumentReference/{id}
+  rel: report_DocumentReference
+  targetHints:
+    backref:
+    - report_procedure
+    direction:
+    - outbound
+    multiplicity:
+    - has_many
+  targetSchema:
+    $ref: DocumentReference.yaml
+  templatePointers:
+    id: /report/-/reference
+  templateRequired:
+  - id
+- href: Patient/{id}
+  rel: reportedReference_Patient
+  targetHints:
+    backref:
+    - reportedReference_procedure
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+  targetSchema:
+    $ref: Patient.yaml
+  templatePointers:
+    id: /reportedReference/reference
+  templateRequired:
+  - id
+- href: Patient/{id}
+  rel: subject_Patient
+  targetHints:
+    backref:
+    - subject_procedure
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+  targetSchema:
+    $ref: Patient.yaml
+  templatePointers:
+    id: /subject/reference
+  templateRequired:
+  - id
+- href: Resource/{id}
+  rel: supportingInfo
+  targetHints:
+    backref:
+    - supportingInfo_procedure
+    direction:
+    - outbound
+    multiplicity:
+    - has_many
+  targetSchema:
+    $ref: Resource.yaml
+  templatePointers:
+    id: /supportingInfo/-/reference
+  templateRequired:
+  - id
+- $comment: From Annotation/note
+  href: Patient/{id}
+  rel: note_authorReference_Patient
+  targetHints:
+    backref:
+    - annotation
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+  targetSchema:
+    $ref: Patient.yaml
+  templatePointers:
+    id: /note/-/authorReference/reference
+  templateRequired:
+  - id
+- $comment: From ProcedurePerformer/performer
+  href: Patient/{id}
+  rel: performer_actor_Patient
+  targetHints:
+    backref:
+    - actor_procedure_performer
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+  targetSchema:
+    $ref: Patient.yaml
+  templatePointers:
+    id: /performer/-/actor/reference
+  templateRequired:
+  - id
+properties:
+  _implicitRules:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``implicitRules``.
+  _instantiatesCanonical:
+    items:
+      $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``instantiatesCanonical``.
+    type: array
+  _instantiatesUri:
+    items:
+      $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``instantiatesUri``.
+    type: array
+  _language:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``language``.
+  _occurrenceDateTime:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``occurrenceDateTime``.
+  _occurrenceString:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``occurrenceString``.
+  _recorded:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``recorded``.
+  _reportedBoolean:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``reportedBoolean``.
+  _status:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``status``.
+  basedOn:
+    backref: basedOn_procedure
+    description: A reference to a resource that contains details of the request for
+      this procedure.
+    element_property: true
+    enum_reference_types:
+    - CarePlan
+    - ServiceRequest
+    items:
+      $ref: Reference.yaml
+    title: A request for this procedure
+    type: array
+  bodySite:
+    binding_description: SNOMED CT Body site concepts
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/body-site
+    binding_version: null
+    description: Detailed and structured anatomical location information. Multiple
+      locations are allowed - e.g. multiple punch biopsies of a lesion.
+    element_property: true
+    items:
+      $ref: CodeableConcept.yaml
+    title: Target body sites
+    type: array
+  category:
+    binding_description: A code that classifies a procedure for searching, sorting
+      and display purposes.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/procedure-category
+    binding_version: null
+    description: A code that classifies the procedure for searching, sorting and display
+      purposes (e.g. "Surgical Procedure").
+    element_property: true
+    items:
+      $ref: CodeableConcept.yaml
+    title: Classification of the procedure
+    type: array
+  code:
+    $ref: CodeableConcept.yaml
+    binding_description: A code to identify a specific procedure .
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/procedure-code
+    binding_version: null
+    description: The specific procedure that is performed. Use text if the exact nature
+      of the procedure cannot be coded (e.g. "Laparoscopic Appendectomy").
+    element_property: true
+    title: Identification of the procedure
+  complication:
+    backref: complication_procedure
+    binding_description: Codes describing complications that resulted from a procedure.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/condition-code
+    binding_version: null
+    description: Any complications that occurred during the procedure, or in the immediate
+      post-performance period. These are generally tracked separately from the notes,
+      which will typically describe the procedure itself rather than any 'post procedure'
+      issues.
+    element_property: true
+    enum_reference_types:
+    - Condition
+    items:
+      $ref: CodeableReference.yaml
+    title: Complication following the procedure
+    type: array
+  contained:
+    description: These resources do not have an independent existence apart from the
+      resource that contains them - they cannot be identified independently, nor can
+      they have their own independent transaction scope. This is allowed to be a Parameters
+      resource if and only if it is referenced by a resource that provides context/meaning.
+    element_property: true
+    items:
+      $ref: Resource.yaml
+    title: Contained, inline Resources
+    type: array
+  encounter:
+    $ref: Reference.yaml
+    backref: procedure
+    description: The Encounter during which this Procedure was created or performed
+      or to which the creation of this record is tightly associated.
+    element_property: true
+    enum_reference_types:
+    - Encounter
+    title: The Encounter during which this Procedure was created
+  extension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the resource. To make the use of extensions safe
+      and managable, there is a strict set of governance applied to the definition
+      and use of extensions. Though any implementer can define an extension, there
+      is a set of requirements that SHALL be met as part of the definition of the
+      extension.
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Additional content defined by implementations
+    type: array
+  fhir_comments:
+    anyOf:
+    - type: string
+    - items:
+        type: string
+      type: array
+    element_property: false
+    title: Fhir Comments
+  focalDevice:
+    description: A device that is implanted, removed or otherwise manipulated (calibration,
+      battery replacement, fitting a prosthesis, attaching a wound-vac, etc.) as a
+      focal portion of the Procedure.
+    element_property: true
+    items:
+      $ref: ProcedureFocalDevice.yaml
+    title: Manipulated, implanted, or removed device
+    type: array
+  focus:
+    $ref: Reference.yaml
+    backref: focus_procedure
+    description: Who is the target of the procedure when it is not the subject of
+      record only.  If focus is not present, then subject is the focus.  If focus
+      is present and the subject is one of the targets of the procedure, include subject
+      as a focus as well. If focus is present and the subject is not included in focus,
+      it implies that the procedure was only targeted on the focus. For example, when
+      a caregiver is given education for a patient, the caregiver would be the focus
+      and the procedure record is associated with the subject (e.g. patient).  For
+      example, use focus when recording the target of the education, training, or
+      counseling is the parent or relative of a patient.
+    element_property: true
+    enum_reference_types:
+    - Patient
+    - Group
+    - RelatedPerson
+    - Practitioner
+    - Organization
+    - CareTeam
+    - PractitionerRole
+    - Specimen
+    title: Who is the target of the procedure when it is not the subject of record
+      only
+  followUp:
+    binding_description: Specific follow up required for a procedure e.g. removal
+      of sutures.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/procedure-followup
+    binding_version: null
+    description: If the procedure required specific follow up - e.g. removal of sutures.
+      The follow up may be represented as a simple note or could potentially be more
+      complex, in which case the CarePlan resource can be used.
+    element_property: true
+    items:
+      $ref: CodeableConcept.yaml
+    title: Instructions for follow up
+    type: array
+  id:
+    description: The logical id of the resource, as used in the URL for the resource.
+      Once assigned, this value never changes.
+    element_property: true
+    maxLength: 64
+    minLength: 1
+    pattern: ^[A-Za-z0-9\-.]+$
+    title: Logical id of this artifact
+    type: string
+  identifier:
+    description: Business identifiers assigned to this procedure by the performer
+      or other systems which remain constant as the resource is updated and is propagated
+      from server to server.
+    element_property: true
+    items:
+      $ref: Identifier.yaml
+    title: External Identifiers for this procedure
+    type: array
+  implicitRules:
+    description: A reference to a set of rules that were followed when the resource
+      was constructed, and which must be understood when processing the content. Often,
+      this is a reference to an implementation guide that defines the special rules
+      along with other profiles etc.
+    element_property: true
+    pattern: \S*
+    title: A set of rules under which this content was created
+    type: string
+  instantiatesCanonical:
+    description: The URL pointing to a FHIR-defined protocol, guideline, order set
+      or other definition that is adhered to in whole or in part by this Procedure.
+    element_property: true
+    enum_reference_types:
+    - PlanDefinition
+    - ActivityDefinition
+    - Measure
+    - OperationDefinition
+    - Questionnaire
+    items:
+      pattern: \S*
+      type: string
+    title: Instantiates FHIR protocol or definition
+    type: array
+  instantiatesUri:
+    description: The URL pointing to an externally maintained protocol, guideline,
+      order set or other definition that is adhered to in whole or in part by this
+      Procedure.
+    element_property: true
+    items:
+      pattern: \S*
+      type: string
+    title: Instantiates external protocol or definition
+    type: array
+  language:
+    binding_description: IETF language tag for a human language
+    binding_strength: required
+    binding_uri: http://hl7.org/fhir/ValueSet/all-languages
+    binding_version: 5.0.0
+    description: The base language in which the resource is written.
+    element_property: true
+    pattern: ^[^\s]+(\s[^\s]+)*$
+    title: Language of the resource content
+    type: string
+  links:
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+    type: array
+  location:
+    $ref: Reference.yaml
+    backref: location_procedure
+    description: The location where the procedure actually happened.  E.g. a newborn
+      at home, a tracheostomy at a restaurant.
+    element_property: true
+    enum_reference_types:
+    - Location
+    title: Where the procedure happened
+  meta:
+    $ref: Meta.yaml
+    description: The metadata about the resource. This is content that is maintained
+      by the infrastructure. Changes to the content might not always be associated
+      with version changes to the resource.
+    element_property: true
+    title: Metadata about the resource
+  modifierExtension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the resource and that modifies the understanding
+      of the element that contains it and/or the understanding of the containing element's
+      descendants. Usually modifier elements provide negation or qualification. To
+      make the use of extensions safe and managable, there is a strict set of governance
+      applied to the definition and use of extensions. Though any implementer is allowed
+      to define an extension, there is a set of requirements that SHALL be met as
+      part of the definition of the extension. Applications processing a resource
+      are required to check for modifier extensions.  Modifier extensions SHALL NOT
+      change the meaning of any elements on Resource or DomainResource (including
+      cannot change the meaning of modifierExtension itself).
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Extensions that cannot be ignored
+    type: array
+  note:
+    description: Any other notes and comments about the procedure.
+    element_property: true
+    items:
+      $ref: Annotation.yaml
+    title: Additional information about the procedure
+    type: array
+  occurrenceAge:
+    $ref: Age.yaml
+    description: Estimated or actual date, date-time, period, or age when the procedure
+      did occur or is occurring.  Allows a period to support complex procedures that
+      span more than one date, and also allows for the length of the procedure to
+      be captured.
+    element_property: true
+    one_of_many: occurrence
+    one_of_many_required: false
+    title: When the procedure occurred or is occurring
+  occurrenceDateTime:
+    description: Estimated or actual date, date-time, period, or age when the procedure
+      did occur or is occurring.  Allows a period to support complex procedures that
+      span more than one date, and also allows for the length of the procedure to
+      be captured.
+    element_property: true
+    format: date-time
+    one_of_many: occurrence
+    one_of_many_required: false
+    title: When the procedure occurred or is occurring
+    type: string
+  occurrencePeriod:
+    $ref: Period.yaml
+    description: Estimated or actual date, date-time, period, or age when the procedure
+      did occur or is occurring.  Allows a period to support complex procedures that
+      span more than one date, and also allows for the length of the procedure to
+      be captured.
+    element_property: true
+    one_of_many: occurrence
+    one_of_many_required: false
+    title: When the procedure occurred or is occurring
+  occurrenceRange:
+    $ref: Range.yaml
+    description: Estimated or actual date, date-time, period, or age when the procedure
+      did occur or is occurring.  Allows a period to support complex procedures that
+      span more than one date, and also allows for the length of the procedure to
+      be captured.
+    element_property: true
+    one_of_many: occurrence
+    one_of_many_required: false
+    title: When the procedure occurred or is occurring
+  occurrenceString:
+    description: Estimated or actual date, date-time, period, or age when the procedure
+      did occur or is occurring.  Allows a period to support complex procedures that
+      span more than one date, and also allows for the length of the procedure to
+      be captured.
+    element_property: true
+    one_of_many: occurrence
+    one_of_many_required: false
+    pattern: '[ \r\n\t\S]+'
+    title: When the procedure occurred or is occurring
+    type: string
+  occurrenceTiming:
+    $ref: Timing.yaml
+    description: Estimated or actual date, date-time, period, or age when the procedure
+      did occur or is occurring.  Allows a period to support complex procedures that
+      span more than one date, and also allows for the length of the procedure to
+      be captured.
+    element_property: true
+    one_of_many: occurrence
+    one_of_many_required: false
+    title: When the procedure occurred or is occurring
+  outcome:
+    $ref: CodeableConcept.yaml
+    binding_description: An outcome of a procedure - whether it was resolved or otherwise.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/procedure-outcome
+    binding_version: null
+    description: The outcome of the procedure - did it resolve the reasons for the
+      procedure being performed?
+    element_property: true
+    title: The result of procedure
+  partOf:
+    backref: partOf_procedure
+    description: A larger event of which this particular procedure is a component
+      or step.
+    element_property: true
+    enum_reference_types:
+    - Procedure
+    - Observation
+    - MedicationAdministration
+    items:
+      $ref: Reference.yaml
+    title: Part of referenced event
+    type: array
+  performer:
+    description: Indicates who or what performed the procedure and how they were involved.
+    element_property: true
+    items:
+      $ref: ProcedurePerformer.yaml
+    title: Who performed the procedure and what they did
+    type: array
+  reason:
+    backref: reason_procedure
+    binding_description: A code that identifies the reason a procedure is  required.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/procedure-reason
+    binding_version: null
+    description: The coded reason or reference why the procedure was performed. This
+      may be a coded entity of some type, be present as text, or be a reference to
+      one of several resources that justify the procedure.
+    element_property: true
+    enum_reference_types:
+    - Condition
+    - Observation
+    - Procedure
+    - DiagnosticReport
+    - DocumentReference
+    items:
+      $ref: CodeableReference.yaml
+    title: The justification that the procedure was performed
+    type: array
+  recorded:
+    description: The date the occurrence of the procedure was first captured in the
+      record regardless of Procedure.status (potentially after the occurrence of the
+      event).
+    element_property: true
+    format: date-time
+    title: When the procedure was first captured in the subject's record
+    type: string
+  recorder:
+    $ref: Reference.yaml
+    backref: recorder_procedure
+    description: Individual who recorded the record and takes responsibility for its
+      content.
+    element_property: true
+    enum_reference_types:
+    - Patient
+    - RelatedPerson
+    - Practitioner
+    - PractitionerRole
+    title: Who recorded the procedure
+  report:
+    backref: report_procedure
+    description: This could be a histology result, pathology report, surgical report,
+      etc.
+    element_property: true
+    enum_reference_types:
+    - DiagnosticReport
+    - DocumentReference
+    - Composition
+    items:
+      $ref: Reference.yaml
+    title: Any report resulting from the procedure
+    type: array
+  reportedBoolean:
+    description: Indicates if this record was captured as a secondary 'reported' record
+      rather than as an original primary source-of-truth record.  It may also indicate
+      the source of the report.
+    element_property: true
+    one_of_many: reported
+    one_of_many_required: false
+    title: Reported rather than primary record
+    type: boolean
+  reportedReference:
+    $ref: Reference.yaml
+    backref: reportedReference_procedure
+    description: Indicates if this record was captured as a secondary 'reported' record
+      rather than as an original primary source-of-truth record.  It may also indicate
+      the source of the report.
+    element_property: true
+    enum_reference_types:
+    - Patient
+    - RelatedPerson
+    - Practitioner
+    - PractitionerRole
+    - Organization
+    one_of_many: reported
+    one_of_many_required: false
+    title: Reported rather than primary record
+  resourceType:
+    const: Procedure
+    default: Procedure
+    description: One of the resource types defined as part of FHIR
+    title: Resource Type
+    type: string
+  status:
+    binding_description: A code specifying the state of the procedure.
+    binding_strength: required
+    binding_uri: http://hl7.org/fhir/ValueSet/event-status
+    binding_version: 5.0.0
+    description: A code specifying the state of the procedure. Generally, this will
+      be the in-progress or completed state.
+    element_property: true
+    element_required: true
+    enum_values:
+    - preparation
+    - in-progress
+    - not-done
+    - on-hold
+    - stopped
+    - completed
+    - entered-in-error
+    - unknown
+    pattern: ^[^\s]+(\s[^\s]+)*$
+    title: preparation | in-progress | not-done | on-hold | stopped | completed |
+      entered-in-error | unknown
+    type: string
+  statusReason:
+    $ref: CodeableConcept.yaml
+    binding_description: A code that identifies the reason a procedure was not performed.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/procedure-not-performed-reason
+    binding_version: null
+    description: Captures the reason for the current state of the procedure.
+    element_property: true
+    title: Reason for current status
+  subject:
+    $ref: Reference.yaml
+    backref: subject_procedure
+    description: On whom or on what the procedure was performed. This is usually an
+      individual human, but can also be performed on animals, groups of humans or
+      animals, organizations or practitioners (for licensing), locations or devices
+      (for safety inspections or regulatory authorizations).  If the actual focus
+      of the procedure is different from the subject, the focus element specifies
+      the actual focus of the procedure.
+    element_property: true
+    enum_reference_types:
+    - Patient
+    - Group
+    - Device
+    - Practitioner
+    - Organization
+    - Location
+    title: Individual or entity the procedure was performed on
+  supportingInfo:
+    backref: supportingInfo_procedure
+    description: Other resources from the patient record that may be relevant to the
+      procedure.  The information from these resources was either used to create the
+      instance or is provided to help with its interpretation. This extension should
+      not be used if more specific inline elements or extensions are available.
+    element_property: true
+    enum_reference_types:
+    - Resource
+    items:
+      $ref: Reference.yaml
+    title: Extra information relevant to the procedure
+    type: array
+  text:
+    $ref: Narrative.yaml
+    description: A human-readable narrative that contains a summary of the resource
+      and can be used to represent the content of the resource to a human. The narrative
+      need not encode all the structured data, but is required to contain sufficient
+      detail to make it "clinically safe" for a human to just read the narrative.
+      Resource definitions may define what content should be represented in the narrative
+      to ensure clinical safety.
+    element_property: true
+    title: Text summary of the resource, for human interpretation
+  used:
+    backref: used_procedure
+    binding_description: Codes describing items used during a procedure.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/device-type
+    binding_version: null
+    description: Identifies medications, devices and any other substance used as part
+      of the procedure.
+    element_property: true
+    enum_reference_types:
+    - Device
+    - Medication
+    - Substance
+    - BiologicallyDerivedProduct
+    items:
+      $ref: CodeableReference.yaml
+    title: Items used during procedure
+    type: array
+required:
+- subject
+title: Procedure
+type: object
