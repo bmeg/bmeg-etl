@@ -11,7 +11,7 @@ fetch_experiments() {
 }
 
 fetch_all_experiments() {
-    local per_page=50
+    local per_page=10000
     local page=1
     local output_file="experiments.json"
     while true; do

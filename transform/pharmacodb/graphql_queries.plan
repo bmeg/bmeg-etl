@@ -2,6 +2,7 @@
 
 prep = lathe.Workflow("prep")
 
+/*ndjson = | jq -c ".data.compounds[]" > output*/
 /*compunds relational table*/
 prep.Add(lathe.Process({ 
     commandLine: 'curl -X POST https://pharmacodb.ca/graphql -H "Content-Type: application/json" -d \'{"query":"{ compounds(all: true) { id uid name annotation { pubchem chembl smiles inchikey fda_status } } }"}\' -o {{outputs.compounds}}',
@@ -9,6 +10,7 @@ prep.Add(lathe.Process({
        compounds: "../../source/pharmacodb/graphql_dump/compounds_table.json"
     }
 }))
+
 
 /*fetch pubchem compound property info*/ 
 /*prep.Add(lathe.Process({
@@ -46,9 +48,9 @@ prep.Add(lathe.Process({
 }))
 
 /*cells cellosaurus info*/ 
-/*prep.Add(lathe.Process({
+prep.Add(lathe.Process({
     commandLine: './fetch_cellosaurus_info.sh',
     outputs: {
-       cellines_mapping: "../../source/pharmacodb/graphql_dump/cell_lines_cellosaurus_mapping.json"
+       cellines_mapping: "../../source/pharmacodb/graphql_dump/cells_cellosaurus_info.ndjson"
     }
-}))*/
+}))
