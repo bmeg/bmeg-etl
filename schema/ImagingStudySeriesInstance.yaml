@@ -1,0 +1,102 @@
+$id: ImagingStudySeriesInstance
+additionalProperties: false
+description: A single SOP instance from the series. A single SOP instance within the
+  series, e.g. an image, or presentation state. [See https://hl7.org/fhir/R5/ImagingStudySeriesInstance.html]
+links: []
+properties:
+  _number:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``number``.
+  _title:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``title``.
+  _uid:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``uid``.
+  extension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element. To make the use of extensions safe and
+      managable, there is a strict set of governance applied to the definition and
+      use of extensions. Though any implementer can define an extension, there is
+      a set of requirements that SHALL be met as part of the definition of the extension.
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Additional content defined by implementations
+    type: array
+  fhir_comments:
+    anyOf:
+    - type: string
+    - items:
+        type: string
+      type: array
+    element_property: false
+    title: Fhir Comments
+  id:
+    description: Unique id for the element within a resource (for internal references).
+      This may be any string value that does not contain spaces.
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Unique id for inter-element referencing
+    type: string
+  links:
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+    type: array
+  modifierExtension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element and that modifies the understanding of
+      the element in which it is contained and/or the understanding of the containing
+      element's descendants. Usually modifier elements provide negation or qualification.
+      To make the use of extensions safe and managable, there is a strict set of governance
+      applied to the definition and use of extensions. Though any implementer can
+      define an extension, there is a set of requirements that SHALL be met as part
+      of the definition of the extension. Applications processing a resource are required
+      to check for modifier extensions.  Modifier extensions SHALL NOT change the
+      meaning of any elements on Resource or DomainResource (including cannot change
+      the meaning of modifierExtension itself).
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Extensions that cannot be ignored even if unrecognized
+    type: array
+  number:
+    description: The number of instance in the series.
+    element_property: true
+    minimum: 0
+    title: The number of this instance in the series
+    type: integer
+  resourceType:
+    const: ImagingStudySeriesInstance
+    default: ImagingStudySeriesInstance
+    description: One of the resource types defined as part of FHIR
+    title: Resource Type
+    type: string
+  sopClass:
+    $ref: Coding.yaml
+    binding_description: The sopClass for the instance.
+    binding_strength: extensible
+    binding_uri: http://dicom.nema.org/medical/dicom/current/output/chtml/part04/sect_B.5.html#table_B.5-1
+    binding_version: null
+    description: DICOM instance  type.
+    element_property: true
+    title: DICOM class type
+  title:
+    description: The description of the instance.
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Description of instance
+    type: string
+  uid:
+    description: The DICOM SOP Instance UID for this image or other DICOM content.
+    element_property: true
+    element_required: true
+    maxLength: 64
+    minLength: 1
+    pattern: ^[A-Za-z0-9\-.]+$
+    title: DICOM SOP Instance UID
+    type: string
+required:
+- sopClass
+title: ImagingStudySeriesInstance
+type: object

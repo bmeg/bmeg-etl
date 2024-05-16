@@ -1,0 +1,189 @@
+$id: SubstanceDefinitionRelationship
+additionalProperties: false
+description: A link between this substance and another. A link between this substance
+  and another, with details of the relationship. [See https://hl7.org/fhir/R5/SubstanceDefinitionRelationship.html]
+links:
+- href: DocumentReference/{id}
+  rel: source
+  targetHints:
+    backref:
+    - source_substance_definition_relationship
+    direction:
+    - outbound
+    multiplicity:
+    - has_many
+  targetSchema:
+    $ref: DocumentReference.yaml
+  templatePointers:
+    id: /source/-/reference
+  templateRequired:
+  - id
+- href: SubstanceDefinition/{id}
+  rel: substanceDefinitionReference
+  targetHints:
+    backref:
+    - substance_definition_relationship
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+  targetSchema:
+    $ref: SubstanceDefinition.yaml
+  templatePointers:
+    id: /substanceDefinitionReference/reference
+  templateRequired:
+  - id
+properties:
+  _amountString:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``amountString``.
+  _isDefining:
+    $ref: FHIRPrimitiveExtension.yaml
+    title: Extension field for ``isDefining``.
+  amountQuantity:
+    $ref: Quantity.yaml
+    description: A numeric factor for the relationship, for instance to express that
+      the salt of a substance has some percentage of the active substance in relation
+      to some other.
+    element_property: true
+    one_of_many: amount
+    one_of_many_required: false
+    title: A numeric factor for the relationship, e.g. that a substance salt has some
+      percentage of active substance in relation to some other
+  amountRatio:
+    $ref: Ratio.yaml
+    description: A numeric factor for the relationship, for instance to express that
+      the salt of a substance has some percentage of the active substance in relation
+      to some other.
+    element_property: true
+    one_of_many: amount
+    one_of_many_required: false
+    title: A numeric factor for the relationship, e.g. that a substance salt has some
+      percentage of active substance in relation to some other
+  amountString:
+    description: A numeric factor for the relationship, for instance to express that
+      the salt of a substance has some percentage of the active substance in relation
+      to some other.
+    element_property: true
+    one_of_many: amount
+    one_of_many_required: false
+    pattern: '[ \r\n\t\S]+'
+    title: A numeric factor for the relationship, e.g. that a substance salt has some
+      percentage of active substance in relation to some other
+    type: string
+  comparator:
+    $ref: CodeableConcept.yaml
+    binding_description: The relationship between two substance types.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/substance-amount-type
+    binding_version: null
+    element_property: true
+    title: An operator for the amount, for example "average", "approximately", "less
+      than"
+  extension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element. To make the use of extensions safe and
+      managable, there is a strict set of governance applied to the definition and
+      use of extensions. Though any implementer can define an extension, there is
+      a set of requirements that SHALL be met as part of the definition of the extension.
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Additional content defined by implementations
+    type: array
+  fhir_comments:
+    anyOf:
+    - type: string
+    - items:
+        type: string
+      type: array
+    element_property: false
+    title: Fhir Comments
+  id:
+    description: Unique id for the element within a resource (for internal references).
+      This may be any string value that does not contain spaces.
+    element_property: true
+    pattern: '[ \r\n\t\S]+'
+    title: Unique id for inter-element referencing
+    type: string
+  isDefining:
+    description: For example where an enzyme strongly bonds with a particular substance,
+      this is a defining relationship for that enzyme, out of several possible substance
+      relationships.
+    element_property: true
+    title: For example where an enzyme strongly bonds with a particular substance,
+      this is a defining relationship for that enzyme, out of several possible relationships
+    type: boolean
+  links:
+    items:
+      $ref: https://json-schema.org/draft/2020-12/links
+    type: array
+  modifierExtension:
+    description: May be used to represent additional information that is not part
+      of the basic definition of the element and that modifies the understanding of
+      the element in which it is contained and/or the understanding of the containing
+      element's descendants. Usually modifier elements provide negation or qualification.
+      To make the use of extensions safe and managable, there is a strict set of governance
+      applied to the definition and use of extensions. Though any implementer can
+      define an extension, there is a set of requirements that SHALL be met as part
+      of the definition of the extension. Applications processing a resource are required
+      to check for modifier extensions.  Modifier extensions SHALL NOT change the
+      meaning of any elements on Resource or DomainResource (including cannot change
+      the meaning of modifierExtension itself).
+    element_property: true
+    items:
+      $ref: Extension.yaml
+    title: Extensions that cannot be ignored even if unrecognized
+    type: array
+  ratioHighLimitAmount:
+    $ref: Ratio.yaml
+    element_property: true
+    title: For use when the numeric has an uncertain range
+  resourceType:
+    const: SubstanceDefinitionRelationship
+    default: SubstanceDefinitionRelationship
+    description: One of the resource types defined as part of FHIR
+    title: Resource Type
+    type: string
+  source:
+    backref: source_substance_definition_relationship
+    element_property: true
+    enum_reference_types:
+    - DocumentReference
+    items:
+      $ref: Reference.yaml
+    title: Supporting literature
+    type: array
+  substanceDefinitionCodeableConcept:
+    $ref: CodeableConcept.yaml
+    description: A pointer to another substance, as a resource or just a representational
+      code.
+    element_property: true
+    one_of_many: substanceDefinition
+    one_of_many_required: false
+    title: A pointer to another substance, as a resource or a representational code
+  substanceDefinitionReference:
+    $ref: Reference.yaml
+    backref: substance_definition_relationship
+    description: A pointer to another substance, as a resource or just a representational
+      code.
+    element_property: true
+    enum_reference_types:
+    - SubstanceDefinition
+    one_of_many: substanceDefinition
+    one_of_many_required: false
+    title: A pointer to another substance, as a resource or a representational code
+  type:
+    $ref: CodeableConcept.yaml
+    binding_description: The relationship between two substance types.
+    binding_strength: example
+    binding_uri: http://hl7.org/fhir/ValueSet/substance-relationship-type
+    binding_version: null
+    description: For example "salt to parent", "active moiety", "starting material",
+      "polymorph", "impurity of".
+    element_property: true
+    title: For example "salt to parent", "active moiety"
+required:
+- type
+title: SubstanceDefinitionRelationship
+type: object

@@ -33,21 +33,6 @@ links:
     id: /projects/-/id
   templateRequired:
   - id
-- href: ResearchStudy/{id}
-  rel: projects_ResearchStudy
-  targetHints:
-    backref:
-    - projects_substance
-    directionality:
-    - outbound
-    multiplicity:
-    - has_many
-  targetSchema:
-    $ref: ResearchStudy.yaml
-  templatePointers:
-    id: /projects/-/id
-  templateRequired:
-  - id
 properties:
   _description:
     $ref: FHIRPrimitiveExtension.yaml
