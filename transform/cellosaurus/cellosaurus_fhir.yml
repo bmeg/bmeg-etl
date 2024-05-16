@@ -2,7 +2,7 @@ name: cellosaurus
 outdir: ./out
 
 config:
-  schema: ../schema
+  schema: ../../schema
   dir: ../../source/cellosaurus/META
 
 inputs:
