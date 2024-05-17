@@ -25,6 +25,7 @@ pipelines:
         schema: '{{config.schema}}'
         title: Patient
     - emit:
+        useName: true
         name: patient
 
   specimenValidate:
@@ -33,6 +34,7 @@ pipelines:
         schema: '{{config.schema}}'
         title: Specimen
     - emit:
+        useName: true
         name: specimen
 
   conditionValidate:
@@ -41,4 +43,5 @@ pipelines:
         schema: '{{config.schema}}'
         title: Condition
     - emit:
+        useName: true
         name: condition
