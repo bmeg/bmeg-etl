@@ -3,20 +3,20 @@ outdir: ./out
 
 config:
   schema: ../../schema
-  dir: ../../source/cellosaurus/META
+  dir: ../../source/cellosaurus_fhir/META
 
 inputs:
   patient:
     jsonLoad:
-      input: "{{config.dir}}/Patient.json"
+      input: "{{config.dir}}/Patient.ndjson"
 
   specimen:
     jsonLoad:
-      input: "{{config.dir}}/Specimen.json"
+      input: "{{config.dir}}/Specimen.ndjson"
 
   condition:
     jsonLoad:
-      input: "{{config.dir}}/Condition.json"
+      input: "{{config.dir}}/Condition.ndjson"
 
 pipelines:
   patientValidate:
