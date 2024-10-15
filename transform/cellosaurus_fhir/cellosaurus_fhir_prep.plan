@@ -1,0 +1,13 @@
+prep = lathe.Workflow("prep")
+
+prep.Add(lathe.Process({
+commandLine: "fhirizer resource --name cellosaurus --path {{inputs.cellPath}} --out_dir {{inputs.outDir}}",
+  inputs: {
+    cellPath: "../../source/cellosaurus_fhir/cells.json.gz",
+    outDir: "../../source/cellosaurus"
+  },
+  outputs:{
+    cells: "../../source/cellosaurus_fhir/cellosaurus_cellines.ndjson",
+  },
+  image: "fhirizer"
+}))

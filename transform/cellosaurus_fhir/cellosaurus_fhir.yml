@@ -1,0 +1,47 @@
+name: cellosaurus
+outdir: ./out
+
+config:
+  schema: ../../schema
+  dir: ../../source/cellosaurus_fhir/META
+
+inputs:
+  patient:
+    jsonLoad:
+      input: "{{config.dir}}/Patient.ndjson"
+
+  specimen:
+    jsonLoad:
+      input: "{{config.dir}}/Specimen.ndjson"
+
+  condition:
+    jsonLoad:
+      input: "{{config.dir}}/Condition.ndjson"
+
+pipelines:
+  patientValidate:
+    - from: patient
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Patient
+    - emit:
+        useName: true
+        name: patient
+
+  specimenValidate:
+    - from: specimen
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Specimen
+    - emit:
+        useName: true
+        name: specimen
+
+  conditionValidate:
+    - from: condition
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Condition
+    - emit:
+        useName: true
+        name: condition

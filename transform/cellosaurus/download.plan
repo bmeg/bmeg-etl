@@ -1,0 +1,19 @@
+prep = lathe.Workflow("prep")
+
+prep.Add(lathe.Process({ 
+    commandLine: "curl https://ftp.expasy.org/databases/cellosaurus/cellosaurus.obo -o {{outputs.cellObo}}",
+    outputs: {
+       cellObo: "../../source/cellosaurus/cellosaurus.obo"
+    }
+}))
+
+
+prep.Add(lathe.Process({ 
+    commandLine: "../../util/obo_reader.py {{inputs.cellObo}} | gzip > {{outputs.celllines}}",
+    inputs:{
+       cellObo: "../../source/cellosaurus/cellosaurus.obo"
+    },
+    outputs: {
+       celllines: "../../source/cellosaurus/cells.json.gz"
+    }
+}))
