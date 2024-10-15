@@ -85,7 +85,7 @@ if __name__ == "__main__":
             input = open(args.input)
 
     with Pool(processes=args.ncpus) as pool:
-        for id, fingerprint in pool.imap(lineProcess, input):
+        for id, fingerprint in pool.imap(lineProcessFHIR, input):
             if id is not None:
                 fingerprints[id] = fingerprint
 

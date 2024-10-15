@@ -13,26 +13,33 @@ inputs:
       # query: "select * from MOLECULE_DICTIONARY as a LEFT JOIN MOLECULE_SYNONYMS as b on a.MOLREGNO=b.MOLREGNO LEFT JOIN COMPOUND_STRUCTURES as c on a.MOLREGNO=c.MOLREGNO"
       # query:  "select * from MOLECULE_DICTIONARY as a LEFT JOIN COMPOUND_STRUCTURES as c on a.MOLREGNO=c.MOLREGNO"
       query: "SELECT 
-                  a.MOLREGNO,
-                  a.PREF_NAME,
-                  a.CHEMBL_ID,
-                  a.MAX_PHASE,
-                  a.STRUCTURE_TYPE,
-                  c.STANDARD_INCHI,
-                  c.STANDARD_INCHI_KEY,
-                  c.CANONICAL_SMILES,
-                  d.DOC_ID,
-                  d.PUBMED_ID,
-                  d.DOI 
-              FROM 
-                  MOLECULE_DICTIONARY as a
-              LEFT JOIN 
-                  COMPOUND_STRUCTURES as c ON a.MOLREGNO = c.MOLREGNO
-              LEFT JOIN 
-                  ACTIVITIES as p ON a.MOLREGNO = p.MOLREGNO
-              LEFT JOIN 
-                  DOCS as d ON p.DOC_ID = d.DOC_ID"
-              # WHERE c.CANONICAL_SMILES IS NOT NULL;" 20872984 - 20662416 = 210,568 don't have canonical smiles 
+                a.MOLREGNO,
+                a.PREF_NAME,
+                a.CHEMBL_ID,
+                a.MAX_PHASE,
+                a.STRUCTURE_TYPE,
+                c.STANDARD_INCHI,
+                c.STANDARD_INCHI_KEY,
+                c.CANONICAL_SMILES,
+                d.DOC_ID,
+                d.PUBMED_ID,
+                d.DOI,
+                cr.SRC_ID,
+                cr.SRC_COMPOUND_ID, 
+                sr.SRC_SHORT_NAME, 
+                sr.SRC_DESCRIPTION
+            FROM 
+                MOLECULE_DICTIONARY as a
+            LEFT JOIN 
+                COMPOUND_STRUCTURES as c ON a.MOLREGNO = c.MOLREGNO
+            LEFT JOIN 
+                ACTIVITIES as p ON a.MOLREGNO = p.MOLREGNO
+            LEFT JOIN 
+                DOCS as d ON p.DOC_ID = d.DOC_ID
+            LEFT JOIN 
+                compound_records as cr ON a.MOLREGNO = cr.MOLREGNO
+            LEFT JOIN
+                source as sr ON cr.SRC_ID = sr.SRC_ID;"
 
 pipelines:
   records:
@@ -80,14 +87,14 @@ pipelines:
     - emit:
         name: research_study
  
-#  citaiton:
-#    - from: sqlQuery
-#    - map:
-#        method: build_citaiton
-#        gpython:
-#          $ref: chembl_transform.py
-#    - objectValidate:
-#        schema: '{{config.schema}}'
-#        title: Citation
-#    - emit:
-#        name: citaiton
+  citaiton:
+    - from: sqlQuery
+    - map:
+        method: build_citation
+        gpython:
+          $ref: chembl_transform.py
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Citation
+    - emit:
+        name: citaiton

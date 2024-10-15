@@ -1,5 +1,4 @@
 def build_citation(row):
-    print("row", row)
     if "pubmed_id" in row.keys() and row["pubmed_id"]: 
         if "doi" in row.keys() and row["doi"]:
             cited_artifact = {
@@ -17,7 +16,7 @@ def build_citation(row):
                                 ]
                             }
                         ],
-                        "url": "".join(["https://doi.org/", row["doi"]])
+                        "url": "https://doi.org/" + row["doi"]
                     }
                 ]
             }
@@ -36,10 +35,9 @@ def build_citation(row):
             "status": "active",
             "citedArtifact": cited_artifact
         }
+        return citation
     else: 
-        citation = None
-
-    return citation
+        pass
 
 
 def build_substance_definition(row):
@@ -112,17 +110,21 @@ def build_substance_definition(row):
     else: 
         structure = None
 
+    identifier_list = [{
+        "system": "https://www.ebi.ac.uk/chembl/",
+        "value": row["chembl_id"]}]
+
+    # not all pubchem sources are explicitly defined in compound_records table (SRC_COMPOUND_ID Identifier for the compound in the source database (e.g., pubchem SID))
+    if "scr_short_name" in row.keys() and "PUBCHEM" in row["scr_short_name"] and row["src_compound_id"]:
+        identifier_list.append({"system": "https://pubchem.ncbi.nlm.nih.gov",
+                                "value": row["src_compound_id"]})
+
 
     substance_def = {
         "resourceType": "SubstanceDefinition",
         "id": row["chembl_id"],
         "name": [{"name": name, "synonym": synonyms_list }],
-        "identifier": [
-            {
-                "system": "https://www.ebi.ac.uk/chembl/",
-                "value": row["chembl_id"]
-            }
-        ],
+        "identifier": identifier_list,
         "informationSource": information_source,
         "classification": classification, 
         "structure": structure
@@ -147,7 +149,6 @@ def build_substance(row):
 
 def build_research_study(row):
     if "max_pahse" in row.keys() and row["max_pahse"]:
-        print(row["max_pahse"])
         phase = {
             "coding": [
                 {
