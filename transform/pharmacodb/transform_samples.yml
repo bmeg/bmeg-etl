@@ -1,0 +1,27 @@
+
+name: pharmacodb
+outdir: ./out
+
+config:
+  schema: ../../schema
+  sampleDir: ../../source/pharmacodb
+
+inputs:
+  specimenData:
+    glob:
+      input: "{{config.sampleDir}}/*/samples.tsv"
+      tableLoad: {}
+
+
+pipelines:
+  specimen:
+    - from: specimenData
+    - map:
+        method: build_specimen
+        gpython:
+          $ref: pharmacodb_transform.py
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Specimen
+    - emit:
+        name: specimen

@@ -1,0 +1,56 @@
+
+
+prep = lathe.Workflow("prep")
+
+/*ndjson = | jq -c ".data.compounds[]" > output*/
+/*compunds relational table*/
+prep.Add(lathe.Process({ 
+    commandLine: 'curl -X POST https://pharmacodb.ca/graphql -H "Content-Type: application/json" -d \'{"query":"{ compounds(all: true) { id uid name annotation { pubchem chembl smiles inchikey fda_status } } }"}\' -o {{outputs.compounds}}',
+    outputs: {
+       compounds: "../../source/pharmacodb/graphql_dump/compounds_table.json"
+    }
+}))
+
+
+/*fetch pubchem compound property info*/ 
+/*prep.Add(lathe.Process({
+    commandLine: './fetch_compound_property.py',
+    inputs: {
+       compounds: "../../source/pharmacodb/graphql_dump/compounds_table.json"
+    },
+    outputs: {
+       pubchem_info: "../../source/pharmacodb/graphql_dump/compounds_table_pubchem_updates.json"
+    }
+}))*/
+
+/*available data-sets*/
+prep.Add(lathe.Process({
+    commandLine: 'curl -X POST https://pharmacodb.ca/graphql -H "Content-Type: application/json" -d \'{"query":"{ datasets { id name } }"}\' -o {{outputs.datasets}}',
+    outputs: {
+       datasets: "../../source/pharmacodb/graphql_dump/datasets.json"
+    }
+}))
+
+/*experiments - long job*/
+/*prep.Add(lathe.Process({
+    commandLine: './fetch_experiments.sh',
+    outputs: {
+       experiments: "../../source/pharmacodb/graphql_dump/experiments.ndjson"
+    }
+}))*/
+
+/*All cells*/ 
+prep.Add(lathe.Process({
+    commandLine: 'curl -X POST https://pharmacodb.ca/graphql -H "Content-Type: application/json" -d \'{"query":"{ cell_lines(all: true) { id uid name tissue { id name } datasets { id name } } }"}\' -o {{outputs.cellines}}',
+    outputs: {
+       cellines: "../../source/pharmacodb/graphql_dump/cell_lines.json"
+    }
+}))
+
+/*cells cellosaurus info*/ 
+prep.Add(lathe.Process({
+    commandLine: './fetch_cellosaurus_info.sh',
+    outputs: {
+       cellines_mapping: "../../source/pharmacodb/graphql_dump/cells_cellosaurus_info.ndjson"
+    }
+}))

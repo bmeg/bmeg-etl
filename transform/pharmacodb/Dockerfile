@@ -1,4 +1,4 @@
-FROM rocker/r-base:4.3.0
+FROM rocker/r-base:4.4.0
 
 #establishing working directory so we can mount easier
 WORKDIR /usr/src
