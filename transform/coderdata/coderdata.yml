@@ -1,0 +1,60 @@
+name: coderdata
+outdir: ./out
+
+config:
+  schema: ../../schema
+  dir: ../../source/coderdata
+
+inputs:
+  experimentsData:
+    tableLoad:
+      input: "{{config.dir}}/cleaned_pivoted_experiments_drugs_samples.tsv"
+
+pipelines:
+  substance_definition:
+    - from: experimentsData
+    - map:
+        method: build_substance_definition
+        gpython:
+          $ref: coderdata_transform.py
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: SubstanceDefinition
+    - emit:
+        name: substance_definition
+
+  substance:
+    - from: experimentsData
+    - map:
+        method: build_substance
+        gpython:
+          $ref: coderdata_transform.py
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Substance
+    - emit:
+        name: substance
+
+  drug_response:
+    - from: experimentsData
+    - map:
+        method: build_response
+        gpython:
+          $ref: coderdata_transform.py
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: DrugResponse
+    - emit:
+        name: drug_response
+
+  patient:
+    - from: experimentsData
+    - map:
+        method: build_patient
+        gpython:
+          $ref: coderdata_transform.py
+    - objectValidate:
+        schema: '{{config.schema}}'
+        title: Patient
+    - emit:
+        name: patient
