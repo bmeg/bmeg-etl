@@ -284,7 +284,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_CitationCitedArtifactContributorshipEntr
+  rel: focus_CitationCitedArtifactContributorshipEntry
   targetHints:
     backref:
     - focus_observation
@@ -293,9 +293,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - CitationCitedArtifactContributorshipEntr/*
+    - CitationCitedArtifactContributorshipEntry/*
   targetSchema:
-    $ref: CitationCitedArtifactContributorshipEntr.yaml
+    $ref: CitationCitedArtifactContributorshipEntry.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -335,7 +335,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_SampledDat
+  rel: focus_SampledData
   targetHints:
     backref:
     - focus_observation
@@ -344,9 +344,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - SampledDat/*
+    - SampledData/*
   targetSchema:
-    $ref: SampledDat.yaml
+    $ref: SampledData.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -369,7 +369,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_FamilyMemberHistor
+  rel: focus_FamilyMemberHistory
   targetHints:
     backref:
     - focus_observation
@@ -378,9 +378,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - FamilyMemberHistor/*
+    - FamilyMemberHistory/*
   targetSchema:
-    $ref: FamilyMemberHistor.yaml
+    $ref: FamilyMemberHistory.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -437,7 +437,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_ObservationTriggeredB
+  rel: focus_ObservationTriggeredBy
   targetHints:
     backref:
     - focus_observation
@@ -446,9 +446,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ObservationTriggeredB/*
+    - ObservationTriggeredBy/*
   targetSchema:
-    $ref: ObservationTriggeredB.yaml
+    $ref: ObservationTriggeredBy.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -607,7 +607,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_SubstanceDefinitionPropert
+  rel: focus_SubstanceDefinitionProperty
   targetHints:
     backref:
     - focus_observation
@@ -616,9 +616,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - SubstanceDefinitionPropert/*
+    - SubstanceDefinitionProperty/*
   targetSchema:
-    $ref: SubstanceDefinitionPropert.yaml
+    $ref: SubstanceDefinitionProperty.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -879,7 +879,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_SubstanceDefinitionSourceMateri
+  rel: focus_SubstanceDefinitionSourceMaterial
   targetHints:
     backref:
     - focus_observation
@@ -888,9 +888,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - SubstanceDefinitionSourceMateri/*
+    - SubstanceDefinitionSourceMaterial/*
   targetSchema:
-    $ref: SubstanceDefinitionSourceMateri.yaml
+    $ref: SubstanceDefinitionSourceMaterial.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -930,7 +930,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_ExtendedContactDetai
+  rel: focus_ExtendedContactDetail
   targetHints:
     backref:
     - focus_observation
@@ -939,9 +939,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ExtendedContactDetai/*
+    - ExtendedContactDetail/*
   targetSchema:
-    $ref: ExtendedContactDetai.yaml
+    $ref: ExtendedContactDetail.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -1134,7 +1134,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_ResearchStudyAssociatedPart
+  rel: focus_ResearchStudyAssociatedParty
   targetHints:
     backref:
     - focus_observation
@@ -1143,9 +1143,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ResearchStudyAssociatedPart/*
+    - ResearchStudyAssociatedParty/*
   targetSchema:
-    $ref: ResearchStudyAssociatedPart.yaml
+    $ref: ResearchStudyAssociatedParty.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -1372,7 +1372,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_SubstanceDefinitionNameOffici
+  rel: focus_SubstanceDefinitionNameOfficial
   targetHints:
     backref:
     - focus_observation
@@ -1381,15 +1381,15 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - SubstanceDefinitionNameOffici/*
+    - SubstanceDefinitionNameOfficial/*
   targetSchema:
-    $ref: SubstanceDefinitionNameOffici.yaml
+    $ref: SubstanceDefinitionNameOfficial.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
   - id
 - href: id
-  rel: focus_CitationSummar
+  rel: focus_CitationSummary
   targetHints:
     backref:
     - focus_observation
@@ -1398,15 +1398,15 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - CitationSummar/*
+    - CitationSummary/*
   targetSchema:
-    $ref: CitationSummar.yaml
+    $ref: CitationSummary.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
   - id
 - href: id
-  rel: focus_Mone
+  rel: focus_Money
   targetHints:
     backref:
     - focus_observation
@@ -1415,9 +1415,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - Mone/*
+    - Money/*
   targetSchema:
-    $ref: Mone.yaml
+    $ref: Money.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -1457,7 +1457,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_CitationCitedArtifactPublicationFor
+  rel: focus_CitationCitedArtifactPublicationForm
   targetHints:
     backref:
     - focus_observation
@@ -1466,9 +1466,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - CitationCitedArtifactPublicationFor/*
+    - CitationCitedArtifactPublicationForm/*
   targetSchema:
-    $ref: CitationCitedArtifactPublicationFor.yaml
+    $ref: CitationCitedArtifactPublicationForm.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -1593,7 +1593,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_GeneOntologyTer
+  rel: focus_GeneOntologyTerm
   targetHints:
     backref:
     - focus_observation
@@ -1602,9 +1602,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - GeneOntologyTer/*
+    - GeneOntologyTerm/*
   targetSchema:
-    $ref: GeneOntologyTer.yaml
+    $ref: GeneOntologyTerm.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -1729,7 +1729,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_ContactDetai
+  rel: focus_ContactDetail
   targetHints:
     backref:
     - focus_observation
@@ -1738,9 +1738,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ContactDetai/*
+    - ContactDetail/*
   targetSchema:
-    $ref: ContactDetai.yaml
+    $ref: ContactDetail.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -1763,7 +1763,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_MedicationRequestDispenseRequestInitialFi
+  rel: focus_MedicationRequestDispenseRequestInitialFill
   targetHints:
     backref:
     - focus_observation
@@ -1772,15 +1772,15 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - MedicationRequestDispenseRequestInitialFi/*
+    - MedicationRequestDispenseRequestInitialFill/*
   targetSchema:
-    $ref: MedicationRequestDispenseRequestInitialFi.yaml
+    $ref: MedicationRequestDispenseRequestInitialFill.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
   - id
 - href: id
-  rel: focus_ResearchStudyLabe
+  rel: focus_ResearchStudyLabel
   targetHints:
     backref:
     - focus_observation
@@ -1789,9 +1789,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ResearchStudyLabe/*
+    - ResearchStudyLabel/*
   targetSchema:
-    $ref: ResearchStudyLabe.yaml
+    $ref: ResearchStudyLabel.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -1882,7 +1882,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_CitationCitedArtifactContributorshipSummar
+  rel: focus_CitationCitedArtifactContributorshipSummary
   targetHints:
     backref:
     - focus_observation
@@ -1891,9 +1891,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - CitationCitedArtifactContributorshipSummar/*
+    - CitationCitedArtifactContributorshipSummary/*
   targetSchema:
-    $ref: CitationCitedArtifactContributorshipSummar.yaml
+    $ref: CitationCitedArtifactContributorshipSummary.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -1916,7 +1916,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_ImagingStud
+  rel: focus_ImagingStudy
   targetHints:
     backref:
     - focus_observation
@@ -1925,9 +1925,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ImagingStud/*
+    - ImagingStudy/*
   targetSchema:
-    $ref: ImagingStud.yaml
+    $ref: ImagingStudy.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -2154,7 +2154,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_SubstanceDefinitionMoiet
+  rel: focus_SubstanceDefinitionMoiety
   targetHints:
     backref:
     - focus_observation
@@ -2163,15 +2163,15 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - SubstanceDefinitionMoiet/*
+    - SubstanceDefinitionMoiety/*
   targetSchema:
-    $ref: SubstanceDefinitionMoiet.yaml
+    $ref: SubstanceDefinitionMoiety.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
   - id
 - href: id
-  rel: focus_Availabilit
+  rel: focus_Availability
   targetHints:
     backref:
     - focus_observation
@@ -2180,9 +2180,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - Availabilit/*
+    - Availability/*
   targetSchema:
-    $ref: Availabilit.yaml
+    $ref: Availability.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -2205,7 +2205,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_Quantit
+  rel: focus_Quantity
   targetHints:
     backref:
     - focus_observation
@@ -2214,9 +2214,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - Quantit/*
+    - Quantity/*
   targetSchema:
-    $ref: Quantit.yaml
+    $ref: Quantity.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -2341,7 +2341,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_VirtualServiceDetai
+  rel: focus_VirtualServiceDetail
   targetHints:
     backref:
     - focus_observation
@@ -2350,15 +2350,15 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - VirtualServiceDetai/*
+    - VirtualServiceDetail/*
   targetSchema:
-    $ref: VirtualServiceDetai.yaml
+    $ref: VirtualServiceDetail.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
   - id
 - href: id
-  rel: focus_ResearchStud
+  rel: focus_ResearchStudy
   targetHints:
     backref:
     - focus_observation
@@ -2367,9 +2367,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ResearchStud/*
+    - ResearchStudy/*
   targetSchema:
-    $ref: ResearchStud.yaml
+    $ref: ResearchStudy.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -2647,7 +2647,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_Met
+  rel: focus_Meta
   targetHints:
     backref:
     - focus_observation
@@ -2656,9 +2656,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - Met/*
+    - Meta/*
   targetSchema:
-    $ref: Met.yaml
+    $ref: Meta.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:
@@ -2715,7 +2715,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: focus_Pathw
+  rel: focus_Pathway
   targetHints:
     backref:
     - focus_observation
@@ -2724,9 +2724,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - Pathw/*
+    - Pathway/*
   targetSchema:
-    $ref: Pathw.yaml
+    $ref: Pathway.yaml
   templatePointers:
     id: /focus/-/reference
   templateRequired:

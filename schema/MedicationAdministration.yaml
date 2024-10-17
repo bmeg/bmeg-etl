@@ -151,7 +151,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_CitationCitedArtifactContributorshipEntr
+  rel: supportingInformation_CitationCitedArtifactContributorshipEntry
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -160,9 +160,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - CitationCitedArtifactContributorshipEntr/*
+    - CitationCitedArtifactContributorshipEntry/*
   targetSchema:
-    $ref: CitationCitedArtifactContributorshipEntr.yaml
+    $ref: CitationCitedArtifactContributorshipEntry.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -202,7 +202,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_SampledDat
+  rel: supportingInformation_SampledData
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -211,9 +211,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - SampledDat/*
+    - SampledData/*
   targetSchema:
-    $ref: SampledDat.yaml
+    $ref: SampledData.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -236,7 +236,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_FamilyMemberHistor
+  rel: supportingInformation_FamilyMemberHistory
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -245,9 +245,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - FamilyMemberHistor/*
+    - FamilyMemberHistory/*
   targetSchema:
-    $ref: FamilyMemberHistor.yaml
+    $ref: FamilyMemberHistory.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -304,7 +304,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_ObservationTriggeredB
+  rel: supportingInformation_ObservationTriggeredBy
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -313,9 +313,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ObservationTriggeredB/*
+    - ObservationTriggeredBy/*
   targetSchema:
-    $ref: ObservationTriggeredB.yaml
+    $ref: ObservationTriggeredBy.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -474,7 +474,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_SubstanceDefinitionPropert
+  rel: supportingInformation_SubstanceDefinitionProperty
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -483,9 +483,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - SubstanceDefinitionPropert/*
+    - SubstanceDefinitionProperty/*
   targetSchema:
-    $ref: SubstanceDefinitionPropert.yaml
+    $ref: SubstanceDefinitionProperty.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -746,7 +746,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_SubstanceDefinitionSourceMateri
+  rel: supportingInformation_SubstanceDefinitionSourceMaterial
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -755,9 +755,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - SubstanceDefinitionSourceMateri/*
+    - SubstanceDefinitionSourceMaterial/*
   targetSchema:
-    $ref: SubstanceDefinitionSourceMateri.yaml
+    $ref: SubstanceDefinitionSourceMaterial.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -797,7 +797,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_ExtendedContactDetai
+  rel: supportingInformation_ExtendedContactDetail
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -806,9 +806,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ExtendedContactDetai/*
+    - ExtendedContactDetail/*
   targetSchema:
-    $ref: ExtendedContactDetai.yaml
+    $ref: ExtendedContactDetail.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -1001,7 +1001,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_ResearchStudyAssociatedPart
+  rel: supportingInformation_ResearchStudyAssociatedParty
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -1010,9 +1010,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ResearchStudyAssociatedPart/*
+    - ResearchStudyAssociatedParty/*
   targetSchema:
-    $ref: ResearchStudyAssociatedPart.yaml
+    $ref: ResearchStudyAssociatedParty.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -1239,7 +1239,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_SubstanceDefinitionNameOffici
+  rel: supportingInformation_SubstanceDefinitionNameOfficial
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -1248,15 +1248,15 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - SubstanceDefinitionNameOffici/*
+    - SubstanceDefinitionNameOfficial/*
   targetSchema:
-    $ref: SubstanceDefinitionNameOffici.yaml
+    $ref: SubstanceDefinitionNameOfficial.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_CitationSummar
+  rel: supportingInformation_CitationSummary
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -1265,15 +1265,15 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - CitationSummar/*
+    - CitationSummary/*
   targetSchema:
-    $ref: CitationSummar.yaml
+    $ref: CitationSummary.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_Mone
+  rel: supportingInformation_Money
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -1282,9 +1282,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - Mone/*
+    - Money/*
   targetSchema:
-    $ref: Mone.yaml
+    $ref: Money.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -1324,7 +1324,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_CitationCitedArtifactPublicationFor
+  rel: supportingInformation_CitationCitedArtifactPublicationForm
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -1333,9 +1333,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - CitationCitedArtifactPublicationFor/*
+    - CitationCitedArtifactPublicationForm/*
   targetSchema:
-    $ref: CitationCitedArtifactPublicationFor.yaml
+    $ref: CitationCitedArtifactPublicationForm.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -1460,7 +1460,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_GeneOntologyTer
+  rel: supportingInformation_GeneOntologyTerm
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -1469,9 +1469,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - GeneOntologyTer/*
+    - GeneOntologyTerm/*
   targetSchema:
-    $ref: GeneOntologyTer.yaml
+    $ref: GeneOntologyTerm.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -1596,7 +1596,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_ContactDetai
+  rel: supportingInformation_ContactDetail
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -1605,9 +1605,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ContactDetai/*
+    - ContactDetail/*
   targetSchema:
-    $ref: ContactDetai.yaml
+    $ref: ContactDetail.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -1630,7 +1630,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_MedicationRequestDispenseRequestInitialFi
+  rel: supportingInformation_MedicationRequestDispenseRequestInitialFill
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -1639,15 +1639,15 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - MedicationRequestDispenseRequestInitialFi/*
+    - MedicationRequestDispenseRequestInitialFill/*
   targetSchema:
-    $ref: MedicationRequestDispenseRequestInitialFi.yaml
+    $ref: MedicationRequestDispenseRequestInitialFill.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_ResearchStudyLabe
+  rel: supportingInformation_ResearchStudyLabel
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -1656,9 +1656,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ResearchStudyLabe/*
+    - ResearchStudyLabel/*
   targetSchema:
-    $ref: ResearchStudyLabe.yaml
+    $ref: ResearchStudyLabel.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -1749,7 +1749,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_CitationCitedArtifactContributorshipSummar
+  rel: supportingInformation_CitationCitedArtifactContributorshipSummary
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -1758,9 +1758,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - CitationCitedArtifactContributorshipSummar/*
+    - CitationCitedArtifactContributorshipSummary/*
   targetSchema:
-    $ref: CitationCitedArtifactContributorshipSummar.yaml
+    $ref: CitationCitedArtifactContributorshipSummary.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -1783,7 +1783,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_ImagingStud
+  rel: supportingInformation_ImagingStudy
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -1792,9 +1792,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ImagingStud/*
+    - ImagingStudy/*
   targetSchema:
-    $ref: ImagingStud.yaml
+    $ref: ImagingStudy.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -2021,7 +2021,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_SubstanceDefinitionMoiet
+  rel: supportingInformation_SubstanceDefinitionMoiety
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -2030,15 +2030,15 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - SubstanceDefinitionMoiet/*
+    - SubstanceDefinitionMoiety/*
   targetSchema:
-    $ref: SubstanceDefinitionMoiet.yaml
+    $ref: SubstanceDefinitionMoiety.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_Availabilit
+  rel: supportingInformation_Availability
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -2047,9 +2047,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - Availabilit/*
+    - Availability/*
   targetSchema:
-    $ref: Availabilit.yaml
+    $ref: Availability.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -2072,7 +2072,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_Quantit
+  rel: supportingInformation_Quantity
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -2081,9 +2081,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - Quantit/*
+    - Quantity/*
   targetSchema:
-    $ref: Quantit.yaml
+    $ref: Quantity.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -2208,7 +2208,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_VirtualServiceDetai
+  rel: supportingInformation_VirtualServiceDetail
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -2217,15 +2217,15 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - VirtualServiceDetai/*
+    - VirtualServiceDetail/*
   targetSchema:
-    $ref: VirtualServiceDetai.yaml
+    $ref: VirtualServiceDetail.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_ResearchStud
+  rel: supportingInformation_ResearchStudy
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -2234,9 +2234,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ResearchStud/*
+    - ResearchStudy/*
   targetSchema:
-    $ref: ResearchStud.yaml
+    $ref: ResearchStudy.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -2514,7 +2514,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_Met
+  rel: supportingInformation_Meta
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -2523,9 +2523,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - Met/*
+    - Meta/*
   targetSchema:
-    $ref: Met.yaml
+    $ref: Meta.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:
@@ -2582,7 +2582,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: supportingInformation_Pathw
+  rel: supportingInformation_Pathway
   targetHints:
     backref:
     - supportingInformation_medicationadministration
@@ -2591,9 +2591,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - Pathw/*
+    - Pathway/*
   targetSchema:
-    $ref: Pathw.yaml
+    $ref: Pathway.yaml
   templatePointers:
     id: /supportingInformation/-/reference
   templateRequired:

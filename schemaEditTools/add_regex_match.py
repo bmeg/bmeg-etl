@@ -5,7 +5,7 @@ import yaml
 if __name__ == '__main__':
     schema_dir = '../schema'
     schema_files = [f for f in os.listdir(schema_dir) if str(f).endswith(".yaml")]
-    schemaNames = [scf.rstrip(".yaml") for scf in schema_files]
+    schemaNames = [scf.removesuffix(".yaml") for scf in schema_files]
     for schema in schema_files:
         with open(f"{schema_dir}/{schema}", "r")as rf:
             schema_data = yaml.safe_load(rf)

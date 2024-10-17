@@ -152,7 +152,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactContributorshipEntr
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactContributorshipEntry
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -161,9 +161,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - CitationCitedArtifactContributorshipEntr/*
+    - CitationCitedArtifactContributorshipEntry/*
   targetSchema:
-    $ref: CitationCitedArtifactContributorshipEntr.yaml
+    $ref: CitationCitedArtifactContributorshipEntry.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -203,7 +203,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_SampledDat
+  rel: valueRelatedArtifact_resourceReference_SampledData
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -212,9 +212,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - SampledDat/*
+    - SampledData/*
   targetSchema:
-    $ref: SampledDat.yaml
+    $ref: SampledData.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -237,7 +237,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_FamilyMemberHistor
+  rel: valueRelatedArtifact_resourceReference_FamilyMemberHistory
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -246,9 +246,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - FamilyMemberHistor/*
+    - FamilyMemberHistory/*
   targetSchema:
-    $ref: FamilyMemberHistor.yaml
+    $ref: FamilyMemberHistory.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -305,7 +305,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_ObservationTriggeredB
+  rel: valueRelatedArtifact_resourceReference_ObservationTriggeredBy
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -314,9 +314,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ObservationTriggeredB/*
+    - ObservationTriggeredBy/*
   targetSchema:
-    $ref: ObservationTriggeredB.yaml
+    $ref: ObservationTriggeredBy.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -475,7 +475,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionPropert
+  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionProperty
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -484,9 +484,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - SubstanceDefinitionPropert/*
+    - SubstanceDefinitionProperty/*
   targetSchema:
-    $ref: SubstanceDefinitionPropert.yaml
+    $ref: SubstanceDefinitionProperty.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -747,7 +747,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionSourceMateri
+  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionSourceMaterial
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -756,9 +756,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - SubstanceDefinitionSourceMateri/*
+    - SubstanceDefinitionSourceMaterial/*
   targetSchema:
-    $ref: SubstanceDefinitionSourceMateri.yaml
+    $ref: SubstanceDefinitionSourceMaterial.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -798,7 +798,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_ExtendedContactDetai
+  rel: valueRelatedArtifact_resourceReference_ExtendedContactDetail
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -807,9 +807,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ExtendedContactDetai/*
+    - ExtendedContactDetail/*
   targetSchema:
-    $ref: ExtendedContactDetai.yaml
+    $ref: ExtendedContactDetail.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -1002,7 +1002,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_ResearchStudyAssociatedPart
+  rel: valueRelatedArtifact_resourceReference_ResearchStudyAssociatedParty
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -1011,9 +1011,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ResearchStudyAssociatedPart/*
+    - ResearchStudyAssociatedParty/*
   targetSchema:
-    $ref: ResearchStudyAssociatedPart.yaml
+    $ref: ResearchStudyAssociatedParty.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -1240,7 +1240,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionNameOffici
+  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionNameOfficial
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -1249,15 +1249,15 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - SubstanceDefinitionNameOffici/*
+    - SubstanceDefinitionNameOfficial/*
   targetSchema:
-    $ref: SubstanceDefinitionNameOffici.yaml
+    $ref: SubstanceDefinitionNameOfficial.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_CitationSummar
+  rel: valueRelatedArtifact_resourceReference_CitationSummary
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -1266,15 +1266,15 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - CitationSummar/*
+    - CitationSummary/*
   targetSchema:
-    $ref: CitationSummar.yaml
+    $ref: CitationSummary.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_Mone
+  rel: valueRelatedArtifact_resourceReference_Money
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -1283,9 +1283,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - Mone/*
+    - Money/*
   targetSchema:
-    $ref: Mone.yaml
+    $ref: Money.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -1325,7 +1325,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactPublicationFor
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactPublicationForm
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -1334,9 +1334,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - CitationCitedArtifactPublicationFor/*
+    - CitationCitedArtifactPublicationForm/*
   targetSchema:
-    $ref: CitationCitedArtifactPublicationFor.yaml
+    $ref: CitationCitedArtifactPublicationForm.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -1461,7 +1461,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_GeneOntologyTer
+  rel: valueRelatedArtifact_resourceReference_GeneOntologyTerm
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -1470,9 +1470,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - GeneOntologyTer/*
+    - GeneOntologyTerm/*
   targetSchema:
-    $ref: GeneOntologyTer.yaml
+    $ref: GeneOntologyTerm.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -1597,7 +1597,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_ContactDetai
+  rel: valueRelatedArtifact_resourceReference_ContactDetail
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -1606,9 +1606,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ContactDetai/*
+    - ContactDetail/*
   targetSchema:
-    $ref: ContactDetai.yaml
+    $ref: ContactDetail.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -1631,7 +1631,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_MedicationRequestDispenseRequestInitialFi
+  rel: valueRelatedArtifact_resourceReference_MedicationRequestDispenseRequestInitialFill
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -1640,15 +1640,15 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - MedicationRequestDispenseRequestInitialFi/*
+    - MedicationRequestDispenseRequestInitialFill/*
   targetSchema:
-    $ref: MedicationRequestDispenseRequestInitialFi.yaml
+    $ref: MedicationRequestDispenseRequestInitialFill.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_ResearchStudyLabe
+  rel: valueRelatedArtifact_resourceReference_ResearchStudyLabel
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -1657,9 +1657,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ResearchStudyLabe/*
+    - ResearchStudyLabel/*
   targetSchema:
-    $ref: ResearchStudyLabe.yaml
+    $ref: ResearchStudyLabel.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -1750,7 +1750,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactContributorshipSummar
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactContributorshipSummary
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -1759,9 +1759,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - CitationCitedArtifactContributorshipSummar/*
+    - CitationCitedArtifactContributorshipSummary/*
   targetSchema:
-    $ref: CitationCitedArtifactContributorshipSummar.yaml
+    $ref: CitationCitedArtifactContributorshipSummary.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -1784,7 +1784,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_ImagingStud
+  rel: valueRelatedArtifact_resourceReference_ImagingStudy
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -1793,9 +1793,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ImagingStud/*
+    - ImagingStudy/*
   targetSchema:
-    $ref: ImagingStud.yaml
+    $ref: ImagingStudy.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -2022,7 +2022,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionMoiet
+  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionMoiety
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -2031,15 +2031,15 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - SubstanceDefinitionMoiet/*
+    - SubstanceDefinitionMoiety/*
   targetSchema:
-    $ref: SubstanceDefinitionMoiet.yaml
+    $ref: SubstanceDefinitionMoiety.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_Availabilit
+  rel: valueRelatedArtifact_resourceReference_Availability
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -2048,9 +2048,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - Availabilit/*
+    - Availability/*
   targetSchema:
-    $ref: Availabilit.yaml
+    $ref: Availability.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -2073,7 +2073,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_Quantit
+  rel: valueRelatedArtifact_resourceReference_Quantity
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -2082,9 +2082,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - Quantit/*
+    - Quantity/*
   targetSchema:
-    $ref: Quantit.yaml
+    $ref: Quantity.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -2209,7 +2209,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_VirtualServiceDetai
+  rel: valueRelatedArtifact_resourceReference_VirtualServiceDetail
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -2218,15 +2218,15 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - VirtualServiceDetai/*
+    - VirtualServiceDetail/*
   targetSchema:
-    $ref: VirtualServiceDetai.yaml
+    $ref: VirtualServiceDetail.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_ResearchStud
+  rel: valueRelatedArtifact_resourceReference_ResearchStudy
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -2235,9 +2235,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - ResearchStud/*
+    - ResearchStudy/*
   targetSchema:
-    $ref: ResearchStud.yaml
+    $ref: ResearchStudy.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -2515,7 +2515,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_Met
+  rel: valueRelatedArtifact_resourceReference_Meta
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -2524,9 +2524,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - Met/*
+    - Meta/*
   targetSchema:
-    $ref: Met.yaml
+    $ref: Meta.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
@@ -2583,7 +2583,7 @@ links:
   templateRequired:
   - id
 - href: id
-  rel: valueRelatedArtifact_resourceReference_Pathw
+  rel: valueRelatedArtifact_resourceReference_Pathway
   targetHints:
     backref:
     - valueRelatedArtifact_resourceReference_taskinput
@@ -2592,9 +2592,9 @@ links:
     multiplicity:
     - has_one
     regex_match:
-    - Pathw/*
+    - Pathway/*
   targetSchema:
-    $ref: Pathw.yaml
+    $ref: Pathway.yaml
   templatePointers:
     id: /valueRelatedArtifact/resourceReference/reference
   templateRequired:
