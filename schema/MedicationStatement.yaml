@@ -128,6 +128,2879 @@ links:
     id: /note/-/authorReference/reference
   templateRequired:
   - id
+- href: id
+  rel: derivedFrom_MedicationAdministration
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationAdministration/*
+  targetSchema:
+    $ref: MedicationAdministration.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_DocumentReference
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReference/*
+  targetSchema:
+    $ref: DocumentReference.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationCitedArtifactContributorship
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorship/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorship.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ImagingStudySeriesPerformer
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStudySeriesPerformer/*
+  targetSchema:
+    $ref: ImagingStudySeriesPerformer.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationCitedArtifactContributorshipEntr
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorshipEntr/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorshipEntr.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_TaskPerformer
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskPerformer/*
+  targetSchema:
+    $ref: TaskPerformer.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Timing
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Timing/*
+  targetSchema:
+    $ref: Timing.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SampledDat
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SampledDat/*
+  targetSchema:
+    $ref: SampledDat.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ResearchStudyComparisonGroup
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyComparisonGroup/*
+  targetSchema:
+    $ref: ResearchStudyComparisonGroup.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_FamilyMemberHistor
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistor/*
+  targetSchema:
+    $ref: FamilyMemberHistor.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_GenePhenotypeAssociation
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GenePhenotypeAssociation/*
+  targetSchema:
+    $ref: GenePhenotypeAssociation.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_RelatedArtifact
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - RelatedArtifact/*
+  targetSchema:
+    $ref: RelatedArtifact.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Observation
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Observation/*
+  targetSchema:
+    $ref: Observation.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ObservationTriggeredB
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ObservationTriggeredB/*
+  targetSchema:
+    $ref: ObservationTriggeredB.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SubstanceDefinitionCode
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionCode/*
+  targetSchema:
+    $ref: SubstanceDefinitionCode.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationCitedArtifactClassification
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactClassification/*
+  targetSchema:
+    $ref: CitationCitedArtifactClassification.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationCitedArtifactAbstract
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactAbstract/*
+  targetSchema:
+    $ref: CitationCitedArtifactAbstract.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_DataRequirementCodeFilter
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementCodeFilter/*
+  targetSchema:
+    $ref: DataRequirementCodeFilter.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_FamilyMemberHistoryParticipant
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistoryParticipant/*
+  targetSchema:
+    $ref: FamilyMemberHistoryParticipant.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Phenotype
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Phenotype/*
+  targetSchema:
+    $ref: Phenotype.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_PatientLink
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - PatientLink/*
+  targetSchema:
+    $ref: PatientLink.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_TaskOutput
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskOutput/*
+  targetSchema:
+    $ref: TaskOutput.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Patient
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Patient/*
+  targetSchema:
+    $ref: Patient.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SubstanceDefinitionPropert
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionPropert/*
+  targetSchema:
+    $ref: SubstanceDefinitionPropert.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Annotation
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Annotation/*
+  targetSchema:
+    $ref: Annotation.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Substance
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Substance/*
+  targetSchema:
+    $ref: Substance.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_UsageContext
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - UsageContext/*
+  targetSchema:
+    $ref: UsageContext.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationCitedArtifactStatusDate
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactStatusDate/*
+  targetSchema:
+    $ref: CitationCitedArtifactStatusDate.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CodeableReference
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CodeableReference/*
+  targetSchema:
+    $ref: CodeableReference.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Allele
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Allele/*
+  targetSchema:
+    $ref: Allele.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ProteinStructure
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProteinStructure/*
+  targetSchema:
+    $ref: ProteinStructure.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_MedicationRequest
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequest/*
+  targetSchema:
+    $ref: MedicationRequest.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_MedicationRequestDispenseRequest
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequestDispenseRequest/*
+  targetSchema:
+    $ref: MedicationRequestDispenseRequest.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Period
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Period/*
+  targetSchema:
+    $ref: Period.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_EncounterParticipant
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterParticipant/*
+  targetSchema:
+    $ref: EncounterParticipant.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationCitedArtifactPart
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactPart/*
+  targetSchema:
+    $ref: CitationCitedArtifactPart.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_AvailabilityNotAvailableTime
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - AvailabilityNotAvailableTime/*
+  targetSchema:
+    $ref: AvailabilityNotAvailableTime.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SubstanceDefinitionMolecularWeight
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionMolecularWeight/*
+  targetSchema:
+    $ref: SubstanceDefinitionMolecularWeight.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ConditionParticipant
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ConditionParticipant/*
+  targetSchema:
+    $ref: ConditionParticipant.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SubstanceDefinitionSourceMateri
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionSourceMateri/*
+  targetSchema:
+    $ref: SubstanceDefinitionSourceMateri.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CopyNumberAlteration
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CopyNumberAlteration/*
+  targetSchema:
+    $ref: CopyNumberAlteration.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_FHIRPrimitiveExtension
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FHIRPrimitiveExtension/*
+  targetSchema:
+    $ref: FHIRPrimitiveExtension.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ExtendedContactDetai
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ExtendedContactDetai/*
+  targetSchema:
+    $ref: ExtendedContactDetai.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_DataRequirementValueFilter
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementValueFilter/*
+  targetSchema:
+    $ref: DataRequirementValueFilter.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Protein
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Protein/*
+  targetSchema:
+    $ref: Protein.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationCitedArtifactRelatesTo
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactRelatesTo/*
+  targetSchema:
+    $ref: CitationCitedArtifactRelatesTo.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_DataRequirementSort
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementSort/*
+  targetSchema:
+    $ref: DataRequirementSort.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ImagingStudySeries
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStudySeries/*
+  targetSchema:
+    $ref: ImagingStudySeries.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_GenomicFeature
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GenomicFeature/*
+  targetSchema:
+    $ref: GenomicFeature.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SubstanceDefinitionRelationship
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionRelationship/*
+  targetSchema:
+    $ref: SubstanceDefinitionRelationship.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationCitedArtifact
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifact/*
+  targetSchema:
+    $ref: CitationCitedArtifact.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_MedicationStatement
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationStatement/*
+  targetSchema:
+    $ref: MedicationStatement.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Gene
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Gene/*
+  targetSchema:
+    $ref: Gene.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Task
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Task/*
+  targetSchema:
+    $ref: Task.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ResearchStudyAssociatedPart
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyAssociatedPart/*
+  targetSchema:
+    $ref: ResearchStudyAssociatedPart.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Range
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Range/*
+  targetSchema:
+    $ref: Range.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_PatientContact
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - PatientContact/*
+  targetSchema:
+    $ref: PatientContact.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_DataRequirement
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirement/*
+  targetSchema:
+    $ref: DataRequirement.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ProcedureFocalDevice
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProcedureFocalDevice/*
+  targetSchema:
+    $ref: ProcedureFocalDevice.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Condition
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Condition/*
+  targetSchema:
+    $ref: Condition.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_AvailabilityAvailableTime
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - AvailabilityAvailableTime/*
+  targetSchema:
+    $ref: AvailabilityAvailableTime.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ResearchStudyRecruitment
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyRecruitment/*
+  targetSchema:
+    $ref: ResearchStudyRecruitment.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SubstanceDefinitionName
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionName/*
+  targetSchema:
+    $ref: SubstanceDefinitionName.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Citation
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Citation/*
+  targetSchema:
+    $ref: Citation.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SpecimenCollection
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenCollection/*
+  targetSchema:
+    $ref: SpecimenCollection.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Attachment
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Attachment/*
+  targetSchema:
+    $ref: Attachment.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ResearchStudyProgressStatus
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyProgressStatus/*
+  targetSchema:
+    $ref: ResearchStudyProgressStatus.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_MedicationIngredient
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationIngredient/*
+  targetSchema:
+    $ref: MedicationIngredient.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SubstanceDefinitionNameOffici
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionNameOffici/*
+  targetSchema:
+    $ref: SubstanceDefinitionNameOffici.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationSummar
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationSummar/*
+  targetSchema:
+    $ref: CitationSummar.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Mone
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Mone/*
+  targetSchema:
+    $ref: Mone.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_MedicationRequestSubstitution
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequestSubstitution/*
+  targetSchema:
+    $ref: MedicationRequestSubstitution.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_FamilyMemberHistoryProcedure
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistoryProcedure/*
+  targetSchema:
+    $ref: FamilyMemberHistoryProcedure.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationCitedArtifactPublicationFor
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactPublicationFor/*
+  targetSchema:
+    $ref: CitationCitedArtifactPublicationFor.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Encounter
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Encounter/*
+  targetSchema:
+    $ref: Encounter.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_TaskRestriction
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskRestriction/*
+  targetSchema:
+    $ref: TaskRestriction.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_RatioRange
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - RatioRange/*
+  targetSchema:
+    $ref: RatioRange.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SomaticVariant
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SomaticVariant/*
+  targetSchema:
+    $ref: SomaticVariant.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_TranscriptExpression
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TranscriptExpression/*
+  targetSchema:
+    $ref: TranscriptExpression.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_MedicationStatementAdherence
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationStatementAdherence/*
+  targetSchema:
+    $ref: MedicationStatementAdherence.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_MethylationProbe
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MethylationProbe/*
+  targetSchema:
+    $ref: MethylationProbe.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_GeneOntologyTer
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GeneOntologyTer/*
+  targetSchema:
+    $ref: GeneOntologyTer.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_FamilyMemberHistoryCondition
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistoryCondition/*
+  targetSchema:
+    $ref: FamilyMemberHistoryCondition.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ImagingStudySeriesInstance
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStudySeriesInstance/*
+  targetSchema:
+    $ref: ImagingStudySeriesInstance.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationClassification
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationClassification/*
+  targetSchema:
+    $ref: CitationClassification.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Resource
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Resource/*
+  targetSchema:
+    $ref: Resource.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_GeneExpression
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GeneExpression/*
+  targetSchema:
+    $ref: GeneExpression.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_DosageDoseAndRate
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DosageDoseAndRate/*
+  targetSchema:
+    $ref: DosageDoseAndRate.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ObservationReferenceRange
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ObservationReferenceRange/*
+  targetSchema:
+    $ref: ObservationReferenceRange.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ContactDetai
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ContactDetai/*
+  targetSchema:
+    $ref: ContactDetai.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Procedure
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Procedure/*
+  targetSchema:
+    $ref: Procedure.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_MedicationRequestDispenseRequestInitialFi
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequestDispenseRequestInitialFi/*
+  targetSchema:
+    $ref: MedicationRequestDispenseRequestInitialFi.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ResearchStudyLabe
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyLabe/*
+  targetSchema:
+    $ref: ResearchStudyLabe.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_DocumentReferenceContentProfile
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceContentProfile/*
+  targetSchema:
+    $ref: DocumentReferenceContentProfile.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ResearchStudyObjective
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyObjective/*
+  targetSchema:
+    $ref: ResearchStudyObjective.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ProcedurePerformer
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProcedurePerformer/*
+  targetSchema:
+    $ref: ProcedurePerformer.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ResearchSubjectProgress
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchSubjectProgress/*
+  targetSchema:
+    $ref: ResearchSubjectProgress.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Distance
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Distance/*
+  targetSchema:
+    $ref: Distance.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationCitedArtifactContributorshipSummar
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorshipSummar/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorshipSummar.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationStatusDate
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationStatusDate/*
+  targetSchema:
+    $ref: CitationStatusDate.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ImagingStud
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStud/*
+  targetSchema:
+    $ref: ImagingStud.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Methylation
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Methylation/*
+  targetSchema:
+    $ref: Methylation.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Interaction
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Interaction/*
+  targetSchema:
+    $ref: Interaction.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SomaticCallset
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SomaticCallset/*
+  targetSchema:
+    $ref: SomaticCallset.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ObservationComponent
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ObservationComponent/*
+  targetSchema:
+    $ref: ObservationComponent.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Address
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Address/*
+  targetSchema:
+    $ref: Address.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SubstanceDefinitionStructureRepresentation
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionStructureRepresentation/*
+  targetSchema:
+    $ref: SubstanceDefinitionStructureRepresentation.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Expression
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Expression/*
+  targetSchema:
+    $ref: Expression.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SubstanceIngredient
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceIngredient/*
+  targetSchema:
+    $ref: SubstanceIngredient.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_EncounterLocation
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterLocation/*
+  targetSchema:
+    $ref: EncounterLocation.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_EncounterDiagnosis
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterDiagnosis/*
+  targetSchema:
+    $ref: EncounterDiagnosis.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Reference
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Reference/*
+  targetSchema:
+    $ref: Reference.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationCitedArtifactVersion
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactVersion/*
+  targetSchema:
+    $ref: CitationCitedArtifactVersion.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Transcript
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Transcript/*
+  targetSchema:
+    $ref: Transcript.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SubstanceDefinitionMoiet
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionMoiet/*
+  targetSchema:
+    $ref: SubstanceDefinitionMoiet.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Availabilit
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Availabilit/*
+  targetSchema:
+    $ref: Availabilit.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Count
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Count/*
+  targetSchema:
+    $ref: Count.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Quantit
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Quantit/*
+  targetSchema:
+    $ref: Quantit.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_DocumentReferenceAttester
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceAttester/*
+  targetSchema:
+    $ref: DocumentReferenceAttester.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_GeneSet
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GeneSet/*
+  targetSchema:
+    $ref: GeneSet.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_DocumentReferenceRelatesTo
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceRelatesTo/*
+  targetSchema:
+    $ref: DocumentReferenceRelatesTo.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Narrative
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Narrative/*
+  targetSchema:
+    $ref: Narrative.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SpecimenFeature
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenFeature/*
+  targetSchema:
+    $ref: SpecimenFeature.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_DocumentReferenceContent
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceContent/*
+  targetSchema:
+    $ref: DocumentReferenceContent.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_EncounterAdmission
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterAdmission/*
+  targetSchema:
+    $ref: EncounterAdmission.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_VirtualServiceDetai
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - VirtualServiceDetai/*
+  targetSchema:
+    $ref: VirtualServiceDetai.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ResearchStud
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStud/*
+  targetSchema:
+    $ref: ResearchStud.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_DataRequirementDateFilter
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementDateFilter/*
+  targetSchema:
+    $ref: DataRequirementDateFilter.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_EncounterReason
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterReason/*
+  targetSchema:
+    $ref: EncounterReason.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Signature
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Signature/*
+  targetSchema:
+    $ref: Signature.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Dosage
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Dosage/*
+  targetSchema:
+    $ref: Dosage.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_PatientCommunication
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - PatientCommunication/*
+  targetSchema:
+    $ref: PatientCommunication.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Specimen
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Specimen/*
+  targetSchema:
+    $ref: Specimen.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationCitedArtifactTitle
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactTitle/*
+  targetSchema:
+    $ref: CitationCitedArtifactTitle.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_MedicationAdministrationDosage
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationAdministrationDosage/*
+  targetSchema:
+    $ref: MedicationAdministrationDosage.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SpecimenContainer
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenContainer/*
+  targetSchema:
+    $ref: SpecimenContainer.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Extension
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Extension/*
+  targetSchema:
+    $ref: Extension.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationCitedArtifactPublicationFormPublishedIn
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactPublicationFormPublishedIn/*
+  targetSchema:
+    $ref: CitationCitedArtifactPublicationFormPublishedIn.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationCitedArtifactContributorshipEntryContributionInstance
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorshipEntryContributionInstance/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorshipEntryContributionInstance.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_DrugResponse
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DrugResponse/*
+  targetSchema:
+    $ref: DrugResponse.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_HumanName
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - HumanName/*
+  targetSchema:
+    $ref: HumanName.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SubstanceDefinitionCharacterization
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionCharacterization/*
+  targetSchema:
+    $ref: SubstanceDefinitionCharacterization.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_TriggerDefinition
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TriggerDefinition/*
+  targetSchema:
+    $ref: TriggerDefinition.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Met
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Met/*
+  targetSchema:
+    $ref: Met.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ResearchStudyOutcomeMeasure
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyOutcomeMeasure/*
+  targetSchema:
+    $ref: ResearchStudyOutcomeMeasure.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ProteinCompoundAssociation
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProteinCompoundAssociation/*
+  targetSchema:
+    $ref: ProteinCompoundAssociation.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_AlleleEffect
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - AlleleEffect/*
+  targetSchema:
+    $ref: AlleleEffect.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Pathw
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Pathw/*
+  targetSchema:
+    $ref: Pathw.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Identifier
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Identifier/*
+  targetSchema:
+    $ref: Identifier.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_MedicationAdministrationPerformer
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationAdministrationPerformer/*
+  targetSchema:
+    $ref: MedicationAdministrationPerformer.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_TaskInput
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskInput/*
+  targetSchema:
+    $ref: TaskInput.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Medication
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Medication/*
+  targetSchema:
+    $ref: Medication.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_MedicationBatch
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationBatch/*
+  targetSchema:
+    $ref: MedicationBatch.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ResearchSubject
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchSubject/*
+  targetSchema:
+    $ref: ResearchSubject.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Publication
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Publication/*
+  targetSchema:
+    $ref: Publication.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CodeableConcept
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CodeableConcept/*
+  targetSchema:
+    $ref: CodeableConcept.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ContactPoint
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ContactPoint/*
+  targetSchema:
+    $ref: ContactPoint.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Exon
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Exon/*
+  targetSchema:
+    $ref: Exon.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Age
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Age/*
+  targetSchema:
+    $ref: Age.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SubstanceDefinition
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinition/*
+  targetSchema:
+    $ref: SubstanceDefinition.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ConditionStage
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ConditionStage/*
+  targetSchema:
+    $ref: ConditionStage.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Duration
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Duration/*
+  targetSchema:
+    $ref: Duration.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SpecimenProcessing
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenProcessing/*
+  targetSchema:
+    $ref: SpecimenProcessing.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_SubstanceDefinitionStructure
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionStructure/*
+  targetSchema:
+    $ref: SubstanceDefinitionStructure.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Ratio
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Ratio/*
+  targetSchema:
+    $ref: Ratio.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_ParameterDefinition
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ParameterDefinition/*
+  targetSchema:
+    $ref: ParameterDefinition.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_CitationCitedArtifactWebLocation
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactWebLocation/*
+  targetSchema:
+    $ref: CitationCitedArtifactWebLocation.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_Coding
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Coding/*
+  targetSchema:
+    $ref: Coding.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: derivedFrom_TimingRepeat
+  targetHints:
+    backref:
+    - derivedFrom_medicationstatement
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TimingRepeat/*
+  targetSchema:
+    $ref: TimingRepeat.yaml
+  templatePointers:
+    id: /derivedFrom/-/reference
+  templateRequired:
+  - id
 properties:
   _dateAsserted:
     $ref: FHIRPrimitiveExtension.yaml

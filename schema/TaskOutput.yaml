@@ -83,6 +83,2879 @@ links:
     id: /valueUsageContext/valueReference/reference
   templateRequired:
   - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_MedicationAdministration
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationAdministration/*
+  targetSchema:
+    $ref: MedicationAdministration.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_DocumentReference
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReference/*
+  targetSchema:
+    $ref: DocumentReference.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactContributorship
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorship/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorship.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ImagingStudySeriesPerformer
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStudySeriesPerformer/*
+  targetSchema:
+    $ref: ImagingStudySeriesPerformer.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactContributorshipEntr
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorshipEntr/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorshipEntr.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_TaskPerformer
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskPerformer/*
+  targetSchema:
+    $ref: TaskPerformer.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Timing
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Timing/*
+  targetSchema:
+    $ref: Timing.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SampledDat
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SampledDat/*
+  targetSchema:
+    $ref: SampledDat.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ResearchStudyComparisonGroup
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyComparisonGroup/*
+  targetSchema:
+    $ref: ResearchStudyComparisonGroup.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_FamilyMemberHistor
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistor/*
+  targetSchema:
+    $ref: FamilyMemberHistor.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_GenePhenotypeAssociation
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GenePhenotypeAssociation/*
+  targetSchema:
+    $ref: GenePhenotypeAssociation.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_RelatedArtifact
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - RelatedArtifact/*
+  targetSchema:
+    $ref: RelatedArtifact.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Observation
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Observation/*
+  targetSchema:
+    $ref: Observation.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ObservationTriggeredB
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ObservationTriggeredB/*
+  targetSchema:
+    $ref: ObservationTriggeredB.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionCode
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionCode/*
+  targetSchema:
+    $ref: SubstanceDefinitionCode.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactClassification
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactClassification/*
+  targetSchema:
+    $ref: CitationCitedArtifactClassification.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactAbstract
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactAbstract/*
+  targetSchema:
+    $ref: CitationCitedArtifactAbstract.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_DataRequirementCodeFilter
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementCodeFilter/*
+  targetSchema:
+    $ref: DataRequirementCodeFilter.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_FamilyMemberHistoryParticipant
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistoryParticipant/*
+  targetSchema:
+    $ref: FamilyMemberHistoryParticipant.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Phenotype
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Phenotype/*
+  targetSchema:
+    $ref: Phenotype.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_PatientLink
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - PatientLink/*
+  targetSchema:
+    $ref: PatientLink.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_TaskOutput
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskOutput/*
+  targetSchema:
+    $ref: TaskOutput.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Patient
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Patient/*
+  targetSchema:
+    $ref: Patient.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionPropert
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionPropert/*
+  targetSchema:
+    $ref: SubstanceDefinitionPropert.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Annotation
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Annotation/*
+  targetSchema:
+    $ref: Annotation.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Substance
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Substance/*
+  targetSchema:
+    $ref: Substance.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_UsageContext
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - UsageContext/*
+  targetSchema:
+    $ref: UsageContext.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactStatusDate
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactStatusDate/*
+  targetSchema:
+    $ref: CitationCitedArtifactStatusDate.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CodeableReference
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CodeableReference/*
+  targetSchema:
+    $ref: CodeableReference.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Allele
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Allele/*
+  targetSchema:
+    $ref: Allele.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ProteinStructure
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProteinStructure/*
+  targetSchema:
+    $ref: ProteinStructure.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_MedicationRequest
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequest/*
+  targetSchema:
+    $ref: MedicationRequest.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_MedicationRequestDispenseRequest
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequestDispenseRequest/*
+  targetSchema:
+    $ref: MedicationRequestDispenseRequest.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Period
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Period/*
+  targetSchema:
+    $ref: Period.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_EncounterParticipant
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterParticipant/*
+  targetSchema:
+    $ref: EncounterParticipant.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactPart
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactPart/*
+  targetSchema:
+    $ref: CitationCitedArtifactPart.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_AvailabilityNotAvailableTime
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - AvailabilityNotAvailableTime/*
+  targetSchema:
+    $ref: AvailabilityNotAvailableTime.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionMolecularWeight
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionMolecularWeight/*
+  targetSchema:
+    $ref: SubstanceDefinitionMolecularWeight.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ConditionParticipant
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ConditionParticipant/*
+  targetSchema:
+    $ref: ConditionParticipant.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionSourceMateri
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionSourceMateri/*
+  targetSchema:
+    $ref: SubstanceDefinitionSourceMateri.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CopyNumberAlteration
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CopyNumberAlteration/*
+  targetSchema:
+    $ref: CopyNumberAlteration.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_FHIRPrimitiveExtension
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FHIRPrimitiveExtension/*
+  targetSchema:
+    $ref: FHIRPrimitiveExtension.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ExtendedContactDetai
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ExtendedContactDetai/*
+  targetSchema:
+    $ref: ExtendedContactDetai.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_DataRequirementValueFilter
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementValueFilter/*
+  targetSchema:
+    $ref: DataRequirementValueFilter.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Protein
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Protein/*
+  targetSchema:
+    $ref: Protein.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactRelatesTo
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactRelatesTo/*
+  targetSchema:
+    $ref: CitationCitedArtifactRelatesTo.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_DataRequirementSort
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementSort/*
+  targetSchema:
+    $ref: DataRequirementSort.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ImagingStudySeries
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStudySeries/*
+  targetSchema:
+    $ref: ImagingStudySeries.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_GenomicFeature
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GenomicFeature/*
+  targetSchema:
+    $ref: GenomicFeature.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionRelationship
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionRelationship/*
+  targetSchema:
+    $ref: SubstanceDefinitionRelationship.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifact
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifact/*
+  targetSchema:
+    $ref: CitationCitedArtifact.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_MedicationStatement
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationStatement/*
+  targetSchema:
+    $ref: MedicationStatement.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Gene
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Gene/*
+  targetSchema:
+    $ref: Gene.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Task
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Task/*
+  targetSchema:
+    $ref: Task.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ResearchStudyAssociatedPart
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyAssociatedPart/*
+  targetSchema:
+    $ref: ResearchStudyAssociatedPart.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Range
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Range/*
+  targetSchema:
+    $ref: Range.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_PatientContact
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - PatientContact/*
+  targetSchema:
+    $ref: PatientContact.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_DataRequirement
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirement/*
+  targetSchema:
+    $ref: DataRequirement.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ProcedureFocalDevice
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProcedureFocalDevice/*
+  targetSchema:
+    $ref: ProcedureFocalDevice.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Condition
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Condition/*
+  targetSchema:
+    $ref: Condition.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_AvailabilityAvailableTime
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - AvailabilityAvailableTime/*
+  targetSchema:
+    $ref: AvailabilityAvailableTime.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ResearchStudyRecruitment
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyRecruitment/*
+  targetSchema:
+    $ref: ResearchStudyRecruitment.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionName
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionName/*
+  targetSchema:
+    $ref: SubstanceDefinitionName.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Citation
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Citation/*
+  targetSchema:
+    $ref: Citation.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SpecimenCollection
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenCollection/*
+  targetSchema:
+    $ref: SpecimenCollection.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Attachment
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Attachment/*
+  targetSchema:
+    $ref: Attachment.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ResearchStudyProgressStatus
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyProgressStatus/*
+  targetSchema:
+    $ref: ResearchStudyProgressStatus.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_MedicationIngredient
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationIngredient/*
+  targetSchema:
+    $ref: MedicationIngredient.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionNameOffici
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionNameOffici/*
+  targetSchema:
+    $ref: SubstanceDefinitionNameOffici.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationSummar
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationSummar/*
+  targetSchema:
+    $ref: CitationSummar.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Mone
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Mone/*
+  targetSchema:
+    $ref: Mone.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_MedicationRequestSubstitution
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequestSubstitution/*
+  targetSchema:
+    $ref: MedicationRequestSubstitution.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_FamilyMemberHistoryProcedure
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistoryProcedure/*
+  targetSchema:
+    $ref: FamilyMemberHistoryProcedure.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactPublicationFor
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactPublicationFor/*
+  targetSchema:
+    $ref: CitationCitedArtifactPublicationFor.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Encounter
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Encounter/*
+  targetSchema:
+    $ref: Encounter.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_TaskRestriction
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskRestriction/*
+  targetSchema:
+    $ref: TaskRestriction.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_RatioRange
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - RatioRange/*
+  targetSchema:
+    $ref: RatioRange.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SomaticVariant
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SomaticVariant/*
+  targetSchema:
+    $ref: SomaticVariant.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_TranscriptExpression
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TranscriptExpression/*
+  targetSchema:
+    $ref: TranscriptExpression.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_MedicationStatementAdherence
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationStatementAdherence/*
+  targetSchema:
+    $ref: MedicationStatementAdherence.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_MethylationProbe
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MethylationProbe/*
+  targetSchema:
+    $ref: MethylationProbe.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_GeneOntologyTer
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GeneOntologyTer/*
+  targetSchema:
+    $ref: GeneOntologyTer.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_FamilyMemberHistoryCondition
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistoryCondition/*
+  targetSchema:
+    $ref: FamilyMemberHistoryCondition.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ImagingStudySeriesInstance
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStudySeriesInstance/*
+  targetSchema:
+    $ref: ImagingStudySeriesInstance.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationClassification
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationClassification/*
+  targetSchema:
+    $ref: CitationClassification.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Resource
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Resource/*
+  targetSchema:
+    $ref: Resource.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_GeneExpression
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GeneExpression/*
+  targetSchema:
+    $ref: GeneExpression.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_DosageDoseAndRate
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DosageDoseAndRate/*
+  targetSchema:
+    $ref: DosageDoseAndRate.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ObservationReferenceRange
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ObservationReferenceRange/*
+  targetSchema:
+    $ref: ObservationReferenceRange.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ContactDetai
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ContactDetai/*
+  targetSchema:
+    $ref: ContactDetai.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Procedure
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Procedure/*
+  targetSchema:
+    $ref: Procedure.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_MedicationRequestDispenseRequestInitialFi
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequestDispenseRequestInitialFi/*
+  targetSchema:
+    $ref: MedicationRequestDispenseRequestInitialFi.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ResearchStudyLabe
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyLabe/*
+  targetSchema:
+    $ref: ResearchStudyLabe.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_DocumentReferenceContentProfile
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceContentProfile/*
+  targetSchema:
+    $ref: DocumentReferenceContentProfile.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ResearchStudyObjective
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyObjective/*
+  targetSchema:
+    $ref: ResearchStudyObjective.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ProcedurePerformer
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProcedurePerformer/*
+  targetSchema:
+    $ref: ProcedurePerformer.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ResearchSubjectProgress
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchSubjectProgress/*
+  targetSchema:
+    $ref: ResearchSubjectProgress.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Distance
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Distance/*
+  targetSchema:
+    $ref: Distance.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactContributorshipSummar
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorshipSummar/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorshipSummar.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationStatusDate
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationStatusDate/*
+  targetSchema:
+    $ref: CitationStatusDate.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ImagingStud
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStud/*
+  targetSchema:
+    $ref: ImagingStud.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Methylation
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Methylation/*
+  targetSchema:
+    $ref: Methylation.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Interaction
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Interaction/*
+  targetSchema:
+    $ref: Interaction.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SomaticCallset
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SomaticCallset/*
+  targetSchema:
+    $ref: SomaticCallset.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ObservationComponent
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ObservationComponent/*
+  targetSchema:
+    $ref: ObservationComponent.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Address
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Address/*
+  targetSchema:
+    $ref: Address.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionStructureRepresentation
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionStructureRepresentation/*
+  targetSchema:
+    $ref: SubstanceDefinitionStructureRepresentation.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Expression
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Expression/*
+  targetSchema:
+    $ref: Expression.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SubstanceIngredient
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceIngredient/*
+  targetSchema:
+    $ref: SubstanceIngredient.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_EncounterLocation
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterLocation/*
+  targetSchema:
+    $ref: EncounterLocation.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_EncounterDiagnosis
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterDiagnosis/*
+  targetSchema:
+    $ref: EncounterDiagnosis.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Reference
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Reference/*
+  targetSchema:
+    $ref: Reference.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactVersion
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactVersion/*
+  targetSchema:
+    $ref: CitationCitedArtifactVersion.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Transcript
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Transcript/*
+  targetSchema:
+    $ref: Transcript.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionMoiet
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionMoiet/*
+  targetSchema:
+    $ref: SubstanceDefinitionMoiet.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Availabilit
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Availabilit/*
+  targetSchema:
+    $ref: Availabilit.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Count
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Count/*
+  targetSchema:
+    $ref: Count.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Quantit
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Quantit/*
+  targetSchema:
+    $ref: Quantit.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_DocumentReferenceAttester
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceAttester/*
+  targetSchema:
+    $ref: DocumentReferenceAttester.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_GeneSet
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GeneSet/*
+  targetSchema:
+    $ref: GeneSet.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_DocumentReferenceRelatesTo
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceRelatesTo/*
+  targetSchema:
+    $ref: DocumentReferenceRelatesTo.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Narrative
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Narrative/*
+  targetSchema:
+    $ref: Narrative.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SpecimenFeature
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenFeature/*
+  targetSchema:
+    $ref: SpecimenFeature.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_DocumentReferenceContent
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceContent/*
+  targetSchema:
+    $ref: DocumentReferenceContent.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_EncounterAdmission
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterAdmission/*
+  targetSchema:
+    $ref: EncounterAdmission.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_VirtualServiceDetai
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - VirtualServiceDetai/*
+  targetSchema:
+    $ref: VirtualServiceDetai.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ResearchStud
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStud/*
+  targetSchema:
+    $ref: ResearchStud.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_DataRequirementDateFilter
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementDateFilter/*
+  targetSchema:
+    $ref: DataRequirementDateFilter.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_EncounterReason
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterReason/*
+  targetSchema:
+    $ref: EncounterReason.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Signature
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Signature/*
+  targetSchema:
+    $ref: Signature.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Dosage
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Dosage/*
+  targetSchema:
+    $ref: Dosage.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_PatientCommunication
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - PatientCommunication/*
+  targetSchema:
+    $ref: PatientCommunication.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Specimen
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Specimen/*
+  targetSchema:
+    $ref: Specimen.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactTitle
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactTitle/*
+  targetSchema:
+    $ref: CitationCitedArtifactTitle.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_MedicationAdministrationDosage
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationAdministrationDosage/*
+  targetSchema:
+    $ref: MedicationAdministrationDosage.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SpecimenContainer
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenContainer/*
+  targetSchema:
+    $ref: SpecimenContainer.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Extension
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Extension/*
+  targetSchema:
+    $ref: Extension.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactPublicationFormPublishedIn
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactPublicationFormPublishedIn/*
+  targetSchema:
+    $ref: CitationCitedArtifactPublicationFormPublishedIn.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactContributorshipEntryContributionInstance
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorshipEntryContributionInstance/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorshipEntryContributionInstance.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_DrugResponse
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DrugResponse/*
+  targetSchema:
+    $ref: DrugResponse.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_HumanName
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - HumanName/*
+  targetSchema:
+    $ref: HumanName.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionCharacterization
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionCharacterization/*
+  targetSchema:
+    $ref: SubstanceDefinitionCharacterization.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_TriggerDefinition
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TriggerDefinition/*
+  targetSchema:
+    $ref: TriggerDefinition.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Met
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Met/*
+  targetSchema:
+    $ref: Met.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ResearchStudyOutcomeMeasure
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyOutcomeMeasure/*
+  targetSchema:
+    $ref: ResearchStudyOutcomeMeasure.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ProteinCompoundAssociation
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProteinCompoundAssociation/*
+  targetSchema:
+    $ref: ProteinCompoundAssociation.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_AlleleEffect
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - AlleleEffect/*
+  targetSchema:
+    $ref: AlleleEffect.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Pathw
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Pathw/*
+  targetSchema:
+    $ref: Pathw.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Identifier
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Identifier/*
+  targetSchema:
+    $ref: Identifier.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_MedicationAdministrationPerformer
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationAdministrationPerformer/*
+  targetSchema:
+    $ref: MedicationAdministrationPerformer.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_TaskInput
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskInput/*
+  targetSchema:
+    $ref: TaskInput.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Medication
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Medication/*
+  targetSchema:
+    $ref: Medication.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_MedicationBatch
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationBatch/*
+  targetSchema:
+    $ref: MedicationBatch.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ResearchSubject
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchSubject/*
+  targetSchema:
+    $ref: ResearchSubject.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Publication
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Publication/*
+  targetSchema:
+    $ref: Publication.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CodeableConcept
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CodeableConcept/*
+  targetSchema:
+    $ref: CodeableConcept.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ContactPoint
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ContactPoint/*
+  targetSchema:
+    $ref: ContactPoint.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Exon
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Exon/*
+  targetSchema:
+    $ref: Exon.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Age
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Age/*
+  targetSchema:
+    $ref: Age.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SubstanceDefinition
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinition/*
+  targetSchema:
+    $ref: SubstanceDefinition.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ConditionStage
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ConditionStage/*
+  targetSchema:
+    $ref: ConditionStage.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Duration
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Duration/*
+  targetSchema:
+    $ref: Duration.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SpecimenProcessing
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenProcessing/*
+  targetSchema:
+    $ref: SpecimenProcessing.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_SubstanceDefinitionStructure
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionStructure/*
+  targetSchema:
+    $ref: SubstanceDefinitionStructure.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Ratio
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Ratio/*
+  targetSchema:
+    $ref: Ratio.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_ParameterDefinition
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ParameterDefinition/*
+  targetSchema:
+    $ref: ParameterDefinition.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_CitationCitedArtifactWebLocation
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactWebLocation/*
+  targetSchema:
+    $ref: CitationCitedArtifactWebLocation.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_Coding
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Coding/*
+  targetSchema:
+    $ref: Coding.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
+- href: id
+  rel: valueRelatedArtifact_resourceReference_TimingRepeat
+  targetHints:
+    backref:
+    - valueRelatedArtifact_resourceReference_taskoutput
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TimingRepeat/*
+  targetSchema:
+    $ref: TimingRepeat.yaml
+  templatePointers:
+    id: /valueRelatedArtifact/resourceReference/reference
+  templateRequired:
+  - id
 properties:
   _valueBase64Binary:
     $ref: FHIRPrimitiveExtension.yaml

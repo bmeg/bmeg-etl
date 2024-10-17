@@ -185,6 +185,8625 @@ links:
     id: /documents/-/id
   templateRequired:
   - id
+- href: id
+  rel: basedOn_MedicationAdministration
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationAdministration/*
+  targetSchema:
+    $ref: MedicationAdministration.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_DocumentReference
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReference/*
+  targetSchema:
+    $ref: DocumentReference.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationCitedArtifactContributorship
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorship/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorship.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ImagingStudySeriesPerformer
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStudySeriesPerformer/*
+  targetSchema:
+    $ref: ImagingStudySeriesPerformer.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationCitedArtifactContributorshipEntr
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorshipEntr/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorshipEntr.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_TaskPerformer
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskPerformer/*
+  targetSchema:
+    $ref: TaskPerformer.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Timing
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Timing/*
+  targetSchema:
+    $ref: Timing.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SampledDat
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SampledDat/*
+  targetSchema:
+    $ref: SampledDat.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ResearchStudyComparisonGroup
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyComparisonGroup/*
+  targetSchema:
+    $ref: ResearchStudyComparisonGroup.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_FamilyMemberHistor
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistor/*
+  targetSchema:
+    $ref: FamilyMemberHistor.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_GenePhenotypeAssociation
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GenePhenotypeAssociation/*
+  targetSchema:
+    $ref: GenePhenotypeAssociation.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_RelatedArtifact
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - RelatedArtifact/*
+  targetSchema:
+    $ref: RelatedArtifact.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Observation
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Observation/*
+  targetSchema:
+    $ref: Observation.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ObservationTriggeredB
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ObservationTriggeredB/*
+  targetSchema:
+    $ref: ObservationTriggeredB.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SubstanceDefinitionCode
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionCode/*
+  targetSchema:
+    $ref: SubstanceDefinitionCode.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationCitedArtifactClassification
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactClassification/*
+  targetSchema:
+    $ref: CitationCitedArtifactClassification.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationCitedArtifactAbstract
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactAbstract/*
+  targetSchema:
+    $ref: CitationCitedArtifactAbstract.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_DataRequirementCodeFilter
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementCodeFilter/*
+  targetSchema:
+    $ref: DataRequirementCodeFilter.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_FamilyMemberHistoryParticipant
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistoryParticipant/*
+  targetSchema:
+    $ref: FamilyMemberHistoryParticipant.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Phenotype
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Phenotype/*
+  targetSchema:
+    $ref: Phenotype.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_PatientLink
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - PatientLink/*
+  targetSchema:
+    $ref: PatientLink.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_TaskOutput
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskOutput/*
+  targetSchema:
+    $ref: TaskOutput.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Patient
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Patient/*
+  targetSchema:
+    $ref: Patient.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SubstanceDefinitionPropert
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionPropert/*
+  targetSchema:
+    $ref: SubstanceDefinitionPropert.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Annotation
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Annotation/*
+  targetSchema:
+    $ref: Annotation.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Substance
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Substance/*
+  targetSchema:
+    $ref: Substance.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_UsageContext
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - UsageContext/*
+  targetSchema:
+    $ref: UsageContext.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationCitedArtifactStatusDate
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactStatusDate/*
+  targetSchema:
+    $ref: CitationCitedArtifactStatusDate.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CodeableReference
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CodeableReference/*
+  targetSchema:
+    $ref: CodeableReference.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Allele
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Allele/*
+  targetSchema:
+    $ref: Allele.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ProteinStructure
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProteinStructure/*
+  targetSchema:
+    $ref: ProteinStructure.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_MedicationRequest
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequest/*
+  targetSchema:
+    $ref: MedicationRequest.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_MedicationRequestDispenseRequest
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequestDispenseRequest/*
+  targetSchema:
+    $ref: MedicationRequestDispenseRequest.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Period
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Period/*
+  targetSchema:
+    $ref: Period.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_EncounterParticipant
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterParticipant/*
+  targetSchema:
+    $ref: EncounterParticipant.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationCitedArtifactPart
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactPart/*
+  targetSchema:
+    $ref: CitationCitedArtifactPart.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_AvailabilityNotAvailableTime
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - AvailabilityNotAvailableTime/*
+  targetSchema:
+    $ref: AvailabilityNotAvailableTime.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SubstanceDefinitionMolecularWeight
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionMolecularWeight/*
+  targetSchema:
+    $ref: SubstanceDefinitionMolecularWeight.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ConditionParticipant
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ConditionParticipant/*
+  targetSchema:
+    $ref: ConditionParticipant.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SubstanceDefinitionSourceMateri
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionSourceMateri/*
+  targetSchema:
+    $ref: SubstanceDefinitionSourceMateri.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CopyNumberAlteration
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CopyNumberAlteration/*
+  targetSchema:
+    $ref: CopyNumberAlteration.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_FHIRPrimitiveExtension
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FHIRPrimitiveExtension/*
+  targetSchema:
+    $ref: FHIRPrimitiveExtension.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ExtendedContactDetai
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ExtendedContactDetai/*
+  targetSchema:
+    $ref: ExtendedContactDetai.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_DataRequirementValueFilter
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementValueFilter/*
+  targetSchema:
+    $ref: DataRequirementValueFilter.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Protein
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Protein/*
+  targetSchema:
+    $ref: Protein.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationCitedArtifactRelatesTo
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactRelatesTo/*
+  targetSchema:
+    $ref: CitationCitedArtifactRelatesTo.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_DataRequirementSort
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementSort/*
+  targetSchema:
+    $ref: DataRequirementSort.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ImagingStudySeries
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStudySeries/*
+  targetSchema:
+    $ref: ImagingStudySeries.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_GenomicFeature
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GenomicFeature/*
+  targetSchema:
+    $ref: GenomicFeature.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SubstanceDefinitionRelationship
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionRelationship/*
+  targetSchema:
+    $ref: SubstanceDefinitionRelationship.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationCitedArtifact
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifact/*
+  targetSchema:
+    $ref: CitationCitedArtifact.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_MedicationStatement
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationStatement/*
+  targetSchema:
+    $ref: MedicationStatement.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Gene
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Gene/*
+  targetSchema:
+    $ref: Gene.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Task
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Task/*
+  targetSchema:
+    $ref: Task.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ResearchStudyAssociatedPart
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyAssociatedPart/*
+  targetSchema:
+    $ref: ResearchStudyAssociatedPart.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Range
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Range/*
+  targetSchema:
+    $ref: Range.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_PatientContact
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - PatientContact/*
+  targetSchema:
+    $ref: PatientContact.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_DataRequirement
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirement/*
+  targetSchema:
+    $ref: DataRequirement.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ProcedureFocalDevice
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProcedureFocalDevice/*
+  targetSchema:
+    $ref: ProcedureFocalDevice.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Condition
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Condition/*
+  targetSchema:
+    $ref: Condition.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_AvailabilityAvailableTime
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - AvailabilityAvailableTime/*
+  targetSchema:
+    $ref: AvailabilityAvailableTime.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ResearchStudyRecruitment
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyRecruitment/*
+  targetSchema:
+    $ref: ResearchStudyRecruitment.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SubstanceDefinitionName
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionName/*
+  targetSchema:
+    $ref: SubstanceDefinitionName.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Citation
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Citation/*
+  targetSchema:
+    $ref: Citation.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SpecimenCollection
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenCollection/*
+  targetSchema:
+    $ref: SpecimenCollection.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Attachment
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Attachment/*
+  targetSchema:
+    $ref: Attachment.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ResearchStudyProgressStatus
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyProgressStatus/*
+  targetSchema:
+    $ref: ResearchStudyProgressStatus.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_MedicationIngredient
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationIngredient/*
+  targetSchema:
+    $ref: MedicationIngredient.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SubstanceDefinitionNameOffici
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionNameOffici/*
+  targetSchema:
+    $ref: SubstanceDefinitionNameOffici.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationSummar
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationSummar/*
+  targetSchema:
+    $ref: CitationSummar.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Mone
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Mone/*
+  targetSchema:
+    $ref: Mone.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_MedicationRequestSubstitution
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequestSubstitution/*
+  targetSchema:
+    $ref: MedicationRequestSubstitution.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_FamilyMemberHistoryProcedure
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistoryProcedure/*
+  targetSchema:
+    $ref: FamilyMemberHistoryProcedure.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationCitedArtifactPublicationFor
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactPublicationFor/*
+  targetSchema:
+    $ref: CitationCitedArtifactPublicationFor.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Encounter
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Encounter/*
+  targetSchema:
+    $ref: Encounter.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_TaskRestriction
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskRestriction/*
+  targetSchema:
+    $ref: TaskRestriction.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_RatioRange
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - RatioRange/*
+  targetSchema:
+    $ref: RatioRange.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SomaticVariant
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SomaticVariant/*
+  targetSchema:
+    $ref: SomaticVariant.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_TranscriptExpression
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TranscriptExpression/*
+  targetSchema:
+    $ref: TranscriptExpression.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_MedicationStatementAdherence
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationStatementAdherence/*
+  targetSchema:
+    $ref: MedicationStatementAdherence.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_MethylationProbe
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MethylationProbe/*
+  targetSchema:
+    $ref: MethylationProbe.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_GeneOntologyTer
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GeneOntologyTer/*
+  targetSchema:
+    $ref: GeneOntologyTer.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_FamilyMemberHistoryCondition
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistoryCondition/*
+  targetSchema:
+    $ref: FamilyMemberHistoryCondition.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ImagingStudySeriesInstance
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStudySeriesInstance/*
+  targetSchema:
+    $ref: ImagingStudySeriesInstance.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationClassification
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationClassification/*
+  targetSchema:
+    $ref: CitationClassification.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Resource
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Resource/*
+  targetSchema:
+    $ref: Resource.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_GeneExpression
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GeneExpression/*
+  targetSchema:
+    $ref: GeneExpression.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_DosageDoseAndRate
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DosageDoseAndRate/*
+  targetSchema:
+    $ref: DosageDoseAndRate.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ObservationReferenceRange
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ObservationReferenceRange/*
+  targetSchema:
+    $ref: ObservationReferenceRange.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ContactDetai
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ContactDetai/*
+  targetSchema:
+    $ref: ContactDetai.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Procedure
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Procedure/*
+  targetSchema:
+    $ref: Procedure.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_MedicationRequestDispenseRequestInitialFi
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequestDispenseRequestInitialFi/*
+  targetSchema:
+    $ref: MedicationRequestDispenseRequestInitialFi.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ResearchStudyLabe
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyLabe/*
+  targetSchema:
+    $ref: ResearchStudyLabe.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_DocumentReferenceContentProfile
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceContentProfile/*
+  targetSchema:
+    $ref: DocumentReferenceContentProfile.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ResearchStudyObjective
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyObjective/*
+  targetSchema:
+    $ref: ResearchStudyObjective.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ProcedurePerformer
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProcedurePerformer/*
+  targetSchema:
+    $ref: ProcedurePerformer.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ResearchSubjectProgress
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchSubjectProgress/*
+  targetSchema:
+    $ref: ResearchSubjectProgress.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Distance
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Distance/*
+  targetSchema:
+    $ref: Distance.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationCitedArtifactContributorshipSummar
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorshipSummar/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorshipSummar.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationStatusDate
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationStatusDate/*
+  targetSchema:
+    $ref: CitationStatusDate.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ImagingStud
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStud/*
+  targetSchema:
+    $ref: ImagingStud.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Methylation
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Methylation/*
+  targetSchema:
+    $ref: Methylation.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Interaction
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Interaction/*
+  targetSchema:
+    $ref: Interaction.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SomaticCallset
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SomaticCallset/*
+  targetSchema:
+    $ref: SomaticCallset.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ObservationComponent
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ObservationComponent/*
+  targetSchema:
+    $ref: ObservationComponent.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Address
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Address/*
+  targetSchema:
+    $ref: Address.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SubstanceDefinitionStructureRepresentation
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionStructureRepresentation/*
+  targetSchema:
+    $ref: SubstanceDefinitionStructureRepresentation.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Expression
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Expression/*
+  targetSchema:
+    $ref: Expression.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SubstanceIngredient
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceIngredient/*
+  targetSchema:
+    $ref: SubstanceIngredient.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_EncounterLocation
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterLocation/*
+  targetSchema:
+    $ref: EncounterLocation.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_EncounterDiagnosis
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterDiagnosis/*
+  targetSchema:
+    $ref: EncounterDiagnosis.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Reference
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Reference/*
+  targetSchema:
+    $ref: Reference.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationCitedArtifactVersion
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactVersion/*
+  targetSchema:
+    $ref: CitationCitedArtifactVersion.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Transcript
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Transcript/*
+  targetSchema:
+    $ref: Transcript.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SubstanceDefinitionMoiet
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionMoiet/*
+  targetSchema:
+    $ref: SubstanceDefinitionMoiet.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Availabilit
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Availabilit/*
+  targetSchema:
+    $ref: Availabilit.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Count
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Count/*
+  targetSchema:
+    $ref: Count.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Quantit
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Quantit/*
+  targetSchema:
+    $ref: Quantit.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_DocumentReferenceAttester
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceAttester/*
+  targetSchema:
+    $ref: DocumentReferenceAttester.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_GeneSet
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GeneSet/*
+  targetSchema:
+    $ref: GeneSet.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_DocumentReferenceRelatesTo
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceRelatesTo/*
+  targetSchema:
+    $ref: DocumentReferenceRelatesTo.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Narrative
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Narrative/*
+  targetSchema:
+    $ref: Narrative.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SpecimenFeature
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenFeature/*
+  targetSchema:
+    $ref: SpecimenFeature.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_DocumentReferenceContent
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceContent/*
+  targetSchema:
+    $ref: DocumentReferenceContent.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_EncounterAdmission
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterAdmission/*
+  targetSchema:
+    $ref: EncounterAdmission.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_VirtualServiceDetai
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - VirtualServiceDetai/*
+  targetSchema:
+    $ref: VirtualServiceDetai.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ResearchStud
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStud/*
+  targetSchema:
+    $ref: ResearchStud.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_DataRequirementDateFilter
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementDateFilter/*
+  targetSchema:
+    $ref: DataRequirementDateFilter.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_EncounterReason
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterReason/*
+  targetSchema:
+    $ref: EncounterReason.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Signature
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Signature/*
+  targetSchema:
+    $ref: Signature.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Dosage
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Dosage/*
+  targetSchema:
+    $ref: Dosage.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_PatientCommunication
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - PatientCommunication/*
+  targetSchema:
+    $ref: PatientCommunication.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Specimen
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Specimen/*
+  targetSchema:
+    $ref: Specimen.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationCitedArtifactTitle
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactTitle/*
+  targetSchema:
+    $ref: CitationCitedArtifactTitle.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_MedicationAdministrationDosage
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationAdministrationDosage/*
+  targetSchema:
+    $ref: MedicationAdministrationDosage.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SpecimenContainer
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenContainer/*
+  targetSchema:
+    $ref: SpecimenContainer.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Extension
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Extension/*
+  targetSchema:
+    $ref: Extension.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationCitedArtifactPublicationFormPublishedIn
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactPublicationFormPublishedIn/*
+  targetSchema:
+    $ref: CitationCitedArtifactPublicationFormPublishedIn.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationCitedArtifactContributorshipEntryContributionInstance
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorshipEntryContributionInstance/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorshipEntryContributionInstance.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_DrugResponse
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DrugResponse/*
+  targetSchema:
+    $ref: DrugResponse.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_HumanName
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - HumanName/*
+  targetSchema:
+    $ref: HumanName.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SubstanceDefinitionCharacterization
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionCharacterization/*
+  targetSchema:
+    $ref: SubstanceDefinitionCharacterization.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_TriggerDefinition
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TriggerDefinition/*
+  targetSchema:
+    $ref: TriggerDefinition.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Met
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Met/*
+  targetSchema:
+    $ref: Met.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ResearchStudyOutcomeMeasure
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyOutcomeMeasure/*
+  targetSchema:
+    $ref: ResearchStudyOutcomeMeasure.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ProteinCompoundAssociation
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProteinCompoundAssociation/*
+  targetSchema:
+    $ref: ProteinCompoundAssociation.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_AlleleEffect
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - AlleleEffect/*
+  targetSchema:
+    $ref: AlleleEffect.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Pathw
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Pathw/*
+  targetSchema:
+    $ref: Pathw.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Identifier
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Identifier/*
+  targetSchema:
+    $ref: Identifier.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_MedicationAdministrationPerformer
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationAdministrationPerformer/*
+  targetSchema:
+    $ref: MedicationAdministrationPerformer.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_TaskInput
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskInput/*
+  targetSchema:
+    $ref: TaskInput.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Medication
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Medication/*
+  targetSchema:
+    $ref: Medication.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_MedicationBatch
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationBatch/*
+  targetSchema:
+    $ref: MedicationBatch.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ResearchSubject
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchSubject/*
+  targetSchema:
+    $ref: ResearchSubject.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Publication
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Publication/*
+  targetSchema:
+    $ref: Publication.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CodeableConcept
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CodeableConcept/*
+  targetSchema:
+    $ref: CodeableConcept.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ContactPoint
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ContactPoint/*
+  targetSchema:
+    $ref: ContactPoint.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Exon
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Exon/*
+  targetSchema:
+    $ref: Exon.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Age
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Age/*
+  targetSchema:
+    $ref: Age.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SubstanceDefinition
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinition/*
+  targetSchema:
+    $ref: SubstanceDefinition.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ConditionStage
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ConditionStage/*
+  targetSchema:
+    $ref: ConditionStage.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Duration
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Duration/*
+  targetSchema:
+    $ref: Duration.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SpecimenProcessing
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenProcessing/*
+  targetSchema:
+    $ref: SpecimenProcessing.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_SubstanceDefinitionStructure
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionStructure/*
+  targetSchema:
+    $ref: SubstanceDefinitionStructure.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Ratio
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Ratio/*
+  targetSchema:
+    $ref: Ratio.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_ParameterDefinition
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ParameterDefinition/*
+  targetSchema:
+    $ref: ParameterDefinition.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_CitationCitedArtifactWebLocation
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactWebLocation/*
+  targetSchema:
+    $ref: CitationCitedArtifactWebLocation.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_Coding
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Coding/*
+  targetSchema:
+    $ref: Coding.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: basedOn_TimingRepeat
+  targetHints:
+    backref:
+    - basedOn_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TimingRepeat/*
+  targetSchema:
+    $ref: TimingRepeat.yaml
+  templatePointers:
+    id: /basedOn/-/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_MedicationAdministration
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationAdministration/*
+  targetSchema:
+    $ref: MedicationAdministration.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_DocumentReference
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReference/*
+  targetSchema:
+    $ref: DocumentReference.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationCitedArtifactContributorship
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorship/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorship.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ImagingStudySeriesPerformer
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStudySeriesPerformer/*
+  targetSchema:
+    $ref: ImagingStudySeriesPerformer.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationCitedArtifactContributorshipEntr
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorshipEntr/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorshipEntr.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_TaskPerformer
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskPerformer/*
+  targetSchema:
+    $ref: TaskPerformer.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Timing
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Timing/*
+  targetSchema:
+    $ref: Timing.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SampledDat
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SampledDat/*
+  targetSchema:
+    $ref: SampledDat.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ResearchStudyComparisonGroup
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyComparisonGroup/*
+  targetSchema:
+    $ref: ResearchStudyComparisonGroup.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_FamilyMemberHistor
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistor/*
+  targetSchema:
+    $ref: FamilyMemberHistor.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_GenePhenotypeAssociation
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GenePhenotypeAssociation/*
+  targetSchema:
+    $ref: GenePhenotypeAssociation.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_RelatedArtifact
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - RelatedArtifact/*
+  targetSchema:
+    $ref: RelatedArtifact.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Observation
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Observation/*
+  targetSchema:
+    $ref: Observation.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ObservationTriggeredB
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ObservationTriggeredB/*
+  targetSchema:
+    $ref: ObservationTriggeredB.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SubstanceDefinitionCode
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionCode/*
+  targetSchema:
+    $ref: SubstanceDefinitionCode.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationCitedArtifactClassification
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactClassification/*
+  targetSchema:
+    $ref: CitationCitedArtifactClassification.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationCitedArtifactAbstract
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactAbstract/*
+  targetSchema:
+    $ref: CitationCitedArtifactAbstract.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_DataRequirementCodeFilter
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementCodeFilter/*
+  targetSchema:
+    $ref: DataRequirementCodeFilter.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_FamilyMemberHistoryParticipant
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistoryParticipant/*
+  targetSchema:
+    $ref: FamilyMemberHistoryParticipant.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Phenotype
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Phenotype/*
+  targetSchema:
+    $ref: Phenotype.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_PatientLink
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - PatientLink/*
+  targetSchema:
+    $ref: PatientLink.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_TaskOutput
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskOutput/*
+  targetSchema:
+    $ref: TaskOutput.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Patient
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Patient/*
+  targetSchema:
+    $ref: Patient.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SubstanceDefinitionPropert
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionPropert/*
+  targetSchema:
+    $ref: SubstanceDefinitionPropert.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Annotation
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Annotation/*
+  targetSchema:
+    $ref: Annotation.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Substance
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Substance/*
+  targetSchema:
+    $ref: Substance.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_UsageContext
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - UsageContext/*
+  targetSchema:
+    $ref: UsageContext.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationCitedArtifactStatusDate
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactStatusDate/*
+  targetSchema:
+    $ref: CitationCitedArtifactStatusDate.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CodeableReference
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CodeableReference/*
+  targetSchema:
+    $ref: CodeableReference.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Allele
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Allele/*
+  targetSchema:
+    $ref: Allele.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ProteinStructure
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProteinStructure/*
+  targetSchema:
+    $ref: ProteinStructure.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_MedicationRequest
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequest/*
+  targetSchema:
+    $ref: MedicationRequest.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_MedicationRequestDispenseRequest
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequestDispenseRequest/*
+  targetSchema:
+    $ref: MedicationRequestDispenseRequest.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Period
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Period/*
+  targetSchema:
+    $ref: Period.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_EncounterParticipant
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterParticipant/*
+  targetSchema:
+    $ref: EncounterParticipant.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationCitedArtifactPart
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactPart/*
+  targetSchema:
+    $ref: CitationCitedArtifactPart.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_AvailabilityNotAvailableTime
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - AvailabilityNotAvailableTime/*
+  targetSchema:
+    $ref: AvailabilityNotAvailableTime.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SubstanceDefinitionMolecularWeight
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionMolecularWeight/*
+  targetSchema:
+    $ref: SubstanceDefinitionMolecularWeight.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ConditionParticipant
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ConditionParticipant/*
+  targetSchema:
+    $ref: ConditionParticipant.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SubstanceDefinitionSourceMateri
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionSourceMateri/*
+  targetSchema:
+    $ref: SubstanceDefinitionSourceMateri.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CopyNumberAlteration
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CopyNumberAlteration/*
+  targetSchema:
+    $ref: CopyNumberAlteration.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_FHIRPrimitiveExtension
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FHIRPrimitiveExtension/*
+  targetSchema:
+    $ref: FHIRPrimitiveExtension.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ExtendedContactDetai
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ExtendedContactDetai/*
+  targetSchema:
+    $ref: ExtendedContactDetai.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_DataRequirementValueFilter
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementValueFilter/*
+  targetSchema:
+    $ref: DataRequirementValueFilter.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Protein
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Protein/*
+  targetSchema:
+    $ref: Protein.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationCitedArtifactRelatesTo
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactRelatesTo/*
+  targetSchema:
+    $ref: CitationCitedArtifactRelatesTo.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_DataRequirementSort
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementSort/*
+  targetSchema:
+    $ref: DataRequirementSort.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ImagingStudySeries
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStudySeries/*
+  targetSchema:
+    $ref: ImagingStudySeries.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_GenomicFeature
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GenomicFeature/*
+  targetSchema:
+    $ref: GenomicFeature.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SubstanceDefinitionRelationship
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionRelationship/*
+  targetSchema:
+    $ref: SubstanceDefinitionRelationship.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationCitedArtifact
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifact/*
+  targetSchema:
+    $ref: CitationCitedArtifact.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_MedicationStatement
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationStatement/*
+  targetSchema:
+    $ref: MedicationStatement.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Gene
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Gene/*
+  targetSchema:
+    $ref: Gene.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Task
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Task/*
+  targetSchema:
+    $ref: Task.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ResearchStudyAssociatedPart
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyAssociatedPart/*
+  targetSchema:
+    $ref: ResearchStudyAssociatedPart.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Range
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Range/*
+  targetSchema:
+    $ref: Range.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_PatientContact
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - PatientContact/*
+  targetSchema:
+    $ref: PatientContact.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_DataRequirement
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirement/*
+  targetSchema:
+    $ref: DataRequirement.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ProcedureFocalDevice
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProcedureFocalDevice/*
+  targetSchema:
+    $ref: ProcedureFocalDevice.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Condition
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Condition/*
+  targetSchema:
+    $ref: Condition.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_AvailabilityAvailableTime
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - AvailabilityAvailableTime/*
+  targetSchema:
+    $ref: AvailabilityAvailableTime.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ResearchStudyRecruitment
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyRecruitment/*
+  targetSchema:
+    $ref: ResearchStudyRecruitment.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SubstanceDefinitionName
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionName/*
+  targetSchema:
+    $ref: SubstanceDefinitionName.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Citation
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Citation/*
+  targetSchema:
+    $ref: Citation.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SpecimenCollection
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenCollection/*
+  targetSchema:
+    $ref: SpecimenCollection.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Attachment
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Attachment/*
+  targetSchema:
+    $ref: Attachment.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ResearchStudyProgressStatus
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyProgressStatus/*
+  targetSchema:
+    $ref: ResearchStudyProgressStatus.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_MedicationIngredient
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationIngredient/*
+  targetSchema:
+    $ref: MedicationIngredient.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SubstanceDefinitionNameOffici
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionNameOffici/*
+  targetSchema:
+    $ref: SubstanceDefinitionNameOffici.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationSummar
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationSummar/*
+  targetSchema:
+    $ref: CitationSummar.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Mone
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Mone/*
+  targetSchema:
+    $ref: Mone.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_MedicationRequestSubstitution
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequestSubstitution/*
+  targetSchema:
+    $ref: MedicationRequestSubstitution.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_FamilyMemberHistoryProcedure
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistoryProcedure/*
+  targetSchema:
+    $ref: FamilyMemberHistoryProcedure.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationCitedArtifactPublicationFor
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactPublicationFor/*
+  targetSchema:
+    $ref: CitationCitedArtifactPublicationFor.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Encounter
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Encounter/*
+  targetSchema:
+    $ref: Encounter.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_TaskRestriction
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskRestriction/*
+  targetSchema:
+    $ref: TaskRestriction.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_RatioRange
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - RatioRange/*
+  targetSchema:
+    $ref: RatioRange.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SomaticVariant
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SomaticVariant/*
+  targetSchema:
+    $ref: SomaticVariant.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_TranscriptExpression
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TranscriptExpression/*
+  targetSchema:
+    $ref: TranscriptExpression.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_MedicationStatementAdherence
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationStatementAdherence/*
+  targetSchema:
+    $ref: MedicationStatementAdherence.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_MethylationProbe
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MethylationProbe/*
+  targetSchema:
+    $ref: MethylationProbe.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_GeneOntologyTer
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GeneOntologyTer/*
+  targetSchema:
+    $ref: GeneOntologyTer.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_FamilyMemberHistoryCondition
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistoryCondition/*
+  targetSchema:
+    $ref: FamilyMemberHistoryCondition.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ImagingStudySeriesInstance
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStudySeriesInstance/*
+  targetSchema:
+    $ref: ImagingStudySeriesInstance.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationClassification
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationClassification/*
+  targetSchema:
+    $ref: CitationClassification.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Resource
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Resource/*
+  targetSchema:
+    $ref: Resource.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_GeneExpression
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GeneExpression/*
+  targetSchema:
+    $ref: GeneExpression.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_DosageDoseAndRate
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DosageDoseAndRate/*
+  targetSchema:
+    $ref: DosageDoseAndRate.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ObservationReferenceRange
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ObservationReferenceRange/*
+  targetSchema:
+    $ref: ObservationReferenceRange.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ContactDetai
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ContactDetai/*
+  targetSchema:
+    $ref: ContactDetai.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Procedure
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Procedure/*
+  targetSchema:
+    $ref: Procedure.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_MedicationRequestDispenseRequestInitialFi
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequestDispenseRequestInitialFi/*
+  targetSchema:
+    $ref: MedicationRequestDispenseRequestInitialFi.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ResearchStudyLabe
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyLabe/*
+  targetSchema:
+    $ref: ResearchStudyLabe.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_DocumentReferenceContentProfile
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceContentProfile/*
+  targetSchema:
+    $ref: DocumentReferenceContentProfile.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ResearchStudyObjective
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyObjective/*
+  targetSchema:
+    $ref: ResearchStudyObjective.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ProcedurePerformer
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProcedurePerformer/*
+  targetSchema:
+    $ref: ProcedurePerformer.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ResearchSubjectProgress
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchSubjectProgress/*
+  targetSchema:
+    $ref: ResearchSubjectProgress.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Distance
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Distance/*
+  targetSchema:
+    $ref: Distance.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationCitedArtifactContributorshipSummar
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorshipSummar/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorshipSummar.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationStatusDate
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationStatusDate/*
+  targetSchema:
+    $ref: CitationStatusDate.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ImagingStud
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStud/*
+  targetSchema:
+    $ref: ImagingStud.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Methylation
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Methylation/*
+  targetSchema:
+    $ref: Methylation.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Interaction
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Interaction/*
+  targetSchema:
+    $ref: Interaction.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SomaticCallset
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SomaticCallset/*
+  targetSchema:
+    $ref: SomaticCallset.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ObservationComponent
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ObservationComponent/*
+  targetSchema:
+    $ref: ObservationComponent.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Address
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Address/*
+  targetSchema:
+    $ref: Address.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SubstanceDefinitionStructureRepresentation
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionStructureRepresentation/*
+  targetSchema:
+    $ref: SubstanceDefinitionStructureRepresentation.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Expression
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Expression/*
+  targetSchema:
+    $ref: Expression.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SubstanceIngredient
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceIngredient/*
+  targetSchema:
+    $ref: SubstanceIngredient.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_EncounterLocation
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterLocation/*
+  targetSchema:
+    $ref: EncounterLocation.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_EncounterDiagnosis
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterDiagnosis/*
+  targetSchema:
+    $ref: EncounterDiagnosis.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Reference
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Reference/*
+  targetSchema:
+    $ref: Reference.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationCitedArtifactVersion
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactVersion/*
+  targetSchema:
+    $ref: CitationCitedArtifactVersion.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Transcript
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Transcript/*
+  targetSchema:
+    $ref: Transcript.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SubstanceDefinitionMoiet
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionMoiet/*
+  targetSchema:
+    $ref: SubstanceDefinitionMoiet.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Availabilit
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Availabilit/*
+  targetSchema:
+    $ref: Availabilit.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Count
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Count/*
+  targetSchema:
+    $ref: Count.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Quantit
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Quantit/*
+  targetSchema:
+    $ref: Quantit.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_DocumentReferenceAttester
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceAttester/*
+  targetSchema:
+    $ref: DocumentReferenceAttester.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_GeneSet
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GeneSet/*
+  targetSchema:
+    $ref: GeneSet.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_DocumentReferenceRelatesTo
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceRelatesTo/*
+  targetSchema:
+    $ref: DocumentReferenceRelatesTo.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Narrative
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Narrative/*
+  targetSchema:
+    $ref: Narrative.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SpecimenFeature
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenFeature/*
+  targetSchema:
+    $ref: SpecimenFeature.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_DocumentReferenceContent
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceContent/*
+  targetSchema:
+    $ref: DocumentReferenceContent.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_EncounterAdmission
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterAdmission/*
+  targetSchema:
+    $ref: EncounterAdmission.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_VirtualServiceDetai
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - VirtualServiceDetai/*
+  targetSchema:
+    $ref: VirtualServiceDetai.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ResearchStud
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStud/*
+  targetSchema:
+    $ref: ResearchStud.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_DataRequirementDateFilter
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementDateFilter/*
+  targetSchema:
+    $ref: DataRequirementDateFilter.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_EncounterReason
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterReason/*
+  targetSchema:
+    $ref: EncounterReason.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Signature
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Signature/*
+  targetSchema:
+    $ref: Signature.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Dosage
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Dosage/*
+  targetSchema:
+    $ref: Dosage.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_PatientCommunication
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - PatientCommunication/*
+  targetSchema:
+    $ref: PatientCommunication.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Specimen
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Specimen/*
+  targetSchema:
+    $ref: Specimen.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationCitedArtifactTitle
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactTitle/*
+  targetSchema:
+    $ref: CitationCitedArtifactTitle.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_MedicationAdministrationDosage
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationAdministrationDosage/*
+  targetSchema:
+    $ref: MedicationAdministrationDosage.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SpecimenContainer
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenContainer/*
+  targetSchema:
+    $ref: SpecimenContainer.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Extension
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Extension/*
+  targetSchema:
+    $ref: Extension.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationCitedArtifactPublicationFormPublishedIn
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactPublicationFormPublishedIn/*
+  targetSchema:
+    $ref: CitationCitedArtifactPublicationFormPublishedIn.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationCitedArtifactContributorshipEntryContributionInstance
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorshipEntryContributionInstance/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorshipEntryContributionInstance.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_DrugResponse
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DrugResponse/*
+  targetSchema:
+    $ref: DrugResponse.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_HumanName
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - HumanName/*
+  targetSchema:
+    $ref: HumanName.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SubstanceDefinitionCharacterization
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionCharacterization/*
+  targetSchema:
+    $ref: SubstanceDefinitionCharacterization.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_TriggerDefinition
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TriggerDefinition/*
+  targetSchema:
+    $ref: TriggerDefinition.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Met
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Met/*
+  targetSchema:
+    $ref: Met.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ResearchStudyOutcomeMeasure
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyOutcomeMeasure/*
+  targetSchema:
+    $ref: ResearchStudyOutcomeMeasure.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ProteinCompoundAssociation
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProteinCompoundAssociation/*
+  targetSchema:
+    $ref: ProteinCompoundAssociation.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_AlleleEffect
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - AlleleEffect/*
+  targetSchema:
+    $ref: AlleleEffect.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Pathw
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Pathw/*
+  targetSchema:
+    $ref: Pathw.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Identifier
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Identifier/*
+  targetSchema:
+    $ref: Identifier.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_MedicationAdministrationPerformer
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationAdministrationPerformer/*
+  targetSchema:
+    $ref: MedicationAdministrationPerformer.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_TaskInput
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskInput/*
+  targetSchema:
+    $ref: TaskInput.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Medication
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Medication/*
+  targetSchema:
+    $ref: Medication.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_MedicationBatch
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationBatch/*
+  targetSchema:
+    $ref: MedicationBatch.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ResearchSubject
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchSubject/*
+  targetSchema:
+    $ref: ResearchSubject.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Publication
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Publication/*
+  targetSchema:
+    $ref: Publication.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CodeableConcept
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CodeableConcept/*
+  targetSchema:
+    $ref: CodeableConcept.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ContactPoint
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ContactPoint/*
+  targetSchema:
+    $ref: ContactPoint.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Exon
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Exon/*
+  targetSchema:
+    $ref: Exon.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Age
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Age/*
+  targetSchema:
+    $ref: Age.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SubstanceDefinition
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinition/*
+  targetSchema:
+    $ref: SubstanceDefinition.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ConditionStage
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ConditionStage/*
+  targetSchema:
+    $ref: ConditionStage.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Duration
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Duration/*
+  targetSchema:
+    $ref: Duration.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SpecimenProcessing
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenProcessing/*
+  targetSchema:
+    $ref: SpecimenProcessing.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_SubstanceDefinitionStructure
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionStructure/*
+  targetSchema:
+    $ref: SubstanceDefinitionStructure.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Ratio
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Ratio/*
+  targetSchema:
+    $ref: Ratio.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_ParameterDefinition
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ParameterDefinition/*
+  targetSchema:
+    $ref: ParameterDefinition.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_CitationCitedArtifactWebLocation
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactWebLocation/*
+  targetSchema:
+    $ref: CitationCitedArtifactWebLocation.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_Coding
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Coding/*
+  targetSchema:
+    $ref: Coding.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: focus_TimingRepeat
+  targetHints:
+    backref:
+    - focus_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TimingRepeat/*
+  targetSchema:
+    $ref: TimingRepeat.yaml
+  templatePointers:
+    id: /focus/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_MedicationAdministration
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationAdministration/*
+  targetSchema:
+    $ref: MedicationAdministration.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_DocumentReference
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReference/*
+  targetSchema:
+    $ref: DocumentReference.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationCitedArtifactContributorship
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorship/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorship.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ImagingStudySeriesPerformer
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStudySeriesPerformer/*
+  targetSchema:
+    $ref: ImagingStudySeriesPerformer.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationCitedArtifactContributorshipEntr
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorshipEntr/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorshipEntr.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_TaskPerformer
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskPerformer/*
+  targetSchema:
+    $ref: TaskPerformer.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Timing
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Timing/*
+  targetSchema:
+    $ref: Timing.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SampledDat
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SampledDat/*
+  targetSchema:
+    $ref: SampledDat.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ResearchStudyComparisonGroup
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyComparisonGroup/*
+  targetSchema:
+    $ref: ResearchStudyComparisonGroup.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_FamilyMemberHistor
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistor/*
+  targetSchema:
+    $ref: FamilyMemberHistor.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_GenePhenotypeAssociation
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GenePhenotypeAssociation/*
+  targetSchema:
+    $ref: GenePhenotypeAssociation.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_RelatedArtifact
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - RelatedArtifact/*
+  targetSchema:
+    $ref: RelatedArtifact.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Observation
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Observation/*
+  targetSchema:
+    $ref: Observation.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ObservationTriggeredB
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ObservationTriggeredB/*
+  targetSchema:
+    $ref: ObservationTriggeredB.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SubstanceDefinitionCode
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionCode/*
+  targetSchema:
+    $ref: SubstanceDefinitionCode.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationCitedArtifactClassification
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactClassification/*
+  targetSchema:
+    $ref: CitationCitedArtifactClassification.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationCitedArtifactAbstract
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactAbstract/*
+  targetSchema:
+    $ref: CitationCitedArtifactAbstract.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_DataRequirementCodeFilter
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementCodeFilter/*
+  targetSchema:
+    $ref: DataRequirementCodeFilter.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_FamilyMemberHistoryParticipant
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistoryParticipant/*
+  targetSchema:
+    $ref: FamilyMemberHistoryParticipant.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Phenotype
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Phenotype/*
+  targetSchema:
+    $ref: Phenotype.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_PatientLink
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - PatientLink/*
+  targetSchema:
+    $ref: PatientLink.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_TaskOutput
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskOutput/*
+  targetSchema:
+    $ref: TaskOutput.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Patient
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Patient/*
+  targetSchema:
+    $ref: Patient.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SubstanceDefinitionPropert
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionPropert/*
+  targetSchema:
+    $ref: SubstanceDefinitionPropert.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Annotation
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Annotation/*
+  targetSchema:
+    $ref: Annotation.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Substance
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Substance/*
+  targetSchema:
+    $ref: Substance.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_UsageContext
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - UsageContext/*
+  targetSchema:
+    $ref: UsageContext.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationCitedArtifactStatusDate
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactStatusDate/*
+  targetSchema:
+    $ref: CitationCitedArtifactStatusDate.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CodeableReference
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CodeableReference/*
+  targetSchema:
+    $ref: CodeableReference.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Allele
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Allele/*
+  targetSchema:
+    $ref: Allele.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ProteinStructure
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProteinStructure/*
+  targetSchema:
+    $ref: ProteinStructure.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_MedicationRequest
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequest/*
+  targetSchema:
+    $ref: MedicationRequest.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_MedicationRequestDispenseRequest
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequestDispenseRequest/*
+  targetSchema:
+    $ref: MedicationRequestDispenseRequest.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Period
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Period/*
+  targetSchema:
+    $ref: Period.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_EncounterParticipant
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterParticipant/*
+  targetSchema:
+    $ref: EncounterParticipant.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationCitedArtifactPart
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactPart/*
+  targetSchema:
+    $ref: CitationCitedArtifactPart.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_AvailabilityNotAvailableTime
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - AvailabilityNotAvailableTime/*
+  targetSchema:
+    $ref: AvailabilityNotAvailableTime.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SubstanceDefinitionMolecularWeight
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionMolecularWeight/*
+  targetSchema:
+    $ref: SubstanceDefinitionMolecularWeight.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ConditionParticipant
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ConditionParticipant/*
+  targetSchema:
+    $ref: ConditionParticipant.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SubstanceDefinitionSourceMateri
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionSourceMateri/*
+  targetSchema:
+    $ref: SubstanceDefinitionSourceMateri.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CopyNumberAlteration
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CopyNumberAlteration/*
+  targetSchema:
+    $ref: CopyNumberAlteration.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_FHIRPrimitiveExtension
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FHIRPrimitiveExtension/*
+  targetSchema:
+    $ref: FHIRPrimitiveExtension.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ExtendedContactDetai
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ExtendedContactDetai/*
+  targetSchema:
+    $ref: ExtendedContactDetai.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_DataRequirementValueFilter
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementValueFilter/*
+  targetSchema:
+    $ref: DataRequirementValueFilter.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Protein
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Protein/*
+  targetSchema:
+    $ref: Protein.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationCitedArtifactRelatesTo
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactRelatesTo/*
+  targetSchema:
+    $ref: CitationCitedArtifactRelatesTo.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_DataRequirementSort
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementSort/*
+  targetSchema:
+    $ref: DataRequirementSort.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ImagingStudySeries
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStudySeries/*
+  targetSchema:
+    $ref: ImagingStudySeries.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_GenomicFeature
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GenomicFeature/*
+  targetSchema:
+    $ref: GenomicFeature.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SubstanceDefinitionRelationship
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionRelationship/*
+  targetSchema:
+    $ref: SubstanceDefinitionRelationship.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationCitedArtifact
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifact/*
+  targetSchema:
+    $ref: CitationCitedArtifact.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_MedicationStatement
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationStatement/*
+  targetSchema:
+    $ref: MedicationStatement.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Gene
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Gene/*
+  targetSchema:
+    $ref: Gene.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Task
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Task/*
+  targetSchema:
+    $ref: Task.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ResearchStudyAssociatedPart
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyAssociatedPart/*
+  targetSchema:
+    $ref: ResearchStudyAssociatedPart.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Range
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Range/*
+  targetSchema:
+    $ref: Range.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_PatientContact
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - PatientContact/*
+  targetSchema:
+    $ref: PatientContact.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_DataRequirement
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirement/*
+  targetSchema:
+    $ref: DataRequirement.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ProcedureFocalDevice
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProcedureFocalDevice/*
+  targetSchema:
+    $ref: ProcedureFocalDevice.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Condition
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Condition/*
+  targetSchema:
+    $ref: Condition.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_AvailabilityAvailableTime
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - AvailabilityAvailableTime/*
+  targetSchema:
+    $ref: AvailabilityAvailableTime.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ResearchStudyRecruitment
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyRecruitment/*
+  targetSchema:
+    $ref: ResearchStudyRecruitment.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SubstanceDefinitionName
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionName/*
+  targetSchema:
+    $ref: SubstanceDefinitionName.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Citation
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Citation/*
+  targetSchema:
+    $ref: Citation.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SpecimenCollection
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenCollection/*
+  targetSchema:
+    $ref: SpecimenCollection.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Attachment
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Attachment/*
+  targetSchema:
+    $ref: Attachment.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ResearchStudyProgressStatus
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyProgressStatus/*
+  targetSchema:
+    $ref: ResearchStudyProgressStatus.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_MedicationIngredient
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationIngredient/*
+  targetSchema:
+    $ref: MedicationIngredient.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SubstanceDefinitionNameOffici
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionNameOffici/*
+  targetSchema:
+    $ref: SubstanceDefinitionNameOffici.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationSummar
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationSummar/*
+  targetSchema:
+    $ref: CitationSummar.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Mone
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Mone/*
+  targetSchema:
+    $ref: Mone.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_MedicationRequestSubstitution
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequestSubstitution/*
+  targetSchema:
+    $ref: MedicationRequestSubstitution.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_FamilyMemberHistoryProcedure
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistoryProcedure/*
+  targetSchema:
+    $ref: FamilyMemberHistoryProcedure.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationCitedArtifactPublicationFor
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactPublicationFor/*
+  targetSchema:
+    $ref: CitationCitedArtifactPublicationFor.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Encounter
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Encounter/*
+  targetSchema:
+    $ref: Encounter.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_TaskRestriction
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskRestriction/*
+  targetSchema:
+    $ref: TaskRestriction.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_RatioRange
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - RatioRange/*
+  targetSchema:
+    $ref: RatioRange.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SomaticVariant
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SomaticVariant/*
+  targetSchema:
+    $ref: SomaticVariant.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_TranscriptExpression
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TranscriptExpression/*
+  targetSchema:
+    $ref: TranscriptExpression.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_MedicationStatementAdherence
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationStatementAdherence/*
+  targetSchema:
+    $ref: MedicationStatementAdherence.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_MethylationProbe
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MethylationProbe/*
+  targetSchema:
+    $ref: MethylationProbe.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_GeneOntologyTer
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GeneOntologyTer/*
+  targetSchema:
+    $ref: GeneOntologyTer.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_FamilyMemberHistoryCondition
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - FamilyMemberHistoryCondition/*
+  targetSchema:
+    $ref: FamilyMemberHistoryCondition.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ImagingStudySeriesInstance
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStudySeriesInstance/*
+  targetSchema:
+    $ref: ImagingStudySeriesInstance.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationClassification
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationClassification/*
+  targetSchema:
+    $ref: CitationClassification.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Resource
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Resource/*
+  targetSchema:
+    $ref: Resource.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_GeneExpression
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GeneExpression/*
+  targetSchema:
+    $ref: GeneExpression.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_DosageDoseAndRate
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DosageDoseAndRate/*
+  targetSchema:
+    $ref: DosageDoseAndRate.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ObservationReferenceRange
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ObservationReferenceRange/*
+  targetSchema:
+    $ref: ObservationReferenceRange.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ContactDetai
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ContactDetai/*
+  targetSchema:
+    $ref: ContactDetai.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Procedure
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Procedure/*
+  targetSchema:
+    $ref: Procedure.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_MedicationRequestDispenseRequestInitialFi
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationRequestDispenseRequestInitialFi/*
+  targetSchema:
+    $ref: MedicationRequestDispenseRequestInitialFi.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ResearchStudyLabe
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyLabe/*
+  targetSchema:
+    $ref: ResearchStudyLabe.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_DocumentReferenceContentProfile
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceContentProfile/*
+  targetSchema:
+    $ref: DocumentReferenceContentProfile.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ResearchStudyObjective
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyObjective/*
+  targetSchema:
+    $ref: ResearchStudyObjective.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ProcedurePerformer
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProcedurePerformer/*
+  targetSchema:
+    $ref: ProcedurePerformer.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ResearchSubjectProgress
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchSubjectProgress/*
+  targetSchema:
+    $ref: ResearchSubjectProgress.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Distance
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Distance/*
+  targetSchema:
+    $ref: Distance.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationCitedArtifactContributorshipSummar
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorshipSummar/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorshipSummar.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationStatusDate
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationStatusDate/*
+  targetSchema:
+    $ref: CitationStatusDate.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ImagingStud
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ImagingStud/*
+  targetSchema:
+    $ref: ImagingStud.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Methylation
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Methylation/*
+  targetSchema:
+    $ref: Methylation.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Interaction
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Interaction/*
+  targetSchema:
+    $ref: Interaction.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SomaticCallset
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SomaticCallset/*
+  targetSchema:
+    $ref: SomaticCallset.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ObservationComponent
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ObservationComponent/*
+  targetSchema:
+    $ref: ObservationComponent.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Address
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Address/*
+  targetSchema:
+    $ref: Address.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SubstanceDefinitionStructureRepresentation
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionStructureRepresentation/*
+  targetSchema:
+    $ref: SubstanceDefinitionStructureRepresentation.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Expression
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Expression/*
+  targetSchema:
+    $ref: Expression.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SubstanceIngredient
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceIngredient/*
+  targetSchema:
+    $ref: SubstanceIngredient.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_EncounterLocation
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterLocation/*
+  targetSchema:
+    $ref: EncounterLocation.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_EncounterDiagnosis
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterDiagnosis/*
+  targetSchema:
+    $ref: EncounterDiagnosis.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Reference
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Reference/*
+  targetSchema:
+    $ref: Reference.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationCitedArtifactVersion
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactVersion/*
+  targetSchema:
+    $ref: CitationCitedArtifactVersion.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Transcript
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Transcript/*
+  targetSchema:
+    $ref: Transcript.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SubstanceDefinitionMoiet
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionMoiet/*
+  targetSchema:
+    $ref: SubstanceDefinitionMoiet.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Availabilit
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Availabilit/*
+  targetSchema:
+    $ref: Availabilit.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Count
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Count/*
+  targetSchema:
+    $ref: Count.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Quantit
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Quantit/*
+  targetSchema:
+    $ref: Quantit.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_DocumentReferenceAttester
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceAttester/*
+  targetSchema:
+    $ref: DocumentReferenceAttester.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_GeneSet
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - GeneSet/*
+  targetSchema:
+    $ref: GeneSet.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_DocumentReferenceRelatesTo
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceRelatesTo/*
+  targetSchema:
+    $ref: DocumentReferenceRelatesTo.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Narrative
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Narrative/*
+  targetSchema:
+    $ref: Narrative.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SpecimenFeature
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenFeature/*
+  targetSchema:
+    $ref: SpecimenFeature.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_DocumentReferenceContent
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DocumentReferenceContent/*
+  targetSchema:
+    $ref: DocumentReferenceContent.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_EncounterAdmission
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterAdmission/*
+  targetSchema:
+    $ref: EncounterAdmission.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_VirtualServiceDetai
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - VirtualServiceDetai/*
+  targetSchema:
+    $ref: VirtualServiceDetai.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ResearchStud
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStud/*
+  targetSchema:
+    $ref: ResearchStud.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_DataRequirementDateFilter
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DataRequirementDateFilter/*
+  targetSchema:
+    $ref: DataRequirementDateFilter.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_EncounterReason
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - EncounterReason/*
+  targetSchema:
+    $ref: EncounterReason.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Signature
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Signature/*
+  targetSchema:
+    $ref: Signature.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Dosage
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Dosage/*
+  targetSchema:
+    $ref: Dosage.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_PatientCommunication
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - PatientCommunication/*
+  targetSchema:
+    $ref: PatientCommunication.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Specimen
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Specimen/*
+  targetSchema:
+    $ref: Specimen.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationCitedArtifactTitle
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactTitle/*
+  targetSchema:
+    $ref: CitationCitedArtifactTitle.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_MedicationAdministrationDosage
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationAdministrationDosage/*
+  targetSchema:
+    $ref: MedicationAdministrationDosage.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SpecimenContainer
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenContainer/*
+  targetSchema:
+    $ref: SpecimenContainer.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Extension
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Extension/*
+  targetSchema:
+    $ref: Extension.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationCitedArtifactPublicationFormPublishedIn
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactPublicationFormPublishedIn/*
+  targetSchema:
+    $ref: CitationCitedArtifactPublicationFormPublishedIn.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationCitedArtifactContributorshipEntryContributionInstance
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactContributorshipEntryContributionInstance/*
+  targetSchema:
+    $ref: CitationCitedArtifactContributorshipEntryContributionInstance.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_DrugResponse
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - DrugResponse/*
+  targetSchema:
+    $ref: DrugResponse.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_HumanName
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - HumanName/*
+  targetSchema:
+    $ref: HumanName.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SubstanceDefinitionCharacterization
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionCharacterization/*
+  targetSchema:
+    $ref: SubstanceDefinitionCharacterization.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_TriggerDefinition
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TriggerDefinition/*
+  targetSchema:
+    $ref: TriggerDefinition.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Met
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Met/*
+  targetSchema:
+    $ref: Met.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ResearchStudyOutcomeMeasure
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchStudyOutcomeMeasure/*
+  targetSchema:
+    $ref: ResearchStudyOutcomeMeasure.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ProteinCompoundAssociation
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ProteinCompoundAssociation/*
+  targetSchema:
+    $ref: ProteinCompoundAssociation.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_AlleleEffect
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - AlleleEffect/*
+  targetSchema:
+    $ref: AlleleEffect.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Pathw
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Pathw/*
+  targetSchema:
+    $ref: Pathw.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Identifier
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Identifier/*
+  targetSchema:
+    $ref: Identifier.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_MedicationAdministrationPerformer
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationAdministrationPerformer/*
+  targetSchema:
+    $ref: MedicationAdministrationPerformer.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_TaskInput
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TaskInput/*
+  targetSchema:
+    $ref: TaskInput.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Medication
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Medication/*
+  targetSchema:
+    $ref: Medication.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_MedicationBatch
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - MedicationBatch/*
+  targetSchema:
+    $ref: MedicationBatch.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ResearchSubject
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ResearchSubject/*
+  targetSchema:
+    $ref: ResearchSubject.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Publication
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Publication/*
+  targetSchema:
+    $ref: Publication.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CodeableConcept
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CodeableConcept/*
+  targetSchema:
+    $ref: CodeableConcept.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ContactPoint
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ContactPoint/*
+  targetSchema:
+    $ref: ContactPoint.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Exon
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Exon/*
+  targetSchema:
+    $ref: Exon.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Age
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Age/*
+  targetSchema:
+    $ref: Age.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SubstanceDefinition
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinition/*
+  targetSchema:
+    $ref: SubstanceDefinition.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ConditionStage
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ConditionStage/*
+  targetSchema:
+    $ref: ConditionStage.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Duration
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Duration/*
+  targetSchema:
+    $ref: Duration.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SpecimenProcessing
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SpecimenProcessing/*
+  targetSchema:
+    $ref: SpecimenProcessing.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_SubstanceDefinitionStructure
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - SubstanceDefinitionStructure/*
+  targetSchema:
+    $ref: SubstanceDefinitionStructure.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Ratio
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Ratio/*
+  targetSchema:
+    $ref: Ratio.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_ParameterDefinition
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - ParameterDefinition/*
+  targetSchema:
+    $ref: ParameterDefinition.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_CitationCitedArtifactWebLocation
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - CitationCitedArtifactWebLocation/*
+  targetSchema:
+    $ref: CitationCitedArtifactWebLocation.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_Coding
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - Coding/*
+  targetSchema:
+    $ref: Coding.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
+- href: id
+  rel: for_fhir_TimingRepeat
+  targetHints:
+    backref:
+    - for_fhir_task
+    direction:
+    - outbound
+    multiplicity:
+    - has_one
+    regex_match:
+    - TimingRepeat/*
+  targetSchema:
+    $ref: TimingRepeat.yaml
+  templatePointers:
+    id: /for_fhir/reference
+  templateRequired:
+  - id
 properties:
   _authoredOn:
     $ref: FHIRPrimitiveExtension.yaml
