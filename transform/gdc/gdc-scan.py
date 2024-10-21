@@ -214,6 +214,35 @@ def scrapeExpression(outdir):
             shutil.move(outPath + ".tmp", outPath)
         #print(row)
 
+def scrapeRPPA(outdir):
+    parameters = { "filters" : {
+        "op" : "and",
+        "content":[{
+            "op" : "in",
+            "content": {
+                "field" : "data_category",
+                "value":["Proteome Profiling"]
+            }
+        },{
+            "op" : "in",
+            "content": {
+                "field" : "access",
+                "value":["open"]
+            }
+        },{
+            "op" : "in",
+            "content" : {
+                "field" : "experimental_strategy",
+                "value":["Reverse Phase Protein Array"]
+            }
+        }]
+    } }
+    for row in query_gdc("files", parameters):
+        outPath = '{}/{}.tsv'.format(outdir, row['file_id'])
+        if not os.path.exists(outPath):
+            get_file(row['file_id'], outPath + ".tmp" )
+            shutil.move(outPath + ".tmp", outPath)
+        #print(row)
 
 def scrapeOpenMaf(outdir):
     parameters = { "filters" : {
@@ -291,6 +320,8 @@ if __name__ == "__main__":
         scrapeCompounds(args.dest)
     if args.method == "expression":
         scrapeExpression(args.dest)
+    if args.method == "rppa":
+        scrapeRPPA(args.dest)
     if args.method == "open-maf":
         scrapeOpenMaf(args.dest)
     if args.method == "controlled-maf":
